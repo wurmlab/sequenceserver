@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Simple Sequence Search</title>
+    <meta name="author" content="Anurag Priyam" />
+    <meta name="author" content="Yannick Wurm" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link rel="stylesheet" media="screen" type="text/css" href="/css/screen.css">
+    <link rel="stylesheet" media="screen" type="text/css" href="/css/master.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header span-24">
+        <div class="banner span-24"><a href="/">Simple Sequence Search</a></div>
+      </div>
+      <div class="body span-24">
+        <form method="POST" action="/">
+          <div class="span-24">
+            <label for="sequence">Search Sequence</label>
+            <input type="text" name="sequence" id="sequence"/>
+          </div>
+          <fieldset class="span-5">
+            <legend>Select Blast Method</legend>
+            <label for="blastn">Blastn</label>
+            <input type="radio" name="method" value="blastn" id="blastn"/>
+            <label for="blastp">Blastp</label>
+            <input type="radio" name="method" value="blastp" id="blastp"/>
+            <label for="blastp">Blastx</label>
+            <input type="radio" name="method" value="blastx" id="blastx"/>
+            <label for="blastp">Tblastn</label>
+            <input type="radio" name="method" value="tblastn" id="tblastn"/>
+            <label for="blastp">Tblastx</label>
+            <input type="radio" name="method" value="tblastx" id="tblastx"/>
+            <label for="blastp">Megablast</label>
+            <input type="radio" name="method" value="megablast" id="megablast"/>
+          </fieldset>
+          <fieldset class="span-5 select-db">
+            <legend>Select Database</legend>
+            <label for="protein-db">Protein</label>
+            <input type="checkbox" name="database" value="protein" id="protein-db"/>
+            <label for="neucleotide-db">Neucleotide</label>
+            <input type="checkbox" name="database" value="neucleotide" id="neucleotide-db"/>
+          </fieldset>
+          <fieldset class="span-5 last">
+            <legend>Output Format</legend>
+            <label for="text-output">Text</label>
+            <input type="radio" name="output" value="text" id="text-output"/>
+            <label for="tab-output">Tab Delimited</label>
+            <input type="radio" name="output" value="tab" id="tab-output"/>
+          </fieldset>
+          <div class="span-24">
+            <input type="text" name="advanced" />
+          </div>
+          <div class="span-24 buttons">
+            <input type="submit" value="BLAST!"/>
+            <input type="reset" value="Reset"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

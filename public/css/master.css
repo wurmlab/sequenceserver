@@ -1,0 +1,28 @@
+body {
+    /*background: transparent url(../images/content-background.gif) repeat-x scroll left top;*/
+    /*background:#F9F7F5 none repeat scroll 0 0;*/
+    font-family: Inconsolata;
+}
+
+.header {
+    color:#777777;
+    opacity:0.5;
+    padding:0.4em;
+}
+
+.banner {
+    font-size:3em;
+    font-weight:bold;
+}
+
+.banner a {
+    color:#000000;
+    text-decoration:none;
+    text-shadow:1px 1px 1px #777777;
+}
+
+.banner a:visited {
+    color:#000000;
+    text-decoration:none;
+    text-shadow:1px 1px 1px #777777;
+}
