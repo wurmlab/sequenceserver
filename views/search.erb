@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>Simple Sequence Search</title>
     <meta name="author" content="Anurag Priyam" />
@@ -14,43 +14,45 @@
       <div class="header span-24">
         <div class="banner span-24"><a href="/">Simple Sequence Search</a></div>
       </div>
+      <hr>
       <div class="body span-24">
         <form method="POST" action="/">
-          <div class="span-24">
-            <label for="sequence">Search Sequence</label>
-            <input type="text" name="sequence" id="sequence"/>
+          <div class="span-24 sequence">
+            <label for="sequence" class="span-4">Search Sequence</label>
+            <textarea name="sequence" id="sequence" class="span-20 last"> Search Sequence Here ... </textarea>
           </div>
-          <fieldset class="span-5">
-            <legend>Select Blast Method</legend>
-            <label for="blastn">Blastn</label>
-            <input type="radio" name="method" value="blastn" id="blastn"/>
-            <label for="blastp">Blastp</label>
-            <input type="radio" name="method" value="blastp" id="blastp"/>
-            <label for="blastp">Blastx</label>
-            <input type="radio" name="method" value="blastx" id="blastx"/>
-            <label for="blastp">Tblastn</label>
-            <input type="radio" name="method" value="tblastn" id="tblastn"/>
-            <label for="blastp">Tblastx</label>
-            <input type="radio" name="method" value="tblastx" id="tblastx"/>
-            <label for="blastp">Megablast</label>
-            <input type="radio" name="method" value="megablast" id="megablast"/>
+          <fieldset class="span-4">
+            <legend>Blast Method</legend>
+            <input type="radio" name="method" value="blastn" id="blastn" class="span-1"/>
+            <label for="blastn" class="span-3 last">Blastn</label>
+            <input type="radio" name="method" value="blastp" id="blastp" class="span-1"/>
+            <label for="blastp" class="span-3 last">Blastp</label>
+            <input type="radio" name="method" value="blastx" id="blastx" class="span-1"/>
+            <label for="blastp" class="span-3 last">Blastx</label>
+            <input type="radio" name="method" value="tblastn" id="tblastn" class="span-1"/>
+            <label for="blastp" class="span-3 last">Tblastn</label>
+            <input type="radio" name="method" value="tblastx" id="tblastx" class="span-1"/>
+            <label for="blastp" class="span-3 last">Tblastx</label>
+            <input type="radio" name="method" value="megablast" id="megablast" class="span-1"/>
+            <label for="blastp" class="span-3 last">Megablast</label>
           </fieldset>
-          <fieldset class="span-5 select-db">
-            <legend>Select Database</legend>
-            <label for="protein-db">Protein</label>
-            <input type="checkbox" name="database" value="protein" id="protein-db"/>
-            <label for="neucleotide-db">Neucleotide</label>
-            <input type="checkbox" name="database" value="neucleotide" id="neucleotide-db"/>
+          <fieldset class="span-4 border">
+            <legend>Database</legend>
+            <input type="checkbox" name="database" value="protein" id="protein-db" class="span-1"/>
+            <label for="protein-db" class="span-3 last">Protein</label>
+            <input type="checkbox" name="database" value="neucleotide" id="neucleotide-db" class="span-1"/>
+            <label for="neucleotide" class="span-3 last">Neucleotide</label>
           </fieldset>
-          <fieldset class="span-5 last">
-            <legend>Output Format</legend>
-            <label for="text-output">Text</label>
-            <input type="radio" name="output" value="text" id="text-output"/>
-            <label for="tab-output">Tab Delimited</label>
-            <input type="radio" name="output" value="tab" id="tab-output"/>
+          <fieldset class="span-4 last">
+            <legend>Output format</legend>
+            <input type="radio" name="output" value="text" id="text-output" class="span-1"/>
+            <label for="text-output" class="span-3 last">Text</label>
+            <input type="radio" name="output" value="tab" id="tab-output" class="span-1"/>
+            <label for="tab-output" class="span-3 last">Tab Delimited</label>
           </fieldset>
           <div class="span-24">
-            <input type="text" name="advanced" />
+            <label for="advanced" class="span-4">Advanced options</label>
+            <input type="text" name="advanced" id="advanced" class="span-20 last"/>
           </div>
           <div class="span-24 buttons">
             <input type="submit" value="BLAST!"/>

@@ -26,3 +26,13 @@ body {
     text-decoration:none;
     text-shadow:1px 1px 1px #777777;
 }
+
+textarea#sequence {
+    border: 2px solid #B4B4B4;
+    /*font-size:130%;*/
+    /*height:1.4em;*/
+    /*padding-left:0.3em;*/
+    /*padding-top:0.3em;*/
+    /*width: 34.5em;*/
+    /*height: 5em;*/
+}
