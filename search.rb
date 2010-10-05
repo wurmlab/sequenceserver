@@ -3,8 +3,10 @@ require 'rubygems'
 require 'sinatra'
 require 'tempfile'
 
-NDB = '/home/yeban/code/Sinatra/simpleSequenceSearchServer/db/nucleotide/Sinvicta2-2-3.cdna.subset.fasta'
-PDB = '/home/yeban/code/Sinatra/simpleSequenceSearchServer/db/protein/Sinvicta2-2-3.prot.subset.fasta'
+
+NDB = Dir.pwd + '/db/nucleotide/Sinvicta2-2-3.cdna.subset.fasta'
+PDB = Dir.pwd + '/db/protein/Sinvicta2-2-3.prot.subset.fasta'
+
 
 get '/' do
   erb :search
@@ -22,7 +24,11 @@ post '/' do
   tmp = Tempfile.new("seqfile")
   tmp.puts( params[ :sequence ] )
   tmp.close
-  report = `#{method} -db #{database} -query #{tmp.path}`
+
+  command = "#{method} -db #{database} -query #{tmp.path}"
+  puts "Will execute: " +command
+  report = `#{command}`
+
   tmp.delete
   report
 end
