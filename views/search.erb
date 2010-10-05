@@ -1,65 +1,160 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>Simple Sequence Search</title>
+    <title>Simple Blast Search</title>
     <meta name="author" content="Anurag Priyam" />
     <meta name="author" content="Yannick Wurm" />
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/screen.css">
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/master.css">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/css/screen.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/css/master.css"/>
   </head>
 
   <body>
     <div class="container">
-      <div class="header span-24">
-        <div class="banner span-24"><a href="/">Simple Sequence Search</a></div>
+     <div class="header span-24">
+        <div class="banner span-24"><a href="/">Simple Blast Search</a></div>
       </div>
-      <hr>
-      <div class="body span-24">
-        <form method="POST" action="/">
-          <div class="span-24 sequence">
-            <label for="sequence" class="span-4">Search Sequence</label>
-            <textarea name="sequence" id="sequence" class="span-20 last"> Search Sequence Here ... </textarea>
-          </div>
-          <fieldset class="span-4">
-            <legend>Blast Method</legend>
-            <input type="radio" name="method" value="blastn" id="blastn" class="span-1"/>
-            <label for="blastn" class="span-3 last">Blastn</label>
-            <input type="radio" name="method" value="blastp" id="blastp" class="span-1"/>
-            <label for="blastp" class="span-3 last">Blastp</label>
-            <input type="radio" name="method" value="blastx" id="blastx" class="span-1"/>
-            <label for="blastp" class="span-3 last">Blastx</label>
-            <input type="radio" name="method" value="tblastn" id="tblastn" class="span-1"/>
-            <label for="blastp" class="span-3 last">Tblastn</label>
-            <input type="radio" name="method" value="tblastx" id="tblastx" class="span-1"/>
-            <label for="blastp" class="span-3 last">Tblastx</label>
-            <input type="radio" name="method" value="megablast" id="megablast" class="span-1"/>
-            <label for="blastp" class="span-3 last">Megablast</label>
+     <div class="body span-24">
+        <form method="post" action="/">
+          <fieldset class="span-24 sequence">
+   	        <legend>Sequence(s) to BLAST</legend>
+		    <textarea name="sequence" id="sequence" rows="10" cols="" class="span-24 last"></textarea>
+			<span class='quiet span-24'>Once we know if the sequence is prot or nuc, it could be stated here.</span>
           </fieldset>
-          <fieldset class="span-4 border">
+	      <fieldset class="span-10">
+            <legend>Blast Method</legend>
+  		    <div class="span-10">
+       		  <input type="radio" name="method" value="blastp" id="blastp" class="span-1 first"/>
+        	  <label for="blastp" class="span-1">blastp</label>
+  		      <span class="quiet span-8 last">Protein query; protein database.</span>
+  		    </div>
+       	    <div class="span-10">
+       		  <input type="radio" name="method" value="tblastn" id="tblastn" class="span-1 first"/>
+        	  <label for="tblastn" class="span-1">tblastn</label>
+              <span class="quiet span-8 last">Protein query; nucleotide database (translated).</span>
+  		    </div>
+        	<div class="span-10">
+        	  <input type="radio" name="method" value="blastn" id="blastn" class="span-1 first"/>
+              <label for="blastn" class="span-1">blastn</label>
+              <span class="quiet span-8 last">Nucleotide query; nucleotide database.</span>         	
+        	</div>
+            <div class="span-10">
+              <input type="radio" name="method" value="blastx" id="blastx" class="span-1 first"/>
+              <label for="blastx" class="span-1">blastx</label>
+              <span class="quiet span-8 last">Nucleotide query (translated); protein database.</span>
+            </div>
+            <div class="span-10">
+              <input type="radio" name="method" value="tblastx" id="tblastx" class="span-1 first"/>
+              <label for="tblastx" class="span-1">tblastx</label>
+              <span class="quiet span-8 last">Nucleotide query (translated): nucleotide database (translated)</span>
+			</div>
+          </fieldset>
+          <fieldset class="span-7">
             <legend>Database</legend>
-            <input type="checkbox" name="database" value="protein" id="protein-db" class="span-1"/>
-            <label for="protein-db" class="span-3 last">Protein</label>
-            <input type="checkbox" name="database" value="nucleotide" id="nucleotide-db" class="span-1"/>
-            <label for="neucleotide" class="span-3 last">Nucleotide</label>
+            <input type="checkbox"  name="database" value="protein" id="protein-db" class="span-1"/>
+            <label for="protein-db" class="span-3 last">Protein</label><br/>
+            <input type="checkbox"  name="database" value="nucleotide" id="nucleotide-db" class="span-1"/>
+            <label for="nucleotide-db" class="span-3 last">Nucleotide</label>
+			  <br/>
+            <div class="quiet span-7">So here we should actually have 2 sub-fieldsets: one grouping protein databases together, another grouping nucleotide databases together. Within the protein subfieldset the databases in db/protein should be visible. And similarly for nucl</div>
+
           </fieldset>
           <fieldset class="span-4 last">
             <legend>Output format</legend>
-            <input type="radio" name="output" value="text" id="text-output" class="span-1"/>
-            <label for="text-output" class="span-3 last">Text</label>
-            <input type="radio" name="output" value="tab" id="tab-output" class="span-1"/>
-            <label for="tab-output" class="span-3 last">Tab Delimited</label>
+            <div class="span-4">
+              <input type="radio" name="output" value="text" id="text-output" class="span-1 first"/>
+              <label for="text-output" class="span-3 last">Text</label><br/>
+			</div>
+            <div class="span-4">
+              <input type="radio" name="output" value="tab" id="tab-output" class="span-1 first"/>
+              <label for="tab-output" class="span-3 last">Tab Delimited</label><br/>
+            </div>
           </fieldset>
-          <div class="span-24">
-            <label for="advanced" class="span-4">Advanced options</label>
-            <input type="text" name="advanced" id="advanced" class="span-20 last"/>
-          </div>
+			
+          <fieldset class="span-24">
+            <legend>Advanced parameters (optional)</legend>
+            <input type="text" name="advanced" id="advanced" class="span-24"/>
+			<span class='small'>Maybe the following can be hidden by default:<pre><code> -evalue <Real>
+   Expectation value (E) threshold for saving hits 
+   Default = `10'
+ -word_size <Integer, >=2>
+   Word size for wordfinder algorithm
+ -gapopen <Integer>
+   Cost to open a gap
+ -gapextend <Integer>
+   Cost to extend a gap
+ -matrix <String>
+   Scoring matrix name (normally BLOSUM62)
+ -threshold <Real, >=0>
+   Minimum word score such that the word is added to the BLAST lookup table
+ -comp_based_stats <String>
+   Use composition-based statistics for blastp / tblastn:
+       D or d: default (equivalent to 2)
+       0 or F or f: no composition-based statistics
+       1: Composition-based statistics as in NAR 29:2994-3005, 2001
+       2 or T or t : Composition-based score adjustment as in Bioinformatics
+   21:902-911,
+       2005, conditioned on sequence properties
+       3: Composition-based score adjustment as in Bioinformatics 21:902-911,
+       2005, unconditionally
+   For programs other than tblastn, must either be absent or be D, F or 0
+   Default = `2'
+ -num_descriptions <Integer, >=0>
+   Number of database sequences to show one-line descriptions for
+   Default = `500'
+ -num_alignments <Integer, >=0>
+   Number of database sequences to show alignments for
+   Default = `250'
+ *** Query filtering options
+ -seg <String>
+   Filter query sequence with SEG (Format: 'yes', 'window locut hicut', or
+   'no' to disable)
+   Default = `no'
+ -soft_masking <Boolean>
+   Apply filtering locations as soft masks
+   Default = `false'
+ -lcase_masking
+   Use lower case filtering in query and subject sequence(s)?
+ *** Restrict search or results
+ -gilist <String>
+   Restrict search of database to list of GI's
+    * Incompatible with:  negative_gilist, seqidlist, remote, subject,
+   subject_loc
+ -seqidlist <String>
+   Restrict search of database to list of SeqId's
+    * Incompatible with:  gilist, negative_gilist, remote, subject,
+   subject_loc
+ -negative_gilist <String>
+   Restrict search of database to everything except the listed GIs
+    * Incompatible with:  gilist, seqidlist, remote, subject, subject_loc
+ -entrez_query <String>
+   Restrict search with the given Entrez query
+    * Requires:  remote
+ -db_soft_mask <String>
+   Filtering algorithm ID to apply to the BLAST database as soft masking
+    * Incompatible with:  subject, subject_loc
+ -culling_limit <Integer, >=0>
+   If the query range of a hit is enveloped by that of at least this many
+   higher-scoring hits, delete the hit
+    * Incompatible with:  best_hit_overhang, best_hit_score_edge
+ -best_hit_overhang <Real, (>0 and <0.5)>
+   Best Hit algorithm overhang value (recommended value: 0.1)
+    * Incompatible with:  culling_limit
+ -best_hit_score_edge <Real, (>0 and <0.5)>
+   Best Hit algorithm score edge value (recommended value: 0.1)
+    * Incompatible with:  culling_limit
+ -max_target_seqs <Integer, >=1>
+   Maximum number of aligned sequences to keep
+</code></pre></span>
+
+          </fieldset>
           <div class="span-24 buttons">
             <input type="submit" value="BLAST!"/>
-            <input type="reset" value="Reset"/>
+<!--            <input type="reset" value="Reset"/>    -->
           </div>
         </form>
       </div>
-    </div>
+   </div>
   </body>
 </html>
