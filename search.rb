@@ -14,6 +14,8 @@ end
 
 post '/' do
   method = params[ :method ]
+  raise IOError, 'Blast is not correctly installed! Cannot execute: ' + method if !commandExists?(method)
+
   puts params[ :database ]
   database = if params[ :database ] == 'protein'
                PDB
@@ -31,4 +33,11 @@ post '/' do
 
   tmp.delete
   report
+end
+
+
+def commandExists?(command)
+  system("which #{command} > /dev/null 2>/dev/null")
+  return false if $?.exitstatus == 127
+  return true
 end
