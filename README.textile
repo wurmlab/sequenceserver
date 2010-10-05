@@ -1,0 +1,12 @@
+h2. Simple blast search
+Work in Progress - Anurag Priyam & Yannick Wurm.
+
+
+h2. requirements
+# NCBI Blastplus: http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download Old versions of NCBI blast (pre 2.2.18) are not supported.
+
+
+h2. how to format blast databases 
+# *for protein:* makeblastdb -dbtype prot -title 'my ant proteins'    -in myProteinDatabase.fasta
+# *for nucleotide*: makeblastdb -dbtype nucl -title 'official geneset 1' -in myNucleotideDatabase.fasta 
+
