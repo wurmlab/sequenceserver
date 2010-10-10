@@ -3,7 +3,8 @@ require 'rubygems'
 require 'sinatra'
 require 'tempfile'
 require 'yaml'
-require 'pp'
+require 'pp'  #only during development
+require 'bio'
 
 ROOT = File.dirname( __FILE__ )
 Infinity = 1 / 0.0
@@ -64,9 +65,9 @@ module BlastServer
         end
       end
 
-      puts "warning: no protein database found" if @db[ :protein ].empty?
+      puts "warning: no protein database found"    if @db[ :protein ].empty?
       puts "warning: no nucleotide database found" if @db[ :nucleotide ].empty?
-      fail "No formatted databases found!" if @db[ :protein ].empty?\
+      fail "No formatted databases found!"         if @db[ :protein ].empty?\
         and @db[ :nucleotide ].empty?
     end
 
@@ -113,6 +114,9 @@ helpers do
   def construct_query( seqfile )
     method = params[ :method ]
 
+    puts 'must determine blast_database_type'
+    blast_database_type = 'protein' ## this will need to be determined from GUI.
+    legal_blast_search?(seqfile, method, blast_database_type)
     command = "#{method} -db #{BlastServer.db[ params[ :database ].to_sym ].first.last} -query #{seqfile}"
   end
 
@@ -132,9 +136,9 @@ helpers do
   def clean_sequence(sequence)
     sequence.lstrip!  # removes leading whitespace
     if sequence[0] != '>'
-      # fail to include a leading '>sequenceIdentifer' no longer breaks blast, but leaves an empty query 
+      # forgetting the  leading '>sequenceIdentifer\n' no longer breaks blast, but leaves an empty query 
       # line in the blast report. lets replace it with info about the user
-      sequence = '>Submitted_By_'+request.ip.to_s + '_at_' + Time.now.strftime("%Y-%m-%d-%H:%M:%S") + "\n" + sequence
+      sequence.insert(0, '>Submitted_By_'+request.ip.to_s + '_at_' + Time.now.strftime("%y%m%d-%H:%M:%S") + "\n")
     end
     sequence
   end
@@ -143,14 +147,42 @@ helpers do
     # returns Bio::Sequence::AA or Bio::Sequence::NA
     fasta_sequences = Bio::FlatFile.new(Bio::FastaFormat,StringIO.new(sequence))  # flatfile requires stream
     sequence_types  = fasta_sequences.collect { |seq| Bio::Sequence.guess(seq) }.uniq # get all sequence types
-    case sequences_types.length
-    when 0
-      fail 'did not determine sequence type - should never happen'
-    when 2..Infinity
-      fail 'warning: query should only contain EITHER amino-acid OR nucleotide sequences'
+    if sequence_types.length != 1
+      fail 'cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
     end
-    sequence_types.first  # length is ==1
+    sequence_types.first
   end
+
+  def legal_blast_search?(input_fasta, blast_method, blast_db_type)
+    # returns TRUE if everything is ok.
+    legal_blast_methods = ['blastp', 'tblastn', 'blastn', 'tblastx', 'blastx']
+    raise IOError, 'input_fasta missing:'   + input_fasta         if !File.exists?(input_fasta)     #unnecessary?
+    raise ArgumentError, 'wrong method : '  + blast_method        if !legal_blast_methods.include?(blast_method)
+ 
+    # check if input_fasta is compatible within blast_method
+    input_fasta_string  = File.read(input_fasta)
+    input_sequence_type = sequence_type(input_fasta_string)
+
+    case input_sequence_type.to_s  # strangely using the class always put me into the else block...
+    when Bio::Sequence::AA.to_s
+      raise ArgumentError, "Can't #{blast_method} prot. query" if !['blastp', 'tblastn'].include?(blast_method)
+    when Bio::Sequence::NA.to_s
+      raise ArgumentError, "Can't #{blast_method} nucl. query" if !['blastn','tblastx','blastx'].include?(blast_method) 
+    else 
+      raise ArgumentError, 'WTF? Whats this sequence type???' + input_sequence_type.to_s
+    end
+    
+    # check if blast_database_type is compatible with blast_method
+    raise ArgumentError, 'wrong db type: ' + blast_database_type if !['protein', 'nucleotide'].include?(blast_db_type)
+    case blast_db_type
+    when :protein
+      raise ArgumentError, "Can't #{blast_method} against prot. db" if !['blastp','blastx'].include?(blast_method)
+    when :nucleotide
+      raise ArgumentError, "Can't #{blast_method} against nucl. db" if !['blastn','tblastx','tblastn'].include?(blast_method)
+    end
+    TRUE
+  end
+
 end
 
 # Initialize the blast server.
