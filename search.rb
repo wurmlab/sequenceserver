@@ -3,7 +3,6 @@ require 'rubygems'
 require 'sinatra'
 require 'tempfile'
 require 'yaml'
-require 'pp'  #only during development
 require 'bio'
 
 ROOT = File.dirname( __FILE__ )
@@ -114,7 +113,7 @@ helpers do
   def construct_query( seqfile )
     method = params[ :method ]
 
-    puts 'must determine blast_database_type'
+    puts 'must determine blast_database_type - maybe from GUI?'
     blast_database_type = 'protein' ## this will need to be determined from GUI.
     legal_blast_search?(seqfile, method, blast_database_type)
     command = "#{method} -db #{BlastServer.db[ params[ :database ].to_sym ].first.last} -query #{seqfile}"
@@ -140,7 +139,7 @@ helpers do
       # line in the blast report. lets replace it with info about the user
       sequence.insert(0, '>Submitted_By_'+request.ip.to_s + '_at_' + Time.now.strftime("%y%m%d-%H:%M:%S") + "\n")
     end
-    sequence
+    return sequence
   end
 
   def sequence_type(sequence)
@@ -150,7 +149,7 @@ helpers do
     if sequence_types.length != 1
       fail 'cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
     end
-    sequence_types.first
+    return sequence_types.first # there is only one
   end
 
   def legal_blast_search?(input_fasta, blast_method, blast_db_type)
@@ -160,29 +159,37 @@ helpers do
     raise ArgumentError, 'wrong method : '  + blast_method        if !legal_blast_methods.include?(blast_method)
  
     # check if input_fasta is compatible within blast_method
-    input_fasta_string  = File.read(input_fasta)
-    input_sequence_type = sequence_type(input_fasta_string)
-
-    case input_sequence_type.to_s  # strangely using the class always put me into the else block...
-    when Bio::Sequence::AA.to_s
-      raise ArgumentError, "Can't #{blast_method} prot. query" if !['blastp', 'tblastn'].include?(blast_method)
-    when Bio::Sequence::NA.to_s
-      raise ArgumentError, "Can't #{blast_method} nucl. query" if !['blastn','tblastx','blastx'].include?(blast_method) 
-    else 
-      raise ArgumentError, 'WTF? Whats this sequence type???' + input_sequence_type.to_s
+    input_sequence_type = sequence_type(File.read(input_fasta))
+    if !blast_methods_for_query_type(input_sequence_type).include?(blast_method)
+      raise ArgumentError, "Can't #{blast_method} a #{input_sequence_type} query"
     end
     
     # check if blast_database_type is compatible with blast_method
-    raise ArgumentError, 'wrong db type: ' + blast_database_type if !['protein', 'nucleotide'].include?(blast_db_type)
-    case blast_db_type
-    when :protein
-      raise ArgumentError, "Can't #{blast_method} against prot. db" if !['blastp','blastx'].include?(blast_method)
-    when :nucleotide
-      raise ArgumentError, "Can't #{blast_method} against nucl. db" if !['blastn','tblastx','tblastn'].include?(blast_method)
+    if !database_type_for_blast_method(blast_method) == blast_db_type
+      raise ArgumentError, "Can't #{blast_method} against a #{blast_db_type} database" 
     end
-    TRUE
+      
+    return TRUE
   end
 
+  def blast_methods_for_query_type(seq_type)
+    case seq_type.to_s # strangely using the class always put me into the else block...
+    when Bio::Sequence::AA.to_s then return ['blastp', 'tblastn']
+    when Bio::Sequence::NA.to_s then return ['blastn','tblastx','blastx']
+    else raise ArgumentError, 'WTF? Whats this sequence type???' + seq_type.to_s
+    end
+  end
+
+  def database_type_for_blast_method(blast_method)
+      case blast_method
+      when 'blastp'  then return :protein
+      when 'blastx'  then return :protein
+      when 'blastn'  then return :nucleotide
+      when 'tblastx' then return :nucleotide
+      when 'tblastn' then return :nucleotide
+      else raise ArgumentError, "Don't know how to '#{blast_method}'"
+      end
+  end
 end
 
 # Initialize the blast server.
