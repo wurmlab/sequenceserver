@@ -3,8 +3,10 @@ require 'rubygems'
 require 'sinatra'
 require 'tempfile'
 require 'yaml'
+require 'pp'
 
 ROOT = File.dirname( __FILE__ )
+Infinity = 1 / 0.0
 
 # Helper module - initialize the blast server.
 module BlastServer
@@ -25,9 +27,8 @@ module BlastServer
     #   >> BlastServer.blast[ :blastn ] => '/home/yeban/opt/ncbi-blast/bin/blastn'
     def init_cmd
       @blast ||= {}
-
       # check in config.yml for a path to the blast executables
-      case bin = config[ :bin ]
+      case bin = config[ "bin"]   ## sorry I couldnt figure out how to make the yaml work with config[ :bin]...
       when String
         fail "no such directory#{ bin }" unless Dir.exists?( bin )
       end
@@ -35,7 +36,7 @@ module BlastServer
       # initialize @blast
       %w|blastn blastp blastx tblastn tblastx|.each do |method|
         command = bin ? File.join( bin, method ) : method
-        fail "command #{command} not found" unless command?( command )
+        fail "Cannot find: #{command}. Check path in config.yml" unless command?( command )
         @blast[ method ] = command
       end
     end
@@ -65,7 +66,7 @@ module BlastServer
 
       puts "warning: no protein database found" if @db[ :protein ].empty?
       puts "warning: no nucleotide database found" if @db[ :nucleotide ].empty?
-      fail "database not found or is not formatted" if @db[ :protein ].empty?\
+      fail "No formatted databases found!" if @db[ :protein ].empty?\
         and @db[ :nucleotide ].empty?
     end
 
@@ -90,7 +91,7 @@ module BlastServer
     end
 
     def get_db_title( fasta )
-      dbinfo = %x|blastdbcmd -info -db db/nucleotide/Sinvicta2-2-3.cdna.subset.fasta|
+      dbinfo = %x|blastdbcmd -info -db #{fasta}|
       dbinfo.lines.first[10..-2]
     end
   end
@@ -101,7 +102,7 @@ get '/' do
 end
 
 post '/' do
-  report = execute_query do |seqfile|
+  report = execute_query do |seqfile| 
     construct_query( seqfile )
   end
 
@@ -117,13 +118,38 @@ helpers do
 
   def execute_query
     seqfile = Tempfile.new("seqfile")
-    seqfile.puts( params[ :sequence ] )
+    
+    seqfile.puts( clean_sequence(params[ :sequence ]))
     seqfile.close
+
 
     result = %x|#{yield seqfile.path}|
 
     seqfile.delete
-    result
+    '<pre><code>' +result + '</pre></code>'  # should this be somehow put in a div?
+  end
+
+  def clean_sequence(sequence)
+    sequence.lstrip!  # removes leading whitespace
+    if sequence[0] != '>'
+      # fail to include a leading '>sequenceIdentifer' no longer breaks blast, but leaves an empty query 
+      # line in the blast report. lets replace it with info about the user
+      sequence = '>Submitted_By_'+request.ip.to_s + '_at_' + Time.now.strftime("%Y-%m-%d-%H:%M:%S") + "\n" + sequence
+    end
+    sequence
+  end
+
+  def sequence_type(sequence)
+    # returns Bio::Sequence::AA or Bio::Sequence::NA
+    fasta_sequences = Bio::FlatFile.new(Bio::FastaFormat,StringIO.new(sequence))  # flatfile requires stream
+    sequence_types  = fasta_sequences.collect { |seq| Bio::Sequence.guess(seq) }.uniq # get all sequence types
+    case sequences_types.length
+    when 0
+      fail 'did not determine sequence type - should never happen'
+    when 2..Infinity
+      fail 'warning: query should only contain EITHER amino-acid OR nucleotide sequences'
+    end
+    sequence_types.first  # length is ==1
   end
 end
 
