@@ -10,6 +10,9 @@ h2. requirements
 
 h2. how to format blast databases 
 
-* *for protein:* makeblastdb -dbtype prot -title 'my ant proteins'    -in myProteinDatabase.fasta
-* *for nucleotide*: makeblastdb -dbtype nucl -title 'official geneset 1' -in myNucleotideDatabase.fasta 
+* *for protein:* makeblastdb -dbtype prot -title 'my ant proteins'    -in myProteinDatabase.fasta -parse_seqids
+* *for nucleotide*: makeblastdb -dbtype nucl -title 'official geneset 1' -in myNucleotideDatabase.fasta -parse_seqids
 
+h2. FAQ: 
+* sequence retrieval doesn't work? 
+  Probably because you forgot the "-parse_seqids" argument when running makeblastdb.
