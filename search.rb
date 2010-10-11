@@ -4,10 +4,12 @@ require 'sinatra'
 require 'tempfile'
 require 'yaml'
 require 'bio'
+require 'logger'
 
-ROOT = File.dirname( __FILE__ )
+ROOT     = File.dirname( __FILE__ )
 Infinity = 1 / 0.0
-
+$log     = Logger.new(STDOUT)     # I googled a bit but couldn't find how to send this stuff directly into WEBrick's logger
+                                  # ok maybe http://github.com/kematzy/sinatra-logger  ...but yet another dependency?
 # Helper module - initialize the blast server.
 module BlastServer
   class << self
@@ -52,14 +54,18 @@ module BlastServer
       when String # assume absolute db path
         fail "no such directory: #{db_root}" unless File.exists?( db_root )
       end
+      $log.info("Database directory: #{db_root} (actually: #{File.expand_path(db_root)})")
 
       # initialize @db
+      # we could refactor with new: 'blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"'
       Dir.glob( File.join( db_root, "**", "*.[np]in" ) ) do |file|
         fasta, format = split( file )
         title = get_db_title( fasta )
         if format == 'pin'
+          $log.info("Found protein database: #{title} at #{fasta}")
           @db[ :protein ][ title ] = fasta
         elsif format == 'nin'
+          $log.info("Found nucleotide database: #{title} at #{fasta}")
           @db[ :nucleotide ][ title ] = fasta
         end
       end
@@ -113,7 +119,7 @@ helpers do
   def construct_query( seqfile )
     method = params[ :method ]
 
-    puts 'must determine blast_database_type - maybe from GUI?'
+    $log.warn('must determine blast_database_type - maybe from GUI?')
     blast_database_type = 'protein' ## this will need to be determined from GUI.
     legal_blast_search?(seqfile, method, blast_database_type)
     command = "#{method} -db #{BlastServer.db[ params[ :database ].to_sym ].first.last} -query #{seqfile}"
@@ -147,7 +153,7 @@ helpers do
     fasta_sequences = Bio::FlatFile.new(Bio::FastaFormat,StringIO.new(sequence))  # flatfile requires stream
     sequence_types  = fasta_sequences.collect { |seq| Bio::Sequence.guess(seq) }.uniq # get all sequence types
     if sequence_types.length != 1
-      fail 'cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
+      raise ArgumentError, 'cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
     end
     return sequence_types.first # there is only one
   end
@@ -167,8 +173,7 @@ helpers do
     # check if blast_database_type is compatible with blast_method
     if !database_type_for_blast_method(blast_method) == blast_db_type
       raise ArgumentError, "Can't #{blast_method} against a #{blast_db_type} database" 
-    end
-      
+    end      
     return TRUE
   end
 
@@ -181,14 +186,28 @@ helpers do
   end
 
   def database_type_for_blast_method(blast_method)
-      case blast_method
-      when 'blastp'  then return :protein
-      when 'blastx'  then return :protein
-      when 'blastn'  then return :nucleotide
-      when 'tblastx' then return :nucleotide
-      when 'tblastn' then return :nucleotide
-      else raise ArgumentError, "Don't know how to '#{blast_method}'"
-      end
+    case blast_method
+    when 'blastp'  then return :protein
+    when 'blastx'  then return :protein
+    when 'blastn'  then return :nucleotide
+    when 'tblastx' then return :nucleotide
+    when 'tblastn' then return :nucleotide
+    else raise ArgumentError, "Don't know how to '#{blast_method}'"
+    end
+  end
+
+  def sequence_from_blastdb(identifiers, db)  # necessary when displaying parsing blast results
+    entries_to_get = identifiers           if identifiers.class == String
+    entries_to_get = identifiers.join(',') if identifiers.class == Array
+    raise ArgumentError, "No ids to fetch: #{identifiers.to_s}" if entries_to_get.empty?
+
+    sequences = %x|blastdbcmd -db #{db} -entry #{entries_to_get} 2>&1|
+    if sequences.include?("No valid entries to search") 
+      raise ArgumentError, "Cannot find ids: #{entries_to_get} in #{db}." +\
+                           "OR makeblastdb needs to be rerun with '-parse_seqids'"
+    end
+
+    sequences  # fastaformat in a string
   end
 end
 
