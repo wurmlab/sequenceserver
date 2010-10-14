@@ -1,9 +1,9 @@
 h1. Simple blast search
 
-Work in Progress - Anurag Priyam & Yannick Wurm.
+Work in Progress - "Anurag Priyam":http://yeban.in/ & "Yannick Wurm":http://yannick.poulet.org.
 
+h2. 
 
-h2. idea
 
 Biologists constantly  generate new sequence data... but the people who want to access the data are often not computational, so they need some kind of point & click & copy & paste interface. It's a common issue. See for example:
 http://stackoverflow.com/questions/1890285/are-there-any-existing-solutions-for-creating-a-generic-dna-sequence-database-wit/1893358
