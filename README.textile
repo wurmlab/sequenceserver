@@ -47,5 +47,5 @@ h2. FAQ:
 *sequence retrieval doesn't work?*
   Probably because you forgot the "-parse_seqids" argument when running makeblastdb.
 
-*Can I change the web server port? The path to sequence databases? The path to blast binaries?
+*Can I change the web server port? The path to sequence databases? The path to blast binaries?*
   Edit the @config.yml.example@ file and rename it @config.yml@
