@@ -1,18 +1,39 @@
-h2. Simple blast search
-
+h1. Simple blast search
 Work in Progress - Anurag Priyam & Yannick Wurm.
+
+h2. idea
+Biologists constantly  generate new sequence data... but the people who want to access the data are often not computational, so they need some kind of point & click & copy & paste interface. It's a common issue. See for example:
+http://stackoverflow.com/questions/1890285/are-there-any-existing-solutions-for-creating-a-generic-dna-sequence-database-wit/1893358
+
+The GMOD software is overkill for many things, but doesn't have the flexibility that people normally want when dealing with several databases & all publicly available blast web wrappers are ugly and horrible for users.
+
+The idea is to make a blast server that is simple to set up & maintain (for the administrator), and to use. 
+Features for the admin:
+ * automagic setup. "gem install" + point it at blast binaries and fasta database files --> youre good to go. (using ruby's internal Webrick server avoids overhead normally associated with admin)
+ * autodetection of new blast databases
+
+Features for the user:
+ * autodetection of whether the use entered nucleotide or aminoacid sequence --> dynamically updated availability of what blast methods
+ * blast method implies which database can be used (dynamically updated list of available databases)
+ * links in the results that let you fetch the original sequences of the database hits (by providing links to hits, and batch download of the database sequences). 
+
 
 
 h2. requirements
-
+* ruby 1.8.7 or later. The following ruby gems will self-install: "sinatra":http://www.sinatrarb.com/ , "bio":http://bioruby.org/ .
 * NCBI Blastplus: http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download Old versions of NCBI blast (pre 2.2.18) are not supported.
 
 
-h2. how to format blast databases 
-
+All blast databases must be formatted. Eg: 
 * *for protein:* makeblastdb -dbtype prot -title 'my ant proteins'    -in myProteinDatabase.fasta -parse_seqids
 * *for nucleotide*: makeblastdb -dbtype nucl -title 'official geneset 1' -in myNucleotideDatabase.fasta -parse_seqids
 
-h2. FAQ: 
-* sequence retrieval doesn't work? 
+h2. launching
+* ruby search.rb           --> commandline will display address of web server (default: localhost:4567)
+
+
+h2. FAQ:
+ 
+*sequence retrieval doesn't work?*
   Probably because you forgot the "-parse_seqids" argument when running makeblastdb.
+
