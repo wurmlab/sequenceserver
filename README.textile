@@ -1,7 +1,7 @@
 h1. Simple blast search
 
 Work in Progress - "Anurag Priyam":http://yeban.in/ & "Yannick Wurm":http://yannick.poulet.org.
-
+"Todo list here":http://github.com/yannickwurm/simpleSequenceSearchServer/wiki
 h2. 
 
 
