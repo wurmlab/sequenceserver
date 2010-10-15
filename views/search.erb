@@ -51,18 +51,25 @@
 			</div>
           </fieldset>
           <fieldset class="span-7">
-			<legend>Protein databases-yeeha</legend>	
-			<%= BlastServer.db.length
-			dbs_to_show = BlastServer.db[ :protein]
-			text_to_print = ''
-			dbs_to_show.each do |db, db_name|
-			  text_to_print += %Q|<input type="checkbox"  name="database" value="#{db}" id="#{db}" class="span-1"/>| 
-              text_to_print += %Q|<label for="#{db}" class="span-3 last">#{db_name}</label><br/>|
-			 end
-			text_to_print
+			<legend>Protein databases</legend>	
+			<%=
+			BlastServer.db[ :protein].collect { |db, db_name|
+              %Q|<input type="checkbox"  name="database" value="#{db}" id="#{db}" class="span-1"/>| + \
+			  %Q|<label for="#{db}" class="span-3 last">#{db_name}</label><br/>|
+			}.join("\n")
 			%>
           </fieldset>
-	      <fieldset class="span-7">
+          <fieldset class="span-7">
+			<legend>Nucleotide databases</legend>	
+			<%=
+			BlastServer.db[ :nucleotide].collect { |db, db_name|
+              %Q|<input type="checkbox"  name="database" value="#{db}" id="#{db}" class="span-1"/>| + \
+			  %Q|<label for="#{db}" class="span-3 last">#{db_name}</label><br/>|
+			}.join("\n")
+			%>
+          </fieldset>
+<!--
+			<fieldset class="span-7">
             <legend>Database</legend>
            <input type="checkbox"  name="database" value="protein" id="protein-db" class="span-1"/>
             <label for="protein-db" class="span-3 last">Protein</label><br/>
@@ -71,8 +78,8 @@
 			  <br/>
             <div class="quiet span-7">So here we should actually have 2 sub-fieldsets: one grouping protein databases together, another grouping nucleotide databases together. Within the protein subfieldset the databases in db/protein should be visible. And similarly for nucl</div>
 
-          </fieldset>
-          <fieldset class="span-4 last">
+          </fieldset> 
+   -->       <fieldset class="span-4 last">
             <legend>Output format</legend>
             <div class="span-4">
               <input type="radio" name="output" value="text" id="text-output" class="span-1 first"/>

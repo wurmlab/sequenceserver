@@ -15,6 +15,7 @@ module BlastServer
   class << self
     # Path to the blast executables and database stored as a Hash.
     attr_accessor :blast, :db
+    enable :session
 
     # Initializes the blast server : executables, database.
     def init
@@ -63,10 +64,10 @@ module BlastServer
         title = get_db_title( fasta )
         if format == 'pin'
           $log.info("Found protein database: #{title} at #{fasta}")
-          @db[ :protein ][ title ] = fasta
+          @db[ :protein ][ fasta ] = title
         elsif format == 'nin'
           $log.info("Found nucleotide database: #{title} at #{fasta}")
-          @db[ :nucleotide ][ title ] = fasta
+          @db[ :nucleotide ][ fasta ] = title
         end
       end
 
@@ -115,14 +116,40 @@ post '/' do
   report
 end
 
+get '/get_sequence/:sequenceids' do # multiple seqs separated by whitespace... all other chars exist in identifiers
+  sequenceids = params[ :sequenceids].split(/\s/)  
+  $log.info('Getting: ' + sequenceids.to_s)
+ 
+  # the results do not indicate which database a hit is from. 
+  # Thus if several databases were used for blasting, we must check them all
+  # if it works, refactor with "inject" or "collect"?
+  found_sequences = ''
+  databases = params[ :database ]
+  raise ArgumentError, 'No databases to search in (nothing in params[ :databases] - perhaps session info is lost?'  if databases.nil?
+
+  databases.each do |database|     # we need to populate this session variable from the erb.
+  begin
+    found_sequences += sequence_from_blastdb(sequenceids, database)
+    rescue 
+      $log.debug('None of the following sequences: '+ sequences.to_s + ' found in '+ database)
+    end
+  end
+
+  # just in case, checking we found right number of sequences
+  if sequenceids.length != found_sequences.count('>')
+    raise IOError, 'Wrong number of sequences found. Expecting: ' + sequenceids.to_s + '. Found: "' + found_sequences + '"'
+  end
+  found_sequences
+end
+
 helpers do
   def construct_query( seqfile )
     method = params[ :method ]
-
     $log.warn('must determine blast_database_type - maybe from GUI?')
-    blast_database_type = 'protein' ## this will need to be determined from GUI.
+    blast_database_type = 'protein' ## this will need to be determined from GUI.   OR by searching for PIN/NIN for each.
     legal_blast_search?(seqfile, method, blast_database_type)
-    command = "#{method} -db #{BlastServer.db[ params[ :database ].to_sym ].first.last} -query #{seqfile}"
+#    command = "#{method} -db #{BlastServer.db[ params[ :database ].to_sym ].first.last} -query #{seqfile}"
+    command = "#{method} -db #{params[ :database ]} -query #{seqfile}"
   end
 
   def execute_query
@@ -131,11 +158,12 @@ helpers do
     seqfile.puts( clean_sequence(params[ :sequence ]))
     seqfile.close
 
-
-    result = %x|#{yield seqfile.path}|
-
+    command = "#{yield seqfile.path}"
+    $log.info('Will run: ' +command)
+    result = %x|#{command}|
     seqfile.delete
-    '<pre><code>' +result + '</pre></code>'  # should this be somehow put in a div?
+
+        '<pre><code>' +format_blast_results(result) +  '</pre></code>'  # should this be somehow put in a div?
   end
 
   def clean_sequence(sequence)
@@ -196,7 +224,7 @@ helpers do
     end
   end
 
-  def sequence_from_blastdb(identifiers, db)  # necessary when displaying parsing blast results
+  def sequence_from_blastdb(identifiers, db)  # helpful when displaying parsed blast results
     entries_to_get = identifiers           if identifiers.class == String
     entries_to_get = identifiers.join(',') if identifiers.class == Array
     raise ArgumentError, "No ids to fetch: #{identifiers.to_s}" if entries_to_get.empty?
@@ -207,7 +235,29 @@ helpers do
                            "OR makeblastdb needs to be rerun with '-parse_seqids'"
     end
 
-    sequences  # fastaformat in a string
+    sequences.chomp + "\n"  # fastaformat in a string - not sure blastdbcmd includes newline
+  end
+
+  def format_blast_results(result)
+    formatted_result = ''
+    result.each_line do |line|
+      if line.match(/^>/)
+        complete_identifier = line[/^>(\S+)\s*.*/, 1]  # get identifier part
+        #This didnt work:  identifier = complete_identifier.include?('|') ? complete_identifier.split('|')[0] : complete_identifier.split('|')[1]
+        identifier = ''
+        if complete_identifier.include?('|')
+          identifier = complete_identifier.split('|')[1]
+        else 
+          identifier = complete_identifier.split('|')[0]
+        end
+        $log.info('substituted'+ identifier)
+        formatted_result += line.gsub(identifier, "<a href='/get_sequence/:#{identifier}' title='Full #{identifier} FASTA sequence'>#{identifier}</a>")
+
+      else
+        formatted_result += line
+      end
+    end
+    '<pre><code>' +formatted_result + '</pre></code>'  # should this be somehow put in a div?
   end
 end
 
