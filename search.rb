@@ -261,5 +261,6 @@ helpers do
   end
 end
 
+
 # Initialize the blast server.
 BlastServer.init
