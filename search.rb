@@ -287,4 +287,3 @@ end
 
 # Initialize the blast server.
 BlastServer.init
-7
