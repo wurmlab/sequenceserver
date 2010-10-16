@@ -159,9 +159,9 @@ helpers do
     legal_blast_search?(seqfile, method, db_type)  # quiet if ok; raises if bad     
 
 
-    ##in the future, we will want to use ncbi's formatter (it gives more flexibility & can provide html). But now its too slow.
+    ##in the future, we will want to use ncbi's formatter (it gives more flexibility & can provide html). Eg: 
     ## blastp -db ./db/protein/Sinvicta2-2-3.prot.subset.fasta -query a.fasta  -outfmt 11 > a.asn1
-    ## blast_formatter -archive ./a.asn1 -outfmt 2 -html
+    ## blast_formatter -archive ./a.asn1 -outfmt 2 -html # But now its too slow.
     "#{method} -db '#{params[ :used_db].join(' ')}' -query #{seqfile}"
   end
 
