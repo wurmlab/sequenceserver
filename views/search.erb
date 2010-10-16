@@ -50,47 +50,37 @@
               <span class="quiet span-8 last">Nucleotide query (translated): nucleotide database (translated)</span>
 			</div>
           </fieldset>
-          <fieldset class="span-7">
+          <fieldset class="span-6">
 			<legend>Protein databases</legend>	
 			<%=
 			BlastServer.db[ :protein].collect { |db, db_name|
-              %Q|<input type="checkbox"  name="database" value="#{db}" id="#{db}" class="span-1"/>| + \
+              %Q|<input type="checkbox"  name="prot_database[]" value="#{db}" id="#{db}" class="span-1"/>| + \
 			  %Q|<label for="#{db}" class="span-3 last">#{db_name}</label><br/>|
 			}.join("\n")
 			%>
           </fieldset>
-          <fieldset class="span-7">
+          <fieldset class="span-6">
 			<legend>Nucleotide databases</legend>	
 			<%=
 			BlastServer.db[ :nucleotide].collect { |db, db_name|
-              %Q|<input type="checkbox"  name="database" value="#{db}" id="#{db}" class="span-1"/>| + \
+              %Q|<input type="checkbox"  name="nucl_database[]" value="#{db}" id="#{db}" class="span-1"/>| + \
 			  %Q|<label for="#{db}" class="span-3 last">#{db_name}</label><br/>|
 			}.join("\n")
 			%>
           </fieldset>
-<!--
-			<fieldset class="span-7">
-            <legend>Database</legend>
-           <input type="checkbox"  name="database" value="protein" id="protein-db" class="span-1"/>
-            <label for="protein-db" class="span-3 last">Protein</label><br/>
-            <input type="checkbox"  name="database" value="nucleotide" id="nucleotide-db" class="span-1"/>
-            <label for="nucleotide-db" class="span-3 last">Nucleotide</label>
-			  <br/>
-            <div class="quiet span-7">So here we should actually have 2 sub-fieldsets: one grouping protein databases together, another grouping nucleotide databases together. Within the protein subfieldset the databases in db/protein should be visible. And similarly for nucl</div>
-
-          </fieldset> 
-   -->       <fieldset class="span-4 last">
+<!--   keep it for when we'll have implemented formatter. (or offer table output by going through xml...)
+          <fieldset class="span-4 last">
             <legend>Output format</legend>
             <div class="span-4">
               <input type="radio" name="output" value="text" id="text-output" class="span-1 first"/>
               <label for="text-output" class="span-3 last">Text</label><br/>
-			</div>
+			</div>  
             <div class="span-4">
               <input type="radio" name="output" value="tab" id="tab-output" class="span-1 first"/>
               <label for="tab-output" class="span-3 last">Tab Delimited</label><br/>
             </div>
           </fieldset>
-			
+-->			
           <fieldset class="span-24">
             <legend>Advanced parameters (optional)</legend>
             <input type="text" name="advanced" id="advanced" class="span-24"/>

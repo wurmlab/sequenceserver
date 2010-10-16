@@ -5,6 +5,7 @@ require 'tempfile'
 require 'yaml'
 require 'bio'
 require 'logger'
+require 'pp'
 
 ROOT     = File.dirname( __FILE__ )
 Infinity = 1 / 0.0
@@ -116,7 +117,10 @@ post '/' do
   report
 end
 
-get '/get_sequence/:sequenceids' do # multiple seqs separated by whitespace... all other chars exist in identifiers
+#get '/get_sequence/:sequenceids/:retreival_databases' do # multiple seqs separated by whitespace... all other chars exist in identifiers
+# I have the feeling you need to spat for multiple dbs... that sucks.
+get '/get_sequence/:*/:*' do
+  params[ :sequenceids], params[ :retrieval_databases] = params["splat"] 
   sequenceids = params[ :sequenceids].split(/\s/)  
   $log.info('Getting: ' + sequenceids.to_s)
  
@@ -124,14 +128,14 @@ get '/get_sequence/:sequenceids' do # multiple seqs separated by whitespace... a
   # Thus if several databases were used for blasting, we must check them all
   # if it works, refactor with "inject" or "collect"?
   found_sequences = ''
-  databases = params[ :database ]
-  raise ArgumentError, 'No databases to search in (nothing in params[ :databases] - perhaps session info is lost?'  if databases.nil?
+  retrieval_databases = params[ :retrieval_databases ].split(/\s/)
+  raise ArgumentError, 'Nothing in params[ :retrieval_databases]. session info is lost?'  if retrieval_databases.nil?
 
-  databases.each do |database|     # we need to populate this session variable from the erb.
-  begin
-    found_sequences += sequence_from_blastdb(sequenceids, database)
+  retrieval_databases.each do |database|     # we need to populate this session variable from the erb.
+    begin
+      found_sequences += sequence_from_blastdb(sequenceids, database)
     rescue 
-      $log.debug('None of the following sequences: '+ sequences.to_s + ' found in '+ database)
+      $log.debug('None of the following sequences: '+ sequenceids.to_s + ' found in '+ database)
     end
   end
 
@@ -145,11 +149,20 @@ end
 helpers do
   def construct_query( seqfile )
     method = params[ :method ]
-    $log.warn('must determine blast_database_type - maybe from GUI?')
-    blast_database_type = 'protein' ## this will need to be determined from GUI.   OR by searching for PIN/NIN for each.
-    legal_blast_search?(seqfile, method, blast_database_type)
-#    command = "#{method} -db #{BlastServer.db[ params[ :database ].to_sym ].first.last} -query #{seqfile}"
-    command = "#{method} -db #{params[ :database ]} -query #{seqfile}"
+
+    ## we get two arrays: prot_database and nucl_database.... one must be empty. 
+    ## actually no value is returned if empty... those we test ".nil?"
+    raise ArgumentError, 'chose a single db type!' if params[ :prot_database].nil? == params[ :nucl_database].nil?
+    db_type           = params[ :prot_database].nil?  ?            :nucleotide : :protein
+    params[ :used_db] = (db_type == :protein)        ? params[ :prot_database] : params[ :nucl_database]
+    
+    legal_blast_search?(seqfile, method, db_type)  # quiet if ok; raises if bad     
+
+
+    ##in the future, we will want to use ncbi's formatter (it gives more flexibility & can provide html). But now its too slow.
+    ## blastp -db ./db/protein/Sinvicta2-2-3.prot.subset.fasta -query a.fasta  -outfmt 11 > a.asn1
+    ## blast_formatter -archive ./a.asn1 -outfmt 2 -html
+    "#{method} -db '#{params[ :used_db].join(' ')}' -query #{seqfile}"
   end
 
   def execute_query
@@ -158,12 +171,15 @@ helpers do
     seqfile.puts( clean_sequence(params[ :sequence ]))
     seqfile.close
 
-    command = "#{yield seqfile.path}"
-    $log.info('Will run: ' +command)
-    result = %x|#{command}|
+    result = execute_command_line("#{yield seqfile.path}")
     seqfile.delete
 
-        '<pre><code>' +format_blast_results(result) +  '</pre></code>'  # should this be somehow put in a div?
+    '<pre><code>' +format_blast_results(result, params[ :used_db])+ '</pre></code>'  # put in a div?
+  end
+
+  def execute_command_line(command)
+    $log.info('Will run: ' +command)
+    result = %x|#{command}|    # what about stderr or failures?    
   end
 
   def clean_sequence(sequence)
@@ -181,7 +197,7 @@ helpers do
     fasta_sequences = Bio::FlatFile.new(Bio::FastaFormat,StringIO.new(sequence))  # flatfile requires stream
     sequence_types  = fasta_sequences.collect { |seq| Bio::Sequence.guess(seq) }.uniq # get all sequence types
     if sequence_types.length != 1
-      raise ArgumentError, 'cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
+      raise ArgumentError, 'Cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
     end
     return sequence_types.first # there is only one
   end
@@ -189,18 +205,25 @@ helpers do
   def legal_blast_search?(input_fasta, blast_method, blast_db_type)
     # returns TRUE if everything is ok.
     legal_blast_methods = ['blastp', 'tblastn', 'blastn', 'tblastx', 'blastx']
-    raise IOError, 'input_fasta missing:'   + input_fasta         if !File.exists?(input_fasta)     #unnecessary?
-    raise ArgumentError, 'wrong method : '  + blast_method        if !legal_blast_methods.include?(blast_method)
+    raise IOError, 'input_fasta missing:'   + input_fasta.to_s   if !File.exists?(input_fasta)     #unnecessary?
+    raise IOError, 'undefined blast method...'                   if blast_method.nil?
+    raise ArgumentError, 'wrong method : '  + blast_method.to_s  if !legal_blast_methods.include?(blast_method)
  
     # check if input_fasta is compatible within blast_method
     input_sequence_type = sequence_type(File.read(input_fasta))
+    $log.debug('input seq type: ' + input_sequence_type.to_s)
+    $log.debug('blast db type:  ' + blast_db_type)
+    $log.debug('blast method:   ' + blast_method)
+
+
     if !blast_methods_for_query_type(input_sequence_type).include?(blast_method)
-      raise ArgumentError, "Can't #{blast_method} a #{input_sequence_type} query"
+      raise ArgumentError, "Cannot #{blast_method} a #{input_sequence_type} query"
     end
     
     # check if blast_database_type is compatible with blast_method
-    if !database_type_for_blast_method(blast_method) == blast_db_type
-      raise ArgumentError, "Can't #{blast_method} against a #{blast_db_type} database" 
+    if !(database_type_for_blast_method(blast_method) == blast_db_type)
+      raise ArgumentError, "Cannot #{blast_method} against a #{blast_db_type} database " + 
+            "need " + database_type_for_blast_method(blast_method) 
     end      
     return TRUE
   end
@@ -238,21 +261,21 @@ helpers do
     sequences.chomp + "\n"  # fastaformat in a string - not sure blastdbcmd includes newline
   end
 
-  def format_blast_results(result)
+  def format_blast_results(result, databases_used)
+    raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if !result.class == String 
+    raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if result.empty?
+
     formatted_result = ''
     result.each_line do |line|
-      if line.match(/^>/)
-        complete_identifier = line[/^>(\S+)\s*.*/, 1]  # get identifier part
-        #This didnt work:  identifier = complete_identifier.include?('|') ? complete_identifier.split('|')[0] : complete_identifier.split('|')[1]
-        identifier = ''
-        if complete_identifier.include?('|')
-          identifier = complete_identifier.split('|')[1]
-        else 
-          identifier = complete_identifier.split('|')[0]
-        end
-        $log.info('substituted'+ identifier)
-        formatted_result += line.gsub(identifier, "<a href='/get_sequence/:#{identifier}' title='Full #{identifier} FASTA sequence'>#{identifier}</a>")
-
+      if line.match(/^>\S/)  #if there is a space character right after the '>', the blastdb was not run with -parse_seqids
+        puts line
+        complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
+        id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
+        $log.info('substituted'+ id)
+        link_to_fasta = "/get_sequence/:#{id}/:#{databases_used.join(' ')}" # several dbs... separate by ' '
+        
+        replacement_text_with_link  = "<a href='#{link_to_fasta}' title='Full #{id} FASTA sequence'>#{id}</a>"
+        formatted_result += line.gsub(id, replacement_text_with_link)
       else
         formatted_result += line
       end
@@ -264,3 +287,4 @@ end
 
 # Initialize the blast server.
 BlastServer.init
+7
