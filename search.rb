@@ -34,7 +34,7 @@ module BlastServer
       # check in config.yml for a path to the blast executables
       case bin = config[ "bin"]   ## sorry I couldnt figure out how to make the yaml work with config[ :bin]...
       when String
-        fail "no such directory#{ bin }" unless Dir.exists?( bin )
+        fail "no such directory: #{ bin }" unless Dir.exists?( bin )
       end
 
       # initialize @blast
@@ -121,13 +121,13 @@ end
 # I have the feeling you need to spat for multiple dbs... that sucks.
 get '/get_sequence/:*/:*' do
   params[ :sequenceids], params[ :retrieval_databases] = params["splat"] 
-  sequenceids = params[ :sequenceids].split(/\s/)  
+  sequenceids = params[ :sequenceids].split(/\s/).unique  # in a multi-blast query some may have been found multiply
   $log.info('Getting: ' + sequenceids.to_s)
  
   # the results do not indicate which database a hit is from. 
   # Thus if several databases were used for blasting, we must check them all
   # if it works, refactor with "inject" or "collect"?
-  found_sequences = ''
+  found_sequences     = ''
   retrieval_databases = params[ :retrieval_databases ].split(/\s/)
   raise ArgumentError, 'Nothing in params[ :retrieval_databases]. session info is lost?'  if retrieval_databases.nil?
 
@@ -265,13 +265,15 @@ helpers do
     raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if !result.class == String 
     raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if result.empty?
 
-    formatted_result = ''
+    formatted_result    = ''
+    all_retrievable_ids = []
     result.each_line do |line|
       if line.match(/^>\S/)  #if there is a space character right after the '>', the blastdb was not run with -parse_seqids
         puts line
         complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
         id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
-        $log.info('substituted'+ id)
+        all_retrievable_ids.push(id)
+        $log.debug('Added link for: '+ id)
         link_to_fasta = "/get_sequence/:#{id}/:#{databases_used.join(' ')}" # several dbs... separate by ' '
         
         replacement_text_with_link  = "<a href='#{link_to_fasta}' title='Full #{id} FASTA sequence'>#{id}</a>"
@@ -280,7 +282,11 @@ helpers do
         formatted_result += line
       end
     end
-    '<pre><code>' +formatted_result + '</pre></code>'  # should this be somehow put in a div?
+
+    link_to_fasta_of_all = "/get_sequence/:#{all_retrievable_ids.join(' ')}/:#{databases_used.join(' ')}" # separate by ' '
+    retrieval_text       = all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of all #{all_retrievable_ids.length} retrievable hits</a></p>"
+
+    retrieval_text + '<pre><code>' +formatted_result + '</pre></code>'  # should this be somehow put in a div?
   end
 end
 

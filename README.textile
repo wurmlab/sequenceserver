@@ -47,7 +47,7 @@ h2. Launching
 h2. FAQ:
  
 *sequence retrieval doesn't work?*
-  Probably because you forgot the "-parse_seqids" argument when running makeblastdb.
+  Probably because you forgot the @-parse_seqids@ argument when running makeblastdb (or they were formated using legacy @formatdb@. To indicate that a sequence is from a non-@-parse_seqids@ database, Blastplus 2.2.24 puts a space between the '>' and the hit identifier. 
 
 *Can I change the web server port? The path to sequence databases? The path to blast binaries?*
   Edit the @config.yml.example@ file and rename it @config.yml@
