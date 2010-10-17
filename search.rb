@@ -62,6 +62,7 @@ module BlastServer
       # we could refactor with new: 'blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"'
       Dir.glob( File.join( db_root, "**", "*.[np]in" ) ) do |file|
         fasta, format = split( file )
+        fasta.gsub!(/^\.\//, '') # remove leading './' otherwise html is invalid
         title = get_db_title( fasta )
         if format == 'pin'
           $log.info("Found protein database: #{title} at #{fasta}")
@@ -110,6 +111,10 @@ get '/' do
 end
 
 post '/' do
+  # req'ed because '/' is invalid in radiobutton ids
+  params[ :prot_database].each { |db| db.gsub!('_fwdslash_', '/') } if !params[ :prot_database].nil?
+  params[ :nucl_database].each { |db| db.gsub!('_fwdslash_', '/') } if !params[ :nucl_database].nil?
+
   report = execute_query do |seqfile| 
     construct_query( seqfile )
   end
@@ -128,7 +133,8 @@ get '/get_sequence/:*/:*' do
   # Thus if several databases were used for blasting, we must check them all
   # if it works, refactor with "inject" or "collect"?
   found_sequences     = ''
-  retrieval_databases = params[ :retrieval_databases ].split(/\s/)
+  retrieval_databases = params[ :retrieval_databases ].split(/\s/)  
+
   raise ArgumentError, 'Nothing in params[ :retrieval_databases]. session info is lost?'  if retrieval_databases.nil?
 
   retrieval_databases.each do |database|     # we need to populate this session variable from the erb.

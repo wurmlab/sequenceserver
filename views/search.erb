@@ -6,54 +6,56 @@
     <meta name="author" content="Anurag Priyam" />
     <meta name="author" content="Yannick Wurm" />
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/screen.css"/>
+    <link rel="stylesheet" media="screen, projector" type="text/css" href="/css/screen.css"/>
     <link rel="stylesheet" media="screen" type="text/css" href="/css/master.css"/>
   </head>
 
   <body>
     <div class="container">
-     <div class="header span-24">
-        <div class="banner span-24"><a href="/">Simple Blast Search</a></div>
-      </div>
-     <div class="body span-24">
+    <div class="body span-24">
         <form method="post" action="/">
-          <fieldset class="span-24 sequence">
-   	        <legend>Sequence(s) to BLAST</legend>
-		    <textarea name="sequence" id="sequence" rows="10" cols="" class="span-24 last"></textarea>
-			<span class='quiet span-24'>Once we know if the sequence is prot or nuc, it could be stated here.</span>
-          </fieldset>
-	      <fieldset class="span-10">
+          <div class="span-14 first">
+			 <span class="banner">Sequence(s) to BLAST</span>	   
+		    <textarea name="sequence" id="sequence" rows="10" cols="" class="span-14"></textarea>
+			<span class='quiet span-12'>Once we know if the sequence is prot or nuc, it could be stated here.</span>
+		</div>
+		   
+<!--          </fieldset>  -->
+		
+	      <fieldset class="span-9 last bottom">
             <legend>Blast Method</legend>
-  		    <div class="span-10">
+  		    <div class="span-6">
        		  <input type="radio" name="method" value="blastp" id="blastp" class="span-1 first"/>
         	  <label for="blastp" class="span-1">blastp</label>
   		      <span class="quiet span-8 last">Protein query; protein database.</span>
   		    </div>
-       	    <div class="span-10">
+       	    <div class="span-6">
        		  <input type="radio" name="method" value="tblastn" id="tblastn" class="span-1 first"/>
         	  <label for="tblastn" class="span-1">tblastn</label>
               <span class="quiet span-8 last">Protein query; nucleotide database (translated).</span>
   		    </div>
-        	<div class="span-10">
+        	<div class="span-6">
         	  <input type="radio" name="method" value="blastn" id="blastn" class="span-1 first"/>
               <label for="blastn" class="span-1">blastn</label>
               <span class="quiet span-8 last">Nucleotide query; nucleotide database.</span>         	
         	</div>
-            <div class="span-10">
+            <div class="span-6">
               <input type="radio" name="method" value="blastx" id="blastx" class="span-1 first"/>
               <label for="blastx" class="span-1">blastx</label>
               <span class="quiet span-8 last">Nucleotide query (translated); protein database.</span>
             </div>
-            <div class="span-10">
+            <div class="span-6">
               <input type="radio" name="method" value="tblastx" id="tblastx" class="span-1 first"/>
               <label for="tblastx" class="span-1">tblastx</label>
               <span class="quiet span-8 last">Nucleotide query (translated): nucleotide database (translated)</span>
 			</div>
           </fieldset>
+			<hr/>
           <fieldset class="span-6">
 			<legend>Protein databases</legend>	
 			<%=
 			BlastServer.db[ :protein].collect { |db, db_name|
+			  db = db.gsub(/\//, '_fwdslash_')
               %Q|<input type="checkbox"  name="prot_database[]" value="#{db}" id="#{db}" class="span-1"/>| + \
 			  %Q|<label for="#{db}" class="span-3 last">#{db_name}</label><br/>|
 			}.join("\n")
@@ -63,6 +65,7 @@
 			<legend>Nucleotide databases</legend>	
 			<%=
 			BlastServer.db[ :nucleotide].collect { |db, db_name|
+			  db = db.gsub(/\//, '_fwdslash_')
               %Q|<input type="checkbox"  name="nucl_database[]" value="#{db}" id="#{db}" class="span-1"/>| + \
 			  %Q|<label for="#{db}" class="span-3 last">#{db_name}</label><br/>|
 			}.join("\n")
@@ -84,7 +87,10 @@
           <fieldset class="span-24">
             <legend>Advanced parameters (optional)</legend>
             <input type="text" name="advanced" id="advanced" class="span-24"/>
-			<span class='small'>Maybe the following can be hidden by default:<pre><code> -evalue <Real>
+			<span class='small'>Maybe the following can be hidden by default:</span><pre style='font-size: 8px;'>
+<%=        require 'cgi'
+			CGI.escapeHTML %|
+-evalue <Real>
    Expectation value (E) threshold for saving hits 
    Default = `10'
  -word_size <Integer, >=2>
@@ -155,7 +161,9 @@
     * Incompatible with:  culling_limit
  -max_target_seqs <Integer, >=1>
    Maximum number of aligned sequences to keep
-</code></pre></span>
+|
+%>
+</pre>
 
           </fieldset>
           <div class="span-24 buttons">
