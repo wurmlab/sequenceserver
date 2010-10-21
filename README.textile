@@ -1,4 +1,4 @@
-h1. Simple blast search - Very much Work In PROGRESS
+h1. Simple blast search - VERY MUCH WORK IN PROGRESS
 
 "Anurag Priyam":http://yeban.in/ & "Yannick Wurm":http://yannick.poulet.org.
 "Todo list here":http://github.com/yannickwurm/simpleSequenceSearchServer/wiki - contributors welcome!
@@ -7,10 +7,10 @@ h1. Simple blast search - Very much Work In PROGRESS
 h2. 
 
 
-Biologists constantly  generate new sequence data... but the people who want to access the data are often not computational, so they need some kind of point & click & copy & paste interface. It's a common issue. See for example "this question":http://stackoverflow.com/questions/1890285/are-there-any-existing-solutions-for-creating-a-generic-dna-sequence-database-wit/1893358
+Biologists constantly  generate new sequence data... but the people who want to access the data are often not computational, so they need some kind of point & click & copy & paste interface. It's a common issue. See for example "this question":http://stackoverflow.com/questions/1890285/are-there-any-existing-solutions-for-creating-a-generic-dna-sequence-database-wit/1893358 .
 
 
-Alternatives: The GMOD software can be overkill. But it's blast form is limited when dealing with several databases. All publicly available blast web wrappers are ugly and horrible for users.
+Alternatives: The "GMOD":http://www.gmod.org software can be overkill. But it's blast form is limited when dealing with several databases. All publicly available blast web wrappers are ugly and horrible for users.
 
 
 The idea is to make a blast server that is simple to set up & maintain (for the administrator), and pleasant to use (by thinking for user). 
@@ -24,9 +24,9 @@ h3. Features for the admin:
 
 h3. Features for the user:
 
- * autodetection of whether the use entered nucleotide or aminoacid sequence --> dynamically updated availability of what blast methods
+ * autodetection of whether the use entered nucleotide or aminoacid sequence --> dynamically updated availability of blast methods
  * blast method implies which database can be used (dynamically updated list of available databases)
- * links in the results that let you fetch the original sequences of the database hits (by providing links to hits, and batch download of significant database sequences). 
+ * links in the results that let you fetch the original sequences of the database hits (by providing links to individual hits, and batch download of all hits). 
 
 
 
@@ -41,13 +41,16 @@ All blast databases must be formatted. Eg:
 
 h2. Launching
 
-* @ruby search.rb@          --> commandline will display address of web server (default: localhost:4567)
+* @ruby search.rb@  or @ruby -p 8080 search.rb@       --> commandline will display address of web server (default: "http://localhost:4567":http://localhost:4567)
 
 
 h2. FAQ:
  
-*sequence retrieval doesn't work?*
-  Probably because you forgot the @-parse_seqids@ argument when running makeblastdb (or they were formated using legacy @formatdb@. To indicate that a sequence is from a non-@-parse_seqids@ database, Blastplus 2.2.24 puts a space between the '>' and the hit identifier. 
+*Why doesn't sequence retrieval work?*
+Probably because you forgot the @-parse_seqids@ argument when running makeblastdb (or they were formated using legacy @formatdb@. To indicate that a sequence is from a non-@-parse_seqids@ database, Blastplus 2.2.24 puts a space between the '>' and the hit identifier. 
 
-*Can I change the web server port? The path to sequence databases? The path to blast binaries?*
-  Edit the @config.yml.example@ file and rename it @config.yml@
+*Can I change the path to sequence databases? The path to blast binaries?*
+Edit the @config.yml.example@ file and rename it @config.yml@
+
+*Can I change the web server port?*
+Specify @-p 8080@ on the commandline when launching.  
