@@ -38,7 +38,7 @@ module BlastServer
       end
 
       # initialize @blast
-      %w|blastn blastp blastx tblastn tblastx|.each do |method|
+      %w|blastn blastp blastx tblastn tblastx blastdbcmd|.each do |method|
         command = bin ? File.join( bin, method ) : method
         fail "Cannot find: #{command}. Check path in config.yml" unless command?( command )
         @blast[ method ] = command
