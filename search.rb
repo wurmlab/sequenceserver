@@ -66,10 +66,10 @@ module BlastServer
         title = get_db_title( fasta )
         if format == 'pin'
           $log.info("Found protein database: #{title} at #{fasta}")
-          @db[ :protein ][ fasta ] = title
+          @db[ :protein ][ title ] = fasta
         elsif format == 'nin'
           $log.info("Found nucleotide database: #{title} at #{fasta}")
-          @db[ :nucleotide ][ fasta ] = title
+          @db[ :nucleotide ][ title ] = fasta
         end
       end
 
@@ -111,10 +111,6 @@ get '/' do
 end
 
 post '/' do
-  # req'ed because '/' is invalid in radiobutton ids
-  params[ :prot_database].each { |db| db.gsub!('_fwdslash_', '/') } if !params[ :prot_database].nil?
-  params[ :nucl_database].each { |db| db.gsub!('_fwdslash_', '/') } if !params[ :nucl_database].nil?
-
   report = execute_query do |seqfile| 
     construct_query( seqfile )
   end
@@ -153,22 +149,35 @@ get '/get_sequence/:*/:*' do
 end
 
 helpers do
+  # if protein databases, say 'protein foo', and 'protein moo' were selected,
+  # return - ['protein', ['protein foo', 'protein moo']]
+  def selected_db
+    # params['db'] should contain only one entry
+    params['db'].first
+  end
+
+  # returns, type of selected databases, as a symbol
+  # in the above example - :protein
+  def selected_db_type
+    params['db'].first.first.to_sym
+  end
+
+  # return a string of fasta files corresponding to the dbs selected
+  # eg. - 'Protein_foo.fasta Protein_moo.fasta'
+  def selected_db_files
+    type = selected_db_type
+    params['db'].first.last.map { |title| BlastServer.db[type][title] }.join(' ')
+  end
+
   def construct_query( seqfile )
     method = params[ :method ]
 
-    ## we get two arrays: prot_database and nucl_database.... one must be empty. 
-    ## actually no value is returned if empty... those we test ".nil?"
-    raise ArgumentError, 'chose a single db type!' if params[ :prot_database].nil? == params[ :nucl_database].nil?
-    db_type           = params[ :prot_database].nil?  ?            :nucleotide : :protein
-    params[ :used_db] = (db_type == :protein)        ? params[ :prot_database] : params[ :nucl_database]
-    
-    legal_blast_search?(seqfile, method, db_type)  # quiet if ok; raises if bad     
-
+    legal_blast_search?(seqfile, method, selected_db_type)  # quiet if ok; raises if bad     
 
     ##in the future, we will want to use ncbi's formatter (it gives more flexibility & can provide html). Eg: 
     ## blastp -db ./db/protein/Sinvicta2-2-3.prot.subset.fasta -query a.fasta  -outfmt 11 > a.asn1
     ## blast_formatter -archive ./a.asn1 -outfmt 2 -html # But now its too slow.
-    "#{method} -db '#{params[ :used_db].join(' ')}' -query #{seqfile}"
+    "#{method} -db '#{selected_db_files}' -query #{seqfile}"
   end
 
   def execute_query
@@ -178,9 +187,10 @@ helpers do
     seqfile.close
 
     result = execute_command_line("#{yield seqfile.path}")
+puts result
     seqfile.delete
 
-    '<pre><code>' +format_blast_results(result, params[ :used_db])+ '</pre></code>'  # put in a div?
+    '<pre><code>' +format_blast_results(result, selected_db_files)+ '</pre></code>'  # put in a div?
   end
 
   def execute_command_line(command)
@@ -210,21 +220,22 @@ helpers do
 
   def legal_blast_search?(input_fasta, blast_method, blast_db_type)
     # returns TRUE if everything is ok.
-    legal_blast_methods = ['blastp', 'tblastn', 'blastn', 'tblastx', 'blastx']
-    raise IOError, 'input_fasta missing:'   + input_fasta.to_s   if !File.exists?(input_fasta)     #unnecessary?
+    # legal_blast_methods = ['blastp', 'tblastn', 'blastn', 'tblastx', 'blastx']
+    legal_blast_methods = BlastServer.blast.keys
+    #raise IOError, 'input_fasta missing:'   + input_fasta.to_s   if !File.exists?(input_fasta)     #unnecessary?
     raise IOError, 'undefined blast method...'                   if blast_method.nil?
     raise ArgumentError, 'wrong method : '  + blast_method.to_s  if !legal_blast_methods.include?(blast_method)
  
     # check if input_fasta is compatible within blast_method
     input_sequence_type = sequence_type(File.read(input_fasta))
     $log.debug('input seq type: ' + input_sequence_type.to_s)
-    $log.debug('blast db type:  ' + blast_db_type)
+    $log.debug('blast db type:  ' + blast_db_type.to_s)
     $log.debug('blast method:   ' + blast_method)
 
 
-    if !blast_methods_for_query_type(input_sequence_type).include?(blast_method)
-      raise ArgumentError, "Cannot #{blast_method} a #{input_sequence_type} query"
-    end
+    #if !blast_methods_for_query_type(input_sequence_type).include?(blast_method)
+      #raise ArgumentError, "Cannot #{blast_method} a #{input_sequence_type} query"
+    #end
     
     # check if blast_database_type is compatible with blast_method
     if !(database_type_for_blast_method(blast_method) == blast_db_type)
@@ -289,7 +300,7 @@ helpers do
       end
     end
 
-    link_to_fasta_of_all = "/get_sequence/:#{all_retrievable_ids.join(' ')}/:#{databases_used.join(' ')}" # separate by ' '
+    link_to_fasta_of_all = "/get_sequence/:#{all_retrievable_ids.join(' ')}/:#{databases_used}" # separate by ' '
     retrieval_text       = all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of all #{all_retrievable_ids.length} retrievable hits</a></p>"
 
     retrieval_text + '<pre><code>' +formatted_result + '</pre></code>'  # should this be somehow put in a div?

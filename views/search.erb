@@ -44,23 +44,19 @@
 
           <fieldset class="span-6 clear">
 			<legend>Protein databases</legend>	
-			<%=
-			   BlastServer.db[ :protein].collect { |db, db_name|
-			   db = db.gsub(/\//, '_fwdslash_')
-               %Q|<input type="checkbox"  name="prot_database[]" value="#{db}" id="#{db}" class="span-1 clear"/>| + \
-			   %Q|<label for="#{db}" class="span-5 last">#{db_name}</label><br/>|
-			   }.join("\n")
-			   %>
+                          <% BlastServer.db[:protein].each_key do |name| %>
+ <input type="checkbox" class="span-1 clear" id="<%= name %>" name="db[protein]" value="<%= name %>"/>
+                            <label for="<%= name %>" class="span-5 last"><%= name %></label>
+                          <% end %>
           </fieldset>
           <fieldset class="span-6">
 			<legend>Nucleotide databases</legend>	
-			<%=
-			   BlastServer.db[ :nucleotide].collect { |db, db_name|
-			   db = db.gsub(/\//, '_fwdslash_')
-               %Q|<input type="checkbox"  name="nucl_database[]" value="#{db}" id="#{db}" class="span-1 clear"/>| + \
-			   %Q|<label for="#{db}" class="span-3 last">#{db_name}</label><br/>|
-			   }.join("\n")
-			   %>
+                          <% BlastServer.db[:nucleotide].each_key do |name| %>
+ <input type="checkbox" class="span-1 clear" id="<%= name %>" name="db[nucleotide][]" value="<%= name %>"/>
+                            <label for="<%= name %>" class="span-5 last"><%= name %></label>
+ <input type="checkbox" class="span-1 clear" id="hi" name="db[nucleotide][]" value="hi"/>
+                            <label for="hi" class="span-5 last">hi</label>
+                          <% end %>
           </fieldset>
           <fieldset class="span-24">
             <legend>Advanced parameters (optional)</legend>
