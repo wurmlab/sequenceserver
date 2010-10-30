@@ -6,6 +6,7 @@ require 'yaml'
 require 'bio'
 require 'logger'
 require 'pp'
+require 'stringio'
 
 ROOT     = File.dirname( __FILE__ )
 Infinity = 1 / 0.0
@@ -122,7 +123,7 @@ end
 # I have the feeling you need to spat for multiple dbs... that sucks.
 get '/get_sequence/:*/:*' do
   params[ :sequenceids], params[ :retrieval_databases] = params["splat"] 
-  sequenceids = params[ :sequenceids].split(/\s/).unique  # in a multi-blast query some may have been found multiply
+  sequenceids = params[ :sequenceids].split(/\s/).uniq  # in a multi-blast query some may have been found multiply
   $log.info('Getting: ' + sequenceids.to_s)
  
   # the results do not indicate which database a hit is from. 
@@ -278,20 +279,20 @@ puts result
     sequences.chomp + "\n"  # fastaformat in a string - not sure blastdbcmd includes newline
   end
 
-  def format_blast_results(result, databases_used)
+  def format_blast_results(result, string_of_used_databases)
     raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if !result.class == String 
     raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if result.empty?
 
     formatted_result    = ''
     all_retrievable_ids = []
     result.each_line do |line|
-      if line.match(/^>\S/)  #if there is a space character right after the '>', the blastdb was not run with -parse_seqids
+      if line.match(/^>\S/)  #if there is a space right after the '>', makeblastdb was run without -parse_seqids
         puts line
         complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
         id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
         all_retrievable_ids.push(id)
         $log.debug('Added link for: '+ id)
-        link_to_fasta = "/get_sequence/:#{id}/:#{databases_used.join(' ')}" # several dbs... separate by ' '
+        link_to_fasta = "/get_sequence/:#{id}/:#{string_of_used_databases}" # several dbs... separate by ' '
         
         replacement_text_with_link  = "<a href='#{link_to_fasta}' title='Full #{id} FASTA sequence'>#{id}</a>"
         formatted_result += line.gsub(id, replacement_text_with_link)
@@ -300,8 +301,8 @@ puts result
       end
     end
 
-    link_to_fasta_of_all = "/get_sequence/:#{all_retrievable_ids.join(' ')}/:#{databases_used}" # separate by ' '
-    retrieval_text       = all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of all #{all_retrievable_ids.length} retrievable hits</a></p>"
+    link_to_fasta_of_all = "/get_sequence/:#{all_retrievable_ids.join(' ')}/:#{string_of_used_databases}" #dbs must be sep by ' '
+    retrieval_text       = all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of #{all_retrievable_ids.length} retrievable hit(s)</a></p>"
 
     retrieval_text + '<pre><code>' +formatted_result + '</pre></code>'  # should this be somehow put in a div?
   end
