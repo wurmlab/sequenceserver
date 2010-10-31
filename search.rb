@@ -111,16 +111,6 @@ module BlastServer
     def command?(command)
       system("which #{command}")
     end
-
-    def split( file )
-      index = file.index( /\.[pn]in$/ )
-      [ file[0..index-1], file[ index+1..-1] ]
-    end
-
-    def get_db_title( fasta )
-      dbinfo = %x|blastdbcmd -info -db #{fasta}|
-      dbinfo.lines.first[10..-2]
-    end
   end
 end
 
@@ -184,7 +174,6 @@ helpers do
   # eg. - 'Protein_foo.fasta Protein_moo.fasta'
   def selected_db_files
     type = selected_db_type
-    pp params[:db][type]
     return params[:db][type].map {|key| BlastServer.db_name(type, key.to_i)}.join(' ')
   end
 
