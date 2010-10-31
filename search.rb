@@ -10,14 +10,39 @@ require 'stringio'
 
 ROOT     = File.dirname( __FILE__ )
 Infinity = 1 / 0.0
-$log     = Logger.new(STDOUT)     # I googled a bit but couldn't find how to send this stuff directly into WEBrick's logger
-                                  # ok maybe http://github.com/kematzy/sinatra-logger  ...but yet another dependency?
+$log     = Logger.new(STDOUT)
+
 # Helper module - initialize the blast server.
 module BlastServer
   class << self
     # Path to the blast executables and database stored as a Hash.
-    attr_accessor :blast, :db
+    attr_accessor :blast
     enable :session
+
+    def db
+      @db ||= Hash.new {|hash, key| hash[key] = []}
+    end
+    private :db
+
+    def add_db(type, name, title = nil)
+      db[type] << [name, title]
+    end
+
+    def get_db(type, key = nil)
+      return db unless type
+      return db[type] unless key
+      key.is_a?(Integer) ?  db[type][key] : db[type].assoc(key) #or, nil
+    end
+
+    def db_name(type, key = nil)
+      return type.first unless key
+      get_db(type, key).first
+    end
+
+    def db_title(type, key = nil)
+      return type.last unless key
+      db(type, key).last
+    end
 
     # Initializes the blast server : executables, database.
     def init
@@ -48,8 +73,6 @@ module BlastServer
 
     # Initialize the blast database.
     def init_db
-      @db ||= { :nucleotide => {}, :protein => {} }
-
       case db_root = config[ :db ]
       when nil # assume db in ./db
         db_root = File.join( ROOT, "db" )
@@ -61,23 +84,17 @@ module BlastServer
 
       # initialize @db
       # we could refactor with new: 'blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"'
-      Dir.glob( File.join( db_root, "**", "*.[np]in" ) ) do |file|
-        fasta, format = split( file )
-        fasta.gsub!(/^\.\//, '') # remove leading './' otherwise html is invalid
-        title = get_db_title( fasta )
-        if format == 'pin'
-          $log.info("Found protein database: #{title} at #{fasta}")
-          @db[ :protein ][ title ] = fasta
-        elsif format == 'nin'
-          $log.info("Found nucleotide database: #{title} at #{fasta}")
-          @db[ :nucleotide ][ title ] = fasta
-        end
+      %x|blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"|.each_line do |line|
+        type, name, *title =  line.split(' ') 
+        type = type.downcase.to_sym
+        name = name.freeze
+        title = title.join(' ').freeze
+        BlastServer.add_db(type, name, title)
       end
 
-      puts "warning: no protein database found"    if @db[ :protein ].empty?
-      puts "warning: no nucleotide database found" if @db[ :nucleotide ].empty?
-      fail "No formatted databases found!"         if @db[ :protein ].empty?\
-        and @db[ :nucleotide ].empty?
+      fail "No formatted databases found!"         if get_db(nil).empty?
+      puts "warning: no protein database found"    if get_db(:protein).empty?
+      puts "warning: no nucleotide database found" if get_db(:nucleotide).empty?
     end
 
     # Load config.yml; return a Hash. The Hash is empty if config.yml does not exist.
@@ -167,7 +184,8 @@ helpers do
   # eg. - 'Protein_foo.fasta Protein_moo.fasta'
   def selected_db_files
     type = selected_db_type
-    params['db'].first.last.map { |title| BlastServer.db[type][title] }.join(' ')
+    pp params[:db][type]
+    return params[:db][type].map {|key| BlastServer.db_name(type, key.to_i)}.join(' ')
   end
 
   def construct_query( seqfile )
@@ -216,6 +234,7 @@ puts result
     if sequence_types.length != 1
       raise ArgumentError, 'Cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
     end
+puts sequence_types.first
     return sequence_types.first # there is only one
   end
 
