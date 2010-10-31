@@ -10,7 +10,7 @@ require 'stringio'
 
 ROOT     = File.dirname( __FILE__ )
 Infinity = 1 / 0.0
-$log     = Logger.new(STDOUT)
+LOG     = Logger.new(STDOUT)
 
 # Helper module - initialize the blast server.
 module BlastServer
@@ -80,7 +80,7 @@ module BlastServer
       when String # assume absolute db path
         fail "no such directory: #{db_root}" unless File.exists?( db_root )
       end
-      $log.info("Database directory: #{db_root} (actually: #{File.expand_path(db_root)})")
+      LOG.info("Database directory: #{db_root} (actually: #{File.expand_path(db_root)})")
 
       # initialize @db
       # we could refactor with new: 'blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"'
@@ -92,9 +92,9 @@ module BlastServer
         BlastServer.add_db(type, name, title)
       end
 
-      fail "No formatted databases found!"         if get_db(nil).empty?
-      puts "warning: no protein database found"    if get_db(:protein).empty?
-      puts "warning: no nucleotide database found" if get_db(:nucleotide).empty?
+      fail "No formatted databases found!"     if get_db(nil).empty?
+      LOG.info("no protein database found")    if get_db(:protein).empty?
+      LOG.info("no nucleotide database found") if get_db(:nucleotide).empty?
     end
 
     # Load config.yml; return a Hash. The Hash is empty if config.yml does not exist.
@@ -103,7 +103,7 @@ module BlastServer
       fail "config.yml should return a hash" unless config.is_a?( Hash )
       return config
     rescue Errno::ENOENT
-      puts "warning: config.yml not found - assuming default settings"
+      LOG.warn("config.yml not found - assuming default settings")
       return {}
     end
 
@@ -141,7 +141,7 @@ end
 get '/get_sequence/:*/:*' do
   params[ :sequenceids], params[ :retrieval_databases] = params["splat"] 
   sequenceids = params[ :sequenceids].split(/\s/).uniq  # in a multi-blast query some may have been found multiply
-  $log.info('Getting: ' + sequenceids.to_s)
+  LOG.info('Getting: ' + sequenceids.to_s)
  
   # the results do not indicate which database a hit is from. 
   # Thus if several databases were used for blasting, we must check them all
@@ -155,7 +155,7 @@ get '/get_sequence/:*/:*' do
     begin
       found_sequences += sequence_from_blastdb(sequenceids, database)
     rescue 
-      $log.debug('None of the following sequences: '+ sequenceids.to_s + ' found in '+ database)
+      LOG.debug('None of the following sequences: '+ sequenceids.to_s + ' found in '+ database)
     end
   end
 
@@ -213,7 +213,7 @@ puts result
   end
 
   def execute_command_line(command)
-    $log.info('Will run: ' +command)
+    LOG.info('Will run: ' +command)
     result = %x|#{command}|    # what about stderr or failures?    
   end
 
@@ -248,9 +248,9 @@ puts sequence_types.first
  
     # check if input_fasta is compatible within blast_method
     input_sequence_type = sequence_type(File.read(input_fasta))
-    $log.debug('input seq type: ' + input_sequence_type.to_s)
-    $log.debug('blast db type:  ' + blast_db_type.to_s)
-    $log.debug('blast method:   ' + blast_method)
+    LOG.debug('input seq type: ' + input_sequence_type.to_s)
+    LOG.debug('blast db type:  ' + blast_db_type.to_s)
+    LOG.debug('blast method:   ' + blast_method)
 
 
     #if !blast_methods_for_query_type(input_sequence_type).include?(blast_method)
@@ -310,7 +310,7 @@ puts sequence_types.first
         complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
         id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
         all_retrievable_ids.push(id)
-        $log.debug('Added link for: '+ id)
+        LOG.debug('Added link for: '+ id)
         link_to_fasta = "/get_sequence/:#{id}/:#{string_of_used_databases}" # several dbs... separate by ' '
         
         replacement_text_with_link  = "<a href='#{link_to_fasta}' title='Full #{id} FASTA sequence'>#{id}</a>"
