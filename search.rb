@@ -8,9 +8,10 @@ require 'logger'
 require 'pp'
 require 'stringio'
 
+BLASTURL = 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
 ROOT     = File.dirname( __FILE__ )
 Infinity = 1 / 0.0
-LOG     = Logger.new(STDOUT)
+LOG      = Logger.new(STDOUT)
 
 # Helper module - initialize the blast server.
 module BlastServer
@@ -46,8 +47,13 @@ module BlastServer
 
     # Initializes the blast server : executables, database.
     def init
-      init_cmd
-      init_db
+      begin
+        init_cmd
+        init_db
+      rescue  => error
+        LOG.fatal("Sorry, cannot run #{ __FILE__ }: #{ error }")
+        exit
+      end
     end
 
     # Initializes blast executables. Assumes the path of blast executables to be
@@ -60,13 +66,17 @@ module BlastServer
       # check in config.yml for a path to the blast executables
       case bin = config[ "bin"]   ## sorry I couldnt figure out how to make the yaml work with config[ :bin]...
       when String
-        fail "no such directory: #{ bin }" unless Dir.exists?( bin )
+        raise IOError, "The directory '#{ bin }' defined in config.yml doesn't exist." unless Dir.exists?( bin )
       end
 
       # initialize @blast
       %w|blastn blastp blastx tblastn tblastx blastdbcmd|.each do |method|
         command = bin ? File.join( bin, method ) : method
-        fail "Cannot find: #{command}. Check path in config.yml" unless command?( command )
+        raise IOError, "Sorry, cannot execute the command:  '#{ command }'.  \n" +
+                       "You may need to install BLAST+ from: #{ BLASTURL } . \n" +
+                       "And/or create a config.yml file that points to blast's 'bin' directory." \
+              unless command?( command )
+        LOG.info("Found: #{ command }")
         @blast[ method ] = command
       end
     end
@@ -76,9 +86,9 @@ module BlastServer
       case db_root = config[ :db ]
       when nil # assume db in ./db
         db_root = File.join( ROOT, "db" )
-        fail "no such directory: #{db_root}" unless File.exists?( db_root )
+        raise IOError, "Database directory doesn't exist: #{db_root}" unless File.exists?( db_root )
       when String # assume absolute db path
-        fail "no such directory: #{db_root}" unless File.exists?( db_root )
+        raise IOError, "Database directory doesn't exist: #{db_root}" unless File.exists?( db_root )
       end
       LOG.info("Database directory: #{db_root} (actually: #{File.expand_path(db_root)})")
 
@@ -89,18 +99,20 @@ module BlastServer
         type = type.downcase.to_sym
         name = name.freeze
         title = title.join(' ').freeze
+        LOG.info("Found #{ type } database: '#{ title }' at #{ name }")
         BlastServer.add_db(type, name, title)
       end
 
-      fail "No formatted databases found!"     if get_db(nil).empty?
-      LOG.info("no protein database found")    if get_db(:protein).empty?
-      LOG.info("no nucleotide database found") if get_db(:nucleotide).empty?
+      raise IOError, "No formatted blast databases found! You may need to run 'makeblastdb' "\
+                     "on a fasta file in '#{ db_root }' ." if get_db(nil).empty?
+      LOG.warn("No protein databases found")               if get_db(:protein).empty?
+      LOG.warn("No nucleotide databases found")            if get_db(:nucleotide).empty?
     end
 
     # Load config.yml; return a Hash. The Hash is empty if config.yml does not exist.
     def config
       config = YAML.load_file( "config.yml" )
-      fail "config.yml should return a hash" unless config.is_a?( Hash )
+      raise IOError, "config.yml should return a hash" unless config.is_a?( Hash )
       return config
     rescue Errno::ENOENT
       LOG.warn("config.yml not found - assuming default settings")
@@ -223,7 +235,7 @@ puts result
     if sequence_types.length != 1
       raise ArgumentError, 'Cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
     end
-puts sequence_types.first
+    puts sequence_types.first
     return sequence_types.first # there is only one
   end
 
