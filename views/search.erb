@@ -44,16 +44,16 @@
 
           <fieldset class="span-6 clear">
 			<legend>Protein databases</legend>	
-                          <% BlastServer.get_db(:protein).each_with_index do |db, i| %>
+                          <% SequenceServer.get_db(:protein).each_with_index do |db, i| %>
  <input type="checkbox" class="span-1 clear" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
-                            <label for="pdb<%=i%>" class="span-5 last"><%= BlastServer.db_title(db) or BlastServer.db_name(db)%></label>
+                            <label for="pdb<%=i%>" class="span-5 last"><%= SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
                           <% end %>
           </fieldset>
           <fieldset class="span-6">
 			<legend>Nucleotide databases</legend>	
-                          <% BlastServer.get_db(:nucleotide).each_with_index do |db, i| %>
+                          <% SequenceServer.get_db(:nucleotide).each_with_index do |db, i| %>
  <input type="checkbox" class="span-1 clear" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
-                            <label for="ndb<%=i%>" class="span-5 last"><%=BlastServer.db_title(db) or BlastServer.db_name(db)%></label>
+                            <label for="ndb<%=i%>" class="span-5 last"><%=SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
                           <% end %>
           </fieldset>
           <fieldset class="span-24">

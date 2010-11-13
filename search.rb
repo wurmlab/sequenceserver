@@ -1,6 +1,6 @@
 # search.rb
 require 'rubygems'
-require 'sinatra'
+require 'sinatra/base'
 require 'tempfile'
 require 'yaml'
 require 'bio'
@@ -14,11 +14,12 @@ Infinity = 1 / 0.0
 LOG      = Logger.new(STDOUT)
 
 # Helper module - initialize the blast server.
-module BlastServer
+class SequenceServer < Sinatra::Base
+  enable :session
+
   class << self
     # Path to the blast executables and database stored as a Hash.
     attr_accessor :blast
-    enable :session
 
     def db
       @db ||= Hash.new {|hash, key| hash[key] = []}
@@ -46,14 +47,13 @@ module BlastServer
     end
 
     # Initializes the blast server : executables, database.
-    def init
-      begin
-        init_cmd
-        init_db
-      rescue  => error
-        LOG.fatal("Sorry, cannot run #{ __FILE__ }: #{ error }")
-        exit
-      end
+    def run!(options={})
+      init_cmd
+      init_db
+      super
+    rescue  => error
+      LOG.fatal("Sorry, cannot run #{ __FILE__ }: #{ error }")
+      exit
     end
 
     # Initializes blast executables. Assumes the path of blast executables to be
@@ -100,7 +100,7 @@ module BlastServer
         name = name.freeze
         title = title.join(' ').freeze
         LOG.info("Found #{ type } database: '#{ title }' at #{ name }")
-        BlastServer.add_db(type, name, title)
+        add_db(type, name, title)
       end
 
       raise IOError, "No formatted blast databases found! You may need to run 'makeblastdb' "\
@@ -124,51 +124,49 @@ module BlastServer
       system("which #{command} > /dev/null 2>&1")
     end
   end
-end
 
-get '/' do
-  erb :search
-end
-
-post '/' do
-  report = execute_query do |seqfile| 
-    construct_query( seqfile )
+  get '/' do
+    erb :search
   end
 
-  report
-end
-
-#get '/get_sequence/:sequenceids/:retreival_databases' do # multiple seqs separated by whitespace... all other chars exist in identifiers
-# I have the feeling you need to spat for multiple dbs... that sucks.
-get '/get_sequence/:*/:*' do
-  params[ :sequenceids], params[ :retrieval_databases] = params["splat"] 
-  sequenceids = params[ :sequenceids].split(/\s/).uniq  # in a multi-blast query some may have been found multiply
-  LOG.info('Getting: ' + sequenceids.to_s)
- 
-  # the results do not indicate which database a hit is from. 
-  # Thus if several databases were used for blasting, we must check them all
-  # if it works, refactor with "inject" or "collect"?
-  found_sequences     = ''
-  retrieval_databases = params[ :retrieval_databases ].split(/\s/)  
-
-  raise ArgumentError, 'Nothing in params[ :retrieval_databases]. session info is lost?'  if retrieval_databases.nil?
-
-  retrieval_databases.each do |database|     # we need to populate this session variable from the erb.
-    begin
-      found_sequences += sequence_from_blastdb(sequenceids, database)
-    rescue 
-      LOG.debug('None of the following sequences: '+ sequenceids.to_s + ' found in '+ database)
+  post '/' do
+    report = execute_query do |seqfile| 
+      construct_query( seqfile )
     end
+
+    report
   end
 
-  # just in case, checking we found right number of sequences
-  if sequenceids.length != found_sequences.count('>')
-    raise IOError, 'Wrong number of sequences found. Expecting: ' + sequenceids.to_s + '. Found: "' + found_sequences + '"'
-  end
-  found_sequences
-end
+  #get '/get_sequence/:sequenceids/:retreival_databases' do # multiple seqs separated by whitespace... all other chars exist in identifiers
+  # I have the feeling you need to spat for multiple dbs... that sucks.
+  get '/get_sequence/:*/:*' do
+    params[ :sequenceids], params[ :retrieval_databases] = params["splat"] 
+    sequenceids = params[ :sequenceids].split(/\s/).uniq  # in a multi-blast query some may have been found multiply
+    LOG.info('Getting: ' + sequenceids.to_s)
 
-helpers do
+    # the results do not indicate which database a hit is from. 
+    # Thus if several databases were used for blasting, we must check them all
+    # if it works, refactor with "inject" or "collect"?
+    found_sequences     = ''
+    retrieval_databases = params[ :retrieval_databases ].split(/\s/)  
+
+    raise ArgumentError, 'Nothing in params[ :retrieval_databases]. session info is lost?'  if retrieval_databases.nil?
+
+    retrieval_databases.each do |database|     # we need to populate this session variable from the erb.
+      begin
+        found_sequences += sequence_from_blastdb(sequenceids, database)
+      rescue 
+        LOG.debug('None of the following sequences: '+ sequenceids.to_s + ' found in '+ database)
+      end
+    end
+
+    # just in case, checking we found right number of sequences
+    if sequenceids.length != found_sequences.count('>')
+      raise IOError, 'Wrong number of sequences found. Expecting: ' + sequenceids.to_s + '. Found: "' + found_sequences + '"'
+    end
+    found_sequences
+  end
+
   # if protein databases, say 'protein foo', and 'protein moo' were selected,
   # return - ['protein', ['protein foo', 'protein moo']]
   def selected_db
@@ -186,7 +184,7 @@ helpers do
   # eg. - 'Protein_foo.fasta Protein_moo.fasta'
   def selected_db_files
     type = selected_db_type
-    return params[:db][type].map {|key| BlastServer.db_name(type, key.to_i)}.join(' ')
+    return params[:db][type].map {|key| SequenceServer.db_name(type, key.to_i)}.join(' ')
   end
 
   def construct_query( seqfile )
@@ -207,7 +205,7 @@ helpers do
     seqfile.close
 
     result = execute_command_line("#{yield seqfile.path}")
-puts result
+    puts result
     seqfile.delete
 
     '<pre><code>' +format_blast_results(result, selected_db_files)+ '</pre></code>'  # put in a div?
@@ -242,7 +240,7 @@ puts result
   def legal_blast_search?(input_fasta, blast_method, blast_db_type)
     # returns TRUE if everything is ok.
     # legal_blast_methods = ['blastp', 'tblastn', 'blastn', 'tblastx', 'blastx']
-    legal_blast_methods = BlastServer.blast.keys
+    legal_blast_methods = SequenceServer.blast.keys
     #raise IOError, 'input_fasta missing:'   + input_fasta.to_s   if !File.exists?(input_fasta)     #unnecessary?
     raise IOError, 'undefined blast method...'                   if blast_method.nil?
     raise ArgumentError, 'wrong method : '  + blast_method.to_s  if !legal_blast_methods.include?(blast_method)
@@ -328,6 +326,4 @@ puts result
   end
 end
 
-
-# Initialize the blast server.
-BlastServer.init
+SequenceServer.run!
