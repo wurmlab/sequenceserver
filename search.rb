@@ -121,7 +121,7 @@ module BlastServer
 
     # check if the given command exists and is executable
     def command?(command)
-      system("which #{command}")
+      system("which #{command} > /dev/null 2>&1")
     end
   end
 end
