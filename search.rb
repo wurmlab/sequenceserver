@@ -8,14 +8,14 @@ require 'logger'
 require 'pp'
 require 'stringio'
 
-BLASTURL = 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
-ROOT     = File.dirname( __FILE__ )
 Infinity = 1 / 0.0
 LOG      = Logger.new(STDOUT)
 
 # Helper module - initialize the blast server.
 class SequenceServer < Sinatra::Base
   enable :session
+  set :root, File.dirname(__FILE__)
+  set :blasturl, 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
 
   class << self
     # Path to the blast executables and database stored as a Hash.
@@ -73,7 +73,7 @@ class SequenceServer < Sinatra::Base
       %w|blastn blastp blastx tblastn tblastx blastdbcmd|.each do |method|
         command = bin ? File.join( bin, method ) : method
         raise IOError, "Sorry, cannot execute the command:  '#{ command }'.  \n" +
-                       "You may need to install BLAST+ from: #{ BLASTURL } . \n" +
+                       "You may need to install BLAST+ from: #{ settings.blasturl } . \n" +
                        "And/or create a config.yml file that points to blast's 'bin' directory." \
               unless command?( command )
         LOG.info("Found: #{ command }")
@@ -85,7 +85,7 @@ class SequenceServer < Sinatra::Base
     def init_db
       case db_root = config[ :db ]
       when nil # assume db in ./db
-        db_root = File.join( ROOT, "db" )
+        db_root = File.join( settings.root, "db" )
         raise IOError, "Database directory doesn't exist: #{db_root}" unless File.exists?( db_root )
       when String # assume absolute db path
         raise IOError, "Database directory doesn't exist: #{db_root}" unless File.exists?( db_root )
