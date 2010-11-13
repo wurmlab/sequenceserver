@@ -14,6 +14,7 @@ LOG      = Logger.new(STDOUT)
 # Helper module - initialize the blast server.
 class SequenceServer < Sinatra::Base
   enable :session
+  enable :logging
   set :root, File.dirname(__FILE__)
   set :blasturl, 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
 
