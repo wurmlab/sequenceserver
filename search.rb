@@ -67,7 +67,7 @@ class SequenceServer < Sinatra::Base
       # check in config.yml for a path to the blast executables
       case bin = config[ "bin"]   ## sorry I couldnt figure out how to make the yaml work with config[ :bin]...
       when String
-        raise IOError, "The directory '#{ bin }' defined in config.yml doesn't exist." unless Dir.exists?( bin )
+        raise IOError, "The directory '#{ bin }' defined in config.yml doesn't exist." unless File.directory?( bin )
       end
 
       # initialize @blast
@@ -87,14 +87,13 @@ class SequenceServer < Sinatra::Base
       case db_root = config[ :db ]
       when nil # assume db in ./db
         db_root = File.join( settings.root, "db" )
-        raise IOError, "Database directory doesn't exist: #{db_root}" unless File.exists?( db_root )
+        raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
       when String # assume absolute db path
-        raise IOError, "Database directory doesn't exist: #{db_root}" unless File.exists?( db_root )
+        raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
       end
       LOG.info("Database directory: #{db_root} (actually: #{File.expand_path(db_root)})")
 
       # initialize @db
-      # we could refactor with new: 'blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"'
       %x|blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"|.each_line do |line|
         type, name, *title =  line.split(' ') 
         type = type.downcase.to_sym
