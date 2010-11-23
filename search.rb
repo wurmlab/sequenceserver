@@ -11,6 +11,7 @@ require 'stringio'
 # Helper module - initialize the blast server.
 class SequenceServer < Sinatra::Base
   LOG = Logger.new(STDOUT)
+  LOG.datetime_format = "%Y-%m-%d %H:%M:%S"  # to be more compact (and a little more like sinatra's)
 
   enable :session
   enable :logging
@@ -65,7 +66,7 @@ class SequenceServer < Sinatra::Base
     def init_cmd
       @blast ||= {}
       # check in config.yml for a path to the blast executables
-      case bin = config[ "bin"]   ## sorry I couldnt figure out how to make the yaml work with config[ :bin]...
+      case bin = File.expand_path(config[ "bin"])   # doesnt work with config[ :bin]...
       when String
         raise IOError, "The directory '#{ bin }' defined in config.yml doesn't exist." unless File.directory?( bin )
       end
@@ -84,7 +85,7 @@ class SequenceServer < Sinatra::Base
 
     # Initialize the blast database.
     def init_db
-      case db_root = config[ :db ]
+      case db_root = File.expand_path(config[ "db" ]) # doesnt work with config[ :db]...
       when nil # assume db in ./db
         db_root = File.join( settings.root, "db" )
         raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
@@ -122,6 +123,59 @@ class SequenceServer < Sinatra::Base
     # check if the given command exists and is executable
     def command?(command)
       system("which #{command} > /dev/null 2>&1")
+    end
+  
+    def type_of_sequences(fasta_format_string)
+      # returns Bio::Sequence::AA or Bio::Sequence::NA or raises an error if both!
+      # the first sequence does not need to be fasta. 
+      sequences = fasta_format_string.split(/^>.*$/).delete_if { |seq| seq.empty? }
+  
+      sequence_types = sequences.collect { |seq| 
+          begin  # there seems to be no implicit begin/end here?
+            guess_sequence_type(seq)
+          rescue => error
+            LOG.debug('Could not determine type for sequence: '+ seq + error)
+            nil
+          end
+        }.uniq # get all sequence types
+  
+      sequence_types.delete_if { |type| type.nil?}  # we get nil if theres an error
+  
+      case sequence_types.length
+      when 0
+        raise ArgumentError, 'Insufficient info to determine sequence type. Queries include:' + sequence_types.to_s
+      when 1
+        return sequence_types.first # there is only one (but yes its an array)
+      else 
+        raise ArgumentError, 'Cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
+      end
+    end
+  
+  
+    def guess_sequence_type(sequence)
+      # strips all non-characters. guestimates sequence based on that.
+      # returns Bio::Sequence::AA or Bio::Sequence::NA. If sequence is too short 
+  
+      cleaned_sequence = sequence.gsub(/[^A-Z]/i, '')  # removing weird characters
+      cleaned_sequence.gsub!(/[NX]/i, '')              # removing ambiguous
+  
+      raise ArgumentError, 'Not enough sequence to work with' if cleaned_sequence.length < 10  # conservative
+  
+      cleaned_sequence.extend Bio::Sequence::Common    # so we can use composition
+      composition = cleaned_sequence.composition       # is a hash of eg: "C"-> 5, "L"->10
+  
+      composition_NAs    = composition.select { |character, count|character.match(/[ACGTU]/i) } # only putative NAs
+      putative_NA_counts = composition_NAs.collect { |key_value_array| key_value_array[1] }     # only count, not char
+      putative_NA_sum    = putative_NA_counts.inject { |sum, n| sum + n }                       # count of all putative NA
+  
+      case 
+        when putative_NA_sum.nil?
+          return Bio::Sequence::AA
+        when putative_NA_sum > (0.9 * cleaned_sequence.length)
+          return Bio::Sequence::NA
+        else
+          return Bio::Sequence::AA
+      end
     end
   end
 
@@ -226,16 +280,7 @@ class SequenceServer < Sinatra::Base
     return sequence
   end
 
-  def sequence_type(sequence)
-    # returns Bio::Sequence::AA or Bio::Sequence::NA
-    fasta_sequences = Bio::FlatFile.new(Bio::FastaFormat,StringIO.new(sequence))  # flatfile requires stream
-    sequence_types  = fasta_sequences.collect { |seq| Bio::Sequence.guess(seq) }.uniq # get all sequence types
-    if sequence_types.length != 1
-      raise ArgumentError, 'Cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
-    end
-    puts sequence_types.first
-    return sequence_types.first # there is only one
-  end
+
 
   def legal_blast_search?(input_fasta, blast_method, blast_db_type)
     # returns TRUE if everything is ok.
@@ -246,11 +291,10 @@ class SequenceServer < Sinatra::Base
     raise ArgumentError, 'wrong method : '  + blast_method.to_s  if !legal_blast_methods.include?(blast_method)
  
     # check if input_fasta is compatible within blast_method
-    input_sequence_type = sequence_type(File.read(input_fasta))
+    input_sequence_type = SequenceServer.type_of_sequences(File.read(input_fasta))
     LOG.debug('input seq type: ' + input_sequence_type.to_s)
     LOG.debug('blast db type:  ' + blast_db_type.to_s)
     LOG.debug('blast method:   ' + blast_method)
-
 
     #if !blast_methods_for_query_type(input_sequence_type).include?(blast_method)
       #raise ArgumentError, "Cannot #{blast_method} a #{input_sequence_type} query"
@@ -326,4 +370,6 @@ class SequenceServer < Sinatra::Base
   end
 end
 
-SequenceServer.run!
+
+SequenceServer.run! if __FILE__ == $0
+
