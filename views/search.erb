@@ -48,63 +48,73 @@
     }
 
     .blastmethods {
-      float:left;
-      width:15%;
-      background: #3f4555;
-      border: none;
-      margin: 0 2% 2% 0;
-      border-top-right-radius:10px;
-      border-top-left-radius:  0px;
-      border-bottom-right-radius:10px;
-      border-bottom-left-radius:  0px;
-      font-size: 1.5em; font-family: georgia, serif; color: white;
+      float						: left;
+      width						: 15%;
+      background				: #3f4555;
+      border					: none;
+      margin					: 0 2% 2% 0;
+      border-top-right-radius	: 10px;
+      border-top-left-radius	: 0px;
+      border-bottom-right-radius: 10px;
+      border-bottom-left-radius	:  0px;
+      font-size					: 1.5em; font-family: georgia, serif; color: white;
     }
-    .databases {
-      width: 30%;
-      background: #3f4555;
-      border:none;
-      margin: 2%;
-      border-radius:10px;
-      font-family: georgia, serif;
-      color: white;
-margin-top:0;
+    .database_container {
+      float  :left;
+      clear  :both;
+      width  :76%;
+    }
+    .databases_and_submit_container {
+}
+
+     .databases {
+      width       : 40%;
+      background  : #3f4555;
+      border      : none;
+      margin      : 2%;
+      border-radius  :10px;
+      font-family : georgia, serif;
+      color       : white;
+      margin-top  :0;
     }
     .nucleotide {
-      clear:left;
-      float:left;
+      clear    :left;
+      float    :left;
     }
     .protein {
-      position:relative;
+      position  :relative;
      }
 
-    .dbcheckbox {
+    .dbcheckbox {   /* within each "database box" */
        float:left;
        clear:both;
      }
-
     .dbdescription {
       float:left;
      }
 
     .submit_button {
-
-     margin: 0;
-	  text-align: right;
+      text-align: right;
+   text-vertical-align: bottom;
       padding: 2%;
     }
     .submit_button input {
-	  background: #3f4555;
-      border: 2px solid white;
-      border-radius: 10px;
-      color: white;
-      padding: 1%;
-      cursor: pointer;
-      font-size: 1.5em;
-      font-family: georgia, serif;
+      background		: #3f4555;
+      border			: 2px solid white;
+      border-radius		: 10px;
+      color				: white;
+      padding			: 1%;
+      cursor			: pointer;
+      font-size			: 1.5em;
+      font-family		: georgia, serif;
     }
    .submit_button input:active {
       color: #1f2126;
       border: 2px solid black;
+   }
+   .submit_button input:hover {
+      color: #1f2126;
+
    }
 
 .advanced {
@@ -125,72 +135,73 @@ margin-top:0;
 
   <body> 
     <div class="container">
-		<div class="banner" >BLAST Sequence(s)</div>	   
+  <div class="banner" >BLAST Sequence(s)</div>    
     <div class='extra_container'>
-		<form method="post" action="/">
+  <form method="post" action="/">
           <div class="entryfield">
-			<textarea name="sequence" id="sequence" rows="10" cols="" placeholder="Paste your sequence(s) here..." ></textarea>
-		  </div>
-	      <fieldset class="blastmethods" >
- 		    <div class="span-3">
-       		  <input type="radio" name="method" value="blastp" id="blastp" class="span-1" title="Protein query; protein database."/>
-        	  <label for="blastp" class="span-1" title="Protein query; protein database.">blastp</label>
-  		    </div>
-       	    <div class="span-3 clear">
-       		  <input type="radio" name="method" value="tblastn" id="tblastn" class="span-1"  title="Protein query; six-frame translated nucleotide database." />
-        	  <label for="tblastn" class="span-1" title="Protein query; six-frame translated nucleotide database.">tblastn</label>
- 		    </div>
-        	<div class="span-3 clear">
-        	  <input type="radio" name="method" value="blastn" id="blastn" class="span-1" title="Nucleotide query; nucleotide database."/>
+   <textarea name="sequence" id="sequence" rows="10" cols="" placeholder="Paste your sequence(s) here..." ></textarea>
+    </div>
+       <fieldset class="blastmethods" >
+       <div class="span-3">
+           <input type="radio" name="method" value="blastp" id="blastp" class="span-1" title="Protein query; protein database."/>
+           <label for="blastp" class="span-1" title="Protein query; protein database.">blastp</label>
+        </div>
+            <div class="span-3 clear">
+           <input type="radio" name="method" value="tblastn" id="tblastn" class="span-1"  title="Protein query; six-frame translated nucleotide database." />
+           <label for="tblastn" class="span-1" title="Protein query; six-frame translated nucleotide database.">tblastn</label>
+       </div>
+         <div class="span-3 clear">
+           <input type="radio" name="method" value="blastn" id="blastn" class="span-1" title="Nucleotide query; nucleotide database."/>
               <label for="blastn" class="span-1" title="Nucleotide query; nucleotide database.">blastn</label>
-         	</div>
+          </div>
             <div class="span-3 clear">
               <input type="radio" name="method" value="blastx" id="blastx" class="span-1" title="Translated nucleotide query; protein database."/>
               <label for="blastx" class="span-1" title="Six-frame translated nucleotide query; protein database.">blastx</label>
-			</div>
+   </div>
             <div class="span-3 clear">
               <input type="radio" name="method" value="tblastx" id="tblastx" class="span-1" title="Six-frame translated nucleotide query; six-frame translated nucleotide database"/>
               <label for="tblastx" class="span-1" title="Six-frame translated nucleotide query; six-frame translated nucleotide database">tblastx</label>
-			</div>
+   </div>
           </fieldset>
        </div>
-	   <div class='extra_container'>
+    <div class='databases_and_submit_container'>
+    <div class='database_container'>
           <fieldset class="nucleotide databases">
-			<h2>Nucleotide databases</h2>
-<!--			  <input type="checkbox" class="span-1 clear" id="fff" name="asdfsadfxz" value="fff"/>
-			  <label for="fff" class="span-5 last">name placeholder 3</label>
-	-->		
+   <h2>Nucleotide databases</h2>
+<!--     <input type="checkbox" class="span-1 clear" id="fff" name="asdfsadfxz" value="fff"/>
+     <label for="fff" class="span-5 last">name placeholder 3</label>
+ -->  
 
-			<!--  Database list is actually dynamically loaded -->
-		          <% SequenceServer.get_db(:nucleotide).each_with_index do |db, i| %>
+   <!--  Database list is actually dynamically loaded -->
+            <% SequenceServer.get_db(:nucleotide).each_with_index do |db, i| %>
                   <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
                   <label for="ndb<%=i%>" class="dbdescription"><%= SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
                   <% end %>
           </fieldset>
-			<fieldset class="protein databases">
-			<h2>Protein databases</h2>	
-<!--			  <input type="checkbox" class="span-1 clear" id="pdbasdf" name="asdfsadfxz" value="asdf"/>
-    			  <label for="pdbasdf"   class="span-5 last">name placeholder</label>
-	    		  <input type="checkbox" class="span-1 clear" id="ffpdbasdf" name="asdfsadfxz" value="asdf"/>
-		     	  <label for="ffpdbasdf" class="span-5 last">name placeholder 2</label>
-	-->		   
-			<!--  Database list is actually dynamically loaded-->
+   <fieldset class="protein databases">
+   <h2>Protein databases</h2> 
+<!--     <input type="checkbox" class="span-1 clear" id="pdbasdf" name="asdfsadfxz" value="asdf"/>
+         <label for="pdbasdf"   class="span-5 last">name placeholder</label>
+         <input type="checkbox" class="span-1 clear" id="ffpdbasdf" name="asdfsadfxz" value="asdf"/>
+          <label for="ffpdbasdf" class="span-5 last">name placeholder 2</label>
+ -->     
+   <!--  Database list is actually dynamically loaded-->
                   <% SequenceServer.get_db(:protein).each_with_index do |db, i| %>
                   <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
                   <label for="pdb<%=i%>" class="dbdescription"><%= SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
                   <% end %>
           </fieldset>
-
-	      <div class="submit_button">
+</div>
+       <div class="submit_button">
             <input type="submit" value="Blast!"/>
           </div>
-	</div>
+</div>
           <fieldset class="advanced" >
             <h2>Advanced parameters (optional)</h2>
             <input type="text" name="advanced" id="advanced"/>
-			<span class='small'>Info for advanced params (hidden by default)</span><pre style='font-size: 8px;'>
+   <span class='small'>Info for advanced params (hidden by default)</span><pre style='font-size: 8px;'>
 <!-- <%=        require 'cgi'
-			CGI.escapeHTML %|
+   CGI.escapeHTML %|
 -evalue <Real>
    Expectation value (E) threshold for saving hits 
    Default = `10'
@@ -264,7 +275,7 @@ margin-top:0;
    Maximum number of aligned sequences to keep
 |
 %> -->
-			</pre>
+   </pre>
           </fieldset>
         </form>
       </div>
