@@ -2,24 +2,136 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>webBlast</title>
+    <title>SequenceServer</title>
     <meta name="author" content="Anurag Priyam" />
     <meta name="author" content="Yannick Wurm" />
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-    <link rel="stylesheet" media="screen, projector" type="text/css" href="/css/screen.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/css/master.css"/>
+<!--    <link rel="stylesheet" media="screen, projector" type="text/css" href="screen.css"/>
+        <link rel="stylesheet" media="screen" type="text/css" href="master.css"/>  -->
+  <style type="text/css">
+    body {
+      background: #3f4555;
+      font-family: georgia, serif;
+    }
+
+    .container {
+      width: 800px;  
+      margin: 50px auto;
+      background-color: #5b80bd;
+      border-radius:10px;
+    }
+
+    .extra_container {  /* to grouypthings that are on a single line */
+      width:100%;
+    }
+    .banner {
+      background:black;
+      font-size: 300%;
+      font-family: georgia, serif; color: white;
+      padding: 2%;
+
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .entryfield {
+      float:left; /* otherwise each div is under the next. */
+      margin: 0 0 0 2%;
+      clear:both;
+      width:76%;
+    }
+
+    .entryfield textarea {
+      width:100%;
+    }
+
+    .blastmethods {
+      float:left;
+      width:15%;
+      background: #3f4555;
+      border: none;
+      margin: 0 2% 2% 0;
+      border-top-right-radius:10px;
+      border-top-left-radius:  0px;
+      border-bottom-right-radius:10px;
+      border-bottom-left-radius:  0px;
+      font-size: 1.5em; font-family: georgia, serif; color: white;
+    }
+    .databases {
+      width: 30%;
+      background: #3f4555;
+      border:none;
+      margin: 2%;
+      border-radius:10px;
+      font-family: georgia, serif;
+      color: white;
+margin-top:0;
+    }
+    .nucleotide {
+      clear:left;
+      float:left;
+    }
+    .protein {
+      position:relative;
+     }
+
+    .dbcheckbox {
+       float:left;
+       clear:both;
+     }
+
+    .dbdescription {
+      float:left;
+     }
+
+    .submit_button {
+
+     margin: 0;
+	  text-align: right;
+      padding: 2%;
+    }
+    .submit_button input {
+	  background: #3f4555;
+      border: 2px solid white;
+      border-radius: 10px;
+      color: white;
+      padding: 1%;
+      cursor: pointer;
+      font-size: 1.5em;
+      font-family: georgia, serif;
+    }
+   .submit_button input:active {
+      color: #1f2126;
+      border: 2px solid black;
+   }
+
+.advanced {
+      background:#4a5d7f;
+      border:none;
+      color: white;
+      clear:both;
+      margin: 0 2% 0 2%;
+      border-radius:10px;
+    }
+
+    h2 {
+      font-family: georgia, serif;
+      font-size: 20px;
+    }
+       </style>
   </head>
 
-  <body>
+  <body> 
     <div class="container">
-      <div class="body span-24">
-		<span class="banner">BLAST Sequence(s)</span>	   
+		<div class="banner" >BLAST Sequence(s)</div>	   
+    <div class='extra_container'>
 		<form method="post" action="/">
-          <div class="span-14 first">
-			<textarea name="sequence" id="sequence" rows="10" cols="" class="span-14"></textarea>
-			<span class='quiet span-12'>Once we know if the sequence is prot or nuc, it could be stated here.</span>
+          <div class="entryfield">
+			<textarea name="sequence" id="sequence" rows="10" cols="" placeholder="Paste your sequence(s) here..." ></textarea>
 		  </div>
-	      <fieldset class="span-3 last" style="font-size: 1.5em">
+	      <fieldset class="blastmethods" >
  		    <div class="span-3">
        		  <input type="radio" name="method" value="blastp" id="blastp" class="span-1" title="Protein query; protein database."/>
         	  <label for="blastp" class="span-1" title="Protein query; protein database.">blastp</label>
@@ -41,24 +153,41 @@
               <label for="tblastx" class="span-1" title="Six-frame translated nucleotide query; six-frame translated nucleotide database">tblastx</label>
 			</div>
           </fieldset>
+       </div>
+	   <div class='extra_container'>
+          <fieldset class="nucleotide databases">
+			<h2>Nucleotide databases</h2>
+<!--			  <input type="checkbox" class="span-1 clear" id="fff" name="asdfsadfxz" value="fff"/>
+			  <label for="fff" class="span-5 last">name placeholder 3</label>
+	-->		
 
-          <fieldset class="span-6 clear">
-			<legend>Protein databases</legend>	
-                          <% SequenceServer.get_db(:protein).each_with_index do |db, i| %>
- <input type="checkbox" class="span-1 clear" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
-                            <label for="pdb<%=i%>" class="span-5 last"><%= SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
-                          <% end %>
+			<!--  Database list is actually dynamically loaded -->
+		          <% SequenceServer.get_db(:nucleotide).each_with_index do |db, i| %>
+                  <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
+                  <label for="ndb<%=i%>" class="dbdescription"><%= SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
+                  <% end %>
           </fieldset>
-          <fieldset class="span-6">
-			<legend>Nucleotide databases</legend>	
-                          <% SequenceServer.get_db(:nucleotide).each_with_index do |db, i| %>
- <input type="checkbox" class="span-1 clear" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
-                            <label for="ndb<%=i%>" class="span-5 last"><%=SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
-                          <% end %>
+			<fieldset class="protein databases">
+			<h2>Protein databases</h2>	
+<!--			  <input type="checkbox" class="span-1 clear" id="pdbasdf" name="asdfsadfxz" value="asdf"/>
+    			  <label for="pdbasdf"   class="span-5 last">name placeholder</label>
+	    		  <input type="checkbox" class="span-1 clear" id="ffpdbasdf" name="asdfsadfxz" value="asdf"/>
+		     	  <label for="ffpdbasdf" class="span-5 last">name placeholder 2</label>
+	-->		   
+			<!--  Database list is actually dynamically loaded-->
+                  <% SequenceServer.get_db(:protein).each_with_index do |db, i| %>
+                  <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
+                  <label for="pdb<%=i%>" class="dbdescription"><%= SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
+                  <% end %>
           </fieldset>
-          <fieldset class="span-24">
-            <legend>Advanced parameters (optional)</legend>
-            <input type="text" name="advanced" id="advanced" class="span-24"/>
+
+	      <div class="submit_button">
+            <input type="submit" value="Blast!"/>
+          </div>
+	</div>
+          <fieldset class="advanced" >
+            <h2>Advanced parameters (optional)</h2>
+            <input type="text" name="advanced" id="advanced"/>
 			<span class='small'>Info for advanced params (hidden by default)</span><pre style='font-size: 8px;'>
 <!-- <%=        require 'cgi'
 			CGI.escapeHTML %|
@@ -137,11 +266,7 @@
 %> -->
 			</pre>
           </fieldset>
-          <div class="span-24 buttons">
-            <input type="submit" value="BLAST!"/>
-          </div>
         </form>
       </div>
-	</div>
   </body>
 </html>
