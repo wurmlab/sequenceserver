@@ -1,2 +1,2 @@
 bin:  /Users/yannickwurm/soft/ncbi-blast-2.2.24+/bin/
-db:  ~/databases/
+#db:  ~/databases/  #if undefined, uses the './db' directory from where SequenceServer is installed  
