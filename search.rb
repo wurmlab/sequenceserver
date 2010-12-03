@@ -7,6 +7,7 @@ require 'bio'
 require 'logger'
 require 'pp'
 require 'stringio'
+require './lib/blast.rb'
 
 # Helper module - initialize the blast server.
 class SequenceServer < Sinatra::Base
@@ -131,11 +132,17 @@ class SequenceServer < Sinatra::Base
   end
 
   post '/' do
-    report = execute_query do |seqfile| 
-      construct_query( seqfile )
-    end
+    method = params[:method]
+    db = selected_db_files
+    sequence = clean_sequence(params[:sequence])
+    legal_blast_search?(sequence, method, selected_db_type)  # quiet if ok; raises if bad     
+    blast = Blast.blast_string(method, db, sequence)
 
-    report
+    # need to check for errors
+    #if blast.success?
+    LOG.info('Ran: ' + blast.command)
+    '<pre><code>' +format_blast_results(blast.result, selected_db_files)+ '</pre></code>'  # put in a div?
+    #end
   end
 
   #get '/get_sequence/:sequenceids/:retreival_databases' do # multiple seqs separated by whitespace... all other chars exist in identifiers
@@ -188,35 +195,6 @@ class SequenceServer < Sinatra::Base
     return params[:db][type].map {|key| SequenceServer.db_name(type, key.to_i)}.join(' ')
   end
 
-  def construct_query( seqfile )
-    method = params[ :method ]
-
-    legal_blast_search?(seqfile, method, selected_db_type)  # quiet if ok; raises if bad     
-
-    ##in the future, we will want to use ncbi's formatter (it gives more flexibility & can provide html). Eg: 
-    ## blastp -db ./db/protein/Sinvicta2-2-3.prot.subset.fasta -query a.fasta  -outfmt 11 > a.asn1
-    ## blast_formatter -archive ./a.asn1 -outfmt 2 -html # But now its too slow.
-    "#{method} -db '#{selected_db_files}' -query #{seqfile}"
-  end
-
-  def execute_query
-    seqfile = Tempfile.new("seqfile")
-    
-    seqfile.puts( clean_sequence(params[ :sequence ]))
-    seqfile.close
-
-    result = execute_command_line("#{yield seqfile.path}")
-    puts result
-    seqfile.delete
-
-    '<pre><code>' +format_blast_results(result, selected_db_files)+ '</pre></code>'  # put in a div?
-  end
-
-  def execute_command_line(command)
-    LOG.info('Will run: ' +command)
-    result = %x|#{command}|    # what about stderr or failures?    
-  end
-
   def clean_sequence(sequence)
     sequence.lstrip!  # removes leading whitespace
     if sequence[0] != '>'
@@ -238,7 +216,7 @@ class SequenceServer < Sinatra::Base
     return sequence_types.first # there is only one
   end
 
-  def legal_blast_search?(input_fasta, blast_method, blast_db_type)
+  def legal_blast_search?(sequence, blast_method, blast_db_type)
     # returns TRUE if everything is ok.
     # legal_blast_methods = ['blastp', 'tblastn', 'blastn', 'tblastx', 'blastx']
     legal_blast_methods = SequenceServer.blast.keys
@@ -247,7 +225,7 @@ class SequenceServer < Sinatra::Base
     raise ArgumentError, 'wrong method : '  + blast_method.to_s  if !legal_blast_methods.include?(blast_method)
  
     # check if input_fasta is compatible within blast_method
-    input_sequence_type = sequence_type(File.read(input_fasta))
+    input_sequence_type = sequence_type(sequence)
     LOG.debug('input seq type: ' + input_sequence_type.to_s)
     LOG.debug('blast db type:  ' + blast_db_type.to_s)
     LOG.debug('blast method:   ' + blast_method)
@@ -304,7 +282,7 @@ class SequenceServer < Sinatra::Base
 
     formatted_result    = ''
     all_retrievable_ids = []
-    result.each_line do |line|
+    result.each do |line|
       if line.match(/^>\S/)  #if there is a space right after the '>', makeblastdb was run without -parse_seqids
         puts line
         complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
