@@ -5,10 +5,6 @@ module SequenceHelpers
   # for debugging
   LOG = Logger.new(STDOUT) unless defined?(LOG) 
 
-  # Sequence types
-  PROTEIN     = 'protein_sequence'
-  NUCLEICACID = 'nucleic_acid_sequence' 
-
 
   # copied from bioruby's Bio::Sequence
   # returns a Hash. Eg: composition("asdfasdfffffasdf")
@@ -24,13 +20,13 @@ module SequenceHelpers
 
   # Strips all non-letter characters. guestimates sequence based on that.
   # If less than 10 useable characters... returns nil
-  # If more than 90% ACGTU returns NUCLEICACID. else returns PROTEIN
+  # If more than 90% ACGTU returns :nucleicacid. else returns :protein
   def guess_sequence_type(sequence_string)
     cleaned_sequence = sequence_string.gsub(/[^A-Z]/i, '')  # removing non-letter characters
     cleaned_sequence.gsub!(/[NX]/i, '')                     # removing ambiguous  characters
 
     if cleaned_sequence.length < 10  then # conservative 
-      LOG.debug('Could not determine type for sequence: '+ seq + error)
+      LOG.debug('Could not determine type for sequence: '+ cleaned_sequence)
       return nil 
     end
      
@@ -38,12 +34,12 @@ module SequenceHelpers
     composition_NAs    = composition.select { |character, count|character.match(/[ACGTU]/i) } # only putative NAs
     putative_NA_counts = composition_NAs.collect { |key_value_array| key_value_array[1] }     # only count, not char
     putative_NA_sum    = putative_NA_counts.inject { |sum, n| sum + n }                       # count of all putative NA
-    putative_NA_sum = 0 if putative_NA_sum.nil?
+    putative_NA_sum    = 0 if putative_NA_sum.nil?
 
     if putative_NA_sum > (0.9 * cleaned_sequence.length)
-      return NUCLEICACID
+      return :nucleicacid
     else
-      return PROTEIN
+      return :protein
     end
   end
 
@@ -51,7 +47,7 @@ module SequenceHelpers
   # splits input at putative fasta definition lines (like ">adsfadsf"), guesses sequence type for each sequence. 
   # if not enough sequence to determine, returns nil.
   # if 2 kinds of sequence mixed together, raises ArgumentError
-  # otherwise, returns NUCLEICACID or PROTEIN
+  # otherwise, returns :nucleicacid or :protein
   def type_of_sequences(fasta_format_string)
     # the first sequence does not need to have a fasta definition line
     sequences = fasta_format_string.split(/^>.*$/).delete_if { |seq| seq.empty? }
