@@ -2,8 +2,6 @@ require 'logger'
 
 # Module to collect some sequence-related helper functions
 module SequenceHelpers
-  # for debugging
-  LOG = Logger.new(STDOUT) unless defined?(LOG) 
 
   # copied from bioruby's Bio::Sequence
   # returns a Hash. Eg: composition("asdfasdfffffasdf")
@@ -23,10 +21,7 @@ module SequenceHelpers
     cleaned_sequence = sequence_string.gsub(/[^A-Z]/i, '')  # removing non-letter characters
     cleaned_sequence.gsub!(/[NX]/i, '')                     # removing ambiguous  characters
 
-    if cleaned_sequence.length < 10  then # conservative 
-      LOG.debug('Could not determine type for sequence: '+ cleaned_sequence)
-      return nil 
-    end
+    return nil if cleaned_sequence.length < 10 # conservative 
      
     composition = composition(cleaned_sequence)       
     composition_NAs    = composition.select { |character, count|character.match(/[ACGTU]/i) } # only putative NAs
@@ -53,10 +48,7 @@ module SequenceHelpers
     sequence_types = sequences.collect { |seq|  guess_sequence_type(seq) }.uniq 
     sequence_types.delete_if { |type| type.nil? }  # we can get nil if seq too short
     
-    if sequence_types.empty?
-      LOG.debug("Insufficient info to determine sequence type. Cleaned queries are: #{ sequences.to_s }")
-      return nil
-    end
+    return nil if sequence_types.empty?
 
     if sequence_types.length == 1
       return sequence_types.first # there is only one (but yes its an array)
