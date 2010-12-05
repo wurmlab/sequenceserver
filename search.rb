@@ -8,12 +8,10 @@ require 'pp'
 require 'stringio'
 require './lib/blast.rb'
 require 'lib/sequencehelpers.rb'
-require 'lib/blasthelpers.rb'
 
 # Helper module - initialize the blast server.
 class SequenceServer < Sinatra::Base
   include SequenceHelpers
-  include BlastHelpers
 
   LOG = Logger.new(STDOUT)
   LOG.datetime_format = "%Y-%m-%d %H:%M:%S"  # to be more compact (and a little more like sinatra's)

@@ -70,4 +70,14 @@ module SequenceHelpers
     end
   end
 
+  def database_type_for_blast_method(blast_method)
+    case blast_method
+    when 'blastp'  then return :protein
+    when 'blastx'  then return :protein
+    when 'blastn'  then return :nucleotide
+    when 'tblastx' then return :nucleotide
+    when 'tblastn' then return :nucleotide
+    else raise ArgumentError, "Don't know how to '#{blast_method}'"
+    end
+  end
 end
