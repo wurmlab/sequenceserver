@@ -5,9 +5,6 @@ module SequenceHelpers
   # for debugging
   LOG = Logger.new(STDOUT) unless defined?(LOG) 
 
-
-
-
   # copied from bioruby's Bio::Sequence
   # returns a Hash. Eg: composition("asdfasdfffffasdf")
   #                      => {"a"=>3, "d"=>3, "f"=>7, "s"=>3} 
@@ -18,7 +15,6 @@ module SequenceHelpers
     end
     return count
   end
-
 
   # Strips all non-letter characters. guestimates sequence based on that.
   # If less than 10 useable characters... returns nil
@@ -44,7 +40,6 @@ module SequenceHelpers
       return :protein
     end
   end
-
 
   # splits input at putative fasta definition lines (like ">adsfadsf"), guesses sequence type for each sequence. 
   # if not enough sequence to determine, returns nil.
