@@ -129,7 +129,7 @@ class Blast
   # the command to be executed.
   def to_s
     s = "#@method "
-    s << "-db #@db " if @db
+    s << "-db '#@db' " if @db
     s << "-query #@qfile " if @qfile
     s << @options.to_s if @options
     s
