@@ -7,7 +7,7 @@ module SequenceHelpers
   # returns a Hash. Eg: composition("asdfasdfffffasdf")
   #                      => {"a"=>3, "d"=>3, "f"=>7, "s"=>3} 
   def composition(sequence_string)
-    count = Hash.new(0) # otherwise it fails
+    count = Hash.new(0)
     sequence_string.scan(/./) do |x|
       count[x] += 1
     end
@@ -45,8 +45,7 @@ module SequenceHelpers
     sequences = fasta_format_string.split(/^>.*$/).delete_if { |seq| seq.empty? }
     
     # get all sequence types
-    sequence_types = sequences.collect { |seq|  guess_sequence_type(seq) }.uniq 
-    sequence_types.delete_if { |type| type.nil? }  # we can get nil if seq too short
+    sequence_types = sequences.collect { |seq|  guess_sequence_type(seq) }.uniq.compact
     
     return nil if sequence_types.empty?
 
