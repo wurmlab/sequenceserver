@@ -3,7 +3,6 @@ require 'rubygems'
 require 'sinatra/base'
 require 'tempfile'
 require 'yaml'
-require 'bio'
 require 'logger'
 require 'pp'
 require 'stringio'
@@ -11,6 +10,8 @@ require './lib/blast.rb'
 
 # Helper module - initialize the blast server.
 class SequenceServer < Sinatra::Base
+  include SequenceHelpers
+
   LOG = Logger.new(STDOUT)
   LOG.datetime_format = "%Y-%m-%d %H:%M:%S"  # to be more compact (and a little more like sinatra's)
 
@@ -126,59 +127,6 @@ class SequenceServer < Sinatra::Base
       system("which #{command} > /dev/null 2>&1")
     end
   
-    def type_of_sequences(fasta_format_string)
-      # returns Bio::Sequence::AA or Bio::Sequence::NA or raises an error if both!
-      # the first sequence does not need to be fasta. 
-      sequences = fasta_format_string.split(/^>.*$/).delete_if { |seq| seq.empty? }
-  
-      sequence_types = sequences.collect { |seq| 
-          begin  # there seems to be no implicit begin/end here?
-            guess_sequence_type(seq)
-          rescue => error
-            LOG.debug('Could not determine type for sequence: '+ seq + error)
-            nil
-          end
-        }.uniq # get all sequence types
-  
-      sequence_types.delete_if { |type| type.nil?}  # we get nil if theres an error
-  
-      case sequence_types.length
-      when 0
-        raise ArgumentError, 'Insufficient info to determine sequence type. Queries include:' + sequence_types.to_s
-      when 1
-        return sequence_types.first # there is only one (but yes its an array)
-      else 
-        raise ArgumentError, 'Cannot mix Aminoacids and Nucleotides. Queries include:' + sequence_types.to_s
-      end
-    end
-  
-  
-    def guess_sequence_type(sequence)
-      # strips all non-characters. guestimates sequence based on that.
-      # returns Bio::Sequence::AA or Bio::Sequence::NA. If sequence is too short 
-  
-      cleaned_sequence = sequence.gsub(/[^A-Z]/i, '')  # removing weird characters
-      cleaned_sequence.gsub!(/[NX]/i, '')              # removing ambiguous
-  
-      raise ArgumentError, 'Not enough sequence to work with' if cleaned_sequence.length < 10  # conservative
-  
-      cleaned_sequence.extend Bio::Sequence::Common    # so we can use composition
-      composition = cleaned_sequence.composition       # is a hash of eg: "C"-> 5, "L"->10
-  
-      composition_NAs    = composition.select { |character, count|character.match(/[ACGTU]/i) } # only putative NAs
-      putative_NA_counts = composition_NAs.collect { |key_value_array| key_value_array[1] }     # only count, not char
-      putative_NA_sum    = putative_NA_counts.inject { |sum, n| sum + n }                       # count of all putative NA
-  
-      case 
-        when putative_NA_sum.nil?
-          return Bio::Sequence::AA
-        when putative_NA_sum > (0.9 * cleaned_sequence.length)
-          return Bio::Sequence::NA
-        else
-          return Bio::Sequence::AA
-      end
-    end
-  end
 
   get '/' do
     erb :search
@@ -269,7 +217,7 @@ class SequenceServer < Sinatra::Base
     raise ArgumentError, 'wrong method : '  + blast_method.to_s  if !legal_blast_methods.include?(blast_method)
  
     # check if input_fasta is compatible within blast_method
-    input_sequence_type = SequenceServer.type_of_sequences(sequence)
+    input_sequence_type = type_of_sequences(sequence)
     LOG.debug('input seq type: ' + input_sequence_type.to_s)
     LOG.debug('blast db type:  ' + blast_db_type.to_s)
     LOG.debug('blast method:   ' + blast_method)
@@ -287,9 +235,9 @@ class SequenceServer < Sinatra::Base
   end
 
   def blast_methods_for_query_type(seq_type)
-    case seq_type.to_s # strangely using the class always put me into the else block...
-    when Bio::Sequence::AA.to_s then return ['blastp', 'tblastn']
-    when Bio::Sequence::NA.to_s then return ['blastn','tblastx','blastx']
+    case seq_type 
+    when :protein    then return ['blastp', 'tblastn']
+    when :nucleotide then return ['blastn', 'tblastx', 'blastx']
     else raise ArgumentError, 'WTF? Whats this sequence type???' + seq_type.to_s
     end
   end
