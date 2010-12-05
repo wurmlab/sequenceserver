@@ -6,6 +6,8 @@ module SequenceHelpers
   LOG = Logger.new(STDOUT) unless defined?(LOG) 
 
 
+
+
   # copied from bioruby's Bio::Sequence
   # returns a Hash. Eg: composition("asdfasdfffffasdf")
   #                      => {"a"=>3, "d"=>3, "f"=>7, "s"=>3} 
