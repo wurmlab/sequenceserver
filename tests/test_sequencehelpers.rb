@@ -14,7 +14,7 @@ class Tester < Test::Unit::TestCase
      '           CAGATGCRRCAAAGCAAACGGCAA 34523453 652352',
      'ACCNNNNNNXXXXCAUUUUUU',
      "ACGT\n\t\t\nACCACGGACCACGAAAGCG"               ].each do |seq|
-      assert_equal(:nucleicacid, guess_sequence_type(seq), message="for #{seq}")
+      assert_equal(:nucleotide, guess_sequence_type(seq), message="for #{seq}")
     end
   end
 
@@ -43,7 +43,7 @@ class Tester < Test::Unit::TestCase
     assert_equal(:protein, type_of_sequences(aa_multifasta), 'aa_multifasta')
     assert_equal(:protein, type_of_sequences(aa_multifasta_including_short_seq_missing_lead ), 'aa_multifasta_short_seq_and_no_>')
     assert_equal(:protein, type_of_sequences(aa_singlesequence), 'single AA sequence')
-    assert_equal(:nucleicacid, type_of_sequences(nt_multifasta), 'nt_multifasta')
+    assert_equal(:nucleotide, type_of_sequences(nt_multifasta), 'nt_multifasta')
     assert_raise(ArgumentError, 'mixed aa and nt should raise') { type_of_sequences(aa_nt_mix) }
   end
 

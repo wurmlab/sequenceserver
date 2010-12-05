@@ -20,7 +20,7 @@ module SequenceHelpers
 
   # Strips all non-letter characters. guestimates sequence based on that.
   # If less than 10 useable characters... returns nil
-  # If more than 90% ACGTU returns :nucleicacid. else returns :protein
+  # If more than 90% ACGTU returns :nucleotide. else returns :protein
   def guess_sequence_type(sequence_string)
     cleaned_sequence = sequence_string.gsub(/[^A-Z]/i, '')  # removing non-letter characters
     cleaned_sequence.gsub!(/[NX]/i, '')                     # removing ambiguous  characters
@@ -37,7 +37,7 @@ module SequenceHelpers
     putative_NA_sum    = 0 if putative_NA_sum.nil?
 
     if putative_NA_sum > (0.9 * cleaned_sequence.length)
-      return :nucleicacid
+      return :nucleotide
     else
       return :protein
     end
@@ -47,7 +47,7 @@ module SequenceHelpers
   # splits input at putative fasta definition lines (like ">adsfadsf"), guesses sequence type for each sequence. 
   # if not enough sequence to determine, returns nil.
   # if 2 kinds of sequence mixed together, raises ArgumentError
-  # otherwise, returns :nucleicacid or :protein
+  # otherwise, returns :nucleotide or :protein
   def type_of_sequences(fasta_format_string)
     # the first sequence does not need to have a fasta definition line
     sequences = fasta_format_string.split(/^>.*$/).delete_if { |seq| seq.empty? }
