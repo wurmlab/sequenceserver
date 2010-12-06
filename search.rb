@@ -143,7 +143,7 @@ class SequenceServer < Sinatra::Base
     # need to check for errors
     #if blast.success?
     LOG.info('Ran: ' + blast.command)
-    '<pre><code>' +format_blast_results(blast.result, selected_db_files)+ '</pre></code>'  # put in a div?
+    '<pre><code>' + format_blast_results(blast.result, selected_db_files) + '</pre></code>'  # put in a div?
     #end
   end
 
@@ -257,7 +257,7 @@ class SequenceServer < Sinatra::Base
     link_to_fasta_of_all = "/get_sequence/:#{all_retrievable_ids.join(' ')}/:#{string_of_used_databases}" #dbs must be sep by ' '
     retrieval_text       = all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of #{all_retrievable_ids.length} retrievable hit(s)</a></p>"
 
-    retrieval_text + '<pre><code>' +formatted_result + '</pre></code>'  # should this be somehow put in a div?
+    retrieval_text + '<pre><code>' + formatted_result + '</pre></code>'  # should this be somehow put in a div?
   end
 
 end
