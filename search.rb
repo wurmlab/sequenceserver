@@ -13,6 +13,8 @@ require 'lib/sequencehelpers.rb'
 class SequenceServer < Sinatra::Base
   include SequenceHelpers
 
+  Database = Struct.new("DB", :name, :title)
+
   LOG = Logger.new(STDOUT)
   LOG.datetime_format = "%Y-%m-%d %H:%M:%S"  # to be more compact (and a little more like sinatra's)
 
@@ -23,39 +25,16 @@ class SequenceServer < Sinatra::Base
   set :blasturl, 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
 
   class << self
-
-    def db
-      @db ||= Hash.new {|hash, key| hash[key] = []}
-    end
-    private :db
-
-    def add_db(type, name, title = nil)
-      db[type] << [name, title]
-    end
-
-    def get_db(type, key = nil)
-      return db unless type
-      return db[type] unless key
-      key.is_a?(Integer) ?  db[type][key] : db[type].assoc(key) #or, nil
-    end
-
-    def db_name(type, key = nil)
-      return type.first unless key
-      get_db(type, key).first
-    end
-
-    def db_title(type, key = nil)
-      return type.last unless key
-      db(type, key).last
-    end
-
     # Initializes the blast server : executables, database.
     def run!(options={})
       bin = scan_blast_executables(options[:bin])
       bin = bin.freeze
       SequenceServer.set :bin, bin
 
-      init_db
+      db = scan_blast_db(options[:bin] || 'db')
+      db = db.freeze
+      SequenceServer.set :db, db
+
       super
     rescue IOError => error
       LOG.fatal error
@@ -90,31 +69,36 @@ class SequenceServer < Sinatra::Base
       bin
     end
 
-    # Initialize the blast database.
-    def init_db
-      case db_root = File.expand_path(config[ "db" ]) # doesnt work with config[ :db]...
-      when nil # assume db in ./db
-        db_root = File.join( settings.root, "db" )
-        raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
-      when String # assume absolute db path
-        raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
-      end
-      LOG.info("Database directory: #{db_root} (actually: #{File.expand_path(db_root)})")
+    # Scan the given directory for blast databases.
+    # ---
+    # Arguments:
+    # * db_root(String) - path (relative/absolute) to the databases
+    # ---
+    # Returns:
+    # * a hash of blast databases
+    # ---
+    # Raises:
+    # * IOError - if no database can be found
+    def scan_blast_db(db_root)
+      db_root = File.expand_path(db_root)
+      raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
 
-      # initialize @db
-      %x|blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"|.each_line do |line|
+      db_list = %x|blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"|
+      raise IOError, "No formatted blast databases found! You may need to run 'makeblastdb' "\
+        "on a fasta file in '#{ db_root }' ." if db_list.empty?
+
+      db = {}
+
+      db_list.each_line do |line|
         type, name, *title =  line.split(' ') 
-        type = type.downcase.to_sym
+        type = type.downcase
         name = name.freeze
         title = title.join(' ').freeze
+        (db[type] ||= []) << Database.new(name, title)
         LOG.info("Found #{ type } database: '#{ title }' at #{ name }")
-        add_db(type, name, title)
       end
 
-      raise IOError, "No formatted blast databases found! You may need to run 'makeblastdb' "\
-        "on a fasta file in '#{ db_root }' ." if get_db(nil).empty?
-      LOG.warn("No protein databases found")               if get_db(:protein).empty?
-      LOG.warn("No nucleotide databases found")            if get_db(:nucleotide).empty?
+      db 
     end
 
     # Load config.yml; return a Hash. The Hash is empty if config.yml does not exist.
@@ -181,24 +165,16 @@ class SequenceServer < Sinatra::Base
     '<pre><code>' + found_sequences + '</pre></code>'
   end
 
-  # if protein databases, say 'protein foo', and 'protein moo' were selected,
-  # return - ['protein', ['protein foo', 'protein moo']]
-  def selected_db
-    # params['db'] should contain only one entry
-    params['db'].first
-  end
-
-  # returns, type of selected databases, as a symbol
-  # in the above example - :protein
+  # returns the type of selected databases - 'protein', or 'nucleotide'
   def selected_db_type
-    params['db'].first.first.to_sym
+    params['db'].first.first
   end
 
-  # return a string of fasta files corresponding to the dbs selected
+  # returns a String of fasta files corresponding to the databases selected
   # eg. - 'Protein_foo.fasta Protein_moo.fasta'
   def selected_db_files
     type = selected_db_type
-    return params[:db][type].map {|key| SequenceServer.db_name(type, key.to_i)}.join(' ')
+    params['db'][type].map{|index| settings.db[type][index.to_i].name}.join(' ')
   end
 
   def to_fasta(sequence)
@@ -229,9 +205,9 @@ class SequenceServer < Sinatra::Base
     #end
 
     # check if blast_database_type is compatible with blast_method
-    if !(db_type_for(blast_method) == blast_db_type)
+    if !(db_type_for(blast_method).to_s == blast_db_type)
       raise ArgumentError, "Cannot #{blast_method} against a #{blast_db_type} database " + 
-        "need " + db_type_for(blast_method) 
+        "need " + db_type_for(blast_method).to_s
     end      
     return TRUE
   end

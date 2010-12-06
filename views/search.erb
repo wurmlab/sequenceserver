@@ -173,9 +173,9 @@
  -->  
 
    <!--  Database list is actually dynamically loaded -->
-            <% SequenceServer.get_db(:nucleotide).each_with_index do |db, i| %>
+            <% settings.db['nucleotide'].each_with_index do |db, i| %>
                   <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
-                  <label for="ndb<%=i%>" class="dbdescription"><%= SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
+                  <label for="ndb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
                   <% end %>
           </fieldset>
    <fieldset class="protein databases">
@@ -186,9 +186,9 @@
           <label for="ffpdbasdf" class="span-5 last">name placeholder 2</label>
  -->     
    <!--  Database list is actually dynamically loaded-->
-                  <% SequenceServer.get_db(:protein).each_with_index do |db, i| %>
+                  <% settings.db['protein'].each_with_index do |db, i| %>
                   <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
-                  <label for="pdb<%=i%>" class="dbdescription"><%= SequenceServer.db_title(db) or SequenceServer.db_name(db)%></label>
+                  <label for="pdb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
                   <% end %>
           </fieldset>
 </div>
