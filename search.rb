@@ -23,8 +23,6 @@ class SequenceServer < Sinatra::Base
   set :blasturl, 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
 
   class << self
-    # Path to the blast executables and database stored as a Hash.
-    attr_accessor :blast
 
     def db
       @db ||= Hash.new {|hash, key| hash[key] = []}
@@ -53,37 +51,43 @@ class SequenceServer < Sinatra::Base
 
     # Initializes the blast server : executables, database.
     def run!(options={})
-      init_cmd
+      bin = scan_blast_executables(options[:bin])
+      bin = bin.freeze
+      SequenceServer.set :bin, bin
+
       init_db
       super
-    rescue  => error
-      LOG.fatal("Sorry, cannot run #{ __FILE__ }: #{ error }")
+    rescue IOError => error
+      LOG.fatal error
       exit
     end
 
-    # Initializes blast executables. Assumes the path of blast executables to be
-    # specified in config.yml or present in the system PATH. After this method is
-    # called the executables for each blast method can be accessed by indexing the
-    # hash returned by BlastServer.blast.
-    #   >> BlastServer.blast[ :blastn ] => '/home/yeban/opt/ncbi-blast/bin/blastn'
-    def init_cmd
-      @blast ||= {}
-      # check in config.yml for a path to the blast executables
-      case bin = File.expand_path(config[ "bin"])   # doesnt work with config[ :bin]...
-      when String
-        raise IOError, "The directory '#{ bin }' defined in config.yml doesn't exist." unless File.directory?( bin )
+    # Checks for the presence of blast executables. Assumes the executables
+    # to be present in the bin directory passed to it, or in the sytem path.
+    # ---
+    # Arguments:
+    # * bin(String) - path (relative/absolute) to the binaries
+    # ---
+    # Returns:
+    # * absolute path to the blast executables directory, or empty
+    # string (implies executables in the system path)
+    # ---
+    # Raises:
+    # * IOError - if the executables can't be found
+    def scan_blast_executables(bin)
+      bin = File.expand_path(bin) rescue ''
+      if bin.empty?
+        # search system path
+        %w|blastn blastp blastx tblastn tblastx blastdbcmd|.each do |method|
+          raise IOError, "You may need to install BLAST+ from: #{settings.blasturl}.
+          And/or create a config.yml file that points to blast's 'bin' directory." unless command?( method )
+        end
+      else
+        # assume executables in bin
+        raise IOError, "The directory '#{bin}' defined in config.yml doesn't exist." unless File.directory?( bin )
       end
 
-      # initialize @blast
-      %w|blastn blastp blastx tblastn tblastx blastdbcmd|.each do |method|
-        command = bin ? File.join( bin, method ) : method
-        raise IOError, "Sorry, cannot execute the command:  '#{ command }'.  \n" +
-          "You may need to install BLAST+ from: #{ settings.blasturl } . \n" +
-        "And/or create a config.yml file that points to blast's 'bin' directory." unless command?( command )
-
-        LOG.info("Found: #{ command }")
-        @blast[ method ] = command
-      end
+      bin
     end
 
     # Initialize the blast database.
@@ -134,7 +138,7 @@ class SequenceServer < Sinatra::Base
   end
 
   post '/' do
-    method = params[:method]
+    method = settings.bin + params[:method]
     db = selected_db_files
     sequence = to_fasta(params[:sequence])
     legal_blast_search?(sequence, method, selected_db_type)  # quiet if ok; raises if bad     
@@ -209,7 +213,7 @@ class SequenceServer < Sinatra::Base
 
   def legal_blast_search?(sequence, blast_method, blast_db_type)     # if ajax stuff is done correctly:checking that user didnt mix seuqences, and constrainind blast_methods_for_query_type and sequence_from_blastdb, then method is not required.
     # returns TRUE if everything is ok.
-    legal_blast_methods = SequenceServer.blast.keys
+    legal_blast_methods = %w|blastn blastp blastx tblastn tblastx|
     #raise IOError, 'input_fasta missing:'   + input_fasta.to_s   if !File.exists?(input_fasta)     #unnecessary?
     raise IOError, 'undefined blast method...'                   if blast_method.nil?
     raise ArgumentError, 'wrong method : '  + blast_method.to_s  if !legal_blast_methods.include?(blast_method)
