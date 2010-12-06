@@ -25,17 +25,23 @@ class SequenceServer < Sinatra::Base
   set :blasturl, 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
 
   class << self
-    # Initializes the blast server : executables, database.
     def run!(options={})
-      bin = scan_blast_executables(options[:bin])
+      init(options)
+      super
+    end
+
+    # Initializes the blast server : executables, database. Exit if blast
+    # executables, and databses can not be found.
+    def init(config = {})
+      # scan system path as fallback
+      bin = scan_blast_executables(config[:bin] || nil)
       bin = bin.freeze
       SequenceServer.set :bin, bin
 
-      db = scan_blast_db(options[:bin] || 'db')
+      # use 'db' relative to the current working directory as fallback
+      db = scan_blast_db(config[:bin] || 'db')
       db = db.freeze
       SequenceServer.set :db, db
-
-      super
     rescue IOError => error
       LOG.fatal error
       exit
