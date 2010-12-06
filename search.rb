@@ -60,7 +60,7 @@ class SequenceServer < Sinatra::Base
       LOG.fatal("Sorry, cannot run #{ __FILE__ }: #{ error }")
       exit
     end
-  
+
     # Initializes blast executables. Assumes the path of blast executables to be
     # specified in config.yml or present in the system PATH. After this method is
     # called the executables for each blast method can be accessed by indexing the
@@ -79,11 +79,11 @@ class SequenceServer < Sinatra::Base
         command = bin ? File.join( bin, method ) : method
         raise IOError, "Sorry, cannot execute the command:  '#{ command }'.  \n" +
           "You may need to install BLAST+ from: #{ settings.blasturl } . \n" +
-          "And/or create a config.yml file that points to blast's 'bin' directory." \
-        unless command?( command )
-          LOG.info("Found: #{ command }")
-          @blast[ method ] = command
-        end
+        "And/or create a config.yml file that points to blast's 'bin' directory." \
+          unless command?( command )
+            LOG.info("Found: #{ command }")
+            @blast[ method ] = command
+          end
       end
 
       # Initialize the blast database.
@@ -108,7 +108,7 @@ class SequenceServer < Sinatra::Base
         end
 
         raise IOError, "No formatted blast databases found! You may need to run 'makeblastdb' "\
-        "on a fasta file in '#{ db_root }' ." if get_db(nil).empty?
+          "on a fasta file in '#{ db_root }' ." if get_db(nil).empty?
         LOG.warn("No protein databases found")               if get_db(:protein).empty?
         LOG.warn("No nucleotide databases found")            if get_db(:nucleotide).empty?
       end
@@ -215,7 +215,7 @@ class SequenceServer < Sinatra::Base
       #raise IOError, 'input_fasta missing:'   + input_fasta.to_s   if !File.exists?(input_fasta)     #unnecessary?
       raise IOError, 'undefined blast method...'                   if blast_method.nil?
       raise ArgumentError, 'wrong method : '  + blast_method.to_s  if !legal_blast_methods.include?(blast_method)
-      
+
       # check if input_fasta is compatible within blast_method
       input_sequence_type = type_of_sequences(sequence)
       LOG.debug('input seq type: ' + input_sequence_type.to_s)
@@ -225,11 +225,11 @@ class SequenceServer < Sinatra::Base
       #if !blast_methods_for_query_type(input_sequence_type).include?(blast_method)
       #raise ArgumentError, "Cannot #{blast_method} a #{input_sequence_type} query"
       #end
-      
+
       # check if blast_database_type is compatible with blast_method
-      if !(database_type_for_blast_method(blast_method) == blast_db_type)
+      if !(db_type_for(blast_method) == blast_db_type)
         raise ArgumentError, "Cannot #{blast_method} against a #{blast_db_type} database " + 
-          "need " + database_type_for_blast_method(blast_method) 
+          "need " + db_type_for(blast_method) 
       end      
       return TRUE
     end
@@ -249,7 +249,7 @@ class SequenceServer < Sinatra::Base
           all_retrievable_ids.push(id)
           LOG.debug('Added link for: '+ id)
           link_to_fasta = "/get_sequence/:#{id}/:#{string_of_used_databases}" # several dbs... separate by ' '
-          
+
           replacement_text_with_link  = "<a href='#{link_to_fasta}' title='Full #{id} FASTA sequence'>#{id}</a>"
           formatted_result += line.gsub(id, replacement_text_with_link)
         else
