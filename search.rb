@@ -13,7 +13,11 @@ require 'lib/sequencehelpers.rb'
 class SequenceServer < Sinatra::Base
   include SequenceHelpers
 
-  Database = Struct.new("DB", :name, :title)
+  class Database < Struct.new("Database", :name, :title)
+    def to_s
+      "#{title} #{name}"
+    end
+  end
 
   LOG = Logger.new(STDOUT)
   LOG.datetime_format = "%Y-%m-%d %H:%M:%S"  # to be more compact (and a little more like sinatra's)
