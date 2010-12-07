@@ -35,7 +35,8 @@ class SequenceServer < Sinatra::Base
     end
 
     # Initializes the blast server : executables, database. Exit if blast
-    # executables, and databses can not be found.
+    # executables, and databses can not be found. Logs the result if logging
+    # has been enabled.
     def init(config = {})
       # scan system path as fallback
       bin = scan_blast_executables(config["bin"] || nil)
@@ -46,8 +47,15 @@ class SequenceServer < Sinatra::Base
       db = scan_blast_db(config["db"] || 'db')
       db = db.freeze
       SequenceServer.set :db, db
+
+      if logging
+        LOG.info("Found blast executables #{bin}")
+        db.each do |type, dbs|
+          LOG.info("Found #{ type } databases:\n#{dbs.join("\n")}")
+        end
+      end
     rescue IOError => error
-      LOG.fatal error
+      LOG.fatal("Fail: #{error}")
       exit
     end
 
@@ -105,7 +113,6 @@ class SequenceServer < Sinatra::Base
         name = name.freeze
         title = title.join(' ').freeze
         (db[type] ||= []) << Database.new(name, title)
-        LOG.info("Found #{ type } database: '#{ title }' at #{ name }")
       end
 
       db 
