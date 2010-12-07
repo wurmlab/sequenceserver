@@ -26,7 +26,7 @@ class SequenceServer < Sinatra::Base
 
   class << self
     def run!(options={})
-      init(options)
+      init(config)
       super
     end
 
