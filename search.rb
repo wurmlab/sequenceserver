@@ -34,12 +34,12 @@ class SequenceServer < Sinatra::Base
     # executables, and databses can not be found.
     def init(config = {})
       # scan system path as fallback
-      bin = scan_blast_executables(config[:bin] || nil)
+      bin = scan_blast_executables(config["bin"] || nil)
       bin = bin.freeze
       SequenceServer.set :bin, bin
 
       # use 'db' relative to the current working directory as fallback
-      db = scan_blast_db(config[:bin] || 'db')
+      db = scan_blast_db(config["db"] || 'db')
       db = db.freeze
       SequenceServer.set :db, db
     rescue IOError => error
