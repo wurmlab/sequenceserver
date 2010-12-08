@@ -138,16 +138,45 @@ class SequenceServer < Sinatra::Base
   end
 
   post '/' do
-    method = settings.bin + params[:method]
-    db = selected_db_files
-    sequence = to_fasta(params[:sequence])
-    legal_blast_search?(sequence, method, selected_db_type)  # quiet if ok; raises if bad     
-    blast = Blast.blast_string(method, db, sequence)
+    method     = params['method']
+    db_type    = params['db'].first.first
+    sequence   = to_fasta(params[:sequence])
+
+    # can not proceed if one of these is missing
+    raise ArgumentError unless sequence and db_type and method
+
+    # only allowed blast methods should be used
+    blast_methods = %w|blastn blastp blastx tblastn tblastx|
+    raise ArgumentError, "wrong method: #{method}" unless blast_methods.include?(method)
+
+    # check if input_fasta is compatible with the selected blast method
+    sequence_type       = type_of_sequences(sequence)
+    LOG.debug('input seq type: ' + sequence_type.to_s)
+    LOG.debug('blast db type:  ' + db_type)
+    LOG.debug('blast method:   ' + method)
+
+    unless blast_methods_for(sequence_type).include?(method)
+      raise ArgumentError, "Cannot #{method} a #{sequence_type} query."
+    end
+
+    # check if selected db is comaptible with the selected blast method
+    allowed_db_type     = db_type_for(method)
+    unless allowed_db_type.to_s == db_type
+      raise ArgumentError, "Cannot #{method} against a #{db_type} database.
+      Need #{allowed_db_type} database."
+    end
+
+    method = File.join(settings.bin, method)
+    dbs    = params['db'][db_type].map{|index| settings.db[db_type][index.to_i].name}.join(' ')
+
+    blast = Blast.blast_string(method, dbs, sequence)
+
+    # log the command that was run
+    LOG.info('Ran: ' + blast.command) if settings.logging
 
     # need to check for errors
     #if blast.success?
-    LOG.info('Ran: ' + blast.command)
-    '<pre><code>' + format_blast_results(blast.result, selected_db_files) + '</pre></code>'  # put in a div?
+    '<pre><code>' + format_blast_results(blast.result, dbs) + '</pre></code>'  # put in a div?
     #end
   end
 
@@ -181,18 +210,6 @@ class SequenceServer < Sinatra::Base
     '<pre><code>' + found_sequences + '</pre></code>'
   end
 
-  # returns the type of selected databases - 'protein', or 'nucleotide'
-  def selected_db_type
-    params['db'].first.first
-  end
-
-  # returns a String of fasta files corresponding to the databases selected
-  # eg. - 'Protein_foo.fasta Protein_moo.fasta'
-  def selected_db_files
-    type = selected_db_type
-    params['db'][type].map{|index| settings.db[type][index.to_i].name}.join(' ')
-  end
-
   def to_fasta(sequence)
     sequence.lstrip!  # removes leading whitespace
     if sequence[0] != '>'
@@ -201,31 +218,6 @@ class SequenceServer < Sinatra::Base
       sequence.insert(0, '>Submitted_By_'+request.ip.to_s + '_at_' + Time.now.strftime("%y%m%d-%H:%M:%S") + "\n")
     end
     return sequence
-  end
-
-  def legal_blast_search?(sequence, blast_method, blast_db_type)     # if ajax stuff is done correctly:checking that user didnt mix seuqences, and constrainind blast_methods_for_query_type and sequence_from_blastdb, then method is not required.
-    # returns TRUE if everything is ok.
-    legal_blast_methods = %w|blastn blastp blastx tblastn tblastx|
-    #raise IOError, 'input_fasta missing:'   + input_fasta.to_s   if !File.exists?(input_fasta)     #unnecessary?
-    raise IOError, 'undefined blast method...'                   if blast_method.nil?
-    raise ArgumentError, 'wrong method : '  + blast_method.to_s  if !legal_blast_methods.include?(blast_method)
-
-    # check if input_fasta is compatible within blast_method
-    input_sequence_type = type_of_sequences(sequence)
-    LOG.debug('input seq type: ' + input_sequence_type.to_s)
-    LOG.debug('blast db type:  ' + blast_db_type.to_s)
-    LOG.debug('blast method:   ' + blast_method)
-
-    #if !blast_methods_for_query_type(input_sequence_type).include?(blast_method)
-    #raise ArgumentError, "Cannot #{blast_method} a #{input_sequence_type} query"
-    #end
-
-    # check if blast_database_type is compatible with blast_method
-    if !(db_type_for(blast_method).to_s == blast_db_type)
-      raise ArgumentError, "Cannot #{blast_method} against a #{blast_db_type} database " + 
-        "need " + db_type_for(blast_method).to_s
-    end      
-    return TRUE
   end
 
   def format_blast_results(result, string_of_used_databases)
