@@ -211,7 +211,7 @@ class SequenceServer < Sinatra::Base
 
   def to_fasta(sequence)
     sequence.lstrip!  # removes leading whitespace
-    if sequence[0] != '>'
+    if sequence[0,1] != '>'
       # forgetting the  leading '>sequenceIdentifer\n' no longer breaks blast, but leaves an empty query 
       # line in the blast report. lets replace it with info about the user
       sequence.insert(0, '>Submitted_By_'+request.ip.to_s + '_at_' + Time.now.strftime("%y%m%d-%H:%M:%S") + "\n")
