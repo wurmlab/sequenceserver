@@ -54,8 +54,7 @@ module SequenceHelpers
     end
   end
 
-  # Return the database type that can be used for a given
-  # blast method.
+  # Return the database type that can be used for a given blast method.
   #   db_type_for("blastp")  => :protein
   #   db_type_for("tblastn") => :nucleotide
   def db_type_for(blast_method)
@@ -64,6 +63,18 @@ module SequenceHelpers
       :protein
     when 'blastn', 'tblastx', 'tblastn'
       :nucleotide
+    end
+  end
+
+  # Return the blast methods that can be used for a given type of sequence.
+  #   blast_methods_for(:protein)     => ['blastp', 'tblastn']
+  #   blast_methods_for(:nucleotide)  => ['blastn','tblastx','blastx']
+  def blast_methods_for(seq_type)
+    case seq_type
+    when :protein
+      ['blastp', 'tblastn']
+    when :nucleotide
+      ['blastn','tblastx','blastx']
     end
   end
 end
