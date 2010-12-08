@@ -8,6 +8,8 @@ require 'pp'
 require 'stringio'
 require './lib/blast.rb'
 require 'lib/sequencehelpers.rb'
+require 'lib/sinatralikeloggerformatter.rb'
+
 
 # Helper module - initialize the blast server.
 class SequenceServer < Sinatra::Base
@@ -20,7 +22,8 @@ class SequenceServer < Sinatra::Base
   end
 
   LOG = Logger.new(STDOUT)
-  LOG.datetime_format = "%Y-%m-%d %H:%M:%S"  # to be more compact (and a little more like sinatra's)
+  LOG.formatter = SinatraLikeLogFormatter.new()
+  LOG.level     = Logger::DEBUG
 
   enable :session
   enable :logging
@@ -48,12 +51,11 @@ class SequenceServer < Sinatra::Base
       db = db.freeze
       SequenceServer.set :db, db
 
-      if logging
-        LOG.info("Found blast executables #{bin}")
-        db.each do |type, dbs|
-          LOG.info("Found #{ type } databases:\n#{dbs.join("\n")}")
-        end
+      LOG.info("Found blast executables: #{bin}")
+      db.each do |type, dbs|
+        LOG.info("Found #{ type } databases:\n\t#{dbs.join("\n\t")}")
       end
+      
     rescue IOError => error
       LOG.fatal("Fail: #{error}")
       exit
@@ -73,6 +75,7 @@ class SequenceServer < Sinatra::Base
     # * IOError - if the executables can't be found
     def scan_blast_executables(bin)
       bin = File.expand_path(bin) rescue ''
+      LOG.info("Config bin dir:          #{bin}")
       if bin.empty?
         # search system path
         %w|blastn blastp blastx tblastn tblastx blastdbcmd|.each do |method|
@@ -100,10 +103,11 @@ class SequenceServer < Sinatra::Base
     def scan_blast_db(db_root)
       db_root = File.expand_path(db_root)
       raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
+      LOG.info("Config database dir:     #{db_root}")
 
       db_list = %x|blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"|
-      raise IOError, "No formatted blast databases found! You may need to run 'makeblastdb' "\
-        "on a fasta file in '#{ db_root }' ." if db_list.empty?
+      raise IOError, "No formatted blast databases found in '#{ db_root }' . \n"\
+        "You may need to run 'makeblastdb' on some fasta files." if db_list.empty?
 
       db = {}
 
