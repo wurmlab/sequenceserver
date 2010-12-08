@@ -50,12 +50,6 @@ class SequenceServer < Sinatra::Base
       db = scan_blast_db(config["db"] || 'db')
       db = db.freeze
       SequenceServer.set :db, db
-
-      LOG.info("Found blast executables: #{bin}")
-      db.each do |type, dbs|
-        LOG.info("Found #{ type } databases:\n\t#{dbs.join("\n\t")}")
-      end
-      
     rescue IOError => error
       LOG.fatal("Fail: #{error}")
       exit
@@ -116,6 +110,7 @@ class SequenceServer < Sinatra::Base
         type = type.downcase
         name = name.freeze
         title = title.join(' ').freeze
+        LOG.info("Found #{type} database: #{title} at #{name}")
         (db[type] ||= []) << Database.new(name, title)
       end
 
