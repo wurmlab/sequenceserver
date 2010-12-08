@@ -168,8 +168,11 @@ class SequenceServer < Sinatra::Base
 
     method = File.join(settings.bin, method)
     dbs    = params['db'][db_type].map{|index| settings.db[db_type][index.to_i].name}.join(' ')
+    options = params['advanced']
 
-    blast = Blast.blast_string(method, dbs, sequence)
+    raise ArgumentError, "Invalid advanced options" unless options =~ /\A[a-z0-9\-_\. ']+\Z/i
+
+    blast = Blast.blast_string(method, dbs, sequence, options)
 
     @blast = format_blast_results(blast.result, dbs)
 
