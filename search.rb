@@ -171,13 +171,12 @@ class SequenceServer < Sinatra::Base
 
     blast = Blast.blast_string(method, dbs, sequence)
 
+    @blast = format_blast_results(blast.result, dbs)
+
     # log the command that was run
     LOG.info('Ran: ' + blast.command) if settings.logging
 
-    # need to check for errors
-    #if blast.success?
-    '<pre><code>' + format_blast_results(blast.result, dbs) + '</pre></code>'  # put in a div?
-    #end
+    erb :search
   end
 
   #get '/get_sequence/:sequenceids/:retreival_databases' do # multiple seqs separated by whitespace... all other chars exist in identifiers

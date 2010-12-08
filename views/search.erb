@@ -130,6 +130,10 @@
       font-family: georgia, serif;
       font-size: 20px;
     }
+#result{
+background-color: white;
+padding-left: 5%;
+}
        </style>
   </head>
 
@@ -278,6 +282,11 @@
    </pre>
           </fieldset>
         </form>
+          <div class="result prepend-top" id="result">
+            <pre>
+                <%= @blast %>
+            </pre>
+          </div>
       </div>
   </body>
 </html>
