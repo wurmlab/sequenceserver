@@ -171,6 +171,7 @@ class SequenceServer < Sinatra::Base
     advanced_opts = params['advanced']
 
     raise ArgumentError, "Invalid advanced options" unless advanced_opts =~ /\A[a-z0-9\-_\. ']*\Z/i
+    raise ArgumentError, "using -out is not allowed" if advanced_opts =~ /-out/i
 
     blast = Blast.blast_string(method, dbs, sequence, advanced_opts)
 
