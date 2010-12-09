@@ -168,16 +168,16 @@ class SequenceServer < Sinatra::Base
 
     method = File.join(settings.bin, method)
     dbs    = params['db'][db_type].map{|index| settings.db[db_type][index.to_i].name}.join(' ')
-    options = params['advanced']
+    advanced_opts = params['advanced']
 
-    raise ArgumentError, "Invalid advanced options" unless options =~ /\A[a-z0-9\-_\. ']+\Z/i
+    raise ArgumentError, "Invalid advanced options" unless advanced_opts =~ /\A[a-z0-9\-_\. ']*\Z/i
 
-    blast = Blast.blast_string(method, dbs, sequence, options)
-
-    @blast = format_blast_results(blast.result, dbs)
+    blast = Blast.blast_string(method, dbs, sequence, advanced_opts)
 
     # log the command that was run
     LOG.info('Ran: ' + blast.command) if settings.logging
+
+    @blast = format_blast_results(blast.result, dbs)
 
     erb :search
   end
