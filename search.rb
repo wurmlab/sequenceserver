@@ -25,6 +25,15 @@ class SequenceServer < Sinatra::Base
   LOG.formatter = SinatraLikeLogFormatter.new()
   LOG.level     = Logger::DEBUG
 
+  configure(:development) do
+    begin
+      require 'sinatra/reloader'
+      register Sinatra::Reloader
+    rescue LoadError
+      puts("** install sinatra-reloader gem for automatic reloading of code during development **\n\n")
+    end
+  end
+
   enable :session
   enable :logging
 
