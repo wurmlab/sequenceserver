@@ -13,7 +13,7 @@
 <script type="text/javascript">
      $(document).ready(function(){
        $("fieldset.advanced").click(function(event){
-$("fieldset.advanced pre").toggle();
+$(this).find("pre").toggle("fast");
        });
      });
 
@@ -135,7 +135,12 @@ $("fieldset.advanced pre").toggle();
       clear:both;
       margin: 0 2% 0 2%;
       border-radius:10px;
+cursor: pointer;
     }
+
+.advanced pre{
+display: none;
+}
 
     h2 {
       font-family: georgia, serif;
