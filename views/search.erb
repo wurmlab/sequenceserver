@@ -203,9 +203,8 @@ padding-left: 5%;
           <fieldset class="advanced" >
             <h2>Advanced parameters (optional)</h2>
             <input type="text" name="advanced" id="advanced"/>
-   <span class='small'>Info for advanced params (hidden by default)</span><pre style='font-size: 8px;'>
-<!-- <%=        require 'cgi'
-   CGI.escapeHTML %|
+   <pre style='font-size: 8px;'>
+<%= ERB::Util.h %q|
 -evalue <Real>
    Expectation value (E) threshold for saving hits 
    Default = `10'
@@ -277,8 +276,8 @@ padding-left: 5%;
     * Incompatible with:  culling_limit
  -max_target_seqs <Integer, >=1>
    Maximum number of aligned sequences to keep
-|
-%> -->
+   |
+%>
    </pre>
           </fieldset>
         </form>
