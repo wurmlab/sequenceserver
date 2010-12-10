@@ -26,5 +26,21 @@ $(document).ready(function(){
             });
         }, 10);
     });
+
+    $('#blastp').click(function(event){
+        $('fieldset.nucleotide input').attr('disabled', 'disabled');
+    });
+    $('#blastx').click(function(event){
+        $('fieldset.nucleotide input').attr('disabled', 'disabled');
+    });
+    $('#blastn').click(function(event){
+        $('fieldset.protein input').attr('disabled', 'disabled');
+    });
+    $('#tblastx').click(function(event){
+        $('fieldset.protein input').attr('disabled', 'disabled');
+    });
+    $('#tblastn').click(function(event){
+        $('fieldset.protein input').attr('disabled', 'disabled');
+    });
 });
 
