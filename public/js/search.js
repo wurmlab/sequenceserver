@@ -3,10 +3,12 @@ $(document).ready(function(){
         $(this).find("pre").toggle("fast");
     });
 
-    //var seq;
-        //get the value of the sequence
     $("#sequence").bind("paste", function(event){
+        //store the matched element
         var element = $(this);
+
+        //the pasted text isn't immediately set as the value of the textbox,
+        //so we trigger sequence detection after 10ms
         setTimeout(function(){
             var seq = element.val();
             var seq_type;
