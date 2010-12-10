@@ -192,6 +192,12 @@ class SequenceServer < Sinatra::Base
     erb :search
   end
 
+  post '/ajax' do
+    sequence   = to_fasta(params[:sequence])
+    sequence_type       = type_of_sequences(sequence)
+    sequence_type.to_s
+  end
+
   #get '/get_sequence/:sequenceids/:retreival_databases' do # multiple seqs separated by whitespace... all other chars exist in identifiers
   # I have the feeling you need to spat for multiple dbs... that sucks.
   get '/get_sequence/:*/:*' do
