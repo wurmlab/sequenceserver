@@ -4,8 +4,8 @@ $(document).ready(function(){
     });
 
     //var seq;
-    $("#sequence:first").bind("paste", function(event){
         //get the value of the sequence
+    $("#sequence").bind("paste", function(event){
         var element = $(this);
         setTimeout(function(){
             var seq = element.val();
