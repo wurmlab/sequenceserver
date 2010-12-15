@@ -123,6 +123,11 @@ class SequenceServer < Sinatra::Base
         (db[type] ||= []) << Database.new(name, title)
       end
 
+
+      # the erb would fail as calling nil.each_with_index if a dbtype was undefined. 
+      db['protein']    = [] unless db.keys.include?('protein')
+      db['nucleotide'] = [] unless db.keys.include?('nucleotide')
+
       db 
     end
 
