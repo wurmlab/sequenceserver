@@ -1,217 +1,74 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <title>SequenceServer</title>
-    <meta name="author" content="Anurag Priyam" />
-    <meta name="author" content="Yannick Wurm" />
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-<!--    <link rel="stylesheet" media="screen, projector" type="text/css" href="screen.css"/>
-        <link rel="stylesheet" media="screen" type="text/css" href="master.css"/>  -->
-<script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript" src="/js/search.js"></script>
+<head>
+	<title>SequenceServer</title>
+	<meta name="author" content="Anurag Priyam" />
+	<meta name="author" content="Yannick Wurm" />
+    <meta name="author" content="Cedric Wurm" />
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/search.js"></script>
+    <link rel="stylesheet" media="screen" type="text/css" href="css/beige.css"/>
+</head>
 
-  <style type="text/css">
-    body {
-      background: #3f4555;
-      font-family: georgia, serif;
-    }
+<body> 
+	<div class="container">
+		<div class="banner">BLAST Sequence(s)</div>
+		<form method="post" action="/">
+			<div class="horizontal"> 
+				<div class="entryfield">
+					<textarea name="sequence" id="sequence" rows="11" cols="" placeholder="Paste your sequence(s) here..." ></textarea>
+				</div>
+				<fieldset class="blastmethods box" >
+					<div>
+						<input type="radio" name="method" value="blastp" id="blastp" class="radiobutton" title="Protein query; protein database."/>
+						<label for="blastp" title="Protein query; protein database.">blastp</label>
+					</div>
+					<div class="clear">
+						<input type="radio" name="method" value="tblastn" id="tblastn" class="radiobutton" title="Protein query; six-frame translated nucleotide database." />
+						<label for="tblastn" title="Protein query; six-frame translated nucleotide database.">tblastn</label>
+					</div>
+					<div class="clear">
+						<input type="radio" name="method" value="blastn" id="blastn" class="radiobutton" title="Nucleotide query; nucleotide database."/>
+						<label for="blastn" title="Nucleotide query; nucleotide database.">blastn</label>
+					</div>
+					<div class="clear">
+						<input type="radio" name="method" value="blastx" id="blastx" class="radiobutton" title="Translated nucleotide query; protein database."/>
+						<label for="blastx" title="Six-frame translated nucleotide query; protein database.">blastx</label>
+					</div>
+					<div class="clear">
+						<input type="radio" name="method" value="tblastx" id="tblastx" class="radiobutton" title="Six-frame translated nucleotide query; six-frame translated nucleotide database"/>
+						<label for="tblastx" title="Six-frame translated nucleotide query; six-frame translated nucleotide database">tblastx</label>
+					</div>
+				</fieldset>
+			</div>
 
-    .container {
-      width: 800px;  
-      margin: 50px auto;
-      background-color: #5b80bd;
-      border-radius:10px;
-    }
+			
+			<div class='horizontal'>
+				<fieldset class="nucleotide rounded box databases">
+					<h2>Nucleotide databases</h2>
+					<!-- Database list is actually dynamically loaded -->
+			  <%    settings.db['nucleotide'].each_with_index do |db, i| %>
+			  <input type="checkbox" class="dbcheckbox" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
+			  <label for="ndb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
+			  <% end %>
+			  		</fieldset>
 
-    .extra_container {  /* to grouypthings that are on a single line */
-      width:100%;
-    }
-    .banner {
-      background:black;
-      font-size: 300%;
-      font-family: georgia, serif; color: white;
-      padding: 2%;
-
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-    }
-
-    .entryfield {
-      float:left; /* otherwise each div is under the next. */
-      margin: 0 0 0 2%;
-      clear:both;
-      width:76%;
-    }
-
-    .entryfield textarea {
-      width:100%;
-    }
-
-    .blastmethods {
-      float						: left;
-      width						: 15%;
-      background				: #3f4555;
-      border					: none;
-      margin					: 0 2% 2% 0;
-      border-top-right-radius	: 10px;
-      border-top-left-radius	: 0px;
-      border-bottom-right-radius: 10px;
-      border-bottom-left-radius	:  0px;
-      font-size					: 1.5em; font-family: georgia, serif; color: white;
-    }
-    .database_container {
-      float  :left;
-      clear  :both;
-      width  :76%;
-    }
-    .databases_and_submit_container {
-}
-
-     .databases {
-      width       : 40%;
-      background  : #3f4555;
-      border      : none;
-      margin      : 2%;
-      border-radius  :10px;
-      font-family : georgia, serif;
-      color       : white;
-      margin-top  :0;
-    }
-    .nucleotide {
-      clear    :left;
-      float    :left;
-    }
-    .protein {
-      position  :relative;
-     }
-
-    .dbcheckbox {   /* within each "database box" */
-       float:left;
-       clear:both;
-     }
-    .dbdescription {
-      float:left;
-     }
-
-    .submit_button {
-      text-align: right;
-   text-vertical-align: bottom;
-      padding: 2%;
-    }
-    .submit_button input {
-      background		: #3f4555;
-      border			: 2px solid white;
-      border-radius		: 10px;
-      color				: white;
-      padding			: 1%;
-      cursor			: pointer;
-      font-size			: 1.5em;
-      font-family		: georgia, serif;
-    }
-   .submit_button input:active {
-      color: #1f2126;
-      border: 2px solid black;
-   }
-   .submit_button input:hover {
-      color: #1f2126;
-
-   }
-
-.advanced {
-      background:#4a5d7f;
-      border:none;
-      color: white;
-      clear:both;
-      margin: 0 2% 0 2%;
-      border-radius:10px;
-cursor: pointer;
-    }
-
-.advanced pre{
-display: none;
-}
-
-    h2 {
-      font-family: georgia, serif;
-      font-size: 20px;
-    }
-#result{
-background-color: white;
-padding-left: 5%;
-}
-       </style>
-  </head>
-
-  <body> 
-    <div class="container">
-  <div class="banner" >BLAST Sequence(s)</div>    
-    <div class='extra_container'>
-  <form method="post" action="/">
-          <div class="entryfield">
-   <textarea name="sequence" id="sequence" rows="10" cols="" placeholder="Paste your sequence(s) here..." ></textarea>
-    </div>
-       <fieldset class="blastmethods" >
-       <div class="span-3">
-           <input type="radio" name="method" value="blastp" id="blastp" class="span-1" title="Protein query; protein database."/>
-           <label for="blastp" class="span-1" title="Protein query; protein database.">blastp</label>
-        </div>
-            <div class="span-3 clear">
-           <input type="radio" name="method" value="tblastn" id="tblastn" class="span-1"  title="Protein query; six-frame translated nucleotide database." />
-           <label for="tblastn" class="span-1" title="Protein query; six-frame translated nucleotide database.">tblastn</label>
-       </div>
-         <div class="span-3 clear">
-           <input type="radio" name="method" value="blastn" id="blastn" class="span-1" title="Nucleotide query; nucleotide database."/>
-              <label for="blastn" class="span-1" title="Nucleotide query; nucleotide database.">blastn</label>
-          </div>
-            <div class="span-3 clear">
-              <input type="radio" name="method" value="blastx" id="blastx" class="span-1" title="Translated nucleotide query; protein database."/>
-              <label for="blastx" class="span-1" title="Six-frame translated nucleotide query; protein database.">blastx</label>
-   </div>
-            <div class="span-3 clear">
-              <input type="radio" name="method" value="tblastx" id="tblastx" class="span-1" title="Six-frame translated nucleotide query; six-frame translated nucleotide database"/>
-              <label for="tblastx" class="span-1" title="Six-frame translated nucleotide query; six-frame translated nucleotide database">tblastx</label>
-   </div>
-          </fieldset>
-       </div>
-    <div class='databases_and_submit_container'>
-    <div class='database_container'>
-          <fieldset class="nucleotide databases">
-   <h2>Nucleotide databases</h2>
-<!--     <input type="checkbox" class="span-1 clear" id="fff" name="asdfsadfxz" value="fff"/>
-     <label for="fff" class="span-5 last">name placeholder 3</label>
- -->  
-
-   <!--  Database list is actually dynamically loaded -->
-            <% settings.db['nucleotide'].each_with_index do |db, i| %>
-                  <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
-                  <label for="ndb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
-                  <% end %>
-          </fieldset>
-   <fieldset class="protein databases">
-   <h2>Protein databases</h2> 
-<!--     <input type="checkbox" class="span-1 clear" id="pdbasdf" name="asdfsadfxz" value="asdf"/>
-         <label for="pdbasdf"   class="span-5 last">name placeholder</label>
-         <input type="checkbox" class="span-1 clear" id="ffpdbasdf" name="asdfsadfxz" value="asdf"/>
-          <label for="ffpdbasdf" class="span-5 last">name placeholder 2</label>
- -->     
-   <!--  Database list is actually dynamically loaded-->
-                  <% settings.db['protein'].each_with_index do |db, i| %>
-                  <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
-                  <label for="pdb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
-                  <% end %>
-          </fieldset>
-</div>
-       <div class="submit_button">
-            <input type="submit" value="Blast!"/>
-          </div>
-</div>
-          <fieldset class="advanced" >
-            <h2>Advanced parameters (optional)</h2>
-            <input type="text" name="advanced" id="advanced"/>
-   <pre style='font-size: 8px;'>
+				<fieldset class="protein rounded box databases">
+					<h2>Protein databases</h2> 
+					<!--  Database list is actually dynamically loaded-->
+			  <% settings.db['protein'].each_with_index do |db, i| %>
+			  <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
+			  <label for="pdb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
+			  <% end %>
+			  </fieldset>
+			</div>
+			
+			<div class="horizontal">
+				<fieldset class="advanced box rounded">	
+					<span class="bigtext">Advanced parameters:</span><input type="text" name="advanced" id="advanced"/>
+					<pre class='smalltext'>
 <%= ERB::Util.h %q|
 -evalue <Real>
    Expectation value (E) threshold for saving hits 
@@ -283,17 +140,23 @@ padding-left: 5%;
    Best Hit algorithm score edge value (recommended value: 0.1)
     * Incompatible with:  culling_limit
  -max_target_seqs <Integer, >=1>
-   Maximum number of aligned sequences to keep
-   |
-%>
-   </pre>
-          </fieldset>
-        </form>
-          <div class="result prepend-top" id="result">
-            <pre>
-                <%= @blast %>
-            </pre>
-          </div>
-      </div>
-  </body>
+   Maximum number of aligned sequences to keep | %>
+</pre>
+
+                      </fieldset>
+                <div class="submit_button">
+                      <input type="submit" value="BLAST!"/>
+				</div>
+			</div>
+		</form>
+		<div class="result prepend-top" id="result">
+			<pre class='smalltext'>
+	                <%= @blast %>
+			</pre>
+		</div>
+		<div class ="underbar">
+			<p>&copy; <a href='http://www.sequenceserver.com'>sequenceserver.com</a></p>
+		</div>
+	</div>
+</body>
 </html>
