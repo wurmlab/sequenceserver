@@ -15,6 +15,7 @@ body {
 
 
 .banner {
+	font-weight: bold;
 	background: #ebcd7b;
 	font-size: 300%;
 	font-family: Tahoma, Arial, sans-serif;
