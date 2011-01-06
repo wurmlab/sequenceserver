@@ -108,9 +108,17 @@ class SequenceServer < Sinatra::Base
       raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
       LOG.info("Config database dir:     #{db_root}")
 
-      db_list = %x|blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t"|
-      raise IOError, "No formatted blast databases found in '#{ db_root }' . \n"\
-        "You may need to run 'makeblastdb' on some fasta files." if db_list.empty?
+      find_dbs_command = %|blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1 |
+      db_list = %x|#{find_dbs_command}|
+        raise IOError, "No formatted blast databases found in '#{ db_root }' . \n"\
+       "You may need to run 'makeblastdb' on some fasta files." if db_list.empty?
+      
+      if db_list.match(/BLAST Database error/)
+        raise IOError, "Error parsing blast databases.\n" + "Tried: '#{find_dbs_command}'\n"+
+          "It crashed with the following error: '#{db_list}'\n" +
+          "Try reformatting databases using makeblastdb.\n"
+      end
+
 
       db = {}
 
