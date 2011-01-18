@@ -1,10 +1,14 @@
 h1. Simple blast search - VERY MUCH WORK IN PROGRESS
 
-"Anurag Priyam":http://yeban.in/ & "Yannick Wurm":http://yannick.poulet.org.
+Check <a href='http://www.sequenceserver.com/'>sequenceserver.com</a> for info & screenshots.
+
+Authors: "Anurag Priyam":http://yeban.in/ & "Yannick Wurm":http://yannick.poulet.org.
+
+
 "Todo list here":http://github.com/yannickwurm/sequenceServer/wiki
 
 
-h2. 
+h2. Rationale/aim
 
 
 Biologists constantly  generate new sequence data... but the people who want to access the data are often not computational, so they need some kind of point & click & copy & paste interface. It's a common issue. See for example "this question":http://stackoverflow.com/questions/1890285/are-there-any-existing-solutions-for-creating-a-generic-dna-sequence-database-wit/1893358 .
@@ -16,22 +20,22 @@ Alternatives: The "GMOD":http://www.gmod.org software can be overkill. But it's 
 The idea is to make a blast server that is simple to set up & maintain (for the administrator), and pleasant to use (by thinking for user). 
 
 
-h3. Features for the admin:
-
- * automagic setup. "gem install" + point it at blast binaries and fasta database files --> youre good to go. (using ruby's internal Webrick server avoids overhead normally associated with admin)
+h3. Features for the admin):
  * autodetection of new blast databases
+ * Not YET IMPLEMENTED: automagic setup. "gem install" + point it at blast binaries and fasta database files --> youre good to go. (using ruby's internal Webrick server avoids overhead normally associated with admin)
+
 
 
 h3. Features for the user:
-
- * autodetection of whether the use entered nucleotide or aminoacid sequence --> dynamically updated availability of blast methods
- * blast method implies which database can be used (dynamically updated list of available databases)
  * links in the results that let you fetch the original sequences of the database hits (by providing links to individual hits, and batch download of all hits). 
+ * NOT YET PERFECT: autodetection of whether the use entered nucleotide or aminoacid sequence --> dynamically updated availability of blast methods
+ * NOT YET PERFECT: blast method implies which database can be used (dynamically updated list of available databases)
+
 
 
 
 h2. Requirements
-* ruby 1.8.7 or later. The following ruby gems will self-install: "sinatra":http://www.sinatrarb.com/ , "bio":http://bioruby.org/ .
+* ruby 1.8.7 or later. The following ruby gems will self-install: "sinatra":http://www.sinatrarb.com/
 * NCBI Blastplus: http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download Old versions of NCBI blast (pre 2.2.18) are not supported.
 
 
