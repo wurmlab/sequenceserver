@@ -59,7 +59,7 @@ class DatabaseFormatter
         response = ''
         until response.match(/^[yn]$/i) do
             LOG.info("Proceed? [y/n]: ")
-            response = gets('asdf').chomp
+            response = gets.chomp
         end
         puts "asdfasd"
         if response.match(/y/i)
