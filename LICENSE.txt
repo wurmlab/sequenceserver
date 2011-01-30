@@ -1,0 +1,32 @@
+Sequence Server (http://sequenceserver.com) - Copyright (c) 2010-2011
+Yannick Wurm, Anurag Priyam.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistribution must retain, or reproduce the above copyright notice,
+   this list of conditions, the following disclaimer, and a link to
+   sequenceserver.com in page footers.
+
+2. The user may modify his copy of the software provided that ONE of the
+   following is observed:
+
+   a) place your modifications, in the Public Domain or otherwise make them
+      Freely Available, such as by posting said modifications to Usenet,
+      or Github, or an equivalent medium, or by allowing the author to
+      include your modifications in the software.
+
+   b) use the modified software only within your corporation or organization.
+
+   c) make other distribution arrangements with the author.
+
+3. The software remains free for personal use, and for use by not-for-profit, or
+educational organizations.
+
+4. Use of this software within for-profit organizations is prohibited without
+specific arrangements with the author.
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.
