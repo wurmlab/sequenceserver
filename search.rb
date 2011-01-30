@@ -8,12 +8,14 @@ require 'pp'
 require 'stringio'
 require './lib/blast.rb'
 require 'lib/sequencehelpers.rb'
+require 'lib/systemhelpers.rb'
 require 'lib/sinatralikeloggerformatter.rb'
 
 
 # Helper module - initialize the blast server.
 class SequenceServer < Sinatra::Base
   include SequenceHelpers
+  include SystemHelpers
 
   class Database < Struct.new("Database", :name, :title)
     def to_s
@@ -150,10 +152,6 @@ class SequenceServer < Sinatra::Base
       return {}
     end
 
-    # check if the given command exists and is executable
-    def command?(command)
-      system("which #{command} > /dev/null 2>&1")
-    end
   end
 
   get '/' do

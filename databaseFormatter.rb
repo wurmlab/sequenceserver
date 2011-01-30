@@ -5,20 +5,26 @@ require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'
 require 'lib/sequencehelpers.rb'
+require 'lib/systemhelpers.rb'
 
 LOG = Logger.new(STDOUT)
 
-$stdin.sync = true
-$stdout.sync = true
-
 class DatabaseFormatter
     include SequenceHelpers
+    include SystemHelpers
+    
+    def init
+        LOG.info("initializing")
+        ['blastdbcmd', 'makeblastdb'].each do |command|
+            LOG.warn("Cannot execute: '#{command}") unless command?(command)
+        end
+    end
 
     def format_databases(db_path)
         Find.find(db_path) do |file|
             next if File.directory?(file)
-
             unless File.binary?(file)
+
                 if probably_fasta?(file)
                     LOG.info("Found #{file}")
                     ## guess whether protein or nucleotide based on first 500 lines
@@ -29,21 +35,35 @@ class DatabaseFormatter
                             break if file_stream.lineno == 500
                         end
                     end
-                    sequence_type = type_of_sequences(first_lines) # returns :protein or :nucleotide
-                    if [ :protein, :nucleotide].include?(sequence_type)
+                    begin
+                        sequence_type = type_of_sequences(first_lines) # returns :protein or :nucleotide
+                    rescue
+                        LOG.warn("Unable to guess sequence type for #{file}. Skipping") 
+                    end
+                    if [ :protein, :nucleotide ].include?(sequence_type)
                         ask_make_db(file, sequence_type)
+
                     else 
                         LOG.warn("Unable to guess sequence type for #{file}. Skipping") 
                     end
+
                 end
             end
         end
+        LOG.info("Done formatting databases. ")
+        db_table(db_path)
+    end
+
+    def db_table(db_path)
+        output = %x| blastdbcmd -recursive -list #{db_path} -list_outfmt "%p %f %t" &2>1 |
+        LOG.info("Summary of formatted blast databases:")
+        LOG.info(output)
     end
 
     def probably_fasta?(file)
         File.open(file, 'r') do |file_stream|
             first_line = file_stream.readline
-            if first_line[0] == '>'
+            if first_line.slice(0,1) == '>'
                 return TRUE
             else 
                 return FALSE
@@ -59,13 +79,13 @@ class DatabaseFormatter
         response = ''
         until response.match(/^[yn]$/i) do
             LOG.info("Proceed? [y/n]: ")
-            response = gets.chomp
+            response = STDIN.gets.chomp
         end
-        puts "asdfasd"
+
         if response.match(/y/i)
-            LOG.info("Enter a database title (or will use '#{file.basename}'")
-            title = gets.chomp
-            title = file.basename  if title.empty?
+            LOG.info("Enter a database title (or will use '#{File.basename(file)}'")
+            title = STDIN.gets.chomp
+            title = File.basename(file)  if title.empty?
             
             make_db(file,type,title)
         end
@@ -73,7 +93,8 @@ class DatabaseFormatter
 
     def make_db(file,type, title)
         LOG.info("Will make #{type.to_s} database from #{file} with #{title}")
-        command = "makeblastdb -in #{file} -db_type #{ type.to_s.slice(0,4)} -title #{title} "
+        command = %|makeblastdb -in #{file} -dbtype #{ type.to_s.slice(0,4)} -title "#{title}"|
+        LOG.info("Will run: #{command}")
         %x|#{ command}|  
     end
 end
@@ -85,9 +106,10 @@ if ARGV.length == 1
     LOG.info("running with #{db_path}")
     if File.directory?(db_path) 
         app = DatabaseFormatter.new()
+        app.init()
         app.format_databases(db_path)
     else
-        LOG.warn('Not running')
+        LOG.warn("Not running becuase #{db_path} is not a directory")
     end
 else 
     LOG.warn('Not running: give only one argument (directory)')
