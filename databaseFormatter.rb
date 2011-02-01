@@ -93,7 +93,7 @@ class DatabaseFormatter
 
     def make_db(file,type, title)
         LOG.info("Will make #{type.to_s} database from #{file} with #{title}")
-        command = %|makeblastdb -in #{file} -dbtype #{ type.to_s.slice(0,4)} -title "#{title}"|
+        command = %|makeblastdb -in #{file} -dbtype #{ type.to_s.slice(0,4)} -title "#{title} -parse_seqids"|
         LOG.info("Will run: #{command}")
         %x|#{ command}|  
     end
