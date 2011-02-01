@@ -17,6 +17,8 @@ class SequenceServer < Sinatra::Base
   include SequenceHelpers
   include SystemHelpers
 
+  set :environment, :development
+
   class Database < Struct.new("Database", :name, :title)
     def to_s
       "#{title} #{name}"
@@ -25,15 +27,19 @@ class SequenceServer < Sinatra::Base
 
   LOG = Logger.new(STDOUT)
   LOG.formatter = SinatraLikeLogFormatter.new()
-  LOG.level     = Logger::DEBUG
 
   configure(:development) do
+    LOG.level     = Logger::DEBUG
     begin
       require 'sinatra/reloader'
       register Sinatra::Reloader
     rescue LoadError
       puts("** install sinatra-reloader gem for automatic reloading of code during development **\n\n")
     end
+  end
+
+  configure(:production) do
+    LOG.level     = Logger::INFO
   end
 
   enable :session
@@ -165,6 +171,7 @@ class SequenceServer < Sinatra::Base
 
     # can not proceed if one of these is missing
     raise ArgumentError unless sequence and db_type and method
+	LOG.info("requested #{method} against #{db_type.to_s} database")
 
     # only allowed blast methods should be used
     blast_methods = %w|blastn blastp blastx tblastn tblastx|
@@ -258,7 +265,6 @@ class SequenceServer < Sinatra::Base
     all_retrievable_ids = []
     result.each do |line|
       if line.match(/^>\S/)  #if there is a space right after the '>', makeblastdb was run without -parse_seqids
-        puts line
         complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
         id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
         all_retrievable_ids.push(id)
