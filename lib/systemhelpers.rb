@@ -3,10 +3,10 @@
 
 module SystemHelpers
 
-    # check if the given command exists and is executable
-    # returns True if all is good.
-    def command?(command)
-      system("which #{command} > /dev/null 2>&1")
-    end
+  # check if the given command exists and is executable
+  # returns True if all is good.
+  def command?(command)
+    system("which #{command} > /dev/null 2>&1")
+  end
 
 end
