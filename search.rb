@@ -15,7 +15,6 @@ require 'lib/sinatralikeloggerformatter.rb'
 # Helper module - initialize the blast server.
 class SequenceServer < Sinatra::Base
   include SequenceHelpers
-  include SystemHelpers
 
   set :environment, :development
 #  set :environment, :production
@@ -115,7 +114,7 @@ class SequenceServer < Sinatra::Base
         # search system path
         %w|blastn blastp blastx tblastn tblastx blastdbcmd|.each do |method|
           raise IOError, "You may need to install BLAST+ from: #{settings.blasturl}.
-          And/or create a config.yml file that points to blast's 'bin' directory." unless command?( method )
+          And/or create a config.yml file that points to blast's 'bin' directory." unless SystemHelpers::command?( method )
         end
       else
         # assume executables in bin
