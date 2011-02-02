@@ -18,6 +18,8 @@ class SequenceServer < Sinatra::Base
   include SystemHelpers
 
   set :environment, :development
+#  set :environment, :production
+
 
   class Database < Struct.new("Database", :name, :title)
     def to_s
@@ -40,6 +42,12 @@ class SequenceServer < Sinatra::Base
 
   configure(:production) do
     LOG.level     = Logger::INFO
+    error do
+      erb :'500'
+    end
+    not_found do
+      erb :'500'
+    end
   end
 
   enable :session
@@ -222,7 +230,7 @@ class SequenceServer < Sinatra::Base
   get '/get_sequence/:*/:*' do
     params[ :sequenceids], params[ :retrieval_databases] = params["splat"] 
     sequenceids = params[ :sequenceids].split(/\s/).uniq  # in a multi-blast query some may have been found multiply
-    LOG.info('Getting: ' + sequenceids.to_s)
+    LOG.info('Getting: ' + sequenceids.join(' ') + ' for ' + request.ip.to_s)
 
     # the results do not indicate which database a hit is from. 
     # Thus if several databases were used for blasting, we must check them all

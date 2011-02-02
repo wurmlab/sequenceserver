@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>SequenceServer</title>
+    <meta name="author" content="Anurag Priyam" />
+    <meta name="author" content="Yannick Wurm" />
+    <meta name="author" content="Cedric Wurm" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/search.js"></script>
+    <link rel="stylesheet" media="screen" type="text/css" href="css/beige.css"/>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Oops! Something went wonky!</h1>
+	<p>Apologies, there was an error with your request: 
+	  <strong><%=request.env['sinatra.error'].message %> </strong></p>
+    <p>If the error persists please contact the administrator</p>
+  </div>
+</body>
