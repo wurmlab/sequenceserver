@@ -115,7 +115,8 @@ class SequenceServer < Sinatra::Base
     # * db_root(String) - path (relative/absolute) to the databases
     # ---
     # Returns:
-    # * a hash of blast databases
+    # * a hash of blast databases grouped by database type:
+    # protein, or nucleotide
     # ---
     # Raises:
     # * IOError - if no database can be found
