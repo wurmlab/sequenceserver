@@ -25,6 +25,22 @@ class SequenceServer < Sinatra::Base
     def to_s
       "#{title} #{name}"
     end
+
+    # Its not very meaningful to compare Database objects, however,
+    # we still add the 'spaceship' operator to be able to sort the
+    # databases by 'title', or 'name' for better visual presentation.
+    # 
+    # We use 'title' for comparison, while relying on 'name' as fallback.
+    #
+    # Trying to sort a list of dbs with 'title' set only for some of them
+    # will obviously produce unpredictable sorting order.
+    def <=>(other)
+      if self.title and other.title
+        self.title <=> other.title
+      else
+        self.name <=> other.name
+      end
+    end
   end
 
   LOG = Logger.new(STDOUT)
@@ -115,7 +131,7 @@ class SequenceServer < Sinatra::Base
     # * db_root(String) - path (relative/absolute) to the databases
     # ---
     # Returns:
-    # * a hash of blast databases grouped by database type:
+    # * a hash of sorted blast databases grouped by database type:
     # protein, or nucleotide
     # ---
     # Raises:
@@ -153,6 +169,10 @@ class SequenceServer < Sinatra::Base
       # the erb would fail as calling nil.each_with_index if a dbtype was undefined. 
       db['protein']    = [] unless db.keys.include?('protein')
       db['nucleotide'] = [] unless db.keys.include?('nucleotide')
+
+      # sort the list of dbs
+      db['protein'].sort!
+      db['nucleotide'].sort!
 
       db 
     end
