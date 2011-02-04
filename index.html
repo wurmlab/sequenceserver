@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+		  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
+  <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="keywords" content="blast server, run blast, blast fasta, web interface" >
+	<meta name="keywords" content="blast server, run blast, blast fasta, web interface" />
 	<title>SequenceServer: Easily BLAST &amp; share your sequence data</title>
 	
 	<style type="text/css">
@@ -13,98 +13,111 @@
   	  background-color: #c89c78;
 	  font-family: Tahoma, Arial, Sans-serif;
   	  color: #000000;
-      }
-      #container {
-      margin: 0 auto;
-      width: 700px;
-      }
-		h1 { font-size: 3.8em; color: #a04238; margin-bottom: 0px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #a04238; margin-bottom: 0px;}
-    h3 { text-align: center; color: #a04238; }
-    a { color: #a04238; }
-    .description { font-size: 0.8em; margin-bottom: 30px; margin-top: 0px; }
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
+	  }
+	  #container {
+	  margin: 0 auto;
+	  width: 700px;
+	  }
+	  h1 { font-size: 3.8em; color: #a04238; margin-bottom: 0px; }
+	  h1 .small { font-size: 0.4em; }
+	  h1 a { text-decoration: none }
+	  h2 { font-size: 1.5em; color: #a04238; margin-bottom: 0px; margin-top:20px;}
+	  h3 { text-align: center; color: #a04238; }
+	  a { color: #a04238; }
+	  .description { font-size: 0.8em; margin-bottom: 30px; margin-top: 0px; }
+	  .download { float: right; }
+	  pre { background: #000; color: #fff; padding: 15px;}
+	  hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+	  .footer { text-align:center; padding-top:30px; font-style: italic; }
 	  p { margin-top: 5px; margin-bottom: 0px;}
-	  ul { margin-top: 0px;}
+	  ul,dl { margin-top: 0px;}
 	  img { text-align: center;}
+	  
+	  dt {font-weight:bold; margin-left:2em;}
+	  di {margin-left:4em;}
 	</style>
-	
-</head>
+	<script type="text/javascript">
 
-<body>
-  <a href="http://github.com/yannickwurm/sequenceserver"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-471841-7']);
+	  _gaq.push(['_trackPageview']);
 
-  <div id="container">
-    <h1><a href="http://github.com/yannickwurm/sequenceserver">SequenceServer</a></h1>
-    <div class="description h1 .small">
-	  Easily BLAST &amp; share your sequence data. 
-    </div>
+	  (function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
 
-	<h2>Features</h2>
-	<p>Easy setup:</p>
-	<ul>
-	  <li>No configuration necessary: uses ruby's internal web server.</li>
-	  <li>Finds all formatted blast databases.</li>
-	</ul>
-	<p>Easy to use:</p>
-	<ul>
-	  <li>Elegant &amp; helpful interface.</li>
-	  <li>Deactivates inappropriate blast methods depending on type of entered sequence.</li>
-	  <li>Deactivates inappropriate databases based on selected blast method.</li>
-      <li>Single-click retrieval of hit sequences directly from BLAST results.</li>
-<li><em>"The iPod of Blast searching"</em></li>
-	</ul>
-<br/>
-	<img src='img/overview.png'/>
+	</script>	
+  </head>
 
+  <body>
+	<a href="http://github.com/yannickwurm/sequenceserver"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-    <h2>Demo server</h2>
-	<p><a href="http://fourmidable.unil.ch/">Ant genome sequence blast search</a>: running a pre-release version of SequenceServer (lacking user-assistance javascript features). Hosted by the <a href="http://www.antgenomes.org">ant genome database</a>.</p>
-	
-	<h2>Requirements</h2>
-	<ul>
-	  <li>ruby 1.8.7 with rubygems (if you have <a href='http://git-scm.com/'>git</a>, get ruby with <a href='http://rvm.beginrescueend.com/rvm/install'>RVM</a>).</li>
-	  <li><a href='http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'>NCBI Blast+ 2.2.24</a></li>
-	  <li>Sequence databases formatted for BLAST (with formatdb or makeblastdb; see FAQ)</li>
-	</ul>
+	<div id="container">
+	  <h1><a href="http://github.com/yannickwurm/sequenceserver">SequenceServer</a></h1>
+	  <div class="description h1 .small">
+		Easily BLAST &amp; share your sequence data. 
+	  </div>
 
-	<h2>Download & Setup</h2>
-	Will be easier soon. For now:
-	<ul>
-	  <li>Install Sinatra: <pre>gem install sinatra</gem></li>
-	  <li><a href="http://github.com/yannickwurm/sequenceserver/zipball/master">Download sequenceserver</a>. <pre>wget http://github.com/yannickwurm/sequenceserver/zipball/master</pre></li>
-	  <li>Edit the config.yml file to indicate the location of your blast databases.</li>
-	  <li>Launch the server:
-        <pre>ruby search.rb</pre>
-      <li>Access SequenceServer on <a href='http://localhost:4567'>http://localhost:4567</a></li>
-	</ul>
-
-	
-<!--    <h2>One-step install - in progress</h2>
-	Requires that Ruby 1.8.7 be set up on your system:
-    <pre>gem install ...</pre>
-	
-	<h2>Failproof install</h2>
-Install RVM: 
-<pre></pre>
-	<p>-->
-	<h2>Questions?</h2>
-	<p>Contact <a href='http://yeban.in/'>Anurag Priyam</a> and <a href='http://yannick.poulet.org'>Yannick Wurm</a></p>
+	  <h2>Features</h2>
+	  <p>Easy setup:</p>
+	  <ul>
+		<li>No configuration necessary: uses ruby's internal web server.</li>
+		<li>Finds all formatted blast databases.</li>
+	  </ul>
+	  <p>Easy to use:</p>
+	  <ul>
+		<li>Elegant &amp; helpful interface.</li>
+		<li>Deactivates inappropriate blast methods depending on type of entered sequence.</li>
+		<li>Deactivates inappropriate databases based on selected blast method.</li>
+		<li>Single-click retrieval of hit sequences directly from BLAST results.</li>
+		<li><em>"The iPod of Blast searching"</em></li>
+	  </ul>
+	  <br/>
+	  <img src='img/overview.png'/>
 
 
-  <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-471841-7");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-</body>
+	  <h2>Demo server</h2>
+	  <p><a href="http://fourmidable.unil.ch/">Ant genome sequence blast search</a>: running a pre-release version of SequenceServer (lacking user-assistance javascript features). Hosted by the <a href="http://www.antgenomes.org">ant genome database</a>.</p>
+	  
+	  <h2>Requirements</h2>
+	  <ul>
+		<li>ruby 1.8.7 with rubygems (if you have <a href='http://git-scm.com/'>git</a>, get ruby with <a href='http://rvm.beginrescueend.com/rvm/install'>RVM</a>).</li>
+		<li><a href='http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'>NCBI Blast+ 2.2.24</a></li>
+		<li>Sequence databases formatted for BLAST (with formatdb or makeblastdb; see FAQ)</li>
+	  </ul>
+
+	  <h2>Download & Setup</h2>
+	  Will be easier soon. For now:
+	  <ul>
+		<li>Install Sinatra: <pre>gem install sinatra</pre></li>
+		<li><a href="http://github.com/yannickwurm/sequenceserver/zipball/master">Download sequenceserver</a>. <pre>wget http://github.com/yannickwurm/sequenceserver/zipball/master</pre></li>
+		<li>Edit the config.yml file to indicate the location of your blast databases.</li>
+		<li>Launch the server:
+		  <pre>ruby search.rb</pre></li>
+		<li>Access SequenceServer on <a href='http://localhost:4567'>http://localhost:4567</a></li>
+	  </ul>
+	  
+	  
+	  <!--    <h2>One-step install - in progress</h2>
+			  Requires that Ruby 1.8.7 be set up on your system:
+			  <pre>gem install ...</pre>
+			  
+			  <h2>Failproof install</h2>
+			  Install RVM: 
+			  <pre></pre>
+			  -->
+	  
+	  <h2>News</h2>
+	  <dl>
+		<dt>Ongoing</dt><di>Bugs being resolved &amp; improvements being made. Check the <a href="https://github.com/yannickwurm/sequenceserver">gitHub page</a> for recent activity.</di>
+		<dt>2011-02-01</dt><di>Sequenceserver deployed on <a href="http://www.antgenomes.org">Fourmidable</a> simultaneously with the publication of <a href="http://www.pnas.org/cgi/doi/10.1073/pnas.1009690108" title="fire ant genome">ant genomes</a></di>
+	  </dl>
+	  
+	  <h2>Questions?</h2>
+	  <p>Contact <a href='http://yeban.in/'>Anurag Priyam</a> and <a href='http://yannick.poulet.org'>Yannick Wurm</a></p>
+	  
+	</div>
+  </body>
 </html>
