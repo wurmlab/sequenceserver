@@ -10,11 +10,12 @@ require 'lib/sinatralikeloggerformatter.rb'
 
 
 # Helper module - initialize the blast server.
-class SequenceServer < Sinatra::Base
+module SequenceServer
+class App < Sinatra::Base
   include SequenceHelpers
 
   set :environment, :development
-#  set :environment, :production
+  #  set :environment, :production
 
 
   class Database < Struct.new("Database", :name, :title)
@@ -81,12 +82,12 @@ class SequenceServer < Sinatra::Base
       # scan system path as fallback
       bin = scan_blast_executables(config["bin"] || nil)
       bin = bin.freeze
-      SequenceServer.set :bin, bin
+      set :bin, bin
 
       # use 'db' relative to the current working directory as fallback
       db = scan_blast_db(config["db"] || 'db')
       db = db.freeze
-      SequenceServer.set :db, db
+      set :db, db
     rescue IOError => error
       LOG.fatal("Fail: #{error}")
       exit
@@ -146,10 +147,10 @@ class SequenceServer < Sinatra::Base
 
       blastdbcmd = executable('blastdbcmd')
       find_dbs_command = %|#{blastdbcmd} -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1 |
-      db_list = %x|#{find_dbs_command}|
+        db_list = %x|#{find_dbs_command}|
         raise IOError, "No formatted blast databases found in '#{ db_root }' . \n"\
-       "You may need to run 'makeblastdb' on some fasta files." if db_list.empty?
-      
+        "You may need to run 'makeblastdb' on some fasta files." if db_list.empty?
+
       if db_list.match(/BLAST Database error/)
         raise IOError, "Error parsing blast databases.\n" + "Tried: '#{find_dbs_command}'\n"+
           "It crashed with the following error: '#{db_list}'\n" +
@@ -203,7 +204,7 @@ class SequenceServer < Sinatra::Base
 
     # can not proceed if one of these is missing
     raise ArgumentError unless sequence and db_type and method
-	LOG.info("requested #{method} against #{db_type.to_s} database")
+    LOG.info("requested #{method} against #{db_type.to_s} database")
 
     # only allowed blast methods should be used
     blast_methods = %w|blastn blastp blastx tblastn tblastx|
@@ -226,7 +227,7 @@ class SequenceServer < Sinatra::Base
       Need #{allowed_db_type} database."
     end
 
-    method = SequenceServer.executable(method)
+    method = App.executable(method)
     dbs    = params['db'][db_type].map{|index| settings.db[db_type][index.to_i].name}.join(' ')
     advanced_opts = params['advanced']
 
@@ -317,5 +318,6 @@ class SequenceServer < Sinatra::Base
   end
 
 end
+end
 
-SequenceServer.run! if __FILE__ == $0
+SequenceServer::App.run! if __FILE__ == $0
