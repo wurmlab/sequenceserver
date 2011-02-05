@@ -1,12 +1,9 @@
 # search.rb
 require 'rubygems'
 require 'sinatra/base'
-require 'tempfile'
 require 'yaml'
 require 'logger'
-require 'pp'
-require 'stringio'
-require './lib/blast.rb'
+require 'lib/blast.rb'
 require 'lib/sequencehelpers.rb'
 require 'lib/systemhelpers.rb'
 require 'lib/sinatralikeloggerformatter.rb'
