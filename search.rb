@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'yaml'
 require 'logger'
 require 'lib/blast.rb'
+require 'lib/database.rb'
 require 'lib/sequencehelpers.rb'
 require 'lib/systemhelpers.rb'
 require 'lib/sinatralikeloggerformatter.rb'
@@ -17,28 +18,6 @@ class App < Sinatra::Base
   set :environment, :development
   #  set :environment, :production
 
-
-  class Database < Struct.new("Database", :name, :title)
-    def to_s
-      "#{title} #{name}"
-    end
-
-    # Its not very meaningful to compare Database objects, however,
-    # we still add the 'spaceship' operator to be able to sort the
-    # databases by 'title', or 'name' for better visual presentation.
-    # 
-    # We use 'title' for comparison, while relying on 'name' as fallback.
-    #
-    # Trying to sort a list of dbs with 'title' set only for some of them
-    # will obviously produce unpredictable sorting order.
-    def <=>(other)
-      if self.title and other.title
-        self.title <=> other.title
-      else
-        self.name <=> other.name
-      end
-    end
-  end
 
   LOG = Logger.new(STDOUT)
   LOG.formatter = SinatraLikeLogFormatter.new()
