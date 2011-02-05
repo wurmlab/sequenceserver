@@ -95,6 +95,13 @@ class SequenceServer < Sinatra::Base
       exit
     end
 
+    # Returns a shell executable string corresponding to the given blast command.
+    # Expects the path to blast binaries be set to 'nil' if the blast commands
+    # are to be found in the sytem PATH.
+    def executable(command)
+      File.join(settings.bin, command) rescue command
+    end
+
     # Checks for the presence of blast executables. Assumes the executables
     # to be present in the bin directory passed to it, or in the sytem path.
     # ---
@@ -108,9 +115,9 @@ class SequenceServer < Sinatra::Base
     # Raises:
     # * IOError - if the executables can't be found
     def scan_blast_executables(bin)
-      bin = File.expand_path(bin) rescue ''
+      bin = File.expand_path(bin) rescue nil
       LOG.info("Config bin dir:          #{bin}")
-      if bin.empty?
+      unless bin
         # search system path
         %w|blastn blastp blastx tblastn tblastx blastdbcmd|.each do |method|
           raise IOError, "You may need to install BLAST+ from: #{settings.blasturl}.
@@ -140,7 +147,7 @@ class SequenceServer < Sinatra::Base
       raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
       LOG.info("Config database dir:     #{db_root}")
 
-	  blastdbcmd = File.join(settings.bin, 'blastdbcmd')
+      blastdbcmd = executable('blastdbcmd')
       find_dbs_command = %|#{blastdbcmd} -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1 |
       db_list = %x|#{find_dbs_command}|
         raise IOError, "No formatted blast databases found in '#{ db_root }' . \n"\
@@ -222,7 +229,7 @@ class SequenceServer < Sinatra::Base
       Need #{allowed_db_type} database."
     end
 
-    method = File.join(settings.bin, method)
+    method = SequenceServer.executable(method)
     dbs    = params['db'][db_type].map{|index| settings.db[db_type][index.to_i].name}.join(' ')
     advanced_opts = params['advanced']
 
