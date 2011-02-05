@@ -66,7 +66,8 @@ class App < Sinatra::Base
   enable :session
   enable :logging
 
-  set :app_file, __FILE__
+  set :run,        Proc.new { app_file == $0 }
+  set :app_file,   __FILE__
   set :blasturl, 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
 
   class << self
@@ -317,7 +318,6 @@ class App < Sinatra::Base
     retrieval_text + '<pre><code>' + formatted_result + '</pre></code>'  # should this be somehow put in a div?
   end
 
+  at_exit { run! if $!.nil? and run? }
 end
 end
-
-SequenceServer::App.run! if __FILE__ == $0
