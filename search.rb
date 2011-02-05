@@ -66,7 +66,7 @@ class App < Sinatra::Base
   enable :session
   enable :logging
 
-  set :root, File.dirname(__FILE__)
+  set :app_file, __FILE__
   set :blasturl, 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
 
   class << self
