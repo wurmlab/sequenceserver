@@ -3,13 +3,6 @@ require 'lib/database'
 module SequenceServer
   module Helpers
     module SystemHelpers
-      # check if the given command exists and is executable
-      # returns True if all is good.
-      def command?(command)
-        system("which #{command} > /dev/null 2>&1")
-      end
-      private :command?
-
       # Checks for the presence of blast executables. Assumes the executables
       # to be present in the bin directory passed to it, or in the sytem path.
       # ---
@@ -96,6 +89,14 @@ module SequenceServer
         db['nucleotide'].sort!
 
         db 
+      end
+
+      private
+
+      # check if the given command exists and is executable
+      # returns True if all is good.
+      def command?(command)
+        system("which #{command} > /dev/null 2>&1")
       end
     end
 
