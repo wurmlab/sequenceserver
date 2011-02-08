@@ -10,8 +10,7 @@ module SequenceServer
       # * bin(String) - path (relative/absolute) to the binaries
       # ---
       # Returns:
-      # * absolute path to the blast executables directory, or empty
-      # string (implies executables in the system path)
+      # * a hash of blast methods, and their corresponding absolute path
       # ---
       # Raises:
       # * IOError - if the executables can't be found
