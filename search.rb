@@ -26,15 +26,15 @@ class App < Sinatra::Base
     # run with builin server when invoked directly (ruby search.rb)
     set :run,        Proc.new { app_file == $0 }
 
-    LOG = Logger.new(STDOUT)
-    LOG.formatter = SinatraLikeLogFormatter.new()
+    set :log,        Proc.new { Logger.new(STDOUT) }
+    log.formatter = SinatraLikeLogFormatter.new()
 
     set :environment, :development
     #set :environment, :production
   end
 
   configure(:development) do
-    LOG.level     = Logger::DEBUG
+    log.level     = Logger::DEBUG
     begin
       require 'sinatra/reloader'
       register Sinatra::Reloader
@@ -44,7 +44,7 @@ class App < Sinatra::Base
   end
 
   configure(:production) do
-    LOG.level     = Logger::INFO
+    log.level     = Logger::INFO
     error do
       erb :'500'
     end
@@ -70,7 +70,7 @@ class App < Sinatra::Base
 
       # Log the discovery of binaries.
       bin.each do |command, path|
-        LOG.info("Found #{command} at #{path}")
+        log.info("Found #{command} at #{path}")
       end
 
       # use 'db' relative to the current working directory as fallback
@@ -81,11 +81,11 @@ class App < Sinatra::Base
       # Log the discovery of databases.
       db.each do |type, dbs|
         dbs.each do |d|
-          LOG.info("Found #{type} database: #{d.title} at #{d.name}")
+          log.info("Found #{type} database: #{d.title} at #{d.name}")
         end
       end
     rescue IOError => error
-      LOG.fatal("Fail: #{error}")
+      log.fatal("Fail: #{error}")
       exit
     end
 
@@ -95,7 +95,7 @@ class App < Sinatra::Base
       raise IOError, "config.yml should return a hash" unless config.is_a?( Hash )
       return config
     rescue Errno::ENOENT
-      LOG.warn("config.yml not found - assuming default settings")
+      log.warn("config.yml not found - assuming default settings")
       return {}
     end
 
@@ -112,7 +112,7 @@ class App < Sinatra::Base
 
     # can not proceed if one of these is missing
     raise ArgumentError unless sequence and db_type and method
-    LOG.info("requested #{method} against #{db_type.to_s} database")
+    settings.log.info("requested #{method} against #{db_type.to_s} database")
 
     # only allowed blast methods should be used
     blast_methods = %w|blastn blastp blastx tblastn tblastx|
@@ -120,9 +120,9 @@ class App < Sinatra::Base
 
     # check if input_fasta is compatible with the selected blast method
     sequence_type       = type_of_sequences(sequence)
-    LOG.debug('input seq type: ' + sequence_type.to_s)
-    LOG.debug('blast db type:  ' + db_type)
-    LOG.debug('blast method:   ' + method)
+    settings.log.debug('input seq type: ' + sequence_type.to_s)
+    settings.log.debug('blast db type:  ' + db_type)
+    settings.log.debug('blast method:   ' + method)
 
     unless blast_methods_for(sequence_type).include?(method)
       raise ArgumentError, "Cannot #{method} a #{sequence_type} query."
@@ -145,7 +145,7 @@ class App < Sinatra::Base
     blast = Blast.blast_string(method, dbs, sequence, advanced_opts)
 
     # log the command that was run
-    LOG.info('Ran: ' + blast.command) if settings.logging
+    settings.log.info('Ran: ' + blast.command) if settings.logging
 
     @blast = format_blast_results(blast.result, dbs)
 
@@ -163,7 +163,7 @@ class App < Sinatra::Base
   get '/get_sequence/:*/:*' do
     params[ :sequenceids], params[ :retrieval_databases] = params["splat"] 
     sequenceids = params[ :sequenceids].split(/\s/).uniq  # in a multi-blast query some may have been found multiply
-    LOG.info('Getting: ' + sequenceids.join(' ') + ' for ' + request.ip.to_s)
+    settings.log.info('Getting: ' + sequenceids.join(' ') + ' for ' + request.ip.to_s)
 
     # the results do not indicate which database a hit is from. 
     # Thus if several databases were used for blasting, we must check them all
@@ -177,7 +177,7 @@ class App < Sinatra::Base
       begin
         found_sequences += sequence_from_blastdb(sequenceids, database)
       rescue 
-        LOG.debug('None of the following sequences: '+ sequenceids.to_s + ' found in '+ database)
+        settings.log.debug('None of the following sequences: '+ sequenceids.to_s + ' found in '+ database)
       end
     end
 
@@ -209,7 +209,7 @@ class App < Sinatra::Base
         complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
         id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
         all_retrievable_ids.push(id)
-        LOG.debug('Added link for: '+ id)
+        settings.log.debug('Added link for: '+ id)
         link_to_fasta = "/get_sequence/:#{id}/:#{string_of_used_databases}" # several dbs... separate by ' '
 
         replacement_text_with_link  = "<a href='#{link_to_fasta}' title='Full #{id} FASTA sequence'>#{id}</a>"
