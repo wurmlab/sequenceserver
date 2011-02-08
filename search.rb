@@ -15,12 +15,23 @@ class App < Sinatra::Base
   include Helpers
   include SequenceHelpers
 
-  set :environment, :development
-  #  set :environment, :production
+  # Basic configuration settings for app.
+  configure do
+    # enable some builtin goodies
+    enable :session, :logging
 
+    # base setting; Sinatra can then figure :root, :public, and :views itself
+    set :app_file,   __FILE__
+    
+    # run with builin server when invoked directly (ruby search.rb)
+    set :run,        Proc.new { app_file == $0 }
 
-  LOG = Logger.new(STDOUT)
-  LOG.formatter = SinatraLikeLogFormatter.new()
+    LOG = Logger.new(STDOUT)
+    LOG.formatter = SinatraLikeLogFormatter.new()
+
+    set :environment, :development
+    #set :environment, :production
+  end
 
   configure(:development) do
     LOG.level     = Logger::DEBUG
@@ -41,12 +52,6 @@ class App < Sinatra::Base
       erb :'500'
     end
   end
-
-  enable :session
-  enable :logging
-
-  set :run,        Proc.new { app_file == $0 }
-  set :app_file,   __FILE__
 
   class << self
     def run!(options={})
