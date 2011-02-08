@@ -64,10 +64,22 @@ class App < Sinatra::Base
       bin = bin.freeze
       set :bin, bin
 
+      # Log the discovery of binaries.
+      bin.each do |command, path|
+        LOG.info("Found #{command} at #{path}")
+      end
+
       # use 'db' relative to the current working directory as fallback
       db = scan_blast_db(config["db"] || 'db')
       db = db.freeze
       set :db, db
+
+      # Log the discovery of databases.
+      db.each do |type, dbs|
+        dbs.each do |d|
+          LOG.info("Found #{type} database: #{d.title} at #{d.name}")
+        end
+      end
     rescue IOError => error
       LOG.fatal("Fail: #{error}")
       exit
