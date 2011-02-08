@@ -119,7 +119,7 @@ class App < Sinatra::Base
       Need #{allowed_db_type} database."
     end
 
-    method = executable(method)
+    method = settings.bin[ method ]
     dbs    = params['db'][db_type].map{|index| settings.db[db_type][index.to_i].name}.join(' ')
     advanced_opts = params['advanced']
 
