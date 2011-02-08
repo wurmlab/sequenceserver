@@ -47,7 +47,6 @@ class App < Sinatra::Base
 
   set :run,        Proc.new { app_file == $0 }
   set :app_file,   __FILE__
-  set :blasturl, 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
 
   class << self
     def run!(options={})
