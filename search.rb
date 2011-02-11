@@ -33,6 +33,16 @@ module SequenceServer
       #set :environment, :production
     end
 
+    # These are build based on the values read from config.yml.
+    configure do
+      # blast methods (executables) and their corresponding absolute path
+      set :binaries,  {}
+
+      # list of sorted blast databases grouped by databse type:
+      # 'protein', or 'nucleotide'
+      set :databases, {}
+    end
+
     configure(:development) do
       log.level     = Logger::DEBUG
       begin
@@ -64,22 +74,18 @@ module SequenceServer
       # has been enabled.
       def init(config = {})
         # scan system path as fallback
-        bin = scan_blast_executables(config["bin"] || nil)
-        bin = bin.freeze
-        set :bin, bin
+        self.binaries = scan_blast_executables(config["bin"] || nil).freeze
 
         # Log the discovery of binaries.
-        bin.each do |command, path|
+        binaries.each do |command, path|
           log.info("Found #{command} at #{path}")
         end
 
         # use 'db' relative to the current working directory as fallback
-        db = scan_blast_db(config["db"] || 'db')
-        db = db.freeze
-        set :db, db
+        self.databases = scan_blast_db(config["db"] || 'db').freeze
 
         # Log the discovery of databases.
-        db.each do |type, dbs|
+        databases.each do |type, dbs|
           dbs.each do |d|
             log.info("Found #{type} database: #{d.title} at #{d.name}")
           end
@@ -135,8 +141,8 @@ module SequenceServer
       Need #{allowed_db_type} database."
       end
 
-      method = settings.bin[ method ]
-      dbs    = params['db'][db_type].map{|index| settings.db[db_type][index.to_i].name}.join(' ')
+      method = settings.binaries[ method ]
+      dbs    = params['db'][db_type].map{|index| settings.databases[db_type][index.to_i].name}.join(' ')
       advanced_opts = params['advanced']
 
       raise ArgumentError, "Invalid advanced options" unless advanced_opts =~ /\A[a-z0-9\-_\. ']*\Z/i

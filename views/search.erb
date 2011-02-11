@@ -49,7 +49,7 @@
 				<fieldset class="nucleotide rounded box databases">
 					<h2>Nucleotide databases</h2>
 					<!-- Database list is actually dynamically loaded -->
-			  <%    settings.db['nucleotide'].each_with_index do |db, i| %>
+			  <%    settings.databases['nucleotide'].each_with_index do |db, i| %>
 			  <input type="checkbox" class="dbcheckbox" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
 			  <label for="ndb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
 			  <% end %>
@@ -58,7 +58,7 @@
 				<fieldset class="protein rounded box databases">
 					<h2>Protein databases</h2> 
 					<!--  Database list is actually dynamically loaded-->
-			  <% settings.db['protein'].each_with_index do |db, i| %>
+			  <% settings.databases['protein'].each_with_index do |db, i| %>
 			  <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
 			  <label for="pdb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
 			  <% end %>
