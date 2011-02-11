@@ -33,6 +33,23 @@ module SequenceServer
       #set :environment, :production
     end
 
+    # Local, app configuration settings derived from config.yml.
+    #
+    # A config.yml should contain the settings described in the following
+    # configure block as key, value pairs. See example.config.yml in the
+    # installation directory.
+    #
+    # The app looks for config.yml in the the current working directory.
+    # Sane defaults are assumed in the absence of a config.yml, or a
+    # corresponding entry.
+    configure do
+      # path to the blast binaries
+      set :bin,         nil
+
+      # path to the database directory
+      set :database,    File.expand_path('database')
+    end
+
     # These are build based on the values read from config.yml.
     configure do
       # blast methods (executables) and their corresponding absolute path
@@ -68,13 +85,21 @@ module SequenceServer
         init(config)
         super
       end
+      
+      def set_config(config = {})
+        config.each do |option, value|
+          send("#{option}=", value)
+        end
+      end
 
       # Initializes the blast server : executables, database. Exit if blast
       # executables, and databses can not be found. Logs the result if logging
       # has been enabled.
       def init(config = {})
+        set_config(config)
+
         # scan system path as fallback
-        self.binaries = scan_blast_executables(config["bin"] || nil).freeze
+        self.binaries = scan_blast_executables(bin).freeze
 
         # Log the discovery of binaries.
         binaries.each do |command, path|
@@ -82,7 +107,7 @@ module SequenceServer
         end
 
         # use 'db' relative to the current working directory as fallback
-        self.databases = scan_blast_db(config["db"] || 'db').freeze
+        self.databases = scan_blast_db(database).freeze
 
         # Log the discovery of databases.
         databases.each do |type, dbs|
