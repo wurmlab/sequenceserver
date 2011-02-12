@@ -43,20 +43,32 @@ module SequenceServer
     # Sane defaults are assumed in the absence of a config.yml, or a
     # corresponding entry.
     configure do
-      # path to the blast binaries
+      # absolute path to the blast binaries
+      #
+      # A default of 'nil' is indicative of blast binaries being present in
+      # system PATH.
       set :bin,         nil
 
-      # path to the database directory
+      # absolute path to the database directory
+      #
+      # As a default use 'database' directory relative to current working
+      # directory of the running app.
       set :database,    File.expand_path('database')
 
-      # the port number to run Sequence Server on
+      # the port number to run Sequence Server standalone
       set :port,        4567
 
       # number of threads to be used during blasting
+      #
+      # This option is passed directly to BLAST+. We use a default value of 1
+      # as a higher value may cause BLAST+ to crash if it was not compiled with
+      # threading support.
       set :num_threads, 1
     end
 
-    # These are build based on the values read from config.yml.
+    # Lookup tables used by Sequence Server to pick up the right blast binary,
+    # or database. These tables should be populated during app initialization
+    # by scanning bin, and database directories.
     configure do
       # blast methods (executables) and their corresponding absolute path
       set :binaries,  {}
