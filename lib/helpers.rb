@@ -14,6 +14,12 @@ module SequenceServer
       # ---
       # Raises:
       # * IOError - if the executables can't be found
+      #
+      #   > scan_blast_executables('/home/yeban/bin')
+      #   =>  { "blastx"=>"/home/yeban/bin/blastx",
+      #         "blastn"=>"/home/yeban/bin/blastn",
+      #         ...
+      #       }
       def scan_blast_executables(bin)
         if bin and not File.directory?(bin)
           raise IOError, "Could not find '#{bin}' defined in config.yml."
@@ -47,6 +53,9 @@ module SequenceServer
       # ---
       # Raises:
       # * IOError - if no database can be found
+      #
+      #   > scan_blast_db('/home/yeban/blast_db')
+      #   => { "protein" => [], "nucleotide" => [] }
       def scan_blast_db(db_root, blastdbcmd = 'blastdbcmd')
         raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
         #LOG.info("Config database dir:     #{db_root}")
