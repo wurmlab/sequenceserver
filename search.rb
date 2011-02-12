@@ -48,6 +48,12 @@ module SequenceServer
 
       # path to the database directory
       set :database,    File.expand_path('database')
+
+      # the port number to run Sequence Server on
+      set :port,        4567
+
+      # number of threads to be used during blasting
+      set :num_threads, 1
     end
 
     # These are build based on the values read from config.yml.
