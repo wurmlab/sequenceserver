@@ -88,21 +88,15 @@ module SequenceServer
 
     class << self
       def run!(options={})
-        init(config)
+        init
         super
       end
       
-      def set_config(config = {})
-        config.each do |option, value|
-          send("#{option}=", value)
-        end
-      end
-
       # Initializes the blast server : executables, database. Exit if blast
       # executables, and databses can not be found. Logs the result if logging
       # has been enabled.
-      def init(config = {})
-        set_config(config)
+      def init
+        parse_config
 
         # scan system path as fallback
         self.binaries = scan_blast_executables(bin).freeze
@@ -126,16 +120,28 @@ module SequenceServer
         exit
       end
 
-      # Load config.yml; return a Hash. The Hash is empty if config.yml does not exist.
-      def config
+      # Parse config.yml, correctly process the obtained values, and set the
+      # corresponding configuration option.
+      #
+      # This method uses YAML.load_file to read config.yml. Absence of a
+      # config.yml is safely ignored as the app should then fall back on
+      # default configuration values. Any other error raised by YAML.load_file
+      # are not rescued.
+      def parse_config
         config = YAML.load_file( "config.yml" )
-        raise IOError, "config.yml should return a hash" unless config.is_a?( Hash )
-        return config
-      rescue Errno::ENOENT
-        log.warn("config.yml not found - assuming default settings")
-        return {}
-      end
 
+        config.each do |option, value|
+          # next unless value
+          case option
+          when 'bin', 'database'
+            set option, File.expand_path(value)
+          when 'port', 'num_threads'
+            set option, value.to_i
+          end
+        end
+      rescue Errno::ENOENT
+        log.warn("config.yml not found - will assume default settings")
+      end
     end
 
     get '/' do
