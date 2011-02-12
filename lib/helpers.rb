@@ -3,20 +3,18 @@ require 'lib/database'
 module SequenceServer
   module Helpers
     module SystemHelpers
-      # Checks for the presence of blast executables. Assumes the executables
-      # to be present in the bin directory passed to it, or in the sytem path.
+      # Scan the given directory for blast executables. Passing `nil` scans the
+      # system `PATH`.
       # ---
       # Arguments:
-      # * bin(String) - path (relative/absolute) to the binaries
+      # * bin(String) - absolute path to the directory containing blast binaries
       # ---
       # Returns:
       # * a hash of blast methods, and their corresponding absolute path
       # ---
       # Raises:
       # * IOError - if the executables can't be found
-      def scan_blast_executables(bin_dir)
-        bin = File.expand_path(bin_dir) rescue nil
-
+      def scan_blast_executables(bin)
         if bin and not File.directory?(bin)
           raise IOError, "Could not find '#{bin}' defined in config.yml."
         end
@@ -38,10 +36,10 @@ module SequenceServer
         binaries
       end
 
-      # Scan the given directory for blast databases.
+      # Scan the given directory (including subdirectory) for blast databases.
       # ---
       # Arguments:
-      # * db_root(String) - path (relative/absolute) to the databases
+      # * db_root(String) - absolute path to the blast databases
       # ---
       # Returns:
       # * a hash of sorted blast databases grouped by database type:
@@ -49,12 +47,10 @@ module SequenceServer
       # ---
       # Raises:
       # * IOError - if no database can be found
-      def scan_blast_db(db_root)
-        db_root = File.expand_path(db_root)
+      def scan_blast_db(db_root, blastdbcmd = 'blastdbcmd')
         raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
         #LOG.info("Config database dir:     #{db_root}")
 
-        blastdbcmd = binaries['blastdbcmd']
         find_dbs_command = %|#{blastdbcmd} -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1 |
           db_list = %x|#{find_dbs_command}|
           raise IOError, "No formatted blast databases found in '#{ db_root }' . \n"\

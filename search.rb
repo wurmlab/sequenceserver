@@ -119,7 +119,7 @@ module SequenceServer
         end
 
         # use 'db' relative to the current working directory as fallback
-        self.databases = scan_blast_db(database).freeze
+        self.databases = scan_blast_db(database, binaries['blastdbcmd']).freeze
 
         # Log the discovery of databases.
         databases.each do |type, dbs|
