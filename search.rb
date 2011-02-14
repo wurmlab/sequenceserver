@@ -238,12 +238,20 @@ module SequenceServer
       '<pre><code>' + found_sequences + '</pre></code>'
     end
 
+    # Ensure a '>sequence_identifier\n' at the start of a sequence.
+    #
+    # An empty query line appears in the blast report if the leading
+    # '>sequence_identifier\n' in the sequence is missing. We prepend
+    # the input sequence with user info in such case.
+    #
+    #   > to_fasta("acgt")
+    #   => 'Submitted_By_127.0.0.1_at_110214-15:33:34\nacgt'
     def to_fasta(sequence)
-      sequence.lstrip!  # removes leading whitespace
+      sequence.lstrip!
       if sequence[0,1] != '>'
-        # forgetting the  leading '>sequenceIdentifer\n' no longer breaks blast, but leaves an empty query 
-        # line in the blast report. lets replace it with info about the user
-        sequence.insert(0, '>Submitted_By_'+request.ip.to_s + '_at_' + Time.now.strftime("%y%m%d-%H:%M:%S") + "\n")
+        ip   = request.ip.to_s 
+        time = Time.now.strftime("%y%m%d-%H:%M:%S")
+        sequence.insert(0, ">Submitted_By_#{ip}_at_#{time}\n")
       end
       return sequence
     end
