@@ -158,8 +158,11 @@ module SequenceServer
     post '/' do
       method     = params['method']
       db_type    = params['db'].first.first
-      sequence   = to_fasta(params[:sequence])
+      sequence   = params[:sequence]
 
+      # evaluate empty sequence as nil, otherwise as fasta
+      sequence = sequence.empty? ? nil : to_fasta(sequence)
+      
       # can not proceed if one of these is missing
       raise ArgumentError unless sequence and db_type and method
       settings.log.info("requested #{method} against #{db_type.to_s} database")
