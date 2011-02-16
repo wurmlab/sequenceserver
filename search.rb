@@ -28,9 +28,6 @@ module SequenceServer
 
       set :log,        Proc.new { Logger.new(STDOUT) }
       log.formatter = SinatraLikeLogFormatter.new()
-
-      set :environment, :development
-      #set :environment, :production
     end
 
     # Local, app configuration settings derived from config.yml.
@@ -46,6 +43,12 @@ module SequenceServer
       # store the settings hash from config.yml; further configuration values
       # are derived from it
       set :config,      {}
+
+	  # run mode
+	  #
+	  # :development is good for debugging (default)
+	  # :production is sleeker for deployment 
+	  set :environment, Proc.new{ config['environment'].to_sym rescue :development}
 
       # absolute path to the blast binaries
       #

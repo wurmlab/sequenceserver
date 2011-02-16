@@ -8,6 +8,8 @@
 #
 # bin: ~/ncbi-blast-2.2.24+/bin/
 
+
+
 # Path to blast database.
 #
 # Sequence Server scans the given directory (including the sub-directories)
@@ -19,6 +21,8 @@
 #
 # database: ~/blast_databases/
 
+
+
 # Port to run Sequence Server on.
 #
 # The app will then be accessible at http://your-ip:port. Defaults to 4567.
@@ -27,6 +31,8 @@
 # Uncomment the following line, and change to appropriate value to use.
 #
 # port: 4567
+
+
 
 # number of threads to be use when blasting
 #
@@ -37,3 +43,15 @@
 # Uncomment the following line, and change to appropriate value to use.
 #
 # num_threads: 1
+
+
+# run mode
+#
+# SequenceServer can be run in development mode (more details for the
+# administrator - helpful when setting things up) or in production mode.
+# Production mode is better for deployment: faster, less logged messages.
+# Default it development mode.
+#
+# Uncomment the following line, and change to appropriate value to use.
+#
+# environment: production
