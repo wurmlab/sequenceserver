@@ -5,8 +5,8 @@ require 'rubygems'
 require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'
-require 'helpers.rb'
-require 'sequencehelpers.rb'
+require 'lib/helpers.rb'
+require 'lib/sequencehelpers.rb'
 
 LOG = Logger.new(STDOUT)
 
@@ -72,6 +72,7 @@ class DatabaseFormatter
     end
 
     def probably_fasta?(file)
+		return FALSE if File.zero?(file)
         File.open(file, 'r') do |file_stream|
             first_line = file_stream.readline
             if first_line.slice(0,1) == '>'
