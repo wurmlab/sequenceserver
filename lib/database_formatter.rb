@@ -5,14 +5,16 @@ require 'rubygems'
 require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'
-require 'lib/sequencehelpers.rb'
-require 'lib/systemhelpers.rb'
+require 'helpers.rb'
+require 'sequencehelpers.rb'
 
 LOG = Logger.new(STDOUT)
 
 class DatabaseFormatter
-    include SequenceHelpers
+    include SequenceServer
+	include Helpers
     include SystemHelpers
+    include SequenceHelpers
     
     def init
         LOG.info("initializing")
@@ -22,6 +24,7 @@ class DatabaseFormatter
     end
 
     def format_databases(db_path)
+        commands = []
         Find.find(db_path) do |file|
             next if File.directory?(file)
             unless File.binary?(file)
@@ -42,8 +45,10 @@ class DatabaseFormatter
                         LOG.warn("Unable to guess sequence type for #{file}. Skipping") 
                     end
                     if [ :protein, :nucleotide ].include?(sequence_type)
-                        ask_make_db(file, sequence_type)
-
+                        command = ask_make_db_command(file, sequence_type)
+                        unless command.nil?
+                            commands.push(command)
+                        end
                     else 
                         LOG.warn("Unable to guess sequence type for #{file}. Skipping") 
                     end
@@ -51,13 +56,18 @@ class DatabaseFormatter
                 end
             end
         end
+        LOG.info("Will now create DBs")
+        commands.each do |command|
+			LOG.info("Will run: " + command.to_s)
+            system(command)
+        end
         LOG.info("Done formatting databases. ")
         db_table(db_path)
     end
 
     def db_table(db_path)
+        LOG.info("Summary of formatted blast databases:\n")
         output = %x| blastdbcmd -recursive -list #{db_path} -list_outfmt "%p %f %t" &2>1 |
-        LOG.info("Summary of formatted blast databases:")
         LOG.info(output)
     end
 
@@ -73,7 +83,8 @@ class DatabaseFormatter
     end
 
 
-    def ask_make_db(file, type)
+    # returns command than needs to be run to make db
+    def ask_make_db_command(file, type)
         LOG.info("FASTA file: #{file}")
         LOG.info("Fasta type: " + type.to_s)
         
@@ -88,15 +99,15 @@ class DatabaseFormatter
             title = STDIN.gets.chomp
             title = File.basename(file)  if title.empty?
             
-            make_db(file,type,title)
+            return make_db_command(file,type,title)
         end
     end
 
-    def make_db(file,type, title)
+    def make_db_command(file,type, title)
         LOG.info("Will make #{type.to_s} database from #{file} with #{title}")
         command = %|makeblastdb -in #{file} -dbtype #{ type.to_s.slice(0,4)} -title "#{title}" -parse_seqids|
-        LOG.info("Will run: #{command}")
-        %x|#{ command}|  
+        LOG.info("Returning: #{command}")
+        return(command)
     end
 end
 
