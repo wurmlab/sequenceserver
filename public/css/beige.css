@@ -13,6 +13,10 @@ body {
 	-moz-border-radius: 10px;
 }
 
+h1 {
+    margin: 0px;
+	padding: 0px;
+}
 
 .banner {
 	font-weight: bold;
