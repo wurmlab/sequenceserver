@@ -1,4 +1,6 @@
-h1. Simple blast search - VERY MUCH WORK IN PROGRESS
+h1. VERY MUCH WORK IN PROGRESS
+
+Sequenceserver is CURRENTLY AT PRERELEASE STAGE. So please don't expect much for now. Drop us a line & we'll keep you posted on the release of 1.0. 
 
 Check <a href='http://www.sequenceserver.com/'>sequenceserver.com</a> for info & screenshots.
 
@@ -10,7 +12,6 @@ Authors: "Anurag Priyam":http://yeban.in/ & "Yannick Wurm":http://yannick.poulet
 
 h2. Rationale/aim
 
-
 Biologists constantly  generate new sequence data... but the people who want to access the data are often not computational, so they need some kind of point & click & copy & paste interface. It's a common issue. See for example "this question":http://stackoverflow.com/questions/1890285/are-there-any-existing-solutions-for-creating-a-generic-dna-sequence-database-wit/1893358 .
 
 
@@ -20,13 +21,15 @@ Alternatives: The "GMOD":http://www.gmod.org software can be overkill. But it's 
 The idea is to make a blast server that is simple to set up & maintain (for the administrator), and pleasant to use (by thinking for user). 
 
 
-h3. Features for the admin):
+h3. Features for the admin): CURRENTLY AT PRERELEASE STAGE
+ * no hassle - just run it using ruby's internal server. Setup is easy.
  * autodetection of new blast databases
  * Not YET IMPLEMENTED: automagic setup. "gem install" + point it at blast binaries and fasta database files --> youre good to go. (using ruby's internal Webrick server avoids overhead normally associated with admin)
 
 
 
-h3. Features for the user:
+h3. Features for the user: CURRENTLY AT PRERELEASE STAGE
+ * simple, elegant interface
  * links in the results that let you fetch the original sequences of the database hits (by providing links to individual hits, and batch download of all hits). 
  * NOT YET PERFECT: autodetection of whether the use entered nucleotide or aminoacid sequence --> dynamically updated availability of blast methods
  * NOT YET PERFECT: blast method implies which database can be used (dynamically updated list of available databases)
@@ -45,7 +48,7 @@ All blast databases must be formatted. Eg:
 
 h2. Launching
 
-* @ruby search.rb@  or @ruby -p 8080 search.rb@       --> commandline will display address of web server (default: "http://localhost:4567":http://localhost:4567)
+* @ruby sequenceserver.rb@  or @ruby -p 8080 sequenceserver.rb@       --> commandline will display address of web server (default: "http://localhost:4567":http://localhost:4567)
 
 
 h2. FAQ:
