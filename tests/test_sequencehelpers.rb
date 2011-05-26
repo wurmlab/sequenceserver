@@ -7,7 +7,7 @@ require 'test/unit'
 
 
 class Tester < Test::Unit::TestCase
-  include SequenceHelpers
+  include SequenceServer::SequenceHelpers
   def test_guess_sequence_type_nucleotide
   #must 'correctly detect nucleotide sequence, even when it includes crap' do   
     ['AAAAAAAAAAAAAAAAAAAAAT',
