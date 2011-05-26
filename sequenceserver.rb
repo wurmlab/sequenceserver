@@ -14,7 +14,7 @@ require 'lib/helpers'
 require 'lib/blast.rb'
 require 'lib/sequencehelpers.rb'
 require 'lib/sinatralikeloggerformatter.rb'
-
+require 'customisation'
 
 
 # Helper module - initialize the blast server.
@@ -22,6 +22,7 @@ module SequenceServer
   class App < Sinatra::Base
     include Helpers
     include SequenceHelpers
+    include SequenceServer::Customisation
 
     # Basic configuration settings for app.
     configure do
@@ -187,6 +188,7 @@ module SequenceServer
 
       # check if input_fasta is compatible with the selected blast method
       sequence_type       = type_of_sequences(sequence)
+      settings.log.debug('sequence: ' + sequence)
       settings.log.debug('input seq type: ' + sequence_type.to_s)
       settings.log.debug('blast db type:  ' + db_type)
       settings.log.debug('blast method:   ' + method)
@@ -203,7 +205,11 @@ module SequenceServer
       end
 
       method = settings.binaries[ method ]
-      dbs    = params['db'][db_type].map{|index| settings.databases[db_type][index.to_i].name}.join(' ')
+      settings.log.debug('settings.databases:   ' + settings.databases.inspect)
+      databases = params['db'][db_type].map{|index| 
+      	settings.databases[db_type][index.to_i].name
+      	} 
+      dbs    = databases.join(' ')
       advanced_opts = params['advanced']
 
       raise ArgumentError, "Invalid advanced options" unless advanced_opts =~ /\A[a-z0-9\-_\. ']*\Z/i
@@ -214,7 +220,7 @@ module SequenceServer
       # log the command that was run
       settings.log.info('Ran: ' + blast.command) if settings.logging
 
-      @blast = format_blast_results(blast.result, dbs)
+      @blast = format_blast_results(blast.result, databases)
 
       erb :search
     end
@@ -273,22 +279,16 @@ module SequenceServer
       return sequence
     end
 
-    def format_blast_results(result, string_of_used_databases)
+    def format_blast_results(result, databases)
       raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if !result.class == String 
       raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if result.empty?
 
       formatted_result    = ''
       all_retrievable_ids = []
+      string_of_used_databases = databases.join(' ')
       result.each do |line|
-        if line.match(/^>\S/)  #if there is a space right after the '>', makeblastdb was run without -parse_seqids
-          complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
-          id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
-          all_retrievable_ids.push(id)
-          settings.log.debug('Added link for: '+ id)
-          link_to_fasta = "/get_sequence/:#{id}/:#{string_of_used_databases}" # several dbs... separate by ' '
-
-          replacement_text_with_link  = "<a href='#{link_to_fasta}' title='Full #{id} FASTA sequence'>#{id}</a>"
-          formatted_result += line.gsub(id, replacement_text_with_link)
+        if line.match(/^>/) # If line to possibly replace
+        	formatted_result += construct_sequence_hyperline_line(line, databases, all_retrievable_ids)
         else
           formatted_result += line
         end
@@ -298,6 +298,37 @@ module SequenceServer
       retrieval_text       = all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of #{all_retrievable_ids.length} retrievable hit(s)</a></p>"
 
       retrieval_text + '<pre><code>' + formatted_result + '</pre></code>'  # should this be somehow put in a div?
+    end
+    
+    def construct_sequence_hyperline_line(line, databases, all_retrievable_ids)
+    	matches = line.match(/^(.+)/)
+      sequence_id = matches[1] 
+    	
+    	link = nil
+      
+      # If a custom sequence hyperlink method has been defined,
+      # use that.
+      if self.respond_to?(:construct_custom_sequence_hyperlink)
+      	settings.log.debug("Using custom hyperlink creator with sequence #{sequence_id}")
+        link = construct_custom_sequence_hyperlink(sequence_id)
+      elsif line.match(/^>\S/) #if there is a space right after the '>', makeblastdb was run without -parse_seqids
+        # By default, add a link to a fasta file of the sequence (if makeblastdb was called with -parse_seqids)
+        complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
+        id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
+        all_retrievable_ids.push(id)
+        
+        link = "/get_sequence/:#{id}/:#{databases.join(' ')}" # several dbs... separate by ' '
+      else
+       	# do nothing - link == nil means no link will be incorporated
+      end
+      
+      # Return the BLAST output line with the link in it
+    	if link.nil?
+    		return line
+    	else
+    		settings.log.debug('Added link for: `'+ sequence_id +'\', '+ link)
+    		return replacement_text_with_link  = "<a href='#{link}'>#{sequence_id}</a>"
+    	end
     end
 
     at_exit { run! if $!.nil? and run? }
