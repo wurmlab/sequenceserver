@@ -1,3 +1,10 @@
+(function( $ ){
+    //toggle disabling of an html element
+    $.fn.toggle_disabled = function() {
+        return this.attr('disabled') ? this.removeAttr('disabled') : this.attr('disabled', 'disabled');
+    };
+})( jQuery );
+
 $(document).ready(function(){
     $("fieldset.advanced").click(function(event){
         $(this).find("pre").toggle("fast");
