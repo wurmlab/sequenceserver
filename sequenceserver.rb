@@ -283,23 +283,23 @@ module SequenceServer
       raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if result.empty?
 
       formatted_result    = ''
-      all_retrievable_ids = []
+      @all_retrievable_ids = []
       string_of_used_databases = databases.join(' ')
       result.each do |line|
         if line.match(/^>/) # If line to possibly replace
-          formatted_result += construct_sequence_hyperlink_line(line, databases, all_retrievable_ids)
+          formatted_result += construct_sequence_hyperlink_line(line, databases)
         else
           formatted_result += line
         end
       end
 
-      link_to_fasta_of_all = "/get_sequence/:#{all_retrievable_ids.join(' ')}/:#{string_of_used_databases}" #dbs must be sep by ' '
-      retrieval_text       = all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of #{all_retrievable_ids.length} retrievable hit(s)</a></p>"
+      link_to_fasta_of_all = "/get_sequence/:#{@all_retrievable_ids.join(' ')}/:#{string_of_used_databases}" #dbs must be sep by ' '
+      retrieval_text       = @all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a></p>"
 
       retrieval_text + '<pre><code>' + formatted_result + '</pre></code>'  # should this be somehow put in a div?
     end
     
-    def construct_sequence_hyperlink_line(line, databases, all_retrievable_ids)
+    def construct_sequence_hyperlink_line(line, databases)
       matches = line.match(/^>(.+)/)
       sequence_id = matches[1]
       
