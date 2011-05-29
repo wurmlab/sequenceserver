@@ -156,6 +156,10 @@ padding: 0;
   color: #A9A9A9;
 }
 
+.pointer {
+	cursor:pointer;
+}
+
 .advanced pre {
 	display: none;
 }

@@ -68,8 +68,9 @@
 			
 			<div class="horizontal">
 				<fieldset class="advanced box rounded">	
-					<span class="bigtext">Advanced parameters:</span><input type="text" name="advanced" id="advanced"/>
-					<pre class='smalltext'>
+					<span class="bigtext pointer" title="Click to show/hide advanced options.">Advanced parameters:</span>
+					<input type="text" name="advanced" id="advanced" title="View, and enter advanced parameters."/>
+					<pre class="smalltext">
 <%= ERB::Util.h %q|
 -evalue <Real>
    Expectation value (E) threshold for saving hits 

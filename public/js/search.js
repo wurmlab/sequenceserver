@@ -6,8 +6,15 @@
 })( jQuery );
 
 $(document).ready(function(){
-    $("fieldset.advanced").click(function(event){
-        $(this).find("pre").toggle("fast");
+    $("fieldset.advanced span").click(function(event){
+        //toggle display of advanced options when "Advanced parameters" text is
+        //clicked
+        $(this).siblings("pre").toggle("fast");
+    });
+
+    $("input#advanced").click(function(event){
+        //but for input box toggling might get annoying
+        $(this).next("pre").show("fast");
     });
 
     $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
