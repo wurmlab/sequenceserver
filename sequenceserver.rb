@@ -209,13 +209,12 @@ module SequenceServer
       databases = params['db'][db_type].map{|index| 
         settings.databases[db_type][index.to_i].name
         } 
-      dbs    = databases.join(' ')
       advanced_opts = params['advanced']
 
       raise ArgumentError, "Invalid advanced options" unless advanced_opts =~ /\A[a-z0-9\-_\. ']*\Z/i
       raise ArgumentError, "using -out is not allowed" if advanced_opts =~ /-out/i
 
-      blast = Blast.blast_string(method, dbs, sequence, advanced_opts)
+      blast = Blast.blast_string(method, databases.join(' '), sequence, advanced_opts)
 
       # log the command that was run
       settings.log.info('Ran: ' + blast.command) if settings.logging
