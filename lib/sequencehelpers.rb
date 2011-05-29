@@ -101,6 +101,7 @@ module SequenceServer
         # By default, add a link to a fasta file of the sequence (if makeblastdb was called with -parse_seqids)
         complete_id = sequence_id[/^(\S+)\s*.*/, 1]  # get id part
         id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
+        @all_retrievable_ids ||= []
         @all_retrievable_ids.push(id)
         
         link = "/get_sequence/:#{id}/:#{databases.join(' ')}" # several dbs... separate by ' '
