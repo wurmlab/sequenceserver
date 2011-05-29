@@ -51,5 +51,11 @@ class Tester < Test::Unit::TestCase
     expected_comp = {"a"=>2, "d"=>3, "f"=>7, "s"=>3, "A"=>1}
     assert_equal(expected_comp, composition('asdfasdfffffAsdf'))
   end
+  
+  def test_construct_standard_sequence_hyperlink
+    assert_equal "/get_sequence/:one/:abc def", construct_standard_sequence_hyperlink('one', %w(abc def))
+    assert_equal nil, construct_standard_sequence_hyperlink(' one', %w(abc def))
+    assert_equal "/get_sequence/:MAL13P1.218/:abc def", construct_standard_sequence_hyperlink('lcl|MAL13P1.218', %w(abc def))
+  end
 end
 

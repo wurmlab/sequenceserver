@@ -287,7 +287,7 @@ module SequenceServer
       string_of_used_databases = databases.join(' ')
       result.each do |line|
         if line.match(/^>/) # If line to possibly replace
-          formatted_result += construct_sequence_hyperline_line(line, databases, all_retrievable_ids)
+          formatted_result += construct_sequence_hyperlink_line(line, databases, all_retrievable_ids)
         else
           formatted_result += line
         end
@@ -299,9 +299,9 @@ module SequenceServer
       retrieval_text + '<pre><code>' + formatted_result + '</pre></code>'  # should this be somehow put in a div?
     end
     
-    def construct_sequence_hyperline_line(line, databases, all_retrievable_ids)
-      matches = line.match(/^(.+)/)
-      sequence_id = matches[1] 
+    def construct_sequence_hyperlink_line(line, databases, all_retrievable_ids)
+      matches = line.match(/^>(.+)/)
+      sequence_id = matches[1]
       
       link = nil
       
@@ -310,23 +310,18 @@ module SequenceServer
       if self.respond_to?(:construct_custom_sequence_hyperlink)
         settings.log.debug("Using custom hyperlink creator with sequence #{sequence_id}")
         link = construct_custom_sequence_hyperlink(sequence_id)
-      elsif line.match(/^>\S/) #if there is a space right after the '>', makeblastdb was run without -parse_seqids
-        # By default, add a link to a fasta file of the sequence (if makeblastdb was called with -parse_seqids)
-        complete_id = line[/^>*(\S+)\s*.*/, 1]  # get id part
-        id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
-        all_retrievable_ids.push(id)
-        
-        link = "/get_sequence/:#{id}/:#{databases.join(' ')}" # several dbs... separate by ' '
       else
-         # do nothing - link == nil means no link will be incorporated
+        settings.log.debug("Using standard hyperlink creator with sequence `#{sequence_id}'")
+        link = construct_standard_sequence_hyperlink(sequence_id, databases)
       end
       
       # Return the BLAST output line with the link in it
       if link.nil?
+        settings.log.debug('No link added link for: `'+ sequence_id +'\'')
         return line
       else
-        settings.log.debug('Added link for: `'+ sequence_id +'\', '+ link)
-        return replacement_text_with_link  = "<a href='#{link}'>#{sequence_id}</a>"
+        settings.log.debug('Added link for: `'+ sequence_id +'\''+ link)
+        return "<a href='#{link}'>#{sequence_id}</a>"
       end
     end
 
