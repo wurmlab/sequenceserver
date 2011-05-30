@@ -66,20 +66,21 @@ $(document).ready(function(){
         }, 10);
     });
 
-    $('#blastp').click(function(event){
-        $('fieldset.nucleotide input').attr('disabled', 'disabled');
-    });
-    $('#blastx').click(function(event){
-        $('fieldset.nucleotide input').attr('disabled', 'disabled');
-    });
-    $('#blastn').click(function(event){
-        $('fieldset.protein input').attr('disabled', 'disabled');
-    });
-    $('#tblastx').click(function(event){
-        $('fieldset.protein input').attr('disabled', 'disabled');
-    });
-    $('#tblastn').click(function(event){
-        $('fieldset.protein input').attr('disabled', 'disabled');
+    //when a blast method is selected
+    $('#blastp, #blastx, #blastn, #tblastx, #tblastn').change(function(event){
+        //we first reset all disabled database check boxes
+        $('.databases input[type=checkbox]').filter(':disabled').enable();
+
+        //then find the selected blast method
+        var method = $('.blastmethods input[type=radio]').filter(':checked').val();
+
+        //and accordingly disable incompatible databases
+        if (method == 'blastx' || method == 'blastp'){
+            $('.databases.nucleotide input[type=checkbox]').toggle_disabled();
+        }
+        else if (method == 'blastn' || method == 'tblastx' || method == 'tblastn'){
+            $('.databases.protein input[type=checkbox]').disable();
+        }
     });
 });
 
