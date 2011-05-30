@@ -10,6 +10,8 @@ $(document).ready(function(){
         $(this).find("pre").toggle("fast");
     });
 
+    $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
+
     $("#sequence").bind("paste", function(event){
         //store the matched element
         var element = $(this);

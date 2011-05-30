@@ -152,6 +152,10 @@ padding: 0;
 	width: 78%;
 }
 
+.greytext {
+  color: #A9A9A9;
+}
+
 .advanced pre {
 	display: none;
 }
