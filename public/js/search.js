@@ -5,6 +5,28 @@
     };
 })( jQuery );
 
+//helpers methods to disable, enable, and uncheck radio buttons and checkboxes
+(function( $ ){
+    //disable an element
+    $.fn.disable = function() {
+        return this.attr('disabled', 'disabled');
+    };
+})( jQuery );
+
+(function( $ ){
+    //enable an element
+    $.fn.enable = function() {
+        return this.removeAttr('disabled');
+    };
+})( jQuery );
+
+(function( $ ){
+    //uncheck an element
+    $.fn.uncheck = function() {
+        return this.removeAttr('checked');
+    };
+})( jQuery );
+
 $(document).ready(function(){
     $("fieldset.advanced span").click(function(event){
         //toggle display of advanced options when "Advanced parameters" text is
