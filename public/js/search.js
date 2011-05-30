@@ -17,6 +17,7 @@ $(document).ready(function(){
         $(this).next("pre").show("fast");
     });
 
+    $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
     $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
 
     $("#sequence").bind("paste", function(event){
