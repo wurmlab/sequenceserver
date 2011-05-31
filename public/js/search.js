@@ -1,10 +1,3 @@
-(function( $ ){
-    //toggle disabling of an html element
-    $.fn.toggle_disabled = function() {
-        return this.attr('disabled') ? this.removeAttr('disabled') : this.attr('disabled', 'disabled');
-    };
-})( jQuery );
-
 //helpers methods to disable, enable, and uncheck radio buttons and checkboxes
 (function( $ ){
     //disable an element
@@ -128,7 +121,7 @@ $(document).ready(function(){
 
         //and accordingly disable incompatible databases
         if (method == 'blastx' || method == 'blastp'){
-            $('.databases.nucleotide input[type=checkbox]').toggle_disabled();
+            $('.databases.nucleotide input[type=checkbox]').disable();
         }
         else if (method == 'blastn' || method == 'tblastx' || method == 'tblastn'){
             $('.databases.protein input[type=checkbox]').disable();
