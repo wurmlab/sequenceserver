@@ -42,8 +42,11 @@ $(document).ready(function(){
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
     $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
 
+    //For the sequence input box we handle cut, paste, and keydown events. Cut,
+    //and paste events take care of all possible ways to cut/paste text; with
+    //keydown alone we could only have dealt with Ctrl-X, and Ctrl-V.
+
     $("#sequence").bind("paste", function(event){
-        //store the matched element
         var element = $(this);
 
         //the pasted text isn't immediately set as the value of the textbox,
@@ -54,15 +57,64 @@ $(document).ready(function(){
             $.post('/ajax', {sequence: seq}, function(data){
                 seq_type = data;
                 if (seq_type == "nucleotide"){
-                    $("#blastp").attr('disabled', 'disabled');
-                    $("#tblastn").attr('disabled', 'disabled');
+                    $("#blastp, #tblastn").disable();
                 }
                 else if (seq_type == "protein"){
-                    $("#blastn").attr('disabled', 'disabled');
-                    $("#tblastx").attr('disabled', 'disabled');
-                    $("#blastx").attr('disabled', 'disabled');
+                    $("#blastn, #tblastx, #blastx").disable();
                 }
             });
+        }, 10);
+    });
+
+    $('#sequence').keydown(function(event){
+        var element = $(this);
+
+        setTimeout(function(){
+            var seq = element.val();
+
+            //if the sequence has been deleted, we reset the disabled blast
+            //method's radio button, else we redo sequence detection and
+            //disable incompatible blast methods
+            if (seq == ''){
+                //TODO: actually this just checks if the textbox is empty, and not
+                //that it has been emptied, so this will be triggered on any
+                //keypress even if the textbox is empty
+                $('.blastmethods input[type=radio]').filter(':disabled').enable();
+                $('.blastmethods input[type=radio]').filter(':checked').uncheck();
+                $('.databases input[type=checkbox]').filter(':disabled').enable();
+                $('.databases input[type=checkbox]').filter(':checked').uncheck();
+            }
+            //TODO: maybe take care of some other (special) keystrokes too
+            else{
+                //TODO: we should probably optimize triggering query detection here
+                $.post('/ajax', {sequence: seq}, function(data){
+                  seq_type = data;
+                  if (seq_type == "nucleotide"){
+                      $("#blastp, #tblastn").disable();
+                  }
+                  else if (seq_type == "protein"){
+                      $("#blastn, #tblastx, #blastx").disable();
+                  }
+                });
+            }
+        }, 10);
+    });
+
+    $("#sequence").bind("cut", function(event){
+        //store the matched element
+        var element = $(this);
+
+        setTimeout(function(){
+            var seq = element.val();
+            if (seq == ''){
+                //TODO: actually this just checks if the textbox is empty, and not
+                //that it has been emptied, so this will be triggered on any
+                //keypress even if the textbox is empty
+                $('.blastmethods input[type=radio]').filter(':disabled').enable();
+                $('.blastmethods input[type=radio]').filter(':checked').uncheck();
+                $('.databases input[type=checkbox]').filter(':disabled').enable();
+                $('.databases input[type=checkbox]').filter(':checked').uncheck();
+            }
         }, 10);
     });
 
