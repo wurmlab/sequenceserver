@@ -115,6 +115,7 @@ $(document).ready(function(){
     $('#blastp, #blastx, #blastn, #tblastx, #tblastn').change(function(event){
         //we first reset all disabled database check boxes
         $('.databases input[type=checkbox]').filter(':disabled').enable();
+        $('.databases input[type=checkbox]').filter(':checked').uncheck();
 
         //then find the selected blast method
         var method = $('.blastmethods input[type=radio]').filter(':checked').val();
