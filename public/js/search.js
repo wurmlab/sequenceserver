@@ -21,6 +21,43 @@
 })( jQuery );
 
 $(document).ready(function(){
+    var prev_seq = prev_seq_type = '';
+
+    //main() is our ui workhorse; it constantly polls #sequence for a change in
+    //the user input, and acts accordingly
+    (function main(){
+        setTimeout(function(){
+          var seq, seq_type;
+          seq = $('#sequence').val();
+
+          //act only if user input has changed
+          if (seq != prev_seq){
+              prev_seq = seq;
+
+              //get input sequence type from the server
+              $.post('/ajax', {sequence: seq}, function(seq_type){
+                  if (seq_type != prev_seq_type){
+                      prev_seq_type = seq_type;
+
+                      if (seq_type == "nucleotide"){
+                          $("#blastn, #tblastx, #blastx").enable();
+                          $("#blastp, #tblastn").uncheck().disable().first().change();
+                      }
+                      else if (seq_type == "protein"){
+                          $("#blastp, #tblastn").enable();
+                          $("#blastn, #tblastx, #blastx").uncheck().disable().first().change();
+                      }
+                      else if (seq_type == ""){
+                          //reset blast methods
+                          $('.blastmethods input[type=radio]').uncheck().enable().first().change();
+                      }
+                  }
+              });
+          }
+          main();
+        }, 100);
+    })();
+
     $("fieldset.advanced span").click(function(event){
         //toggle display of advanced options when "Advanced parameters" text is
         //clicked
@@ -35,98 +72,22 @@ $(document).ready(function(){
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
     $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
 
-    //For the sequence input box we handle cut, paste, and keydown events. Cut,
-    //and paste events take care of all possible ways to cut/paste text; with
-    //keydown alone we could only have dealt with Ctrl-X, and Ctrl-V.
-
-    $("#sequence").bind("paste", function(event){
-        var element = $(this);
-
-        //the pasted text isn't immediately set as the value of the textbox,
-        //so we trigger sequence detection after 10ms
-        setTimeout(function(){
-            var seq = element.val();
-            var seq_type;
-            $.post('/ajax', {sequence: seq}, function(data){
-                seq_type = data;
-                if (seq_type == "nucleotide"){
-                    $("#blastp, #tblastn").disable();
-                }
-                else if (seq_type == "protein"){
-                    $("#blastn, #tblastx, #blastx").disable();
-                }
-            });
-        }, 10);
-    });
-
-    $('#sequence').keydown(function(event){
-        var element = $(this);
-
-        setTimeout(function(){
-            var seq = element.val();
-
-            //if the sequence has been deleted, we reset the disabled blast
-            //method's radio button, else we redo sequence detection and
-            //disable incompatible blast methods
-            if (seq == ''){
-                //TODO: actually this just checks if the textbox is empty, and not
-                //that it has been emptied, so this will be triggered on any
-                //keypress even if the textbox is empty
-                $('.blastmethods input[type=radio]').filter(':disabled').enable();
-                $('.blastmethods input[type=radio]').filter(':checked').uncheck();
-                $('.databases input[type=checkbox]').filter(':disabled').enable();
-                $('.databases input[type=checkbox]').filter(':checked').uncheck();
-            }
-            //TODO: maybe take care of some other (special) keystrokes too
-            else{
-                //TODO: we should probably optimize triggering query detection here
-                $.post('/ajax', {sequence: seq}, function(data){
-                  seq_type = data;
-                  if (seq_type == "nucleotide"){
-                      $("#blastp, #tblastn").disable();
-                  }
-                  else if (seq_type == "protein"){
-                      $("#blastn, #tblastx, #blastx").disable();
-                  }
-                });
-            }
-        }, 10);
-    });
-
-    $("#sequence").bind("cut", function(event){
-        //store the matched element
-        var element = $(this);
-
-        setTimeout(function(){
-            var seq = element.val();
-            if (seq == ''){
-                //TODO: actually this just checks if the textbox is empty, and not
-                //that it has been emptied, so this will be triggered on any
-                //keypress even if the textbox is empty
-                $('.blastmethods input[type=radio]').filter(':disabled').enable();
-                $('.blastmethods input[type=radio]').filter(':checked').uncheck();
-                $('.databases input[type=checkbox]').filter(':disabled').enable();
-                $('.databases input[type=checkbox]').filter(':checked').uncheck();
-            }
-        }, 10);
-    });
-
     //when a blast method is selected
     $('#blastp, #blastx, #blastn, #tblastx, #tblastn').change(function(event){
-        //we first reset all disabled database check boxes
-        $('.databases input[type=checkbox]').filter(':disabled').enable();
-        $('.databases input[type=checkbox]').filter(':checked').uncheck();
-
         //then find the selected blast method
         var method = $('.blastmethods input[type=radio]').filter(':checked').val();
 
         //and accordingly disable incompatible databases
         if (method == 'blastx' || method == 'blastp'){
-            $('.databases.nucleotide input[type=checkbox]').disable();
+            $('.databases.nucleotide input[type=checkbox]').uncheck().disable();
+            $('.databases.protein input[type=checkbox]').enable();
         }
         else if (method == 'blastn' || method == 'tblastx' || method == 'tblastn'){
-            $('.databases.protein input[type=checkbox]').disable();
+            $('.databases.protein input[type=checkbox]').uncheck().disable();
+            $('.databases.nucleotide input[type=checkbox]').enable();
+        }
+        else{
+            $('.databases input[type=checkbox]').uncheck().enable();
         }
     });
 });
-
