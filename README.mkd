@@ -1,0 +1,138 @@
+# Sequence Server (Beta 1)
+
+Sequence Server lets one quickly create [BLAST][1] web service over their
+sequence database, and consume it via an intuitive UI.
+
+It can be used as a point and click interface to [NCBI BLAST+][2], or share
+sequence data over the web.
+
+Sequence Server is powered by [NCBI BLAST+][2], [Sinatra][3], and [jQuery][4].
+
+## Rationale
+
+Biologists constantly generate new sequence data. However, with the existing
+tools, its cumbersome to effectively share, and consume sequence data.
+Alternatives like [GMOD][5] can be an overkill, and publicly available front
+ends for BLAST are ugly and non intuitive. Often a simple solution is desired.
+
+## Features
+
+Sequence Server sports:
+
+* automatic discovery of BLAST databases at startup
+* automatic sequence detection for query time feedback
+* an intuitive UI
+* advanced options for power users
+* ability to (individually, or batch) download search hits
+
+## Setup
+
+### Requirements
+
+The following softwares are required to run Sequence Server:
+
+* [NCBI BLAST+][2]  ( at least 2.2.18 )
+* [Ruby][6]         ( at least 1.8.7 )
+
+### Getting Sequence Server
+
+Get the latest version Sequence Server from: https://github.com/yannickwurm/sequenceserver/archives/master.
+
+Alternatively:
+
+    # for zip
+    wget http://github.com/yannickwurm/sequenceserver/zipball/master
+
+    # for taraball
+    wget http://github.com/yannickwurm/sequenceserver/tarball/master
+
+### Installing Sequence Server
+
+Unzip/Untar the downloaded file, cd to Sequence Server's directory and issue:
+
+    gem install bundler && bundle install
+
+### Setting up the BLAST databases
+
+In the directory containing the BLAST database, run:
+
+    makeblastdb -dbtype <db type> -title <db title> -in <db> -parse_seqids
+
+Where,
+
+* db type - is either 'protein', or 'nucleotide' depending on your database
+* db title - can be anything, and is optional. It is recommended however, as
+  filename would be used as the title otherwise.
+* db is the path to the FASTA file
+* parse_seqids option is required to generate links for downloading search
+  hits
+
+See `makeblastdb -help`.
+
+### Configuring Sequence Server
+
+Sequence Server needs to know the location of the BLAST+ binaries, and the
+BLAST database. This is accomplished by providing a `config.yml` in the
+installation directory.
+
+    # .config.yml
+    bin: ~/ncbi-blast-2.2.24+/bin/
+    database: ~/blast_databases/
+
+A fully commented `example.config.yml` is provided for a start - copy it to
+`config.yml`, edit the values, and start blasting!
+
+## Running Sequence Server
+
+From the installation directory, run:
+
+    ruby sequenceserver.rb
+
+Sequence Server automatically uses the best application server available to
+host itself. The default is to use [Webrick][7], which comes bundled with Ruby.
+It is recommend to install [Thin][8], or [Mongrel][9] for better performance. 
+
+After running the previous command, Sequence Server will be accessible on port
+4567 (change by passing -p command line option).
+
+    ruby sequenceserver.rb -p 2011
+
+## Who is using Sequence Server?
+
+'Beta 1' has been deployed by the [Ant Genomic Group][10] at [University of
+Lausanne][11]; see [Fourmidable Sequences][12].
+
+## Development
+
+Sequence Server is currently in 'Beta 1', and a lot of exciting features are
+planned for future release. We use our [issues tracker][13] heavily to log all
+development activities.
+
+Look out for issues tagged [feature][14] to know what is in pipeline. Or, to
+know what bugs we are trying to squash look for issues labelled [bug][15].
+
+Feel free to add a comment, or upvote an issue, or open a new issues (bugs,
+feature requests) if we have left some ground uncovered.
+
+Patches, and pull requests welcome.
+
+## Contributors
+
+We are a small team of :
+Yannick Wurm (author), Anurag Priyam (author), Cedric Wurm, Ben J Woodcroft
+
+[1]: http://blast.ncbi.nlm.nih.gov/Blast.cgi
+[2]: http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download
+[3]: http://www.sinatrarb.com/
+[4]: http://jquery.com/
+[5]: http://www.gmod.org
+[6]: http://www.ruby-lang.org/en/
+[7]: http://www.ruby-doc.org/stdlib/libdoc/webrick/rdoc/index.html
+[8]: http://code.macournoyer.com/thin/
+[9]: http://rubygems.org/gems/mongrel
+[10]: http://fourmidable.unil.ch/
+[11]: http://www.unil.ch/central
+[12]: http://fourmidable-sequences.unil.ch:2011/
+[13]: https://github.com/yannickwurm/sequenceserver/issues
+[14]: https://github.com/yannickwurm/sequenceserver/issues?labels=feature
+[15]: https://github.com/yannickwurm/sequenceserver/issues?labels=bug
