@@ -96,15 +96,15 @@ module SequenceServer
     # Given a sequence_id and databases, apply the default (standard)
     # way to convert a sequence_id into a hyperlink, so that the
     # blast results include hyperlinks.
-    def construct_standard_sequence_hyperlink(sequence_id, databases)
-      if sequence_id.match(/^[^ ]/) #if there is a space right after the '>', makeblastdb was run without -parse_seqids
+    def construct_standard_sequence_hyperlink(options)
+      if options[:sequence_id].match(/^[^ ]/) #if there is a space right after the '>', makeblastdb was run without -parse_seqids
         # By default, add a link to a fasta file of the sequence (if makeblastdb was called with -parse_seqids)
-        complete_id = sequence_id[/^(\S+)\s*.*/, 1]  # get id part
+        complete_id = options[:sequence_id][/^(\S+)\s*.*/, 1]  # get id part
         id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
         @all_retrievable_ids ||= []
         @all_retrievable_ids.push(id)
         
-        link = "/get_sequence/:#{id}/:#{databases.join(' ')}" # several dbs... separate by ' '
+        link = "/get_sequence/:#{id}/:#{options[:databases].join(' ')}" # several dbs... separate by ' '
         return link
       else
         # do nothing - link == nil means no link will be incorporated
