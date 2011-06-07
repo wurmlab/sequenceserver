@@ -45,9 +45,9 @@ Unzip/Untar the downloaded file, cd to SequenceServer's directory and issue the 
 
 ### Either set up BLAST databases from a directory of FASTA sequence files
 
-     ruby databaseFormatter.rb directory_with_fasta_files
+     ruby database_formatter.rb directory_with_fasta_files
 
-The `databaseFormatter.rb` script will assist you by:
+The `database_formatter.rb` script will assist you by:
 
  * finding FASTA files in `directory_with_fasta_files` (and in subdirectories too)
  * detecting the sequence type of each file
