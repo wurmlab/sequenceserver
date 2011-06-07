@@ -53,9 +53,9 @@ class Tester < Test::Unit::TestCase
   end
   
   def test_construct_standard_sequence_hyperlink
-    assert_equal "/get_sequence/:one/:abc def", construct_standard_sequence_hyperlink('one', %w(abc def))
-    assert_equal nil, construct_standard_sequence_hyperlink(' one', %w(abc def))
-    assert_equal "/get_sequence/:MAL13P1.218/:abc def", construct_standard_sequence_hyperlink('lcl|MAL13P1.218', %w(abc def))
+    assert_equal "/get_sequence/:one/:abc def", construct_standard_sequence_hyperlink({:sequence_id => 'one', :databases => %w(abc def)})
+    assert_equal nil, construct_standard_sequence_hyperlink({:sequence_id => ' one', :databases =>  %w(abc def)})
+    assert_equal "/get_sequence/:MAL13P1.218/:abc def", construct_standard_sequence_hyperlink({:sequence_id => 'lcl|MAL13P1.218', :databases =>  %w(abc def)})
   end
 end
 
