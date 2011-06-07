@@ -11,7 +11,7 @@ be used as a local point and click interface to [NCBI BLAST+][2], or to
 provide one over the web. SequenceServer uses [NCBI BLAST+][2], 
 [Sinatra][3], and [jQuery][4].
 
-## SequenceServer Features
+## Features
 
 * rapid deployment
 * an intuitive and helpful web interface
@@ -28,7 +28,7 @@ The following softwares are required to run SequenceServer:
 * [NCBI BLAST+][2]  ( at least 2.2.18 )
 * [Ruby][6]         ( tested with 1.8.7 )
 
-### Getting SequenceServer
+### Download
 
 Get the latest version SequenceServer from: https://github.com/yannickwurm/sequenceserver/archives/master.
 
@@ -37,7 +37,7 @@ Or download the zip in the command-line:
     wget http://github.com/yannickwurm/sequenceserver/zipball/master
  
 
-### Installing SequenceServer
+### Installation
 
 Unzip/Untar the downloaded file, cd to SequenceServer's directory and issue the following command that will make sure you have the required ruby dependencies:
 
@@ -69,7 +69,7 @@ Where,
 * Additional options at `makeblastdb -help`.
 
 
-### Configuring SequenceServer
+### Configuration
 
 SequenceServer needs to know the location of the BLAST+ binaries, and the
 BLAST database. This is accomplished by providing a `config.yml` in the
@@ -108,8 +108,9 @@ A manuscript describing SequenceServer is *in prep*. For details, please get in 
 
 ## Development
 
-SequenceServer is in 'Beta 1'; many exciting features are planned for future 
-release. Our [issues tracker][13] logs development activities. Issues tagged [feature][14] indicate what is in pipeline. Or check which [bugs][15] need squashing. Feel free to add comments, or upvote issues, or create new bugs or feature requests. Contributions, patches, and pull requests are also welcome.
+SequenceServer is in 'Beta 1'; many exciting features are planned for future release. 
+
+Our [issues tracker][13] logs development activities. [feature][14] indicates what is in the pipeline, and [bugs][15] indicates upcoming fixes. Feel free to add comments, vote, report bugs or request features. All contributions, patches and pulls are welcome.
 
 Current contributors: [Yannick Wurm][16], [Anurag Priyam][17], [Cedric Wurm][18], [Ben J Woodcroft][19]
 
