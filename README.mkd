@@ -46,9 +46,7 @@ Unzip/Untar the downloaded file, cd to SequenceServer's directory and issue the 
 
     gem install bundler && bundle install
 
-### Setting up the BLAST databases from FASTA sequence files
-
-*From a directory of FASTA files:*
+### Setting BLAST databases from a directory of FASTA sequence files
 
      ruby databaseFormatter.rb directory_with_fasta_files
 
@@ -58,8 +56,8 @@ The `databaseFormatter.rb` script will assist you by:
  * asking you to name each database
  * subsequently running the appropriate `makeblastdb` commands.
 
-
-*From a single FASTA file*: In the directory containing the FASTA file BLAST database, run:
+### Setting BLAST databases from a single FASTA sequence files
+In the directory containing the FASTA file BLAST database, run:
     
     makeblastdb -dbtype <db type> -title <db title> -in <db> -parse_seqids
 
@@ -120,7 +118,7 @@ Feel free to add comments, or upvote issues, or create new bugs or feature reque
 ## Contributors
 
 We are a small team of :
-[Yannick Wurm][http://yannick.poulet.org], [Anurag Priyam][http://about.me/yeban], [Cedric Wurm][http://ceddo.gammosaur.com/], [Ben J Woodcroft][https://github.com/wwood]
+[Yannick Wurm][16], [Anurag Priyam][17], [Cedric Wurm][18], [Ben J Woodcroft][19]
 
 
 [1]: http://blast.ncbi.nlm.nih.gov/Blast.cgi
@@ -138,3 +136,7 @@ We are a small team of :
 [13]: https://github.com/yannickwurm/sequenceserver/issues
 [14]: https://github.com/yannickwurm/sequenceserver/issues?labels=feature
 [15]: https://github.com/yannickwurm/sequenceserver/issues?labels=bug
+[16]: http://yannick.poulet.org
+[17]: http://about.me/yeban
+[18]: http://ceddo.gammosaur.com
+[19]: https://github.com/wwood
