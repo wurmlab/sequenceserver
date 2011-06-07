@@ -1,12 +1,12 @@
-# Sequence Server (Beta 1)
+# SequenceServer (Beta 1)
 
-Sequence Server lets one quickly create [BLAST][1] web service over their
+SequenceServer lets one quickly create [BLAST][1] web service over their
 sequence database, and consume it via an intuitive UI.
 
 It can be used as a point and click interface to [NCBI BLAST+][2], or share
 sequence data over the web.
 
-Sequence Server is powered by [NCBI BLAST+][2], [Sinatra][3], and [jQuery][4].
+SequenceServer is powered by [NCBI BLAST+][2], [Sinatra][3], and [jQuery][4].
 
 ## Rationale
 
@@ -15,63 +15,68 @@ tools, its cumbersome to effectively share, and consume sequence data.
 Alternatives like [GMOD][5] can be an overkill, and publicly available front
 ends for BLAST are ugly and non intuitive. Often a simple solution is desired.
 
-## Features
+## SequenceServer Features
 
-Sequence Server sports:
-
-* automatic discovery of BLAST databases at startup
-* automatic sequence detection for query time feedback
-* an intuitive UI
+* rapid deployment
+* an intuitive and helpful web interface
 * advanced options for power users
-* ability to (individually, or batch) download search hits
+* automatic discovery of BLAST databases at startup
+* ability to (individually, or batch) download search hits.
 
 ## Setup
 
 ### Requirements
 
-The following softwares are required to run Sequence Server:
+The following softwares are required to run SequenceServer:
 
 * [NCBI BLAST+][2]  ( at least 2.2.18 )
-* [Ruby][6]         ( at least 1.8.7 )
+* [Ruby][6]         ( tested with 1.8.7 )
 
-### Getting Sequence Server
+### Getting SequenceServer
 
-Get the latest version Sequence Server from: https://github.com/yannickwurm/sequenceserver/archives/master.
+Get the latest version SequenceServer from: https://github.com/yannickwurm/sequenceserver/archives/master.
 
-Alternatively:
-
-    # for zip
+Or download the zip in the command-line:
     wget http://github.com/yannickwurm/sequenceserver/zipball/master
+ 
 
-    # for taraball
-    wget http://github.com/yannickwurm/sequenceserver/tarball/master
+### Installing SequenceServer
 
-### Installing Sequence Server
-
-Unzip/Untar the downloaded file, cd to Sequence Server's directory and issue:
+Unzip/Untar the downloaded file, cd to SequenceServer's directory and issue the following command that will make sure you have the required ruby dependencies:
 
     gem install bundler && bundle install
 
-### Setting up the BLAST databases
+### Setting up the BLAST databases from FASTA sequence files
 
-In the directory containing the BLAST database, run:
+*From a directory of FASTA files:*
 
+     ruby databaseFormatter.rb directory_with_fasta_files
+
+The `databaseFormatter.rb` script will assist you by:
+ * finding FASTA files in `directory_with_fasta_files` (and in subdirectories too)
+ * detecting the sequence type of each file
+ * asking you to name each database
+ * subsequently running the appropriate `makeblastdb` commands.
+
+
+*From a single FASTA file*: In the directory containing the FASTA file BLAST database, run:
+    
     makeblastdb -dbtype <db type> -title <db title> -in <db> -parse_seqids
 
 Where,
 
-* db type - is either 'protein', or 'nucleotide' depending on your database
-* db title - can be anything, and is optional. It is recommended however, as
-  filename would be used as the title otherwise.
-* db is the path to the FASTA file
-* parse_seqids option is required to generate links for downloading search
-  hits
+* <db type> is either 'prot', or 'nucl' (without the quotation marks) depending on 
+  your sequence type
+* <db title> is what users will see
+* <db> is the path to the FASTA file
+* `-parse_seqids` is required to generate links for downloading search
+  hits (yes, it's slow on large files).
+* Additional options at `makeblastdb -help`.
 
-See `makeblastdb -help`.
 
-### Configuring Sequence Server
+### Configuring SequenceServer
 
-Sequence Server needs to know the location of the BLAST+ binaries, and the
+SequenceServer needs to know the location of the BLAST+ binaries, and the
 BLAST database. This is accomplished by providing a `config.yml` in the
 installation directory.
 
@@ -82,44 +87,41 @@ installation directory.
 A fully commented `example.config.yml` is provided for a start - copy it to
 `config.yml`, edit the values, and start blasting!
 
-## Running Sequence Server
+## Running SequenceServer
 
 From the installation directory, run:
 
     ruby sequenceserver.rb
 
-Sequence Server automatically uses the best application server available to
-host itself. The default is to use [Webrick][7], which comes bundled with Ruby.
-It is recommend to install [Thin][8], or [Mongrel][9] for better performance. 
+SequenceServer automatically uses ruby's internal web servers. By default it 
+uses [Webrick][7]. Installling [Thin][8], or [Mongrel][9] can improve performance. 
 
-After running the previous command, Sequence Server will be accessible on port
-4567 (change by passing -p command line option).
+After running the previous command, SequenceServer will be accessible on port
+4567 (change by passing -p command line option or by editing `config.yml`).
 
     ruby sequenceserver.rb -p 2011
 
-## Who is using Sequence Server?
+## Who is using SequenceServer?
 
-'Beta 1' has been deployed by the [Ant Genomic Group][10] at [University of
+* 'Beta 1' has been deployed by the [Ant Genomic Group][10] at [University of
 Lausanne][11]; see [Fourmidable Sequences][12].
+* You... 
+
 
 ## Development
 
-Sequence Server is currently in 'Beta 1', and a lot of exciting features are
-planned for future release. We use our [issues tracker][13] heavily to log all
-development activities.
+SequenceServer is in 'Beta 1'; many exciting features are planned for future 
+release. Our [issues tracker][13] logs development activities.
 
-Look out for issues tagged [feature][14] to know what is in pipeline. Or, to
-know what bugs we are trying to squash look for issues labelled [bug][15].
+Issues tagged [feature][14] indicate what is in pipeline. Or check which [bugs][15] need squashing.
 
-Feel free to add a comment, or upvote an issue, or open a new issues (bugs,
-feature requests) if we have left some ground uncovered.
-
-Patches, and pull requests welcome.
+Feel free to add comments, or upvote issues, or create new bugs or feature requests. Contributions, patches, and pull requests are also welcome.
 
 ## Contributors
 
 We are a small team of :
-Yannick Wurm (author), Anurag Priyam (author), Cedric Wurm, Ben J Woodcroft
+[Yannick Wurm][http://yannick.poulet.org], [Anurag Priyam][http://about.me/yeban], [Cedric Wurm][http://ceddo.gammosaur.com/], [Ben J Woodcroft][https://github.com/wwood]
+
 
 [1]: http://blast.ncbi.nlm.nih.gov/Blast.cgi
 [2]: http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download
