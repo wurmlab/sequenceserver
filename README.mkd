@@ -33,6 +33,7 @@ The following softwares are required to run SequenceServer:
 Get the latest version SequenceServer from: https://github.com/yannickwurm/sequenceserver/archives/master.
 
 Or download the zip in the command-line:
+
     wget http://github.com/yannickwurm/sequenceserver/zipball/master
  
 
