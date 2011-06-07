@@ -47,6 +47,7 @@ Unzip/Untar the downloaded file, cd to SequenceServer's directory and issue the 
      ruby databaseFormatter.rb directory_with_fasta_files
 
 The `databaseFormatter.rb` script will assist you by:
+
  * finding FASTA files in `directory_with_fasta_files` (and in subdirectories too)
  * detecting the sequence type of each file
  * asking you to name each database
@@ -59,10 +60,9 @@ In the directory containing the FASTA file, run:
 
 Where,
 
-* <db type> is either 'prot', or 'nucl' (without the quotation marks) depending on 
-  your sequence type
-* <db title> is what users will see
-* <db> is the path to the FASTA file
+* `<db type>` is either `prot`, or `nucl` depending on the type of sequence
+* `<db title>` is what users will see
+* `<db>` is the path to the FASTA file
 * `-parse_seqids` is required to generate links for downloading search
   hits (yes, it's slow on large files).
 * Additional options at `makeblastdb -help`.
@@ -76,7 +76,7 @@ installation directory.
 
     # .config.yml
     bin: ~/ncbi-blast-2.2.24+/bin/
-    database: ~/blast_databases/
+    database: /Users/me/blast_databases/
 
 A fully commented `example.config.yml` is provided for a start - copy it to
 `config.yml`, edit the values, and start blasting!
@@ -88,11 +88,9 @@ From the installation directory, run:
     ruby sequenceserver.rb
 
 
-After running the previous command, SequenceServer will be accessible on port
-4567 (change by passing -p command line option or by editing `config.yml`).
-
-    ruby sequenceserver.rb -p 2011
-
+SequenceServer will be accessible on port 4567 at http://localhost:4567/ . 
+Change the port by editing `config.yml` or with the -p command line option, eg: `ruby sequenceserver.rb -p 8181`.
+    
 SequenceServer automatically uses ruby's internal web servers. No need for Apache. 
 By default it uses [Webrick][7]. Installling [Thin][8], or [Mongrel][9] can improve performance. 
 
