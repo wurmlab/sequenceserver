@@ -11,8 +11,6 @@ be used as a local point and click interface to [NCBI BLAST+][2], or to
 provide one over the web. SequenceServer uses [NCBI BLAST+][2], 
 [Sinatra][3], and [jQuery][4].
 
-## Rationale
-
 ## SequenceServer Features
 
 * rapid deployment
