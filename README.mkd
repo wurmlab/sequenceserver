@@ -100,16 +100,17 @@ By default it uses [Webrick][7]. Installling [Thin][8], or [Mongrel][9] can impr
 Lausanne][11]; see [Fourmidable Sequences][12].
 * You... 
 
+## Reference
+
+A manuscript describing SequenceServer is *in prep*. For details, please get in touch!
+
 
 ## Development
 
 SequenceServer is in 'Beta 1'; many exciting features are planned for future 
 release. Our [issues tracker][13] logs development activities. Issues tagged [feature][14] indicate what is in pipeline. Or check which [bugs][15] need squashing. Feel free to add comments, or upvote issues, or create new bugs or feature requests. Contributions, patches, and pull requests are also welcome.
 
-## Contributors
-
-We are a small team of :
-[Yannick Wurm][16], [Anurag Priyam][17], [Cedric Wurm][18], [Ben J Woodcroft][19]
+Current contributors: [Yannick Wurm][16], [Anurag Priyam][17], [Cedric Wurm][18], [Ben J Woodcroft][19]
 
 
 [1]: http://blast.ncbi.nlm.nih.gov/Blast.cgi
