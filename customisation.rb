@@ -2,11 +2,11 @@ module SequenceServer
   module Customisation
     ## When not commented out, this method is used to take a
     ## sequence ID, and return a hyperlink that
-    ## replaces the hit in the BLAST output. 
+    ## replaces the hit in the BLAST output.
     ##
     ## Return the hyperlink to link to, or nil
     ## to not not include a hyperlink.
-    ## 
+    ##
     ## When this method
     ## is commented out, the default link is used. The default
     ## is a link to the full sequence of

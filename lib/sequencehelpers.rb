@@ -4,7 +4,7 @@ module SequenceServer
 
     # copied from bioruby's Bio::Sequence
     # returns a Hash. Eg: composition("asdfasdfffffasdf")
-    #                      => {"a"=>3, "d"=>3, "f"=>7, "s"=>3} 
+    #                      => {"a"=>3, "d"=>3, "f"=>7, "s"=>3}
     def composition(sequence_string)
       count = Hash.new(0)
       sequence_string.scan(/./) do |x|
@@ -20,7 +20,7 @@ module SequenceServer
       cleaned_sequence = sequence_string.gsub(/[^A-Z]/i, '')  # removing non-letter characters
       cleaned_sequence.gsub!(/[NX]/i, '')                     # removing ambiguous  characters
 
-      return nil if cleaned_sequence.length < 10 # conservative 
+      return nil if cleaned_sequence.length < 10 # conservative
 
       composition = composition(cleaned_sequence)       
       composition_NAs    = composition.select { |character, count|character.match(/[ACGTU]/i) } # only putative NAs
@@ -92,7 +92,7 @@ module SequenceServer
 
       sequences.chomp + "\n"  # fastaformat in a string - not sure blastdbcmd includes newline
     end
-        
+
     # Given a sequence_id and databases, apply the default (standard)
     # way to convert a sequence_id into a hyperlink, so that the
     # blast results include hyperlinks.
@@ -103,7 +103,7 @@ module SequenceServer
         id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
         @all_retrievable_ids ||= []
         @all_retrievable_ids.push(id)
-        
+
         link = "/get_sequence/:#{id}/:#{options[:databases].join(' ')}" # several dbs... separate by ' '
         return link
       else
