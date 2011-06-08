@@ -1,10 +1,6 @@
 # sequenceserver.rb
 
-unless RUBY_VERSION == "1.8.7"
-  puts "Apologies, #{$1} requires ruby 1.8.7. You are running #{RUBY_VERSION}."
-  puts "You may want to set up Ruby Version Manager."
-  exit
-end
+$LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'rubygems'
 require 'sinatra/base'
