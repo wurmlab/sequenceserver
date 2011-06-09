@@ -6,10 +6,12 @@ require 'rubygems'
 require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'
+require 'sequenceserver'
 require 'lib/helpers.rb'
 require 'lib/sequencehelpers.rb'
 
 LOG = Logger.new(STDOUT)
+
 
 class DatabaseFormatter
     include SequenceServer
@@ -18,10 +20,9 @@ class DatabaseFormatter
     include SequenceHelpers
     
     def init
-        LOG.info("initializing")
-        ['blastdbcmd', 'makeblastdb'].each do |command|
-            LOG.warn("Cannot execute: '#{command}") unless command?(command)
-        end
+      @app = SequenceServer::App
+      @app.config = @app.parse_config
+      @app.binaries = @app.scan_blast_executables(@app.bin).freeze
     end
 
     def format_databases(db_path)
@@ -68,7 +69,7 @@ class DatabaseFormatter
 
     def db_table(db_path)
         LOG.info("Summary of formatted blast databases:\n")
-        output = %x| blastdbcmd -recursive -list #{db_path} -list_outfmt "%p %f %t" &2>1 |
+        output = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%p %f %t" &2>1 |
         LOG.info(output)
     end
 
@@ -108,7 +109,7 @@ class DatabaseFormatter
 
     def make_db_command(file,type, title)
         LOG.info("Will make #{type.to_s} database from #{file} with #{title}")
-        command = %|makeblastdb -in #{file} -dbtype #{ type.to_s.slice(0,4)} -title "#{title}" -parse_seqids|
+        command = %|#{@app.binaries['makeblastdb']} -in #{file} -dbtype #{ type.to_s.slice(0,4)} -title "#{title}" -parse_seqids|
         LOG.info("Returning: #{command}")
         return(command)
     end
