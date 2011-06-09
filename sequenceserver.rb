@@ -164,15 +164,19 @@ module SequenceServer
       db_type_param = params['db']
       sequence      = params[:sequence]
 
+      # evaluate empty sequence as nil, otherwise as fasta
+      sequence = sequence.empty? ? nil : to_fasta(sequence)
+
+      if request.xhr?
+        return type_of_sequences(sequence).to_s
+      end
+
       # Raise ArgumentError if there is no database selected
       if db_type_param.nil?
         raise ArgumentError, "No BLAST database selected"
       end
       db_type = db_type_param.first.first
 
-      # evaluate empty sequence as nil, otherwise as fasta
-      sequence = sequence.empty? ? nil : to_fasta(sequence)
-      
       # can not proceed if one of these is missing
       raise ArgumentError unless sequence and db_type and method
       settings.log.info("requested #{method} against #{db_type.to_s} database")
@@ -213,12 +217,6 @@ module SequenceServer
       @blast = format_blast_results(blast.result, dbs)
 
       erb :search
-    end
-
-    post '/ajax' do
-      sequence   = to_fasta(params[:sequence])
-      sequence_type       = type_of_sequences(sequence)
-      sequence_type.to_s
     end
 
     #get '/get_sequence/:sequenceids/:retreival_databases' do # multiple seqs separated by whitespace... all other chars exist in identifiers
