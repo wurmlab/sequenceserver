@@ -52,13 +52,13 @@
   </head>
 
   <body>
-	<a href="http://github.com/yannickwurm/sequenceserver"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+<a href="http://github.com/yannickwurm/sequenceserver"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a> 
 
 	<div id="container">
 	  <h1><a href="http://github.com/yannickwurm/sequenceserver">SequenceServer Beta</a></h1>
 	  <h2 class="description h1 .small">
 		Easily set up a local BLAST web server to search &amp; share sequence data. 
-	  </div>
+	  </h2>
 	  
 	  <p>We are still working on improving Sequenceserver to make it become <em>"The iPod of Blast searching"</em>. But it already provides an easily useable BLAST server (see demo and setup below). Send us a quick note and we'll keep you updated on releases.</p>
 
@@ -77,7 +77,7 @@
 		<li>Single-click retrieval of hit sequences directly from BLAST results (you can easily add custom links)</li>
 	  </ul>
 	  <br/>
-	  <img src='img/overview.png'/>
+	  <img src='img/overview.png' alt='BLAST web server screenshot'/>
 
 
 	  <h2>Demo server</h2>
@@ -87,15 +87,15 @@
 	  <h2>Requirements</h2>
 	  <ul>
 		<li>ruby 1.8.7 or later (if you have <a href='http://git-scm.com/'>git</a>, get ruby with <a href='http://rvm.beginrescueend.com/rvm/install'>RVM</a>).</li>
-		<li><a href='http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'>NCBI Blast+ 2.2.24</a></li>
+		<li><a href='http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&amp;PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download'>NCBI Blast+ 2.2.24</a></li>
 		<li>FASTA sequence databases formatted for BLAST (with formatdb or makeblastdb; see FAQ)</li>
 	  </ul>
 
-	  <h2>Download & Setup</h2>
+	  <h2>Download &amp; Setup</h2>
 	  More details in the <a href="https://github.com/yannickwurm/sequenceserver/blob/master/README.mkd">readme</a> file. Basically:
 	  <ul>
 		<li><a href="http://github.com/yannickwurm/sequenceserver/zipball/master">Download sequenceserver</a>. <pre>wget http://github.com/yannickwurm/sequenceserver/zipball/master</pre></li>
-		<li>Unzip, and move to Sequence Server's directory, and do: <pre>gem install bundler && bundle install</pre></li>
+		<li>Unzip, and move to Sequence Server's directory, and do: <pre>gem install bundler &amp;&amp; bundle install</pre></li>
 		<li>Edit the <code>example.config.yml</code> file to indicate the location of your blast databases. Or create some with <code>databaseformatter.rb</code></li>
 		<li>Launch the server:
 		  <pre>ruby sequenceserver.rb</pre></li>
@@ -113,10 +113,10 @@
 	  
 	  <h2>News</h2>
 	  <dl>
-		<dt>Ongoing</dt><di>Bugs being resolved &amp; improvements being made. Check the <a href="https://github.com/yannickwurm/sequenceserver">gitHub page</a> for recent activity.</di>
-		<dt>2011-06-09</dt><di>SequenceServer is now beta1.</di>
-		<dt>2011-06-01</dt><di>SequenceServer can use Rack to integrate existing Apache web servers.</di>
-		<dt>2011-02-01</dt><di>SequenceServer deployed on <a href="http://www.antgenomes.org">Fourmidable</a> simultaneously with the publication of <a href="http://www.pnas.org/cgi/doi/10.1073/pnas.1009690108" title="fire ant genome">ant genomes</a></di>
+		<dt>Ongoing</dt><dd>Bugs being resolved &amp; improvements being made. Check the <a href="https://github.com/yannickwurm/sequenceserver">gitHub page</a> for recent activity.</dd>
+		<dt>2011-06-09</dt><dd>SequenceServer is now beta1.</dd>
+		<dt>2011-06-01</dt><dd>SequenceServer can use Rack to integrate existing Apache web servers.</dd>
+		<dt>2011-02-01</dt><dd>SequenceServer deployed on <a href="http://www.antgenomes.org">Fourmidable</a> simultaneously with the publication of <a href="http://www.pnas.org/cgi/doi/10.1073/pnas.1009690108" title="fire ant genome">ant genomes</a></dd>
 	  </dl>
 	  
 	  <h2>Questions?</h2>
