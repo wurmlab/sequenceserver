@@ -14,10 +14,11 @@ provide one over the web. SequenceServer uses [NCBI BLAST+][2],
 ## Features
 
 * rapid deployment
-* an intuitive and helpful web interface
+* an intuitive and helpful web interface, with automatic sequence type
+  detection, and disabling of incompatible blast methods, and database
 * advanced options for power users
 * automatic discovery of BLAST databases at startup
-* ability to (individually, or batch) download search hits.
+* ability to (individually, or batch) download search hits, or link the hits to a genome browser
 
 ## Setup
 
