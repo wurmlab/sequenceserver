@@ -3,10 +3,11 @@
 Biologists constantly generate new sequence data. However, with the existing
 tools, its cumbersome to effectively share, and search sequence data.
 Alternatives like [GMOD][5] can be an overkill, and publicly available front
-ends for BLAST are counter-intuitive. Often a simple solution is desired.
+ends for BLAST like [wwwblast][http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html] 
+are difficult to use or install. A simple solution is desired.
 
-SequenceServer allows rapid creation of a web page to [BLAST][1] search a 
-sequence database by using an intuitive user interface. SequenceServer can 
+SequenceServer allows rapid creation of a web page to [BLAST][1] search 
+sequence databases by using an intuitive user interface. SequenceServer can 
 be used as a local point and click interface to [NCBI BLAST+][2], or to 
 provide one over the web. SequenceServer uses [NCBI BLAST+][2], 
 [Sinatra][3], and [jQuery][4].
@@ -15,10 +16,11 @@ provide one over the web. SequenceServer uses [NCBI BLAST+][2],
 
 * rapid deployment
 * an intuitive and helpful web interface, with automatic sequence type
-  detection, and disabling of incompatible blast methods, and database
+  detection which leads to restrictions on BLAST method and database choices 
 * advanced options for power users
 * automatic discovery of BLAST databases at startup
-* ability to (individually, or batch) download search hits, or link the hits to a genome browser
+* ability to (individually, or batch) download search hits, and to add custom
+  links (for example to a genome browser)
 
 ## Setup
 
@@ -27,7 +29,7 @@ provide one over the web. SequenceServer uses [NCBI BLAST+][2],
 The following softwares are required to run SequenceServer:
 
 * [NCBI BLAST+][2]  ( at least 2.2.18 )
-* [Ruby][6]         ( tested with 1.8.7 )
+* [Ruby][6]         ( tested with 1.8.7 and 1.9.2)
 
 ### Download
 
@@ -94,11 +96,12 @@ SequenceServer will be accessible on port 4567 at http://localhost:4567/ .
 Change the port by editing `config.yml` or with the -p command line option, eg: `ruby sequenceserver.rb -p 8181`.
     
 SequenceServer automatically uses ruby's internal web servers. No need for Apache. 
-By default it uses [Webrick][7]. Installling [Thin][8], or [Mongrel][9] can improve performance. 
+By default it uses [Webrick][7]. Installling [Thin][8] (`gem install thin`), or [Mongrel][9] (`gem install mongrel`) 
+can improve performance. 
 
 ## Who is using SequenceServer?
 
-* 'Beta 1' has been deployed by the [Ant Genomic Group][10] at [University of
+* 'Beta 1' is deployed by the [Keller lab][10] at [University of
 Lausanne][11]; see [Fourmidable Sequences][12].
 * You... 
 
