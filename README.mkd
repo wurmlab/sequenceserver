@@ -1,10 +1,10 @@
 # SequenceServer (Beta 1)
 
-Biologists constantly generate new sequence data. However, with the existing
-tools, its cumbersome to effectively share, and search sequence data.
-Alternatives like [GMOD][5] can be an overkill, and publicly available front
-ends for BLAST like [wwwblast][http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html] 
-are difficult to use or install. A simple solution is desired.
+Biologists constantly generate new sequence data. However, it is challenging to effectively 
+share and search and compare sequence data. Deploying complex solutions such as
+[GMOD][5] is often overkill, and publicly available front ends for BLAST such as 
+[NCBI's wwwblast][http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html] 
+are difficult to use or install. There is a need for an easy-to-deploy and easy-to-use solution.
 
 SequenceServer allows rapid creation of a web page to [BLAST][1] search 
 sequence databases by using an intuitive user interface. SequenceServer can 
@@ -14,19 +14,29 @@ provide one over the web. SequenceServer uses [NCBI BLAST+][2],
 
 ## Features
 
-* rapid deployment
-* an intuitive and helpful web interface, with automatic sequence type
-  detection which leads to restrictions on BLAST method and database choices 
-* advanced options for power users
-* automatic discovery of BLAST databases at startup
-* ability to (individually, or batch) download search hits, and to add custom
-  links (for example to a genome browser)
+Ease of use for biologists:
+
+* a single iPod-like search page
+* intuitive and helpful web interface: automatic sequence type detection that helps
+  choose appropriate BLAST method and database types
+* links to easily download sequences of BLAST hits
+* support for advanced options.
+  
+  
+Rapid deployment for bioinformatics administrators:
+
+* assisted formatting of BLAST databases (with sequence type detection)
+* automatic discovery of formatted BLAST databases during startup
+* uses ruby's internal web server (on any open port) or Apache
+* add custom hyperlinks to identified hits (to your genome browser or custom database)
+* open source & freely available for non-profits.
+
 
 ## Setup
 
 ### Requirements
 
-The following softwares are required to run SequenceServer:
+The following software is required to run SequenceServer:
 
 * [NCBI BLAST+][2]  ( at least 2.2.18 )
 * [Ruby][6]         ( tested with 1.8.7 and 1.9.2)
