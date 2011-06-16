@@ -26,9 +26,11 @@ class DatabaseFormatter
     end
 
     def format_databases(db_path)
+        formatted_dbs = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%f" 2>&1|.split("\n")
         commands = []
         Find.find(db_path) do |file|
             next if File.directory?(file)
+            next if formatted_dbs.include?(file)
             unless File.binary?(file)
 
                 if probably_fasta?(file)
@@ -59,6 +61,10 @@ class DatabaseFormatter
             end
         end
         LOG.info("Will now create DBs")
+        if commands.empty?
+          puts "", "#{db_path} does not contain any unformatted database."
+          exit
+        end
         commands.each do |command|
 			LOG.info("Will run: " + command.to_s)
             system(command)
