@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # copyright yannick . wurm at unil . ch
 # Finds files, reads first char. if its '>', read 500 lines. Guess sequence type, ask user for title to format as blast database.
 
