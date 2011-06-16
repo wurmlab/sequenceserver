@@ -3,8 +3,8 @@
 Biologists constantly generate new sequence data. However, it is challenging to effectively 
 share and search and compare sequence data. Deploying complex solutions such as
 [GMOD][5] is often overkill, and publicly available front ends for BLAST such as 
-[NCBI's wwwblast][http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html] 
-are difficult to use or install. There is a need for an easy-to-deploy and easy-to-use solution.
+[NCBI's wwwblast][21] are difficult to use or install. 
+There is a need for an easy-to-deploy and easy-to-use solution.
 
 SequenceServer allows rapid creation of a web page to [BLAST][1] search 
 sequence databases by using an intuitive user interface. SequenceServer can 
@@ -113,7 +113,8 @@ can improve performance.
 
 * 'Beta 1' is deployed by the [Keller lab][10] at [University of
 Lausanne][11]; see [Fourmidable Sequences][12].
-* You... 
+* [Guy Leonard @ National History Museum London][13] 
+* you... 
 
 ## Reference
 
@@ -148,3 +149,5 @@ Current contributors: [Yannick Wurm][16], [Anurag Priyam][17], [Cedric Wurm][18]
 [17]: http://about.me/yeban
 [18]: http://ceddo.gammosaur.com
 [19]: https://github.com/wwood
+[20]: http://gna-phylo.nhm.ac.uk/blast.html
+[21]: http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html] 
