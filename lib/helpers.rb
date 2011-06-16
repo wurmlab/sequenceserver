@@ -58,19 +58,34 @@ module SequenceServer
       #   => { "protein" => [], "nucleotide" => [] }
       def scan_blast_db(db_root, blastdbcmd = 'blastdbcmd')
         raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
-        #LOG.info("Config database dir:     #{db_root}")
 
-        find_dbs_command = %|#{blastdbcmd} -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1 |
+        find_dbs_command = %|#{blastdbcmd} -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1|
+
+        begin
           db_list = %x|#{find_dbs_command}|
-          raise IOError, "No formatted blast databases found in '#{ db_root }' . \n"\
-          "You may need to run 'makeblastdb' on some fasta files." if db_list.empty?
+          if db_list.empty?
+            raise IOError, "No formatted blast databases found in '#{ db_root }'."
+          end
+        rescue => e
+          puts '', e.to_s
+
+          print "Do you want to format your blast databases now? [Y/n]: "
+          choice = gets.chomp[0,1].downcase
+
+          unless choice == 'n'
+            database_formatter = File.join(settings.root, 'database_formatter.rb')
+            system("#{database_formatter} #{db_root}")
+            retry
+          else
+            raise # let the caller decide what to do if database discovery fails
+          end
+        end
 
         if db_list.match(/BLAST Database error/)
           raise IOError, "Error parsing blast databases.\n" + "Tried: '#{find_dbs_command}'\n"+
             "It crashed with the following error: '#{db_list}'\n" +
             "Try reformatting databases using makeblastdb.\n"
         end
-
 
         db = {}
 
