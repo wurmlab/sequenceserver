@@ -107,9 +107,37 @@ module SequenceServer
     end
 
     class << self
+      # Run SequenceServer as a self-hosted server.
+      #
+      # By default SequenceServer uses Thin, Mongrel or WEBrick (in that
+      # order). This can be configured by setting the 'server' option.
       def run!(options={})
+        set options
+
+        # perform SequenceServer initializations
         init
-        super
+
+        # find out the what server to host SequenceServer with
+        handler      = detect_rack_handler
+        handler_name = handler.name.gsub(/.*::/, '')
+
+        url = "http://#{bind}:#{port}"
+        puts "\n== SequenceServer is now accessible on #{url}; CTRL + C to stop. =="
+
+        handler.run self, :Host => bind, :Port => port do |server|
+          [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler) } }
+          set :running, true
+          server.silent = true
+        end
+      rescue Errno::EADDRINUSE => e
+        puts "== Port #{port} is busy! Is SequenceServer already running on #{url}?"
+      end
+
+      # Stop SequenceServer.
+      def quit!(server, handler_name)
+        # Use Thin's hard #stop! if available, otherwise just #stop.
+        server.respond_to?(:stop!) ? server.stop! : server.stop
+        puts "\n== Thank you for using SequenceServer :)." unless handler_name =~/cgi/i
       end
 
       # Initializes the blast server : executables, database. Exit if blast
