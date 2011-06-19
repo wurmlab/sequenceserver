@@ -115,6 +115,7 @@ module SequenceServer
         set options
 
         # perform SequenceServer initializations
+        puts "\n== Initializing SequenceServer..."
         init
 
         # find out the what server to host SequenceServer with
@@ -122,12 +123,14 @@ module SequenceServer
         handler_name = handler.name.gsub(/.*::/, '')
 
         url = "http://#{bind}:#{port}"
-        puts "\n== SequenceServer is now accessible on #{url}; CTRL + C to stop. =="
-
-        handler.run self, :Host => bind, :Port => port do |server|
+        puts "\n== Lanuched SequenceServer at: #{url}"
+        puts "== Press CTRL + C to quit."
+        handler.run(self, :Host => bind, :Port => port, :Logger => Logger.new('/dev/null')) do |server|
           [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler) } }
           set :running, true
-          server.silent = true
+
+          # for Thin
+          server.silent = true if handler_name == 'Thin'
         end
       rescue Errno::EADDRINUSE => e
         puts "== Port #{port} is busy! Is SequenceServer already running on #{url}?"
