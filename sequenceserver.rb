@@ -125,7 +125,7 @@ module SequenceServer
         end
 
         url = "http://#{bind}:#{port}"
-        puts "\n== Lanuched SequenceServer at: #{url}"
+        puts "\n== Launched SequenceServer at: #{url}"
         puts "== Press CTRL + C to quit."
         handler.run(self, :Host => bind, :Port => port, :Logger => Logger.new('/dev/null')) do |server|
           [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler) } }
