@@ -122,6 +122,14 @@ module SequenceServer
         handler      = detect_rack_handler
         handler_name = handler.name.gsub(/.*::/, '')
 
+        puts
+        log.info("Using #{handler_name} web server.")
+
+        if handler_name == 'WEBrick'
+          puts "\n== We recommend using Thin web server for better performance."
+          puts "== To install Thin: [sudo] gem install thin"
+        end
+
         url = "http://#{bind}:#{port}"
         puts "\n== Lanuched SequenceServer at: #{url}"
         puts "== Press CTRL + C to quit."
