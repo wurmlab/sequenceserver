@@ -134,8 +134,9 @@ module SequenceServer
           # for Thin
           server.silent = true if handler_name == 'Thin'
         end
-      rescue Errno::EADDRINUSE => e
-        puts "== Port #{port} is busy! Is SequenceServer already running on #{url}?"
+      rescue Errno::EADDRINUSE, RuntimeError => e
+        puts "\n== Failed to start SequenceServer."
+        puts "== Is SequenceServer already running at: #{url}"
       end
 
       # Stop SequenceServer.
