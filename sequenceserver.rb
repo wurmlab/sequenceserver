@@ -86,14 +86,8 @@ module SequenceServer
       set :databases, {}
     end
 
-    configure(:development) do
+    configure :development do
       log.level     = Logger::DEBUG
-      begin
-        require 'sinatra/reloader'
-        register Sinatra::Reloader
-      rescue LoadError
-        puts("** install sinatra-reloader gem for automatic reloading of code during development **\n\n")
-      end
     end
 
     configure(:production) do
