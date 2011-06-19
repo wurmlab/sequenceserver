@@ -173,6 +173,10 @@ module SequenceServer
       rescue IOError => error
         log.fatal("Fail: #{error}")
         exit
+      rescue ArgumentError => error
+        log.fatal("Error in config.yml: #{error}")
+        puts "YAML is white space sensitive. Is your config.yml properly indented?"
+        exit
       end
 
       # Parse config.yml, and return the resulting hash.
