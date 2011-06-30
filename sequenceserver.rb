@@ -206,7 +206,7 @@ module SequenceServer
       sequence = sequence.empty? ? nil : to_fasta(sequence)
 
       if request.xhr?
-        return type_of_sequences(sequence).to_s
+        return (sequence && type_of_sequences(sequence)).to_s
       end
 
       # Raise ArgumentError if there is no database selected
