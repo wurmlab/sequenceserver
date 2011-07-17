@@ -372,7 +372,7 @@ module SequenceServer
         return line
       else
         settings.log.debug('Added link for: `'+ sequence_id +'\''+ link)
-        return "<a href='#{link}'>#{sequence_id}</a>"
+        return "><a href='#{link}'>#{sequence_id}</a> "
       end
 
     end
