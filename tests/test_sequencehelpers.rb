@@ -47,6 +47,12 @@ class Tester < Test::Unit::TestCase
     assert_raise(ArgumentError, 'mixed aa and nt should raise') { type_of_sequences(aa_nt_mix) }
   end
 
+  def test_sequence_type_to_blast_methods
+    assert_equal ['blastp', 'tblastn'], blast_methods_for(:protein), 'blasts_for_protein'
+    assert_equal ['blastn','tblastx','blastx'], blast_methods_for(:nucleotide), 'blasts_for_nucleotide'
+    assert_equal ['blastp', 'tblastn','blastn','tblastx','blastx'], blast_methods_for(nil), 'blasts_for_nil'
+  end
+
   def test_composition
     expected_comp = {"a"=>2, "d"=>3, "f"=>7, "s"=>3, "A"=>1}
     assert_equal(expected_comp, composition('asdfasdfffffAsdf'))
