@@ -323,23 +323,21 @@ module SequenceServer
         if line.match(/^>/) # If line to possibly replace
           formatted_result += construct_sequence_hyperlink_line(line, databases)
         else
-# Surround each query's result in <div> tags so they can be coloured by CSS
-if line.match(/^<b>Query=<\/b> /) # If starting a new query, then surround in new <div> tag, and finish the last one off
-line = "<div class=result_even_#{blast_database_number.even?}>#{line}"
-unless blast_database_number == 0
-line = "</div>#{line}"
-end
-blast_database_number += 1
-end
 
-if line.match(/^<\/PRE>/)# End the last <div> tag
-line = "</div>\n#{line}"
-end
-          formatted_result += line
+        # Surround each query's result in <div> tags so they can be coloured by CSS
+        if line.match(/^<b>Query=<\/b> /) # If starting a new query, then surround in new <div> tag, and finish the last one off
+          line = "<div class=result_even_#{blast_database_number.even?}>#{line}"
+          unless blast_database_number == 0
+            line = "</div>#{line}"
+          end
+          blast_database_number += 1
         end
 
-
-
+        if line.match(/^<\/PRE>/)# End the last <div> tag  
+          line = "</div>\n#{line}"
+        end
+          formatted_result += line
+        end
       end
 
       link_to_fasta_of_all = "/get_sequence/:#{@all_retrievable_ids.join(' ')}/:#{string_of_used_databases}"
