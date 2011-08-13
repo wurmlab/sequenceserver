@@ -220,6 +220,9 @@ h2, .bigtext{
 	padding-left: 5%;
 	margin: 0 18px 0 18px;
 }
+.result_even_true{
+	background-color: #FFCCCC
+}
 
 a {
     color: #b22222;

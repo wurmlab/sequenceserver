@@ -246,7 +246,7 @@ module SequenceServer
       databases = params['db'][db_type].map{|index|
         settings.databases[db_type][index.to_i].name
       }
-      advanced_opts = params['advanced']
+      advanced_opts = params['advanced']+' -html'
 
       raise ArgumentError, "Invalid advanced options" unless advanced_opts =~ /\A[a-z0-9\-_\. ']*\Z/i
       raise ArgumentError, "using -out is not allowed" if advanced_opts =~ /-out/i
@@ -318,12 +318,28 @@ module SequenceServer
       formatted_result    = ''
       @all_retrievable_ids = []
       string_of_used_databases = databases.join(' ')
+      blast_database_number = 0
       result.each do |line|
         if line.match(/^>/) # If line to possibly replace
           formatted_result += construct_sequence_hyperlink_line(line, databases)
         else
+# Surround each query's result in <div> tags so they can be coloured by CSS
+if line.match(/^<b>Query=<\/b> /) # If starting a new query, then surround in new <div> tag, and finish the last one off
+line = "<div class=result_even_#{blast_database_number.even?}>#{line}"
+unless blast_database_number == 0
+line = "</div>#{line}"
+end
+blast_database_number += 1
+end
+
+if line.match(/^<\/PRE>/)# End the last <div> tag
+line = "</div>\n#{line}"
+end
           formatted_result += line
         end
+
+
+
       end
 
       link_to_fasta_of_all = "/get_sequence/:#{@all_retrievable_ids.join(' ')}/:#{string_of_used_databases}"
