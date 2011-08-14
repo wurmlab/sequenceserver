@@ -48,13 +48,13 @@ module SequenceServer
     #   b = Blast.new("blastn", "S.cdna.fasta", :qfile => 'query.seq', :options => "-html -num_threads 4")
     #   b = Blast.new("blastn", "S.cdna.fasta", :qstring => 'ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTG')
     #
-    #   b.run!        => true
+    #   b.run!      => true
     #   b.result      => "blast output"
     #
     #   # change the blast method.
     #   b.method = 'blastp'
     #
-    #   b.run!        => false
+    #   b.run!      => false
     #   b.error       => "blast error output"
     def initialize(method = nil, db = nil, query = {})
       @method  = method
@@ -89,10 +89,10 @@ module SequenceServer
 
       # create a tempfile if qstring is given
       if @qstring
-        @tempfile = Tempfile.new('qfile')
-        @tempfile.puts(qstring)
-        @tempfile.close
-        @qfile    = @tempfile.path
+      @tempfile = Tempfile.new('qfile')
+      @tempfile.puts(qstring)
+      @tempfile.close
+      @qfile    = @tempfile.path
       end
 
       # form command to execute
@@ -100,8 +100,8 @@ module SequenceServer
 
       # execute command and capture both stdout, and stderr
       Open3.popen3(@command) do |stdin, stdout, stderr|
-        @result = stdout.readlines # convert to string?
-        @error  = stderr.readlines
+      @result = stdout.readlines # convert to string?
+      @error  = stderr.readlines
       end
 
       # set and return success status
@@ -142,19 +142,34 @@ module SequenceServer
       (success? ? "success : " : "fail : ") + @command
     end
 
+    # Run the blast with the options specified by the user, returning a blast archive file, which can be further transformed into other formats
+    def run_to_blast_archive!
+      blast_archive_tempfile = Tempfile.open('seqserve_formatter')
+
+      # Add -outfmt 11 to list of options so that it outputs a blast archive
+      @options ||= ''
+      @options += "-outfmt 11 -out #{blast_output.path}"
+
+      # Run the blast
+      run!
+      return @success unless @success
+
+      return blast_archive_tempfile
+    end
+
     class << self
       # shortcut method to run blast against a query file
       def blast_file(method, db, qfile, options = nil)
-        b = Blast.new(method, db, :qfile => qfile, :options => options)
-        b.run!
-        b
+      b = Blast.new(method, db, :qfile => qfile, :options => options)
+      b.run!
+      b
       end
 
       # shortcut method to run blast against a query string
       def blast_string(method, db, qstring, options = nil)
-        b = Blast.new(method, db, :qstring => qstring, :options => options)
-        b.run!
-        b
+      b = Blast.new(method, db, :qstring => qstring, :options => options)
+      b.run!
+      b
       end
     end
   end
