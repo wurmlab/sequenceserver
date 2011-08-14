@@ -246,10 +246,7 @@ module SequenceServer
       databases = params['db'][db_type].map{|index|
         settings.databases[db_type][index.to_i].name
       }
-      advanced_opts = params['advanced']+' -html'
-
-      raise ArgumentError, "Invalid advanced options" unless advanced_opts =~ /\A[a-z0-9\-_\. ']*\Z/i
-      raise ArgumentError, "using -out is not allowed" if advanced_opts =~ /-out/i
+      advanced_opts = process_advanced_blast_options(params['advanced'])
 
       blast = Blast.blast_string(method, databases.join(' '), sequence, advanced_opts)
 

@@ -110,6 +110,16 @@ module SequenceServer
         db 
       end
 
+      # Advanced options are specified by the user. Here they are checked for interference with SequenceServer operations.
+      # raise ArgumentError if an error has occurred, otherwise return without value
+      def process_advanced_blast_options(advanced_options)
+        raise ArgumentError, "Invalid characters detected in the advanced options" unless advanced_options =~ /\A[a-z0-9\-_\. ']*\Z/i
+        disallowed_options = %w(-out -html -outfmt -db -query)
+        disallowed_options.each do |o|
+          raise ArgumentError, "The advanced BLAST option \"#{o}\" is used internally by SequenceServer and so cannot be specified by the you" if advanced_options =~ /#{o}/i
+        end
+      end
+
       private
 
       # check if the given command exists and is executable
