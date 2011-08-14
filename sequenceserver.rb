@@ -249,10 +249,9 @@ module SequenceServer
       databases = params['db'][db_type].map{|index|
         settings.databases[db_type][index.to_i].name
       }
-      advanced_opts = params['advanced']
 
-      raise ArgumentError, "Invalid advanced options" unless advanced_opts =~ /\A[a-z0-9\-_\. ']*\Z/i
-      raise ArgumentError, "using -out is not allowed" if advanced_opts =~ /-out/i
+      advanced_opts = params['advanced']
+      validate_advanced_parameters(advanced_opts) #check the advanced options are sensible
 
       blast = Blast.blast_string(method, databases.join(' '), sequence, advanced_opts)
 
@@ -378,6 +377,16 @@ module SequenceServer
         return "><a href='#{link}'>#{sequence_id}</a> \n"
       end
 
+    end
+
+    # Advanced options are specified by the user. Here they are checked for interference with SequenceServer operations.
+    # raise ArgumentError if an error has occurred, otherwise return without value
+    def validate_advanced_parameters(advanced_options)
+      raise ArgumentError, "Invalid characters detected in the advanced options" unless advanced_options =~ /\A[a-z0-9\-_\. ']*\Z/i
+      disallowed_options = %w(-out -html -outfmt -db -query)
+      disallowed_options.each do |o|
+        raise ArgumentError, "The advanced BLAST option \"#{o}\" is used internally by SequenceServer and so cannot be specified by the you" if advanced_options =~ /#{o}/i
+      end
     end
 
     at_exit { run! if $!.nil? and run? }
