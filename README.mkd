@@ -114,6 +114,7 @@ can improve performance.
 * 'Beta 1' is deployed by the [Keller lab][10] at [University of
 Lausanne][11]; see [Fourmidable Sequences][12].
 * [Guy Leonard @ National History Museum London][13] 
+* Steffen Lemke @ Center for Organismal Studies, Heidelberg. 
 * you... 
 
 ## Reference
