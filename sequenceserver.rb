@@ -16,6 +16,7 @@ require 'customisation'
 module SequenceServer
   class App < Sinatra::Base
     include Helpers
+    include Helpers::SystemHelpers
     include SequenceHelpers
     include SequenceServer::Customisation
 
@@ -246,7 +247,11 @@ module SequenceServer
       databases = params['db'][db_type].map{|index|
         settings.databases[db_type][index.to_i].name
       }
-      advanced_opts = process_advanced_blast_options(params['advanced'])
+      advanced_opts = params['advanced']
+      process_advanced_blast_options advanced_opts #check the advanced options are sensible
+
+# run blast to blast archive
+# convert blast archive to HTML version
 
       blast = Blast.blast_string(method, databases.join(' '), sequence, advanced_opts)
 
