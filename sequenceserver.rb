@@ -319,36 +319,75 @@ module SequenceServer
       raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if !result.class == String
       raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if result.empty?
 
-      formatted_result    = ''
+      formatted_result = ''
       @all_retrievable_ids = []
       string_of_used_databases = databases.join(' ')
       blast_database_number = 0
+      line_number = 0
+      started_query = false
+      finished_database_summary = false
+      finished_alignments = false
+      reference_string = ''
+      database_summary_string = ''
       result.each do |line|
+        line_number += 1
+        next if line_number <= 5 #skip the first 5 lines
+
+        # Add the reference to the end, not the start, of the blast result
+        if line_number >= 7 and line_number <= 15
+          reference_string += line
+          next
+        end
+
+        if !finished_database_summary and line_number > 15
+          database_summary_string += line
+          finished_database_summary = true if line.match(/total letters/)
+          next
+        end
+
+        # Remove certain lines from the output
+        skipped_lines = [/^<\/BODY>/,/^<\/HTML>/,/^<\/PRE>/]
+        skip = false
+        skipped_lines.each do |skippy|
+        #  $stderr.puts "`#{line}' matches #{skippy}?"
+          if skippy.match(line)
+            skip = true
+         #   $stderr.puts 'yes'
+          else
+          #  $stderr.puts 'no'
+          end
+        end
+        next if skip
+
         if line.match(/^>/) # If line to possibly replace
           formatted_result += construct_sequence_hyperlink_line(line, databases)
         else
-
-        # Surround each query's result in <div> tags so they can be coloured by CSS
-        if line.match(/^<b>Query=<\/b> /) # If starting a new query, then surround in new <div> tag, and finish the last one off
-          line = "<div class=result_even_#{blast_database_number.even?}>#{line}"
-          unless blast_database_number == 0
-            line = "</div>#{line}"
+          # Surround each query's result in <div> tags so they can be coloured by CSS
+          if matches = line.match(/^<b>Query=<\/b> (.*)/) # If starting a new query, then surround in new <div> tag, and finish the last one off
+            line = "<div class=result_even_#{blast_database_number.even?}>\n<h3>Query: #{matches[1]}</h3>"
+            unless blast_database_number == 0
+              line = "</div>\n#{line}"
+            end
+            blast_database_number += 1
+          elsif line.match(/^  Database: /) and !finished_alignments
+            formatted_result += "</div>\n#{database_summary_string}\n"
+            finished_alignments = true
           end
-          blast_database_number += 1
-        end
-
-        if line.match(/^<\/PRE>/)# End the last <div> tag  
-          line = "</div>\n#{line}"
-        end
           formatted_result += line
         end
       end
 
       link_to_fasta_of_all = "/get_sequence/:#{@all_retrievable_ids.join(' ')}/:#{string_of_used_databases}"
       # #dbs must be sep by ' '
-      retrieval_text       = @all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a></p>"
+      retrieval_text       = @all_retrievable_ids.empty? ? '' : "<a href='#{link_to_fasta_of_all}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a>"
 
-      retrieval_text + '<pre><code>' + formatted_result + '</pre></code>'  # should this be somehow put in a div?
+      "\n<div class='blast_result'>\n"+
+      "<h2>Results</h2>\n"+
+      retrieval_text +
+      '<pre><code>' +
+      formatted_result +
+      reference_string +
+      '</pre></code>'
     end
 
     def construct_sequence_hyperlink_line(line, databases)
