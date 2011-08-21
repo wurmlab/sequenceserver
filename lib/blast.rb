@@ -25,6 +25,9 @@ module SequenceServer
     # result of executing command
     attr_reader   :result
 
+    # blast archive file output
+    attr_reader   :blast_archive_tempfile
+
     # errors if any while executing command
     attr_reader   :error
 
@@ -144,17 +147,27 @@ module SequenceServer
 
     # Run the blast with the options specified by the user, returning a blast archive file, which can be further transformed into other formats
     def run_to_blast_archive!
-      blast_archive_tempfile = Tempfile.open('seqserve_formatter')
+      @blast_archive_tempfile = Tempfile.open('seqserve_formatter')
 
       # Add -outfmt 11 to list of options so that it outputs a blast archive
       @options ||= ''
-      @options += "-outfmt 11 -out #{blast_output.path}"
+      @options += " -outfmt 11 -out #{@blast_archive_tempfile.path}"
 
       # Run the blast
       run!
       return @success unless @success
+    end
 
-      return blast_archive_tempfile
+    # convert the blast archive to a regular HTML result, stored
+    # as an instance variable Blast#result
+    def convert_blast_archive_to_html_result(blast_formatter_path)
+      @command = "#{blast_formatter_path} -archive #{blast_archive_tempfile.path} -html"
+
+      # execute command and capture both stdout, and stderr
+      Open3.popen3(@command) do |stdin, stdout, stderr|
+      @result = stdout.readlines # convert to string?
+      @error  = stderr.readlines
+      end
     end
 
     class << self
@@ -169,6 +182,17 @@ module SequenceServer
       def blast_string(method, db, qstring, options = nil)
       b = Blast.new(method, db, :qstring => qstring, :options => options)
       b.run!
+      b
+      end
+
+      # shortcut method to run blast with a query string and return a
+      # blast archive, which can then be further processed into other useful
+      # output forms (e.g. HTML, GFF). If it ran successfully, the blast archive
+      # is a Tempfile accessible as an instance variable of the returned
+      # Blast object.
+      def blast_string_to_blast_archive(method, db, qstring, options = nil)
+      b = Blast.new(method, db, :qstring => qstring, :options => options)
+      b.run_to_blast_archive!
       b
       end
     end

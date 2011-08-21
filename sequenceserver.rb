@@ -250,13 +250,15 @@ module SequenceServer
       advanced_opts = params['advanced']
       process_advanced_blast_options advanced_opts #check the advanced options are sensible
 
-# run blast to blast archive
-# convert blast archive to HTML version
-
-      blast = Blast.blast_string(method, databases.join(' '), sequence, advanced_opts)
-
+      # run blast to blast archive
+      blast = Blast.blast_string_to_blast_archive(method, databases.join(' '), sequence, advanced_opts)
       # log the command that was run
-      settings.log.info('Ran: ' + blast.command) if settings.logging
+      settings.log.info('Ran to blast archive: ' + blast.command) if settings.logging
+
+      # convert blast archive to HTML version
+      blast.convert_blast_archive_to_html_result(settings.binaries['blast_formatter'])
+      # log the command that was run
+      settings.log.info('Ran to get HTML output: ' + blast.command) if settings.logging
 
       @blast = format_blast_results(blast.result, databases)
 
