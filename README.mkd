@@ -89,7 +89,7 @@ BLAST database. This is accomplished by providing a `config.yml` in the
 installation directory.
 
     # .config.yml
-    bin: ~/ncbi-blast-2.2.24+/bin/
+    bin: ~/ncbi-blast-2.2.25+/bin/
     database: /Users/me/blast_databases/
 
 A fully commented `example.config.yml` is provided for a start - copy it to
@@ -109,12 +109,13 @@ SequenceServer automatically uses ruby's internal web servers. No need for Apach
 By default it uses [Webrick][7]. Installling [Thin][8] (`gem install thin`), or [Mongrel][9] (`gem install mongrel`) 
 can improve performance. 
 
-## Who is using SequenceServer?
+## Who uses SequenceServer?
 
 * 'Beta 1' is deployed by the [Keller lab][10] at [University of
 Lausanne][11]; see [Fourmidable Sequences][12].
 * [Guy Leonard @ National History Museum London][13] 
 * Steffen Lemke @ Center for Organismal Studies, Heidelberg. 
+* Researchers at [Benaroya Research Institute at Virginia Mason][22]
 * you... 
 
 ## Reference
@@ -128,7 +129,11 @@ SequenceServer is in 'Beta 1'; many exciting features are planned for future rel
 
 Our [issues tracker][13] logs development activities. [feature][14] indicates what is in the pipeline, and [bugs][15] indicates upcoming fixes. Feel free to add comments, vote, report bugs or request features. All contributions, patches and pulls are welcome.
 
-Current contributors: [Yannick Wurm][16], [Anurag Priyam][17], [Cedric Wurm][18], [Ben J Woodcroft][19]
+Current contributors: 
+ * [Yannick Wurm][16] is an evolutionary biologist using genomics tools to study the evolution of ant societies. 
+ * [Anurag Priyam][17]
+ * [Cedric Wurm][18]
+ * [Ben J Woodcroft][19]
 
 
 [1]: http://blast.ncbi.nlm.nih.gov/Blast.cgi
@@ -140,9 +145,9 @@ Current contributors: [Yannick Wurm][16], [Anurag Priyam][17], [Cedric Wurm][18]
 [7]: http://www.ruby-doc.org/stdlib/libdoc/webrick/rdoc/index.html
 [8]: http://code.macournoyer.com/thin/
 [9]: http://rubygems.org/gems/mongrel
-[10]: http://fourmidable.unil.ch/
+[10]: http://www.antgenomes.org/
 [11]: http://www.unil.ch/central
-[12]: http://fourmidable-sequences.unil.ch:2011/
+[12]: http://www.antgenomes.org/blast
 [13]: https://github.com/yannickwurm/sequenceserver/issues
 [14]: https://github.com/yannickwurm/sequenceserver/issues?labels=feature
 [15]: https://github.com/yannickwurm/sequenceserver/issues?labels=bug
@@ -152,3 +157,4 @@ Current contributors: [Yannick Wurm][16], [Anurag Priyam][17], [Cedric Wurm][18]
 [19]: https://github.com/wwood
 [20]: http://gna-phylo.nhm.ac.uk/blast.html
 [21]: http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html] 
+[22]: http://www.benaroyaresearch.org
