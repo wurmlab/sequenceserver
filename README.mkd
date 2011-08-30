@@ -131,7 +131,9 @@ Our [issues tracker][13] logs development activities. [feature][14] indicates wh
 
 Current contributors:
 
- * [Yannick Wurm][16] is an evolutionary biologist using genomics tools to study the evolution of ant societies.
+ * [Yannick Wurm][16] is an evolutionary biologist using genomics tools to study the evolution of ant
+ societies (eg: [antgenomes.org][23], [fire ant genome][24], [competing fire ant queens][25]). He will be at
+ [Queen Mary University London][26] from January 2012.
  * [Anurag Priyam][17]
  * [Cedric Wurm][18]
  * [Ben J Woodcroft][19]
@@ -159,3 +161,7 @@ Current contributors:
 [20]: http://gna-phylo.nhm.ac.uk/blast.html
 [21]: http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html]
 [22]: http://www.benaroyaresearch.org
+[23]: http://yannick.poulet.org/publications/wurm2009antDatabase.pdf
+[24]: http://yannick.poulet.org/publications/wurm2011fireAntGenome.pdf
+[25]: http://fourmidable.unil.ch/publications/wurm2010fireAntQueenDealationExpression.pdf
+[26]: http://www.sbcs.qmul.ac.uk/
