@@ -165,7 +165,7 @@ Current contributors:
 [22]: http://www.benaroyaresearch.org
 [23]: http://yannick.poulet.org/publications/wurm2009antDatabase.pdf
 [24]: http://yannick.poulet.org/publications/wurm2011fireAntGenome.pdf
-[25]: http://fourmidable.unil.ch/publications/wurm2010fireAntQueenDealationExpression.pdf
+[25]: http://www.antgenomes.org/publications/wurm2010fireAntQueenDealationExpression.pdf
 [26]: http://www.sbcs.qmul.ac.uk/
 [27]: http://apiloc.bio21.unimelb.edu.au
 [28]: http://www.biochemistry.unimelb.edu.au/research/res_ralph.html
