@@ -120,7 +120,8 @@ Lausanne][11]; see [Fourmidable Sequences][12].
 
 ## Reference
 
-A manuscript describing SequenceServer is *in prep*. For details, please get in touch!
+A manuscript describing SequenceServer is *in prep*. In the mean time,
+please cite "Priyam A., Woodcroft B.J., Wurm Y *in prep*. **Sequenceserver: BLAST searching made easy**").
 
 
 ## Development
