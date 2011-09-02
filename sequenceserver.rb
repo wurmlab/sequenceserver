@@ -143,7 +143,10 @@ module SequenceServer
       def quit!(server, handler_name)
         # Use Thin's hard #stop! if available, otherwise just #stop.
         server.respond_to?(:stop!) ? server.stop! : server.stop
-        puts "\n== Thank you for using SequenceServer :)." unless handler_name =~/cgi/i
+        puts "\n== Thank you for using SequenceServer :)." +
+             "\n== Please cite: " +
+             "\n==             Priyam A., Woodcroft B.J., Wurm Y (in prep)." +
+             "\n==             Sequenceserver: BLAST searching made easy." unless handler_name =~/cgi/i
       end
 
       # Initializes the blast server : executables, database. Exit if blast
