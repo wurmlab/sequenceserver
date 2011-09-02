@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby 
 # test_ssequencehelpers.rb
 
+require 'sequenceserver'
 require 'lib/sequencehelpers'
 require 'test/unit'
 
@@ -62,6 +63,16 @@ class Tester < Test::Unit::TestCase
     assert_equal "/get_sequence/:one/:abc def", construct_standard_sequence_hyperlink({:sequence_id => 'one', :databases => %w(abc def)})
     assert_equal nil, construct_standard_sequence_hyperlink({:sequence_id => ' one', :databases =>  %w(abc def)})
     assert_equal "/get_sequence/:MAL13P1.218/:abc def", construct_standard_sequence_hyperlink({:sequence_id => 'lcl|MAL13P1.218', :databases =>  %w(abc def)})
+  end
+end
+
+class SystemHelperTester < Test::Unit::TestCase
+  include SequenceServer::Helpers::SystemHelpers
+  def test_process_advanced_blast_options
+    assert_nothing_raised {process_advanced_blast_options('')}
+    assert_nothing_raised {process_advanced_blast_options('-word_size 5')}
+    assert_raise(ArgumentError, 'security advanced option parser'){process_advanced_blast_options('-word_size 5; rm -rf /')}
+    assert_raise(ArgumentError, 'conflicting advanced option'){process_advanced_blast_options('-db roar')}
   end
 end
 

@@ -209,6 +209,15 @@ h2, .bigtext{
 	/*	margin: 8px 0 10px 0;*/
 }
 
+h3{
+	font-family: Tahoma, Arial, serif;
+	font-weight: bold;
+	font-size: 16px;
+	color: black;
+	margin:0;
+	padding: 0px;
+}
+
 .smalltext{
 	font-size:10px;
 }
@@ -217,8 +226,29 @@ h2, .bigtext{
 #result{
 	clear:both;
 	background-color: white;
-	padding-left: 5%;
+}
+.result_even_true{
+	background-color: #ffe0f9;
+   margin: 0 18px 0 18px;
+	border-radius  :10px;
+	-moz-border-radius:10px;
+	padding-left: 3%;
+	padding-top: 3%;
+}
+.result_even_false{
+	background-color: #dfefe6;
 	margin: 0 18px 0 18px;
+	border-radius  :10px;
+	-moz-border-radius:10px;
+	padding-left: 3%;
+	padding-top: 3%;
+}
+.blast_result{
+	font-family: "Lucida Console", Lucida, monospace;
+	background-color: #A9A9A9;
+	border-radius  :10px;
+	-moz-border-radius:10px;
+	padding-left: 2%;
 }
 
 a {
