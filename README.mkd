@@ -128,7 +128,12 @@ SequenceServer is in 'Beta 1'; many exciting features are planned for future rel
 
 Our [issues tracker][13] logs development activities. [feature][14] indicates what is in the pipeline, and [bugs][15] indicates upcoming fixes. Feel free to add comments, vote, report bugs or request features. All contributions, patches and pulls are welcome.
 
-Current contributors: [Yannick Wurm][16], [Anurag Priyam][17], [Cedric Wurm][18], [Ben J Woodcroft][19]
+Current contributors:
+
+ * [Yannick Wurm][16] is an evolutionary biologist using genomics tools to study the evolution of ant societies.
+ * [Anurag Priyam][17]
+ * [Cedric Wurm][18]
+ * [Ben J Woodcroft][19]
 
 
 [1]: http://blast.ncbi.nlm.nih.gov/Blast.cgi
