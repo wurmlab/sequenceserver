@@ -109,12 +109,13 @@ SequenceServer automatically uses ruby's internal web servers. No need for Apach
 By default it uses [Webrick][7]. Installling [Thin][8] (`gem install thin`), or [Mongrel][9] (`gem install mongrel`) 
 can improve performance. 
 
-## Who is using SequenceServer?
+## Who uses SequenceServer?
 
 * 'Beta 1' is deployed by the [Keller lab][10] at [University of
 Lausanne][11]; see [Fourmidable Sequences][12].
 * [Guy Leonard @ National History Museum London][13] 
 * Steffen Lemke @ Center for Organismal Studies, Heidelberg.
+* Researchers at [Benaroya Research Institute at Virginia Mason][22]
 * you... 
 
 ## Reference
@@ -156,4 +157,5 @@ Current contributors:
 [18]: http://ceddo.gammosaur.com
 [19]: https://github.com/wwood
 [20]: http://gna-phylo.nhm.ac.uk/blast.html
-[21]: http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html] 
+[21]: http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html]
+[22]: http://www.benaroyaresearch.org
