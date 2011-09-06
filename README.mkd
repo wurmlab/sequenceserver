@@ -89,7 +89,7 @@ BLAST database. This is accomplished by providing a `config.yml` in the
 installation directory.
 
     # .config.yml
-    bin: ~/ncbi-blast-2.2.24+/bin/
+    bin: ~/ncbi-blast-2.2.25+/bin/
     database: /Users/me/blast_databases/
 
 A fully commented `example.config.yml` is provided for a start - copy it to
