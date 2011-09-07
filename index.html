@@ -4,42 +4,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="keywords" content="local BLAST server, BLAST web frontend, local BLAST, BLAST web interface" />
+	<meta name="keywords" content="local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, viroblast" />
 	<title>SequenceServer: Easy to setup local BLAST web server</title>
 	
 	<link type="text/css" rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.2.0.min.css"/>
 	<style type="text/css">
-	  /*	  body {
-  	  margin-top: 1.0em;
-  	  background-color: #C89C78;
-	  font-family: Tahoma, Arial, Sans-serif;
-  	  color: #000000;
-	  }
-	  #container {
-	  margin: 0 auto;
-	  width: 800px;
-	  }
-*/
 
-	  h1 { font-size: 3.8em;margin-bottom: 0px;  margin-top:.5em;}
-	  h1 .small { font-size: 0.4em; }
+	  h1 { font-size: 3.8em; } 
+//margin-bottom: 0px;  margin-top:.5em;}
 
-//	  h1 a { text-decoration: none }
-//	  h2 { font-size: 1.5em; color: #3A688D; margin-bottom: 0px; margin-top:20px;}
-//	  h3 { font-size: 1em; color: #3A688D; margin-bottom:0px;}
-//	  a { color: #3A688D; }
-	  .description { font-size: 0.8em; margin-bottom: 30px; margin-top: 0px; }
 	  .download { float: right; }
-//	  pre { background: #000; color: #fff; padding: 15px;}
-//	  hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-	  .footer { text-align:center; padding-top:30px; font-style: italic; }
-//	  p { margin-top: 5px; margin-bottom: 0px;}
-//	  ul,dl { margin-top: 0px;}
-	  img { text-align: center;}
-	  
-//	  dt {font-weight:bold; margin-left:2em;}
-//	  di {margin-left:4em;}
+	  pre { background: gray; color: #fff; padding: 15px;}
 
+	  .footer { text-align:center; padding-top:30px; font-style: italic; }
 	</style>
 	<script type="text/javascript">
 
@@ -67,10 +44,10 @@
 	
 	
 
-	<div class="container-fluid">
+	<div class="container-fluid" style="background:lightgray;" >
 
 
-	  <div class="sidebar" style=" position: fixed;">
+	  <div class="sidebar" style=" position: fixed; height:100%; "> 
 		<!-- GOOGLE PLUS AND FACEBOOK LIKE AT TOP OF SIDEBAR - FB DISABLED   - GOOG SHOULD MOVE TO BOTTOM - or be asynch.-->
 		<!--	<div style="text-align:left; position: fixed; top:0; left:0; border: 1px solid gray; padding:10px;"> -->
 		<div style="height:50px;"
@@ -99,7 +76,7 @@
 			<label style="display:inline; width:30%; float:left; padding:2; margin: 2;">
 			  <input type="checkbox" name="entry.2.group" checked='checked' value="Announcements" class="ss-q-checkbox" id="group_2_1" style="inline"/>News
 			</label>
-
+			
 			<label style=" display:inline; float:right; padding:2; margin: 2; width:70%">
 			  <input type="checkbox" name="entry.2.group" checked='checked' value="Discussion" class="ss-q-checkbox" id="group_2_2"/>Help &amp; Support
 			</label>
@@ -112,28 +89,31 @@
 			  <input class="primary btn" type="submit" name="submit" value="Subscribe to Mailing List"/>
 		  </div>
 		</form> 
-</div>
-	  
-
-
+		</div>
+		
+		
+		
 	</div>
-	  <div class="content">
+	<div class="content"  style="padding: 30px;  background: white;">
 
 
 	<h1><a href="http://github.com/yannickwurm/sequenceserver">SequenceServer Beta</a></h1>
-	<h2 class="description  .small">
-	  Easily set up a local BLAST web server to search &amp; share sequence data. 
-	</h2>
+	<h2>Easily set up a local BLAST web server</h2>
+	<h2>to search &amp; share sequence data. </h2>
+	<br/>
 
-	<p>Sequenceserver is an efficient and elegant alternative to NCBI's wwwblast: with Sequenceserver you can rapidly set up a local BLAST server with a helpful user interface.</p>
+	<p>Sequenceserver is an efficient and elegant alternative to <a href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html">NCBI's wwwblast</a>: with Sequenceserver you can rapidly set up a local BLAST server with a helpful user interface.</p>
 
-	<p>Sequenceserver will eventually become <em>"The iPod of Blast searching"</em>. This beta version is fully functional and has already deployed for several sequence databases (see demo). Send us a quick note and we'll keep you updated on releases.</p>
+	<p>Sequenceserver will eventually become <em>"The iPod of Blast searching"</em>. This beta version is fully functional and has already deployed for several databases (eg: <a href="http://www.antgenomes.org/blast">demo ant genomeBLAST server</a>). </p>
+
+
+	<img src='img/overview.png' alt='BLAST web server screenshot' width='758' height='721'/>
 
 	<h2>Features</h2>
 		<h3>Easy setup in five minutes:</h3>
 		<ul>
 		  <li>Helps you batch format databases if required.</li>
-		  <li>Finds all formatted blast databases at runtime.</li>
+		  <li>Finds all formatted blast databases at start-up.</li>
 		  <li>No configuration necessary: uses ruby's internal web servers. Or deploy on Apache/Nginix with Rack.</li>
 		</ul>
 		<h3>Easy to use:</h3>
@@ -144,7 +124,7 @@
 		  <li>Single-click retrieval of hit sequences directly from BLAST results (you can easily add custom links)</li>
 		</ul>
 		<br/>
-		<img src='img/overview.png' alt='BLAST web server screenshot' width='758' height='721'/>
+
 
 
 		<h2>Demo server</h2>
@@ -155,17 +135,23 @@
 		<ul>
 		  <li>ruby 1.8.7 or later (if you have <a href='http://git-scm.com/'>git</a>, get ruby with <a href='http://rvm.beginrescueend.com/rvm/install'>RVM</a>).</li>
 		  <li><a href='ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/'>NCBI Blast+</a> (tested with 2.2.23 to 2.2.25)</li>
-		  <li>FASTA sequence databases formatted for BLAST (with formatdb or makeblastdb; see FAQ)</li>
+		  <li>A folder containing FASTA sequence files</li>
 		</ul>
 
 		<h2>Download &amp; Setup</h2>
 		Extensive details in the <a href="https://github.com/yannickwurm/sequenceserver/blob/master/README.mkd">README</a> file. In short: 
 		<ul>
-		  <li><a href="http://github.com/yannickwurm/sequenceserver/zipball/master">Download sequenceserver</a>. <pre>wget http://github.com/yannickwurm/sequenceserver/zipball/master</pre></li>
-		  <li>Unzip, and move to Sequence Server's directory, and do: <pre>gem install bundler &amp;&amp; bundle install</pre></li>
-		  <li>Edit the <code>example.config.yml</code> file to indicate the location of your blast databases. Or create some with <code>makeblastdb -in my.fasta -dbtype nucl -parse_seqids</code>, or simply use <code>databaseformatter.rb</code></li>
+		  <li>Download sequenceserver. Either with <a href="http://github.com/yannickwurm/sequenceserver/zipball/master">this link</a> or copy-paste the following into the command-line:
+			<pre>$ wget http://github.com/yannickwurm/sequenceserver/zipball/master</pre>
+		  </li>
+		  <li>Unzip, and move to Sequence Server's directory, and do: 
+			<pre>$ gem install bundler &amp;&amp; bundle install</pre>
+		  </li>
+		  <li>Edit the <code>example.config.yml</code> file to indicate the location of your blast databases. Or create some with the tool we provide: <code>database_formatter.rb directory_of_fasta_files</code>; or manually with Blast's <code>makeblastdb -in my.fasta -dbtype nucl -parse_seqids</code>.
+		  </li>
 		  <li>Launch the server:
-			<pre>ruby sequenceserver.rb</pre></li>
+			<pre>$ ruby sequenceserver.rb</pre>
+		  </li>
 		  <li>Access SequenceServer on <a href='http://localhost:4567'>http://localhost:4567</a></li>
 		</ul>
 		
@@ -180,10 +166,10 @@
 		
 
 
-		<h2>Alternatives</h2>
+		<h2>Sequenceserver is an alternative to NCBI's wwwblast, Viroblast, and GMOD</h2>
 		<p>There are several. But they are suboptimal because they look like they're from the last millenium. And installing them is challenging.</p>
 		<ul>
-		  <li><a href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html">NCBI's wwwblast</a> hasn't been maintained in years.</li>
+		  <li><a href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html">NCBI's wwwblast</a> hasn't been maintained in years <a href="http://openwetware.org/wiki/Wwwblast">and is difficult to set up</a>.</li>
 		  <li><a href="http://bioinformatics.oxfordjournals.org/content/23/17/2334.full">ViroBLAST</a> requires Apache &amp; MySQL.</li>
 		  <li><a href="http://gmod.org/wiki/BLAST_Graphic_Viewer">GMOD's BLAST Graphic Viewer</a> hasn't been maintained in years.</li>
 		  <li><a href="http://www.blaststation.com">BLASTstation</a> is only for local BLAST.</li>
@@ -194,7 +180,10 @@
 
 		<h2>Enthusiastic users include:</h2>
 		<br/>
-		<!--  "Works like a charm" - Steffen Lemke @ Centre for Organismal Studies, Heidelberg
+		<!-- Get inspiration from backpackit.com/buzz
+
+
+ "Works like a charm" - Steffen Lemke @ Centre for Organismal Studies, Heidelberg
 			  "this is filling a huge need in BLAST sequencing" - Taylor Ballou @ Benaroya Research Institute at Virginia Mason 
 			  "good for the biologists within the group as the standard fare from wwwBLAST is seriously lacking" - guy leonard at nhm -->
 
