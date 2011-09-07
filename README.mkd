@@ -93,7 +93,10 @@ installation directory.
     database: /Users/me/blast_databases/
 
 A fully commented `example.config.yml` is provided for a start - copy it to
-`config.yml`, edit the values, and start blasting!
+`config.yml`, uncomment the relevant lines (ie remove the '#' signs), 
+edit the values, and run SequenceServer.
+
+
 
 ## Running SequenceServer
 
@@ -108,6 +111,23 @@ Change the port by editing `config.yml` or with the -p command line option, eg: 
 SequenceServer automatically uses ruby's internal web servers. No need for Apache. 
 By default it uses [Webrick][7]. Installling [Thin][8] (`gem install thin`), or [Mongrel][9] (`gem install mongrel`) 
 can improve performance. 
+
+## Frequently Asked Questions (FAQ)
+
+### Why doesn't sequence retrieval work?
+
+Probably because you forgot the `-parse_seqids` argument when runnidn `makeblastdb` (or they were formatted using legacy `formatdb`). Blast+ 2.2.24 and later indicate that when `-parse_seqids` was not used by leaving a space between `>` and hit identifiers (eg: `> db_sequence001` instead of `>db_sequence001`).
+
+
+### How can I add custom links to hits?
+
+Easy. Edit the `customisation.rb` file and read the examples it provides. To add a single link, uncomment and edit the `construct_custom_sequence_hyperlink` method; to add multiple links edit the `construct_custom_sequence_hyperlinking_line` method. 
+
+
+### Can I integrate SequenceServer into an Apache or Nginix server?
+
+Yes. This requires the `passenger` gem. [Details][29].
+
 
 ## Who uses SequenceServer?
 
@@ -170,3 +190,4 @@ Current contributors:
 [26]: http://www.sbcs.qmul.ac.uk/
 [27]: http://apiloc.bio21.unimelb.edu.au
 [28]: http://www.biochemistry.unimelb.edu.au/research/res_ralph.html
+[29]: https://github.com/yannickwurm/sequenceserver/wiki/Deploying-SequenceServer-in-Apache-or-Nginix-with-Phusion-Passenger
