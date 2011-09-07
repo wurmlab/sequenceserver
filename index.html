@@ -105,11 +105,11 @@
 	  </ul>
 
 	  <h2>Download &amp; Setup</h2>
-	  More details in the <a href="https://github.com/yannickwurm/sequenceserver/blob/master/README.mkd">readme</a> file. Basically:
+	  Extensive details in the <a href="https://github.com/yannickwurm/sequenceserver/blob/master/README.mkd">README</a> file. In short: 
 	  <ul>
 		<li><a href="http://github.com/yannickwurm/sequenceserver/zipball/master">Download sequenceserver</a>. <pre>wget http://github.com/yannickwurm/sequenceserver/zipball/master</pre></li>
 		<li>Unzip, and move to Sequence Server's directory, and do: <pre>gem install bundler &amp;&amp; bundle install</pre></li>
-		<li>Edit the <code>example.config.yml</code> file to indicate the location of your blast databases. Or create some with <code>databaseformatter.rb</code></li>
+		<li>Edit the <code>example.config.yml</code> file to indicate the location of your blast databases. Or create some with <code>makeblastdb -in my.fasta -dbtype nucl -parse_seqids</code>, or simply use <code>databaseformatter.rb</code></li>
 		<li>Launch the server:
 		  <pre>ruby sequenceserver.rb</pre></li>
 		<li>Access SequenceServer on <a href='http://localhost:4567'>http://localhost:4567</a></li>
@@ -133,7 +133,7 @@
 	  </dl>
 
 	  <h2>Alternatives</h2>
-	  <p>There are several. But they are suboptimal because they look like they're from the last millenium. And setting them up is challenging.</p>
+	  <p>There are several. But they are suboptimal because they look like they're from the last millenium. And installing them is challenging.</p>
 	  <ul>
 		<li><a href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html">NCBI's wwwblast</a> hasn't been maintained in years.</li>
 		<li><a href="http://bioinformatics.oxfordjournals.org/content/23/17/2334.full">ViroBLAST</a> requires Apache &amp; MySQL.</li>
