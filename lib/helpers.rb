@@ -90,6 +90,7 @@ module SequenceServer
         db = {}
 
         db_list.each_line do |line|
+          next if line.empty?  # required for BLAST+ 2.2.22
           type, name, *title =  line.split(' ') 
           type = type.downcase
           name = name.freeze
