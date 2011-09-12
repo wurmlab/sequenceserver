@@ -382,7 +382,7 @@ module SequenceServer
 
       link_to_fasta_of_all = "/get_sequence/:#{@all_retrievable_ids.join(' ')}/:#{string_of_used_databases}"
       # #dbs must be sep by ' '
-      retrieval_text       = @all_retrievable_ids.empty? ? '' : "<a href='#{link_to_fasta_of_all}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a>"
+      retrieval_text       = @all_retrievable_ids.empty? ? '' : "<a href='#{url(link_to_fasta_of_all)}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a>"
 
       "\n<div class='blast_result'>\n"+
       "<h2>Results</h2>\n"+
@@ -432,7 +432,7 @@ module SequenceServer
         return line
       else
         settings.log.debug('Added link for: `'+ sequence_id +'\''+ link)
-        return "><a href='#{link}'>#{sequence_id}</a> \n"
+        return "><a href='#{url(link)}'>#{sequence_id}</a> \n"
       end
 
     end

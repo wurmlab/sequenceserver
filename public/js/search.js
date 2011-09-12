@@ -35,7 +35,7 @@ $(document).ready(function(){
               prev_seq = seq;
 
               //get input sequence type from the server
-              $.post('/', {sequence: seq}, function(seq_type){
+              $.post('', {sequence: seq}, function(seq_type){
                   if (seq_type != prev_seq_type){
                       prev_seq_type = seq_type;
 

@@ -7,7 +7,9 @@
     <meta name="author" content="Yannick Wurm" />
     <meta name="author" content="Cedric Wurm" />
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="css/beige.css"/>
+
+    <%# without a space after erb's closing tag, a / gets appended to css' path %>
+    <link rel="stylesheet" media="screen" type="text/css" href=<%= uri('/css/beige.css') %> />
 </head>
 
 <body>

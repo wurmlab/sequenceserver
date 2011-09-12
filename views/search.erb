@@ -8,16 +8,18 @@
   <meta name="author" content="Yannick Wurm" />
   <meta name="author" content="Cedric Wurm" />
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-  <script type="text/javascript" src="/js/jquery.js"></script>
-  <script type="text/javascript" src="/js/jquery.enablePlaceholder.min.js"></script>
-  <script type="text/javascript" src="/js/search.js"></script>
-  <link rel="stylesheet" media="screen" type="text/css" href="css/beige.css"/>
+  <script type="text/javascript" src=<%= uri('/js/jquery.js') %>></script>
+  <script type="text/javascript" src=<%= uri('/js/jquery.enablePlaceholder.min.js') %>></script>
+  <script type="text/javascript" src=<%= uri('/js/search.js') %>></script>
+
+  <%# without a space after erb's closing tag, a / gets appended to css' path %>
+  <link rel="stylesheet" media="screen" type="text/css" href=<%= uri('/css/beige.css') %> />
 </head>
 
 <body>
   <div class="container">
     <h1 class="banner">BLAST Sequence(s)</h1>
-    <form method="post" action="/#result">
+    <form method="post" action=<%= uri('/#result') %>>
       <div class="horizontal">
         <div class="entryfield">
           <textarea name="sequence" id="sequence" rows="11" cols="" placeholder="Paste your sequence(s) here..." ></textarea>
