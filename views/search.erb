@@ -1,80 +1,81 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>SequenceServer</title>
-	<meta name="author" content="Anurag Priyam" />
-	<meta name="author" content="Ben J. Woodcroft" />
-	<meta name="author" content="Yannick Wurm" />
-    <meta name="author" content="Cedric Wurm" />
-	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-	<script type="text/javascript" src="/js/jquery.js"></script>
-	<script type="text/javascript" src="/js/jquery.enablePlaceholder.min.js"></script>
-	<script type="text/javascript" src="/js/search.js"></script>
-    <link rel="stylesheet" media="screen" type="text/css" href="css/beige.css"/>
+  <title>SequenceServer</title>
+  <meta name="author" content="Anurag Priyam" />
+  <meta name="author" content="Ben J. Woodcroft" />
+  <meta name="author" content="Yannick Wurm" />
+  <meta name="author" content="Cedric Wurm" />
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+  <script type="text/javascript" src="/js/jquery.js"></script>
+  <script type="text/javascript" src="/js/jquery.enablePlaceholder.min.js"></script>
+  <script type="text/javascript" src="/js/search.js"></script>
+  <link rel="stylesheet" media="screen" type="text/css" href="css/beige.css"/>
 </head>
 
-<body> 
-	<div class="container">
-		<h1 class="banner">BLAST Sequence(s)</h1>
-		<form method="post" action="/#result">
-			<div class="horizontal"> 
-				<div class="entryfield">
-					<textarea name="sequence" id="sequence" rows="11" cols="" placeholder="Paste your sequence(s) here..." ></textarea>
-				</div>
-				<fieldset class="blastmethods box" >
-					<div>
-						<input type="radio" name="method" value="blastp" id="blastp" class="radiobutton" title="Protein query; protein database."/>
-						<label for="blastp" title="Protein query; protein database.">blastp</label>
-					</div>
-					<div class="clear">
-						<input type="radio" name="method" value="tblastn" id="tblastn" class="radiobutton" title="Protein query; six-frame translated nucleotide database." />
-						<label for="tblastn" title="Protein query; six-frame translated nucleotide database.">tblastn</label>
-					</div>
-					<div class="clear">
-						<input type="radio" name="method" value="blastn" id="blastn" class="radiobutton" title="Nucleotide query; nucleotide database."/>
-						<label for="blastn" title="Nucleotide query; nucleotide database.">blastn</label>
-					</div>
-					<div class="clear">
-						<input type="radio" name="method" value="blastx" id="blastx" class="radiobutton" title="Translated nucleotide query; protein database."/>
-						<label for="blastx" title="Six-frame translated nucleotide query; protein database.">blastx</label>
-					</div>
-					<div class="clear">
-						<input type="radio" name="method" value="tblastx" id="tblastx" class="radiobutton" title="Six-frame translated nucleotide query; six-frame translated nucleotide database"/>
-						<label for="tblastx" title="Six-frame translated nucleotide query; six-frame translated nucleotide database">tblastx</label>
-					</div>
-				</fieldset>
-			</div>
+<body>
+  <div class="container">
+    <h1 class="banner">BLAST Sequence(s)</h1>
+    <form method="post" action="/#result">
+      <div class="horizontal">
+        <div class="entryfield">
+          <textarea name="sequence" id="sequence" rows="11" cols="" placeholder="Paste your sequence(s) here..." ></textarea>
+        </div>
+        <fieldset class="blastmethods box" >
+          <div>
+            <input type="radio" name="method" value="blastp" id="blastp" class="radiobutton" title="Protein query; protein database."/>
+            <label for="blastp" title="Protein query; protein database.">blastp</label>
+          </div>
+          <div class="clear">
+            <input type="radio" name="method" value="tblastn" id="tblastn" class="radiobutton" title="Protein query; six-frame translated nucleotide database." />
+            <label for="tblastn" title="Protein query; six-frame translated nucleotide database.">tblastn</label>
+          </div>
+          <div class="clear">
+            <input type="radio" name="method" value="blastn" id="blastn" class="radiobutton" title="Nucleotide query; nucleotide database."/>
+            <label for="blastn" title="Nucleotide query; nucleotide database.">blastn</label>
+          </div>
+          <div class="clear">
+            <input type="radio" name="method" value="blastx" id="blastx" class="radiobutton" title="Translated nucleotide query; protein database."/>
+            <label for="blastx" title="Six-frame translated nucleotide query; protein database.">blastx</label>
+          </div>
+          <div class="clear">
+            <input type="radio" name="method" value="tblastx" id="tblastx" class="radiobutton" title="Six-frame translated nucleotide query; six-frame translated nucleotide database"/>
+            <label for="tblastx" title="Six-frame translated nucleotide query; six-frame translated nucleotide database">tblastx</label>
+          </div>
+        </fieldset>
+      </div>
 
-			
-			<div class='horizontal'>
-				<fieldset class="nucleotide rounded box databases">
-					<h2>Nucleotide databases</h2>
-					<!-- Database list is actually dynamically loaded -->
-			  <%    settings.databases['nucleotide'].each_with_index do |db, i| %>
-			  <input type="checkbox" class="dbcheckbox" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
-			  <label for="ndb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
-			  <% end %>
-			  		</fieldset>
 
-				<fieldset class="protein rounded box databases">
-					<h2>Protein databases</h2> 
-					<!--  Database list is actually dynamically loaded-->
-			  <% settings.databases['protein'].each_with_index do |db, i| %>
-			  <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
-			  <label for="pdb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
-			  <% end %>
-			  </fieldset>
-			</div>
-			
-			<div class="horizontal">
-				<fieldset class="advanced box rounded">	
-					<span class="bigtext pointer" title="Click to show/hide advanced options.">Advanced parameters:</span>
-					<input type="text" name="advanced" id="advanced" title="View, and enter advanced parameters." placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
-					<pre class="smalltext">
+      <div class='horizontal'>
+        <fieldset class="nucleotide rounded box databases">
+          <h2>Nucleotide databases</h2>
+          <!-- Database list is actually dynamically loaded -->
+          <%    settings.databases['nucleotide'].each_with_index do |db, i| %>
+            <input type="checkbox" class="dbcheckbox" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
+            <label for="ndb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
+          <% end %>
+        </fieldset>
+
+        <fieldset class="protein rounded box databases">
+          <h2>Protein databases</h2>
+          <!--  Database list is actually dynamically loaded-->
+          <% settings.databases['protein'].each_with_index do |db, i| %>
+            <input type="checkbox" class="dbcheckbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
+            <label for="pdb<%=i%>" class="dbdescription"><%= db.title or db.name %></label>
+          <% end %>
+        </fieldset>
+      </div>
+
+      <div class="horizontal">
+        <fieldset class="advanced box rounded">
+          <span class="bigtext pointer" title="Click to show/hide advanced options.">Advanced parameters:</span>
+          <input type="text" name="advanced" id="advanced" title="View, and enter advanced parameters." placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
+
+<pre class="smalltext">
 <%= ERB::Util.h %q|
 -evalue <Real>
-   Expectation value (E) threshold for saving hits 
+   Expectation value (E) threshold for saving hits
    Default = `10'
  -word_size <Integer, >=2>
    Word size for wordfinder algorithm
@@ -146,20 +147,18 @@
    Maximum number of aligned sequences to keep | %>
 </pre>
 
-                      </fieldset>
-                <div class="submit_button">
-                      <input type="submit" value="BLAST!"/>
-				</div>
-			</div>
-		</form>
-		<div class="result prepend-top" id="result">
-			<pre class='smalltext'>
-	                <%= @blast %>
-			</pre>
-		</div>
-		<div class ="underbar">
-			<p>&copy; <a href='http://www.sequenceserver.com'>sequenceserver.com</a></p>
-		</div>
-	</div>
+        </fieldset>
+        <div class="submit_button">
+          <input type="submit" value="BLAST!"/>
+        </div>
+      </div>
+    </form>
+    <div class="result prepend-top" id="result">
+      <pre class='smalltext'> <%= @blast %> </pre>
+    </div>
+    <div class ="underbar">
+      <p>&copy; <a href='http://www.sequenceserver.com'>sequenceserver.com</a></p>
+    </div>
+  </div>
 </body>
 </html>
