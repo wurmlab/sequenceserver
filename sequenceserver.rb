@@ -362,6 +362,9 @@ module SequenceServer
         end
         next if skip
 
+        # clean BLAST's HTML output
+        line.gsub!(/^<script src=\"blastResult.js\"><\/script>>(.+)<a.*><\/a>/, '>\1')
+
         if line.match(/^>/) # If line to possibly replace
           formatted_result += construct_sequence_hyperlink_line(line, databases)
         else
