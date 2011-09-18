@@ -27,6 +27,17 @@
     };
 })( jQuery );
 
+(function( $ ){
+    //(pre-)check the only active database checkbox
+    $.onedb = function(selector) {
+        active_dbs = $(".databases input[type=checkbox]").not(":disabled")
+        if (active_dbs.length == 1){
+            active_dbs.check()
+        }
+        return active_dbs;
+    };
+})( jQuery );
+
 $(document).ready(function(){
     var prev_seq = prev_seq_type = '';
 
@@ -96,5 +107,7 @@ $(document).ready(function(){
         else{
             $('.databases input[type=checkbox]').uncheck().enable();
         }
+
+        $.onedb();
     });
 });
