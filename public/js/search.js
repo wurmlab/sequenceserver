@@ -20,6 +20,13 @@
     };
 })( jQuery );
 
+(function( $ ){
+    //check an element
+    $.fn.check = function() {
+        return this.attr('checked', 'checked');
+    };
+})( jQuery );
+
 $(document).ready(function(){
     var prev_seq = prev_seq_type = '';
 
