@@ -332,6 +332,7 @@ module SequenceServer
       finished_alignments = false
       reference_string = ''
       database_summary_string = ''
+      index = '<ul>'
       result.each do |line|
         line_number += 1
         next if line_number <= 5 #skip the first 5 lines
@@ -370,7 +371,8 @@ module SequenceServer
         else
           # Surround each query's result in <div> tags so they can be coloured by CSS
           if matches = line.match(/^<b>Query=<\/b> (.*)/) # If starting a new query, then surround in new <div> tag, and finish the last one off
-            line = "<div class=result_even_#{blast_database_number.even?}>\n<h3>Query: #{matches[1]}</h3>"
+            line = "<div class=\"result_even_#{blast_database_number.even?}\" id=\"#{matches[1]}\">\n<h3>Query: #{matches[1]}</h3>"
+            index << "<li><a href=\"##{matches[1]}\">#{matches[1]}</a></li>"
             unless blast_database_number == 0
               line = "</div>\n#{line}"
             end
@@ -383,6 +385,7 @@ module SequenceServer
         end
       end
 
+      index << "</ul>"
       link_to_fasta_of_all = "/get_sequence/:#{@all_retrievable_ids.join(' ')}/:#{string_of_used_databases}"
       # #dbs must be sep by ' '
       retrieval_text       = @all_retrievable_ids.empty? ? '' : "<a href='#{url(link_to_fasta_of_all)}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a>"
@@ -390,6 +393,7 @@ module SequenceServer
       "\n<div class='blast_result'>\n"+
       "<h2>Results</h2>\n"+
       retrieval_text +
+      index +
       '<pre><code>' +
       formatted_result +
       reference_string +
