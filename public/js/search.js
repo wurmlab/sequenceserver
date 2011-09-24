@@ -105,7 +105,7 @@ $(document).ready(function(){
             $('.databases.nucleotide input[type=checkbox]').enable();
         }
         else{
-            $('.databases input[type=checkbox]').uncheck().enable();
+            $('.databases input[type=checkbox]').enable();
         }
 
         $.onedb();
