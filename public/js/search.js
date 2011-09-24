@@ -67,7 +67,7 @@ $(document).ready(function(){
                       }
                       else if (seq_type == ""){
                           //reset blast methods
-                          $('.blastmethods input[type=radio]').uncheck().enable().first().change();
+                          $('.blastmethods input[type=radio]').enable().first().change();
                       }
                   }
               });
