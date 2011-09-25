@@ -405,7 +405,7 @@ HEADER
         else
           # Surround each query's result in <div> tags so they can be coloured by CSS
           if matches = line.match(/^<b>Query=<\/b> (.*)/) # If starting a new query, then surround in new <div> tag, and finish the last one off
-            line = "<div class=result_even_#{blast_database_number.even?}>\n<h3>Query: #{matches[1]}</h3>"
+            line = "<div class=\"result_even_#{blast_database_number.even?}\" id=\"#{matches[1]}\">\n<h3>Query= #{matches[1]}</h3>"
             unless blast_database_number == 0
               line = "</div>\n#{line}"
             end
