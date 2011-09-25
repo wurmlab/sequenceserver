@@ -375,7 +375,7 @@ module SequenceServer
         else
           # Surround each query's result in <div> tags so they can be coloured by CSS
           if matches = line.match(/^<b>Query=<\/b> (.*)/) # If starting a new query, then surround in new <div> tag, and finish the last one off
-            line = "<div class=\"result_even_#{blast_database_number.even?}\" id=\"#{matches[1]}\">\n<h3>Query: #{matches[1]}</h3>"
+            line = "<div class=\"result_even_#{blast_database_number.even?}\" id=\"#{matches[1]}\">\n<h3>Query= #{matches[1]}</h3>"
             index << "<li><a href=\"##{matches[1]}\">#{matches[1]}</a></li>"
             unless blast_database_number == 0
               line = "</div>\n#{line}"
