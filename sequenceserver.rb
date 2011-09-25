@@ -368,7 +368,14 @@ module SequenceServer
         end
         next if skip
 
+        # Remove the javascript inclusion
+        line.gsub!(/^<script src=\"blastResult.js\"><\/script>/, '')
+
         if line.match(/^>/) # If line to possibly replace
+          # Reposition the anchor to the end of the line, so that it both still works and
+          # doesn't interfere with the diagnostic space at the beginning of the line.
+          line.gsub!(/^>(.+)(<a.*><\/a>)(.*)/, '>\1\3\2')
+          # Create the hyperlink (if required)
           formatted_result += construct_sequence_hyperlink_line(line, databases)
         else
           # Surround each query's result in <div> tags so they can be coloured by CSS
