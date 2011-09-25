@@ -8,6 +8,7 @@ module SequenceServer
       # ---
       # Arguments:
       # * bin(String) - absolute path to the directory containing blast binaries
+      # * min_version(String) - version of BLAST to be enforced
       # ---
       # Returns:
       # * a hash of blast methods, and their corresponding absolute path
@@ -20,18 +21,27 @@ module SequenceServer
       #         "blastn"=>"/home/yeban/bin/blastn",
       #         ...
       #       }
-      def scan_blast_executables(bin)
+      def scan_blast_executables(bin, min_version)
         if bin and not File.directory?(bin)
           raise IOError, "Could not find '#{bin}' defined in config.yml."
         end
-
+        
+        blasturl = 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
         binaries = {}
         %w|blastn blastp blastx tblastn tblastx blastdbcmd makeblastdb blast_formatter|.each do |method|
           path = File.join(bin, method) rescue method
           if command?(path)
             binaries[method] = path
+            version_agreement = blast_program_version_number_agrees?(method, min_version)
+            unless version_agreement==true
+              #error message is written complicatedly because of IDE issues
+              raise ArgumentError, ["SequenceServer requires BLAST+ version",
+                 "#{min_version} or above, but version #{version_agreement} was found",
+                 "when using #{method}.",
+                 "You may need to install BLAST+ from #{blasturl}. And/or point", 
+                 "config.yml to blast's bin directory."].join(' ')
+            end
           else
-            blasturl = 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
             raise IOError, "Could not find blast binaries." +
             "\n\nYou may need to download BLAST+ from #{blasturl}." +
             " And/or edit #{settings.config_file} to indicate the location of BLAST+ binaries."
@@ -40,6 +50,61 @@ module SequenceServer
 
         #LOG.info("Config bin dir:          #{bin}")
         binaries
+      end
+      
+      # Test whether a particular version number is passable
+      # ---
+      # Arguments:
+      # * min_version(String) - version of BLAST to be enforced
+      # * min_version(String) - version of BLAST being passed or failed
+      # ---
+      # Returns:
+      # * true if versions are compatible, else false
+      # ---
+      # Raises:
+      # * IOError - if the version numbers are crazy
+      def version_agrees?(min_version, test_version)
+        reg = /^(\d+).(\d+).(\d+)\+$/ #all versions should match this pattern
+        # Check we aren't totally crazy with the version numbers
+        min_version_matches = min_version.match(reg)
+        test_version_matches = test_version.match(reg)
+        raise IOError, "Unexpected minimum version number when testing BLAST versions: `#{min_version}'" unless min_version_matches
+        raise IOError, "Unexpected minimum version number when testing BLAST versions: `#{test_version}'" unless test_version_matches
+        
+        # Make sure each of the three version numbers are OK
+        (1..3).each do |n|
+          return false if min_version_matches[n].to_i > test_version_matches[n].to_i
+          break if min_version_matches[n].to_i < test_version_matches[n].to_i #e.g. comparing 3.0.1 to 2.0.2
+        end
+        return true #gauntlet passed
+      end
+      
+      # Test whether a particular blast program is at an OK version.
+      # Assumes the program can be correctly run
+      # ---
+      # Arguments:
+      # * program(String) - path to program being run
+      # * min_version(String) - version of BLAST to be enforced
+      # ---
+      # Returns:
+      # * true if versions are compatible, else false
+      # ---
+      # Raises:
+      # * IOError - if the version numbers parsed out are crazy
+      def blast_program_version_number_agrees?(program, min_version)
+        program_output = %x|#{program} -version|
+        # E.g.  output:
+        #blastp: 2.2.25+
+        #Package: blast 2.2.25, build Mar 21 2011 12:13:17
+        if matches=program_output.split("\n")[0].match(/^#{program}: (.+)$/)
+          if version_agrees?(min_version, matches[1])
+            return true
+          else
+            return matches[1]
+          end
+        else
+          raise IOError, "Unable to parse version number from program `#{program}'\n\nOutput was #{program_output.inspect}"
+        end
       end
 
       # Scan the given directory (including subdirectory) for blast databases.

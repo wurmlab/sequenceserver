@@ -7,7 +7,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'sequenceserver'
 require 'sequenceserver/sequencehelpers'
 require 'test/unit'
-
+require 'lib/helpers'
 
 
 class Tester < Test::Unit::TestCase
@@ -83,3 +83,19 @@ class AppTester < Test::Unit::TestCase
   end
 end
 
+class Tester < Test::Unit::TestCase
+  include SequenceServer::Helpers::SystemHelpers
+  
+  def test_version_number_agreement
+    assert_raise(IOError){version_agrees?('2.2.25+', 'craziness')}
+    assert_raise(IOError){version_agrees?('2.2.25+1', '2.2.30+')}
+    assert_equal false, version_agrees?('2.2.25+', '2.2.24+')
+    assert_equal true, version_agrees?('2.2.25+', '2.2.25+')
+    assert_equal true, version_agrees?('2.2.25+', '3.0.1+')
+  end
+  
+  def test_test_blast_program_version_number
+    assert_equal true, blast_program_version_number_agrees?('makeblastdb','2.2.25+')
+    assert_equal '2.2.25+', blast_program_version_number_agrees?('makeblastdb','2.2.30+')
+  end
+end
