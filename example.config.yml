@@ -6,7 +6,7 @@
 #
 # Uncomment the following line, and change to appropriate value to use.
 #
-# bin: ~/ncbi-blast-2.2.24+/bin/
+# bin: ~/ncbi-blast-2.2.25+/bin/
 
 # Path to blast database.
 #
