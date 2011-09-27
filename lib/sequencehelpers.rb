@@ -83,12 +83,12 @@ module SequenceServer
       end
     end
 
-    def sequence_from_blastdb(identifiers, db)  # helpful when displaying parsed blast results
+    def sequence_from_blastdb(identifiers, db, blastdbcmd)  # helpful when displaying parsed blast results
       entries_to_get = identifiers           if identifiers.class == String
       entries_to_get = identifiers.join(',') if identifiers.class == Array
       raise ArgumentError, "No ids to fetch: #{identifiers.to_s}" if entries_to_get.empty?
 
-      sequences = %x|blastdbcmd -db #{db} -entry #{entries_to_get} 2>&1|
+      sequences = %x|#{blastdbcmd} -db #{db} -entry #{entries_to_get} 2>&1|
       if sequences.include?("No valid entries to search") 
         raise ArgumentError, "Cannot find ids: #{entries_to_get} in #{db}." +
         "OR makeblastdb needs to be rerun with '-parse_seqids'"
