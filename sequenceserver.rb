@@ -283,7 +283,7 @@ module SequenceServer
 
       retrieval_databases.each do |database|     # we need to populate this session variable from the erb.
         begin
-          found_sequences += sequence_from_blastdb(sequenceids, database)
+          found_sequences += sequence_from_blastdb(sequenceids, database, settings.binaries['blastdbcmd'])
         rescue
           settings.log.debug('None of the following sequences: '+ sequenceids.to_s + ' found in '+ database)
         end
