@@ -30,7 +30,7 @@ module SequenceServer
       # run with builin server when invoked directly (ruby search.rb)
       set :run,        Proc.new { app_file == $0 }
 
-      set :log,        Proc.new { Logger.new(STDOUT) }
+      set :log,        Proc.new { Logger.new(STDERR) }
       log.formatter = SinatraLikeLogFormatter.new()
 
       set :environment, :development
