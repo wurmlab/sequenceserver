@@ -108,7 +108,7 @@ module SequenceServer
         @all_retrievable_ids ||= []
         @all_retrievable_ids.push(id)
 
-        link = "/get_sequence/:#{id}/:#{options[:databases].join(' ')}" # several dbs... separate by ' '
+        link = "#{request.script_name}/get_sequence/:#{id}/:#{options[:databases].join(' ')}" # several dbs... separate by ' '
         return link
       else
         # do nothing - link == nil means no link will be incorporated

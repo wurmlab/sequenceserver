@@ -200,6 +200,10 @@ module SequenceServer
       erb :search
     end
 
+    get '/search.js' do
+      erb :'search.js'
+    end
+
     post '/' do
       method        = params['method']
       db_type_param = params['db']
@@ -329,7 +333,7 @@ module SequenceServer
         end
       end
 
-      link_to_fasta_of_all = "/get_sequence/:#{@all_retrievable_ids.join(' ')}/:#{string_of_used_databases}"
+      link_to_fasta_of_all = "#{request.script_name}/get_sequence/:#{@all_retrievable_ids.join(' ')}/:#{string_of_used_databases}"
       # #dbs must be sep by ' '
       retrieval_text       = @all_retrievable_ids.empty? ? '' : "<p><a href='#{link_to_fasta_of_all}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a></p>"
 
