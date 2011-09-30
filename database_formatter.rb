@@ -28,7 +28,7 @@ class DatabaseFormatter
     def format_databases(db_path)
         formatted_dbs = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%f" 2>&1|.split("\n")
         commands = []
-        Find.find(db_path) do |file|
+        Find.find(File.join(db_path,'')) do |file|
             LOG.debug("Assessing file #{file}..")
             if File.directory?(file)
               LOG.debug("Ignoring file #{file} since it is a directory")
