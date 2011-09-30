@@ -29,9 +29,19 @@ class DatabaseFormatter
         formatted_dbs = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%f" 2>&1|.split("\n")
         commands = []
         Find.find(db_path) do |file|
-            next if File.directory?(file)
-            next if formatted_dbs.include?(file)
-            unless File.binary?(file)
+            LOG.debug("Assessing file #{file}..")
+            if File.directory?(file)
+              LOG.debug("Ignoring file #{file} since it is a directory")
+              next
+            end
+            if formatted_dbs.include?(file)
+              LOG.debug("Ignoring file #{file} since it is already a blast database")
+              next
+            end
+            if File.binary?(file)
+              LOG.debug("Ignoring file #{file} since it is a binary file, not plaintext as FASTA files are")
+              next
+            end
 
                 if probably_fasta?(file)
                     LOG.info("Found #{file}")
@@ -56,9 +66,9 @@ class DatabaseFormatter
                     else 
                         LOG.warn("Unable to guess sequence type for #{file}. Skipping") 
                     end
-
+                else
+                  LOG.info("Ignoring file #{file} since it was not judged to be a FASTA file.")
                 end
-            end
         end
         LOG.info("Will now create DBs")
         if commands.empty?
@@ -125,6 +135,7 @@ end
 
 if ARGV.length == 1
     db_path = ARGV[0]
+    logger.level = Logger::INFO
     LOG.info("running with #{db_path}")
     if File.directory?(db_path) 
         app = DatabaseFormatter.new()
