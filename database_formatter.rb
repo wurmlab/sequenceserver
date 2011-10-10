@@ -6,11 +6,10 @@ require 'rubygems'
 require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'
+require 'optparse'
 require 'sequenceserver'
 require 'lib/helpers.rb'
 require 'lib/sequencehelpers.rb'
-
-LOG = Logger.new(STDOUT)
 
 
 class DatabaseFormatter
@@ -67,7 +66,7 @@ class DatabaseFormatter
                         LOG.warn("Unable to guess sequence type for #{file}. Skipping") 
                     end
                 else
-                  LOG.info("Ignoring file #{file} since it was not judged to be a FASTA file.")
+                  LOG.debug("Ignoring file #{file} since it was not judged to be a FASTA file.")
                 end
         end
         LOG.info("Will now create DBs")
@@ -133,17 +132,41 @@ end
 
 
 
-if ARGV.length == 1
-    db_path = ARGV[0]
-    logger.level = Logger::INFO
-    LOG.info("running with #{db_path}")
-    if File.directory?(db_path) 
-        app = DatabaseFormatter.new()
-        app.init()
-        app.format_databases(db_path)
-    else
-        LOG.warn("Not running becuase #{db_path} is not a directory")
+# If running as a script
+if $0 == __FILE__
+  LOG = Logger.new(STDOUT)
+  LOG.level = Logger::INFO
+  
+  options = {
+    :database_directory => nil,
+  }
+  o = OptionParser.new do |opts|
+    opts.banner = [
+      'Usage: database_formatter.rb [--verbose] [blast_database_directory]',
+      'e.g. database_formatter.rb db/',
+    ]
+    opts.on(nil, "--verbose", "Print lots of output") do
+      LOG.level = Logger::DEBUG
     end
-else 
+  end
+  o.parse!
+  
+  if ARGV.length == 1
+    options[:database_directory] = ARGV[0]
+  else
     LOG.warn('Not running: give only one argument (directory)')
+    $stderr.puts o.banner
+    exit
+  end
+
+  db_path = options[:database_directory]
+  LOG.info("running with #{db_path}")
+  
+  if File.directory?(db_path) 
+    app = DatabaseFormatter.new()
+    app.init()
+    app.format_databases(db_path)
+  else
+    LOG.warn("Not running becuase #{db_path} is not a directory")
+  end
 end
