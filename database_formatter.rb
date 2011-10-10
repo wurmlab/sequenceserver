@@ -153,6 +153,10 @@ if $0 == __FILE__
   
   if ARGV.length == 1
     options[:database_directory] = ARGV[0]
+  elsif ARGV.empty?
+    app = SequenceServer::App
+    app.config = app.parse_config
+    options[:database_directory] = app.database
   else
     LOG.warn('Not running: give only one argument (directory)')
     $stderr.puts o.banner
