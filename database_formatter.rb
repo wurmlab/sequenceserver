@@ -6,6 +6,7 @@ require 'rubygems'
 require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'
+require 'optparse'
 require 'sequenceserver'
 require 'lib/helpers.rb'
 require 'lib/sequencehelpers.rb'
@@ -125,7 +126,39 @@ class DatabaseFormatter
     end
 end
 
+OptionParser.new do |opts|
+  opts.banner =<<BANNER
+NAME
 
+  database_formatter.rb - prepare BLAST databases for SequenceServer
+
+SYNOPSIS
+
+  ./database_formatter.rb [--verbose] <blast_database_directory>
+
+  Example:
+
+    $ ./database_formatter.rb ~/db
+
+DESCRIPTION
+
+  database_formatter recursively scans the given 'blast_database_directory' for
+  BLAST databases and formats them for use with SequenceServer.
+
+  It automagically detects the database type, and ignores non-db files and
+  pre-formatted databases. The 'parse_seqids' makeblastdb options is used.
+
+  database_formatter can be used standalone too.
+
+OPTIONS
+
+BANNER
+
+  opts.on_tail('-h', '--help', 'Show this message') do
+    puts opts
+    exit
+  end
+end.parse!
 
 if ARGV.length == 1
     db_path = ARGV[0]
