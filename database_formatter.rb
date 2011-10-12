@@ -19,13 +19,17 @@ class DatabaseFormatter
     include SystemHelpers
     include SequenceHelpers
     
-    def initialize
+    attr_accessor :db_path
+
+    def initialize(db_path)
       @app = SequenceServer::App
       @app.config = @app.parse_config
       @app.binaries = @app.scan_blast_executables(@app.bin).freeze
+
+      @db_path = db_path
     end
 
-    def format_databases(db_path)
+    def format_databases
         formatted_dbs = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%f" 2>&1|.split("\n")
         commands = []
         Find.find(db_path) do |file|
@@ -127,8 +131,8 @@ if ARGV.length == 1
     db_path = ARGV[0]
     LOG.info("running with #{db_path}")
     if File.directory?(db_path) 
-        app = DatabaseFormatter.new()
-        app.format_databases(db_path)
+        app = DatabaseFormatter.new(db_path)
+        app.format_databases
     else
         LOG.warn("Not running becuase #{db_path} is not a directory")
     end
