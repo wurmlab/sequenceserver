@@ -19,7 +19,7 @@ class DatabaseFormatter
     include SystemHelpers
     include SequenceHelpers
     
-    def init
+    def initialize
       @app = SequenceServer::App
       @app.config = @app.parse_config
       @app.binaries = @app.scan_blast_executables(@app.bin).freeze
@@ -128,7 +128,6 @@ if ARGV.length == 1
     LOG.info("running with #{db_path}")
     if File.directory?(db_path) 
         app = DatabaseFormatter.new()
-        app.init()
         app.format_databases(db_path)
     else
         LOG.warn("Not running becuase #{db_path} is not a directory")
