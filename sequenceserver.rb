@@ -47,6 +47,11 @@ module SequenceServer
     # Sane defaults are assumed in the absence of a config.yml, or a
     # corresponding entry.
     configure do
+      # absolute path to SequenceServer's configuration file
+      #
+      # The configuration file is a simple, YAML data store.
+      set :config_file, Proc.new{ File.expand_path('config.yml', settings.root) }
+
       # store the settings hash from config.yml; further configuration values
       # are derived from it
       set :config,      {}
@@ -189,7 +194,7 @@ module SequenceServer
       # default configuration values. Any other error raised by YAML.load_file
       # is not rescued.
       def parse_config
-        return YAML.load_file( "config.yml" )
+        return YAML.load_file( config_file )
       rescue Errno::ENOENT
         log.warn("config.yml not found - will assume default settings")
         return {}
