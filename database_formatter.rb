@@ -22,15 +22,20 @@ class DatabaseFormatter
     
     attr_accessor :db_path
 
-    def initialize(db_path)
+    def initialize(db_path = nil)
       @app = SequenceServer::App
       @app.config = @app.parse_config
       @app.binaries = @app.scan_blast_executables(@app.bin).freeze
 
-      @db_path = db_path
+      @db_path = (db_path or @app.database)
     end
 
     def format_databases
+      unless File.directory?(db_path)
+        LOG.fatal("Database directory #{db_path} not found. See './database_formatter --help' for instructions.")
+        exit
+      end
+
         formatted_dbs = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%f" 2>&1|.split("\n")
         commands = []
         Find.find(db_path) do |file|
@@ -144,11 +149,12 @@ NAME
 
 SYNOPSIS
 
-  ./database_formatter.rb [--verbose] <blast_database_directory>
+  ./database_formatter.rb [--verbose] [blast_database_directory]
 
   Example:
 
-    $ ./database_formatter.rb ~/db
+    $ ./database_formatter.rb ~/db   # explicitly specify a database directory
+    $ ./database_formatter           # use the database directory in config.yml
 
 DESCRIPTION
 
@@ -157,6 +163,14 @@ DESCRIPTION
 
   It automagically detects the database type, and ignores non-db files and
   pre-formatted databases. The 'parse_seqids' makeblastdb options is used.
+
+  'blast_database_directory' can be passed as a command line parameter or
+  through config.yml by setting the 'database' key (the same option used by
+  SequenceServer). See example.config.yml. database_formatter will check
+  config.yml only if the command line parameter is missing.
+
+  Failing both, database_formatter will look for 'database' directory relative
+  to the current working directory i.e ./database.
 
   database_formatter can be used standalone too.
 
@@ -174,15 +188,5 @@ BANNER
   end
 end.parse!
 
-if ARGV.length == 1
-    db_path = ARGV[0]
-    LOG.info("running with #{db_path}")
-    if File.directory?(db_path) 
-        app = DatabaseFormatter.new(db_path)
-        app.format_databases
-    else
-        LOG.warn("Not running becuase #{db_path} is not a directory")
-    end
-else 
-    LOG.fatal('Database directory not given. See "./database_formatter --help" for instructions.')
-end
+app = DatabaseFormatter.new(ARGV[0])
+app.format_databases
