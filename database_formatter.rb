@@ -168,6 +168,10 @@ BANNER
     puts opts
     exit
   end
+
+  opts.on('-v', '--verbose', 'Print lots of output') do
+    LOG.level = Logger::DEBUG
+  end
 end.parse!
 
 if ARGV.length == 1
@@ -180,5 +184,5 @@ if ARGV.length == 1
         LOG.warn("Not running becuase #{db_path} is not a directory")
     end
 else 
-    LOG.warn('Not running: give only one argument (directory)')
+    LOG.fatal('Database directory not given. See "./database_formatter --help" for instructions.')
 end
