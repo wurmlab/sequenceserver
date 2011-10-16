@@ -88,14 +88,12 @@ module SequenceServer
       entries_to_get = identifiers.join(',') if identifiers.class == Array
       raise ArgumentError, "No ids to fetch: #{identifiers.to_s}" if entries_to_get.empty?
 
-      blastdbcmd = settings.binaries['blastdbcmd']
-      sequences = %x|#{blastdbcmd} -db #{db} -entry #{entries_to_get} 2>&1|
-      if sequences.include?("No valid entries to search") 
-        raise ArgumentError, "Cannot find ids: #{entries_to_get} in #{db}." +
-        "OR makeblastdb needs to be rerun with '-parse_seqids'"
-      end
 
-      sequences.chomp + "\n"  # fastaformat in a string - not sure blastdbcmd includes newline
+      # query now!
+      #
+      # If `blastdbcmd` throws error, we assume sequence not found.
+      blastdbcmd = settings.binaries['blastdbcmd']
+      command = %x|#{blastdbcmd} -db #{db} -entry #{identifiers} 2> /dev/null|
     end
 
     # Given a sequence_id and databases, apply the default (standard)
