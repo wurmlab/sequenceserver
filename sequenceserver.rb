@@ -273,12 +273,13 @@ module SequenceServer
       erb :search
     end
 
-    #get '/get_sequence/:sequenceids/:retreival_databases' do # multiple seqs
-    # separated by whitespace... all other chars exist in identifiers
-    # I have the feeling you need to spat for multiple dbs... that sucks.
-    get '/get_sequence/:*/:*' do
-      params[ :sequenceids], params[ :retrieval_databases] = params["splat"]
-      sequenceids = params[ :sequenceids].split(/\s/).uniq  # in a multi-blast
+    # get '/get_sequence/?id=sequence_ids&db=retreival_databases'
+    #
+    # Use whitespace to separate entries in sequence_ids (all other chars exist
+    # in identifiers) and retreival_databases (we don't allow whitespace in a
+    # database's name, so it's safe).
+    get '/get_sequence/' do
+      sequenceids = params[:id].split(/\s/).uniq  # in a multi-blast
       # query some may have been found multiply
       settings.log.info('Getting: ' + sequenceids.join(' ') + ' for ' + request.ip.to_s)
 
@@ -286,7 +287,7 @@ module SequenceServer
       # Thus if several databases were used for blasting, we must check them all
       # if it works, refactor with "inject" or "collect"?
       found_sequences     = ''
-      retrieval_databases = params[ :retrieval_databases ].split(/\s/)
+      retrieval_databases = params[:db].split(/\s/)
 
       raise ArgumentError, 'Nothing in params[ :retrieval_databases]. session info is lost?'  if retrieval_databases.nil?
 
@@ -393,7 +394,7 @@ module SequenceServer
         end
       end
 
-      link_to_fasta_of_all = "/get_sequence/:#{@all_retrievable_ids.join(' ')}/:#{string_of_used_databases}"
+      link_to_fasta_of_all = "/get_sequence/?id=#{@all_retrievable_ids.join(' ')}&db=#{string_of_used_databases}"
       # #dbs must be sep by ' '
       retrieval_text       = @all_retrievable_ids.empty? ? '' : "<a href='#{url(link_to_fasta_of_all)}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a>"
 
