@@ -289,8 +289,6 @@ module SequenceServer
       found_sequences     = ''
       retrieval_databases = params[:db].split(/\s/)
 
-      raise ArgumentError, 'Nothing in params[ :retrieval_databases]. session info is lost?'  if retrieval_databases.nil?
-
       retrieval_databases.each do |database|     # we need to populate this session variable from the erb.
         sequence = sequence_from_blastdb(sequenceids, database)
         if sequence.empty?
