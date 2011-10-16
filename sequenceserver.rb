@@ -281,18 +281,19 @@ module SequenceServer
     get '/get_sequence/' do
       sequenceids = params[:id].split(/\s/).uniq  # in a multi-blast
       # query some may have been found multiply
-      settings.log.info('Getting: ' + sequenceids.join(' ') + ' for ' + request.ip.to_s)
+      retrieval_databases = params[:db].split(/\s/)
+
+      settings.log.info("Looking for: '#{sequenceids.join(', ')}' in '#{retrieval_databases.join(', ')}'")
 
       # the results do not indicate which database a hit is from.
       # Thus if several databases were used for blasting, we must check them all
       # if it works, refactor with "inject" or "collect"?
       found_sequences     = ''
-      retrieval_databases = params[:db].split(/\s/)
 
       retrieval_databases.each do |database|     # we need to populate this session variable from the erb.
         sequence = sequence_from_blastdb(sequenceids, database)
         if sequence.empty?
-          settings.log.debug("Sequence ids: '#{sequenceids.join(', ')}' not found in #{database}")
+          settings.log.debug("'#{sequenceids.join(', ')}' not found in #{database}")
         else
           found_sequences += sequence
         end
