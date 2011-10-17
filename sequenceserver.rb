@@ -399,7 +399,15 @@ HEADER
         if line.match(/^>/) # If line to possibly replace
           # Reposition the anchor to the end of the line, so that it both still works and
           # doesn't interfere with the diagnostic space at the beginning of the line.
+          #
+          # There are two cases:
+          #
+          # database formatted _with_ -parse_seqids
           line.gsub!(/^>(.+)(<a.*><\/a>)(.*)/, '>\1\3\2')
+          #
+          # database formatted _without_ -parse_seqids
+          line.gsub!(/^>(<a.*><\/a>)(.*)/, '>\2\1')
+
           # Create the hyperlink (if required)
           formatted_result += construct_sequence_hyperlink_line(line, databases)
         else
