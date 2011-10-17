@@ -298,11 +298,36 @@ module SequenceServer
         end
       end
 
+      found_sequences_count = found_sequences.count('>')
+
+      out = ''
       # just in case, checking we found right number of sequences
-      if sequenceids.length != found_sequences.count('>')
-        raise IOError, 'Wrong number of sequences found. Expecting: ' + sequenceids.to_s + '. Found: "' + found_sequences + '"'
+      if found_sequences_count != sequenceids.length
+        out <<<<HEADER
+<h1>ERROR: incorrect number of sequences found.</h1>
+<p>Dear user,</p>
+
+<p><strong>We have found
+<em>#{found_sequences_count > sequenceids.length ? 'more' : 'less'}</em>
+sequence than expected.</strong></p>
+
+<p>This is likely due to a problem with how databases are formatted. 
+<strong>Please share this text with the person managing this website so 
+they can resolve the issue.</strong></p>
+
+<p> You requested #{sequenceids.length} sequence#{sequenceids.length > 1 ? 's' : ''}
+with the following identifiers: <code>#{sequenceids.join(', ')}</code>,
+from the following databases: <code>#{retrieval_databases.join(', ')}</code>.
+But we found #{found_sequences_count} sequence#{found_sequences_count> 1 ? 's' : ''}.
+</p>
+
+<p>If sequences were retrieved, you can find them below (but some may be incorrect, so be careful!).</p>
+<hr/>
+HEADER
       end
-      '<pre><code>' + found_sequences + '</pre></code>'
+
+      out << "<pre><code>#{found_sequences}</pre></code>"
+      out
     end
 
     # Ensure a '>sequence_identifier\n' at the start of a sequence.
