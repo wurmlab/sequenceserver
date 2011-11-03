@@ -1,0 +1,106 @@
+/* generic */
+.offset-left {
+  margin-left: 20px;
+}
+
+.offset-right {
+  margin-right: 20px;
+}
+
+.box {
+  background: #D5E1DD;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+}
+
+fieldset legend {
+  padding-left: 2%;
+}
+
+/* contextual */
+body {
+  background-color: #2B3E42;
+}
+
+.page {
+  background-color: white;
+  border-radius: 10px 10px 10px 10px;
+  margin: 50px 0px;
+}
+
+#banner {
+  background: #EBCD7B;
+  padding: 2%;
+  border-radius: 10px 10px 0px 0px;
+  text-align: center;
+}
+
+#sequence {
+  width: 680px;
+}
+
+.advanced label {
+  text-align: left;
+  padding: 0px;
+  width: auto;
+  cursor:pointer;
+}
+
+.advanced input {
+  margin: 1% 1%;
+}
+
+.advanced .help {
+  display: none;
+  margin: 0% 1% 1%;
+}
+
+#result{
+  clear:both;
+  background-color: white;
+}
+
+.result_even_true{
+  background-color: #ffe0f9;
+  margin: 0 18px 0 18px;
+  border-radius  :10px;
+  -moz-border-radius:10px;
+  padding-left: 3%;
+  padding-top: 3%;
+}
+
+.result_even_false{
+  background-color: #dfefe6;
+  margin: 0 18px 0 18px;
+  border-radius  :10px;
+  -moz-border-radius:10px;
+  padding-left: 3%;
+  padding-top: 3%;
+}
+
+.blast_result{
+  font-family: "Lucida Console", Lucida, monospace;
+  background-color: #A9A9A9;
+  border-radius  :10px;
+  -moz-border-radius:10px;
+  padding-left: 2%;
+}
+
+#underbar {
+  background: #EBCD7B;
+  padding: 1%;
+  border-radius: 0px 0px 10px 10px;
+  text-align: center;
+}
+
+.inputs-list {
+  padding-left: 3%;
+}
+
+.inputs-list li {
+  padding: 1%;
+}
+
+fieldset {
+  padding-top: 0;
+}

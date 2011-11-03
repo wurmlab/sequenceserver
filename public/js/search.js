@@ -76,15 +76,19 @@ $(document).ready(function(){
         }, 100);
     })();
 
-    $("fieldset.advanced span").click(function(event){
+    $(".advanced label").click(function(event){
         //toggle display of advanced options when "Advanced parameters" text is
         //clicked
-        $(this).siblings("pre").toggle("fast");
+        $(".advanced .help").toggle("fast");
+
+        //stop event propagation here; jQuery will call `click()` on input box
+        //otherwise
+        return false;
     });
 
-    $("input#advanced").click(function(event){
+    $(".advanced input").click(function(event){
         //but for input box toggling might get annoying
-        $(this).next("pre").show("fast");
+        $(".advanced .help").show("fast");
     });
 
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
