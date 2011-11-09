@@ -82,7 +82,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
   <!--	<div style="text-align:left; position: fixed; top:500; left:0; border: 1px solid gray; padding:10px;"> -->
 	
 	
-  <div style="width:100%; height:110px;">
+  <div style="width:100%; height:110px; padding-top:70px">
   <div style="width:20%; float:left; padding-top:10px;">
 	<g:plusone size="medium" annotation="none" style="
 	position: absolute; top: 20px; padding-top: 20px;" ></g:plusone><br/>
@@ -115,7 +115,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	<h4>Get help &amp; stay informed</h4>
 	<form action="https://docs.google.com/spreadsheet/formResponse?formkey=dG1QMTdnand0ajRhcGpFYUtIaGZxeHc6MQ&amp;embedded=true&amp;ifq" method="post" id="ss-form"> 
 	
-	<input style="clear:both;" type="text" name="entry.0.single" value="" class="ss-q-short" id="entry_0"  placeholder="your@email.com"/>
+	<input style="clear:both;" type="text" name="entry.0.single" value="" class="ss-q-short" id="entry_0"  placeholder="you@university.ac.uk"/>
 	
 	
   <div style="float: center; width: 100%;">			
@@ -136,16 +136,6 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
   </form> 
   </div>
 
-  <br/>
-  <div style="margin-top: 4em">
-	<h4>Source Code on GitHub</h4>
-	<p>Download, fork, pull, file issues and contribute with the official
-	SequenceServer repository on Github.</p>
-	<p><a target="_blank"
-	href="http://github.com/yannickwurm/sequenceserver" class="btn
-  primary">SequenceServer on GitHub &raquo;</a></p>
-  </div>
-  
   </div>
   
   <div class="content"  style="padding: 30px;  background: white;">
@@ -156,27 +146,37 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	</div>
 	<br/>
 	<div class="row">
-	<div class="span12 offset2">
+
+	<div class="span7 offset2">
 	  <p>Sequence data is generated at increasing rates. However it is challenging to effectively 
 	  share and query such data. Deploying complex solutions such as <a href="http://www.gmod.org">GMOD</a> is often overkill and publicly available front ends for BLAST such as <a href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html]">NCBI's wwwblast</a> are difficult to use or install. </p>
 
-	  <p>Sequenceserver is an efficient and elegant alternative:
-	  Sequenceserver lets you rapidly set up a BLAST+
+	  <p>SequenceServer is an efficient and elegant alternative:
+	  SequenceServer lets you rapidly set up a BLAST+
 	  server with an intuitive user interface for use locally or over the web.</p>
-
-	  <p>Sequenceserver aims to become <em>"The iPod of Blast
+	  
+	  <p>SequenceServer aims to become <em>"The iPod of Blast
 	  searching"</em>. This beta version is fully functional and has
 	  already deployed for several databases (eg: <a
-	  href="http://www.antgenomes.org/blast">demo ant genome BLAST server</a>). </p>
+	  href="http://www.antgenomes.org/blast">demo ant genome BLAST
+	  server</a>). </p>
 
+	  <p>SequenceServer is  <a
+	  href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">free
+	  for academics</a>. Its <a href="http://github.com/yannickwurm/sequenceserver">source code is available on GitHub</a>.</p>
+</div>
+	<div class="span5">
 	  <ul class="media-grid">
 		<li>
 		<a href="http://www.antgenomes.org/blast">
 		<img class="thumbnail" src="img/overview.png" width='758'
-		height='721' style="width:100%; height: auto" alt="">
+		height='721' style="width:100%; height: auto" alt="Ant genome
+	  BLAST server.">
 		</a>
 		</li>
 	  </ul>
+	</div>
+	<div class="span12 offset2">
 	  <h2>Easy to use:</h2>
 	  <ul>
 		<li>clutter-free design</li>
@@ -206,8 +206,10 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	  <li>ruby (tested with 1.8.7 and 1.9.2) (if you have <a href='http://git-scm.com/'>git</a>, get ruby with <a href='http://rvm.beginrescueend.com/rvm/install'>RVM</a>).</li>
 	  <li><a href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.25/">NCBI
 	  Blast+</a> (works best with 2.2.25, which was released March 2011; 
-	  can use system-wide blast installation or a specific directory)</li>
+	  can use system-wide blast installation or a specific
+	directory)</li>
 	  <li>A folder containing FASTA sequence files</li>
+	  <li>Basic command-line (UNIX) skills</li>
 	</ul>
   </div>
   </div>
@@ -377,7 +379,7 @@ passenger-install-nginx-module
 <dl>
 	<dt>How do I cite SequenceServer?</dt>
 	<dd>A manuscript describing SequenceServer is <em>in prep</em>. In the mean time,
-	please cite the following reference: "Priyam A., Woodcroft B.J., Wurm Y <em>in prep</em>. <strong>Sequenceserver: BLAST searching made easy</strong>".</dd>
+	please cite the following reference: "Priyam A., Woodcroft B.J., Wurm Y <em>in prep</em>. <strong>SequenceServer: BLAST searching made easy</strong>".</dd>
 
 	<dt>What are the alternatives to SequenceServer?</dt>
 	<dd>There are several. But they are suboptimal because they look like
@@ -435,6 +437,10 @@ passenger-install-nginx-module
 	href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">LICENSE.txt</a>
 	file. Basically, it's free if you're an academic or a
 	non-for-profit organization.</dd>
+
+	<dt>Can I have the source code? Can I contribute?</dt>
+	<dd>SequenceServer's <a href="http://github.com/yannickwurm/sequenceserver">source code is on GitHub</a>. Downloading,
+	forking, pulling, filing issues and contributing is most welcome!</dd>
 	
 	<dt>Can SequenceServer do XXX? Why doesn't YYYY work? It's ugly, it crashes!?!?</dt>
 	<dd>SequenceServer is still in beta. Our <a href="https://github.com/yannickwurm/sequenceserver/issues">issues tracker</a> logs development activities. <a href="https://github.com/yannickwurm/sequenceserver/issues?labels=feature">feature</a> indicates what is in the pipeline, and <a href="https://github.com/yannickwurm/sequenceserver/issues?labels=bug">bugs</a> indicates upcoming fixes. Feel free to add comments, vote, report bugs or request features. All contributions, patches and pulls are welcome.</dd>
