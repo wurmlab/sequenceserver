@@ -158,7 +158,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	<div class="row">
 	<div class="span12 offset2">
 	  <p>Sequence data is generated at increasing rates. However it is challenging to effectively 
-	  share and such data. Deploying complex solutions such as <a href="http://www.gmod.org">GMOD</a> is often overkill and publicly available front ends for BLAST such as <a href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html]">NCBI's wwwblast</a> are difficult to use or install. </p>
+	  share and query such data. Deploying complex solutions such as <a href="http://www.gmod.org">GMOD</a> is often overkill and publicly available front ends for BLAST such as <a href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html]">NCBI's wwwblast</a> are difficult to use or install. </p>
 
 	  <p>Sequenceserver is an efficient and elegant alternative:
 	  Sequenceserver lets you rapidly set up a BLAST+
@@ -169,20 +169,24 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	  already deployed for several databases (eg: <a
 	  href="http://www.antgenomes.org/blast">demo ant genome BLAST server</a>). </p>
 
-	  <img src='img/overview.png' alt='BLAST web server screenshot'
-	  width='758' height='721' style="margin-left:10%; margin-right:
-	  10%;width:500; height:auto; padding-bottom:2em;"/>
-
-	  <h2>Easy to use by biologists:</h2>
+	  <ul class="media-grid">
+		<li>
+		<a href="http://www.antgenomes.org/blast">
+		<img class="thumbnail" src="img/overview.png" width='758'
+		height='721' style="width:100%; height: auto" alt="">
+		</a>
+		</li>
+	  </ul>
+	  <h2>Easy to use:</h2>
 	  <ul>
 		<li>clutter-free design</li>
 		<li>intuitive and helpful web interface: automatic sequence type
-	 detection that assists users in choosing appropriate BLAST method and database types</li>
-	 <li>links to easily download sequences of BLAST hits</li>
-	 <li>support for advanced options.</li>
-   </ul>
+		detection that assists users in choosing appropriate BLAST method and database types</li>
+		<li>automatically adds links to download sequences of BLAST hits</li>
+		<li>support for advanced options.</li>
+	  </ul>
 
-   <h2>Rapid deployment for bioinformatics administrators:</h2>
+   <h2>Rapidly deployed:</h2>
    
    <ul>
 	 <li>assisted batch formatting of BLAST databases (with sequence type detection)</li>
@@ -194,7 +198,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 
 
 	<h2>Demo server</h2>
-	<p><a href="http://www.antgenomes.org/blast">Ant genome sequence blast search</a>: running a pre-release version of SequenceServer. Hosted by the <a href="http://www.antgenomes.org">ant genome database</a>.</p>
+	<p><a href="http://www.antgenomes.org/blast">Ant genome sequence blast search</a>: running a pre-release version of SequenceServer. </p>
 	
 
 	<h2>Requirements</h2>
@@ -218,14 +222,22 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
   <div class="row">
   <div class="span15 offset1"><h2>Short version</h2> </div>
   <div class="span12 offset2">
+	<p>Setting up SequenceServer requires some basic UNIX skills.</p>
 	<ul>
-	  <li>Download SequenceServer. Either with <a href="http://github.com/yannickwurm/sequenceserver/zipball/master">this link</a> or copy-paste the following into the command-line:
+	  <li>Download SequenceServer by copy-pasting the following into the command-line:
 	  <pre>$ wget http://github.com/yannickwurm/sequenceserver/zipball/master -O sequenceserver.zip</pre>
 	  </li>
-	  <li>Unzip sequenceserver.zip, cd to SequenceServer's directory and issue the following command that will make sure you have the required ruby dependencies: 
-	  <pre>$ gem install bundler &amp;&amp; bundle install</pre>
+	  <li>Decompress sequenceserver.zip, cd to SequenceServer's
+  directory and use bundler to make sure you have the required ruby
+  dependencies:
+	  
+	  <pre>$ unzip sequenceserver.zip
+$ cd yannickwurm-sequenceserver*
+$ gem install bundler &amp;&amp; bundle install</pre>
 	  </li>
-	  <li>Edit the <code>example.config.yml</code> file to indicate the location of your blast databases. Or create some with the tool we provide: <code>database_formatter.rb directory_of_fasta_files</code>; or manually with Blast's <code>makeblastdb -in my.fasta -dbtype nucl -parse_seqids</code>.
+	  <li>Copy the <code>example.config.yml</code> file to
+  <code>config.yml</code> and edit it to indicate the location of your
+  blast databases. If the databases don't already exist, <a href="#createblastdb">create them</a>.</li>
 	  </li>
 	  <li>Launch the server:
 	  <pre>$ ruby sequenceserver.rb</pre>
@@ -234,9 +246,10 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	</ul>
   </div>
 	
+  
   <div class="span15 offset1"><h2>Additional details</h2></div>
   <div class="span12 offset2">
-  
+	<a name="createblastdb"></a>
 	<h3>Setting up BLAST databases</h3>
 	<p>To set up BLAST databases from a directory of FASTA sequence files, use database_formatter.rb:</p>
 	<pre>$ ruby database_formatter.rb directory_with_fasta_files</pre>
@@ -378,9 +391,16 @@ passenger-install-nginx-module
 	  <li><a href="http://www.blaststation.com">BLASTstation</a> is only for local BLAST.</li>
 	</ul></dd>
 
-	<dt>Is there a demo server</dt>
+	<dt>Is there a demo server?</dt>
 	<dd>SequenceServer provides <a href="http://www.antgenomes.org/blast">BLAST for ant genomes</a></dd>
 
+	<dt>What is a BLAST database?</dt>
+	<dd>The BLAST program doesn't understand FASTA files. But BLAST
+	includes the <code>makeblastdb</code> tool that reformats FASTA
+	into the optimized BLAST-friendly format.</dd>
+	<dd>Preformatted BLAST databases can also be used with SequenceServer.</dd>
+	
+	
 	<dt>Why doesn't sequence retrieval work?</dt>
 
 	<dd>Probably because you forgot the <code>-parse_seqids</code> argument when running <code>makeblastdb</code> (or they were formatted using legacy <code>formatdb</code>). Blast+ 2.2.24 and later indicate that when <code>-parse_seqids</code> was not used by leaving a space between <code>&gt;</code> and hit identifiers (eg: <code>&gt; db_sequence001</code> instead of <code>&gt;db_sequence001</code>).</dd>
@@ -409,9 +429,19 @@ passenger-install-nginx-module
 	href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&amp;PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download">NCBI
 	BLAST+</a>, <a href="http://www.sinatrarb.com/">Sinatra</a>, and
 	<a href="http://jquery.com/">jQuery</a>.</dd>
+
+	<dt>Is SequenceServer free? Can I redistribute it?</dt>
+	<dd>Check our <a
+	href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">LICENSE.txt</a>
+	file. Basically, it's free if you're an academic or a
+	non-for-profit organization.</dd>
 	
 	<dt>Can SequenceServer do XXX? Why doesn't YYYY work? It's ugly, it crashes!?!?</dt>
 	<dd>SequenceServer is still in beta. Our <a href="https://github.com/yannickwurm/sequenceserver/issues">issues tracker</a> logs development activities. <a href="https://github.com/yannickwurm/sequenceserver/issues?labels=feature">feature</a> indicates what is in the pipeline, and <a href="https://github.com/yannickwurm/sequenceserver/issues?labels=bug">bugs</a> indicates upcoming fixes. Feel free to add comments, vote, report bugs or request features. All contributions, patches and pulls are welcome.</dd>
+
+
+	<dt>I need help! Who should I contact for support?</dt>
+	<dd>Contact the authors or the mailing list that will soon be set up.</dd>
 
 </dl>
 </div>
