@@ -362,7 +362,7 @@ passenger-install-nginx-module
   <div class="row">
  <div class="span12 offset2">
 <dl>
-	<dt>How do I cite SequenceServer</dt>
+	<dt>How do I cite SequenceServer?</dt>
 	<dd>A manuscript describing SequenceServer is <em>in prep</em>. In the mean time,
 	please cite the following reference: "Priyam A., Woodcroft B.J., Wurm Y <em>in prep</em>. <strong>Sequenceserver: BLAST searching made easy</strong>".</dd>
 
@@ -378,6 +378,9 @@ passenger-install-nginx-module
 	  <li><a href="http://www.blaststation.com">BLASTstation</a> is only for local BLAST.</li>
 	</ul></dd>
 
+	<dt>Is there a demo server</dt>
+	<dd>SequenceServer provides <a href="http://www.antgenomes.org/blast">BLAST for ant genomes</a></dd>
+
 	<dt>Why doesn't sequence retrieval work?</dt>
 
 	<dd>Probably because you forgot the <code>-parse_seqids</code> argument when running <code>makeblastdb</code> (or they were formatted using legacy <code>formatdb</code>). Blast+ 2.2.24 and later indicate that when <code>-parse_seqids</code> was not used by leaving a space between <code>&gt;</code> and hit identifiers (eg: <code>&gt; db_sequence001</code> instead of <code>&gt;db_sequence001</code>).</dd>
@@ -386,7 +389,7 @@ passenger-install-nginx-module
 
 	<dd>Easy. Edit the <code>customisation.rb</code> file and read the examples it provides. To add a single link, uncomment and edit the <code>construct_custom_sequence_hyperlink</code> method; to add multiple links edit the <code>construct_custom_sequence_hyperlinking_line</code> method. </dd>
 
-	<dt>How do I change the server port</dt>
+	<dt>How do I change the server port?</dt>
 
 	<dd>SequenceServer will by default be accessible on port 4567 at http://localhost:4567/ . 
 	Change the port by editing <code>config.yml</code> or with the -p command line option, eg: <code>ruby sequenceserver.rb -p 8181</code>.</dd>
@@ -398,7 +401,7 @@ passenger-install-nginx-module
 
 	<dt>Can I integrate SequenceServer into an Apache or Nginix server?</dt>
 
-	<dd>Yes. See below</dd>
+	<dd>Yes. See above</dd>
 
 	<dt>Which technologies does SequenceServer use?</dt>
 
