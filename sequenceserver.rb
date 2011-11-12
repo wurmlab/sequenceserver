@@ -408,8 +408,13 @@ HEADER
           # database formatted _without_ -parse_seqids
           line.gsub!(/^>(<a.*><\/a>)(.*)/, '>\2\1')
 
+          # get hit coordinates -- useful for linking to genome browsers
+          hit_length      = result[line_number..-1].index{|l| l =~ />lcl|Lambda/}
+          hit_coordinates = result[line_number, hit_length].grep(/Sbjct/).
+            map(&:split).map{|l| [l[1], l[-1]]}.flatten.map(&:to_i).minmax
+
           # Create the hyperlink (if required)
-          formatted_result += construct_sequence_hyperlink_line(line, databases)
+          formatted_result += construct_sequence_hyperlink_line(line, databases, hit_coordinates)
         else
           # Surround each query's result in <div> tags so they can be coloured by CSS
           if matches = line.match(/^<b>Query=<\/b> (.*)/) # If starting a new query, then surround in new <div> tag, and finish the last one off
@@ -439,7 +444,7 @@ HEADER
       '</pre></code>'
     end
 
-    def construct_sequence_hyperlink_line(line, databases)
+    def construct_sequence_hyperlink_line(line, databases, hit_coordinates)
       matches = line.match(/^>(.+)/)
       sequence_id = matches[1]
 
@@ -449,7 +454,8 @@ HEADER
       # use that.
       options = {
         :sequence_id => sequence_id,
-        :databases => databases
+        :databases => databases,
+        :hit_coordinates => hit_coordinates
       }
 
       # First precedence: construct the whole line to be customised
