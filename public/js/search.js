@@ -38,6 +38,20 @@
     };
 })( jQuery );
 
+(function( $ ){
+    //highlight an element
+    $.fn.highlight = function() {
+        return this.addClass('focussed');
+    };
+})( jQuery );
+
+(function( $ ){
+    //unhighlight an element
+    $.fn.unhighlight = function() {
+        return this.removeClass('focussed');
+    };
+})( jQuery );
+
 $(document).ready(function(){
     var prev_seq = prev_seq_type = '';
 
@@ -113,5 +127,22 @@ $(document).ready(function(){
         }
 
         $.onedb();
+    });
+
+    $(window).scroll(function() {
+      var areaHeight = $(this).height();
+
+      $('.resultn').each(function() {
+        var scrolled = $(window).scrollTop();
+        var start    = $(this).offset().top   - screen.height/2;
+        var end      = start + $(this).height();
+
+        if (scrolled > start && scrolled < end){
+          $(this).highlight();
+        }
+        else {
+          $(this).unhighlight();
+        }
+      });
     });
 });

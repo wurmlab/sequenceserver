@@ -56,34 +56,20 @@ body {
 }
 
 #result{
-  clear:both;
-  background-color: white;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
 }
 
-.result_even_true{
-  background-color: #ffe0f9;
-  margin: 0 18px 0 18px;
-  border-radius  :10px;
-  -moz-border-radius:10px;
-  padding-left: 3%;
-  padding-top: 3%;
-}
-
-.result_even_false{
+.resultn{
   background-color: #dfefe6;
-  margin: 0 18px 0 18px;
-  border-radius  :10px;
-  -moz-border-radius:10px;
-  padding-left: 3%;
-  padding-top: 3%;
+  margin: 18px 0px 18px 0px;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  padding: 3%;
 }
 
-.blast_result{
-  font-family: "Lucida Console", Lucida, monospace;
-  background-color: #A9A9A9;
-  border-radius  :10px;
-  -moz-border-radius:10px;
-  padding-left: 2%;
+.focussed {
+  border: 1px solid black;
 }
 
 #underbar {

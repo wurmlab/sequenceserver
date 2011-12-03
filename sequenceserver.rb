@@ -418,30 +418,30 @@ HEADER
         else
           # Surround each query's result in <div> tags so they can be coloured by CSS
           if matches = line.match(/^<b>Query=<\/b> (.*)/) # If starting a new query, then surround in new <div> tag, and finish the last one off
-            line = "<div class=\"result_even_#{blast_database_number.even?}\" id=\"#{matches[1]}\">\n<h3>Query= #{matches[1]}</h3>"
+            line = "<div class=\"resultn\" id=\"#{matches[1]}\">\n<h3>Query= #{matches[1]}</h3><pre>"
             unless blast_database_number == 0
-              line = "</div>\n#{line}"
+              line = "</pre></div>\n#{line}"
             end
             blast_database_number += 1
           elsif line.match(/^  Database: /) and !finished_alignments
-            formatted_result += "</div>\n#{database_summary_string}\n"
+            formatted_result += "</div>\n<pre>#{database_summary_string}\n\n"
             finished_alignments = true
           end
           formatted_result += line
         end
       end
+      formatted_result << "</pre>"
 
       link_to_fasta_of_all = "/get_sequence/?id=#{@all_retrievable_ids.join(' ')}&db=#{string_of_used_databases}"
       # #dbs must be sep by ' '
       retrieval_text       = @all_retrievable_ids.empty? ? '' : "<a href='#{url(link_to_fasta_of_all)}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a>"
 
-      "\n<div class='blast_result'>\n"+
-      "<h2>Results</h2>\n"+
+      "<h2>Results</h2>"+
       retrieval_text +
-      '<pre><code>' +
+      "<br/><br/>" +
       formatted_result +
-      reference_string +
-      '</pre></code>'
+      "<br/>" +
+      "<pre>#{reference_string.strip}</pre>"
     end
 
     def construct_sequence_hyperlink_line(line, databases, hit_coordinates)
