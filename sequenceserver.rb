@@ -249,14 +249,17 @@ module SequenceServer
       Need #{allowed_db_type} database."
       end
 
+      advanced_opts = params['advanced']
+      validate_advanced_parameters(advanced_opts) #check the advanced options are sensible
+
+      # blastn implies blastn, not megablast
+      advanced_opts << '-task blastn ' if method == 'blastn'
+
       method = settings.binaries[ method ]
       settings.log.debug('settings.databases:   ' + settings.databases.inspect)
       databases = params['db'][db_type].map{|index|
         settings.databases[db_type][index.to_i].name
       }
-
-      advanced_opts = params['advanced']
-      validate_advanced_parameters(advanced_opts) #check the advanced options are sensible
 
       # run blast to blast archive
       blast = Blast.blast_string_to_blast_archive(method, databases.join(' '), sequence, advanced_opts)
