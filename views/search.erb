@@ -8,13 +8,13 @@
   <meta name="author" content="Yannick Wurm" />
   <meta name="author" content="Cedric Wurm" />
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-  <script type="text/javascript" src=<%= uri('/js/jquery.js') %>></script>
-  <script type="text/javascript" src=<%= uri('/js/jquery.enablePlaceholder.min.js') %>></script>
-  <script type="text/javascript" src=<%= uri('/js/search.js') %>></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.enablePlaceholder.min.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/search.js') %>"></script>
 
   <%# without a space after erb's closing tag, a / gets appended to css' path %>
-  <link rel="stylesheet" media="screen" type="text/css" href=<%= uri('/css/bootstrap.min.css') %> />
-  <link rel="stylesheet" media="screen" type="text/css" href=<%= uri('/css/custom.css') %> />
+  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.min.css') %>" />
+  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/custom.css') %>" />
 </head>
 
 <body>
@@ -24,7 +24,7 @@
         <h1>BLAST Sequence(s)</h1>
       </div>
 
-      <form method="post" action=<%= uri('/#result') %>>
+      <form method="post" action="<%= uri('/#result') %>">
         <div class="row">
           <div class="span12">
             <div class="offset-left sequence">
