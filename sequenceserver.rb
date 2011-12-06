@@ -34,6 +34,13 @@ module SequenceServer
       # assets or templates for example, based on app root.
       set :root,       File.dirname(app_file)
 
+      # path to test database
+      #
+      # SequenceServer ships with test database (fire ant genome) so users can
+      # launch and preview SequenceServer without any configuration, and/or run
+      # test suite.
+      set :test_database, File.join(root, 'tests', 'database')
+
       # path to example configuration file
       #
       # SequenceServer ships with a dummy configuration file. Users can simply
@@ -72,7 +79,7 @@ module SequenceServer
       #
       # As a default use 'database' directory relative to current working
       # directory of the running app.
-      set :database,    Proc.new{ File.expand_path((config['database'] or 'database')) }
+      set :database,    Proc.new{ File.expand_path(config['database']) rescue test_database }
 
       # the port number to run Sequence Server standalone
       set :port,        Proc.new{ (config['port'] or 4567).to_i }
