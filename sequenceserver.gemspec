@@ -13,6 +13,7 @@ SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user in
 DESC
 
   # dependencies
+  s.add_dependency('bundler')
   s.add_dependency('sinatra', '>= 1.2.0')
   s.add_dependency('ptools')
 

@@ -2,10 +2,8 @@
 # copyright yannick . wurm at unil . ch
 # Finds files, reads first char. if its '>', read 500 lines. Guess sequence type, ask user for title to format as blast database.
 
-# ensure 'lib/' is in the load path
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-
 require 'rubygems'
+require 'bundler/setup'
 require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'

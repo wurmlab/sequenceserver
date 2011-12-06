@@ -1,9 +1,5 @@
 # sequenceserver.rb
 
-# ensure 'lib/' is in the load path
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-
-require 'rubygems'
 require 'sinatra/base'
 require 'yaml'
 require 'logger'
