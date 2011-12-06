@@ -11,6 +11,7 @@ require 'lib/blast.rb'
 require 'lib/sequencehelpers.rb'
 require 'lib/sinatralikeloggerformatter.rb'
 require 'customisation'
+require 'fileutils'
 
 # Helper module - initialize the blast server.
 module SequenceServer
@@ -32,6 +33,12 @@ module SequenceServer
       # SequenceServer figures out different settings, location of static
       # assets or templates for example, based on app root.
       set :root,       File.dirname(app_file)
+
+      # path to example configuration file
+      #
+      # SequenceServer ships with a dummy configuration file. Users can simply
+      # copy it and make necessary changes to get started.
+      set :example_config_file, File.join(root, 'example.config.yml')
 
       # path to SequenceServer's configuration file
       #
@@ -184,6 +191,12 @@ module SequenceServer
         log.fatal("Error in config.yml: #{error}")
         puts "YAML is white space sensitive. Is your config.yml properly indented?"
         exit
+      rescue Errno::ENOENT # config file not found
+        log.info('Configuration file not found')
+        FileUtils.cp(example_config_file, config_file)
+        log.info('Generated a dummy configuration file')
+        puts "\nPlease edit #{config_file} to indicate the location of your BLAST databases and run SequenceServer again."
+        exit
       end
 
       # Parse config.yml, and return the resulting hash.
@@ -193,10 +206,7 @@ module SequenceServer
       # default configuration values. Any other error raised by YAML.load_file
       # is not rescued.
       def parse_config
-        return YAML.load_file( config_file )
-      rescue Errno::ENOENT
-        log.warn("config.yml not found - will assume default settings")
-        return {}
+        YAML.load_file( config_file )
       end
     end
 
