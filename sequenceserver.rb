@@ -167,6 +167,12 @@ module SequenceServer
         # first read the user supplied configuration options
         self.config = parse_config
 
+        # empty config file
+        unless config
+          log.warn("Empty configuration file: #{config_file} - will assume default settings")
+          self.config = {}
+        end
+
         # scan for blast binaries
         self.binaries = scan_blast_executables(bin).freeze
 
