@@ -27,6 +27,12 @@ module SequenceServer
       # base setting; Sinatra can then figure :root, :public, and :views itself
       set :app_file,   __FILE__
 
+      # app root is SequenceServer's installation directory
+      #
+      # SequenceServer figures out different settings, location of static
+      # assets or templates for example, based on app root.
+      set :root,       File.dirname(app_file)
+
       set :log,        Proc.new { Logger.new(STDERR) }
       log.formatter = SinatraLikeLogFormatter.new()
 
