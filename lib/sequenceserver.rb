@@ -1,17 +1,18 @@
 # sequenceserver.rb
 
+# ensure 'lib/' is in the load path
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'rubygems'
 require 'sinatra/base'
 require 'yaml'
 require 'logger'
-require 'lib/helpers'
-require 'lib/blast.rb'
-require 'lib/sequencehelpers.rb'
-require 'lib/sinatralikeloggerformatter.rb'
-require 'customisation'
 require 'fileutils'
+require 'sequenceserver/helpers'
+require 'sequenceserver/blast'
+require 'sequenceserver/sequencehelpers'
+require 'sequenceserver/sinatralikeloggerformatter'
+require 'sequenceserver/customisation'
 
 # Helper module - initialize the blast server.
 module SequenceServer
@@ -25,14 +26,14 @@ module SequenceServer
       # enable some builtin goodies
       enable :session, :logging
 
-      # base setting; Sinatra can then figure :root, :public, and :views itself
-      set :app_file,   __FILE__
+      # main application file
+      set :app_file,   File.expand_path(__FILE__)
 
       # app root is SequenceServer's installation directory
       #
       # SequenceServer figures out different settings, location of static
       # assets or templates for example, based on app root.
-      set :root,       File.dirname(app_file)
+      set :root,       File.dirname(File.dirname(app_file))
 
       # path to test database
       #

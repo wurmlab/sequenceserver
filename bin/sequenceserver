@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 
+# application root
+root = File.dirname(File.dirname(__FILE__))
+
 require 'rubygems'
-require File.join(File.dirname(__FILE__), 'sequenceserver')
+require File.join(root, 'lib', 'sequenceserver')
 
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'

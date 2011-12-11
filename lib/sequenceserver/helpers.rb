@@ -1,4 +1,4 @@
-require 'lib/database'
+require 'sequenceserver/database'
 
 module SequenceServer
   module Helpers

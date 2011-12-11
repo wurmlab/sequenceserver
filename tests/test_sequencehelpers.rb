@@ -1,8 +1,11 @@
 #!/usr/bin/env ruby 
 # test_ssequencehelpers.rb
 
+# ensure 'lib/' is in the load path
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+
 require 'sequenceserver'
-require 'lib/sequencehelpers'
+require 'sequenceserver/sequencehelpers'
 require 'test/unit'
 
 

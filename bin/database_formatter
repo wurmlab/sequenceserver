@@ -2,14 +2,17 @@
 # copyright yannick . wurm at unil . ch
 # Finds files, reads first char. if its '>', read 500 lines. Guess sequence type, ask user for title to format as blast database.
 
+# ensure 'lib/' is in the load path
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+
 require 'rubygems'
 require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'
 require 'optparse'
 require 'sequenceserver'
-require 'lib/helpers.rb'
-require 'lib/sequencehelpers.rb'
+require 'sequenceserver/helpers.rb'
+require 'sequenceserver/sequencehelpers.rb'
 
 LOG = Logger.new(STDOUT)
 LOG.level = Logger::INFO
