@@ -33,6 +33,11 @@ module SequenceServer
       # assets or templates for example, based on app root.
       set :root,       File.dirname(app_file)
 
+      # path to SequenceServer's configuration file
+      #
+      # The configuration file is a simple, YAML data store.
+      set :config_file, Proc.new{ File.expand_path('~/.sequenceserver.yml') }
+
       set :log,        Proc.new { Logger.new(STDERR) }
       log.formatter = SinatraLikeLogFormatter.new()
 
@@ -45,16 +50,7 @@ module SequenceServer
     # A config.yml should contain the settings described in the following
     # configure block as key, value pairs. See example.config.yml in the
     # installation directory.
-    #
-    # The app looks for config.yml in the the current working directory.
-    # Sane defaults are assumed in the absence of a config.yml, or a
-    # corresponding entry.
     configure do
-      # absolute path to SequenceServer's configuration file
-      #
-      # The configuration file is a simple, YAML data store.
-      set :config_file, Proc.new{ File.expand_path('config.yml', settings.root) }
-
       # store the settings hash from config.yml; further configuration values
       # are derived from it
       set :config,      {}
