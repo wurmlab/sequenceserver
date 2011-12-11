@@ -27,9 +27,6 @@ module SequenceServer
       # base setting; Sinatra can then figure :root, :public, and :views itself
       set :app_file,   __FILE__
 
-      # run with builin server when invoked directly (ruby search.rb)
-      set :run,        Proc.new { app_file == $0 }
-
       set :log,        Proc.new { Logger.new(STDERR) }
       log.formatter = SinatraLikeLogFormatter.new()
 
@@ -501,7 +498,5 @@ HEADER
         raise ArgumentError, "The advanced BLAST option \"#{o}\" is used internally by SequenceServer and so cannot be specified by the you" if advanced_options =~ /#{o}/i
       end
     end
-
-    at_exit { run! if $!.nil? and run? }
   end
 end
