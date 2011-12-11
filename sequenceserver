@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require File.join(File.dirname(__FILE__), 'sequenceserver')
+
+# display name for tools like `ps`
+$PROGRAM_NAME = 'sequenceserver'
+
+SequenceServer::App.run!
