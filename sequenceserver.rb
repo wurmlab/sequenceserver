@@ -54,9 +54,6 @@ module SequenceServer
 
       set :log,        Proc.new { Logger.new(STDERR) }
       log.formatter = SinatraLikeLogFormatter.new()
-
-      set :environment, :development
-      #set :environment, :production
     end
 
     # Local, app configuration settings derived from config.yml.
