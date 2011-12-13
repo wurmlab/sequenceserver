@@ -66,6 +66,7 @@ body {
   border-radius: 6px;
   -moz-border-radius: 6px;
   padding: 3%;
+  border: 1px solid transparent;
 }
 
 .focussed {
