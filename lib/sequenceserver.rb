@@ -51,7 +51,7 @@ module SequenceServer
       # path to SequenceServer's configuration file
       #
       # The configuration file is a simple, YAML data store.
-      set :config_file, Proc.new{ File.expand_path('~/.sequenceserver.yml') }
+      set :config_file, Proc.new{ File.expand_path('~/.sequenceserver.conf') }
 
       set :log,        Proc.new { Logger.new(STDERR) }
       log.formatter = SinatraLikeLogFormatter.new()
