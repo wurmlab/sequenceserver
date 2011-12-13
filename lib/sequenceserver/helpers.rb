@@ -32,9 +32,9 @@ module SequenceServer
             binaries[method] = path
           else
             blasturl = 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
-            raise IOError, "Could not find blast binaries. You may need to
-            install BLAST+ from #{blasturl}. And/or point config.yml to blast's
-            bin directory."
+            raise IOError, "Could not find blast binaries." +
+            "\n\nYou may need to download BLAST+ from #{blasturl}." +
+            " And/or edit #{settings.config_file} to indicate the location of BLAST+ binaries."
           end
         end
 
