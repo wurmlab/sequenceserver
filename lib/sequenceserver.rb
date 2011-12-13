@@ -205,7 +205,7 @@ module SequenceServer
       rescue Errno::ENOENT # config file not found
         log.info('Configuration file not found')
         FileUtils.cp(example_config_file, config_file)
-        log.info('Generated a dummy configuration file')
+        log.info("Generated a dummy configuration file: #{config_file}")
         puts "\nPlease edit #{config_file} to indicate the location of your BLAST databases and run SequenceServer again."
         exit
       end
