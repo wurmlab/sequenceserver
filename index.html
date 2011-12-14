@@ -229,38 +229,58 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	<h1>Download &amp; Setup<small> in just few minutes</small></h1>
   </div>
   <div class="row">
-  <div class="span15 offset1"><h2>Short version</h2> </div>
+    <div class="span15 offset1">
+      <p>Installing SequenceServer is extremely simple: download the latest release, and tell it the location of your BLAST database and NCBI BLAST+ binaries.</p>
+    </div>
+  <div class="span15 offset1"><h2>Installation</h2> </div>
   <div class="span12 offset2">
-	<p>Setting up SequenceServer requires some basic UNIX skills.</p>
+  <div class="span12 offset2">
+    <h3>Gem (experimental)</h3>
+    <p>Run the following from a command line to get the latest release of SequenceServer.</p>
+    <pre> $ [sudo] gem install sequenceserver</pre>
+    <p>And follow the instructions on screen.</p>
+  </div>
+  <div class="span12 offset2">
+    <h3>Source</h3>
 	<ul>
-	  <li>Download SequenceServer by copy-pasting the following into the command-line:
-	  <pre>$ wget http://github.com/yannickwurm/sequenceserver/zipball/master -O sequenceserver.zip</pre>
-	  </li>
-	  <li>Decompress sequenceserver.zip, cd to SequenceServer's
-  directory and use bundler to make sure you have the required ruby
-  dependencies:
+	  <li>Download the latest SequenceServer release: <a href="https://github.com/yannickwurm/sequenceserver/zipball/master">Download</a></li>
+    <li>Decompress the downloaded file, and cd to that directory in a terminal.</li>
+    <li>Run the following in the terminal to install SequenceServer's dependencies:
 	  
-	  <pre>$ unzip sequenceserver.zip
-$ cd yannickwurm-sequenceserver*
-$ gem install bundler 
+	  <pre>$ gem install bundler
 $ bundle install</pre>
 	  </li>
-	  <li>Copy the <code>example.config.yml</code> file to
-  <code>config.yml</code> and edit it to indicate the location of your
-  blast databases. If the databases don't already exist, <a href="#createblastdb">create them</a>.</li>
-	  </li>
-	  <li>Launch the server:
-	  <pre>$ ruby sequenceserver.rb</pre>
-	  </li>
-	  <li>Access SequenceServer on <a href='http://localhost:4567'>http://localhost:4567</a></li>
+    <li>Execute following in the terminal:
+    <pre>$ bin/sequenceserver</pre>
+    And follow the instructions on screen.
+    </li>
 	</ul>
+  </div>
   </div>
 	
   
-  <div class="span15 offset1"><h2>Additional details</h2></div>
+  <div class="span15 offset1" id="#configuration"><h2>Configuration</h2> </div>
   <div class="span12 offset2">
-	<a name="createblastdb"></a>
-	<h3>Setting up BLAST databases</h3>
+	<p>SequenceServer needs to know the location of the BLAST+ binaries, and the
+	BLAST database. This is accomplished by providing a <code>.sequenceserver.conf</code> in the
+	user's home directory.</p>
+
+<pre># .sequenceserver.conf
+bin: ~/ncbi-blast-2.2.25+/bin/
+database: /Users/me/blast_databases/
+</pre>
+
+
+  <p>SequenceServer automatically generates a fully commented configuration
+  file (<code>.sequenceserver.conf</code>) in the user's home directory if it
+  can't find one. Uncomment the relevant lines (i.e remove the <code>#</code> signs), edit
+  the values, and run SequenceServer.</p>
+
+  <p>If the databases don't already exist, <a href="#createblastdb">create them</a>.</p>
+  </div>
+
+  <div class="span15 offset1" id="createblastdb"><h2>Setting up BLAST databases</h2></div>
+  <div class="span12 offset2">
 	<p>To set up BLAST databases from a directory of FASTA sequence files, use database_formatter.rb:</p>
 	<pre>$ ruby database_formatter.rb directory_with_fasta_files</pre>
 	<p>The <code>database_formatter.rb</code> script will assist you by:</p>
@@ -286,27 +306,12 @@ $ bundle install</pre>
 	  hits (yes, it's a bit slow on large files).</li>
 	  <li>Additional options at <code>makeblastdb -help</code>.</li>
 	</ul>
-
-
-	<h3>Configuration file</h3>
-
-	<p>SequenceServer needs to know the location of the BLAST+ binaries, and the
-	BLAST database. This is accomplished by providing a <code>config.yml</code> in the
-	installation directory.</p>
-
-<pre># config.yml
-bin: ~/ncbi-blast-2.2.25+/bin/
-database: /Users/me/blast_databases/
-</pre>
-
-
-	<p>A fully commented <code>example.config.yml</code> is provided for a start - copy it to
-	<code>config.yml</code>, uncomment the relevant lines (ie remove the '#' signs), 
-	edit the values, and run SequenceServer.</p>
+  </div>
 
 
 	
-	<h3>Deploying SequenceServer on Apache or Nginx with Phusion Passenger</h3>
+  <div class="span15 offset1" id="#deployment"><h2>Deploying SequenceServer on Apache or Nginx with Phusion Passenger</h2> </div>
+  <div class="span12 offset2">
    <p>If you would like to deploy BLAST as part of a standard website, and have it show up as a normal webdirectory, SequenceServer can be deployed on Apache or Nginx with Phusion Passenger™ (a.k.a mod_rails or mod_rack).</p>
 
 <h4>Setting up Phusion Passenger™</h4>
@@ -369,8 +374,7 @@ passenger-install-nginx-module
 </div>
 
 
-
-  </div>
+</div>
   </div>
   </section>
 
