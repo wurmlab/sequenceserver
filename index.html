@@ -238,17 +238,17 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
   <div class="span15 offset1"><h2>Installation</h2> </div>
   <div class="span12 offset2">
   <div class="span12 offset2">
-    <h3>Gem (experimental)</h3>
+    <h3>Install using Gem (experimental)</h3>
     <p>Run the following from a command line to get the latest release of SequenceServer.</p>
-    <pre> $ [sudo] gem install sequenceserver</pre>
-    <p>And follow the instructions on screen.</p>
+    <pre> $ gem update</pre> then  <pre> $ gem install sequenceserver</pre>
+    <p>If that doesn't work, try <code>sudo gem</code> instead of <code>gem</code>. And subsequently follow the instructions on screen.</p>
   </div>
   <div class="span12 offset2">
-    <h3>Source</h3>
+    <h3>Install from Source</h3>
 	<ul>
 	  <li>Download the latest SequenceServer release: <a href="https://github.com/yannickwurm/sequenceserver/zipball/master">Download</a></li>
-    <li>Decompress the downloaded file, and cd to that directory in a terminal.</li>
-    <li>Run the following in the terminal to install SequenceServer's dependencies:
+	  <li>Decompress the downloaded file, and cd to that directory in a terminal.</li>
+	  <li>Run the following in the terminal to install SequenceServer's dependencies:
 	  
 	  <pre>$ gem install bundler
 $ bundle install</pre>
