@@ -2,9 +2,16 @@
 
 require 'rubygems'
 require 'bundler/setup'
+require 'optparse'
 require 'sequenceserver'
 
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
+
+OptionParser.new do |opts|
+  opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
+    SequenceServer::App.config_file = File.expand_path(config_file)
+  end
+end.parse!
 
 SequenceServer::App.run!
