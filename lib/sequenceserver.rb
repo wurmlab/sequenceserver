@@ -229,8 +229,10 @@ module SequenceServer
       # evaluate empty sequence as nil, otherwise as fasta
       sequence = sequence.empty? ? nil : to_fasta(sequence)
 
+      # TODO: detect sequence type in the browser itself (no AJAX)
       if request.xhr?
-        return (sequence && type_of_sequences(sequence)).to_s
+        # if the AJAX request didn't specify a blast method, it must be interested in sequence type only
+        return (sequence && type_of_sequences(sequence)).to_s unless method
       end
 
       # Raise ArgumentError if there is no database selected
@@ -288,6 +290,10 @@ module SequenceServer
       settings.log.info('Ran to get HTML output: ' + blast.command) if settings.logging
 
       @blast = format_blast_results(blast.result, databases)
+
+      if request.xhr?
+        return @blast
+      end
 
       erb :search
     end

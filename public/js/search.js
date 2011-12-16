@@ -129,6 +129,14 @@ $(document).ready(function(){
         $.onedb();
     });
 
+    $('input:submit').click(function(){
+        $.post('', $('form').serialize(), function(data){
+            $('#result').html(data);
+            location.hash = '#result';
+        });
+        return false;
+    });
+
     $(window).scroll(function() {
       var areaHeight = $(this).height();
 
