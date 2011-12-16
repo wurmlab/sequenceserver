@@ -135,8 +135,31 @@ $(document).ready(function(){
         //prevent submitting another query while this one is being processed
         button.disable();
 
+        //overlay div will contain the spinner
+        $('body').append('<div id="overlay"></div>')
+
+        //activate spinner to indicate query in progress
+        $('#overlay').css({
+           top:              '0px',
+           left:             '0px',
+           width:            '100%',
+           height:           '100%',
+           position:         'fixed',
+           'z-index':        1000,
+           'pointer-events': 'none',
+        }).activity({
+           segments: 8,
+           length:   40,
+           width:    16,
+           speed:    1.8
+        });
+
         //fetch results now
         $.post('', $('form').serialize(), function(data){
+            //results fetched; remove spinner
+            $('#overlay').activity(false).remove();
+
+            //display results
             $('#result').html(data);
             location.hash = '#result';
 
