@@ -410,9 +410,6 @@ passenger-install-nginx-module
 	<dt>Is there a demo server?</dt>
 	<dd>SequenceServer provides <a href="http://www.antgenomes.org/blast">BLAST for ant genomes</a></dd>
 
-	<dt>What is BLAST?</dt>
-	<dd>In a sense, <a href="http://bioinfoblog.it/2011/01/blast-is-the-equivalent-of-google-but-for-searching-sequences/">Blast is the equivalent of Google for searching sequences</a>. Wikipedia provides <a href="http://en.wikipedia.org/wiki/BLAST">some technical information</a>.</dd>
-
 	<dt>What is a BLAST database?</dt>
 	<dd>The BLAST program doesn't understand FASTA files. But BLAST
 	includes the <code>makeblastdb</code> tool that reformats FASTA
@@ -428,6 +425,15 @@ passenger-install-nginx-module
 
 	<dt>How can I add custom links to hits?</dt>
 	<dd>Easy. Edit the <code>customisation.rb</code> file and read the examples it provides. To add a single link, uncomment and edit the <code>construct_custom_sequence_hyperlink</code> method; to add multiple links edit the <code>construct_custom_sequence_hyperlinking_line</code> method. </dd>
+
+	<dt>How do I tell SequenceServer to read a different configuration file?</dt>
+	<dd>By using <code>--config</code> command line switch. For example:
+	<p></p>
+	<pre>$ sequenceserver --config sequenceserver_ants.conf</pre>
+	You will need to set it in <code>config.ru</code> for Rack based deployment:
+	<p></p>
+	<pre>SequenceServer::App.config_file = 'sequenceserver_ants.conf'</pre>
+	</dd>
 
 	<dt>How do I change the server port?</dt>
 	<dd>SequenceServer will by default be accessible on port 4567 at http://localhost:4567/ . 
