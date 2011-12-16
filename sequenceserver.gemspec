@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
-  s.version     = '0.6.0'
+  s.version     = '0.7.1'
   s.authors     = ['Anurag Priyam', 'Ben J Woodcroft', 'Yannick Wurm']
   s.email       = 'anurag08priyam@gmail.com'
   s.homepage    = 'http://sequenceserver.com'
@@ -22,7 +22,7 @@ DESC
   s.files         = s.files + ['config.ru',   'example.config.yml']
   s.files         = s.files + ['LICENSE.txt', 'README.txt']
   s.files         = s.files + ['Gemfile',     'sequenceserver.gemspec']
-  s.executables   = ['sequenceserver', 'database_formatter']
+  s.executables   = ['sequenceserver']
   s.require_paths = ['lib']
 
   # post install information

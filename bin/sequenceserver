@@ -8,10 +8,25 @@ require 'sequenceserver'
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
 
-OptionParser.new do |opts|
-  opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
-    SequenceServer::App.config_file = File.expand_path(config_file)
+# e.g:
+# sequenceserver --config .sequenceserver.conf format_database
+begin
+  # parse command line till first non-option, removing parsed options from ARGV
+  OptionParser.new do |opts|
+    opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
+      SequenceServer::App.config_file = File.expand_path(config_file)
+    end
+  end.order!
+
+  # of the remaining items in ARGV, the first one must be a subcommand
+  case ARGV.shift
+  when 'format_database'
+    require 'sequenceserver/database_formatter'
+    exit
   end
-end.parse!
+rescue OptionParser::InvalidOption =>e
+  puts e
+  exit
+end
 
 SequenceServer::App.run!

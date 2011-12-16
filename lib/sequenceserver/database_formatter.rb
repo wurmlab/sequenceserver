@@ -1,9 +1,10 @@
-#!/usr/bin/env ruby
 # copyright yannick . wurm at unil . ch
 # Finds files, reads first char. if its '>', read 500 lines. Guess sequence type, ask user for title to format as blast database.
 
-require 'rubygems'
-require 'bundler/setup'
+# TODO: bring it under SequenceServer namespace
+# TODO: move the file to a 'command/' sub-directory (probably makes more sense if we have several subcommands)
+# TODO: needs more love (read refactoring) overall
+
 require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'
@@ -144,36 +145,32 @@ end
 
 OptionParser.new do |opts|
   opts.banner =<<BANNER
-NAME
 
-  database_formatter.rb - prepare BLAST databases for SequenceServer
+SUMMARY
 
-SYNOPSIS
+  prepare BLAST databases for SequenceServer
 
-  ./database_formatter.rb [--verbose] [blast_database_directory]
+USAGE
+
+  sequenceserver format_database [--verbose] [blast_database_directory]
 
   Example:
 
-    $ ./database_formatter.rb ~/db   # explicitly specify a database directory
-    $ ./database_formatter           # use the database directory in config.yml
+    $ sequenceserver format_database ~/db  # explicitly specify a database directory
+    $ sequenceserver format_database       # use the database directory in config.yml
 
 DESCRIPTION
 
-  database_formatter recursively scans the given 'blast_database_directory' for
-  BLAST databases and formats them for use with SequenceServer.
+  Recursively scan the given 'blast_database_directory' for BLAST databases and
+  formats them for use with SequenceServer.
 
   It automagically detects the database type, and ignores non-db files and
   pre-formatted databases. The 'parse_seqids' makeblastdb options is used.
 
   'blast_database_directory' can be passed as a command line parameter or
-  through config.yml by setting the 'database' key (the same option used by
-  SequenceServer). See example.config.yml. database_formatter will check
-  config.yml only if the command line parameter is missing.
-
-  Failing both, database_formatter will look for 'database' directory relative
-  to the current working directory i.e ./database.
-
-  database_formatter can be used standalone too.
+  through a configuration file by setting the 'database' key (the same option
+  used by SequenceServer). Configuration file will be checked only if the
+  command line parameter is missing.
 
 OPTIONS
 
