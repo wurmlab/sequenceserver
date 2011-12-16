@@ -130,9 +130,18 @@ $(document).ready(function(){
     });
 
     $('input:submit').click(function(){
+        var button = $(this);
+
+        //prevent submitting another query while this one is being processed
+        button.disable();
+
+        //fetch results now
         $.post('', $('form').serialize(), function(data){
             $('#result').html(data);
             location.hash = '#result';
+
+            //result of previous query loaded; allow submitting a new query now
+            button.enable();
         });
         return false;
     });
