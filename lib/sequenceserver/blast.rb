@@ -195,17 +195,6 @@ module SequenceServer
         b.run_to_blast_archive!
         b
       end
-
-      # shortcut method to run blast with a query string and return a
-      # blast archive, which can then be further processed into other useful
-      # output forms (e.g. HTML, GFF). If it ran successfully, the blast archive
-      # is a Tempfile accessible as an instance variable of the returned
-      # Blast object.
-      def blast_string_to_blast_archive(method, db, qstring, options = nil)
-      b = Blast.new(method, db, :qstring => qstring, :options => options)
-      b.run_to_blast_archive!
-      b
-      end
     end
   end
 end
