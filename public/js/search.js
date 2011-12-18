@@ -206,18 +206,31 @@ $(document).ready(function(){
            speed:    1.8
         });
 
-        //fetch results now
-        $.post('', $('form').serialize(), function(data){
-            //results fetched; remove spinner
-            $('#overlay').activity(false).remove();
+        // BLAST now
+        $.post('', $('form').serialize()).
+          done(function (data) {
+            // BLASTed successfully
 
-            //display results
+            // display the result
             $('#result').html(data);
             location.hash = '#result';
+        }).
+          fail(function (jqXHR, status, error) {
+            // BLAST failed
 
-            //result of previous query loaded; allow submitting a new query now
+            //alert user
+            alert('BLAST failed: ' + error);
+        }).
+          always(function () {
+            // BLAST complete (succefully or otherwise)
+
+            // remove progress notification
+            $('#overlay').activity(false).remove();
+
+            // allow submitting a new query
             button.enable();
         });
+
         return false;
     });
 
