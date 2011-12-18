@@ -52,33 +52,79 @@
     };
 })( jQuery );
 
+/*
+    SS - SequenceServer's JavaScript module
+
+    Define a global SS (acronym for SequenceServer) object containing the
+    following methods:
+
+        main():
+            SequenceServer's main event loop. It watches for changes in user
+            input and triggers appropriate SequenceServer specific events.
+
+
+    SequenceServer defines the following events:
+
+        sequence_type_changed:
+            When the type (nucleotide or protein) of the input sequence changes.
+*/
+
+//define global SS object
+var SS;
+if (!SS) {
+    SS = {};
+}
+
+//SS module
+(function () {
+
+    /* private methods */
+
+    /* determine input sequence type, store it, and trigger
+       sequence_type_changed' event if the input sequence has changed
+       (TODO: the method is doing too much; split it)
+    */
+    var check_sequence_type = function () {
+        var prev_seq = prev_seq_type = '';
+
+        (function poll () {
+            setTimeout(function (){
+                var seq, seq_type;
+                seq = $('#sequence').val();
+
+                //act only if user input has changed
+                if (seq != prev_seq){
+                    prev_seq = seq;
+
+                    //get input sequence type from the server
+                    $.post('', {sequence: seq}, function(seq_type){
+                        if (seq_type != prev_seq_type){
+                            prev_seq_type = seq_type;
+
+                            //store sequence type and notify listeners
+                            $('#sequence').data('sequence_type', seq_type).trigger('sequence_type_changed');
+                        }
+                    });
+                }
+                poll();
+              }, 100)
+        }());
+    };
+
+
+    /* public methods */
+
+    /* setup listeners for user input changes that trigger appropriate
+       SequenceServer events
+    */
+    SS.main = function () {
+        check_sequence_type();
+    }
+}()); //end SS module
+
 $(document).ready(function(){
-    var prev_seq = prev_seq_type = '';
-
-    //main() is our ui workhorse; it constantly polls #sequence for a change in
-    //the user input, and acts accordingly
-    (function main(){
-        setTimeout(function(){
-          var seq, seq_type;
-          seq = $('#sequence').val();
-
-          //act only if user input has changed
-          if (seq != prev_seq){
-              prev_seq = seq;
-
-              //get input sequence type from the server
-              $.post('', {sequence: seq}, function(seq_type){
-                  if (seq_type != prev_seq_type){
-                      prev_seq_type = seq_type;
-
-                      //store sequence type and notify listeners
-                      $('#sequence').data('sequence_type', seq_type).trigger('sequence_type_changed');
-                  }
-              });
-          }
-          main();
-        }, 100);
-    })();
+    // start SequenceServer's event loop
+    SS.main();
 
     $('#sequence').bind('sequence_type_changed', function(){
         var seq_type = $(this).data('sequence_type');
