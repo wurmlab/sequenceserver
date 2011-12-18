@@ -36,6 +36,7 @@ SS.blast = (function () {
                 //act only if user input has changed
                 if (seq != prev_seq){
                     prev_seq = seq;
+                    $('#sequence').change();
 
                     //get input sequence type from the server
                     $.post('', {sequence: seq}, function(seq_type){
