@@ -71,24 +71,30 @@ $(document).ready(function(){
                   if (seq_type != prev_seq_type){
                       prev_seq_type = seq_type;
 
-                      if (seq_type == "nucleotide"){
-                          $("#blastn, #tblastx, #blastx").enable();
-                          $("#blastp, #tblastn").uncheck().disable().first().change();
-                      }
-                      else if (seq_type == "protein"){
-                          $("#blastp, #tblastn").enable();
-                          $("#blastn, #tblastx, #blastx").uncheck().disable().first().change();
-                      }
-                      else if (seq_type == ""){
-                          //reset blast methods
-                          $('.blastmethods input[type=radio]').enable().first().change();
-                      }
+                      //store sequence type and notify listeners
+                      $('#sequence').data('sequence_type', seq_type).trigger('sequence_type_changed');
                   }
               });
           }
           main();
         }, 100);
     })();
+
+    $('#sequence').bind('sequence_type_changed', function(){
+        var seq_type = $(this).data('sequence_type');
+        if (seq_type == "nucleotide"){
+            $("#blastn, #tblastx, #blastx").enable();
+            $("#blastp, #tblastn").uncheck().disable().first().change();
+        }
+        else if (seq_type == "protein"){
+            $("#blastp, #tblastn").enable();
+            $("#blastn, #tblastx, #blastx").uncheck().disable().first().change();
+        }
+        else if (seq_type == ""){
+            //reset blast methods
+            $('.blastmethods input[type=radio]').enable().first().change();
+        }
+    });
 
     $(".advanced label").click(function(event){
         //toggle display of advanced options when "Advanced parameters" text is
