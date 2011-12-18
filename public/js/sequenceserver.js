@@ -82,6 +82,15 @@ if (!SS) {
 $(document).ready(function(){
     // start SequenceServer's event loop
     SS.main();
+    $('input:submit').disable();
+
+    $('form').on('blast_valid', function () {
+        $('input:submit').enable();
+    });
+
+    $('form').on('blast_invalid', function () {
+        $('input:submit').disable();
+    });
 
     $('#sequence').bind('sequence_type_changed', function(){
         var seq_type = $(this).data('sequence_type');
