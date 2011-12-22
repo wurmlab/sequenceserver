@@ -5,9 +5,6 @@ require 'bundler/setup'
 require 'optparse'
 require 'sequenceserver'
 
-# display name for tools like `ps`
-$PROGRAM_NAME = 'sequenceserver'
-
 # e.g:
 # sequenceserver --config .sequenceserver.conf format_database
 begin
@@ -38,5 +35,8 @@ rescue OptionParser::InvalidOption =>e
   puts e
   exit
 end
+
+# display name for tools like `ps`
+$PROGRAM_NAME = 'sequenceserver'
 
 SequenceServer::App.run!
