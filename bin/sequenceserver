@@ -19,10 +19,20 @@ begin
   end.order!
 
   # of the remaining items in ARGV, the first one must be a subcommand
-  case ARGV.shift
-  when 'format_database'
-    require 'sequenceserver/database_formatter'
-    exit
+  subcommand = ARGV.shift
+
+  if subcommand
+    # process subcommands now
+
+    case subcommand
+    when 'format_database'
+      require 'sequenceserver/database_formatter'
+      exit
+    else
+      puts "invalid subcommand: #{subcommand}"
+      puts "Run '#{$0} -h' for help with command line options."
+      exit
+    end
   end
 rescue OptionParser::InvalidOption =>e
   puts e
