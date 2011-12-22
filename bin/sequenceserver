@@ -33,6 +33,7 @@ begin
   end
 rescue OptionParser::InvalidOption =>e
   puts e
+  puts "Run '#{$0} -h' for help with command line options."
   exit
 end
 
