@@ -292,10 +292,10 @@ database: /Users/me/blast_databases/
 
   <div class="span15 offset1" id="createblastdb"><h2>Setting up BLAST databases</h2></div>
   <div class="span12 offset2">
-	<p>To set up BLAST databases from a directory of FASTA sequence files, use <code>sequenceserver</code>'s <code>format_database</code> subcommand:</p>
-	<pre>$ sequenceserver format_database</pre>
+	<p>To set up BLAST databases from a directory of FASTA sequence files, use <code>sequenceserver</code>'s <code>format-databases</code> subcommand:</p>
+	<pre>$ sequenceserver format-databases</pre>
 	<p>It will automatically pick up the database directory from the configuration file. Or pass the database directory from command line:</p>
-	<pre>$ sequenceserver format_database directory_with_fasta_files</pre>
+	<pre>$ sequenceserver format-databases directory_with_fasta_files</pre>
 	<p>The script will assist you by:</p>
 	<ul>
 	  <li>finding FASTA files in <code>directory_with_fasta_files</code> (and in subdirectories too)</li>
