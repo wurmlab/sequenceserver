@@ -22,7 +22,7 @@ begin
     # process subcommands now
 
     case subcommand
-    when 'format_database'
+    when 'format-databases'
       require 'sequenceserver/database_formatter'
       exit
     else

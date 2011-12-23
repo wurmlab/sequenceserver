@@ -152,12 +152,12 @@ SUMMARY
 
 USAGE
 
-  sequenceserver format_database [--verbose] [blast_database_directory]
+  sequenceserver format-databases [--verbose] [blast_database_directory]
 
   Example:
 
-    $ sequenceserver format_database ~/db  # explicitly specify a database directory
-    $ sequenceserver format_database       # use the database directory in config.yml
+    $ sequenceserver format-databases ~/db  # explicitly specify a database directory
+    $ sequenceserver format-databases      # use the database directory in config.yml
 
 DESCRIPTION
 
