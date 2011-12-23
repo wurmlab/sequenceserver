@@ -10,6 +10,40 @@ require 'sequenceserver'
 begin
   # parse command line till first non-option, removing parsed options from ARGV
   OptionParser.new do |opts|
+    opts.banner =<<BANNER
+
+SUMMARY
+
+  custom, local, BLAST server
+
+USAGE
+
+  sequenceserver [options] [subcommand] [subcommand's options]
+
+  Example:
+
+    # launch SequenceServer with the given config file
+    $ sequenceserver --config ~/.sequenceserver.ants.conf
+
+    # use the bundled database formatter utility to prepare databases for use
+    # with SequenceServer
+    $ sequenceserver format-databases
+
+DESCRIPTION
+
+  SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
+  interface for use locally or over the web.
+
+SUB-COMMANDS
+
+  format-databases:
+    prepare BLAST databases for use with SequenceServer
+
+    Run '#{$0} format-databases -h' for help.
+
+OPTIONS
+
+BANNER
     opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
       SequenceServer::App.config_file = File.expand_path(config_file)
     end
