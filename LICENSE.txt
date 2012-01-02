@@ -4,7 +4,12 @@ Copyright (c) 2010-2011  Yannick Wurm, Benjamin J. Woodcroft, Anurag Priyam.
 
 1.  Definitions 
 
-The software: the SequenceServer software and associated documentation.
+The software: the SequenceServer software and associated documentation. The
+term does not extend to unmodified open source software components used within
+SequenceServer which are governed by their own license agreements. However,
+modfications to such components shall be deemed a part of the SequenceServer
+software.
+
 The authors: Yannick Wurm, Anurag Priyam, Benjamin J. Woodcroft. 
 
 
