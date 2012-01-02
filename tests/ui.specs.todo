@@ -1,0 +1,10 @@
+it "should automatically focus sequence input box" do
+  # when the page loads, check that sequence input box is focussed
+  #
+  # NOTE: unless #75 is resolved, make sure to test this functionality only if
+  # HTML5 autofocus attribute is supported
+end
+
+it "should ensure spell checking is disabled for sequence input box" do
+  # NOTE: only if the browser supports it
+end
