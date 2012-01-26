@@ -95,6 +95,13 @@ module SequenceServer
           type = type.downcase
           name = name.freeze
           title = title.join(' ').freeze
+
+          # skip past all but alias file of a NCBI multi-part BLAST database
+          if name.match(/\/\w*[.]\d{2,}[.\w]*/)
+            log.info(%|Found a multi-part database volume at #{name} - ignoring it.|)
+            next
+          end
+
           #LOG.info("Found #{type} database: #{title} at #{name}")
           (db[type] ||= []) << Database.new(name, title)
         end
