@@ -65,35 +65,24 @@ SS.blast = (function () {
 
     /*
         determine input sequence type, store it, and trigger
-        'sequence_type_changed' event if the input sequence has changed
-        (TODO: the method is doing too much; split it)
+        'sequence_type_changed' event if the input sequence type has changed
     */
     var signal_sequence_type_changed = function () {
-        var prev_seq = prev_seq_type = '';
+        var type, tmp;
 
-        (function poll () {
-            setTimeout(function (){
-                var seq, seq_type;
-                seq = $('#sequence').val();
+        $('#sequence').change(function () {
+            var that = $(this);
 
-                //act only if user input has changed
-                if (seq != prev_seq){
-                    prev_seq = seq;
-                    $('#sequence').change();
+            //get input sequence type from the server
+            $.post('', {sequence: that.val()}, function(tmp){
+                if (tmp != type){
+                    type = tmp;
 
-                    //get input sequence type from the server
-                    $.post('', {sequence: seq}, function(seq_type){
-                        if (seq_type != prev_seq_type){
-                            prev_seq_type = seq_type;
-
-                            //store sequence type and notify listeners
-                            $('#sequence').data('sequence_type', seq_type).trigger('sequence_type_changed');
-                        }
-                    });
+                    //store sequence type and notify listeners
+                    that.data('sequence_type', type).trigger('sequence_type_changed');
                 }
-                poll();
-              }, 100)
-        }());
+            });
+        });
     };
 
 

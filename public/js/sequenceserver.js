@@ -52,6 +52,27 @@
     };
 })( jQuery );
 
+(function ($) {
+    $.fn.poll = function () {
+        var that, val, tmp;
+
+        that = this;
+
+        (function ping () {
+            tmp = that.val();
+
+            if (tmp != val){
+                val = tmp;
+                that.change();
+            }
+
+            setTimeout(ping, 100);
+        }());
+
+        return this;
+    };
+}(jQuery));
+
 /*
     SS - SequenceServer's JavaScript module
 
@@ -80,6 +101,9 @@ if (!SS) {
 }()); //end SS module
 
 $(document).ready(function(){
+    // poll the sequence textbox for a change in user input
+    $('#sequence').poll();
+
     // start SequenceServer's event loop
     SS.main();
     $('input:submit').disable();
