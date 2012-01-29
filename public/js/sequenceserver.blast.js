@@ -26,6 +26,57 @@
 SS.blast = (function () {
     /* private methods */
 
+    // TODO: embedding magic numbers in the code is bad
+    // TODO: magic numbers in JS and Ruby should be in sync
+    var guess_sequence_type = function (sequence) {
+        var putative_NA_count, threshold, i;
+
+        putative_NA_count = 0;
+
+        // remove 'noisy' characters
+        sequence = sequence.replace(/[^A-Z]/i, '') // non-letter characters
+        sequence = sequence.replace(/[NX]/i,   '') // ambiguous  characters
+
+        // guessing the type of a small sequence is unsafe
+        if (sequence.length < 10) {
+            return undefined
+        }
+
+        // count the number of putative NA
+        for (i = 0; i < sequence.length; i++) {
+            if (sequence[i].match(/[ACGTU]/i)) {
+                putative_NA_count += 1;
+            }
+        }
+
+        threshold = 0.9 * sequence.length
+
+        return putative_NA_count > threshold ? 'nucleotide' : 'protein'
+    }
+
+    var type_of_sequences = function () {
+        var sequences = $('#sequence').val().split(/>.*/)
+        var type, tmp, i;
+
+        for (i = 0; i < sequences.length; i++) {
+            tmp = guess_sequence_type(sequences[i]);
+
+            // could not guess the sequence type; try the next sequence
+            if (!tmp) { continue }
+
+            if (!type) {
+              // successfully guessed the type of atleast one sequence
+              type = tmp
+            }
+            else if (tmp !== type) {
+              // user has mixed different type of sequences
+              return undefined
+            }
+        }
+
+        return type;
+    }
+
     /*
         check if blast is valid (sufficient input to blast or not)
     */
@@ -71,17 +122,14 @@ SS.blast = (function () {
         var type, tmp;
 
         $('#sequence').change(function () {
-            var that = $(this);
+            tmp = type_of_sequences();
 
-            //get input sequence type from the server
-            $.post('', {sequence: that.val()}, function(tmp){
-                if (tmp != type){
-                    type = tmp;
+            if (tmp != type){
+              type = tmp;
 
-                    //notify listeners
-                    that.trigger('sequence_type_changed', type);
-                }
-            });
+              //notify listeners
+              $(this).trigger('sequence_type_changed', type);
+            }
         });
     };
 

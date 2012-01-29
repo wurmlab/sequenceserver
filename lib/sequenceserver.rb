@@ -229,12 +229,6 @@ module SequenceServer
       # evaluate empty sequence as nil, otherwise as fasta
       sequence = sequence.empty? ? nil : to_fasta(sequence)
 
-      # TODO: detect sequence type in the browser itself (no AJAX)
-      if request.xhr?
-        # if the AJAX request didn't specify a blast method, it must be interested in sequence type only
-        return (sequence && type_of_sequences(sequence)).to_s unless method
-      end
-
       # Raise ArgumentError if there is no database selected
       if db_type_param.nil?
         raise ArgumentError, "No BLAST database selected"

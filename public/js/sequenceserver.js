@@ -125,7 +125,7 @@ $(document).ready(function(){
             $("#blastp, #tblastn").enable();
             $("#blastn, #tblastx, #blastx").uncheck().disable().first().change();
         }
-        else if (type == ""){
+        else if (type == undefined){
             //reset blast methods
             $('.blastmethods input[type=radio]').enable().first().change();
         }
