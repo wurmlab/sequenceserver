@@ -64,8 +64,8 @@ SS.blast = (function () {
     }
 
     /*
-        determine input sequence type, store it, and trigger
-        'sequence_type_changed' event if the input sequence type has changed
+        determine input sequence type, and trigger 'sequence_type_changed'
+        event if the input sequence type has changed
     */
     var signal_sequence_type_changed = function () {
         var type, tmp;
@@ -78,8 +78,8 @@ SS.blast = (function () {
                 if (tmp != type){
                     type = tmp;
 
-                    //store sequence type and notify listeners
-                    that.data('sequence_type', type).trigger('sequence_type_changed');
+                    //notify listeners
+                    that.trigger('sequence_type_changed', type);
                 }
             });
         });

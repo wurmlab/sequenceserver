@@ -116,17 +116,16 @@ $(document).ready(function(){
         $('input:submit').disable();
     });
 
-    $('#sequence').bind('sequence_type_changed', function(){
-        var seq_type = $(this).data('sequence_type');
-        if (seq_type == "nucleotide"){
+    $('#sequence').bind('sequence_type_changed', function(event, type){
+        if (type == "nucleotide"){
             $("#blastn, #tblastx, #blastx").enable();
             $("#blastp, #tblastn").uncheck().disable().first().change();
         }
-        else if (seq_type == "protein"){
+        else if (type == "protein"){
             $("#blastp, #tblastn").enable();
             $("#blastn, #tblastx, #blastx").uncheck().disable().first().change();
         }
-        else if (seq_type == ""){
+        else if (type == ""){
             //reset blast methods
             $('.blastmethods input[type=radio]').enable().first().change();
         }
