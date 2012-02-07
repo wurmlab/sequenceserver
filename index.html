@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="keywords" content="custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, viroblast" />
-<title>SequenceServer: Easy to setup local BLAST web server</title>
+<title>SequenceServer: Easy to setup custom BLAST web interface</title>
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 <!--[if lt IE 9]>
@@ -421,14 +421,19 @@ passenger-install-nginx-module
 	<dt>Is there a demo server?</dt>
 	<dd>SequenceServer provides <a href="http://www.antgenomes.org/blast">BLAST for ant genomes</a></dd>
 
-	<dt>What is a BLAST database?</dt>
+	<dt>What is a BLAST database? Can I make a custom BLAST database?</dt>
 	<dd>The BLAST program doesn't understand FASTA files. But BLAST
 	includes the <code>makeblastdb</code> tool that reformats FASTA
-	into the optimized BLAST-friendly format.</dd>
+	into the optimized BLAST-friendly format. Use <code>makeblastdb</code> or <code>sequenceserver format-databases</code> to create a custom BLAST database.</dd>
+
 	<dd>Preformatted BLAST databases can also be used with SequenceServer. If a preformatted database is split between multiple files (like .00, .01...) only copy the <code>.nal</code> or <code>.pal</code> file into the SequenceServer database directory. Then edit the <code>DBLIST</code> line in the <code>.pal</code> or <code>.nal</code> file so that it contains the complete path of each of the database files (e.g: <code>DBLIST refseq_rna.00 refseq_rna.01</code> may become: <code>DBLIST /Users/blastuser/mydbs/refseq_rna.00 /Users/blastuser/mydbs/refseq_rna.01</code>)</dd> 
 	
+	<dt>What is the difference between BLAST and BLAST+? What about WU-BLAST or AB-BLAST?</dt>
+	<dd>BLAST was rewritten by NCBI - they now use and recommend using BLAST+. <a href="publications/blastplus.pdf">The BLAST+ publication</a> explains why BLAST+ is easier to use  &amp; faster than the old "legacy" BLAST. WU-BLAST is now commerical and called <a href="http://blast.advbiocomp.com/">AB-BLAST</a>. There is probably no good reason to use either. Note that the output formats change slightly from one BLAST implementation to the next.</dd>
+	<dd>Just use NCBI's BLAST+.</dd>
+
 	<dt>I swear I installed BLAST but SequenceServer can't find it!</dt>
-	<dd>Make sure you downloaded NCBI's Blast+ (Blast Plus!). The old BLAST had programs such as <code>blastall</code> and <code>formatdb</code>. The programs in BLAST+ have names like <code>makeblastdb</code>, <code>blastn</code>, <code>tblastx</code>...</dd>
+	<dd>Make sure you downloaded NCBI's Blast+ (Blast Plus!) and not legacy BLAST. The old legacy BLAST had programs such as <code>blastall</code> and <code>formatdb</code>. The programs in BLAST+ have names like <code>makeblastdb</code>, <code>blastn</code>, <code>tblastx</code>...</dd>
 	<dd>Also, check that your SequenceServer configuration file points at the <code>bin</code> directory, e.g.: <code>/Users/stevejobs/software/ncbi-blast-2.2.25+/bin/</code></dd>
 
 	<dt>Why doesn't sequence retrieval work?</dt>
