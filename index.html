@@ -79,71 +79,6 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	
 
 <div class="container-fluid" style="background:lightgray;" >
-<div class="sidebar"  style=" /*position: fixed;*/ height:100%; "> 
-  <!-- GOOGLE PLUS AND FACEBOOK LIKE AT TOP OF SIDEBAR - FB DISABLED   - GOOG SHOULD MOVE TO BOTTOM - or be asynch.-->
-  <!--	<div style="text-align:left; position: fixed; top:500; left:0; border: 1px solid gray; padding:10px;"> -->
-	
-	
-  <div style="width:100%; height:110px; padding-top:70px">
-  <div style="width:20%; float:left; padding-top:10px;">
-	<g:plusone size="medium" annotation="none" style="
-	position: absolute; top: 20px; padding-top: 20px;" ></g:plusone><br/>
-  </div>
-  <div style="width:40%; float:left; padding-top:10px;">			
-	<a href="http://flattr.com/thing/397966/Simple-custom-local-BLAST-server" target="_blank">
-	<img src="http://api.flattr.com/button/flattr-badge-large.png"
-	alt="Flattr this" title="Flattr this" border="0" /></a>
-  </div>
-  <div style="width:40%; float:left; padding-top:5px;">
-	<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-	<input type="hidden" name="cmd" value="_s-xclick"/>
-	<input type="hidden" name="hosted_button_id" value="8G43L5PBKPSH8"/>
-	<input type="image"  src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif"
-	style="width:74px; height:21px; border: 0;" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
-	<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
-	</form>
-  </div>
-  </div>
-
-  <hr/>
-  
-  <div class="news small" style="text-align:justify;">
-	<h4 >News</h4>
-	<p><strong>2011-12</strong> SequenceServer needs help. Contribute to a useful real world bioinformatics project by <a href="https://github.com/yannickwurm/sequenceserver/issues">squashing some bugs or improving features</a>. Great opportunity for CS or Webdesign students interested in Bioinformatics or Useability. In particular, our <a href="http://twitter.github.com/bootstrap/">twitter bootstrap</a> CSS interface has potential. Please get in touch.</p>
-	<p><strong>Ongoing</strong>: Bugs being resolved &amp; improvements being made. Check the <a href="https://github.com/yannickwurm/sequenceserver">gitHub page</a> for recent activity.</p>
-	<p><strong>2011-06-09</strong>: SequenceServer is now beta1.</p>
-	<p><strong>2011-06-01</strong>: SequenceServer can use Rack &amp; Passenger to integrate existing Apache web servers.</p>
-	<p><strong>2011-02-01</strong>: SequenceServer was deployed on the <a href="http://www.antgenomes.org">Fourmidable ant genome database</a> simultaneously with the publication of three <a href="http://www.pnas.org/cgi/doi/10.1073/pnas.1009690108" title="fire ant genome">ant genomes</a></p>
-  </div>
-
-  <hr style="margin-top:2em"/>
-  <div class="mailinglist" style="margin-top: 1em">
-	<h4>Get help &amp; stay informed</h4>
-	<form action="https://docs.google.com/spreadsheet/formResponse?formkey=dG1QMTdnand0ajRhcGpFYUtIaGZxeHc6MQ&amp;embedded=true&amp;ifq" method="post" id="ss-form"> 
-	
-	<input style="clear:both;" type="text" name="entry.0.single" value="" class="ss-q-short" id="entry_0"  placeholder="you@university.ac.uk"/>
-	
-	
-  <div style="float: center; width: 100%;">			
-	<label style="display:inline; width:30%; float:left; padding:2; margin: 2;">
-	<input type="checkbox" name="entry.2.group" checked='checked' value="Announcements" class="ss-q-checkbox" id="group_2_1" style="inline"/>News
-	</label>
-	
-	<label style=" display:inline; float:right; padding:2; margin: 2; width:70%">
-	<input type="checkbox" name="entry.2.group" checked='checked' value="Discussion" class="ss-q-checkbox" id="group_2_2"/>Help &amp; Support
-	</label>
-  <input type="hidden" name="pageNumber" value="0"/> 
-  <input type="hidden" name="backupCache" value=""/> 
-	
-  <div style='float:right; margin-top:10px;'>
-	<input class="primary btn" type="submit" name="submit" value="Subscribe to Mailing List"/>
-  </div>
-  </div>
-  </form> 
-  </div>
-
-  </div>
-  
   <div class="content"  style="padding: 30px;  background: white;">
 	  <section id="about">
 	<div class="page-header">
@@ -165,8 +100,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	  <p>SequenceServer aims to become <em>"The iPod of Blast
 	  searching"</em>. This beta version is fully functional and has
 	  already deployed for several databases (eg: <a
-	  href="http://www.antgenomes.org/blast">demo ant genome BLAST
-	  server</a>). </p>
+	  href="http://www.antgenomes.org/blast">BLAST ant genomes</a>). </p>
 
 	  <p>SequenceServer is  <a
 	  href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">free
@@ -178,7 +112,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 		<a href="http://www.antgenomes.org/blast">
 		<img class="thumbnail" src="img/overview.png" width='758'
 		height='721' style="width:100%; height: auto" alt="Ant genome
-	  BLAST server.">
+	  BLAST server."/>
 		</a>
 		</li>
 	  </ul>
@@ -552,6 +486,75 @@ passenger-install-nginx-module
 </div>
 </section>
 </div>
+
+
+
+<div class="sidebar"  style=" /*position: fixed;*/ height:100%; "> 
+  <!-- GOOGLE PLUS AND FACEBOOK LIKE AT TOP OF SIDEBAR - FB DISABLED   - GOOG SHOULD MOVE TO BOTTOM - or be asynch.-->
+  <!--	<div style="text-align:left; position: fixed; top:500; left:0; border: 1px solid gray; padding:10px;"> -->
+	
+	
+  <div style="width:100%; height:110px; padding-top:70px">
+  <div style="width:20%; float:left; padding-top:10px;">
+	<g:plusone size="medium" annotation="none" style="
+	position: absolute; top: 20px; padding-top: 20px;" ></g:plusone><br/>
+  </div>
+  <div style="width:40%; float:left; padding-top:10px;">			
+	<a href="http://flattr.com/thing/397966/Simple-custom-local-BLAST-server" target="_blank">
+	<img src="http://api.flattr.com/button/flattr-badge-large.png"
+	alt="Flattr this" title="Flattr this" border="0" /></a>
+  </div>
+  <div style="width:40%; float:left; padding-top:5px;">
+	<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+	<input type="hidden" name="cmd" value="_s-xclick"/>
+	<input type="hidden" name="hosted_button_id" value="8G43L5PBKPSH8"/>
+	<input type="image"  src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif"
+	style="width:74px; height:21px; border: 0;" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
+	<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+	</form>
+  </div>
+  </div>
+
+  <hr/>
+  
+  <div class="news small" style="text-align:justify;">
+	<h4 >News</h4>
+	<p><strong>2011-12</strong> SequenceServer needs your help. Contribute to a useful real world bioinformatics project by <a href="https://github.com/yannickwurm/sequenceserver/issues">squashing some bugs or improving features</a>. Great opportunity for CS or Webdesign students interested in Bioinformatics or Useability. In particular, our <a href="http://twitter.github.com/bootstrap/">twitter bootstrap</a> CSS interface has potential. Please get in touch.</p>
+	<p><strong>Ongoing</strong>: Bugs being resolved &amp; improvements being made. Check the <a href="https://github.com/yannickwurm/sequenceserver">gitHub page</a> for recent activity.</p>
+	<p><strong>2011-06-09</strong>: SequenceServer is now beta1.</p>
+	<p><strong>2011-06-01</strong>: SequenceServer can use Rack &amp; Passenger to integrate existing Apache web servers.</p>
+	<p><strong>2011-02-01</strong>: SequenceServer was deployed on the <a href="http://www.antgenomes.org">Fourmidable ant genome database</a> simultaneously with the publication of three <a href="http://www.pnas.org/cgi/doi/10.1073/pnas.1009690108" title="fire ant genome">ant genomes</a></p>
+  </div>
+
+  <hr style="margin-top:2em"/>
+  <div class="mailinglist" style="margin-top: 1em">
+	<h4>Get help &amp; stay informed</h4>
+	<form action="https://docs.google.com/spreadsheet/formResponse?formkey=dG1QMTdnand0ajRhcGpFYUtIaGZxeHc6MQ&amp;embedded=true&amp;ifq" method="post" id="ss-form"> 
+	
+	<input style="clear:both;" type="text" name="entry.0.single" value="" class="ss-q-short" id="entry_0"  placeholder="you@university.ac.uk"/>
+	
+	
+  <div style="float: center; width: 100%;">			
+	<label style="display:inline; width:30%; float:left; padding:2; margin: 2;">
+	<input type="checkbox" name="entry.2.group" checked='checked' value="Announcements" class="ss-q-checkbox" id="group_2_1" style="inline"/>News
+	</label>
+	
+	<label style=" display:inline; float:right; padding:2; margin: 2; width:70%">
+	<input type="checkbox" name="entry.2.group" checked='checked' value="Discussion" class="ss-q-checkbox" id="group_2_2"/>Help &amp; Support
+	</label>
+  <input type="hidden" name="pageNumber" value="0"/> 
+  <input type="hidden" name="backupCache" value=""/> 
+	
+  <div style='float:right; margin-top:10px;'>
+	<input class="primary btn" type="submit" name="submit" value="Subscribe to Mailing List"/>
+  </div>
+  </div>
+  </form> 
+  </div>
+
+  </div>
+  
+
 </div>
 </body>
 </html>
