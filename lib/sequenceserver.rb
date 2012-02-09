@@ -270,8 +270,11 @@ module SequenceServer
       advanced_opts = params['advanced']
       validate_advanced_parameters(advanced_opts) #check the advanced options are sensible
 
-      # blastn implies blastn, not megablast
-      advanced_opts << '-task blastn ' if method == 'blastn'
+      # blastn implies blastn, not megablast; but let's not interfere if a user
+      # specifies `task` herself
+      if method == 'blastn' and not advanced_opts =~ /task/
+        advanced_opts << ' -task blastn '
+      end
 
       method = settings.binaries[ method ]
       settings.log.debug('settings.databases:   ' + settings.databases.inspect)
