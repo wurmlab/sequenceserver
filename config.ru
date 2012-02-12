@@ -1,5 +1,6 @@
-# ensure 'lib/' is in the load path
-require File.join(File.dirname(__FILE__), 'lib', 'sequenceserver')
+require 'rubygems'
+require 'bundler/setup'
+require 'sequenceserver'
 
 SequenceServer::App.init
 run SequenceServer::App
