@@ -94,7 +94,7 @@ module SequenceServer
       #
       # If `blastdbcmd` throws error, we assume sequence not found.
       blastdbcmd = settings.binaries['blastdbcmd']
-      command = %x|#{blastdbcmd} -db #{db} -entry #{ids} 2> /dev/null|
+      %x|#{blastdbcmd} -db #{db} -entry '#{ids}' 2> /dev/null|
     end
 
     # Given a sequence_id and databases, apply the default (standard)
