@@ -171,6 +171,12 @@ $(document).ready(function(){
     });
 
     $('#blast').submit(function(){
+        //parse AJAX URL
+        var action = $(this).attr('action');
+        var index  = action.indexOf('#');
+        var url    = action.slice(0, index);
+        var hash   = action.slice(index, action.length);
+
         var button = $(this).find('input:submit');
 
         //prevent submitting another query while this one is being processed
@@ -196,13 +202,13 @@ $(document).ready(function(){
         });
 
         // BLAST now
-        $.post('', $('form').serialize()).
+        $.post(url, $('form').serialize()).
           done(function (data) {
             // BLASTed successfully
 
             // display the result
             $('#result').html(data);
-            location.hash = '#result';
+            location.hash = hash;
         }).
           fail(function (jqXHR, status, error) {
             // BLAST failed
