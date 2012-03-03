@@ -1,4 +1,8 @@
 /* generic */
+html, body{
+  height: 100%;
+}
+
 .offset-left {
   margin-left: 20px;
 }
