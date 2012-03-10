@@ -106,14 +106,14 @@ $(document).ready(function(){
 
     // start SequenceServer's event loop
     SS.main();
-    $('input:submit').disable();
+    $('#method').disable();
 
     $('form').on('blast_valid', function () {
-        $('input:submit').enable();
+        $('#method').enable();
     });
 
     $('form').on('blast_invalid', function () {
-        $('input:submit').disable();
+        $('#method').disable();
     });
 
     $('#sequence').bind('sequence_type_changed', function(event, type){
@@ -177,7 +177,7 @@ $(document).ready(function(){
         var url    = action.slice(0, index);
         var hash   = action.slice(index, action.length);
 
-        var button = $(this).find('input:submit');
+        var button = $(this).find('#method');
 
         //prevent submitting another query while this one is being processed
         button.disable();

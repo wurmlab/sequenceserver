@@ -40,61 +40,46 @@
             <div class="offset-right box blastmethods">
               <div class="clearfix">
                 <fieldset>
-                  <legend><h4>Blast methods</h4></legend>
-                    <ul class="inputs-list">
-                      <li>
-                        <label title="Protein query; protein database.">
-                          <input type="radio" name="method" value="blastp" id="blastp"/>
-                          <span>blastp</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label title="Protein query; six frame translated nucleotide database.">
-                          <input type="radio" name="method" value="tblastn" id="tblastn"/>
-                          <span>tblastn</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label title="Nucleotide query; nucleotide database.">
-                          <input type="radio" name="method" value="blastn" id="blastn"/>
-                          <span>blastn</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label title="Translated nucleotide query; protein database">
-                          <input type="radio" name="method" value="blastx" id="blastx"/>
-                          <span>blastx</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label title="Six-frame translated nucleotide query; six-frame translated nucleotide database">
-                          <input type="radio" name="method" value="tblastx" id="tblastx"/>
-                          <span>tblastx</span>
-                        </label>
-                      </li>
-                  </ul>
+                  <legend>Blast methods</legend>
+                    <div class="controls">
+                      <label class="radio" title="Protein query; protein database.">
+                        <input type="radio" name="method" value="blastp" id="blastp"/> blastp
+                      </label>
+                      <label class="radio" title="Protein query; six frame translated nucleotide database.">
+                        <input type="radio" name="method" value="tblastn" id="tblastn"/> tblastn
+                      </label>
+                      <label class="radio" title="Nucleotide query; nucleotide database.">
+                        <input type="radio" name="method" value="blastn" id="blastn"/> blastn
+                      </label>
+                      <label class="radio" title="Translated nucleotide query; protein database">
+                        <input class="radio" type="radio" name="method" value="blastx" id="blastx"/> blastx
+                      </label>
+                      <label class="radio" title="Six-frame translated nucleotide query; six-frame translated nucleotide database">
+                        <input type="radio" name="method" value="tblastx" id="tblastx"/> tblastx
+                      </label>
+                  </div>
                 </fieldset>
               </div>
             </div>
           </div>
         </div>
 
+        <br/>
+
         <div class="row">
           <div class="span8">
             <div class="offset-left box databases nucleotide">
               <div class="clearfix">
                 <fieldset>
-                  <legend><h4>Nucleotide databases</h4></legend>
-                  <ul class="inputs-list">
+                  <legend>Nucleotide databases</legend>
+                  <div class="controls">
                     <% settings.databases['nucleotide'].each_with_index do |db, i| %>
-                      <li>
-                        <label>
-                          <input type="checkbox" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
-                          <span> <%= db.title or db.name %></span>
-                        </label>
-                      </li>
+                      <label class="checkbox">
+                        <input type="checkbox" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
+                        <span> <%= db.title or db.name %></span>
+                      </label>
                     <% end %>
-                  </ul>
+                  </div>
                 </fieldset>
               </div>
             </div>
@@ -104,28 +89,28 @@
             <div class="offset-right box databases protein">
               <div class="clearfix">
                 <fieldset>
-                  <legend><h4>Protein databases</h4></legend>
-                  <ul class="inputs-list">
+                  <legend>Protein databases</legend>
+                  <div class="controls">
                     <% settings.databases['protein'].each_with_index do |db, i| %>
-                      <li>
-                        <label>
-                          <input type="checkbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
-                          <span> <%= db.title or db.name %></span>
-                        </label>
-                      </li>
+                      <label class="checkbox">
+                        <input type="checkbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
+                        <span> <%= db.title or db.name %></span>
+                      </label>
                     <% end %>
-                  </ul>
+                  </div>
                 </fieldset>
               </div>
             </div>
           </div>
         </div>
 
+        <br/>
+
         <div class="row">
           <div class="span12">
             <div class="offset-left box advanced">
               <div class="clearfix">
-                <label class="span4" for="advanced"><h4 title="Click to show/hide advanced options.">Advanced Parameters:</h4></label>
+                <label for="advanced">Advanced Parameters:</label>
                 <input class="span8" type="text" name="advanced" id="advanced" title="View, and enter advanced parameters." placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
               </div>
   <pre class="help">
@@ -206,7 +191,7 @@
         </div>
 
           <div class="span4">
-            <input type="submit" class="btn large primary" value="BLAST!"/>
+            <button type="submit" class="span3 btn btn-large btn-primary" id="method">BLAST!</button>
           </div>
         </div>
       </form>
