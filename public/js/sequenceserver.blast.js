@@ -15,11 +15,11 @@
         sequence_type_changed:
             When the type (nucleotide or protein) of the input sequence changes.
 
-        blast_valid:
-            If the current user input is sufficient to launch a BLAST
+        database_type_changed:
+            When a user selects one type of database (nucleotide or protein) over the other.
 
-        blast_invalid:
-            If the current user input is not sufficient to launch a BLAST
+        blast_method_changed:
+            When the change in input parameters lead to a change in the preferred blast method.
 
     TODO: should (probably) access UI objects through some sort of interface
 */
@@ -77,17 +77,22 @@ SS.blast = (function () {
         return type;
     }
 
+    /* */
+    var type_of_databases = function () {
+        var name = $('.databases input:checked').attr('name')
+
+        //database type is 'implicitly' implied in the database name
+        if (name) {
+            return name.slice(3, -3)
+        }
+    }
+
     /*
         check if blast is valid (sufficient input to blast or not)
     */
-    var is_valid = function () {
+    var required_params_present = function () {
         // must enter a query
         if (!$('#sequence').val()) {
-            return false;
-        }
-
-        // must select a blast method
-        if (!$('.blastmethods input:checked').val()) {
             return false;
         }
 
@@ -98,20 +103,6 @@ SS.blast = (function () {
 
         // everything good
         return true;
-    }
-
-    /*
-        signal blast's validity (sufficient input to blast or not)
-    */
-    var signal_blast_validity = function () {
-        $('#sequence, .blastmethods, .databases').change(function () {
-          if (is_valid()) {
-              $('form').trigger('blast_valid');
-          }
-          else {
-              $('form').trigger('blast_invalid');
-          }
-        });
     }
 
     /*
@@ -133,6 +124,80 @@ SS.blast = (function () {
         });
     };
 
+    /* determine */
+    var signal_database_type_changed = function () {
+        var type, tmp;
+
+        $('.databases input').change(function () {
+            tmp = type_of_databases();
+
+            if (tmp != type) {
+                type = tmp;
+
+                //notify listeners
+                $(this).trigger('database_type_changed', type);
+            }
+        });
+    }
+
+    /* */
+    var signal_blast_method_changed = function () {
+        var method, tmp;
+
+        $('#blast').on('sequence_type_changed database_type_changed',
+            function (event) {
+                  tmp = determine_blast_method();
+
+                  if (tmp != method) {
+                      method = tmp;
+
+                      //notify listeners
+                      $(this).trigger('blast_method_changed', [method]);
+                  }
+            });
+    }
+
+    /*
+        Return a BLAST method to use for the selected database and input
+        sequence type.
+
+             database       method
+            ------------------------
+             protein        blastx
+             protein        blastp
+            ------------------------
+             nucleotide     tblastx
+             nucleotide     tblastn
+             nucleotide     blastn
+    */
+    var determine_blast_method = function () {
+        if (!required_params_present()) {
+            return
+        }
+
+        var database_type = type_of_databases();
+        var sequence_type = type_of_sequences();
+
+        //database type is always known
+        switch (database_type) {
+            case 'protein':
+                switch (sequence_type) {
+                    case undefined:
+                    case 'protein':
+                        return ['blastp'];
+                    case 'nucleotide':
+                        return ['blastx'];
+                }
+            case 'nucleotide':
+                switch (sequence_type) {
+                    case undefined:
+                    case 'protein':
+                        return ['tblastn'];
+                    case 'nucleotide':
+                        return ['blastn', 'tblastx'];
+                }
+        }
+    }
 
     /* public interface */
 
@@ -142,7 +207,8 @@ SS.blast = (function () {
 
     blast.init = function () {
         signal_sequence_type_changed();
-        signal_blast_validity();
+        signal_database_type_changed();
+        signal_blast_method_changed();
     }
 
     return blast;

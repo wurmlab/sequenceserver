@@ -30,37 +30,10 @@
 
       <form method="post" id="blast" action="<%= uri('/#result') %>">
         <div class="row">
-          <div class="span12">
-            <div class="offset-left sequence">
+          <div class="span16">
+            <div class="offset-left offset-right">
               <div class="clearfix">
                 <textarea name="sequence" id="sequence" rows="11" spellcheck="false" <%= 'autofocus="true"' unless @blast %> placeholder="Paste your sequence(s) here..." ></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="span4">
-            <div class="offset-right box blastmethods">
-              <div class="clearfix">
-                <fieldset>
-                  <legend>Blast methods</legend>
-                    <div class="controls">
-                      <label class="radio" title="Protein query; protein database.">
-                        <input type="radio" name="method" value="blastp" id="blastp"/> blastp
-                      </label>
-                      <label class="radio" title="Protein query; six frame translated nucleotide database.">
-                        <input type="radio" name="method" value="tblastn" id="tblastn"/> tblastn
-                      </label>
-                      <label class="radio" title="Nucleotide query; nucleotide database.">
-                        <input type="radio" name="method" value="blastn" id="blastn"/> blastn
-                      </label>
-                      <label class="radio" title="Translated nucleotide query; protein database">
-                        <input class="radio" type="radio" name="method" value="blastx" id="blastx"/> blastx
-                      </label>
-                      <label class="radio" title="Six-frame translated nucleotide query; six-frame translated nucleotide database">
-                        <input type="radio" name="method" value="tblastx" id="tblastx"/> tblastx
-                      </label>
-                  </div>
-                </fieldset>
               </div>
             </div>
           </div>
@@ -193,7 +166,15 @@
         </div>
 
           <div class="span4">
-            <button type="submit" class="span3 btn btn-large btn-primary" id="method">BLAST!</button>
+            <div id="methods" class="btn-group">
+              <button type="submit" class="span3 btn btn-large btn-primary" id="method">blast</button>
+              <button class="btn btn-primary btn-large dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li></li>
+              </ul>
+            </div>
           </div>
         </div>
       </form>

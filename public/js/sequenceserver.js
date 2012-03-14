@@ -107,27 +107,55 @@ $(document).ready(function(){
     // start SequenceServer's event loop
     SS.main();
     $('#method').disable();
+    $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
 
-    $('form').on('blast_valid', function () {
-        $('#method').enable();
+    $('#sequence').on('sequence_type_changed', function (event, type) {
+        //protein sequences can't be translated
+        switch (type){
+            case 'nucleotide':
+                $('#translate-sequence').removeClass('invisible');
+                break;
+            default:
+                $('#translate-sequence').addClass('invisible');
+        }
     });
 
-    $('form').on('blast_invalid', function () {
-        $('#method').disable();
+    $('.databases').on('database_type_changed', function (event, type) {
+        switch (type) {
+            case 'protein':
+                $('.databases.nucleotide input:checkbox').uncheck().disable();
+                break;
+            case 'nucleotide':
+                $('.databases.protein input:checkbox').uncheck().disable();
+                break;
+            default:
+                $('.databases input:checkbox').enable();
+                break;
+        }
     });
 
-    $('#sequence').bind('sequence_type_changed', function(event, type){
-        if (type == "nucleotide"){
-            $("#blastn, #tblastx, #blastx").enable();
-            $("#blastp, #tblastn").uncheck().disable().first().change();
+    $('form').on('blast_method_changed', function (event, methods){
+        if (methods) {
+            var method = methods.shift();
+            $('#method').enable().val(method).text(method);
+
+            if (methods.length >=1) {
+                var method_list = $('#methods').addClass('btn-group').children('.dropdown-toggle').show().siblings('.dropdown-menu').children('li');
+
+                $.each(methods, function (i, method){
+                    method_list.eq(i).text(method).click(function () {
+                        var tmp    = $('#method').text();
+                        var method = $(this).text();
+                        $('#method').val(method).text(method);
+                        $(this).text(tmp);
+                        event.preventDefault();
+                    });
+                });
+            }
         }
-        else if (type == "protein"){
-            $("#blastp, #tblastn").enable();
-            $("#blastn, #tblastx, #blastx").uncheck().disable().first().change();
-        }
-        else if (type == undefined){
-            //reset blast methods
-            $('.blastmethods input[type=radio]').enable().first().change();
+        else {
+            $('#method').disable().val('').text('blast');
+            $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
         }
     });
 
@@ -148,27 +176,6 @@ $(document).ready(function(){
 
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
     $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
-
-    //when a blast method is selected
-    $('#blastp, #blastx, #blastn, #tblastx, #tblastn').change(function(event){
-        //then find the selected blast method
-        var method = $('.blastmethods input[type=radio]').filter(':checked').val();
-
-        //and accordingly disable incompatible databases
-        if (method == 'blastx' || method == 'blastp'){
-            $('.databases.nucleotide input[type=checkbox]').uncheck().disable();
-            $('.databases.protein input[type=checkbox]').enable();
-        }
-        else if (method == 'blastn' || method == 'tblastx' || method == 'tblastn'){
-            $('.databases.protein input[type=checkbox]').uncheck().disable();
-            $('.databases.nucleotide input[type=checkbox]').enable();
-        }
-        else{
-            $('.databases input[type=checkbox]').enable();
-        }
-
-        $.onedb();
-    });
 
     $('#blast').submit(function(){
         //parse AJAX URL
@@ -202,7 +209,8 @@ $(document).ready(function(){
         });
 
         // BLAST now
-        $.post(url, $('form').serialize()).
+        var data = ($(this).serialize() + '&method=' + $('#method').val());
+        $.post(url, data).
           done(function (data) {
             // BLASTed successfully
 
