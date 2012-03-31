@@ -4,10 +4,11 @@
 # ensure 'lib/' is in the load path
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
+require 'rubygems'
 require 'sequenceserver'
 require 'sequenceserver/sequencehelpers'
+require 'sequenceserver/helpers'
 require 'test/unit'
-require 'lib/helpers'
 
 
 class Tester < Test::Unit::TestCase
