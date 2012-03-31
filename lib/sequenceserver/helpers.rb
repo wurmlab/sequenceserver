@@ -1,4 +1,5 @@
 require 'sequenceserver/database'
+require 'open3'
 
 module SequenceServer
   module Helpers
@@ -30,25 +31,26 @@ module SequenceServer
         binaries = {}
         %w|blastn blastp blastx tblastn tblastx blastdbcmd makeblastdb blast_formatter|.each do |method|
           path = File.join(bin, method) rescue method
-          if command?(path)
-            binaries[method] = path
-            version_agreement = blast_program_version_number_agrees?(method, min_version)
-            unless version_agreement==true
-              #error message is written complicatedly because of IDE issues
-              raise ArgumentError, ["SequenceServer requires BLAST+ version",
-                 "#{min_version} or above, but version #{version_agreement} was found",
-                 "when using #{method}.",
-                 "You may need to install BLAST+ from #{blasturl}. And/or point", 
-                 "config.yml to blast's bin directory."].join(' ')
-            end
+          
+          binaries[method] = path
+          version_agreement = blast_program_version_number_agrees?(binaries[method], min_version)
+          if version_agreement==true
+            # all good - found the blast executables and they OK in version
+          elsif version_agreement.nil?
+            # Problems running the blast executable
+            raise IOError, "Could not find blast binaries. You may need to"+
+            " install BLAST+ from #{blasturl}. And/or point your sequenceserver config file"+
+            " to blast's bin directory."
           else
-            raise IOError, "Could not find blast binaries." +
-            "\n\nYou may need to download BLAST+ from #{blasturl}." +
-            " And/or edit #{settings.config_file} to indicate the location of BLAST+ binaries."
+            # Incompatible blast version detected
+            raise IOError, ["SequenceServer requires BLAST+ version",
+               "#{min_version} or above, but version #{version_agreement} was found",
+               "when using #{method}.",
+               "You may need to install BLAST+ from #{blasturl}. And/or edit #{settings.config_file}", 
+               "to indicate the location of BLAST+ binaries."].join(' ')
           end
         end
-
-        #LOG.info("Config bin dir:          #{bin}")
+        
         binaries
       end
       
@@ -56,7 +58,7 @@ module SequenceServer
       # ---
       # Arguments:
       # * min_version(String) - version of BLAST to be enforced
-      # * min_version(String) - version of BLAST being passed or failed
+      # * test_version(String) - version of BLAST being passed or failed
       # ---
       # Returns:
       # * true if versions are compatible, else false
@@ -69,7 +71,7 @@ module SequenceServer
         min_version_matches = min_version.match(reg)
         test_version_matches = test_version.match(reg)
         raise IOError, "Unexpected minimum version number when testing BLAST versions: `#{min_version}'" unless min_version_matches
-        raise IOError, "Unexpected minimum version number when testing BLAST versions: `#{test_version}'" unless test_version_matches
+        raise IOError, "Unexpected test version number when testing BLAST versions: `#{test_version}'" unless test_version_matches
         
         # Make sure each of the three version numbers are OK
         (1..3).each do |n|
@@ -87,23 +89,40 @@ module SequenceServer
       # * min_version(String) - version of BLAST to be enforced
       # ---
       # Returns:
-      # * true if versions are compatible, else false
+      # * true if versions are compatible
+      # * The incompatible version number if versions are incompatible
+      # * nil if there was an error running the program (likely unable to find the executable)
       # ---
       # Raises:
       # * IOError - if the version numbers parsed out are crazy
       def blast_program_version_number_agrees?(program, min_version)
-        program_output = %x|#{program} -version|
-        # E.g.  output:
+        program_output = nil
+        program_error = nil
+        
+        # Run e.g. "blastn -version" to gather the version of blast being used
+        command = "#{program} -version"
+        log.debug "Attempting to detect blast version using the command '#{command}'"
+        Open3.popen3(command) do |stdin, stdout, stderr|
+          program_output = stdout.readlines
+          program_error = stderr.readlines
+        end
+        
+        # E.g.  standard output:
         #blastp: 2.2.25+
         #Package: blast 2.2.25, build Mar 21 2011 12:13:17
-        if matches=program_output.split("\n")[0].match(/^#{program}: (.+)$/)
+        if !program_output.empty? and matches=program_output[0].match(/^\w+: (.+)\n$/)
+          # if the program was run successfully and the output was of the expected form (matches the regex)
           if version_agrees?(min_version, matches[1])
             return true
           else
             return matches[1]
           end
         else
-          raise IOError, "Unable to parse version number from program `#{program}'\n\nOutput was #{program_output.inspect}"
+          log.info "Unable to run the blast program #{program} successfully to check for a new enough version"
+          log.info "Command: #{command}"
+          log.info "STDOUT: #{program_output.join('')}"
+          log.info "STDERR: #{program_error.join('')}"
+          return nil
         end
       end
 
@@ -181,14 +200,6 @@ module SequenceServer
         db['nucleotide'].sort!
 
         db 
-      end
-
-      private
-
-      # check if the given command exists and is executable
-      # returns True if all is good.
-      def command?(command)
-        system("which #{command} > /dev/null 2>&1")
       end
     end
 
