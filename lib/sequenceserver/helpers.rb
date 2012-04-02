@@ -24,7 +24,7 @@ module SequenceServer
       #       }
       def scan_blast_executables(bin, min_version)
         if bin and not File.directory?(bin)
-          raise IOError, "Could not find '#{bin}' defined in config.yml."
+          raise IOError, "Could not find the BLAST+ bin directory '#{bin}' defined in the config file #{settings.config_file}."
         end
         
         blasturl = 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
@@ -40,14 +40,14 @@ module SequenceServer
             # Problems running the blast executable
             raise IOError, "Could not find blast binaries. You may need to"+
             " install BLAST+ from #{blasturl}. And/or point your sequenceserver config file"+
-            " to blast's bin directory."
+            " #{settings.config_file} to blast's bin directory."
           else
             # Incompatible blast version detected
-            raise IOError, ["SequenceServer requires BLAST+ version",
-               "#{min_version} or above, but version #{version_agreement} was found",
-               "when using #{method}.",
-               "You may need to install BLAST+ from #{blasturl}. And/or edit #{settings.config_file}", 
-               "to indicate the location of BLAST+ binaries."].join(' ')
+            raise IOError, "Found blast binaries, but they appear to be too old." +
+            " Sequenceserver requires BLAST+ version #{min_version} or newer"+
+            "\n\nYou may need to download an updated BLAST+ from #{blasturl}." +
+            " And/or edit #{settings.config_file} to indicate the location of"+
+            " the newer BLAST+ binaries."
           end
         end
         
