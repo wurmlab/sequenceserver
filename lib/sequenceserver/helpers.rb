@@ -29,26 +29,29 @@ module SequenceServer
         
         blasturl = 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
         binaries = {}
+        
+        # Set the path for each of the blast binaries
         %w|blastn blastp blastx tblastn tblastx blastdbcmd makeblastdb blast_formatter|.each do |method|
           path = File.join(bin, method) rescue method
-          
           binaries[method] = path
-          version_agreement = blast_program_version_number_agrees?(binaries[method], min_version)
-          if version_agreement==true
-            # all good - found the blast executables and they OK in version
-          elsif version_agreement.nil?
-            # Problems running the blast executable
-            raise IOError, "Could not find blast binaries. You may need to"+
-            " install BLAST+ from #{blasturl}. And/or point your sequenceserver config file"+
-            " #{settings.config_file} to blast's bin directory."
-          else
-            # Incompatible blast version detected
-            raise IOError, "Found blast binaries, but they appear to be too old." +
-            " Sequenceserver requires BLAST+ version #{min_version} or newer"+
-            "\n\nYou may need to download an updated BLAST+ from #{blasturl}." +
-            " And/or edit #{settings.config_file} to indicate the location of"+
-            " the newer BLAST+ binaries."
-          end
+        end
+        
+        # Check that the blast binaries can be found and are of sufficient version
+        version_agreement = blast_program_version_number_agrees?(binaries['blastn'], min_version)
+        if version_agreement==true
+          # all good - found the blast executables and they OK in version
+        elsif version_agreement.nil?
+          # Problems running the blast executable
+          raise IOError, "Could not find blast binaries. You may need to"+
+          " install BLAST+ from #{blasturl}. And/or point your sequenceserver config file"+
+          " #{settings.config_file} to blast's bin directory."
+        else
+          # Incompatible blast version detected
+          raise IOError, "Found blast binaries, but they appear to be too old." +
+          " Sequenceserver requires BLAST+ version #{min_version} or newer"+
+          "\n\nYou may need to download an updated BLAST+ from #{blasturl}." +
+          " And/or edit #{settings.config_file} to indicate the location of"+
+          " the newer BLAST+ binaries."
         end
         
         binaries
