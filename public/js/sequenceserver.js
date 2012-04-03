@@ -119,16 +119,28 @@ $(document).ready(function(){
 
     $('#sequence').bind('sequence_type_changed', function(event, type){
         if (type == "nucleotide"){
+            // enable blast methods suitable for a nucleotide query
             $("#blastn, #tblastx, #blastx").enable();
-            $("#blastp, #tblastn").uncheck().disable().first().change();
+            // uncheck the method if an unsuitable method was chosen
+            if ($("#blastp").prop('checked') || $("#tblastn").prop('checked')){
+                $("#blastp, #tblastn").uncheck();
+            }
+            // disable unsuitable methods
+            $("#blastp, #tblastn").disable();
         }
         else if (type == "protein"){
+            // enable blast methods suitable for a protein query
             $("#blastp, #tblastn").enable();
-            $("#blastn, #tblastx, #blastx").uncheck().disable().first().change();
+            // uncheck the method if an unsuitable method was chosen
+            if ($("#blastn").prop('checked') || $("#tblastx").prop('checked') || $("#blastx").prop('checked')){
+                $("#blastp, #tblastn").uncheck();
+            }
+            // disable unsuitable methods
+            $("#blastn, #tblastx, #blastx").disable();
         }
         else if (type == undefined){
-            //reset blast methods
-            $('.blastmethods input[type=radio]').enable().first().change();
+            //make all blast method choices available. Leave the current choice in place
+            $('.blastmethods input[type=radio]').enable();
         }
     });
 
