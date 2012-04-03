@@ -16,7 +16,8 @@
 (function( $ ){
     //uncheck an element
     $.fn.uncheck = function() {
-        return this.removeAttr('checked');
+        this.attr('checked') && this.removeAttr('checked');
+        return this;
     };
 })( jQuery );
 
