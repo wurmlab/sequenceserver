@@ -216,7 +216,16 @@
       </div>
 
       <div id="underbar">
-        <p>&copy; <a href='http://www.sequenceserver.com'>SequenceServer: BLAST search made easy!</a></p>
+        <p><strong><a href='http://www.sequenceserver.com'>
+            <%=  [ "&copy; SequenceServer: BLAST search made easy!",
+                   "Custom BLAST web interface by SequenceServer.",
+                   "SequenceServer: Local BLAST with bespoke html interface.",
+                   "Set up custom BLAST interface with SequenceServer.",
+                   "Please cite: Priyam A, Woodcroft BJ, Wurm Y (<em>in prep</em>). " +
+                   "Sequenceserver: BLAST searching made easy."
+            ][rand(5)]
+          %>
+        </a></strong></p>
       </div>
     </div> <!-- /page -->
   </div> <!-- /container -->
