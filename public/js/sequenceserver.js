@@ -259,12 +259,14 @@ $(document).ready(function(){
                 }).
                 on('enter.scrollspy', function () {
                     var id = $(this).attr('id');
+                    $(this).highlight();
                     $('.index').find('a[href="#' + id + '"]').parent().highlight();
 
                     return false;
                 }).
                 on('leave.scrollspy', function () {
                     var id = $(this).attr('id');
+                    $(this).unhighlight();
                     $('.index').find('a[href="#' + id + '"]').parent().unhighlight();
 
                     return false;
@@ -287,21 +289,6 @@ $(document).ready(function(){
         });
 
         return false;
-    });
-
-    $(window).scroll(function() {
-      $('.resultn').each(function() {
-        var scrolled = $(window).scrollTop();
-        var start    = $(this).offset().top   - screen.height/4;
-        var end      = start + $(this).height();
-
-        if (scrolled > start && scrolled < end){
-          $(this).highlight();
-        }
-        else {
-          $(this).unhighlight();
-        }
-      });
     });
 
     $('.results').
