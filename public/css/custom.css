@@ -48,6 +48,10 @@ body {
   padding-bottom: 10px;
 }
 
+span.highlight {
+  font-weight: bold;
+}
+
 .advanced label {
   display: inline-block;
   font-size: 16px;
@@ -67,6 +71,10 @@ body {
 
 #method, #methods li {
   text-transform: uppercase;
+}
+
+#methods > button {
+  height: 38px;
 }
 
 #result{

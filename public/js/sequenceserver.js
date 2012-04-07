@@ -53,6 +53,18 @@
 })( jQuery );
 
 (function ($) {
+    //pass `null` to unset
+    $.fn.set_blast_method = function (name) {
+        var value = name || '';
+        var name  = name || 'blast';
+        var tokens = name.split('blast');
+        this.val(value).children('span.highlight').each(function (i) {
+            $(this).text(tokens[i]);
+        });
+    };
+})(jQuery);
+
+(function ($) {
     $.fn.poll = function () {
         var that, val, tmp;
 
@@ -137,24 +149,30 @@ $(document).ready(function(){
     $('form').on('blast_method_changed', function (event, methods){
         if (methods) {
             var method = methods.shift();
-            $('#method').enable().val(method).text(method);
+
+            $('#method').enable().set_blast_method(method);
 
             if (methods.length >=1) {
-                var method_list = $('#methods').addClass('btn-group').children('.dropdown-toggle').show().siblings('.dropdown-menu').children('li');
-
-                $.each(methods, function (i, method){
-                    method_list.eq(i).text(method).click(function () {
-                        var tmp    = $('#method').text();
+                $('#methods').addClass('btn-group').
+                    children('.dropdown-toggle').show().
+                    siblings('.dropdown-menu').children('li').
+                    each(function (i){
+                        $(this).text(methods[i]);
+                    }).
+                    click(function (event) {
+                        var old    = $('#method').text();
                         var method = $(this).text();
-                        $('#method').val(method).text(method);
-                        $(this).text(tmp);
+
+                        //swap
+                        $(this).text(old);
+                        $('#method').set_blast_method(method);
+
                         event.preventDefault();
                     });
-                });
             }
         }
         else {
-            $('#method').disable().val('').text('blast');
+            $('#method').disable().set_blast_method(null);
             $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
         }
     });
