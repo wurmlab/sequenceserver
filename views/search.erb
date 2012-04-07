@@ -47,7 +47,7 @@
               <div class="clearfix">
                 <fieldset>
                   <legend>Nucleotide databases</legend>
-                  <div class="controls">
+                  <div class="controls offset-left">
                     <% settings.databases['nucleotide'].each_with_index do |db, i| %>
                       <label class="checkbox">
                         <input type="checkbox" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
@@ -65,7 +65,7 @@
               <div class="clearfix">
                 <fieldset>
                   <legend>Protein databases</legend>
-                  <div class="controls">
+                  <div class="controls offset-left">
                     <% settings.databases['protein'].each_with_index do |db, i| %>
                       <label class="checkbox">
                         <input type="checkbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>

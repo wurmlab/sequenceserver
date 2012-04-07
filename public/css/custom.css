@@ -23,11 +23,6 @@ fieldset legend {
   border: 0px;
 }
 
-.controls {
-  padding-left: 3%;
-  padding-bottom: 3%;
-}
-
 body {
   background-color: #2B3E42;
 }
@@ -47,6 +42,10 @@ body {
 
 #sequence {
   width: 890px;
+}
+
+.databases {
+  padding-bottom: 10px;
 }
 
 .advanced label {
