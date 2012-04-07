@@ -221,48 +221,51 @@ module SequenceServer
       erb :search
     end
 
+    before '/' do
+      pass if params.empty?
+
+      # ensure required params present #
+
+      if params[:method].empty?
+         raise ArgumentError, "No BLAST method selected."
+      end
+
+      if params[:sequence].empty?
+         raise ArgumentError, "No input sequence provided."
+      end
+
+      if params[:db].nil?
+         raise ArgumentError, "No BLAST database selected."
+      end
+
+      # ensure params are valid #
+
+      # only allowed blast methods should be used
+      blast_methods = %w|blastn blastp blastx tblastn tblastx|
+      unless blast_methods.include?(params[:method])
+        raise ArgumentError, "Unknown BLAST method: #{method}."
+      end
+
+      # check the advanced options are sensible
+      validate_advanced_parameters(params[:advanced])
+
+      # log params
+      settings.log.debug('method: '   + params[:method])
+      settings.log.debug('sequence: ' + params[:sequence])
+      settings.log.debug('database: ' + params[:db].inspect)
+      settings.log.debug('advanced: ' + params[:advanced])
+    end
+
     post '/' do
       method        = params['method']
       db_type_param = params['db']
       sequence      = params[:sequence]
+      advanced_opts = params['advanced']
 
       # evaluate empty sequence as nil, otherwise as fasta
       sequence = sequence.empty? ? nil : to_fasta(sequence)
 
-      # Raise ArgumentError if there is no database selected
-      if db_type_param.nil?
-        raise ArgumentError, "No BLAST database selected"
-      end
       db_type = db_type_param.first.first
-
-      # can not proceed if one of these is missing
-      raise ArgumentError unless sequence and db_type and method
-      settings.log.info("requested #{method} against #{db_type.to_s} database")
-
-      # only allowed blast methods should be used
-      blast_methods = %w|blastn blastp blastx tblastn tblastx|
-      raise ArgumentError, "wrong method: #{method}" unless blast_methods.include?(method)
-
-      # check if input_fasta is compatible with the selected blast method
-      sequence_type       = type_of_sequences(sequence)
-      settings.log.debug('sequence: ' + sequence)
-      settings.log.debug('input seq type: ' + sequence_type.to_s)
-      settings.log.debug('blast db type:  ' + db_type)
-      settings.log.debug('blast method:   ' + method)
-
-      unless blast_methods_for(sequence_type).include?(method)
-        raise ArgumentError, "Cannot #{method} a #{sequence_type} query."
-      end
-
-      # check if selected db is comaptible with the selected blast method
-      allowed_db_type     = db_type_for(method)
-      unless allowed_db_type.to_s == db_type
-        raise ArgumentError, "Cannot #{method} against a #{db_type} database.
-      Need #{allowed_db_type} database."
-      end
-
-      advanced_opts = params['advanced']
-      validate_advanced_parameters(advanced_opts) #check the advanced options are sensible
 
       # blastn implies blastn, not megablast; but let's not interfere if a user
       # specifies `task` herself
@@ -270,8 +273,7 @@ module SequenceServer
         advanced_opts << ' -task blastn '
       end
 
-      method = settings.binaries[ method ]
-      settings.log.debug('settings.databases:   ' + settings.databases.inspect)
+      method    = settings.binaries[ method ]
       databases = params['db'][db_type].map{|index|
         settings.databases[db_type][index.to_i].name
       }
