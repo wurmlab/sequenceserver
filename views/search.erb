@@ -48,10 +48,10 @@
                 <fieldset>
                   <legend>Nucleotide databases</legend>
                   <div class="controls offset-left">
-                    <% settings.databases['nucleotide'].each_with_index do |db, i| %>
+                    <% settings.databases.values.select{|database| database.type == :nucleotide}.sort.each do |database| %>
                       <label class="checkbox">
-                        <input type="checkbox" id="ndb<%=i%>" name="db[nucleotide][]" value="<%=i%>"/>
-                        <span> <%= db.title or db.name %></span>
+                        <input type="checkbox" name="databases[]" value="<%=database.hash%>" data-type="<%=database.type%>" />
+                        <span> <%= database.title or database.name %></span>
                       </label>
                     <% end %>
                   </div>
@@ -66,10 +66,10 @@
                 <fieldset>
                   <legend>Protein databases</legend>
                   <div class="controls offset-left">
-                    <% settings.databases['protein'].each_with_index do |db, i| %>
+                    <% settings.databases.values.select{|database| database.type == :protein}.sort.each do |database| %>
                       <label class="checkbox">
-                        <input type="checkbox" id="pdb<%=i%>" name="db[protein][]" value="<%=i%>"/>
-                        <span> <%= db.title or db.name %></span>
+                        <input type="checkbox" name="databases[]" value="<%=database.hash%>" data-type="<%=database.type%>" />
+                        <span> <%= database.title or database.name %></span>
                       </label>
                     <% end %>
                   </div>

@@ -92,7 +92,7 @@ module SequenceServer
         db_list.each_line do |line|
           next if line.empty?  # required for BLAST+ 2.2.22
           type, name, *title =  line.split(' ') 
-          type = type.downcase
+          type = type.downcase.intern
           name = name.freeze
           title = title.join(' ').freeze
 
@@ -103,17 +103,9 @@ module SequenceServer
           end
 
           #LOG.info("Found #{type} database: #{title} at #{name}")
-          (db[type] ||= []) << Database.new(name, title)
+          database = Database.new(name, title, type)
+          db[database.hash] = database
         end
-
-
-        # the erb would fail as calling nil.each_with_index if a dbtype was undefined. 
-        db['protein']    = [] unless db.keys.include?('protein')
-        db['nucleotide'] = [] unless db.keys.include?('nucleotide')
-
-        # sort the list of dbs
-        db['protein'].sort!
-        db['nucleotide'].sort!
 
         db 
       end

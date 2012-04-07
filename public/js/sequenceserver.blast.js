@@ -79,12 +79,7 @@ SS.blast = (function () {
 
     /* */
     var type_of_databases = function () {
-        var name = $('.databases input:checked').attr('name')
-
-        //database type is 'implicitly' implied in the database name
-        if (name) {
-            return name.slice(3, -3)
-        }
+        return $('.databases input:checked').data('type');
     }
 
     /*

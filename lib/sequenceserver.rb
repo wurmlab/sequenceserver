@@ -93,8 +93,7 @@ module SequenceServer
       # blast methods (executables) and their corresponding absolute path
       set :binaries,  {}
 
-      # list of sorted blast databases grouped by databse type:
-      # 'protein', or 'nucleotide'
+      # list of blast databases indexed by their hash value
       set :databases, {}
     end
 
@@ -186,10 +185,8 @@ module SequenceServer
         self.databases = scan_blast_db(database, binaries['blastdbcmd']).freeze
 
         # Log the discovery of databases.
-        databases.each do |type, dbs|
-          dbs.each do |d|
-            log.info("Found #{type} database: #{d.title} at #{d.name}")
-          end
+        databases.each do |id, database|
+          log.info("Found #{database.type} database: #{database.title} at #{database.name}")
         end
       rescue IOError => error
         log.fatal("Fail: #{error}")
@@ -234,7 +231,7 @@ module SequenceServer
          raise ArgumentError, "No input sequence provided."
       end
 
-      if params[:db].nil?
+      if params[:databases].nil?
          raise ArgumentError, "No BLAST database selected."
       end
 
@@ -252,20 +249,18 @@ module SequenceServer
       # log params
       settings.log.debug('method: '   + params[:method])
       settings.log.debug('sequence: ' + params[:sequence])
-      settings.log.debug('database: ' + params[:db].inspect)
+      settings.log.debug('database: ' + params[:databases].inspect)
       settings.log.debug('advanced: ' + params[:advanced])
     end
 
     post '/' do
       method        = params['method']
-      db_type_param = params['db']
+      databases     = params[:databases]
       sequence      = params[:sequence]
       advanced_opts = params['advanced']
 
       # evaluate empty sequence as nil, otherwise as fasta
       sequence = sequence.empty? ? nil : to_fasta(sequence)
-
-      db_type = db_type_param.first.first
 
       # blastn implies blastn, not megablast; but let's not interfere if a user
       # specifies `task` herself
@@ -274,8 +269,8 @@ module SequenceServer
       end
 
       method    = settings.binaries[ method ]
-      databases = params['db'][db_type].map{|index|
-        settings.databases[db_type][index.to_i].name
+      databases = params[:databases].map{|index|
+        settings.databases[index].name
       }
 
       # run blast to blast archive

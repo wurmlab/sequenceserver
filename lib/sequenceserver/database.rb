@@ -1,7 +1,9 @@
+require 'digest/md5'
+
 module SequenceServer
-  class Database < Struct.new("Database", :name, :title)
+  class Database < Struct.new("Database", :name, :title, :type)
     def to_s
-      "#{title} #{name}"
+      "#{type}: #{title} #{name}"
     end
 
     # Its not very meaningful to compare Database objects, however,
@@ -18,6 +20,10 @@ module SequenceServer
       else
         self.name <=> other.name
       end
+    end
+
+    def hash
+      @hash ||= Digest::MD5.hexdigest(self.name)
     end
   end
 end
