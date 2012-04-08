@@ -75,8 +75,10 @@ module SequenceServer
     def construct_standard_sequence_hyperlink(options)
       if options[:sequence_id].match(/^[^ ]/) #if there is a space right after the '>', makeblastdb was run without -parse_seqids
         # By default, add a link to a fasta file of the sequence (if makeblastdb was called with -parse_seqids)
-        complete_id = options[:sequence_id][/^(\S+)\s*.*/, 1]  # get id part
-        id = complete_id.include?('|') ? complete_id.split('|')[1] : complete_id.split('|')[0]
+
+        sid = options[:sequence_id].gsub(/<\/?[^>]*>/, '') # strip html
+        cid = sid[/^(\S+)\s*.*/, 1]                        # get id part
+        id  = cid.include?('|') ? cid.split('|')[1] : cid.split('|')[0]
         @all_retrievable_ids ||= []
         @all_retrievable_ids.push(id)
 
