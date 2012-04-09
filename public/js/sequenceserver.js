@@ -121,6 +121,8 @@ $(document).ready(function(){
     $('#method').disable();
     $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
 
+    $('.results').hide();
+
     $('#sequence').on('sequence_type_changed', function (event, type) {
         //protein sequences can't be translated
         switch (type){
@@ -233,8 +235,40 @@ $(document).ready(function(){
             // BLASTed successfully
 
             // display the result
+            $('.results').show();
             $('#result').html(data);
+
+            //generate index
+            $('.resultn').index({container: '.results'});
+
+            //jump to the results
             location.hash = hash;
+
+            $('#result').
+                scrollspy().
+                on('enter.scrollspy', function () {
+                    $('.index').removeAttr('style');
+                }).
+                on('leave.scrollspy', function () {
+                    $('.index').css({position: 'absolute', top: $(this).offset().top});
+                });
+
+            $('.resultn').
+                scrollspy({
+                    approach: screen.height / 4
+                }).
+                on('enter.scrollspy', function () {
+                    var id = $(this).attr('id');
+                    $('.index').find('a[href="#' + id + '"]').parent().highlight();
+
+                    return false;
+                }).
+                on('leave.scrollspy', function () {
+                    var id = $(this).attr('id');
+                    $('.index').find('a[href="#' + id + '"]').parent().unhighlight();
+
+                    return false;
+                });
         }).
           fail(function (jqXHR, status, error) {
             // BLAST failed
@@ -256,11 +290,9 @@ $(document).ready(function(){
     });
 
     $(window).scroll(function() {
-      var areaHeight = $(this).height();
-
       $('.resultn').each(function() {
         var scrolled = $(window).scrollTop();
-        var start    = $(this).offset().top   - screen.height/2;
+        var start    = $(this).offset().top   - screen.height/4;
         var end      = start + $(this).height();
 
         if (scrolled > start && scrolled < end){
@@ -271,4 +303,15 @@ $(document).ready(function(){
         }
       });
     });
+
+    $('.results').
+        on('add.index', function (event, index) {
+            // make way for index
+            $('#result').css({width: '660px'});
+
+            $(index).addClass('box');
+        }).
+        on('remove.index', function () {
+            $('#result').removeAttr('style');
+        });
 });

@@ -77,12 +77,20 @@ span.highlight {
   height: 38px;
 }
 
-#result{
+.results {
+  background-color: #2B3E42;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#result {
+  padding: 20px;
+  background-color: white;
   border-radius: 6px;
   -moz-border-radius: 6px;
 }
 
-.resultn{
+.resultn {
   background-color: #dfefe6;
   margin: 18px 0px 18px 0px;
   border-radius: 6px;
@@ -91,7 +99,32 @@ span.highlight {
   border: 1px solid transparent;
 }
 
-.focussed {
+ul.index {
+  list-style: none;
+  position: fixed;
+  margin-left: 710px;
+  padding: 15px;
+  width: 200px;
+  top: 5px;
+}
+
+ul.index li {
+  padding: 3%;
+}
+
+ul.index li.focussed {
+  background-color: #08C;
+}
+
+ul.index li.focussed a {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+ul.index li:visited {
+}
+
+div.focussed {
   border: 1px solid black;
 }
 

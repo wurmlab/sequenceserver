@@ -11,6 +11,8 @@
   <script type="text/javascript" src="<%= uri('/js/jquery.js') %>"></script>
   <script type="text/javascript" src="<%= uri('/js/jquery.enablePlaceholder.min.js') %>"></script>
   <script type="text/javascript" src="<%= uri('/js/jquery.activity.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.scrollspy.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.index.js') %>"></script>
   <script type="text/javascript" src="<%= uri('/js/bootstrap.dropdown.js') %>"></script>
   <script type="text/javascript" src="<%= uri('/js/sequenceserver.js') %>"></script>
   <script type="text/javascript" src="<%= uri('/js/sequenceserver.blast.js') %>"></script>
@@ -179,8 +181,10 @@
         </div>
       </form>
 
-      <div id="result" class="offset-left offset-right">
-        <%= @blast %>
+      <div class="results">
+        <div id="result">
+          <%= @blast %>
+        </div>
       </div>
 
       <div id="underbar">
