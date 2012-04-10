@@ -34,8 +34,8 @@ SS.blast = (function () {
         putative_NA_count = 0;
 
         // remove 'noisy' characters
-        sequence = sequence.replace(/[^A-Z]/i, '') // non-letter characters
-        sequence = sequence.replace(/[NX]/i,   '') // ambiguous  characters
+        sequence = sequence.replace(/[^A-Z]/gi, '') // non-letter characters
+        sequence = sequence.replace(/[NX]/gi,   '') // ambiguous  characters
 
         // guessing the type of a small sequence is unsafe
         if (sequence.length < 10) {
