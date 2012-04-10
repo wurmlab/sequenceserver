@@ -238,3 +238,20 @@ div.focussed {
 #spinner > div {
   height: 200px;
 }
+
+#social p {
+  font-size: 14px;
+}
+
+#social .buttons {
+  width: 268px;
+  margin: 0px auto;
+}
+
+.button-container {
+  width: 74px;
+  height: 32px;
+  float: left;
+  margin-right: 20px;
+  text-align: center;
+}
