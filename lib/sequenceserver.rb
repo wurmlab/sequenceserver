@@ -174,8 +174,8 @@ module SequenceServer
           self.config = {}
         end
 
-        # scan for blast binaries
-        self.binaries = scan_blast_executables(bin).freeze
+        # scan for blast binaries, requiring a particular version
+        self.binaries = scan_blast_executables(bin, '2.2.25+').freeze
 
         # Log the discovery of binaries.
         binaries.each do |command, path|

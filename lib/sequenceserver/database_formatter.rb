@@ -34,7 +34,8 @@ class DatabaseFormatter
 
     def format_databases
       unless File.directory?(db_path)
-        LOG.fatal("Database directory #{db_path} not found. See './database_formatter --help' for instructions.")
+        # This block is unlikely to ever be run since it is already checked before calling this method
+	LOG.fatal("Database directory #{db_path} not found")
         exit
       end
 
