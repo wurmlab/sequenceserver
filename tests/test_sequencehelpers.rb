@@ -77,3 +77,12 @@ class AppTester < Test::Unit::TestCase
   end
 end
 
+class SystemHelpersTester < Test::Unit::TestCase
+  include SequenceServer::Helpers::SystemHelpers
+
+  def test_multipart_database_name?
+    assert_equal true, multipart_database_name?('/home/ben/pd.ben/sequenceserver/db/nr.00')
+    assert_equal false, multipart_database_name?('/home/ben/pd.ben/sequenceserver/db/nr')
+    assert_equal true, multipart_database_name?('/home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01')
+  end
+end

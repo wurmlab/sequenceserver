@@ -97,7 +97,7 @@ module SequenceServer
           title = title.join(' ').freeze
 
           # skip past all but alias file of a NCBI multi-part BLAST database
-          if name.match(/\/\w*[.]\d{2,}[.\w]*/)
+          if multipart_database_name?(name)
             log.info(%|Found a multi-part database volume at #{name} - ignoring it.|)
             next
           end
@@ -116,6 +116,16 @@ module SequenceServer
       # returns True if all is good.
       def command?(command)
         system("which #{command} > /dev/null 2>&1")
+      end
+
+      # Returns true if the database name appears to be a multi-part database name.
+      #
+      # e.g.
+      # /home/ben/pd.ben/sequenceserver/db/nr.00 => yes
+      # /home/ben/pd.ben/sequenceserver/db/nr => no
+      # /home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01 => yes
+      def multipart_database_name?(db_name)
+        !(db_name.match(/.+\/\S+\d{2}$/).nil?)
       end
     end
 
