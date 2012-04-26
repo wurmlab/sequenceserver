@@ -169,9 +169,15 @@ $(document).ready(function(){
                         $(this).text(old);
                         $('#method').set_blast_method(method);
 
+                        // jiggle
+                        $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
+
                         event.preventDefault();
                     });
             }
+
+            // jiggle
+            $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
         }
         else {
             $('#method').disable().set_blast_method(null);
