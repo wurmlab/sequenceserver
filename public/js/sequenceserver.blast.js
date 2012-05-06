@@ -70,7 +70,7 @@ SS.blast = (function () {
             }
             else if (tmp !== type) {
               // user has mixed different type of sequences
-              return undefined
+              return 'mixed'
             }
         }
 
