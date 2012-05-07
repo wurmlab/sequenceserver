@@ -124,13 +124,11 @@ $(document).ready(function(){
     $('.results').hide();
 
     $('#sequence').on('sequence_type_changed', function (event, type) {
-        //protein sequences can't be translated
-        switch (type){
-            case 'nucleotide':
-                $('#translate-sequence').removeClass('invisible');
-                break;
-            default:
-                $('#translate-sequence').addClass('invisible');
+        if (type && type === 'mixed') {
+            $(this).parent('.control-group').addClass('error');
+        }
+        else {
+            $(this).parent('.control-group').removeClass('error');
         }
     });
 

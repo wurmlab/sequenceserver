@@ -34,10 +34,8 @@
       <form method="post" id="blast" action="<%= uri('/#result') %>">
         <div class="row">
           <div class="span16">
-            <div class="offset-left offset-right">
-              <div class="clearfix">
-                <textarea name="sequence" id="sequence" rows="11" spellcheck="false" <%= 'autofocus="true"' unless @blast %> placeholder="Paste your sequence(s) here..." ></textarea>
-              </div>
+            <div class="control-group">
+              <textarea name="sequence" id="sequence" rows="11" spellcheck="false" <%= 'autofocus="true"' unless @blast %> placeholder="Paste your sequence(s) here..." ></textarea>
             </div>
           </div>
         </div>

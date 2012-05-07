@@ -42,6 +42,8 @@ body {
 
 #sequence {
   width: 890px;
+  display: block;
+  margin: 0 auto;
 }
 
 .databases {
