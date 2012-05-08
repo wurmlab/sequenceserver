@@ -247,11 +247,15 @@ module SequenceServer
       # only allowed blast methods should be used
       blast_methods = %w|blastn blastp blastx tblastn tblastx|
       unless blast_methods.include?(params[:method])
-        raise ArgumentError, "Unknown BLAST method: #{method}."
+        halt 400, "Unknown BLAST method: #{params[:method]}."
       end
 
       # check the advanced options are sensible
-      validate_advanced_parameters(params[:advanced])
+      begin #FIXME
+        validate_advanced_parameters(params[:advanced])
+      rescue ArgumentError => error
+        halt 400, "Advanced parameters invalid: #{error}"
+      end
 
       # log params
       settings.log.debug('method: '   + params[:method])

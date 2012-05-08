@@ -47,5 +47,17 @@ module SequenceServer
       post '/', @params
       last_response.status.must_equal 400
     end
+
+    it 'returns Bad Request (400) if an incorrect blast method is supplied' do
+      @params['method'] = 'foo'
+      post '/', @params
+      last_response.status.must_equal 400
+    end
+
+    it 'returns Bad Request (400) if incorrect advanced params are supplied' do
+      @params['advanced'] = '-word_size 5; rm -rf /'
+      post '/', @params
+      last_response.status.must_equal 400
+    end
   end
 end
