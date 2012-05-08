@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+# Usage:
+#
+# run all test suites
+#
+#     $ tests/run
+#
+# run a particular test suite
+#
+#     $ tests/run tests/test_sequencehelpers.rb
+#
+
+# script dir
+dir = File.dirname(__FILE__)
+
+# setup load path
+require 'rubygems'
+$LOAD_PATH.unshift(File.join(dir, '..', 'lib'))
+
+# user specified or glob all?
+files = ARGV.empty? ? Dir[File.join(dir, 'test_*.rb')] : ARGV
+
+# run!
+files.each do |file|
+  require File.expand_path(file)
+end
