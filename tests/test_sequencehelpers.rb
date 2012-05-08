@@ -1,14 +1,9 @@
-#!/usr/bin/env ruby 
-# test_ssequencehelpers.rb
-
 # ensure 'lib/' is in the load path
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'sequenceserver'
 require 'sequenceserver/sequencehelpers'
 require 'test/unit'
-
-
 
 class Tester < Test::Unit::TestCase
   include SequenceServer::SequenceHelpers
@@ -65,10 +60,7 @@ end
 
 class AppTester < Test::Unit::TestCase
   def test_process_advanced_blast_options
-    # dirty hack, required to work around Sinatra's overriden `new` method that
-    # may return instance of any Rack class
-    app = SequenceServer::App.allocate
-    app.send(:initialize)
+    app = SequenceServer::App.new!
 
     assert_nothing_raised {app.validate_advanced_parameters('')}
     assert_nothing_raised {app.validate_advanced_parameters('-word_size 5')}
