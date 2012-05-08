@@ -221,18 +221,25 @@ module SequenceServer
     before '/' do
       pass if params.empty?
 
-      # ensure required params present #
+      # ensure required params present
+      #
+      # If a required parameter is missing, SequnceServer returns 'Bad Request
+      # (400)' error.
+      #
+      # See Twitter's [Error Codes & Responses][1] page for reference.
+      #
+      # [1]: https://dev.twitter.com/docs/error-codes-responses
 
-      if params[:method].empty?
-         raise ArgumentError, "No BLAST method selected."
+      if params[:method].nil? or params[:method].empty?
+         halt 400, "No BLAST method provided."
       end
 
-      if params[:sequence].empty?
-         raise ArgumentError, "No input sequence provided."
+      if params[:sequence].nil? or params[:sequence].empty?
+         halt 400, "No input sequence provided."
       end
 
       if params[:databases].nil?
-         raise ArgumentError, "No BLAST database selected."
+         halt 400, "No BLAST database provided."
       end
 
       # ensure params are valid #

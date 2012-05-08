@@ -17,6 +17,9 @@ DESC
   s.add_dependency('sinatra', '>= 1.2.0')
   s.add_dependency('ptools')
 
+  s.add_development_dependency('minitest')
+  s.add_development_dependency('rack-test')
+
   # gem
   s.files         = Dir['lib/**/*'] + Dir['views/**/*'] + Dir['public/**/*'] + Dir['tests/**/*']
   s.files         = s.files + ['config.ru',   'example.config.yml']
