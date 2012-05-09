@@ -29,18 +29,24 @@ SS.blast = (function () {
     // TODO: embedding magic numbers in the code is bad
     // TODO: magic numbers in JS and Ruby should be in sync
     var guess_sequence_type = function (sequence) {
-        var putative_NA_count, threshold, i;
-
-        putative_NA_count = 0;
+        // can't determine the type of an empty sequence
+        if (sequence.length == 0) { return undefined }
 
         // remove 'noisy' characters
         sequence = sequence.replace(/[^A-Z]/gi, '') // non-letter characters
         sequence = sequence.replace(/[NX]/gi,   '') // ambiguous  characters
 
-        // guessing the type of a small sequence is unsafe
+        // ultrashort queries are _most likely_ going to be amino-acid
+        // (discussed on [Github][1])
+        //
+        // [1]: https://github.com/yannickwurm/sequenceserver/issues/72#issuecomment-4447880
         if (sequence.length < 10) {
-            return undefined
+            return 'protein'
         }
+
+        var putative_NA_count, threshold, i;
+        putative_NA_count = 0;
+        threshold = 0.9 * sequence.length;
 
         // count the number of putative NA
         for (i = 0; i < sequence.length; i++) {
@@ -49,13 +55,11 @@ SS.blast = (function () {
             }
         }
 
-        threshold = 0.9 * sequence.length
-
         return putative_NA_count > threshold ? 'nucleotide' : 'protein'
     }
 
     var type_of_sequences = function () {
-        var sequences = $('#sequence').val().split(/>.*/)
+        var sequences = $('#sequence').val().split(/>.*/);
         var type, tmp, i;
 
         for (i = 0; i < sequences.length; i++) {
@@ -177,7 +181,6 @@ SS.blast = (function () {
         switch (database_type) {
             case 'protein':
                 switch (sequence_type) {
-                    case undefined:
                     case 'protein':
                         return ['blastp'];
                     case 'nucleotide':
@@ -185,7 +188,6 @@ SS.blast = (function () {
                 }
             case 'nucleotide':
                 switch (sequence_type) {
-                    case undefined:
                     case 'protein':
                         return ['tblastn'];
                     case 'nucleotide':
