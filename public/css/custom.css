@@ -74,6 +74,10 @@ span.highlight {
   cursor: pointer;
 }
 
+.hover-focus {
+  background-color: #FFC;
+}
+
 #method, #methods li {
   text-transform: uppercase;
 }

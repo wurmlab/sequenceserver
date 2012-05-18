@@ -186,6 +186,13 @@ $(document).ready(function(){
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
     $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
 
+    $('.advanced pre').hover(function () {
+        $(this).addClass('hover-focus');
+    },
+    function () {
+        $(this).removeClass('hover-focus');
+    });
+
     $('#blast').submit(function(){
         //parse AJAX URL
         var action = $(this).attr('action');
