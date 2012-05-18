@@ -129,6 +129,21 @@
         </div>
       </div>
 
+      <div class="modal hide fade" id="error">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">×</button>
+          <h3 id="error-short">Oops! BLAST Failed</h3>
+        </div>
+        <div class="modal-body">
+          <h4 id="error-type"></h4>
+          <br/>
+          <p id="error-message"></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
       <div id="underbar">
         <p><strong><a href='http://www.sequenceserver.com'>
             <%=  [ "&copy; SequenceServer: BLAST search made easy!",

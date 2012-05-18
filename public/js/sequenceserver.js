@@ -269,10 +269,10 @@ $(document).ready(function(){
                 });
         }).
           fail(function (jqXHR, status, error) {
-            // BLAST failed
-
             //alert user
-            alert('BLAST failed: ' + error);
+            $("#error-type").text(error);
+            $("#error-message").text(jqXHR.responseText);
+            $("#error").modal();
         }).
           always(function () {
             // BLAST complete (succefully or otherwise)
