@@ -91,7 +91,16 @@
               <div class="clearfix">
                 <label for="advanced">Advanced Parameters:</label>
                 <input class="span8" type="text" name="advanced" id="advanced" title="View, and enter advanced parameters." placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
+                <span class="icon-question-sign" data-toggle="modal" href="#help"></span>
               </div>
+
+              <div class="modal hide fade" id="help">
+                <div class="modal-header">
+                  <button class="close" data-dismiss="modal">×</button>
+                  <h3>Advanced Options</h3>
+                </div>
+
+                <div class="modal-body">
   <pre class="help">
   <%= ERB::Util.h %q|
   -evalue <Real>
@@ -166,6 +175,11 @@
   -max_target_seqs <Integer, >=1>
     Maximum number of aligned sequences to keep | %>
   </pre>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-primary" data-dismiss="modal">Got it!</button>
+                </div>
+              </div>
           </div>
         </div>
 

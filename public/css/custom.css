@@ -59,16 +59,15 @@ span.highlight {
   font-size: 16px;
   font-weight: bold;
   padding-left: 2%;
-  cursor:pointer;
 }
 
 .advanced input {
+  width: 440px;
   margin: 1% 1%;
 }
 
-.advanced .help {
-  display: none;
-  margin: 0% 1% 1%;
+.advanced span {
+  cursor: pointer;
 }
 
 #method, #methods li {

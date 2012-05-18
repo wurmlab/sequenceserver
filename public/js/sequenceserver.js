@@ -183,21 +183,6 @@ $(document).ready(function(){
         }
     });
 
-    $(".advanced label").click(function(event){
-        //toggle display of advanced options when "Advanced parameters" text is
-        //clicked
-        $(".advanced .help").toggle("fast");
-
-        //stop event propagation here; jQuery will call `click()` on input box
-        //otherwise
-        return false;
-    });
-
-    $(".advanced input").click(function(event){
-        //but for input box toggling might get annoying
-        $(".advanced .help").show("fast");
-    });
-
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
     $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
 
