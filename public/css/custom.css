@@ -2,6 +2,10 @@ html, body{
   height: 100%;
 }
 
+pre {
+  font-family: Monospace;
+}
+
 .offset-left {
   margin-left: 20px;
 }
