@@ -99,89 +99,15 @@
                   <button class="close" data-dismiss="modal">×</button>
                   <h3>Advanced Options</h3>
                 </div>
-
                 <div class="modal-body">
-  <pre class="help">
-  <%= ERB::Util.h %q|
-  -evalue <Real>
-    Expectation value (E) threshold for saving hits
-    Default = `10'
-  -word_size <Integer, >=2>
-    Word size for wordfinder algorithm
-  -gapopen <Integer>
-    Cost to open a gap
-  -gapextend <Integer>
-    Cost to extend a gap
-  -matrix <String>
-    Scoring matrix name (normally BLOSUM62)
-  -threshold <Real, >=0>
-    Minimum word score such that the word is added to the BLAST lookup table
-  -comp_based_stats <String>
-    Use composition-based statistics for blastp / tblastn:
-        D or d: default (equivalent to 2)
-        0 or F or f: no composition-based statistics
-        1: Composition-based statistics as in NAR 29:2994-3005, 2001
-        2 or T or t : Composition-based score adjustment as in Bioinformatics
-    21:902-911,
-        2005, conditioned on sequence properties
-        3: Composition-based score adjustment as in Bioinformatics 21:902-911,
-        2005, unconditionally
-    For programs other than tblastn, must either be absent or be D, F or 0
-    Default = `2'
-  -num_descriptions <Integer, >=0>
-    Number of database sequences to show one-line descriptions for
-    Default = `500'
-  -num_alignments <Integer, >=0>
-    Number of database sequences to show alignments for
-    Default = `250'
-  *** Query filtering options
-  -seg <String>
-    Filter query sequence with SEG (Format: 'yes', 'window locut hicut', or
-    'no' to disable)
-    Default = `no'
-  -soft_masking <Boolean>
-    Apply filtering locations as soft masks
-    Default = `false'
-  -lcase_masking
-    Use lower case filtering in query and subject sequence(s)?
-  *** Restrict search or results
-  -gilist <String>
-    Restrict search of database to list of GI's
-      * Incompatible with:  negative_gilist, seqidlist, remote, subject,
-    subject_loc
-  -seqidlist <String>
-    Restrict search of database to list of SeqId's
-      * Incompatible with:  gilist, negative_gilist, remote, subject,
-    subject_loc
-  -negative_gilist <String>
-    Restrict search of database to everything except the listed GIs
-      * Incompatible with:  gilist, seqidlist, remote, subject, subject_loc
-  -entrez_query <String>
-    Restrict search with the given Entrez query
-      * Requires:  remote
-  -db_soft_mask <String>
-    Filtering algorithm ID to apply to the BLAST database as soft masking
-      * Incompatible with:  subject, subject_loc
-  -culling_limit <Integer, >=0>
-    If the query range of a hit is enveloped by that of at least this many
-    higher-scoring hits, delete the hit
-      * Incompatible with:  best_hit_overhang, best_hit_score_edge
-  -best_hit_overhang <Real, (>0 and <0.5)>
-    Best Hit algorithm overhang value (recommended value: 0.1)
-      * Incompatible with:  culling_limit
-  -best_hit_score_edge <Real, (>0 and <0.5)>
-    Best Hit algorithm score edge value (recommended value: 0.1)
-      * Incompatible with:  culling_limit
-  -max_target_seqs <Integer, >=1>
-    Maximum number of aligned sequences to keep | %>
-  </pre>
+                  <%= erb :_options %>
                 </div>
                 <div class="modal-footer">
                   <button class="btn btn-primary" data-dismiss="modal">Got it!</button>
                 </div>
               </div>
+            </div>
           </div>
-        </div>
 
           <div class="span4">
             <div id="methods" class="btn-group">
