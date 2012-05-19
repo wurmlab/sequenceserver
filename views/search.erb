@@ -38,7 +38,7 @@
         <div class="row">
           <div class="span16">
             <div class="control-group">
-              <textarea name="sequence" id="sequence" rows="11" spellcheck="false" <%= 'autofocus="true"' unless @blast %> placeholder="Paste your sequence(s) here..." ></textarea>
+              <textarea name="sequence" id="sequence" rows="11" spellcheck="false" autofocus="true" placeholder="Paste your sequence(s) here..." ></textarea>
             </div>
           </div>
         </div>
@@ -125,7 +125,6 @@
 
       <div class="results">
         <div id="result">
-          <%= @blast %>
         </div>
       </div>
 

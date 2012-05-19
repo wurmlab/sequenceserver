@@ -304,13 +304,7 @@ module SequenceServer
       # log the command that was run
       settings.log.info('Ran to get HTML output: ' + blast.command) if settings.logging
 
-      @blast = format_blast_results(blast.result, databases)
-
-      if request.xhr?
-        return @blast
-      end
-
-      erb :search
+      format_blast_results(blast.result, databases)
     end
 
     # get '/get_sequence/?id=sequence_ids&db=retreival_databases'
