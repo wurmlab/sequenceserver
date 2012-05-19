@@ -6,6 +6,13 @@ pre {
   font-family: Monospace;
 }
 
+.nojs-error {
+  margin-top: 10px;
+  padding: 10px;
+  color: white;
+  background-color: red;
+}
+
 .offset-left {
   margin-left: 20px;
 }
