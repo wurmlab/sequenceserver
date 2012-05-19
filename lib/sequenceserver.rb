@@ -289,6 +289,16 @@ module SequenceServer
       # log the command that was run
       settings.log.info('Ran to blast archive: ' + blast.command) if settings.logging
 
+      unless blast.success?
+        # Only the lines that indicate actual error is of interest to us.
+        error = blast.error.select{|l| l.match(/Error/)}.first
+
+        # Most likely BLAST failed because BLAST+ didn't like user input.
+        # Let's echo the error message back to the client claiming 'Bad Request
+        # (400)'.
+        halt 400, error
+      end
+
       # convert blast archive to HTML version
       blast.convert_blast_archive_to_html_result(settings.binaries['blast_formatter'])
       # log the command that was run
@@ -380,9 +390,6 @@ HEADER
     end
 
     def format_blast_results(result, databases)
-      raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if !result.class == String
-      raise ArgumentError, 'Problem: empty result! Maybe your query was invalid?' if result.empty?
-
       formatted_result = ''
       @all_retrievable_ids = []
       string_of_used_databases = databases.join(' ')
