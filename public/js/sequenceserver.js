@@ -120,10 +120,6 @@ $(document).ready(function(){
 
     // start SequenceServer's event loop
     SS.main();
-    $('#method').disable();
-    $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
-
-    $('.results').hide();
 
     $('#sequence').on('sequence_type_changed', function (event, type) {
         if (type && type === 'mixed') {
