@@ -198,24 +198,9 @@ $(document).ready(function(){
         var url    = action.slice(0, index);
         var hash   = action.slice(index, action.length);
 
-        var button = $(this).find('#method');
-
-        //prevent submitting another query while this one is being processed
-        button.disable();
-
-        //overlay div will contain the spinner
-        $('body').append('<div id="overlay"></div>')
-
-        //activate spinner to indicate query in progress
-        $('#overlay').css({
-           top:              '0px',
-           left:             '0px',
-           width:            '100%',
-           height:           '100%',
-           position:         'fixed',
-           'z-index':        1000,
-           'pointer-events': 'none',
-        }).activity({
+        // display a modal window and attach an activity spinner to it
+        $('#spinner').modal();
+        $('#spinner > div').activity({
            segments: 8,
            length:   40,
            width:    16,
@@ -276,10 +261,8 @@ $(document).ready(function(){
             // BLAST complete (succefully or otherwise)
 
             // remove progress notification
-            $('#overlay').activity(false).remove();
-
-            // allow submitting a new query
-            button.enable();
+            $('#spinner > div').activity(false);
+            $('#spinner').modal('hide');
         });
 
         return false;

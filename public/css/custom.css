@@ -150,3 +150,15 @@ div.focussed {
   border-radius: 0px 0px 10px 10px;
   text-align: center;
 }
+
+#spinner {
+  color: gray;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+#spinner > div {
+  height: 200px;
+}
