@@ -119,13 +119,28 @@ $(document).ready(function(){
     // start SequenceServer's event loop
     SS.main();
 
+    var notification_timeout;
+
     $('#sequence').on('sequence_type_changed', function (event, type) {
-        if (type && type === 'mixed') {
-            $(this).parent('.control-group').addClass('error');
+        clearTimeout(notification_timeout);
+        $(this).parent('.control-group').removeClass('error');
+        $('.notifications .active').hide().removeClass('active');
+
+        if (type) {
+            $('#' + type + '-sequence-notification').show('drop', {direction: 'up'}).addClass('active');
+
+            notification_timeout = setTimeout(function () {
+                $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
+            }, 5000);
+
+            if (type === 'mixed') {
+                $(this).parent('.control-group').addClass('error');
+            }
         }
-        else {
-            $(this).parent('.control-group').removeClass('error');
-        }
+    });
+
+    $('body').click(function () {
+        $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
     });
 
     $('.databases').on('database_type_changed', function (event, type) {
