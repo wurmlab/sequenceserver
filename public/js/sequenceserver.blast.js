@@ -29,12 +29,12 @@ SS.blast = (function () {
     // TODO: embedding magic numbers in the code is bad
     // TODO: magic numbers in JS and Ruby should be in sync
     var guess_sequence_type = function (sequence) {
-        // can't determine the type of an empty sequence
-        if (sequence.length == 0) { return undefined }
-
         // remove 'noisy' characters
         sequence = sequence.replace(/[^A-Z]/gi, '') // non-letter characters
         sequence = sequence.replace(/[NX]/gi,   '') // ambiguous  characters
+
+        // can't determine the type of an empty sequence
+        if (sequence.length == 0) { return undefined }
 
         // ultrashort queries are _most likely_ going to be amino-acid
         // (discussed on [Github][1])
