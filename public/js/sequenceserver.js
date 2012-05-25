@@ -113,8 +113,6 @@ if (!SS) {
 }()); //end SS module
 
 $(document).ready(function(){
-    $('.nojs-error').remove();
-
     // poll the sequence textbox for a change in user input
     $('#sequence').poll();
 
