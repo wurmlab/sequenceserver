@@ -284,25 +284,14 @@ module SequenceServer
         settings.databases[index].name
       }
 
-      # run blast to blast archive
-      blast = Blast.blast_string_to_blast_archive(method, databases.join(' '), sequence, advanced_opts)
-      # log the command that was run
-      settings.log.info('Ran to blast archive: ' + blast.command) if settings.logging
+      # run blast and log
+      blast = Blast.new(method, sequence, databases.join(' '), advanced_opts)
+      blast.run!
+      settings.log.info('Ran: ' + blast.command)
 
       unless blast.success?
-        # Only the lines that indicate actual error is of interest to us.
-        error = blast.error.select{|l| l.match(/Error/)}.first
-
-        # Most likely BLAST failed because BLAST+ didn't like user input.
-        # Let's echo the error message back to the client claiming 'Bad Request
-        # (400)'.
-        halt 400, error
+        halt *blast.error
       end
-
-      # convert blast archive to HTML version
-      blast.convert_blast_archive_to_html_result(settings.binaries['blast_formatter'])
-      # log the command that was run
-      settings.log.info('Ran to get HTML output: ' + blast.command) if settings.logging
 
       format_blast_results(blast.result, databases)
     end
