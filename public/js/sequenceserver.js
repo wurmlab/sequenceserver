@@ -230,6 +230,9 @@ $(document).ready(function(){
             $('.results').show();
             $('#result').html(data);
 
+            $('#blast').addClass('detached-bottom');
+            $('#underbar').addClass('detached-top');
+
             //generate index
             $('.resultn').index({container: '.results'});
 

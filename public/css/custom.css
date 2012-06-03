@@ -48,16 +48,31 @@ body {
 }
 
 .page {
-  background-color: white;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 6px 6px 6px 6px;
   margin: 50px 0px;
 }
 
 #banner {
   background: #EBCD7B;
   padding: 2%;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 6px 6px 0px 0px;
   text-align: center;
+}
+
+#blast {
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin: 0px;
+}
+
+.detached-top {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.detached-bottom {
+  border-radius: 0px 0px 6px 6px;
 }
 
 #sequence {
@@ -191,7 +206,8 @@ div.focussed {
 #underbar {
   background: #EBCD7B;
   padding: 1%;
-  border-radius: 0px 0px 10px 10px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
   text-align: center;
 }
 
