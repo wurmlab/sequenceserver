@@ -47,8 +47,9 @@ module SequenceServer
     def run!
       @result, @error, status = execute(command)
 
-      @success = status.success? and return @success
-      if status.exitstatus == 1
+      status == 0 and return @success = true
+
+      if status == 1
         message = @error.select{|l| l.match(/CArgException::eConstraint/)}.first
         message and message.gsub!('Error: (CArgException::eConstraint)', '')
         message ||= @error
@@ -72,31 +73,19 @@ module SequenceServer
 
     private
 
-    # Adapted from Ruby 1.8.7's Open3.popen3.
+    # Execute a command and return its stdout, stderr, and exit status.
     def execute(command)
-      # pipe[0] for read, pipe[1] for write
-      po = IO::pipe
-      pe = IO::pipe
+      rfile = Tempfile.new('sequenceserver_result')
+      efile = Tempfile.new('sequenceserver_error')
+      [rfile, efile].each {|file| file.close}
 
-      pid = fork {
-        po[0].close
-        STDOUT.reopen(po[1])
-        po[1].close
+      system("#{command} > #{rfile.path} 2> #{efile.path}")
+      status = $?.exitstatus
 
-        pe[0].close
-        STDERR.reopen(pe[1])
-        pe[1].close
-
-        exec(command)
-      }
-      po[1].close
-      pe[1].close
-
-      pid, status = Process.waitpid2(pid)
-
-      return po.first.readlines, pe.first.readlines, status
+      return File.readlines(rfile.path), File.readlines(efile.path), status
     ensure
-      [po[0], pe[0]].each{|p| p.close unless p.closed?}
+      rfile.unlink
+      efile.unlink
     end
   end
 end
