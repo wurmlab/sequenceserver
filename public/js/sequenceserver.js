@@ -165,24 +165,13 @@ $(document).ready(function(){
 
             if (methods.length >=1) {
                 $('#methods').addClass('btn-group').
-                    children('.dropdown-toggle').show().
-                    siblings('.dropdown-menu').children('li').
-                    each(function (i){
-                        $(this).text(methods[i]);
-                    }).
-                    click(function (event) {
-                        var old    = $('#method').text();
-                        var method = $(this).text();
+                    children('.dropdown-toggle').show();
 
-                        //swap
-                        $(this).text(old);
-                        $('#method').set_blast_method(method);
+                var methods_list = $.map(methods, function (method, _) {
+                    return "<li>" + method + "</li>";
+                }).join('');
 
-                        // jiggle
-                        $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
-
-                        event.preventDefault();
-                    });
+                $('#methods .dropdown-menu').html(methods_list);
             }
 
             // jiggle
@@ -192,6 +181,23 @@ $(document).ready(function(){
             $('#method').disable().set_blast_method(null);
             $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
         }
+    });
+
+    $('#methods .dropdown-menu').click(function (event) {
+        // The list of possible blast methods is dynamically generated.  So we
+        // leverage event bubbling to trap 'click' event on the list items.
+        var clicked = $(event.target);
+        var mbutton = $('#method');
+
+        var old_method = mbutton.text();
+        var new_method = clicked.text();
+
+        //swap
+        clicked.text(old_method);
+        mbutton.set_blast_method(new_method);
+
+        // jiggle
+        $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
     });
 
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
