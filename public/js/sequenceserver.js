@@ -53,18 +53,6 @@
 })( jQuery );
 
 (function ($) {
-    //pass `null` to unset
-    $.fn.set_blast_method = function (name) {
-        var value = name || '';
-        var name  = name || 'blast';
-        var tokens = name.split('blast');
-        this.val(value).children('span.highlight').each(function (i) {
-            $(this).text(tokens[i]);
-        });
-    };
-})(jQuery);
-
-(function ($) {
     $.fn.poll = function () {
         var that, val, tmp;
 
@@ -103,6 +91,19 @@ if (!SS) {
 
 //SS module
 (function () {
+
+    SS.decorate = function (name) {
+      return name.match(/(.?)(blast)(.?)/).slice(1).map(function (token, _) {
+        if (token) {
+            if (token !== 'blast'){
+                return '<strong>' + token + '</strong>';
+            }
+            else {
+              return token;
+            }
+        }
+      }).join('');
+    }
 
     /*
         ask each module to initialize itself
@@ -158,17 +159,22 @@ $(document).ready(function(){
     });
 
     $('form').on('blast_method_changed', function (event, methods){
+        // reset
+        $('#methods .dropdown-menu').html('');
+        $('#method').disable().val('').html('blast');
+        $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
+
         if (methods) {
             var method = methods.shift();
 
-            $('#method').enable().set_blast_method(method);
+            $('#method').enable().val(method).html(SS.decorate(method));
 
             if (methods.length >=1) {
                 $('#methods').addClass('btn-group').
                     children('.dropdown-toggle').show();
 
                 var methods_list = $.map(methods, function (method, _) {
-                    return "<li>" + method + "</li>";
+                    return "<li>" + SS.decorate(method) + "</li>";
                 }).join('');
 
                 $('#methods .dropdown-menu').html(methods_list);
@@ -176,10 +182,6 @@ $(document).ready(function(){
 
             // jiggle
             $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
-        }
-        else {
-            $('#method').disable().set_blast_method(null);
-            $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
         }
     });
 
@@ -193,8 +195,8 @@ $(document).ready(function(){
         var new_method = clicked.text();
 
         //swap
-        clicked.text(old_method);
-        mbutton.set_blast_method(new_method);
+        clicked.html(SS.decorate(old_method));
+        mbutton.val(new_method).html(SS.decorate(new_method));
 
         // jiggle
         $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);

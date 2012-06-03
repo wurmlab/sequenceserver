@@ -148,6 +148,22 @@ span.highlight {
   text-transform: uppercase;
 }
 
+#methods li {
+  font-size: 15px;
+  text-align: center;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+
+.dropdown-menu li {
+  border-bottom: 1px solid #ccc;
+}
+
+.dropdown-menu li:last-child {
+  border-bottom: 0px;
+}
+
 #methods > button {
   height: 38px;
 }
