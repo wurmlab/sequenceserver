@@ -3,6 +3,9 @@ require 'tempfile'
 module SequenceServer
   # Simple BLAST+ wrapper.
   class Blast
+
+    ERROR_LINE = /\(CArgException.*\)\s(.*)/
+
     # command string to be executed
     attr_reader :command
 
@@ -50,10 +53,9 @@ module SequenceServer
       status == 0 and return @success = true
 
       if status == 1
-        message = @error.select{|l| l.match(/CArgException::eConstraint/)}.first
-        message and message.gsub!('Error: (CArgException::eConstraint)', '')
-        message ||= @error
-        @error = [400,  message]
+        message = @error.each{|l| l.match(ERROR_LINE) and break Regexp.last_match[1]}
+        message = message || @error
+        @error  = [400,  message]
       else
         @error = [500, @error]
       end
