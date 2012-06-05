@@ -117,7 +117,7 @@ SS.blast = (function () {
 
     /* determine */
     var signal_database_type_changed = function () {
-        var type, tmp;
+        var type = type_of_databases(), tmp;
 
         $('.databases input').change(function () {
             tmp = type_of_databases();
