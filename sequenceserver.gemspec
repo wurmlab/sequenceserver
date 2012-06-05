@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
-  s.version     = '0.7.1'
+  s.version     = '0.8.0'
   s.authors     = ['Anurag Priyam', 'Ben J Woodcroft', 'Yannick Wurm']
   s.email       = 'anurag08priyam@gmail.com'
   s.homepage    = 'http://sequenceserver.com'
   s.license     = 'SequenceServer (custom)'
 
-  s.summary     = 'iPod of BLAST searching'
+  s.summary     = 'BLAST search made easy!'
   s.description = <<DESC
 SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user interface for use locally or over the web.
 DESC
