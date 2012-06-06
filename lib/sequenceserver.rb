@@ -9,6 +9,7 @@ require 'sequenceserver/blast'
 require 'sequenceserver/sequencehelpers'
 require 'sequenceserver/sinatralikeloggerformatter'
 require 'sequenceserver/customisation'
+require 'sequenceserver/version'
 
 # Helper module - initialize the blast server.
 module SequenceServer

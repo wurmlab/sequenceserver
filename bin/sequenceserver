@@ -47,6 +47,11 @@ BANNER
     opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
       SequenceServer::App.config_file = File.expand_path(config_file)
     end
+
+    opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do |config_file|
+      puts SequenceServer.version
+      exit
+    end
   end.order!
 
   # of the remaining items in ARGV, the first one must be a subcommand
