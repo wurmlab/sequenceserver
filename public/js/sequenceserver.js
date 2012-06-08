@@ -219,6 +219,9 @@ $(document).ready(function(){
         var url    = action.slice(0, index);
         var hash   = action.slice(index, action.length);
 
+        // reset hash so we can always _jump_ back to result
+        location.hash = '';
+
         // display a modal window and attach an activity spinner to it
         $('#spinner').modal();
         $('#spinner > div').activity({
