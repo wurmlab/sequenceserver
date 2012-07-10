@@ -1,4 +1,4 @@
-;(function ($) {
+(function ($) {
     var defaults = {
         threshold: 1
     };
@@ -36,13 +36,13 @@
 
     */
     $.fn.index = function (options) {
-        var options   = $.extend({}, defaults, options);
+        options = $.extend({}, defaults, options);
         var container = $(options.container);
 
         if (this.length > options.threshold) {
             var entries = this.map(function () {
                 var id  = $(this).attr('id');
-                var sid = (id.length > 25) ? (id.slice(0, 22) + ' ...') : id // sid => short/display id :P
+                var sid = (id.length > 25) ? (id.slice(0, 22) + ' ...') : id; // sid => short/display id :P
                 return '<li><a href="#' + id + '" title="' + id + '">' + sid + '</a></li>';
             });
 
@@ -63,5 +63,5 @@
         }
 
         return this;
-    }
-})(jQuery);
+    };
+}(jQuery));
