@@ -14,7 +14,7 @@ DESC
 
   # dependencies
   s.add_dependency('bundler', '~> 1.2.0')
-  s.add_dependency('sinatra', '>= 1.2.0')
+  s.add_dependency('sinatra', '~> 1.3.0')
   s.add_dependency('ptools')
 
   s.add_development_dependency('minitest')
