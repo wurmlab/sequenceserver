@@ -271,9 +271,6 @@ module SequenceServer
       sequence      = params[:sequence]
       advanced_opts = params['advanced']
 
-      # evaluate empty sequence as nil, otherwise as fasta
-      sequence = sequence.empty? ? nil : to_fasta(sequence)
-
       # blastn implies blastn, not megablast; but let's not interfere if a user
       # specifies `task` herself
       if method == 'blastn' and not advanced_opts =~ /task/
@@ -354,24 +351,6 @@ HEADER
 
       out << "<pre><code>#{found_sequences}</pre></code>"
       out
-    end
-
-    # Ensure a '>sequence_identifier\n' at the start of a sequence.
-    #
-    # An empty query line appears in the blast report if the leading
-    # '>sequence_identifier\n' in the sequence is missing. We prepend
-    # the input sequence with user info in such case.
-    #
-    #   > to_fasta("acgt")
-    #   => 'Submitted_By_127.0.0.1_at_110214-15:33:34\nacgt'
-    def to_fasta(sequence)
-      sequence.lstrip!
-      if sequence[0,1] != '>'
-        ip   = request.ip.to_s
-        time = Time.now.strftime("%y%m%d-%H:%M:%S")
-        sequence.insert(0, ">Submitted_By_#{ip}_at_#{time}\n")
-      end
-      return sequence
     end
 
     def format_blast_results(result, databases)
