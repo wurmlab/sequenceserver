@@ -44,6 +44,10 @@ SUB-COMMANDS
 OPTIONS
 
 BANNER
+    opts.on('-p', '--port PORT', 'Port to run SequenceServer on') do |port|
+      SequenceServer::App.port = Integer(port)
+    end
+
     opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
       SequenceServer::App.config_file = File.expand_path(config_file)
     end

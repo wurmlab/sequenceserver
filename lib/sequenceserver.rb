@@ -76,9 +76,6 @@ module SequenceServer
       # directory of the running app.
       set :database,    Proc.new{ File.expand_path(config['database']) rescue test_database }
 
-      # the port number to run Sequence Server standalone
-      set :port,        Proc.new{ (config['port'] or 4567).to_i }
-
       # number of threads to be used during blasting
       #
       # This option is passed directly to BLAST+. We use a default value of 1
@@ -96,6 +93,12 @@ module SequenceServer
 
       # list of blast databases indexed by their hash value
       set :databases, {}
+    end
+
+    # Settings for the self hosted server.
+    configure do
+      # The port number to run SequenceServer standalone.
+      set :port, 4567
     end
 
     configure :development do

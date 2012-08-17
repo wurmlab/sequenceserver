@@ -19,15 +19,6 @@
 #
 # database: ~/blast_databases/
 
-# Port to run Sequence Server on.
-#
-# The app will then be accessible at http://your-ip:port. Defaults to 4567.
-# http://localhost:port is also valid for local access.
-#
-# Uncomment the following line, and change to appropriate value to use.
-#
-# port: 4567
-
 # number of threads to be use when blasting
 #
 # This option is passed directly to BLAST+. Setting this option to more
