@@ -283,6 +283,7 @@ module SequenceServer
       databases = params[:databases].map{|index|
         settings.databases[index].name
       }
+      advanced_opts << " -num_threads #{settings.num_threads}"
 
       # run blast and log
       blast = Blast.new(method, sequence, databases.join(' '), advanced_opts)
