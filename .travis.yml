@@ -5,4 +5,5 @@ rvm:
   - 1.9.3
 
 before_install: gem install bundler
+before_script:  npm install -g jshint
 script: ./tests/run
