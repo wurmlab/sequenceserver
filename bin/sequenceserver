@@ -46,6 +46,10 @@ BANNER
       SequenceServer::App.config_file = File.expand_path(config_file)
     end
 
+    opts.on('-D', '--devel', 'Start SequenceServer in development mode.') do |config_file|
+      ENV['RACK_ENV'] = 'development'
+    end
+
     opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do |config_file|
       puts SequenceServer.version
       exit
