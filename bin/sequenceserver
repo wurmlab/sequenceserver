@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'bundler/setup'
 require 'optparse'
-require 'sequenceserver'
 
 # e.g:
 # sequenceserver --config .sequenceserver.conf format_database
@@ -79,4 +77,6 @@ end
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
 
+require 'bundler/setup'
+require 'sequenceserver'
 SequenceServer::App.run!
