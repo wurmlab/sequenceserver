@@ -77,6 +77,9 @@ end
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
 
+# Run in production by default.
+ENV['RACK_ENV'] ||= 'production'
+
 require 'bundler/setup'
 require 'sequenceserver'
 SequenceServer::App.run!
