@@ -1,3 +1,5 @@
+/*global SS */
+
 /*
     SequenceServer's BLAST module/method
 
@@ -23,6 +25,7 @@
 
     TODO: should (probably) access UI objects through some sort of interface
 */
+
 SS.blast = (function () {
     /* private methods */
 
@@ -30,11 +33,11 @@ SS.blast = (function () {
     // TODO: magic numbers in JS and Ruby should be in sync
     var guess_sequence_type = function (sequence) {
         // remove 'noisy' characters
-        sequence = sequence.replace(/[^A-Z]/gi, '') // non-letter characters
-        sequence = sequence.replace(/[NX]/gi,   '') // ambiguous  characters
+        sequence = sequence.replace(/[^A-Z]/gi, ''); // non-letter characters
+        sequence = sequence.replace(/[NX]/gi,   ''); // ambiguous  characters
 
         // can't determine the type of ultrashort queries
-        if (sequence.length < 10) { return undefined }
+        if (sequence.length < 10) { return undefined; }
 
         var putative_NA_count, threshold, i;
         putative_NA_count = 0;
@@ -47,8 +50,8 @@ SS.blast = (function () {
             }
         }
 
-        return putative_NA_count > threshold ? 'nucleotide' : 'protein'
-    }
+        return putative_NA_count > threshold ? 'nucleotide' : 'protein';
+    };
 
     var type_of_sequences = function () {
         var sequences = $('#sequence').val().split(/>.*/);
@@ -58,25 +61,25 @@ SS.blast = (function () {
             tmp = guess_sequence_type(sequences[i]);
 
             // could not guess the sequence type; try the next sequence
-            if (!tmp) { continue }
+            if (!tmp) { continue; }
 
             if (!type) {
-              // successfully guessed the type of atleast one sequence
-              type = tmp
+                // successfully guessed the type of atleast one sequence
+                type = tmp;
             }
             else if (tmp !== type) {
-              // user has mixed different type of sequences
-              return 'mixed'
+                // user has mixed different type of sequences
+                return 'mixed';
             }
         }
 
         return type;
-    }
+    };
 
     /* */
     var type_of_databases = function () {
         return $('.databases input:checked').data('type');
-    }
+    };
 
     /*
         check if blast is valid (sufficient input to blast or not)
@@ -94,7 +97,7 @@ SS.blast = (function () {
 
         // everything good
         return true;
-    }
+    };
 
     /*
         determine input sequence type, and trigger 'sequence_type_changed'
@@ -106,11 +109,11 @@ SS.blast = (function () {
         $('#sequence').change(function () {
             tmp = type_of_sequences();
 
-            if (tmp != type){
-              type = tmp;
+            if (tmp !== type) {
+                type = tmp;
 
-              //notify listeners
-              $(this).trigger('sequence_type_changed', type);
+                //notify listeners
+                $(this).trigger('sequence_type_changed', type);
             }
         });
     };
@@ -122,31 +125,30 @@ SS.blast = (function () {
         $('.databases input').change(function () {
             tmp = type_of_databases();
 
-            if (tmp != type) {
+            if (tmp !== type) {
                 type = tmp;
 
                 //notify listeners
                 $(this).trigger('database_type_changed', type);
             }
         });
-    }
+    };
 
     /* */
     var signal_blast_method_changed = function () {
         var method, tmp;
 
-        $('#blast').on('sequence_type_changed database_type_changed',
-            function (event) {
-                  tmp = determine_blast_method();
+        $('#blast').on('sequence_type_changed database_type_changed', function (event) {
+            tmp = determine_blast_method();
 
-                  if (tmp != method) {
-                      method = tmp;
+            if (tmp !== method) {
+                method = tmp;
 
-                      //notify listeners
-                      $(this).trigger('blast_method_changed', [method]);
-                  }
-            });
-    }
+                //notify listeners
+                $(this).trigger('blast_method_changed', [method]);
+            }
+        });
+    };
 
     /*
         Return a BLAST method to use for the selected database and input
@@ -163,7 +165,7 @@ SS.blast = (function () {
     */
     var determine_blast_method = function () {
         if (!required_params_present()) {
-            return
+            return;
         }
 
         var database_type = type_of_databases();
@@ -171,38 +173,39 @@ SS.blast = (function () {
 
         //database type is always known
         switch (database_type) {
+        case 'protein':
+            switch (sequence_type) {
+            case undefined:
+                return ['blastp', 'blastx'];
             case 'protein':
-                switch (sequence_type) {
-                    case undefined:
-                      return ['blastp', 'blastx'];
-                    case 'protein':
-                        return ['blastp'];
-                    case 'nucleotide':
-                        return ['blastx'];
-                }
+                return ['blastp'];
             case 'nucleotide':
-                switch (sequence_type) {
-                    case undefined:
-                      return ['tblastn', 'blastn', 'tblastx'];
-                    case 'protein':
-                        return ['tblastn'];
-                    case 'nucleotide':
-                        return ['blastn', 'tblastx'];
-                }
+                return ['blastx'];
+            }
+            break;
+        case 'nucleotide':
+            switch (sequence_type) {
+            case undefined:
+                return ['tblastn', 'blastn', 'tblastx'];
+            case 'protein':
+                return ['tblastn'];
+            case 'nucleotide':
+                return ['blastn', 'tblastx'];
+            }
         }
-    }
+    };
 
     /* public interface */
 
     var blast = function () {
         return undefined;
-    }
+    };
 
     blast.init = function () {
         signal_sequence_type_changed();
         signal_database_type_changed();
         signal_blast_method_changed();
-    }
+    };
 
     return blast;
 }());

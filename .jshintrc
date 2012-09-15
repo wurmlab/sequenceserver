@@ -1,0 +1,56 @@
+{
+    // Environment.
+    "browser"       : true,
+    "jquery"        : true,
+
+
+    // Strictly:
+    //
+    // prohibit bitwise operators (&, |, ^, etc.)
+    "bitwise"       : true,
+
+    // require {} for every new block or scope
+    "curly"         : true,
+
+    // require triple equals i.e. `===`
+    "eqeqeq"        : true,
+
+    // require immediate invocations to be wrapped in parens e.g. `( function(){}() );`
+    "immed"         : true,
+
+    // prohibit variable use before definition
+    "latedef"       : true,
+
+    // require capitalization of all constructor functions e.g. `new F()`
+    "newcap"        : true,
+
+    // prohibit use of `arguments.caller` and `arguments.callee`
+    "noarg"         : true,
+
+    // prohibit use of empty blocks
+    "noempty"       : true,
+
+    // prohibit use of constructors for side-effects
+    "nonew"         : true,
+
+    // prohibit `.` and `[^...]` in regular expressions
+    //"regexp"        : true,
+
+    // require all non-global variables be declared before they are used
+    "undef"         : true,
+
+    // require `use strict` pragma in every file
+    //"strict"        : true,
+
+    // prohibit trailing whitespaces
+    "trailing"      : true,
+
+    // check against strict whitespace and indentation rules
+    "white"         : true,
+
+
+    // Allow:
+    //
+    // use of `== null`
+    "eqnull"        : true
+}

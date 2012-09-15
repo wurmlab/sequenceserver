@@ -1,56 +1,56 @@
 //helpers methods to disable, enable, and uncheck radio buttons and checkboxes
-(function( $ ){
+(function ($) {
     //disable an element
-    $.fn.disable = function() {
+    $.fn.disable = function () {
         return this.attr('disabled', 'disabled');
     };
-})( jQuery );
+}(jQuery));
 
-(function( $ ){
+(function ($) {
     //enable an element
-    $.fn.enable = function() {
+    $.fn.enable = function () {
         return this.removeAttr('disabled');
     };
-})( jQuery );
+}(jQuery));
 
-(function( $ ){
+(function ($) {
     //uncheck an element
-    $.fn.uncheck = function() {
+    $.fn.uncheck = function () {
         return this.removeAttr('checked');
     };
-})( jQuery );
+}(jQuery));
 
-(function( $ ){
+(function ($) {
     //check an element
-    $.fn.check = function() {
+    $.fn.check = function () {
         return this.attr('checked', 'checked');
     };
-})( jQuery );
+}(jQuery));
 
-(function( $ ){
+(function ($) {
     //(pre-)check the only active database checkbox
-    $.onedb = function(selector) {
-        active_dbs = $(".databases input[type=checkbox]").not(":disabled")
-        if (active_dbs.length == 1){
-            active_dbs.check()
+    $.onedb = function (selector) {
+        var active_dbs = $(".databases input[type=checkbox]").not(":disabled");
+        if (active_dbs.length === 1) {
+            active_dbs.check();
         }
         return active_dbs;
     };
-})( jQuery );
+}(jQuery));
 
-(function( $ ){
+(function ($) {
     //highlight an element
-    $.fn.highlight = function() {
+    $.fn.highlight = function () {
         return this.addClass('focussed');
     };
-})( jQuery );
+}(jQuery));
 
-(function( $ ){
+(function ($) {
     //unhighlight an element
-    $.fn.unhighlight = function() {
+    $.fn.unhighlight = function () {
         return this.removeClass('focussed');
     };
-})( jQuery );
+}(jQuery));
 
 (function ($) {
     $.fn.poll = function () {
@@ -58,10 +58,10 @@
 
         that = this;
 
-        (function ping () {
+        (function ping() {
             tmp = that.val();
 
-            if (tmp != val){
+            if (tmp !== val) {
                 val = tmp;
                 that.change();
             }
@@ -72,6 +72,8 @@
         return this;
     };
 }(jQuery));
+
+/*global store */
 
 /*
     SS - SequenceServer's JavaScript module
@@ -93,27 +95,27 @@ if (!SS) {
 (function () {
 
     SS.decorate = function (name) {
-      return name.match(/(.?)(blast)(.?)/).slice(1).map(function (token, _) {
-        if (token) {
-            if (token !== 'blast'){
-                return '<strong>' + token + '</strong>';
+        return name.match(/(.?)(blast)(.?)/).slice(1).map(function (token, _) {
+            if (token) {
+                if (token !== 'blast') {
+                    return '<strong>' + token + '</strong>';
+                }
+                else {
+                    return token;
+                }
             }
-            else {
-              return token;
-            }
-        }
-      }).join('');
-    }
+        }).join('');
+    };
 
     /*
         ask each module to initialize itself
     */
     SS.main = function () {
         SS.blast.init();
-    }
+    };
 }()); //end SS module
 
-$(document).ready(function(){
+$(document).ready(function () {
     // poll the sequence textbox for a change in user input
     $('#sequence').poll();
 
@@ -146,19 +148,19 @@ $(document).ready(function(){
 
     $('.databases').on('database_type_changed', function (event, type) {
         switch (type) {
-            case 'protein':
-                $('.databases.nucleotide input:checkbox').uncheck().disable();
-                break;
-            case 'nucleotide':
-                $('.databases.protein input:checkbox').uncheck().disable();
-                break;
-            default:
-                $('.databases input:checkbox').enable();
-                break;
+        case 'protein':
+            $('.databases.nucleotide input:checkbox').uncheck().disable();
+            break;
+        case 'nucleotide':
+            $('.databases.protein input:checkbox').uncheck().disable();
+            break;
+        default:
+            $('.databases input:checkbox').enable();
+            break;
         }
     });
 
-    $('form').on('blast_method_changed', function (event, methods){
+    $('form').on('blast_method_changed', function (event, methods) {
         // reset
         $('#methods .dropdown-menu').html('');
         $('#method').disable().val('').html('blast');
@@ -169,9 +171,8 @@ $(document).ready(function(){
 
             $('#method').enable().val(method).html(SS.decorate(method));
 
-            if (methods.length >=1) {
-                $('#methods').addClass('btn-group').
-                    children('.dropdown-toggle').show();
+            if (methods.length >= 1) {
+                $('#methods').addClass('btn-group').children('.dropdown-toggle').show();
 
                 var methods_list = $.map(methods, function (method, _) {
                     return "<li>" + SS.decorate(method) + "</li>";
@@ -181,7 +182,7 @@ $(document).ready(function(){
             }
 
             // jiggle
-            $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
+            $("#methods").effect("bounce", { times: 5, direction: 'left', distance: 12 }, 120);
         }
     });
 
@@ -199,7 +200,7 @@ $(document).ready(function(){
         mbutton.val(new_method).html(SS.decorate(new_method));
 
         // jiggle
-        $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
+        $("#methods").effect("bounce", { times: 5, direction: 'left', distance: 12 }, 120);
     });
 
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
@@ -212,7 +213,7 @@ $(document).ready(function(){
         $(this).removeClass('hover-focus');
     });
 
-    $('#blast').submit(function(){
+    $('#blast').submit(function () {
         //parse AJAX URL
         var action = $(this).attr('action');
         var index  = action.indexOf('#');
@@ -225,16 +226,16 @@ $(document).ready(function(){
         // display a modal window and attach an activity spinner to it
         $('#spinner').modal();
         $('#spinner > div').activity({
-           segments: 8,
-           length:   40,
-           width:    16,
-           speed:    1.8
+            segments: 8,
+            length:   40,
+            width:    16,
+            speed:    1.8
         });
 
         // BLAST now
         var data = ($(this).serialize() + '&method=' + $('#method').val());
-        $.post(url, data).
-          done(function (data) {
+        $.post(url, data)
+        .done(function (data) {
             // BLASTed successfully
 
             // display the result
@@ -250,41 +251,41 @@ $(document).ready(function(){
             //jump to the results
             location.hash = hash;
 
-            $('#result').
-                scrollspy().
-                on('enter.scrollspy', function () {
-                    $('.index').removeAttr('style');
-                }).
-                on('leave.scrollspy', function () {
-                    $('.index').css({position: 'absolute', top: $(this).offset().top});
-                });
+            $('#result')
+            .scrollspy()
+            .on('enter.scrollspy', function () {
+                $('.index').removeAttr('style');
+            })
+            .on('leave.scrollspy', function () {
+                $('.index').css({position: 'absolute', top: $(this).offset().top});
+            });
 
-            $('.resultn').
-                scrollspy({
-                    approach: screen.height / 4
-                }).
-                on('enter.scrollspy', function () {
-                    var id = $(this).attr('id');
-                    $(this).highlight();
-                    $('.index').find('a[href="#' + id + '"]').parent().highlight();
+            $('.resultn')
+            .scrollspy({
+                approach: screen.height / 4
+            })
+            .on('enter.scrollspy', function () {
+                var id = $(this).attr('id');
+                $(this).highlight();
+                $('.index').find('a[href="#' + id + '"]').parent().highlight();
 
-                    return false;
-                }).
-                on('leave.scrollspy', function () {
-                    var id = $(this).attr('id');
-                    $(this).unhighlight();
-                    $('.index').find('a[href="#' + id + '"]').parent().unhighlight();
+                return false;
+            })
+            .on('leave.scrollspy', function () {
+                var id = $(this).attr('id');
+                $(this).unhighlight();
+                $('.index').find('a[href="#' + id + '"]').parent().unhighlight();
 
-                    return false;
-                });
-        }).
-          fail(function (jqXHR, status, error) {
+                return false;
+            });
+        })
+        .fail(function (jqXHR, status, error) {
             //alert user
             $("#error-type").text(error);
             $("#error-message").text(jqXHR.responseText);
             $("#error").modal();
-        }).
-          always(function () {
+        })
+        .always(function () {
             // BLAST complete (succefully or otherwise)
 
             // remove progress notification
@@ -295,16 +296,16 @@ $(document).ready(function(){
         return false;
     });
 
-    $('.results').
-        on('add.index', function (event, index) {
-            // make way for index
-            $('#result').css({width: '660px'});
+    $('.results')
+    .on('add.index', function (event, index) {
+        // make way for index
+        $('#result').css({width: '660px'});
 
-            $(index).addClass('box');
-        }).
-        on('remove.index', function () {
-            $('#result').removeAttr('style');
-        });
+        $(index).addClass('box');
+    })
+    .on('remove.index', function () {
+        $('#result').removeAttr('style');
+    });
 
     (function (store) {
         try {
@@ -318,6 +319,6 @@ $(document).ready(function(){
                 }
             }
         }
-        catch (e) {};
+        catch (e) {}
     }(store));
 });
