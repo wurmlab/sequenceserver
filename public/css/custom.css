@@ -25,10 +25,6 @@ br.large {
   margin-left: 20px;
 }
 
-.offset-right {
-  margin-right: 20px;
-}
-
 .box {
   background: #D5E1DD;
   border-radius: 6px;
@@ -41,6 +37,7 @@ fieldset legend {
   font-size: 16px;
   font-weight: bold;
   border: 0px;
+  text-transform: capitalize;
 }
 
 body {
@@ -116,8 +113,19 @@ body {
   width: 740px;
 }
 
+.databases-container {
+  overflow: hidden;
+}
+
 .databases {
   padding-bottom: 10px;
+  margin-left: 20px;
+  width: 440px;
+  float: left;
+}
+
+.databases:only-child {
+  width: 900px;
 }
 
 span.highlight {

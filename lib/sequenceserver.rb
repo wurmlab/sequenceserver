@@ -216,7 +216,8 @@ module SequenceServer
     end
 
     get '/' do
-      erb :search
+      databases = settings.databases.values.group_by &:type
+      erb :search, :locals => {:databases => databases}
     end
 
     before '/' do

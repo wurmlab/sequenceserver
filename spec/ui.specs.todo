@@ -8,3 +8,6 @@ end
 it "should ensure spell checking is disabled for sequence input box" do
   # NOTE: only if the browser supports it
 end
+
+it "should sort the list of databases in alphabetical order" do
+end
