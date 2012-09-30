@@ -122,16 +122,50 @@ $(document).ready(function(){
 
     var notification_timeout;
 
-    $('#sequence').on('dragover', function(evt) {
+    var tgtMarker = $('#dnd-target-marker');
+    var seq = $('#sequence');
+    tgtMarker.height(seq.outerHeight());
+    tgtMarker.width(seq.outerWidth());
+    tgtMarker.offset(seq.offset());
+
+    $('body').on('dragover', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        tgtMarker.removeClass("hide");
+    });
+
+    $('body').on('dragleave', function(evt) {
+        if (! tgtMarker[0].dragActive) {
+            tgtMarker.addClass("hide");
+        }
+    });
+
+    $('#dnd-target-marker').on('dragover', function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
         // Explicitly show this is a copy.
-        evt.originalEvent.dataTransfer.dropEffect = 'copy'; 
-    })
+        evt.originalEvent.dataTransfer.dropEffect = 'copy';
+        tgtMarker.addClass('drop-target-hover');
+    });
 
-    $('#sequence').on('drop', function(evt) {
+    $('#dnd-target-marker').on('dragenter', function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
+        tgtMarker[0].dragActive = true;
+    })
+
+    $('#dnd-target-marker').on('dragleave', function(evt) {
+        tgtMarker.removeClass('drop-target-hover');
+        tgtMarker[0].dragActive = false;
+    });
+    
+
+    $('#dnd-target-marker').on('drop', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        $('#dnd-target-marker').removeClass('drop-target-hover');
+        tgtMarker.addClass("hide");
+        tgtMarker[0].dragActive = false;
 
         var files = evt.originalEvent.dataTransfer.files; // FileList
         if (files.length == 1) {
@@ -160,7 +194,7 @@ $(document).ready(function(){
             // TODO: display better errors
             alert("drag one file at a time!");
         }
-    })
+    });
 
     $('#clear-file').on('click', function(event) {
         var textarea = $('#sequence');
