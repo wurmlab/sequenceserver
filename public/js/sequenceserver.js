@@ -122,6 +122,50 @@ $(document).ready(function(){
 
     var notification_timeout;
 
+    $('#sequence').on('dragover', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        // Explicitly show this is a copy.
+        evt.originalEvent.dataTransfer.dropEffect = 'copy'; 
+    })
+
+    $('#sequence').on('drop', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        var files = evt.originalEvent.dataTransfer.files; // FileList
+        if (files.length == 1) {
+            var file = files[0];
+            //alert("dropped file: " + file.name);
+            if (file.size < 10 * 1048576) {
+                var reader = new FileReader();
+                reader.onload = (function(file) {
+                    return function(e) {
+                        var textarea = $('#sequence');
+                        textarea.val(e.target.result);
+                        textarea[0].readOnly = true;
+                        var indicator = $('#drop-indicator');
+                        var indicator_t = $('#drop-indicator-text');
+                        indicator_t.text(file.name);
+                        indicator.show();
+                    };
+                })(file);
+                reader.readAsText(file);
+            } else {
+                alert("File " + file.name + " is very large! Try a smaller one!");
+            }
+        } else {
+            alert("drag one file at a time!");
+        }
+    })
+
+    $('#clear-file').on('click', function(event) {
+        var textarea = $('#sequence');
+        textarea.val('');
+        textarea[0].readOnly = false;
+        $('#drop-indicator').hide('fast');
+    });
+
     $('#sequence').on('sequence_type_changed', function (event, type) {
         clearTimeout(notification_timeout);
         $(this).parent('.control-group').removeClass('error');

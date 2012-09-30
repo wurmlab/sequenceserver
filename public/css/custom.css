@@ -75,6 +75,13 @@ body {
   border-radius: 0px 0px 6px 6px;
 }
 
+#drop-indicator {
+  width: 890px;
+  margin: 0 auto;
+  font-weight: bold;
+  padding-bottom: 8px;
+}
+
 #sequence {
   height: 198px;
   width: 890px;
