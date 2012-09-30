@@ -151,6 +151,22 @@ $(document).ready(function(){
 
     var notification_timeout;
 
+    function _clearNotifications() {
+        $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
+    }
+
+    function clearNotifications() {
+        clearTimeout(notification_timeout);
+        _clearNotifications();
+    }
+
+    function showNotification(ident) {
+        $('#' + ident + '-notification').show('drop', {direction: 'up'}).addClass('active');
+        notification_timeout = setTimeout(_clearNotifications, 5000);
+    }
+
+    // drag-and-drop code
+
     $('body').on('dragover', function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -197,27 +213,36 @@ $(document).ready(function(){
             var file = files[0];
             if (file.size < 10 * 1048576) {
                 var reader = new FileReader();
-                // TODO: handle read errors
                 reader.onload = (function(file) {
                     return function(e) {
-                        // TODO: validate FASTA
-                        var textarea = $('#sequence');
-                        textarea.val(e.target.result);
-                        textarea[0].readOnly = true;
-                        var indicator = $('#drop-indicator');
-                        var indicator_t = $('#drop-indicator-text');
-                        indicator_t.text(file.name);
-                        indicator.show();
+                        if (/\s*>/.test(e.target.result)) {
+                            var textarea = $('#sequence');
+                            textarea.val(e.target.result);
+                            textarea[0].readOnly = true;
+                            var indicator = $('#drop-indicator');
+                            var indicator_t = $('#drop-indicator-text');
+                            indicator_t.text(file.name);
+                            indicator.show();
+                        } else {
+                            // apparently not FASTA
+                            $('#dnd-format-notification .filename').text(file.name);
+                            showNotification('dnd-format');
+                        }
                     };
+                })(file);
+                reader.onerror = (function(file) {
+                    return function(e) {
+                        $('#dnd-read-error-notification .filename').text(file.name);
+                        showNotification('dnd-read-error');
+                    }
                 })(file);
                 reader.readAsText(file);
             } else {
-                // TODO: display better errors
-                alert("File " + file.name + " is very large! Try a smaller one!");
+                $('#dnd-large-file-notification .filename').text(file.name);
+                showNotification('dnd-large-file');
             }
         } else {
-            // TODO: display better errors
-            alert("drag one file at a time!");
+            showNotification('dnd-multi');
         }
     });
 
@@ -227,6 +252,8 @@ $(document).ready(function(){
         textarea[0].readOnly = false;
         $('#drop-indicator').hide('fast');
     });
+
+    // end drag-and-drop
 
     $('#sequence').on('sequence_type_changed', function (event, type) {
         clearTimeout(notification_timeout);
