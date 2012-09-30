@@ -136,11 +136,12 @@ $(document).ready(function(){
         var files = evt.originalEvent.dataTransfer.files; // FileList
         if (files.length == 1) {
             var file = files[0];
-            //alert("dropped file: " + file.name);
             if (file.size < 10 * 1048576) {
                 var reader = new FileReader();
+                // TODO: handle read errors
                 reader.onload = (function(file) {
                     return function(e) {
+                        // TODO: validate FASTA
                         var textarea = $('#sequence');
                         textarea.val(e.target.result);
                         textarea[0].readOnly = true;
@@ -152,9 +153,11 @@ $(document).ready(function(){
                 })(file);
                 reader.readAsText(file);
             } else {
+                // TODO: display better errors
                 alert("File " + file.name + " is very large! Try a smaller one!");
             }
         } else {
+            // TODO: display better errors
             alert("drag one file at a time!");
         }
     })

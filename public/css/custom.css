@@ -78,8 +78,14 @@ body {
 #drop-indicator {
   width: 890px;
   margin: 0 auto;
+  margin-bottom: 8px;
   font-weight: bold;
-  padding-bottom: 8px;
+  padding: 8px 5px 8px 5px;
+  /* padding-bottom: 8px; */
+}
+
+#drop-indicator .contents {
+  margin-left: 6px;
 }
 
 #sequence {
