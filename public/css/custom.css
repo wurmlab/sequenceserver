@@ -88,6 +88,10 @@ body {
   margin-left: 6px;
 }
 
+#drop-indicator span {
+  vertical-align: middle
+}
+
 #sequence {
   height: 198px;
   width: 890px;
