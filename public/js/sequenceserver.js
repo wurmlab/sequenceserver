@@ -113,6 +113,35 @@ if (!SS) {
     }
 }()); //end SS module
 
+function positionDnDTarget() {
+    var tgtMarker = $('#dnd-target-marker');
+    var seq = $('#sequence');
+    tgtMarker.height(seq.outerHeight());
+    tgtMarker.width(seq.outerWidth());
+    var offset = seq.position();
+    tgtMarker.css('left', offset.left);
+    tgtMarker.css('top', offset.top);
+    tgtMarker.css('margin-left', seq.css('margin-left'));
+    tgtMarker.css('margin-right', seq.css('margin-right'));
+}
+
+function startDrag() {
+    positionDnDTarget();
+    $('#dnd-target-marker').removeClass("hide");
+    document.inDrag = true;
+}
+
+function inDrag() {
+    if (! document.inDrag) {
+        startDrag();
+    }
+}
+
+function endDrag() {
+    $('#dnd-target-marker').addClass("hide");
+    document.inDrag = false;
+}
+
 $(document).ready(function(){
     // poll the sequence textbox for a change in user input
     $('#sequence').poll();
@@ -122,25 +151,21 @@ $(document).ready(function(){
 
     var notification_timeout;
 
-    var tgtMarker = $('#dnd-target-marker');
-    var seq = $('#sequence');
-    tgtMarker.height(seq.outerHeight());
-    tgtMarker.width(seq.outerWidth());
-    tgtMarker.offset(seq.offset());
-
     $('body').on('dragover', function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        tgtMarker.removeClass("hide");
+        inDrag();
     });
 
     $('body').on('dragleave', function(evt) {
-        if (! tgtMarker[0].dragActive) {
-            tgtMarker.addClass("hide");
+        if (! $('#dnd-target-marker')[0].dragActive) {
+            endDrag();
         }
     });
 
-    $('#dnd-target-marker').on('dragover', function(evt) {
+    var tgtMarker = $('#dnd-target-marker');
+
+    tgtMarker.on('dragover', function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
         // Explicitly show this is a copy.
@@ -148,24 +173,24 @@ $(document).ready(function(){
         tgtMarker.addClass('drop-target-hover');
     });
 
-    $('#dnd-target-marker').on('dragenter', function(evt) {
+    tgtMarker.on('dragenter', function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
         tgtMarker[0].dragActive = true;
     })
 
-    $('#dnd-target-marker').on('dragleave', function(evt) {
+    tgtMarker.on('dragleave', function(evt) {
         tgtMarker.removeClass('drop-target-hover');
         tgtMarker[0].dragActive = false;
     });
     
 
-    $('#dnd-target-marker').on('drop', function(evt) {
+    tgtMarker.on('drop', function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        $('#dnd-target-marker').removeClass('drop-target-hover');
-        tgtMarker.addClass("hide");
+        tgtMarker.removeClass('drop-target-hover');
         tgtMarker[0].dragActive = false;
+        endDrag();
 
         var files = evt.originalEvent.dataTransfer.files; // FileList
         if (files.length == 1) {
