@@ -38,7 +38,7 @@ module SequenceServer
       qfile = Tempfile.new('sequenceserver_query')
       qfile.puts(query)
       qfile.close
-      @query = qfile.path
+      @query = qfile
 
       # Add -outfmt 11 to list of options so that it outputs a blast archive
       @options = options.to_s
@@ -65,7 +65,7 @@ module SequenceServer
 
     # The command that will be executed.
     def command
-      @command ||= "#@method -db '#@databases' -query '#@query' #@options"
+      @command ||= "#@method -db '#@databases' -query '#{@query.to_path}' #@options"
     end
 
     # Return success status.
