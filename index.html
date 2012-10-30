@@ -459,6 +459,19 @@ passenger-install-nginx-module
         You will need to set it in <code>config.ru</code> for Rack based deployment:
         <p></p>
 <pre>SequenceServer::App.config_file = 'sequenceserver_ants.conf'</pre>
+        The above line should be added before
+        <code>SequenceServer::App.init</code>, so the <code>config.ru</code>
+        looks something like this:
+        <p></p>
+<pre>
+require 'rubygems'
+require 'bundler/setup'
+require 'sequenceserver'
+
+SequenceServer::App.config_file = '/absolute/path/to/configuration_file'
+SequenceServer::App.init
+run SequenceServer::App
+</pre>
         </dd>
 
         <dt>How do I change the server port?</dt>
