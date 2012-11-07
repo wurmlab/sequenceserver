@@ -127,7 +127,7 @@ module SequenceServer
       end
 
       if response.match(/y/i)
-        LOG.info("Enter a database title (or will use '#{File.basename(file)}'")
+        LOG.info("Enter a database title (or will use '#{File.basename(file)}')")
         title = STDIN.gets.chomp
         title.gsub!('"', "'")
         title = File.basename(file)  if title.empty?
