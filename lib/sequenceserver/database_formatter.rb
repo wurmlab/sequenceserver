@@ -35,7 +35,7 @@ module SequenceServer
 
     def format_databases
       unless File.directory?(db_path)
-        LOG.fatal("Database directory #{db_path} not found. See './database_formatter --help' for instructions.")
+        LOG.fatal("Database directory #{db_path} not found. See 'sequenceserver format-databases --help' for instructions.")
         exit
       end
 
