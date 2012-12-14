@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'optparse'
+require 'bundler/setup'
 
 # e.g:
 # sequenceserver --config .sequenceserver.conf format_database
@@ -84,6 +85,5 @@ $PROGRAM_NAME = 'sequenceserver'
 # Run in production by default.
 ENV['RACK_ENV'] ||= 'production'
 
-require 'bundler/setup'
 require 'sequenceserver'
 SequenceServer::App.run!
