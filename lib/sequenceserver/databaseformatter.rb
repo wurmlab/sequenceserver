@@ -163,11 +163,12 @@ USAGE
 
 DESCRIPTION
 
-  Recursively scan the given 'blast_database_directory' for BLAST databases and
-  formats them for use with SequenceServer.
+  Recursively scan the given 'blast_database_directory' for FASTA files and
+  formats them for use with SequenceServer by making them into BLAST databases.
 
-  It automagically detects the database type, and ignores non-db files and
-  pre-formatted databases. The 'parse_seqids' makeblastdb options is used.
+  It automagically detects the type of sequence in each FASTA file (nucleotide
+  or amino acid), ignores non-FASTA files and does not recreate BLAST databases.
+  The '-parse_seqids' flag for makeblastdb is used to enable sequence retrieval.
 
   'blast_database_directory' can be passed as a command line parameter or
   through a configuration file by setting the 'database' key (the same option
