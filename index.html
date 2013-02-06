@@ -52,6 +52,7 @@ h2 {
 
 dd { padding-bottom:10px;}
 </style>
+
 <script type="text/javascript">
 
 var _gaq = _gaq || [];
@@ -81,15 +82,15 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
       <div class="container-fluid">
         <a class="brand" href="#">SequenceServer</a>
         <ul class="nav">
-          <li><a href="#about">About</a></li>            <!-- <li class="active"><a href="#about">About</a></li>   -->
+<!--          <li><a href="#about">About</a></li> -->           <!-- <li class="active"><a href="#about">About</a></li>   -->
           <li><a href="#installation">Installation</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="#support">Support</a></li>
-          <li><a href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">License</a></li>
           <li><a href="#contributors">Contributors</a></li>
           <li><a href="#users">Users</a></li>
-          <li><a href="http://www.antgenomes.org/blast">Demo Server</a></li>
-          <li><a href="https://github.com/yannickwurm/sequenceserver">Source Code</a></li>
+          <li><a href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt" title="Will open new window" target="_">&raquo; License &raquo;</a></li>
+          <li><a href="http://www.antgenomes.org/blast" title="Will open new window" target="_">&raquo; Demo Server &raquo;</a></li>
+          <li><a href="https://github.com/yannickwurm/sequenceserver" title="Will open GitHub in new window" target="_">&raquo; Source Code &raquo;</a></li>
         </ul>
       </div>
     </div>
@@ -146,14 +147,12 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
           <p>Sequence data is generated at increasing rates. However it is
           challenging to effectively share and query such data. Deploying complex
           solutions such as <a href="http://www.gmod.org">GMOD</a> is often overkill
-          and publicly available front ends for BLAST such as <a
-            href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html">NCBI's
-            wwwblast</a> are difficult to use or install.</p>
+          and <a href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html">publicly available front ends for BLAST</a>
+          are difficult to use or install.</p>
 
           <p>SequenceServer is an efficient and elegant alternative.
-          Currently in beta, SequenceServer is fully functional and has
-          already been deployed for several databases (eg: <a
-            href="http://www.antgenomes.org/blast">BLAST ant genomes</a>).
+          Sequenceserver is still being developed yet is fully functional and has
+          already been deployed for <a href="#users">multiple databases</a>.</p>
 
           <p>SequenceServer is  <a
             href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">free
@@ -174,50 +173,26 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
         </div>
       </div>
 
-      <h3>Easy to use</h3>
-
-      <p>SequenceServer sports a minimalistic, clutter-free design, so you
-      deal only with what is relevant.</p>
-
-      <p>The smart user interface automagically figures out the appropriate
-      BLAST method to use based on your input. However, it knows not to get
-      in your way. When appropriate, SequenceServer lets you override its
-      suggestion in just one click.</p>
-
-      <p>SequenceServer constantly analyses your input to prevent common
-      mistakes. For example, it will inform you apriori if you have mixed
-      nucleotide and protein sequence.</p>
-
-      <p>You can tweak your BLAST search by passing extra options to BLAST+
-      the way you would on the command line. To assist you in the process,
-      SequenceServer comes with a ready made reference of options supported
-      by BLAST+. Just click on the help button next to the advanced
-      parameters input box to know what your choices are.</p>
-
-      <p>The output is formatted for maximum readability and accessibility.
-      Results for each query are visually separated, with an index to jump
-      back and forth between the results for each query.</p>
-
-      <p>SequenceServer provides you with a link in the BLAST results to
-      let you download search hits (separately or all of them together).</p>
-
-      <h3>Rapidly deployed</h3>
-
-      <p>SequenceServer requires very little configuration.  A directory
-      containing formatted or un-formatted sequence databases being the
-      only compulsory configuration.</p>
-
-      <p>SequenceServer scans the given database directory for formatted
-      BLAST databases during startup. And will interactively help you
-      create BLAST databases from the unformatted ones. All you need to do
-      is enter an appropriate title for the databases one by one.</p>
-
-      <p>Pre-equipped with a built-in server, you don't need to deal with
-      Apache or Nginx to run SequenceServer.</p>
-
-      <p>The hyperlinks to the search hits can be customized to your
-      liking. Point it to a genome browser you frequent, or a custom
-      database.</p>
+      <h3>Easy for biologists</h3>
+      <ul>
+	<li>Minimalistic, clutter-free design, so you can focus on the biology</li>
+	<li>The smart user interface automagically figures out the appropriate
+      BLAST method to use based on your input and selected databases</li>
+	<li>Common mistakes prevented. E.g., SequenceServer warns if you mix nucleotide and protein sequences</li>
+	<li>Advanced users: use advanced parameters (e.g. <code>-task blastn-short -evalue 1.0e-20</code>) like you would in the command line.</li>
+	<li>Simple overview of results</li>
+	<li>Download links for hits</li>
+      </ul>
+      
+      <h3>Rapidly deployed by admins</h3>
+      <ul>
+	<li>very little configuration required: only a directory
+	  containing formatted or un-formatted sequence databases</li>
+	<li>SequenceServer scans the database directory during startup. And will interactively help you
+      create BLAST databases from FASTA files</li>
+	<li>Comes with a built-in web server. No need to deal with Apache or Nginx to run SequenceServer.</li>
+	<li>Easily customizable hyperlinks to search hits (e.g. to your local genome browser or custom database)</li>
+      </ul>
 
       <h3>Requirements</h3>
 
@@ -226,14 +201,12 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
         href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.25/">NCBI
         BLAST+</a> (&gt;= 2.2.25+). That's it!</p>
 
-      <p>Linux and MacOS are officially supported. Windows support may be
-      added in a future release.</p>
+      <p>Linux and MacOS are officially supported. While we would like to also support Windows,
+      our time is limited and we prefer to first concentrate on making SequenceServer great on fewer platforms.</p>
 
       <h3>Demo server</h3>
 
-      <p><a href="http://www.antgenomes.org/blast">Ant genome sequence
-        blast search</a>: running a pre-release version of
-      SequenceServer.</p>
+      <p>Sure, check <a href="http://www.antgenomes.org/blast">Ant genome BLAST</a> or the sites of <a href="#users">some of our users</a>.</p>
       </section>
 
       <!-- Setup ================================================== -->
@@ -269,8 +242,7 @@ database: /Users/me/blast_databases/
       (i.e remove the <code>#</code> signs), edit the values, and run
       SequenceServer.</p>
 
-      <p>If the databases don't already exist, <a
-        href="#createblastdb">create them</a>.</p>
+      <p>If the databases don't already exist, create them as below.
 
       <h2>Setting up BLAST databases</h2>
 
@@ -311,9 +283,9 @@ database: /Users/me/blast_databases/
         <li>Additional options at <code>makeblastdb -help</code>.</li>
       </ul>
 
-      <h2>Deploying SequenceServer on Apache or Nginx with Phusion Passenger</h2>
+      <h2>Optional: SequenceServer on Apache or Nginx with Phusion Passenger</h2>
 
-      <p>If you would like to deploy BLAST as part of a standard website,
+      <p>For most people, simply running the SequenceServer as above is more than enough. But if you need to deploy SequenceServer BLAST as part of a standard website,
       and have it show up as a normal webdirectory, SequenceServer can be
       deployed on Apache or Nginx with Phusion Passenger™ (a.k.a mod_rails
       or mod_rack).</p>
@@ -399,12 +371,12 @@ passenger-install-nginx-module
         </div>
 
         <p>Have an issue in deploying SequenceServer? Something is not working
-          as expected? Have a tip? Need some advice? Or just wanna say "Hi!"?
+          as expected? Have a tip? A feature request? Or just want to encourage further development?
           Post it to <a
           href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">SequenceServer
           Google Group</a> and we will work something out.</p>
 
-        <iframe id="forum_embed"
+       <!--        <iframe id="forum_embed"
           src="javascript:void(0)"
           scrolling="no"
           frameborder="0"
@@ -413,10 +385,13 @@ passenger-install-nginx-module
         </iframe>
 
         <script type="text/javascript">
-          document.getElementById('forum_embed').src =
+
+	   document.getElementById('forum_embed').src =
           'https://groups.google.com/forum/embed/?place=forum/sequenceserver'
-          + '&showsearch=true&showtabs=false&hideforumtitle=true';
-        </script>
+          + '&showsearch=false&showtabs=false&hideforumtitle=true';
+	</script>
+
+-->
       </section>
 
       <!--FAQ ================================================== -->
@@ -428,7 +403,7 @@ passenger-install-nginx-module
       <dl>
         <dt>How do I cite SequenceServer?</dt>
         <dd>A manuscript describing SequenceServer is <em>in prep</em>. In the mean time,
-        please cite the following reference: "Priyam A., Woodcroft B.J., Wurm Y <em>in prep</em>. <strong>SequenceServer: BLAST searching made easy</strong>".</dd>
+        please cite the following reference: "Priyam A., Woodcroft B.J., Wurm Y <em>in prep</em>. <strong>SequenceServer: BLAST searching made easy</strong>". <a href="#users">This has already been done several times.</a></dd>
 
         <dt>What are the alternatives to SequenceServer?</dt>
         <dd>There are several. But they are suboptimal because they look like
@@ -443,7 +418,7 @@ passenger-install-nginx-module
         </ul></dd>
 
         <dt>Is there a demo server?</dt>
-        <dd>SequenceServer provides <a href="http://www.antgenomes.org/blast">BLAST for ant genomes</a></dd>
+        <dd>SequenceServer provides <a href="http://www.antgenomes.org/blast">BLAST for ant genomes</a>. Some of our users also <a href="#users">provide publicly accessible servers</a>.</dd>
 
         <dt>What is a BLAST database? Can I make a custom BLAST database?</dt>
         <dd>The BLAST program doesn't understand FASTA files. But BLAST
@@ -451,7 +426,7 @@ passenger-install-nginx-module
         into the optimized BLAST-friendly format. Use <code>makeblastdb</code> or <code>sequenceserver format-databases</code> to create a custom BLAST database.</dd>
 
         <dt>Can I use a preformatted BLAST database? Can I use alias?</dt>
-        <dd>Preformatted BLAST databases can also be used with SequenceServer. Most preformatted database ar split between multiple files (like .00, .01...). Thanks to <a href="http://acgt.tumblr.com/">Mark Anthony Gibbins</a>, SequenceServer can correctly understand these.</dd>
+        <dd>Preformatted BLAST databases can also be used with SequenceServer. Most preformatted database ar split between multiple files (like .00, .01...). Thanks to <a href="http://acgt.tumblr.com/">Mark Anthony Gibbins'</a> contributions, SequenceServer can correctly understand these.</dd>
         <dd>If you use a custom  <code>.nal</code> or <code>.pal</code> BLAST database alias file, and copy this alias file as well as the linked databases into SequenceServer's <code>db</code> directory, SequenceServer will display both the alias and the linked databases. If you want to display only the alias, remove the linked databases from <code>db</code>, then edit the <code>DBLIST</code> line in the <code>.pal</code> or <code>.nal</code> file so that it contains the complete path of each of the database files (e.g: <code>DBLIST species1_custom_blast_db species2_custom_blast_database</code> may become: <code>DBLIST /Users/blastuser/mydbs/species1_custom_blast_db /Users/blastuser/mydbs/species2_custom_blast_database</code>)</dd> 
 
         <dt>What is the difference between BLAST and BLAST+? What about WU-BLAST or AB-BLAST?</dt>
@@ -497,7 +472,7 @@ run SequenceServer::App
         <dt>Do I need to install Apache?</dt>
         <dd>SequenceServer automatically uses ruby's internal web servers. No
         need for Apache.  By default it uses <a href="http://www.ruby-doc.org/stdlib/libdoc/webrick/rdoc/index.html">Webrick</a>. Installling <a href="http://code.macournoyer.com/thin/">Thin</a> (<code>gem install thin</code>), or <a href="http://rubygems.org/gems/mongrel">Mongrel</a> (<code>gem install mongrel</code>) 
-        can improve performance. </dd>
+        can improve performance. SequenceServer will automatically use these if installed. </dd>
 
         <dt>Can I integrate SequenceServer into an Apache or Nginx server?</dt>
         <dd>Yes. See above</dd>
@@ -515,7 +490,7 @@ run SequenceServer::App
         <dd>Check our <a
           href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">LICENSE.txt</a>
         file. Basically, it's free if you're an academic or a
-        non-for-profit organization.</dd>
+        non-for-profit organization. Get in touch if you're a for-profit.</dd>
 
         <dt>Can I have the source code? Can I contribute?</dt>
         <dd>SequenceServer's <a href="http://github.com/yannickwurm/sequenceserver">source code is on GitHub</a>. Downloading,
@@ -523,7 +498,7 @@ run SequenceServer::App
 
         <dt>Can SequenceServer do XXX? Why doesn't YYYY work? It's ugly, it crashes!?!?</dt>
         <dd>First, run <code>gem update</code> or <code>sudo gem update</code>. </dd>
-        <dd>If things are still weird, please keep in mind that SequenceServer is still in beta. Our <a href="https://github.com/yannickwurm/sequenceserver/issues">issues tracker</a> logs development activities. <a href="https://github.com/yannickwurm/sequenceserver/issues?labels=feature">feature</a> indicates what is in the pipeline, and <a href="https://github.com/yannickwurm/sequenceserver/issues?labels=bug">bugs</a> indicates upcoming fixes. Feel free to add comments, vote, report bugs, request features and contribute code. All contributions, patches and pulls are welcome.</dd>
+        <dd>If things are still weird, please keep in mind that SequenceServer is still in beta. We're just developing this in our free time. Our <a href="https://github.com/yannickwurm/sequenceserver/issues">issues tracker</a> logs development activities. Feel free to add comments, vote, report bugs, request features and contribute code. All contributions, patches and pulls are welcome.  If you're not a coder, please consider supporting development by a donation.</dd>
       </dl>
       </section>
 
@@ -534,8 +509,7 @@ run SequenceServer::App
       </div>
       <dl>
         <dt><a href="http://yannick.poulet.org">Yannick Wurm</a></dt><dd> is an evolutionary biologist using genomics tools to study the evolution of ant
-        societies (eg: <a href="http://yannick.poulet.org/publications/wurm2009antDatabase.pdf">antgenomes.org</a>, <a href="http://yannick.poulet.org/publications/wurm2011fireAntGenome.pdf">fire ant genome</a>, <a href="http://www.antgenomes.org/publications/wurm2010fireAntQueenDealationExpression.pdf">competing fire ant queens</a>). He will be at
-        <a href="http://www.sbcs.qmul.ac.uk/">Queen Mary University London</a> from January 2012.</dd>
+        societies (eg: <a href="http://yannick.poulet.org/publications/wurm2009antDatabase.pdf">antgenomes.org</a>, <a href="http://yannick.poulet.org/publications/wurm2011fireAntGenome.pdf">fire ant genome</a>, <a href="http://www.antgenomes.org/publications/wurm2010fireAntQueenDealationExpression.pdf">competing fire ant queens</a>). He is a lecturer at <a href="http://www.sbcs.qmul.ac.uk/">Queen Mary University London</a>.</dd>
         <dt><a href="http://yeban.in">Anurag Priyam</a></dt><dd> is a software developer primarily interested in applied computing and web infrastructure development. He is currently pursuing his undergraduate studies at the Indian Institute of Technology, Kharagpur.</dd>
         <dt><a href="http://ceddo.carbonmade.com/">Cedric Wurm</a></dt><dd></dd>
         <dt><a href="https://github.com/wwood">Ben J Woodcroft</a></dt><dd> is a PhD student in <a href="http://www.biochemistry.unimelb.edu.au/research/res_ralph.html">Melbourne</a> studying protein trafficking in apicomplexan parasites including malaria
@@ -568,7 +542,26 @@ run SequenceServer::App
       -->
 
       <img src='img/logos/composition_of_logos.png' width="800" height="197" alt="SequenceServer has satisfied users at U Melbourne, Centre for Organismal Studies Heidelberg, Swiss Institute of Bioinformatics, IIT Karagpur, Natural History Museum London, Queen Mary University London, Benaroya Research Institute, University of Lausanne" style="max-width:100%; height:auto;"/>
+      <br/>
+      <p>As well as:</p>
+      <ul>
+	<li><a href="http://aviangenomes.org/blast-public">AvianGenomes.org</a></li>
+	<li><a href="http://haroun.iplantc.org/sequenceserver">iPlantCollaborative</a> Saccharum Genome Database</li>
+	<li><a href="http://fastdb.biocloud.ca/">BioCloud.ca</a></li>
+	<li><a href="http://culture.no-ip.org/blast.shtml">Dr. Wolfang Rumpf @ U Maryland</a></li>
+	<li><a href="http://www.ecology.kyoto-u.ac.jp/">Center for Ecological Research, Kyoto University</a></li>
+	<li><a href="http://morse-ccmar.ualg.pt/edge/">European clam database</a> @ CCMAR at University of Algarve</li>
+	<li><a href="http://amborella.uga.edu/blast/">Amborella Genome</a> at University of Georgia</li>
+	<li>and many more...</li>
+      </ul>
+      <h1>Citations</h1>
+      <ul>
+	<li>Elphick MR (2012) <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">The Protein Precursors of Peptides That Affect the Mechanics of Connective Tissue and/or Muscle in the Echinoderm Apostichopus japonicus.</a> PLoS ONE.</li>
+	<li>Shreve J et al (2013) <a href="http://www.sciencedirect.com/science/article/pii/S002219101200296X">A genome-wide survey of small interfering RNA and microRNA pathway genes in a galling insect.</a> Journal of Insect Physiology</li>
+      </ul>
+
     </section>
+
     <section>
       <p>Parts of this software are &copy; 2011 University of Lausanne</p>
     </section>
