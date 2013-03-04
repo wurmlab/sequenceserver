@@ -190,31 +190,6 @@ span.highlight {
   border: 1px solid transparent;
 }
 
-ul.index {
-  list-style: none;
-  position: fixed;
-  margin-left: 710px;
-  padding: 15px;
-  width: 200px;
-  top: 5px;
-}
-
-ul.index li {
-  padding: 3%;
-}
-
-ul.index li.focussed {
-  background-color: #08C;
-}
-
-ul.index li.focussed a {
-  color: white;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-}
-
-ul.index li:visited {
-}
-
 div.focussed {
   border: 1px solid black;
 }

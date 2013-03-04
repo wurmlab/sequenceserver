@@ -244,20 +244,8 @@ $(document).ready(function(){
             $('#blast').addClass('detached-bottom');
             $('#underbar').addClass('detached-top');
 
-            //generate index
-            $('.resultn').index({container: '.results'});
-
             //jump to the results
             location.hash = hash;
-
-            $('#result').
-                scrollspy().
-                on('enter.scrollspy', function () {
-                    $('.index').removeAttr('style');
-                }).
-                on('leave.scrollspy', function () {
-                    $('.index').css({position: 'absolute', top: $(this).offset().top});
-                });
 
             $('.resultn').
                 scrollspy({
@@ -294,17 +282,6 @@ $(document).ready(function(){
 
         return false;
     });
-
-    $('.results').
-        on('add.index', function (event, index) {
-            // make way for index
-            $('#result').css({width: '660px'});
-
-            $(index).addClass('box');
-        }).
-        on('remove.index', function () {
-            $('#result').removeAttr('style');
-        });
 
     (function (store) {
         try {
