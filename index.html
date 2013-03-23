@@ -202,7 +202,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
         BLAST+</a> (&gt;= 2.2.25+). That's it!</p>
 
       <p>Linux and MacOS are officially supported. While we would like to also support Windows,
-      our time is limited and we prefer to first concentrate on making SequenceServer great on fewer platforms.</p>
+      our resources are limited and we prefer to first concentrate on making SequenceServer great on fewer platforms.</p>
 
       <h3>Demo server</h3>
 
@@ -242,7 +242,7 @@ database: /Users/me/blast_databases/
       (i.e remove the <code>#</code> signs), edit the values, and run
       SequenceServer.</p>
 
-      <p>If the databases don't already exist, create them as below.
+      <p>If you you already have databases, jump ahead to <a href="#launch">launch SequenceServer</a>. If not, set up databases as follows.</p>
 
       <h2>Setting up BLAST databases</h2>
 
@@ -282,6 +282,15 @@ database: /Users/me/blast_databases/
         hits (yes, it's a bit slow on large files).</li>
         <li>Additional options at <code>makeblastdb -help</code>.</li>
       </ul>
+
+      <h2 id='launch'>Launch SequenceServer</h2>
+
+      <p>Simply execute:</p>
+      <pre>$ sequenceserver </pre>
+
+      <p>SequenceServer will start up a webserver on http://localhost:4567/ (by default). 
+      Port number can be changed in the config file. </p>
+
 
       <h2>Optional: SequenceServer on Apache or Nginx with Phusion Passenger</h2>
 
@@ -559,6 +568,7 @@ run SequenceServer::App
 	<li>Elphick MR (2012) <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">The Protein Precursors of Peptides That Affect the Mechanics of Connective Tissue and/or Muscle in the Echinoderm Apostichopus japonicus.</a> PLoS ONE.</li>
 	<li>Shreve J et al (2013) <a href="http://www.sciencedirect.com/science/article/pii/S002219101200296X">A genome-wide survey of small interfering RNA and microRNA pathway genes in a galling insect.</a> Journal of Insect Physiology.</li>
 	<li>Berlamino et al (2013) <a href="http://www.biomedcentral.com/1471-2105/14/S1/S2">SymGRASS: a database of sugarcane orthologous genes involved in arbuscular mycorrhiza and root nodule symbiosis</a>. BMC Bioinformatics.</li>
+	<li>Elphick MR et al (2013) <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0059076">The Evolution and Diversity of SALMFamide Neuropeptides</a>. PLoS ONE.</li>
       </ul>
 
     </section>
