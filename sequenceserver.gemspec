@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
-  s.version     = '0.8.3'
+  s.version     = '0.8.4'
   s.authors     = ['Anurag Priyam', 'Ben J Woodcroft', 'Yannick Wurm']
   s.email       = 'anurag08priyam@gmail.com'
   s.homepage    = 'http://sequenceserver.com'
@@ -13,7 +13,7 @@ SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user in
 DESC
 
   # dependencies
-  s.add_dependency('bundler', '~> 1.2.0')
+  s.add_dependency('bundler', '~> 1.2')
   s.add_dependency('sinatra', '~> 1.3.0')
   s.add_dependency('ptools')
 
