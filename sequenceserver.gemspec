@@ -19,6 +19,9 @@ DESC
 
   s.add_development_dependency('minitest')
   s.add_development_dependency('rack-test')
+  s.add_development_dependency('watir-webdriver')
+  s.add_development_dependency('headless')
+  s.add_development_dependency('rspec')
 
   # gem
   s.files         = Dir['lib/**/*'] + Dir['views/**/*'] + Dir['public/**/*'] + Dir['tests/**/*']
