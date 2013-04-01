@@ -269,7 +269,11 @@ $(document).ready(function(){
           fail(function (jqXHR, status, error) {
             //alert user
             $("#error-type").text(error);
-            $("#error-message").text(jqXHR.responseText);
+            if(jqXHR.responseText == ''){
+              $("#error-message").text('Is the SequenceServer running? The JQuery status was \''+status+'\', and the JQuery error was \''+error+'\'.');
+            } else {
+              $("#error-message").text(jqXHR.responseText);
+            }
             $("#error").modal();
         }).
           always(function () {
