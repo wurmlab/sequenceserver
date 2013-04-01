@@ -13,7 +13,7 @@ shared_examples_for 'a browser' do
   end
 
   it 'should do a simple blastp' do
-    b.goto 'http://localhost:4567'
+    b.goto seqserv_url
 
     # Nucleotide database should be available
     b.checkbox(:value => 'ed4250adc44601256f6bbbd4ab5cc80c').enabled?.should eq(true)
@@ -42,6 +42,9 @@ shared_examples_for 'a browser' do
 
     # Run the blast
     b.button(:id => 'method').click
+
+    while b.div(:id => 'result').text.include?('Waiting for BLAST to be run')
+    end
 
     # blast should have worked
     b.div(:id => 'result').text.include?('FASTA of 11 retrievable').should eq(true)
