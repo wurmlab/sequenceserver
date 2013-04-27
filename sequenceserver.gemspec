@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
-  s.version     = '0.8.4'
+  s.version     = '0.8.5'
   s.authors     = ['Anurag Priyam', 'Ben J Woodcroft', 'Yannick Wurm']
   s.email       = 'anurag08priyam@gmail.com'
   s.homepage    = 'http://sequenceserver.com'
