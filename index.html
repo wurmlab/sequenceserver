@@ -231,8 +231,11 @@ screen.</p>
 
 <h2>Configuration</h2>
 
-<p>SequenceServer needs to know the location of the BLAST+ binaries,
-and the BLAST database. This is accomplished by providing a
+<p>SequenceServer needs to know the location of the BLAST+ binaries
+(<a
+href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">NCBI
+BLAST+ download directory</a>),
+and the BLAST databases. This is accomplished by providing a
 <code>.sequenceserver.conf</code> in the user's home directory.</p>
 
 <pre># .sequenceserver.conf
@@ -489,136 +492,163 @@ run SequenceServer::App
 		</dd>
 
 		<dt>How do I change the server port?</dt>
-		<dd>SequenceServer will by default be accessible on port 4567 at http://localhost:4567/ . 
-		  Change the port by editing <code>~/.sequenceserver.conf</code>.</dd>
+		<dd>SequenceServer will by default be accessible on port 4567
+		  at <a
+		  href="http://localhost:4567/">http://localhost:4567/</a>.Change
+		  the port by editing <code>~/.sequenceserver.conf</code>.
+		</dd>
+		
+		<dt>Can my colleagues access the server I set up on my computer?</dt>
+		<dd>Yes, <strong>if they can access your
+		  machine</strong>. This usually requires being in the same
+		  subnetwork, or asking IT services to open your machine to the
+		  outside world. You'll have to tell your colleagues your IP
+		  address (find it in the Network or Sharing section of System
+		  Preferences) and the port. The complete URL they will have to
+		  use might be http://192.168.134.13:4567/  or
+		  http://myblastserver.local:4567/
+		</dd>
 
-		  <dt>Do I need to install Apache?</dt>
-		  <dd>SequenceServer automatically uses ruby's internal web servers. No
-			need for Apache.  By default it uses <a href="http://www.ruby-doc.org/stdlib/libdoc/webrick/rdoc/index.html">Webrick</a>. Installling <a href="http://code.macournoyer.com/thin/">Thin</a> (<code>gem install thin</code>), or <a href="http://rubygems.org/gems/mongrel">Mongrel</a> (<code>gem install mongrel</code>) 
-			can improve performance. SequenceServer will automatically use these if installed. </dd>
+		<dt>Do I need to install Apache?</dt>
+		<dd>SequenceServer automatically uses ruby's internal web servers. No
+		  need for Apache.  By default it uses <a href="http://www.ruby-doc.org/stdlib/libdoc/webrick/rdoc/index.html">Webrick</a>. Installling <a href="http://code.macournoyer.com/thin/">Thin</a> (<code>gem install thin</code>), or <a href="http://rubygems.org/gems/mongrel">Mongrel</a> (<code>gem install mongrel</code>) 
+		  can improve performance. SequenceServer will automatically
+		  use these if installed.
+		</dd>
 
-			<dt>Can I integrate SequenceServer into an Apache or Nginx server?</dt>
-			<dd>Yes. <a href="passenger">We provide instructions above</a>.</dd>
+		<dt>Can I integrate SequenceServer into an Apache or Nginx server?</dt>
+		<dd>Yes. <a href="passenger">We provide instructions
+		  above</a>.
+		</dd>
+		
+		<dt>Should I activate hyper-threading to give BLAST more virtual cores?</dt>
+		<dd>Yes.</dd>
+		
+		<dt>Which technologies does SequenceServer use?</dt>
+		<dd>SequenceServer uses <a
+		  href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&amp;PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download">NCBI
+		  BLAST+</a>, <a href="http://www.sinatrarb.com/">Sinatra</a>, and
+		  <a href="http://jquery.com/">jQuery</a>.</dd>
+		  
+		  <dt>Is SequenceServer free? Can I redistribute it?</dt>
+		  <dd>Check our <a
+			href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">LICENSE.txt</a>
+			file. Basically, it's free if you're an academic or a
+			non-for-profit organization. Get in touch if you're a
+			for-profit.
+		  </dd>
+		  
+		  
+		  <dt>Can I have the source code? Can I contribute?</dt>
+		  <dd>SequenceServer's <a href="http://github.com/yannickwurm/sequenceserver">source code is on GitHub</a>. Downloading,
+			forking, pulling, filing issues and contributing is most welcome!</dd>
+			
+			<dt>I'm a commercial/for-profit user. Can I have a license to install or do whatever I want with the software?</dt> 
+			<dd>Yes. Please get in touch by email giving a very approximate estimate of how many machines/servers and users you anticipate, and whether you will need support.</dd>
+			
+			<dt>You say SequenceServer is easy to set up. But I'm not a computer guy and I don't understand a thing</dt>
+			<dd>We are considering offering hosted (password-protected) servers for a fee (ie you give us the data; we set things up as you want them). Please get in touch by email if you are interested.</dd> 
+			
+			<dt>Can SequenceServer do XXX? Why doesn't YYYY work? It's ugly, it crashes!?!?</dt>
+			<dd>First, run <code>gem update</code> or <code>sudo gem update</code>. </dd>
+			<dd>If things are still weird, please keep in mind
+			  that SequenceServer is in beta and we have never obtained any funding for
+			  SequenceServer development. We're just developing
+			  this in our free time. Our <a
+			  href="https://github.com/yannickwurm/sequenceserver/issues">issues
+			  tracker</a> logs development activities. Feel free
+			  to add comments, vote, report bugs, request features
+			  and contribute code. All contributions, patches and
+			  pulls are welcome. If you're not a coder, please
+			  consider supporting development by a
+			  donation. Donations can dramatically increase the
+			  speed at which new features are added!</dd>
+			</dl>
+			</section>
 
-			<dt>Should I activate hyper-threading to give BLAST more virtual cores?</dt>
-			<dd>Yes.</dd>
-
-			<dt>Which technologies does SequenceServer use?</dt>
-			<dd>SequenceServer uses <a
-			  href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&amp;PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download">NCBI
-			  BLAST+</a>, <a href="http://www.sinatrarb.com/">Sinatra</a>, and
-			  <a href="http://jquery.com/">jQuery</a>.</dd>
-
-			  <dt>Is SequenceServer free? Can I redistribute it?</dt>
-			  <dd>Check our <a
-				href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">LICENSE.txt</a>
-				file. Basically, it's free if you're an academic or a
-				non-for-profit organization. Get in touch if you're a for-profit.</dd>
-
-				<dt>Can I have the source code? Can I contribute?</dt>
-				<dd>SequenceServer's <a href="http://github.com/yannickwurm/sequenceserver">source code is on GitHub</a>. Downloading,
-				  forking, pulling, filing issues and contributing is most welcome!</dd>
-
-				  <dt>Can SequenceServer do XXX? Why doesn't YYYY work? It's ugly, it crashes!?!?</dt>
-				  <dd>First, run <code>gem update</code> or <code>sudo gem update</code>. </dd>
-				  <dd>If things are still weird, please keep in mind
-				  that SequenceServer is in beta and we have never obtained any funding for
-				  SequenceServer development. We're just developing
-				  this in our free time. Our <a
-				  href="https://github.com/yannickwurm/sequenceserver/issues">issues
-				  tracker</a> logs development activities. Feel free
-				  to add comments, vote, report bugs, request features
-				  and contribute code. All contributions, patches and
-				  pulls are welcome. If you're not a coder, please
-				  consider supporting development by a
-				  donation. Donations can dramatically increase the
-				  speed at which new features are added!</dd>
+			<!--Contributors ================================================== -->
+			<section id="contributors">
+		  <div class="page-header">
+			<h1>Contributors</h1>
+		  </div>
+		  <dl>
+			<dt><a href="http://yeban.in">Anurag Priyam</a></dt><dd> is a software developer primarily interested in applied computing and web infrastructure development. He is currently pursuing his undergraduate studies at the Indian Institute of Technology, Kharagpur.</dd>
+			<dt><a href="https://github.com/wwood">Ben J Woodcroft</a></dt><dd> is a PhD student in <a href="http://www.biochemistry.unimelb.edu.au/research/res_ralph.html">Melbourne</a> studying protein trafficking in apicomplexan parasites including malaria
+			  (e.g. <a href="http://apiloc.biochem.unimelb.edu.au">ApiLoc</a>), as well as maintaining a general interest in protein and genome evolution.
+			  From February 2012 he will be at the <a
+			  href='http://www.ecogenomic.org/'>Australian Centre for
+			  Ecogenomics</a>.</dd>
+			  <dt><a href="http://yannick.poulet.org">Yannick
+				Wurm</a></dt><dd> is an evolutionary biologist using genomics
+				  tools to study the evolution of ant societies (eg: <a href="http://yannick.poulet.org/publications/wurm2009antDatabase.pdf">antgenomes.org</a>, <a href="http://yannick.poulet.org/publications/wurm2011fireAntGenome.pdf">fire ant genome</a>, <a href="http://www.antgenomes.org/publications/wurm2010fireAntQueenDealationExpression.pdf">competing fire ant queens</a>). He is a lecturer at <a href="http://www.sbcs.qmul.ac.uk/">Queen Mary University London</a>.</dd>
+				  <dt>Maybe you?</dt><dd>The SequenceServer team will happily accept contributions. Please get in touch to figure out where you could fit in. Cheers!</dd>
 				</dl>
 				</section>
 
-				<!--Contributors ================================================== -->
-				<section id="contributors">
+				<!--Users ================================================== -->
+				<section id="users">
 			  <div class="page-header">
-				<h1>Contributors</h1>
+				<h1>Users <small>include:</small></h1>
 			  </div>
-			  <dl>
-				<dt><a href="http://yeban.in">Anurag Priyam</a></dt><dd> is a software developer primarily interested in applied computing and web infrastructure development. He is currently pursuing his undergraduate studies at the Indian Institute of Technology, Kharagpur.</dd>
-				<dt><a href="https://github.com/wwood">Ben J Woodcroft</a></dt><dd> is a PhD student in <a href="http://www.biochemistry.unimelb.edu.au/research/res_ralph.html">Melbourne</a> studying protein trafficking in apicomplexan parasites including malaria
-				  (e.g. <a href="http://apiloc.biochem.unimelb.edu.au">ApiLoc</a>), as well as maintaining a general interest in protein and genome evolution.
-				  From February 2012 he will be at the <a
-				  href='http://www.ecogenomic.org/'>Australian Centre for
-				  Ecogenomics</a>.</dd>
-				  <dt><a href="http://yannick.poulet.org">Yannick
-					Wurm</a></dt><dd> is an evolutionary biologist using genomics
-					  tools to study the evolution of ant societies (eg: <a href="http://yannick.poulet.org/publications/wurm2009antDatabase.pdf">antgenomes.org</a>, <a href="http://yannick.poulet.org/publications/wurm2011fireAntGenome.pdf">fire ant genome</a>, <a href="http://www.antgenomes.org/publications/wurm2010fireAntQueenDealationExpression.pdf">competing fire ant queens</a>). He is a lecturer at <a href="http://www.sbcs.qmul.ac.uk/">Queen Mary University London</a>.</dd>
-					  <dt>Maybe you?</dt><dd>The SequenceServer team will happily accept contributions. Please get in touch to figure out where you could fit in. Cheers!</dd>
-					</dl>
-					</section>
-
-					<!--Users ================================================== -->
-					<section id="users">
-				  <div class="page-header">
-					<h1>Users <small>include:</small></h1>
-				  </div>
-				  <!-- Get inspiration from backpackit.com/buzz
-				  "Works like a charm" - Steffen Lemke @ Centre for Organismal Studies, Heidelberg
-				  "this is filling a huge need in BLAST sequencing" - Taylor Ballou @ Benaroya Research Institute at Virginia Mason 
-				  "good for the biologists within the group as the standard fare from
-				  wwwBLAST is seriously lacking" - guy leonard at nhm
+			  <!-- Get inspiration from backpackit.com/buzz
+			  "Works like a charm" - Steffen Lemke @ Centre for Organismal Studies, Heidelberg
+			  "this is filling a huge need in BLAST sequencing" - Taylor Ballou @ Benaroya Research Institute at Virginia Mason 
+			  "good for the biologists within the group as the standard fare from
+			  wwwBLAST is seriously lacking" - guy leonard at nhm
 
 
-				  <ul>
-					<li>'Beta 1' is deployed by the <a href="http://www.antgenomes.org/">Keller lab</a> at <a href="http://www.unil.ch/central">University of
-					Lausanne</a>; see <a href="http://www.antgenomes.org/blast">Fourmidable Sequences</a>.</li>
-					<li><a href="https://github.com/yannickwurm/sequenceserver/issues">Guy Leonard @ National History Museum London</a> </li>
-					<li>Steffen Lemke @ Center for Organismal Studies, Heidelberg.</li>
-					<li>Researchers at <a href="http://www.benaroyaresearch.org">Benaroya Research Institute at Virginia Mason</a></li>
-					<li>you... </li>
-				  </ul>
-				  -->
+			  <ul>
+				<li>'Beta 1' is deployed by the <a href="http://www.antgenomes.org/">Keller lab</a> at <a href="http://www.unil.ch/central">University of
+				Lausanne</a>; see <a href="http://www.antgenomes.org/blast">Fourmidable Sequences</a>.</li>
+				<li><a href="https://github.com/yannickwurm/sequenceserver/issues">Guy Leonard @ National History Museum London</a> </li>
+				<li>Steffen Lemke @ Center for Organismal Studies, Heidelberg.</li>
+				<li>Researchers at <a href="http://www.benaroyaresearch.org">Benaroya Research Institute at Virginia Mason</a></li>
+				<li>you... </li>
+			  </ul>
+			  -->
 
-				  <img src='img/logos/composition_of_logos.png' width="800" height="197" alt="SequenceServer has satisfied users at U Melbourne, Centre for Organismal Studies Heidelberg, Swiss Institute of Bioinformatics, IIT Karagpur, Natural History Museum London, Queen Mary University London, Benaroya Research Institute, University of Lausanne" style="max-width:100%; height:auto;"/>
-				  <br/>				  <br/>
-				  <p>As well as:</p>
-				  <ul>
-					<li><a href="http://aviangenomes.org/blast-public">AvianGenomes.org</a></li>
-					<li><a href="http://haroun.iplantc.org/sequenceserver">iPlantCollaborative</a> Saccharum Genome Database</li>
-					<li><a href="http://fastdb.biocloud.ca/">BioCloud.ca</a></li>
-					<li><a href="http://culture.no-ip.org/blast.shtml">Dr. Wolfang Rumpf @ U Maryland</a></li>
-					<li><a href="http://www.ecology.kyoto-u.ac.jp/">Center for Ecological Research, Kyoto University</a></li>
-					<li><a href="http://morse-ccmar.ualg.pt/edge/">European clam database</a> @ CCMAR at University of Algarve</li>
-					<li><a
-				  href="http://amborella.uga.edu/blast/">Amborella
-				  Genome</a> at University of Georgia</li>
-					<li><a href="http://jekely-lab.tuebingen.mpg.de/blast/">Jekely
-					Lab</a> at Max Planck Institute for Developmental Biology, Tuebigen</li>
-					<li>Universitat Greifswald (private)</li>
-					<li>Department of Plant Biology and Forest Genetics, Swedish
-					University of Agricultural Sciences (private)</li>
-					<li>Norwich BioScience Institutes (private)</li>
-					<li>Australia's Commonwealth Scientific and Industrial
-					Research Organisation (private)</li>
-					<li>Max Planck Institute of Molecular Cell Biology and
-					Genetics (private)</li>
-					
-					<li>and many additional private installations we
-				  don't know about...</li>
-				  </ul>
-				  <h1>Citations</h1>
-				  <ul>
-					<li>Elphick MR (2012) <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">The Protein Precursors of Peptides That Affect the Mechanics of Connective Tissue and/or Muscle in the Echinoderm Apostichopus japonicus.</a> PLoS ONE.</li>
-					<li>Shreve J et al (2013) <a href="http://www.sciencedirect.com/science/article/pii/S002219101200296X">A genome-wide survey of small interfering RNA and microRNA pathway genes in a galling insect.</a> Journal of Insect Physiology.</li>
-					<li>Berlamino et al (2013) <a href="http://www.biomedcentral.com/1471-2105/14/S1/S2">SymGRASS: a database of sugarcane orthologous genes involved in arbuscular mycorrhiza and root nodule symbiosis</a>. BMC Bioinformatics.</li>
-					<li>Elphick MR et al (2013) <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0059076">The Evolution and Diversity of SALMFamide Neuropeptides</a>. PLoS ONE.</li>
-				  </ul>
+			  <img src='img/logos/composition_of_logos.png' width="800" height="197" alt="SequenceServer has satisfied users at U Melbourne, Centre for Organismal Studies Heidelberg, Swiss Institute of Bioinformatics, IIT Karagpur, Natural History Museum London, Queen Mary University London, Benaroya Research Institute, University of Lausanne" style="max-width:100%; height:auto;"/>
+			  <br/>				  <br/>
+			  <p>As well as:</p>
+			  <ul>
+				<li><a href="http://aviangenomes.org/blast-public">AvianGenomes.org</a></li>
+				<li><a href="http://haroun.iplantc.org/sequenceserver">iPlantCollaborative</a> Saccharum Genome Database</li>
+				<li><a href="http://fastdb.biocloud.ca/">BioCloud.ca</a></li>
+				<li><a href="http://culture.no-ip.org/blast.shtml">Dr. Wolfang Rumpf @ U Maryland</a></li>
+				<li><a href="http://www.ecology.kyoto-u.ac.jp/">Center for Ecological Research, Kyoto University</a></li>
+				<li><a href="http://morse-ccmar.ualg.pt/edge/">European clam database</a> @ CCMAR at University of Algarve</li>
+				<li><a
+				href="http://amborella.uga.edu/blast/">Amborella
+				Genome</a> at University of Georgia</li>
+				<li><a href="http://jekely-lab.tuebingen.mpg.de/blast/">Jekely
+				Lab</a> at Max Planck Institute for Developmental Biology, Tuebigen</li>
+				<li>Universitat Greifswald (private)</li>
+				<li>Department of Plant Biology and Forest Genetics, Swedish
+				University of Agricultural Sciences (private)</li>
+				<li>Norwich BioScience Institutes (private)</li>
+				<li>Australia's Commonwealth Scientific and Industrial
+				Research Organisation (private)</li>
+				<li>Max Planck Institute of Molecular Cell Biology and
+				Genetics (private)</li>
+				
+				<li>and many additional private installations we
+				don't know about...</li>
+			  </ul>
+			  <h1>Citations</h1>
+			  <ul>
+				<li>Elphick MR (2012) <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">The Protein Precursors of Peptides That Affect the Mechanics of Connective Tissue and/or Muscle in the Echinoderm Apostichopus japonicus.</a> PLoS ONE.</li>
+				<li>Shreve J et al (2013) <a href="http://www.sciencedirect.com/science/article/pii/S002219101200296X">A genome-wide survey of small interfering RNA and microRNA pathway genes in a galling insect.</a> Journal of Insect Physiology.</li>
+				<li>Berlamino et al (2013) <a href="http://www.biomedcentral.com/1471-2105/14/S1/S2">SymGRASS: a database of sugarcane orthologous genes involved in arbuscular mycorrhiza and root nodule symbiosis</a>. BMC Bioinformatics.</li>
+				<li>Elphick MR et al (2013) <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0059076">The Evolution and Diversity of SALMFamide Neuropeptides</a>. PLoS ONE.</li>
+			  </ul>
 
-				  </section>
+			  </section>
 
-				  <section>
-				  <p>Parts of this software are &copy; 2011 University of Lausanne</p>
-				  </section>
-				</div> <!-- /content -->
-				</div>
-				</div>
-				</body>
-				</html>
+			  <section>
+			  <p>Parts of this software are &copy; 2011 University of Lausanne</p>
+			  </section>
+			</div> <!-- /content -->
+			</div>
+			</div>
+			</body>
+			</html>
