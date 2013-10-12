@@ -87,7 +87,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 	<li><a href="#faq">FAQ</a></li>
 	<li><a href="#support">Support</a></li>
 	<li><a href="#contributors">Contributors</a></li>
-	<li><a href="#users">Users</a></li>
+	<li><a href="#users">Users/Citations</a></li>
 	<li><a href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt" title="Will open new window" target="_">&raquo; License &raquo;</a></li>
 	<li><a href="http://www.antgenomes.org/blast" title="Will open new window" target="_">&raquo; Demo Server &raquo;</a></li>
 	<li><a href="https://github.com/yannickwurm/sequenceserver" title="Will open GitHub in new window" target="_">&raquo; Source Code &raquo;</a></li>
@@ -122,8 +122,11 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 
 <div class="news small" style="text-align:justify;">
   <h4>News</h4>
-  <p><strong>2013</strong> Development is ongoing, but contributors are always welcome!</p>
-  <p><strong>2012-12</strong> Search, read, or start a new discussion on SequenceServer's Google Group from the <a href="#support">Support</a> section.</p>
+  <p><strong>2013</strong> Development is ongoing; contributors &amp;
+  contributions always welcome!</p>
+  <p><strong>2012-12</strong> Learn more or get help on <a
+  href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">SequenceServer's
+  Google Group</a> discussion forum.</p>
   <p><strong>2012-08</strong> SequenceServer cited: Elphick MR (2012) <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">The Protein Precursors of Peptides That Affect the Mechanics of Connective Tissue and/or Muscle in the Echinoderm Apostichopus japonicus.</a> PLoS ONE.</p>
   <p><strong>2012-06</strong> SequenceServer 0.8.0 with loads of interface improvements released: automagic BLAST method selection, index for multi-query BLAST, sequence type feedback, to name a few.</p>
   <p><strong>2011-12</strong> SequenceServer needs your help. Contribute to a useful real world bioinformatics project by <a href="https://github.com/yannickwurm/sequenceserver/issues">squashing some bugs or improving features</a>. Great opportunity for CS or Webdesign students interested in Bioinformatics or Useability. In particular, our <a href="http://twitter.github.com/bootstrap/">twitter bootstrap</a> CSS interface has potential. Please get in touch.</p>
@@ -455,6 +458,36 @@ document.getElementById('forum_embed').src =
 		<dd>Preformatted BLAST databases can also be used with SequenceServer. Most preformatted database ar split between multiple files (like .00, .01...). Thanks to <a href="http://acgt.tumblr.com/">Mark Anthony Gibbins'</a> contributions, SequenceServer can correctly understand these.</dd>
 		<dd>If you use a custom  <code>.nal</code> or <code>.pal</code> BLAST database alias file, and copy this alias file as well as the linked databases into SequenceServer's <code>db</code> directory, SequenceServer will display both the alias and the linked databases. If you want to display only the alias, remove the linked databases from <code>db</code>, then edit the <code>DBLIST</code> line in the <code>.pal</code> or <code>.nal</code> file so that it contains the complete path of each of the database files (e.g: <code>DBLIST species1_custom_blast_db species2_custom_blast_database</code> may become: <code>DBLIST /Users/blastuser/mydbs/species1_custom_blast_db /Users/blastuser/mydbs/species2_custom_blast_database</code>)</dd> 
 
+		<dt>How does BLAST identify similar regions? Why don't the
+		ends match? What is the bitscore? What is the e-value that BLAST
+		returns? What do these numbers mean?</dt>
+		<dd>Many detailed explanations exist egarding such questions, including <a
+		href="http://www.ncbi.nlm.nih.gov/books/NBK21097/">at NCBI</a>
+		and in the original BLAST articles. Here's our executive
+		summary.<br/>
+		BLAST is a heuristic, ie. it is fast and approximate instead
+		of being slow and perfect.  It starts by looking for a minimal 100% match (e.g. 11
+		consecutive nucleotides with 100% identity between your query and
+		the database sequence). It is done if it finds none (thus if
+		exactly every 10th base is different, BLAST finds no results). If it does find a match, it extends that
+		in both directions: identical (or
+		similar) bases add points; differences are negative points. If too many points are lost, it stops
+		aligning. It might not stop at the exact best place, thus ends
+		might not match. The <a
+		href="http://www.ncbi.nlm.nih.gov/books/NBK21106/def-item/app8/">"bitscore"</a> is the total number of points for the aligning
+		region. The bigger it is, the stronger the
+		alignment. But the bitscore doesn't take into account sequence
+		length nor database size. The E-value does. It is better to
+		look at E-values than bitscores. The E-value represents the number of times the
+		observed alignment would be expected to occur by chance (it is
+		not a p-value!);
+		depends on the bitscore, the length of the query
+		sequence, and the cumulative length of all sequences in the
+		database. Its easier to talk about "strong" E-values
+		(e.g. e-100 = 10<sup>-100</sup> = almost zero; impossible to obtain by chance) vs "weak" E-evalues (e.g
+	 0.1;  for similarity that may be due to chance) that small vs
+		large (which is always a bit confusing).</dd>
+		
 		<dt>What is the difference between BLAST and BLAST+? What about WU-BLAST or AB-BLAST?</dt>
 		<dd><a href="publications/ncbiBlast.pdf">The initial BLAST</a> has been rewritten several times - most recently by NCBI as BLAST+. NCBI now use and recommend using BLAST+. <a href="publications/blastplus.pdf">The BLAST+ publication</a> explains why BLAST+ is easier to use  &amp; faster than the old "legacy" BLAST. WU-BLAST is now commerical and called <a href="http://blast.advbiocomp.com/">AB-BLAST</a>. There is probably no good reason to use either. Note that the output formats change slightly from one BLAST implementation to the next.</dd>
 		<dd>NCBI's BLAST+ is most actively developed, just use it. SequenceServer only supports BLAST+.</dd>
