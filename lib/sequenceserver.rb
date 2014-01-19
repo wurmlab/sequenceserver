@@ -337,8 +337,8 @@ module SequenceServer
 <em>#{found_sequences_count > sequenceids.length ? 'more' : 'less'}</em>
 sequence than expected.</strong></p>
 
-<p>This is likely due to a problem with how databases are formatted. 
-<strong>Please share this text with the person managing this website so 
+<p>This is likely due to a problem with how databases are formatted.
+<strong>Please share this text with the person managing this website so
 they can resolve the issue.</strong></p>
 
 <p> You requested #{sequenceids.length} sequence#{sequenceids.length > 1 ? 's' : ''}
@@ -375,7 +375,10 @@ HEADER
     end
 
     def format_blast_results(result, databases)
-      formatted_result = ''
+      # Constructing the result in an Array and then calling Array#join is much faster than
+      # building up a String and using +=, as older versions of SeqServ did.
+      formatted_results = []
+
       @all_retrievable_ids = []
       string_of_used_databases = databases.join(' ')
       blast_database_number = 0
@@ -436,7 +439,7 @@ HEADER
             map(&:split).map{|l| [l[1], l[-1]]}.flatten.map(&:to_i).minmax
 
           # Create the hyperlink (if required)
-          formatted_result += construct_sequence_hyperlink_line(line, databases, hit_coordinates)
+          formatted_results << construct_sequence_hyperlink_line(line, databases, hit_coordinates)
         else
           # Surround each query's result in <div> tags so they can be coloured by CSS
           if matches = line.match(/^<b>Query=<\/b> (.*)/) # If starting a new query, then surround in new <div> tag, and finish the last one off
@@ -446,13 +449,13 @@ HEADER
             end
             blast_database_number += 1
           elsif line.match(/^  Database: /) and !finished_alignments
-            formatted_result += "</div>\n<pre>#{database_summary_string}\n\n"
+            formatted_results << "</div>\n<pre>#{database_summary_string}\n\n"
             finished_alignments = true
           end
-          formatted_result += line
+          formatted_results << line
         end
       end
-      formatted_result << "</pre>"
+      formatted_results << "</pre>"
 
       link_to_fasta_of_all = "/get_sequence/?id=#{@all_retrievable_ids.join(' ')}&db=#{string_of_used_databases}"
       # #dbs must be sep by ' '
@@ -461,7 +464,7 @@ HEADER
       "<h2>Results</h2>"+
       retrieval_text +
       "<br/><br/>" +
-      formatted_result +
+      formatted_results.join +
       "<br/>" +
       "<pre>#{reference_string.strip}</pre>"
     end
