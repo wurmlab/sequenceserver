@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
-  s.version     = '0.8.6'
+  s.version     = '0.8.7'
   s.authors     = ['Anurag Priyam', 'Ben J Woodcroft', 'Yannick Wurm']
   s.email       = 'anurag08priyam@gmail.com'
   s.homepage    = 'http://sequenceserver.com'
@@ -19,8 +19,6 @@ DESC
 
   s.add_development_dependency('minitest')
   s.add_development_dependency('rack-test')
-  s.add_development_dependency('watir-webdriver')
-  s.add_development_dependency('headless')
   s.add_development_dependency('rspec')
 
   # gem
