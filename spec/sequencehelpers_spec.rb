@@ -1,11 +1,16 @@
 require 'sequenceserver'
 require 'sequenceserver/sequencehelpers'
-require 'test/unit'
+require 'rspec'
 
-class Tester < Test::Unit::TestCase
+def assert_equal(expected, observed, message=nil)
+  observed.should == expected
+end
+
+describe 'Sequence helpers' do
   include SequenceServer::SequenceHelpers
-  def test_guess_sequence_type_nucleotide
-  #must 'correctly detect nucleotide sequence, even when it includes crap' do   
+
+  it 'test_guess_sequence_type_nucleotide' do
+  #must 'correctly detect nucleotide sequence, even when it includes crap' do
     ['AAAAAAAAAAAAAAAAAAAAAT',
      '           CAGATGCRRCAAAGCAAACGGCAA 34523453 652352',
      'ACCNNNNNNXXXXCAUUUUUU',
@@ -14,7 +19,7 @@ class Tester < Test::Unit::TestCase
     end
   end
 
-  def test_guess_sequence_type_aminoacid
+  it 'test_guess_sequence_type_aminoacid' do
   #must 'correctly detect aminoacid sequence, even when it includes a lot of crap' do
   ['ADSACGHKSJLFCVMGTL',
    '  345   KSSYPHYSPPPPHS      345 23453 652352',
@@ -24,12 +29,12 @@ class Tester < Test::Unit::TestCase
     end
   end
 
-  def test_guess_sequence_type_impossible
+  it 'test_guess_sequence_type_impossible' do
     assert_equal(nil, guess_sequence_type('ACSFGT'), message='too little sequence')
   end
 
   ## Tests for type_of_sequences  (multi-fasta  kind of thing the user would enter)
-  def test_type_of_sequences
+  it 'test_type_of_sequences' do
     aa_multifasta = ">SDFDSF\nACGTGSDLKJGNLDKSJFLSDKJFLSDKOIU\n>asdfas\nasfasdfffffffffffffffffffff\n>alksjflkasdj slakdjf\nasdfasdfasdfljaslkdjf"
     aa_multifasta_including_short_seq_missing_lead = "ACGTGSDLKJGNLDKSJFLSDKJFLSDKOIU\n>asdfas\nasf\n>alksjflkasdj slakdjf\nasdfasdfasdfljaslkdjf"
     aa_singlesequence =  "ACGTGSDLKJGNLDKSJFLSDKJFLSDKOIU\n"
@@ -40,36 +45,38 @@ class Tester < Test::Unit::TestCase
     assert_equal(:protein, type_of_sequences(aa_multifasta_including_short_seq_missing_lead ), 'aa_multifasta_short_seq_and_no_>')
     assert_equal(:protein, type_of_sequences(aa_singlesequence), 'single AA sequence')
     assert_equal(:nucleotide, type_of_sequences(nt_multifasta), 'nt_multifasta')
-    assert_raise(ArgumentError, 'mixed aa and nt should raise') { type_of_sequences(aa_nt_mix) }
+    expect { type_of_sequences(aa_nt_mix) }.to raise_error(ArgumentError)
   end
 
-  def test_composition
+  it 'test_composition' do
     expected_comp = {"a"=>2, "d"=>3, "f"=>7, "s"=>3, "A"=>1}
     assert_equal(expected_comp, composition('asdfasdfffffAsdf'))
   end
-  
-  def test_construct_standard_sequence_hyperlink
+
+  it 'test_construct_standard_sequence_hyperlink' do
     assert_equal "/get_sequence/?id=one&db=abc def", construct_standard_sequence_hyperlink({:sequence_id => 'one', :databases => %w(abc def)})
     assert_equal nil, construct_standard_sequence_hyperlink({:sequence_id => ' one', :databases =>  %w(abc def)})
     assert_equal "/get_sequence/?id=MAL13P1.218&db=abc def", construct_standard_sequence_hyperlink({:sequence_id => 'lcl|MAL13P1.218', :databases =>  %w(abc def)})
   end
 end
 
-class AppTester < Test::Unit::TestCase
-  def test_process_advanced_blast_options
+describe 'app tester' do
+  it 'test_process_advanced_blast_options' do
     app = SequenceServer::App.new!
 
-    assert_nothing_raised {app.validate_advanced_parameters('')}
-    assert_nothing_raised {app.validate_advanced_parameters('-word_size 5')}
-    assert_raise(ArgumentError, 'security advanced option parser'){app.validate_advanced_parameters('-word_size 5; rm -rf /')}
-    assert_raise(ArgumentError, 'conflicting advanced option'){app.validate_advanced_parameters('-db roar')}
+    # Tests below fail by raising and error
+    app.validate_advanced_parameters('')
+    app.validate_advanced_parameters('-word_size 5')
+
+    expect {app.validate_advanced_parameters('-word_size 5; rm -rf /')}.to raise_error(ArgumentError)
+    expect {app.validate_advanced_parameters('-db roar')}.to raise_error(ArgumentError)
   end
 end
 
-class SystemHelpersTester < Test::Unit::TestCase
+describe 'SystemHelpers' do
   include SequenceServer::Helpers::SystemHelpers
 
-  def test_multipart_database_name?
+  it 'test_multipart_database_name?' do
     assert_equal true, multipart_database_name?('/home/ben/pd.ben/sequenceserver/db/nr.00')
     assert_equal false, multipart_database_name?('/home/ben/pd.ben/sequenceserver/db/nr')
     assert_equal true, multipart_database_name?('/home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01')

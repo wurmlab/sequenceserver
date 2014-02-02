@@ -37,7 +37,7 @@ module SequenceServer
       # SequenceServer ships with test database (fire ant genome) so users can
       # launch and preview SequenceServer without any configuration, and/or run
       # test suite.
-      set :test_database, File.join(root, 'tests', 'database')
+      set :test_database, File.join(root, 'spec', 'database')
 
       # path to example configuration file
       #
