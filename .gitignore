@@ -1,0 +1,7 @@
+*.swp
+*.~*~
+Gemfile.lock
+.bundle
+.rbx
+config.yml
+tmp
