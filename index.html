@@ -8,7 +8,7 @@
 <title>SequenceServer: BLAST search made easy!</title>
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-<!--[if lt IE 9]>
+<!--[if lt IE 9]> 
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 
@@ -53,25 +53,15 @@ margin-bottom: 0px;
 dd { padding-bottom:10px;}
 </style>
 
-<script type="text/javascript">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-471841-7']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-
-(function() {
-var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-po.src = 'https://apis.google.com/js/plusone.js';
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-})();
+  ga('create', 'UA-471841-7', 'sequenceserver.com');
+  ga('send', 'pageview');
 </script>
-
 </head>
 
 <body>
@@ -84,11 +74,11 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
   <ul class="nav">
 	<!--          <li><a href="#about">About</a></li> -->           <!-- <li class="active"><a href="#about">About</a></li>   -->
 	<li><a href="#installation">Installation</a></li>
+	<li><a href="#license">License</a></li>
 	<li><a href="#faq">FAQ</a></li>
 	<li><a href="#support">Support</a></li>
 	<li><a href="#contributors">Contributors</a></li>
 	<li><a href="#users">Users/Citations</a></li>
-	<li><a href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt" title="Will open new window" target="_">&raquo; License &raquo;</a></li>
 	<li><a href="http://www.antgenomes.org/blast" title="Will open new window" target="_">&raquo; Demo Server &raquo;</a></li>
 	<li><a href="https://github.com/yannickwurm/sequenceserver" title="Will open GitHub in new window" target="_">&raquo; Source Code &raquo;</a></li>
   </ul>
@@ -122,7 +112,10 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po
 
 <div class="news small" style="text-align:justify;">
   <h4>News</h4>
-  <p><strong>2013</strong> Development is ongoing; contributors &amp;
+  <p><strong>2013-2014</strong> Development is ongoing (check the
+  <a
+  href="https://github.com/yannickwurm/sequenceserver/commits/master">github
+  log</a> or <a href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">mailing list</a>); contributors &amp;
   contributions always welcome!</p>
   <p><strong>2012-12</strong> Learn more or get help on <a
   href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">SequenceServer's
@@ -404,6 +397,11 @@ as expected? Have a tip? A feature request? Or just want to encourage further de
 Post it to <a
 href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">SequenceServer
 Google Group</a> and we will work something out.</p>
+<p>If you are completely overwhelmed and need more support that the
+mailing list can provide, we are available for consulting which can
+range from custom support to server deployment and administration to
+implementing specific features.</p>
+
 
 <!--        <iframe id="forum_embed"
 src="javascript:void(0)"
@@ -421,6 +419,27 @@ document.getElementById('forum_embed').src =
 </script>
 
 -->
+</section>
+
+<!--LICENSE ================================================== -->
+<section id="license">
+<div class="page-header">
+  <h1>License</h1>
+</div>
+
+<h2>For academics and non-for-profit organizations</h2>
+SequenceServer is free &amp; you can do most things you want with
+it. Our <a href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">License.txt</a>
+file details some constraints regarding use and re-distribution (e.g. that instances you install retain
+links to this website). Please remember to cite the software.
+
+
+<h2>For Commercial &amp; for-profit organizations</h2>
+<a href="forprofit.html">If you're a for-profit you can try 
+it with no constraints for one month. Subsequently you must purchase 
+a license (it's cheap, quick &amp; easy!)</a>.
+
+<p>Custom licensing is also possible. Get in touch.</p>
 </section>
 
 <!--FAQ ================================================== -->
@@ -562,26 +581,19 @@ run SequenceServer::App
 		  href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&amp;PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download">NCBI
 		  BLAST+</a>, <a href="http://www.sinatrarb.com/">Sinatra</a>, and
 		  <a href="http://jquery.com/">jQuery</a>.</dd>
-		  
-		  <dt>Is SequenceServer free? Can I redistribute it?</dt>
-		  <dd>Check our <a
-			href="https://github.com/yannickwurm/sequenceserver/blob/master/LICENSE.txt">LICENSE.txt</a>
-			file. Basically, it's free if you're an academic or a
-			non-for-profit organization. Get in touch if you're a
-			for-profit.
-		  </dd>
-		  
-		  
+	  	  
 		  <dt>Can I have the source code? Can I contribute?</dt>
 		  <dd>SequenceServer's <a href="http://github.com/yannickwurm/sequenceserver">source code is on GitHub</a>. Downloading,
-			forking, pulling, filing issues and contributing is most welcome!</dd>
-			
-			<dt>I'm a commercial/for-profit user. Can I have a license to install or do whatever I want with the software?</dt> 
-			<dd>Yes. Please get in touch by email giving a very approximate estimate of how many machines/servers and users you anticipate, and whether you will need support.</dd>
-			
-			<dt>You say SequenceServer is easy to set up. But I'm not a computer guy and I don't understand a thing</dt>
-			<dd>We are considering offering hosted (password-protected) servers for a fee (ie you give us the data; we set things up as you want them). Please get in touch by email if you are interested.</dd> 
-			
+		    forking, pulling, filing issues and contributing is most welcome!</dd>
+		  
+ 		
+			<dt>You say SequenceServer is easy to set up. But I'm not a computer guy and I don't understand a thing. This is too hard!</dt>
+			<dd>We are considering offering hosted (password-protected) servers for a fee (ie you upload the data; we set things up as you need them). Please get in touch by email if you are interested or need other consulting advice.</dd> 
+	
+
+			<dt>Can I get a support contract which guarantees rapid response?</dt>
+			<dd>Yes. Get in touch by email.</dd>
+
 			<dt>Can SequenceServer do XXX? Why doesn't YYYY work? It's ugly, it crashes!?!?</dt>
 			<dd>First, run <code>gem update</code> or <code>sudo gem update</code>. </dd>
 			<dd>If things are still weird, please keep in mind
@@ -598,7 +610,7 @@ run SequenceServer::App
 			  speed at which new features are added!</dd>
 			</dl>
 			</section>
-
+			
 			<!--Contributors ================================================== -->
 			<section id="contributors">
 		  <div class="page-header">
@@ -668,7 +680,7 @@ run SequenceServer::App
 				<li>and many additional private installations we
 				don't know about...</li>
 			  </ul>
-			  <h1>Citations</h1>
+			  <h1>Citations include:</h1>
 			  <ul>
 			        <li>Chiu JC et al (2013) <a href="http://www.g3journal.org/content/early/2013/10/14/g3.113.008185.short">Genome of <em>Drosophila suzukii</em>, the Spotted Wing <em>Drosophila</em></a> G3 g3.113.008185</li>
 				<li>Elphick MR (2012) <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">The Protein Precursors of Peptides That Affect the Mechanics of Connective Tissue and/or Muscle in the Echinoderm Apostichopus japonicus.</a> PLoS ONE.</li>
