@@ -483,8 +483,8 @@ a license (it's cheap, quick &amp; easy!)</a>.
 		<dd>Many detailed explanations exist egarding such questions, including <a
 		href="http://www.ncbi.nlm.nih.gov/books/NBK21097/">at NCBI</a>
 		and in the original BLAST articles. Here's our executive
-		summary.<br/>
-		BLAST is a heuristic, ie. it is fast and approximate instead
+            summary.</dd>
+		<dd>BLAST is a heuristic, ie. it is fast and approximate instead
 		of being slow and perfect.  It starts by looking for a minimal 100% match (e.g. 11
 		consecutive nucleotides with 100% identity between your query and
 		the database sequence). It is done if it finds none (thus if
@@ -503,7 +503,7 @@ a license (it's cheap, quick &amp; easy!)</a>.
 		depends on the bitscore, the length of the query
 		sequence, and the cumulative length of all sequences in the
 		database. Its easier to talk about "strong" E-values
-		(e.g. e-100 = 10<sup>-100</sup> = almost zero; impossible to obtain by chance) vs "weak" E-evalues (e.g
+		(e.g. 1e-100 = 10<sup>-100</sup> = almost zero; impossible to obtain by chance) vs "weak" E-evalues (e.g
 	 0.1;  for similarity that may be due to chance) that small vs
 		large (which is always a bit confusing).</dd>
 
@@ -587,7 +587,7 @@ run SequenceServer::App
 		    forking, pulling, filing issues and contributing is most welcome!</dd>
 
 
-			<dt>You say SequenceServer is easy to set up. But I'm not a computer guy and I don't understand a thing. This is too hard!</dt>
+			<dt>You say SequenceServer is easy to set up. But I'm not a computer person and I don't understand a thing. This is too hard!</dt>
 			<dd>We are considering offering hosted (password-protected) servers for a fee (ie you upload the data; we set things up as you need them). Please get in touch by email if you are interested or need other consulting advice.</dd>
 
 
@@ -596,15 +596,12 @@ run SequenceServer::App
 
 			<dt>Can SequenceServer do XXX? Why doesn't YYYY work? It's ugly, it crashes!?!?</dt>
 			<dd>First, run <code>gem update</code> or <code>sudo gem update</code>. </dd>
-			<dd>If things are still weird, please keep in mind
-			  that SequenceServer is in beta and we have never obtained any funding for
-			  SequenceServer development. We're just developing
-			  this in our free time. Our <a
-			  href="https://github.com/yannickwurm/sequenceserver/issues">issues
-			  tracker</a> logs development activities. Feel free
+			<dd> Feel free
 			  to add comments, vote, report bugs, request features
 			  and contribute code. All contributions, patches and
-			  pulls are welcome. If you're not a coder, please
+			  pulls are welcome. Our <a
+			  href="https://github.com/yannickwurm/sequenceserver/issues">issues
+			  tracker</a> logs development activities. If you're not a coder, please
 			  consider supporting development by a
 			  donation. Donations can dramatically increase the
 			  speed at which new features are added!</dd>
