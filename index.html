@@ -8,7 +8,7 @@
 <title>SequenceServer: BLAST search made easy!</title>
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-<!--[if lt IE 9]> 
+<!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 
@@ -39,7 +39,7 @@ margin-bottom: 10px;
 margin-bottom: 0px;
 }
 
-//h1 { font-size: 3.8em; } 
+//h1 { font-size: 3.8em; }
 //margin-bottom: 0px;  margin-top:.5em;}
 
 //pre {
@@ -254,11 +254,11 @@ href="#launch">launch SequenceServer</a>. If not, <a href="#dbs">set up database
 <p>Simply execute:</p>
 <pre>$ sequenceserver </pre>
 
-<p>Sequencerserver will check your config file and start up a
+<p>SequencerServer will check your config file and start up a
 webserver on <a
 href="http://localhost:4567/">http://localhost:4567/</a>. The
 port number can be changed in the config file. </p>
-<p>You're done. BLAST away.</p> 
+<p>You're done. BLAST away.</p>
 
 
 
@@ -435,8 +435,8 @@ links to this website). Please remember to cite the software.
 
 
 <h2>For Commercial &amp; for-profit organizations</h2>
-<a href="forprofit.html">If you're a for-profit you can try 
-it with no constraints for one month. Subsequently you must purchase 
+<a href="forprofit.html">If you're a for-profit you can try
+it with no constraints for one month. Subsequently you must purchase
 a license (it's cheap, quick &amp; easy!)</a>.
 
 <p>Custom licensing is also possible. Get in touch.</p>
@@ -475,7 +475,7 @@ a license (it's cheap, quick &amp; easy!)</a>.
 
 		<dt>Can I use a preformatted BLAST database? Can I use alias?</dt>
 		<dd>Preformatted BLAST databases can also be used with SequenceServer. Most preformatted database ar split between multiple files (like .00, .01...). Thanks to <a href="http://acgt.tumblr.com/">Mark Anthony Gibbins'</a> contributions, SequenceServer can correctly understand these.</dd>
-		<dd>If you use a custom  <code>.nal</code> or <code>.pal</code> BLAST database alias file, and copy this alias file as well as the linked databases into SequenceServer's <code>db</code> directory, SequenceServer will display both the alias and the linked databases. If you want to display only the alias, remove the linked databases from <code>db</code>, then edit the <code>DBLIST</code> line in the <code>.pal</code> or <code>.nal</code> file so that it contains the complete path of each of the database files (e.g: <code>DBLIST species1_custom_blast_db species2_custom_blast_database</code> may become: <code>DBLIST /Users/blastuser/mydbs/species1_custom_blast_db /Users/blastuser/mydbs/species2_custom_blast_database</code>)</dd> 
+		<dd>If you use a custom  <code>.nal</code> or <code>.pal</code> BLAST database alias file, and copy this alias file as well as the linked databases into SequenceServer's <code>db</code> directory, SequenceServer will display both the alias and the linked databases. If you want to display only the alias, remove the linked databases from <code>db</code>, then edit the <code>DBLIST</code> line in the <code>.pal</code> or <code>.nal</code> file so that it contains the complete path of each of the database files (e.g: <code>DBLIST species1_custom_blast_db species2_custom_blast_database</code> may become: <code>DBLIST /Users/blastuser/mydbs/species1_custom_blast_db /Users/blastuser/mydbs/species2_custom_blast_database</code>)</dd>
 
 		<dt>How does BLAST identify similar regions? Why don't the
 		ends match? What is the bitscore? What is the e-value that BLAST
@@ -506,7 +506,7 @@ a license (it's cheap, quick &amp; easy!)</a>.
 		(e.g. e-100 = 10<sup>-100</sup> = almost zero; impossible to obtain by chance) vs "weak" E-evalues (e.g
 	 0.1;  for similarity that may be due to chance) that small vs
 		large (which is always a bit confusing).</dd>
-		
+
 		<dt>What is the difference between BLAST and BLAST+? What about WU-BLAST or AB-BLAST?</dt>
 		<dd><a href="publications/ncbiBlast.pdf">The initial BLAST</a> has been rewritten several times - most recently by NCBI as BLAST+. NCBI now use and recommend using BLAST+. <a href="publications/blastplus.pdf">The BLAST+ publication</a> explains why BLAST+ is easier to use  &amp; faster than the old "legacy" BLAST. WU-BLAST is now commerical and called <a href="http://blast.advbiocomp.com/">AB-BLAST</a>. There is probably no good reason to use either. Note that the output formats change slightly from one BLAST implementation to the next.</dd>
 		<dd>NCBI's BLAST+ is most actively developed, just use it. SequenceServer only supports BLAST+.</dd>
@@ -549,7 +549,7 @@ run SequenceServer::App
 		  href="http://localhost:4567/">http://localhost:4567/</a>.Change
 		  the port by editing <code>~/.sequenceserver.conf</code>.
 		</dd>
-		
+
 		<dt>Can my colleagues access the server I set up on my computer?</dt>
 		<dd>Yes, <strong>if they can access your
 		  machine</strong>. This usually requires being in the same
@@ -563,7 +563,7 @@ run SequenceServer::App
 
 		<dt>Do I need to install Apache?</dt>
 		<dd>SequenceServer automatically uses ruby's internal web servers. No
-		  need for Apache.  By default it uses <a href="http://www.ruby-doc.org/stdlib/libdoc/webrick/rdoc/index.html">Webrick</a>. Installling <a href="http://code.macournoyer.com/thin/">Thin</a> (<code>gem install thin</code>), or <a href="http://rubygems.org/gems/mongrel">Mongrel</a> (<code>gem install mongrel</code>) 
+		  need for Apache.  By default it uses <a href="http://www.ruby-doc.org/stdlib/libdoc/webrick/rdoc/index.html">Webrick</a>. Installling <a href="http://code.macournoyer.com/thin/">Thin</a> (<code>gem install thin</code>), or <a href="http://rubygems.org/gems/mongrel">Mongrel</a> (<code>gem install mongrel</code>)
 		  can improve performance. SequenceServer will automatically
 		  use these if installed.
 		</dd>
@@ -572,24 +572,24 @@ run SequenceServer::App
 		<dd>Yes. <a href="passenger">We provide instructions
 		  above</a>.
 		</dd>
-		
+
 		<dt>Should I activate hyper-threading to give BLAST more virtual cores?</dt>
 		<dd>Yes.</dd>
-		
+
 		<dt>Which technologies does SequenceServer use?</dt>
 		<dd>SequenceServer uses <a
 		  href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&amp;PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download">NCBI
 		  BLAST+</a>, <a href="http://www.sinatrarb.com/">Sinatra</a>, and
 		  <a href="http://jquery.com/">jQuery</a>.</dd>
-	  	  
+
 		  <dt>Can I have the source code? Can I contribute?</dt>
 		  <dd>SequenceServer's <a href="http://github.com/yannickwurm/sequenceserver">source code is on GitHub</a>. Downloading,
 		    forking, pulling, filing issues and contributing is most welcome!</dd>
-		  
- 		
+
+
 			<dt>You say SequenceServer is easy to set up. But I'm not a computer guy and I don't understand a thing. This is too hard!</dt>
-			<dd>We are considering offering hosted (password-protected) servers for a fee (ie you upload the data; we set things up as you need them). Please get in touch by email if you are interested or need other consulting advice.</dd> 
-	
+			<dd>We are considering offering hosted (password-protected) servers for a fee (ie you upload the data; we set things up as you need them). Please get in touch by email if you are interested or need other consulting advice.</dd>
+
 
 			<dt>Can I get a support contract which guarantees rapid response?</dt>
 			<dd>Yes. Get in touch by email.</dd>
@@ -610,7 +610,7 @@ run SequenceServer::App
 			  speed at which new features are added!</dd>
 			</dl>
 			</section>
-			
+
 			<!--Contributors ================================================== -->
 			<section id="contributors">
 		  <div class="page-header">
@@ -618,11 +618,7 @@ run SequenceServer::App
 		  </div>
 		  <dl>
 			<dt><a href="http://yeban.in">Anurag Priyam</a></dt><dd> is a software developer primarily interested in applied computing and web infrastructure development. He is currently pursuing his undergraduate studies at the Indian Institute of Technology, Kharagpur.</dd>
-			<dt><a href="https://github.com/wwood">Ben J Woodcroft</a></dt><dd> is a PhD student in <a href="http://www.biochemistry.unimelb.edu.au/research/res_ralph.html">Melbourne</a> studying protein trafficking in apicomplexan parasites including malaria
-			  (e.g. <a href="http://apiloc.biochem.unimelb.edu.au">ApiLoc</a>), as well as maintaining a general interest in protein and genome evolution.
-			  From February 2012 he will be at the <a
-			  href='http://www.ecogenomic.org/'>Australian Centre for
-			  Ecogenomics</a>.</dd>
+			<dt><a href="http://ecogenomic.org/users/ben-woodcroft">Ben J Woodcroft</a></dt><dd> is a post-doctoral fellow at the <a href="http://ecogenomic.org">Australia Centre for Ecogenomics</a>, researching microbial responses to permafrost thaw (climate change induced), and the bioinformatics of metagenomics generally.</dd>
 			  <dt><a href="http://yannick.poulet.org">Yannick
 				Wurm</a></dt><dd> is an evolutionary biologist using genomics
 				  tools to study the evolution of ant societies (eg: <a href="http://yannick.poulet.org/publications/wurm2009antDatabase.pdf">antgenomes.org</a>, <a href="http://yannick.poulet.org/publications/wurm2011fireAntGenome.pdf">fire ant genome</a>, <a href="http://www.antgenomes.org/publications/wurm2010fireAntQueenDealationExpression.pdf">competing fire ant queens</a>). He is a lecturer at <a href="http://www.sbcs.qmul.ac.uk/">Queen Mary University London</a>.</dd>
@@ -637,7 +633,7 @@ run SequenceServer::App
 			  </div>
 			  <!-- Get inspiration from backpackit.com/buzz
 			  "Works like a charm" - Steffen Lemke @ Centre for Organismal Studies, Heidelberg
-			  "this is filling a huge need in BLAST sequencing" - Taylor Ballou @ Benaroya Research Institute at Virginia Mason 
+			  "this is filling a huge need in BLAST sequencing" - Taylor Ballou @ Benaroya Research Institute at Virginia Mason
 			  "good for the biologists within the group as the standard fare from
 			  wwwBLAST is seriously lacking" - guy leonard at nhm
 
@@ -676,7 +672,7 @@ run SequenceServer::App
 				Research Organisation (private)</li>
 				<li>Max Planck Institute of Molecular Cell Biology and
 				Genetics (private)</li>
-				
+
 				<li>and many additional private installations we
 				don't know about...</li>
 			  </ul>
