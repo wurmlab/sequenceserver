@@ -341,6 +341,7 @@ and some lines, so that your webserver knows how to load
 <ol>
   <li>Create a new file called <code>passenger.load</code> in <code>/etc/apache2/mods-available</code>, and add the lines there.</li>
   <li>Run <code>a2enmod passenger</code>. This will ask you to restart apache2 with instructions on how to do the same. On my machine, I had to run <code>/etc/init.d/apache2 restart</code>
+  <li>Running <code>touch tmp/restart.txt</code> may required when changing configuration.</li>
   </li>
 </ol>
 
