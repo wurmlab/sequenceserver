@@ -62,7 +62,7 @@ BANNER
 
     case subcommand
     when 'format-databases'
-      require 'sequenceserver/database_formatter'
+      require 'sequenceserver/databaseformatter'
       exit
     else
       puts "invalid subcommand: #{subcommand}"

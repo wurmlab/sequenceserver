@@ -73,7 +73,7 @@ module SequenceServer
           choice = gets.chomp[0,1].downcase
 
           unless choice == 'n'
-            database_formatter = File.join(settings.root, 'database_formatter.rb')
+            database_formatter = File.join(settings.root, 'databaseformatter.rb')
             system("#{database_formatter} #{db_root}")
             retry
           else
