@@ -49,7 +49,23 @@
         <div class="row">
           <div class="span16">
             <div class="control-group">
-              <textarea name="sequence" id="sequence" spellcheck="false" autofocus="true" placeholder="Paste your sequence(s) here..." ></textarea>
+              <div class="offset-left box hide" id="drop-indicator">
+                <div class="contents">
+                  <span>Sequence file: </span>
+                  <span id="drop-indicator-text"
+                        style="padding-right: 8px"></span>
+                  <a id="clear-file" href="#" class="btn btn-mini">Clear</a>
+                </div>
+              </div>
+              <div id="dnd-wrapper">
+                <div id="dnd-target-marker" class="hide">
+                  Drop sequence file here
+                </div>
+                <textarea name="sequence" id="sequence"
+                          spellcheck="false" autofocus="true"
+                          placeholder="Paste your sequence(s) or drag files here..."
+                          ></textarea>
+              </div>
             </div>
           </div>
         </div>
@@ -66,6 +82,24 @@
           <div class="notification alert-error hide" id="mixed-sequence-notification">
             Detected: mixed nucleotide and protein sequences. We can't handle that. Please try one sequence at a time.
           </div>
+
+          <div class="notification alert-error hide"  id="dnd-read-error-notification">
+            Error reading file <span class="filename"></span>!
+          </div>
+
+          <div class="notification alert-error hide"  id="dnd-large-file-notification">
+            File <span class="filename"></span> is too large!
+          </div>
+
+          <div class="notification alert-error hide"  id="dnd-format-notification">
+            File <span class="filename"></span> does not appear to be
+            in FASTA format!
+          </div>
+
+          <div class="notification alert-error hide"  id="dnd-multi-notification">
+            Please drag one sequence file at a time.
+          </div>
+
         </div>
 
         <br class="large"/>

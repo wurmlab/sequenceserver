@@ -113,6 +113,35 @@ if (!SS) {
     }
 }()); //end SS module
 
+function positionDnDTarget() {
+    var tgtMarker = $('#dnd-target-marker');
+    var seq = $('#sequence');
+    tgtMarker.height(seq.outerHeight());
+    tgtMarker.width(seq.outerWidth());
+    var offset = seq.position();
+    tgtMarker.css('left', offset.left);
+    tgtMarker.css('top', offset.top);
+    tgtMarker.css('margin-left', seq.css('margin-left'));
+    tgtMarker.css('margin-right', seq.css('margin-right'));
+}
+
+function startDrag() {
+    positionDnDTarget();
+    $('#dnd-target-marker').removeClass("hide");
+    document.inDrag = true;
+}
+
+function inDrag() {
+    if (! document.inDrag) {
+        startDrag();
+    }
+}
+
+function endDrag() {
+    $('#dnd-target-marker').addClass("hide");
+    document.inDrag = false;
+}
+
 $(document).ready(function(){
     // poll the sequence textbox for a change in user input
     $('#sequence').poll();
@@ -121,6 +150,110 @@ $(document).ready(function(){
     SS.main();
 
     var notification_timeout;
+
+    function _clearNotifications() {
+        $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
+    }
+
+    function clearNotifications() {
+        clearTimeout(notification_timeout);
+        _clearNotifications();
+    }
+
+    function showNotification(ident) {
+        $('#' + ident + '-notification').show('drop', {direction: 'up'}).addClass('active');
+        notification_timeout = setTimeout(_clearNotifications, 5000);
+    }
+
+    // drag-and-drop code
+
+    $('body').on('dragover', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        inDrag();
+    });
+
+    $('body').on('dragleave', function(evt) {
+        if (! $('#dnd-target-marker')[0].dragActive) {
+            endDrag();
+        }
+    });
+
+    var tgtMarker = $('#dnd-target-marker');
+
+    tgtMarker.on('dragover', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        // Explicitly show this is a copy.
+        evt.originalEvent.dataTransfer.dropEffect = 'copy';
+        tgtMarker.addClass('drop-target-hover');
+    });
+
+    tgtMarker.on('dragenter', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        tgtMarker[0].dragActive = true;
+    })
+
+    tgtMarker.on('dragleave', function(evt) {
+        tgtMarker.removeClass('drop-target-hover');
+        tgtMarker[0].dragActive = false;
+    });
+    
+
+    tgtMarker.on('drop', function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        tgtMarker.removeClass('drop-target-hover');
+        tgtMarker[0].dragActive = false;
+        endDrag();
+
+        var files = evt.originalEvent.dataTransfer.files; // FileList
+        if (files.length == 1) {
+            var file = files[0];
+            if (file.size < 10 * 1048576) {
+                var reader = new FileReader();
+                reader.onload = (function(file) {
+                    return function(e) {
+                        if (/\s*>/.test(e.target.result)) {
+                            var textarea = $('#sequence');
+                            textarea.val(e.target.result);
+                            textarea[0].readOnly = true;
+                            var indicator = $('#drop-indicator');
+                            var indicator_t = $('#drop-indicator-text');
+                            indicator_t.text(file.name);
+                            indicator.show();
+                        } else {
+                            // apparently not FASTA
+                            $('#dnd-format-notification .filename').text(file.name);
+                            showNotification('dnd-format');
+                        }
+                    };
+                })(file);
+                reader.onerror = (function(file) {
+                    return function(e) {
+                        $('#dnd-read-error-notification .filename').text(file.name);
+                        showNotification('dnd-read-error');
+                    }
+                })(file);
+                reader.readAsText(file);
+            } else {
+                $('#dnd-large-file-notification .filename').text(file.name);
+                showNotification('dnd-large-file');
+            }
+        } else {
+            showNotification('dnd-multi');
+        }
+    });
+
+    $('#clear-file').on('click', function(event) {
+        var textarea = $('#sequence');
+        textarea.val('');
+        textarea[0].readOnly = false;
+        $('#drop-indicator').hide('fast');
+    });
+
+    // end drag-and-drop
 
     $('#sequence').on('sequence_type_changed', function (event, type) {
         clearTimeout(notification_timeout);
