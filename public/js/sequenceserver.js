@@ -185,16 +185,17 @@ $(document).ready(function(){
         }
     });
 
-    $('#methods .dropdown-menu').click(function (event) {
-        // The list of possible blast methods is dynamically generated.  So we
-        // leverage event bubbling to trap 'click' event on the list items.
-        var clicked = $(event.target);
-        var mbutton = $('#method');
+    // The list of possible blast methods is dynamically generated.  So we
+    // leverage event bubbling and delegation to trap 'click' event on the list items.
+    // Please see : http://api.jquery.com/on/#direct-and-delegated-events
 
+    $(document).on("click", "#methods .dropdown-menu li", function(event) {
+        var clicked = $(this);
+        var mbutton = $('#method');
         var old_method = mbutton.text();
         var new_method = clicked.text();
 
-        //swap
+        // swap
         clicked.html(SS.decorate(old_method));
         mbutton.val(new_method).html(SS.decorate(new_method));
 
