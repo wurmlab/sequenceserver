@@ -48,6 +48,14 @@ describe 'Sequence helpers' do
     expect { type_of_sequences(aa_nt_mix) }.to raise_error(ArgumentError)
   end
 
+  it 'test_to_fasta' do
+    query_no_header = 'TACTGCTAGTCGATCGTCGATGCTAGCTGAC'
+    query_with_header = '>athcatrandom\nTACTGCTAGTCGATCGTCGATGCTAGCTGAC'
+    ip   = request.ip.to_s
+    time = Time.now.strftime("%y%m%d-%H:%M:%S")
+    assert_equal(">Submitted_By_#{ip}_at_#{time}\n"+query_no_header, to_fasta(query_no_header))
+    assert_equal(query_with_header, to_fasta(query_with_header))
+
   it 'test_composition' do
     expected_comp = {"a"=>2, "d"=>3, "f"=>7, "s"=>3, "A"=>1}
     assert_equal(expected_comp, composition('asdfasdfffffAsdf'))
