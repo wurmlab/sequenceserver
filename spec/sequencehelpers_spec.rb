@@ -55,6 +55,18 @@ describe 'Sequence helpers' do
     time = Time.now.strftime("%y%m%d-%H:%M:%S")
     assert_equal(">Submitted_By_#{ip}_at_#{time}\n"+query_no_header, to_fasta(query_no_header))
     assert_equal(query_with_header, to_fasta(query_with_header))
+  end
+
+  it 'test_unique_sequence_ids' do
+    ip   = request.ip.to_s
+    time = Time.now.strftime("%y%m%d-%H:%M:%S")
+    aa_multifasta = ">a\nATGCTCA\n>bob\nGTCGCGA\n>a\nATGCTCAAGAa\n>c\nGTacgtcgCGCGA>bob\nrandom\ncomments\nTAGGCGACT"
+    aa_multifasta_out = ">a\nATGCTCA\n>bob\nGTCGCGA\n>a_1\nATGCTCAAGAa\n>c\nGTacgtcgCGCGA>bob_1\nrandom\ncomments\nTAGGCGACT"
+    aa_multifasta_with_missing_lead = "ACGTGSDLKJGNLDK\n>a\natgctgatcgta\n>a\natgctgatcgta"
+    aa_multifasta_with_missing_lead_out = ">Submitted_By_#{ip}_at_#{time}\n"+"ACGTGSDLKJGNLDK\n>a\natgctgatcgta\n>a_1\natgctgatcgta"
+    assert_equal(aa_multifasta_out, to_fasta(aa_multifasta))
+    assert_equal(aa_multifasta_with_missing_lead_out, to_fasta(aa_multifasta_with_missing_lead))
+  end
 
   it 'test_composition' do
     expected_comp = {"a"=>2, "d"=>3, "f"=>7, "s"=>3, "A"=>1}
