@@ -383,7 +383,6 @@ HEADER
       string_of_used_databases = databases.join(' ')
       blast_database_number = 0
       line_number = 0
-      started_query = false
       finished_database_summary = false
       finished_alignments = false
       reference_string = ''
@@ -520,7 +519,7 @@ HEADER
       raise ArgumentError, "Invalid characters detected in the advanced options" unless advanced_options =~ /\A[a-z0-9\-_\. ']*\Z/i
       disallowed_options = %w(-out -html -outfmt -db -query)
       disallowed_options.each do |o|
-        raise ArgumentError, "The advanced BLAST option \"#{o}\" is used internally by SequenceServer and so cannot be specified by the you" if advanced_options =~ /#{o}/i
+        raise ArgumentError, "The advanced BLAST option \"#{o}\" is used internally by SequenceServer and so cannot be specified by you" if advanced_options =~ /#{o}/i
       end
     end
   end
