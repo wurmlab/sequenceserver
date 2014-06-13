@@ -368,7 +368,8 @@ HEADER
       sequence.lstrip!
       unique_queries = Hash.new()
       if sequence[0,1] != '>'
-        ip   = request.ip.to_s
+        # To make sure request.ip returns some useful information
+        ip   = request.ip.to_s rescue '0.0.0.0'
         time = Time.now.strftime("%y%m%d-%H:%M:%S")
         sequence.insert(0, ">Submitted_By_#{ip}_at_#{time}\n")
       end

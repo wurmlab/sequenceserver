@@ -48,22 +48,6 @@ describe 'Sequence helpers' do
     expect { type_of_sequences(aa_nt_mix) }.to raise_error(ArgumentError)
   end
 
-  it 'test_to_fasta' do
-    query_no_header = 'TACTGCTAGTCGATCGTCGATGCTAGCTGAC'
-    query_with_header = '>athcatrandom\nTACTGCTAGTCGATCGTCGATGCTAGCTGAC'
-    assert_equal(">", to_fasta(query_no_header)[0,1])
-    assert_equal(query_with_header, to_fasta(query_with_header))
-  end
-
-  it 'test_unique_sequence_ids' do
-    aa_multifasta = ">a\nATGCTCA\n>bob\nGTCGCGA\n>a\nATGCTCAAGAa\n>c\nGTacgtcgCGCGA>bob\nrandom\ncomments\nTAGGCGACT"
-    aa_multifasta_out = ">a\nATGCTCA\n>bob\nGTCGCGA\n>a_1\nATGCTCAAGAa\n>c\nGTacgtcgCGCGA>bob_1\nrandom\ncomments\nTAGGCGACT"
-    aa_multifasta_with_missing_lead = "ACGTGSDLKJGNLDK\n>a\natgctgatcgta\n>b\natgctgatcgta"
-    aa_multifasta_with_missing_lead_out = ">fasta\n"+"ACGTGSDLKJGNLDK\n>a\natgctgatcgta\n>b\natgctgatcgta"
-    assert_equal(aa_multifasta_out, to_fasta(aa_multifasta))
-    assert_equal('>', to_fasta(aa_multifasta_with_missing_lead_out)[0,1])
-  end
-
   it 'test_composition' do
     expected_comp = {"a"=>2, "d"=>3, "f"=>7, "s"=>3, "A"=>1}
     assert_equal(expected_comp, composition('asdfasdfffffAsdf'))
@@ -76,6 +60,25 @@ describe 'Sequence helpers' do
   end
 end
 
+describe 'sequence id checker' do
+  app = SequenceServer::App.new!
+  it 'test_to_fasta' do
+    query_no_header = 'TACTGCTAGTCGATCGTCGATGCTAGCTGAC'
+    query_with_header = '>athcatrandom\nTACTGCTAGTCGATCGTCGATGCTAGCTGAC'
+    assert_equal(">", app.to_fasta(query_no_header)[0,1])
+    assert_equal(query_with_header, app.to_fasta(query_with_header))
+  end
+
+  it 'test_unique_sequence_ids' do
+    aa_multifasta = ">a\nATGCTCA\n>bob\nGTCGCGA\n>a\nATGCTCAAGAa\n>c\nGTacgtcgCGCGA\n>bob\nrandom\ncomments\nTAGGCGACT"
+    aa_multifasta_out = ">a\nATGCTCA\n>bob\nGTCGCGA\n>a_1\nATGCTCAAGAa\n>c\nGTacgtcgCGCGA\n>bob_1\nrandom\ncomments\nTAGGCGACT"
+    aa_multifasta_with_missing_lead = "ACGTGSDLKJGNLDK\n>a\natgctgatcgta\n>b\natgctgatcgta"
+    aa_multifasta_with_missing_lead_out = ">fasta\n"+"ACGTGSDLKJGNLDK\n>a\natgctgatcgta\n>b\natgctgatcgta"
+    assert_equal(aa_multifasta_out, app.to_fasta(aa_multifasta))
+    assert_equal('>', app.to_fasta(aa_multifasta_with_missing_lead_out)[0,1])
+  end
+end
+    
 describe 'app tester' do
   it 'test_process_advanced_blast_options' do
     app = SequenceServer::App.new!
