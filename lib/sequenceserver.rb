@@ -146,7 +146,7 @@ module SequenceServer
           # for Thin
           server.silent = true if handler_name == 'Thin'
         end
-      rescue Errno::EADDRINUSE, RuntimeError => e
+      rescue Errno::EADDRINUSE, RuntimeError
         puts "\n== Failed to start SequenceServer."
         puts "== Is SequenceServer already running at: #{url}"
       end
@@ -216,7 +216,7 @@ module SequenceServer
     end
 
     get '/' do
-      databases = settings.databases.values.group_by &:type
+      databases = settings.databases.values.group_by(&:type)
       erb :search, :locals => {:databases => databases}
     end
 
@@ -293,7 +293,7 @@ module SequenceServer
       settings.log.info('Ran: ' + blast.command)
 
       unless blast.success?
-        halt *blast.error
+        halt(*blast.error)
       end
 
       format_blast_results(blast.result, databases)
@@ -330,7 +330,7 @@ module SequenceServer
       out = ''
       # just in case, checking we found right number of sequences
       if found_sequences_count != sequenceids.length
-        out <<<<HEADER
+        out << <<HEADER
 <h1>ERROR: incorrect number of sequences found.</h1>
 <p>Dear user,</p>
 
@@ -384,7 +384,6 @@ HEADER
       string_of_used_databases = databases.join(' ')
       blast_database_number = 0
       line_number = 0
-      started_query = false
       finished_database_summary = false
       finished_alignments = false
       reference_string = ''
@@ -506,10 +505,10 @@ HEADER
 
       # Return the BLAST output line with the link in it
       if link.nil?
-        settings.log.debug('No link added link for: `'+ sequence_id +'\'')
+        settings.log.debug('No link added link for: `' + sequence_id + '\'')
         return line
       else
-        settings.log.debug('Added link for: `'+ sequence_id +'\''+ link)
+        settings.log.debug('Added link for: `' + sequence_id + '\''+ link)
         return "><a href='#{url(link)}' target='_blank'>#{sequence_id}</a> \n"
       end
 
