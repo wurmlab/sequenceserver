@@ -16,9 +16,9 @@ module SequenceServer
     # will obviously produce unpredictable sorting order.
     def <=>(other)
       if self.title and other.title
-        self.title <=> other.title
+        self.title.downcase <=> other.title.downcase
       else
-        self.name <=> other.name
+        self.name.downcase <=> other.name.downcase
       end
     end
 
