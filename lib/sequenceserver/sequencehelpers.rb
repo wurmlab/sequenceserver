@@ -41,7 +41,7 @@ module SequenceServer
     # otherwise, returns :nucleotide or :protein
     def type_of_sequences(fasta_format_string)
       # the first sequence does not need to have a fasta definition line
-      sequences = fasta_format_string.split(/^>.*$/).delete_if { |seq| seq.empty? }
+      sequences = fasta_format_string.split(/^>.+$/).delete_if { |seq| seq.empty? }
 
       # get all sequence types
       sequence_types = sequences.collect { |seq|  guess_sequence_type(seq) }.uniq.compact
