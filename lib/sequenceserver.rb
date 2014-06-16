@@ -357,14 +357,11 @@ HEADER
       out
     end
 
-    # Ensure an unique '>sequence_identifier\n' at the start of a sequence.
-    #
-    # An empty query line appears in the blast report if the leading
-    # '>sequence_identifier\n' in the sequence is missing. We prepend
-    # the input sequence with user info in such case.
+    # Ensure a unique sequence identifier for each sequence. If the sequence
+    # identifier is missing, add one.
     #
     #   > to_fasta("acgt")
-    #   => 'Submitted_By_127.0.0.1_at_110214-15:33:34\nacgt'
+    #   => '>Submitted_By_127.0.0.1_at_110214-15:33:34\nacgt'
     def to_fasta(sequence)
       sequence.lstrip!
       unique_queries = Hash.new()
