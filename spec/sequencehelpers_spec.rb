@@ -63,9 +63,11 @@ end
 describe 'sequence id checker' do
   app = SequenceServer::App.new!
   it 'test_to_fasta' do
+    # A correct FASTA can be split on defline to get an array of all sequences.
     query_no_header = 'TACTGCTAGTCGATCGTCGATGCTAGCTGAC'
+    app.to_fasta(query_no_header).split(/^>.+$/).last.strip.should == query_no_header
+
     query_with_header = '>athcatrandom\nTACTGCTAGTCGATCGTCGATGCTAGCTGAC'
-    assert_equal(">", app.to_fasta(query_no_header)[0,1])
     assert_equal(query_with_header, app.to_fasta(query_with_header))
   end
 
