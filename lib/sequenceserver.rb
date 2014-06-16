@@ -366,10 +366,7 @@ HEADER
       sequence = sequence.lstrip
       unique_queries = Hash.new()
       if sequence[0,1] != '>'
-        # To make sure request.ip returns some useful information
-        ip   = request.ip.to_s rescue '0.0.0.0'
-        time = Time.now.strftime("%y%m%d-%H:%M:%S")
-        sequence.insert(0, ">Submitted_By_#{ip}_at_#{time}\n")
+        sequence.insert(0, ">Submitted at #{Time.now.strftime('%H:%M, %A, %B %d, %Y')}\n")
       end
       sequence.gsub!(/^\>(\S+)/) do |s|
         if unique_queries.has_key?(s)
