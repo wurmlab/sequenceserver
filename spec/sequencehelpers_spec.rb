@@ -80,7 +80,7 @@ describe 'sequence id checker' do
     assert_equal('>', app.to_fasta(aa_multifasta_with_missing_lead_out)[0,1])
   end
 end
-    
+
 describe 'app tester' do
   it 'test_process_advanced_blast_options' do
     app = SequenceServer::App.new!
