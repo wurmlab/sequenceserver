@@ -363,7 +363,7 @@ HEADER
     #   > to_fasta("acgt")
     #   => '>Submitted_By_127.0.0.1_at_110214-15:33:34\nacgt'
     def to_fasta(sequence)
-      sequence.lstrip!
+      sequence = sequence.lstrip
       unique_queries = Hash.new()
       if sequence[0,1] != '>'
         # To make sure request.ip returns some useful information
