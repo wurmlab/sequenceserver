@@ -357,7 +357,7 @@ HEADER
       out
     end
 
-    # Ensure a '>sequence_identifier\n' at the start of a sequence.
+    # Ensure an unique '>sequence_identifier\n' at the start of a sequence.
     #
     # An empty query line appears in the blast report if the leading
     # '>sequence_identifier\n' in the sequence is missing. We prepend
@@ -367,10 +367,21 @@ HEADER
     #   => 'Submitted_By_127.0.0.1_at_110214-15:33:34\nacgt'
     def to_fasta(sequence)
       sequence.lstrip!
+      unique_queries = Hash.new()
       if sequence[0,1] != '>'
-        ip   = request.ip.to_s
+        # To make sure request.ip returns some useful information
+        ip   = request.ip.to_s rescue '0.0.0.0'
         time = Time.now.strftime("%y%m%d-%H:%M:%S")
         sequence.insert(0, ">Submitted_By_#{ip}_at_#{time}\n")
+      end
+      sequence.gsub!(/^\>(\S+)/) do |s|
+        if unique_queries.has_key?(s)
+          unique_queries[s] += 1
+          s + '_' + (unique_queries[s]-1).to_s
+        else
+          unique_queries[s] = 1
+          s
+        end
       end
       return sequence
     end
@@ -520,7 +531,7 @@ HEADER
       raise ArgumentError, "Invalid characters detected in the advanced options" unless advanced_options =~ /\A[a-z0-9\-_\. ']*\Z/i
       disallowed_options = %w(-out -html -outfmt -db -query)
       disallowed_options.each do |o|
-        raise ArgumentError, "The advanced BLAST option \"#{o}\" is used internally by SequenceServer and so cannot be specified by the you" if advanced_options =~ /#{o}/i
+        raise ArgumentError, "The advanced BLAST option \"#{o}\" is used internally by SequenceServer and so cannot be specified by you" if advanced_options =~ /#{o}/i
       end
     end
   end
