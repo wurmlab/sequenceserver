@@ -84,7 +84,7 @@ module SequenceServer
 
         # perform SequenceServer initializations
         puts "\n== Initializing SequenceServer..."
-        app = new(config_file)
+        app = new
 
         # find out the what server to host SequenceServer with
         handler      = detect_rack_handler
@@ -133,7 +133,7 @@ module SequenceServer
     # An Integer stating the number of threads to use for running BLASTs.
     attr_reader :num_threads
 
-    def initialize(config_file)
+    def initialize(config_file = settings.config_file)
       config = YAML.load_file config_file
       unless config
         settings.log.warn("Empty configuration file: #{config_file} - will assume default settings")
