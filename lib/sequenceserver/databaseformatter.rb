@@ -1,7 +1,6 @@
 # copyright yannick . wurm at unil . ch
 # Finds files, reads first char. if its '>', read 500 lines. Guess sequence type, ask user for title to format as blast database.
 
-# TODO: bring it under SequenceServer namespace
 # TODO: move the file to a 'command/' sub-directory (probably makes more sense if we have several subcommands)
 # TODO: needs more love (read refactoring) overall
 
@@ -10,7 +9,6 @@ require 'find'
 require 'logger'
 require 'optparse'
 require 'sequenceserver'
-require 'sequenceserver/helpers.rb'
 require 'sequenceserver/sequencehelpers.rb'
 
 LOG = Logger.new(STDOUT)
@@ -19,8 +17,6 @@ LOG.level = Logger::INFO
 module SequenceServer
   class DatabaseFormatter
     include SequenceServer
-    include Helpers
-    include SystemHelpers
     include SequenceHelpers
 
     attr_accessor :db_path
@@ -83,7 +79,7 @@ module SequenceServer
       LOG.info("Will now create DBs")
       if commands.empty?
         puts "", "#{db_path} does not contain any unformatted database."
-        exit
+        return 0
       end
       commands.each do |command|
         LOG.info("Will run: " + command.to_s)
