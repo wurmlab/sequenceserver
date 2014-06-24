@@ -45,11 +45,11 @@ OPTIONS
 
 BANNER
     opts.on('-p', '--port PORT', 'Port to run SequenceServer on') do |port|
-      SequenceServer::App.port = Integer(port)
+      SequenceServer.port port
     end
 
     opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
-      SequenceServer::App.config_file = File.expand_path(config_file)
+      SequenceServer.config_file config_file
     end
 
     opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do |config_file|
@@ -83,4 +83,4 @@ end
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
 
-SequenceServer::App.run!
+SequenceServer.run

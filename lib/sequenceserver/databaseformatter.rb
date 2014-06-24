@@ -26,11 +26,8 @@ module SequenceServer
     attr_accessor :db_path
 
     def initialize(db_path = nil)
-      @app = SequenceServer::App
-      @app.config = @app.parse_config
-      @app.binaries = @app.scan_blast_executables(@app.bin).freeze
-
-      @db_path = (db_path or @app.database)
+      SequenceServer.init
+      @db_path = (db_path or SequenceServer.database_dir)
     end
 
     def format_databases
@@ -39,7 +36,7 @@ module SequenceServer
         exit
       end
 
-      formatted_dbs = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%f" 2>&1|.split("\n")
+      formatted_dbs = %x|blastdbcmd -recursive -list #{db_path} -list_outfmt "%f" 2>&1|.split("\n")
       commands = []
       Find.find(db_path) do |file|
         LOG.debug("Assessing file #{file}..")
@@ -98,7 +95,7 @@ module SequenceServer
 
     def db_table(db_path)
       LOG.info("Summary of formatted blast databases:\n")
-      output = %x|#{@app.binaries['blastdbcmd']} -recursive -list #{db_path} -list_outfmt "%p %f %t" &2>1 |
+      output = %x|blastdbcmd -recursive -list #{db_path} -list_outfmt "%p %f %t" &2>1 |
       LOG.info(output)
     end
 
@@ -138,7 +135,7 @@ module SequenceServer
 
     def make_db_command(file,type, title)
       LOG.info("Will make #{type.to_s} database from #{file} with #{title}")
-      command = %|#{@app.binaries['makeblastdb']} -in #{file} -dbtype #{ type.to_s.slice(0,4)} -title "#{title}" -parse_seqids|
+      command = %|makeblastdb -in #{file} -dbtype #{ type.to_s.slice(0,4)} -title "#{title}" -parse_seqids|
         LOG.info("Returning: #{command}")
       return(command)
     end

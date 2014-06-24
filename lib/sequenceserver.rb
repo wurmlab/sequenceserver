@@ -1,10 +1,8 @@
-# sequenceserver.rb
-
 require 'sinatra/base'
 require 'yaml'
 require 'logger'
 require 'fileutils'
-require 'sequenceserver/helpers'
+require 'sequenceserver/database'
 require 'sequenceserver/blast'
 require 'sequenceserver/sequencehelpers'
 require 'sequenceserver/sinatralikeloggerformatter'
@@ -13,165 +11,296 @@ require 'sequenceserver/version'
 
 # Helper module - initialize the blast server.
 module SequenceServer
+
+  extend self
+
+  # Path to SequenceServer installation.
+  def root
+    File.dirname(File.dirname(__FILE__))
+  end
+
+  # Path to example configuration file.
+  #
+  # SequenceServer ships with a dummy configuration file. Users can simply
+  # copy it and make necessary changes to get started.
+  def example_config_file
+    File.join(root, 'example.config.yml')
+  end
+
+  # Path to sample database.
+  #
+  # SequenceServer ships with test database (fire ant genome) so users can
+  # launch and preview SequenceServer without any configuration, and/or run
+  # test suite.
+  def sample_database
+    File.join(root, 'spec', 'database')
+  end
+
+  # Path to SequenceServer's configuration file.
+  #
+  # The configuration file is a simple, YAML data store.
+  def config_file(config_file = nil)
+    config_file  ||= '~/.sequenceserver.conf'
+    @config_file ||= File.expand_path(config_file)
+  end
+
+  def host
+    'localhost'
+  end
+
+  def port(port = 4567)
+    @port ||= Integer(port)
+  rescue ArgumentError
+    puts "*** Port must be number."
+    puts "    Typo?"
+  end
+
+  def logger
+    return @logger if @logger
+    @logger = Logger.new(STDERR)
+    @logger.formatter = SinatraLikeLogFormatter.new()
+    @logger
+  end
+
+  def init(config_file = config_file)
+    assert_config_file_present config_file
+
+    puts "** Initializing SequenceServer..."
+    config = parse_config_file
+
+    bin_dir = File.expand_path(config.delete 'bin') rescue nil
+    assert_bin_dir_present bin_dir
+    export_bin_dir bin_dir
+
+    assert_blast_installed_and_compatible
+
+    @database_dir = File.expand_path(config.delete 'database') rescue sample_database
+    assert_blast_database_directory_present database_dir
+    @databases = scan_blast_database_directory(database_dir).freeze
+
+    @app = App.new(databases)
+
+    @num_threads = Integer(config.delete 'num_threads') rescue 1
+    logger.info("Will use #@num_threads threads to run BLAST.")
+
+    @app
+  end
+
+  attr_reader :app, :database_dir, :databases, :num_threads
+
+  # Run SequenceServer as a self-hosted server.
+  #
+  # By default SequenceServer uses Thin, Mongrel or WEBrick (in that
+  # order).
+  def run(config_file = config_file)
+    init config_file
+
+    # find out the what server to host SequenceServer with
+    handler      = Sinatra::Base.send :detect_rack_handler
+    handler_name = handler.name.gsub(/.*::/, '')
+
+    puts
+    logger.info("Using #{handler_name} web server.")
+
+    if handler_name == 'WEBrick'
+      puts "\n== We recommend using Thin web server for better performance."
+      puts "== To install Thin: [sudo] gem install thin"
+    end
+
+    url = "http://#{host}:#{port}"
+    puts "\n== Launched SequenceServer at: #{url}"
+    puts "== Press CTRL + C to quit."
+    handler.run(app, :Host => host, :Port => port, :Logger => Logger.new('/dev/null')) do |server|
+      [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler) } }
+      #set :running, true
+
+      # for Thin
+      server.silent = true if handler_name == 'Thin'
+    end
+  rescue Errno::EADDRINUSE, RuntimeError
+    puts "\n== Failed to start SequenceServer."
+    puts "== Is SequenceServer already running at: #{url}"
+  end
+
+  # Stop SequenceServer.
+  def quit!(server, handler_name)
+    # Use Thin's hard #stop! if available, otherwise just #stop.
+    server.respond_to?(:stop!) ? server.stop! : server.stop
+    puts "\n== Thank you for using SequenceServer :)." +
+          "\n== Please cite: " +
+          "\n==             Priyam A., Woodcroft B.J., Wurm Y (in prep)." +
+          "\n==             Sequenceserver: BLAST searching made easy." unless handler_name =~/cgi/i
+  end
+
+  private
+
+  def assert_config_file_present config_file
+    unless File.exists? config_file
+      puts '*** Configuration file not found.'
+      FileUtils.cp(example_config_file, config_file)
+      puts "*** Generated sample configuration file at #{config_file}."
+      puts "    Please edit #{config_file} to indicate the location of your BLAST databases and run SequenceServer again."
+      exit
+    end
+  end
+
+  def assert_bin_dir_present bin_dir
+    return unless bin_dir
+    unless File.exists? bin_dir
+      puts "*** Couldn't find #{bin_dir}."
+      puts "    Typo in #{config_file}?"
+      exit
+    end
+  end
+
+  def assert_blast_installed_and_compatible
+    unless command? 'blastdbcmd'
+      puts "*** Could not find blast binaries."
+      puts "    You may need to download BLAST+ from - "
+      puts "      http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download"
+      puts "    And/or edit #{SequenceServer.config_file} to indicate the location of BLAST+ binaries."
+      exit
+    end
+    version = %x|blastdbcmd -version|.split[1]
+    unless version > '2.2.25+'
+      puts "*** Your BLAST version #{version} is outdated."
+      puts "    SequenceServer needs NCBI BLAST+ version 2.2.25+ or higher."
+      exit
+    end
+  end
+
+  def assert_blast_database_directory_present blast_database_directory
+    unless File.exists? blast_database_directory
+      puts "*** Couldn't find #{blast_database_directory}."
+      puts "    Typo in #{config_file}?"
+      exit
+    end
+  end
+
+  def parse_config_file
+    logger.info("Reading configuration file: #{config_file}.")
+    config = YAML.load_file config_file
+    unless config
+      logger.warn("Empty configuration file: #{config_file} - will assume default settings.")
+      config = {}
+    end
+    config
+  rescue ArgumentError => error
+    puts "*** Error in config file: #{error}."
+    puts "YAML is white space sensitive. Is your config file properly indented?"
+    exit
+  end
+
+  # Export NCBI BLAST+ bin dir to PATH environment variable.
+  def export_bin_dir(bin_dir)
+    if bin_dir
+      bin_dir = File.expand_path(bin_dir)
+      unless ENV['PATH'].split(':').include? bin_dir
+        ENV['PATH'] = "#{bin_dir}:#{ENV['PATH']}"
+      end
+    end
+  end
+
+  # Scan the given directory (including subdirectory) for blast databases.
+  # ---
+  # Arguments:
+  # * db_root(String) - absolute path to the blast databases
+  # ---
+  # Returns:
+  # * a hash of sorted blast databases indexed by their id.
+  def scan_blast_database_directory(db_root)
+    find_dbs_command = %|blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1|
+
+    db_list = %x|#{find_dbs_command}|
+    if db_list.empty?
+      puts "*** No formatted blast databases found in '#{db_root}'."
+      puts "    Run 'sequenceserver format-databases' to create BLAST database from your FASTA files in #{database_dir}."
+      exit
+    end
+    if db_list.match(/BLAST Database error/)
+      puts "*** Error parsing blast databases."
+      puts "    Tried: '#{find_dbs_command}'."
+      puts "    It crashed with the following error: '#{db_list}'"
+      puts "    Try reformatting databases using 'sequenceserver format-databases'."
+      exit
+    end
+
+    db = {}
+    db_list.each_line do |line|
+      next if line.empty?  # required for BLAST+ 2.2.22
+      type, name, *title =  line.split(' ')
+      type = type.downcase.intern
+      name = name.freeze
+      title = title.join(' ').freeze
+
+      # skip past all but alias file of a NCBI multi-part BLAST database
+      if multipart_database_name?(name)
+        settings.log.info(%|Found a multi-part database volume at #{name} - ignoring it.|)
+        next
+      end
+
+      database = Database.new(name, title, type)
+      db[database.hash] = database
+      logger.info("Found #{database.type} database: #{database.title} at #{database.name}")
+    end
+    db
+  end
+
+  private
+
+  # check if the given command exists and is executable
+  # returns True if all is good.
+  def command?(command)
+    system("which #{command} > /dev/null 2>&1")
+  end
+
+  # Returns true if the database name appears to be a multi-part database name.
+  #
+  # e.g.
+  # /home/ben/pd.ben/sequenceserver/db/nr.00 => yes
+  # /home/ben/pd.ben/sequenceserver/db/nr => no
+  # /home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01 => yes
+  def multipart_database_name?(db_name)
+    !(db_name.match(/.+\/\S+\d{2}$/).nil?)
+  end
+
   class App < Sinatra::Base
-    include Helpers::SystemHelpers
     include SequenceHelpers
     include SequenceServer::Customisation
 
-    # Basic configuration settings for app.
-    configure do
-      # enable some builtin goodies
-      enable :session, :logging
-
-      # main application file
-      set :app_file,   File.expand_path(__FILE__)
-
-      # app root is SequenceServer's installation directory
-      #
-      # SequenceServer figures out different settings, location of static
-      # assets or templates for example, based on app root.
-      set :root,       File.dirname(File.dirname(app_file))
-
-      # path to test database
-      #
-      # SequenceServer ships with test database (fire ant genome) so users can
-      # launch and preview SequenceServer without any configuration, and/or run
-      # test suite.
-      set :test_database, File.join(root, 'spec', 'database')
-
-      # path to example configuration file
-      #
-      # SequenceServer ships with a dummy configuration file. Users can simply
-      # copy it and make necessary changes to get started.
-      set :example_config_file, File.join(root, 'example.config.yml')
-
-      # path to SequenceServer's configuration file
-      #
-      # The configuration file is a simple, YAML data store.
-      set :config_file, Proc.new{ File.expand_path('~/.sequenceserver.conf') }
-
-      set :log,       Logger.new(STDERR)
-      log.formatter = SinatraLikeLogFormatter.new()
-    end
-
-    # Settings for the self hosted server.
-    configure do
-      # The port number to run SequenceServer standalone.
-      set :port, 4567
-    end
+    enable :logging
+    set :root, SequenceServer.root
 
     configure :development do
-      log.level     = Logger::DEBUG
+      #log.level     = Logger::DEBUG
     end
 
-    configure(:production) do
-      log.level     = Logger::INFO
+    configure :production do
+      #log.level     = Logger::INFO
+
       error do
         erb :'500'
       end
+
       not_found do
         erb :'500'
-      end
-    end
-
-    class << self
-      def set_bin_dir(bin_dir)
-        if bin_dir
-          bin_dir = File.expand_path(bin_dir)
-          unless ENV['PATH'].split(':').include? bin_dir
-            ENV['PATH'] = "#{bin_dir}:#{ENV['PATH']}"
-          end
-        end
-      end
-
-      # Run SequenceServer as a self-hosted server.
-      #
-      # By default SequenceServer uses Thin, Mongrel or WEBrick (in that
-      # order). This can be configured by setting the 'server' option.
-      def run!(options={})
-        set options
-
-        # perform SequenceServer initializations
-        puts "\n== Initializing SequenceServer..."
-        app = new
-
-        # find out the what server to host SequenceServer with
-        handler      = detect_rack_handler
-        handler_name = handler.name.gsub(/.*::/, '')
-
-        puts
-        log.info("Using #{handler_name} web server.")
-
-        if handler_name == 'WEBrick'
-          puts "\n== We recommend using Thin web server for better performance."
-          puts "== To install Thin: [sudo] gem install thin"
-        end
-
-        url = "http://#{bind}:#{port}"
-        puts "\n== Launched SequenceServer at: #{url}"
-        puts "== Press CTRL + C to quit."
-        handler.run(app, :Host => bind, :Port => port, :Logger => Logger.new('/dev/null')) do |server|
-          [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler) } }
-          set :running, true
-
-          # for Thin
-          server.silent = true if handler_name == 'Thin'
-        end
-      rescue Errno::EADDRINUSE, RuntimeError
-        puts "\n== Failed to start SequenceServer."
-        puts "== Is SequenceServer already running at: #{url}"
-      end
-
-      # Stop SequenceServer.
-      def quit!(server, handler_name)
-        # Use Thin's hard #stop! if available, otherwise just #stop.
-        server.respond_to?(:stop!) ? server.stop! : server.stop
-        puts "\n== Thank you for using SequenceServer :)." +
-             "\n== Please cite: " +
-             "\n==             Priyam A., Woodcroft B.J., Wurm Y (in prep)." +
-             "\n==             Sequenceserver: BLAST searching made easy." unless handler_name =~/cgi/i
       end
     end
 
     # A Hash of BLAST databases indexed by their id (or hash).
     attr_reader :databases
 
-    # An Integer stating the number of threads to use for running BLASTs.
-    attr_reader :num_threads
-
-    def initialize(config_file = settings.config_file)
-      config = YAML.load_file config_file
-      unless config
-        settings.log.warn("Empty configuration file: #{config_file} - will assume default settings")
-        config = {}
-      end
-
-      settings.set_bin_dir config.delete 'bin'
-
-      database_dir = File.expand_path(config.delete 'database') rescue settings.test_database
-      @databases   = scan_blast_db(database_dir).freeze
-      databases.each do |id, database|
-        settings.log.info("Found #{database.type} database: #{database.title} at #{database.name}")
-      end
-
-      @num_threads = Integer(config.delete 'num_threads') rescue 1
-      settings.log.info("Will use #@num_threads threads to run BLAST.")
-
-      # Sinatra, you do your magic now.
+    def initialize(database)
+      @databases = database
       super()
-    rescue IOError => error
-      settings.log.fatal("Fail: #{error}")
-      exit
-    rescue ArgumentError => error
-      settings.log.fatal("Error in config.yml: #{error}")
-      puts "YAML is white space sensitive. Is your config.yml properly indented?"
-      exit
-    rescue Errno::ENOENT # config file not found
-      settings.log.info('Configuration file not found')
-      FileUtils.cp(settings.example_config_file, settings.config_file)
-      settings.log.info("Generated a dummy configuration file: #{config_file}")
-      puts "\nPlease edit #{settings.config_file} to indicate the location of your BLAST databases and run SequenceServer again."
-      exit
+    end
+
+    def log
+      SequenceServer.logger
+    end
+
+    def num_threads
+      SequenceServer.num_threads
     end
 
     get '/' do
@@ -218,10 +347,10 @@ module SequenceServer
       end
 
       # log params
-      settings.log.debug('method: '   + params[:method])
-      settings.log.debug('sequence: ' + params[:sequence])
-      settings.log.debug('database: ' + params[:databases].inspect)
-      settings.log.debug('advanced: ' + params[:advanced])
+      log.debug('method: '   + params[:method])
+      log.debug('sequence: ' + params[:sequence])
+      log.debug('database: ' + params[:databases].inspect)
+      log.debug('advanced: ' + params[:advanced])
     end
 
     post '/' do
@@ -247,7 +376,7 @@ module SequenceServer
       # run blast and log
       blast = Blast.new(method, sequence, databases.join(' '), advanced_opts)
       blast.run!
-      settings.log.info('Ran: ' + blast.command)
+      log.info('Ran: ' + blast.command)
 
       unless blast.success?
         halt(*blast.error)
@@ -266,7 +395,7 @@ module SequenceServer
       # query some may have been found multiply
       retrieval_databases = params[:db].split(/\s/)
 
-      settings.log.info("Looking for: '#{sequenceids.join(', ')}' in '#{retrieval_databases.join(', ')}'")
+      log.info("Looking for: '#{sequenceids.join(', ')}' in '#{retrieval_databases.join(', ')}'")
 
       # the results do not indicate which database a hit is from.
       # Thus if several databases were used for blasting, we must check them all
@@ -276,7 +405,7 @@ module SequenceServer
       retrieval_databases.each do |database|     # we need to populate this session variable from the erb.
         sequence = sequence_from_blastdb(sequenceids, database)
         if sequence.empty?
-          settings.log.debug("'#{sequenceids.join(', ')}' not found in #{database}")
+          log.debug("'#{sequenceids.join(', ')}' not found in #{database}")
         else
           found_sequences += sequence
         end
@@ -447,7 +576,7 @@ HEADER
 
       # First precedence: construct the whole line to be customised
       if self.respond_to?(:construct_custom_sequence_hyperlinking_line)
-        settings.log.debug("Using custom hyperlinking line creator with sequence #{options.inspect}")
+        log.debug("Using custom hyperlinking line creator with sequence #{options.inspect}")
         link_line = construct_custom_sequence_hyperlinking_line(options)
         unless link_line.nil?
           return link_line
@@ -458,19 +587,19 @@ HEADER
       # whole line either wasn't defined, or returned nil
       # (indicating failure)
       if self.respond_to?(:construct_custom_sequence_hyperlink)
-        settings.log.debug("Using custom hyperlink creator with sequence #{options.inspect}")
+        log.debug("Using custom hyperlink creator with sequence #{options.inspect}")
         link = construct_custom_sequence_hyperlink(options)
       else
-        settings.log.debug("Using standard hyperlink creator with sequence `#{options.inspect}'")
+        log.debug("Using standard hyperlink creator with sequence `#{options.inspect}'")
         link = construct_standard_sequence_hyperlink(options)
       end
 
       # Return the BLAST output line with the link in it
       if link.nil?
-        settings.log.debug('No link added link for: `' + sequence_id + '\'')
+        log.debug('No link added link for: `' + sequence_id + '\'')
         return line
       else
-        settings.log.debug('Added link for: `' + sequence_id + '\''+ link)
+        log.debug('Added link for: `' + sequence_id + '\''+ link)
         return "><a href='#{url(link)}' target='_blank'>#{sequence_id}</a> \n"
       end
 

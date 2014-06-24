@@ -9,7 +9,7 @@ module SequenceServer
     include Rack::Test::Methods
 
     def app
-      App
+      @app ||= SequenceServer.init
     end
 
     before :each do

@@ -61,7 +61,8 @@ describe 'Sequence helpers' do
 end
 
 describe 'sequence id checker' do
-  app = SequenceServer::App.new!
+  SequenceServer.init
+  app = SequenceServer::App.new!(SequenceServer.databases)
   it 'test_to_fasta' do
     # A correct FASTA can be split on defline to get an array of all sequences.
     query_no_header = 'TACTGCTAGTCGATCGTCGATGCTAGCTGAC'
@@ -83,7 +84,8 @@ end
 
 describe 'app tester' do
   it 'test_process_advanced_blast_options' do
-    app = SequenceServer::App.new!
+    SequenceServer.init
+    app = SequenceServer::App.new!(SequenceServer.databases)
 
     # Tests below fail by raising and error
     app.validate_advanced_parameters('')
@@ -95,11 +97,9 @@ describe 'app tester' do
 end
 
 describe 'SystemHelpers' do
-  include SequenceServer::Helpers::SystemHelpers
-
   it 'test_multipart_database_name?' do
-    assert_equal true, multipart_database_name?('/home/ben/pd.ben/sequenceserver/db/nr.00')
-    assert_equal false, multipart_database_name?('/home/ben/pd.ben/sequenceserver/db/nr')
-    assert_equal true, multipart_database_name?('/home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01')
+    assert_equal true, SequenceServer.send(:multipart_database_name?, '/home/ben/pd.ben/sequenceserver/db/nr.00')
+    assert_equal false, SequenceServer.send(:multipart_database_name?, '/home/ben/pd.ben/sequenceserver/db/nr')
+    assert_equal true, SequenceServer.send(:multipart_database_name?, '/home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01')
   end
 end
