@@ -233,12 +233,20 @@ module SequenceServer
       puts "*** No formatted blast databases found in '#{db_root}'."
       puts "    Run 'sequenceserver format-databases' to create BLAST database from your FASTA files in #{database_dir}."
       exit
-    end
-    if db_list.match(/BLAST Database error/)
-      puts "*** Error parsing blast databases."
-      puts "    Tried: '#{find_dbs_command}'."
-      puts "    It crashed with the following error: '#{db_list}'"
-      puts "    Try reformatting databases using 'sequenceserver format-databases'."
+    elsif db_list.match(/BLAST Database error/)
+      puts "*** Error parsing one of the blast databases."
+      # FIXME: sequenceserver format-databases should take care of this.
+      puts "    Mostly likely some of your BLAST databases were created by an old version of 'makeblastdb'."
+      puts "    You will have to manually delete problematic BLAST databases and subsequently run 'sequenceserver format-databases' to create new ones."
+      exit
+    elsif not $?.success?
+      puts "*** Error obtaining BLAST databases."
+      puts "    Tried: #{find_dbs_command}"
+      puts "    Error:"
+      db_list.strip.split("\n").each do |l|
+        puts "      #{l}"
+      end
+      puts "    Please could you report this to 'https://groups.google.com/forum/#!forum/sequenceserver'?"
       exit
     end
 
