@@ -1,8 +1,6 @@
 require 'sequenceserver'
 require 'rack/test'
 
-
-
 module SequenceServer
   describe "App" do
     ENV['RACK_ENV'] = 'test'
