@@ -26,7 +26,7 @@ module SequenceServer
     attr_accessor :db_path
 
     def initialize(db_path = nil)
-      SequenceServer.init
+      SequenceServer.init2
       @db_path = (db_path or SequenceServer.database_dir)
     end
 

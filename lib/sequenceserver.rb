@@ -86,6 +86,23 @@ module SequenceServer
     @app
   end
 
+  # For databaseformatter.
+  def init2(config_file = config_file)
+    assert_config_file_present config_file
+
+    puts "** Initializing SequenceServer..."
+    config = parse_config_file
+
+    bin_dir = File.expand_path(config.delete 'bin') rescue nil
+    assert_bin_dir_present bin_dir
+    export_bin_dir bin_dir
+
+    assert_blast_installed_and_compatible
+
+    @database_dir = File.expand_path(config.delete 'database') rescue sample_database
+    assert_blast_database_directory_present database_dir
+  end
+
   attr_reader :app, :database_dir, :databases, :num_threads
 
   # Run SequenceServer as a self-hosted server.
