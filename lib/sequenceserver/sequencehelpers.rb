@@ -65,7 +65,7 @@ module SequenceServer
       # query now!
       #
       # If `blastdbcmd` throws error, we assume sequence not found.
-      blastdbcmd = settings.binaries['blastdbcmd']
+      blastdbcmd = binaries['blastdbcmd']
       %x|#{blastdbcmd} -db #{db} -entry '#{ids}' 2> /dev/null|
     end
 

@@ -98,7 +98,7 @@ module SequenceServer
 
           # skip past all but alias file of a NCBI multi-part BLAST database
           if multipart_database_name?(name)
-            log.info(%|Found a multi-part database volume at #{name} - ignoring it.|)
+            settings.log.info(%|Found a multi-part database volume at #{name} - ignoring it.|)
             next
           end
 
