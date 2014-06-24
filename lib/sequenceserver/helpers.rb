@@ -3,45 +3,6 @@ require 'sequenceserver/database'
 module SequenceServer
   module Helpers
     module SystemHelpers
-      # Scan the given directory for blast executables. Passing `nil` scans the
-      # system `PATH`.
-      # ---
-      # Arguments:
-      # * bin(String) - absolute path to the directory containing blast binaries
-      # ---
-      # Returns:
-      # * a hash of blast methods, and their corresponding absolute path
-      # ---
-      # Raises:
-      # * IOError - if the executables can't be found
-      #
-      #   > scan_blast_executables('/home/yeban/bin')
-      #   =>  { "blastx"=>"/home/yeban/bin/blastx",
-      #         "blastn"=>"/home/yeban/bin/blastn",
-      #         ...
-      #       }
-      def scan_blast_executables(bin)
-        if bin and not File.directory?(bin)
-          raise IOError, "Could not find '#{bin}' defined in config.yml."
-        end
-
-        binaries = {}
-        %w|blastn blastp blastx tblastn tblastx blastdbcmd makeblastdb blast_formatter|.each do |method|
-          path = File.join(bin, method) rescue method
-          if command?(path)
-            binaries[method] = path
-          else
-            blasturl = 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
-            raise IOError, "Could not find blast binaries." +
-            "\n\nYou may need to download BLAST+ from #{blasturl}." +
-            " And/or edit #{settings.config_file} to indicate the location of BLAST+ binaries."
-          end
-        end
-
-        #LOG.info("Config bin dir:          #{bin}")
-        binaries
-      end
-
       # Scan the given directory (including subdirectory) for blast databases.
       # ---
       # Arguments:
@@ -56,10 +17,17 @@ module SequenceServer
       #
       #   > scan_blast_db('/home/yeban/blast_db')
       #   => { "protein" => [], "nucleotide" => [] }
-      def scan_blast_db(db_root, blastdbcmd = 'blastdbcmd')
+      def scan_blast_db(db_root)
+        unless command? 'blastdbcmd'
+          blasturl = 'http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
+          raise IOError, "Could not find blast binaries." +
+            "\n\nYou may need to download BLAST+ from #{blasturl}." +
+            " And/or edit #{settings.config_file} to indicate the location of BLAST+ binaries."
+        end
+
         raise IOError, "Database directory doesn't exist: #{db_root}" unless File.directory?( db_root )
 
-        find_dbs_command = %|#{blastdbcmd} -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1|
+        find_dbs_command = %|blastdbcmd -recursive -list #{db_root} -list_outfmt "%p %f %t" 2>&1|
 
         db_list = %x|#{find_dbs_command}|
         if db_list.empty?

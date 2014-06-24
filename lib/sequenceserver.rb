@@ -75,6 +75,15 @@ module SequenceServer
     end
 
     class << self
+      def set_bin_dir(bin_dir)
+        if bin_dir
+          bin_dir = File.expand_path(bin_dir)
+          unless ENV['PATH'].split(':').include? bin_dir
+            ENV['PATH'] = "#{bin_dir}:#{ENV['PATH']}"
+          end
+        end
+      end
+
       # Run SequenceServer as a self-hosted server.
       #
       # By default SequenceServer uses Thin, Mongrel or WEBrick (in that
@@ -124,9 +133,6 @@ module SequenceServer
       end
     end
 
-    # A Hash of absolute path to BLAST binaries indexed by its name.
-    attr_reader :binaries
-
     # A Hash of BLAST databases indexed by their id (or hash).
     attr_reader :databases
 
@@ -140,14 +146,10 @@ module SequenceServer
         config = {}
       end
 
-      bin_dir   = File.expand_path(config.delete 'bin') rescue nil
-      @binaries = scan_blast_executables(bin_dir).freeze
-      @binaries.each do |command, path|
-        settings.log.info("Found #{command} at #{path}")
-      end
+      settings.set_bin_dir config.delete 'bin'
 
       database_dir = File.expand_path(config.delete 'database') rescue settings.test_database
-      @databases   = scan_blast_db(database_dir, binaries['blastdbcmd']).freeze
+      @databases   = scan_blast_db(database_dir).freeze
       databases.each do |id, database|
         settings.log.info("Found #{database.type} database: #{database.title} at #{database.name}")
       end
@@ -237,7 +239,6 @@ module SequenceServer
         advanced_opts << ' -task blastn '
       end
 
-      method    = binaries[ method ]
       databases = params[:databases].map{|index|
         self.databases[index].name
       }
