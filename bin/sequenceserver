@@ -3,10 +3,10 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'optparse'
-require 'sequenceserver'
 
 # e.g:
 # sequenceserver --config .sequenceserver.conf format_database
+options = {}
 begin
   # parse command line till first non-option, removing parsed options from ARGV
   OptionParser.new do |opts|
@@ -45,18 +45,24 @@ OPTIONS
 
 BANNER
     opts.on('-p', '--port PORT', 'Port to run SequenceServer on') do |port|
-      SequenceServer.port port
+      options['port'] = port
+      #SequenceServer.port port
     end
 
     opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
-      SequenceServer.config_file config_file
+      options['config_file'] = config_file
+      #SequenceServer.config_file config_file
     end
 
-    opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do |config_file|
+    opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do
+      require 'sequenceserver/version'
       puts SequenceServer.version
       exit
     end
   end.order!
+
+  require 'sequenceserver'
+  SequenceServer.init(options)
 
   # of the remaining items in ARGV, the first one must be a subcommand
   subcommand = ARGV.shift

@@ -7,7 +7,6 @@ require 'sequenceserver/blast'
 require 'sequenceserver/sequencehelpers'
 require 'sequenceserver/sinatralikeloggerformatter'
 require 'sequenceserver/customisation'
-require 'sequenceserver/version'
 
 # Helper module - initialize the blast server.
 module SequenceServer
@@ -48,8 +47,8 @@ module SequenceServer
     'localhost'
   end
 
-  def port(port = 4567)
-    @port ||= Integer(port)
+  def port(port = nil)
+    @port ||= Integer(port || 4567)
   rescue ArgumentError
     puts "*** Port must be number."
     puts "    Typo?"
@@ -62,11 +61,12 @@ module SequenceServer
     @logger
   end
 
-  def init(config_file = config_file)
-    assert_config_file_present config_file
+  def init(config = {})
+    config_file config.delete 'config_file'
+    assert_config_file_present
 
     puts "** Initializing SequenceServer..."
-    config = parse_config_file
+    config = parse_config_file.merge(config)
 
     bin_dir = File.expand_path(config.delete 'bin') rescue nil
     assert_bin_dir_present bin_dir
@@ -89,8 +89,9 @@ module SequenceServer
   end
 
   # For databaseformatter.
-  def init2(config_file = config_file)
-    assert_config_file_present config_file
+  def init2(config = {})
+    config_file config.delete 'config_file'
+    assert_config_file_present
 
     puts "** Initializing SequenceServer..."
     config = parse_config_file
@@ -111,9 +112,7 @@ module SequenceServer
   #
   # By default SequenceServer uses Thin, Mongrel or WEBrick (in that
   # order).
-  def run(config_file = config_file)
-    init config_file
-
+  def run
     # find out the what server to host SequenceServer with
     handler      = Sinatra::Base.send :detect_rack_handler
     handler_name = handler.name.gsub(/.*::/, '')
@@ -153,7 +152,21 @@ module SequenceServer
 
   private
 
-  def assert_config_file_present config_file
+  def parse_config_file
+    logger.info("Reading configuration file: #{config_file}.")
+    config = YAML.load_file config_file
+    unless config
+      logger.warn("Empty configuration file: #{config_file} - will assume default settings.")
+      config = {}
+    end
+    config
+  rescue ArgumentError => error
+    puts "*** Error in config file: #{error}."
+    puts "YAML is white space sensitive. Is your config file properly indented?"
+    exit
+  end
+
+  def assert_config_file_present
     unless File.exists? config_file
       puts '*** Configuration file not found.'
       FileUtils.cp(example_config_file, config_file)
@@ -194,20 +207,6 @@ module SequenceServer
       puts "    Typo in #{config_file}?"
       exit
     end
-  end
-
-  def parse_config_file
-    logger.info("Reading configuration file: #{config_file}.")
-    config = YAML.load_file config_file
-    unless config
-      logger.warn("Empty configuration file: #{config_file} - will assume default settings.")
-      config = {}
-    end
-    config
-  rescue ArgumentError => error
-    puts "*** Error in config file: #{error}."
-    puts "YAML is white space sensitive. Is your config file properly indented?"
-    exit
   end
 
   # Export NCBI BLAST+ bin dir to PATH environment variable.
