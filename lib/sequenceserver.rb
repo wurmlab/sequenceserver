@@ -189,7 +189,7 @@ module SequenceServer
       exit
     end
     version = %x|blastdbcmd -version|.split[1]
-    unless version > '2.2.25+'
+    unless version >= '2.2.25+'
       puts "*** Your BLAST version #{version} is outdated."
       puts "    SequenceServer needs NCBI BLAST+ version 2.2.25+ or higher."
       exit
