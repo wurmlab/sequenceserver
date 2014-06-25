@@ -43,6 +43,10 @@ module SequenceServer
     @config_file ||= File.expand_path(config_file)
   end
 
+  def environment
+    ENV['RACK_ENV']
+  end
+
   def host
     'localhost'
   end
@@ -58,6 +62,12 @@ module SequenceServer
     return @logger if @logger
     @logger = Logger.new(STDERR)
     @logger.formatter = SinatraLikeLogFormatter.new()
+    case environment
+    when 'production'
+      logger.level = Logger::INFO
+    when 'development'
+      logger.level = Logger::DEBUG
+    end
     @logger
   end
 
@@ -297,13 +307,7 @@ module SequenceServer
     enable :logging
     set :root, SequenceServer.root
 
-    configure :development do
-      #log.level     = Logger::DEBUG
-    end
-
     configure :production do
-      #log.level     = Logger::INFO
-
       error do
         erb :'500'
       end
