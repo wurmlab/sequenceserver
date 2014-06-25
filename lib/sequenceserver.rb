@@ -1,3 +1,4 @@
+require 'thin'
 require 'sinatra/base'
 require 'yaml'
 require 'logger'
@@ -75,7 +76,7 @@ module SequenceServer
     config_file config.delete 'config_file'
     assert_config_file_present
 
-    puts "** Initializing SequenceServer..."
+    puts "** Starting SequenceServer."
     config = parse_config_file.merge(config)
 
     bin_dir = File.expand_path(config.delete 'bin') rescue nil
@@ -103,7 +104,7 @@ module SequenceServer
     config_file config.delete 'config_file'
     assert_config_file_present
 
-    puts "** Initializing SequenceServer..."
+    puts "** Starting SequenceServer."
     config = parse_config_file
 
     bin_dir = File.expand_path(config.delete 'bin') rescue nil
@@ -118,46 +119,30 @@ module SequenceServer
 
   attr_reader :app, :database_dir, :databases, :num_threads
 
-  # Run SequenceServer as a self-hosted server.
-  #
-  # By default SequenceServer uses Thin, Mongrel or WEBrick (in that
-  # order).
+  # Run SequenceServer as a self-hosted server using Thin webserver.
   def run
-    # find out the what server to host SequenceServer with
-    handler      = Sinatra::Base.send :detect_rack_handler
-    handler_name = handler.name.gsub(/.*::/, '')
-
-    puts
-    logger.info("Using #{handler_name} web server.")
-
-    if handler_name == 'WEBrick'
-      puts "\n== We recommend using Thin web server for better performance."
-      puts "== To install Thin: [sudo] gem install thin"
-    end
-
     url = "http://#{host}:#{port}"
-    puts "\n== Launched SequenceServer at: #{url}"
-    puts "== Press CTRL + C to quit."
-    handler.run(app, :Host => host, :Port => port, :Logger => Logger.new('/dev/null')) do |server|
-      [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler) } }
-      #set :running, true
-
-      # for Thin
-      server.silent = true if handler_name == 'Thin'
+    server = Thin::Server.new(app, host, port, :signals => false)
+    server.silent = true
+    server.backend.start do
+      puts "** SequenceServer is ready."
+      puts "   Go to #{url} in your browser and start BLASTing!"
+      puts "   Press CTRL+C to quit."
+      [:INT, :TERM].each do |sig|
+        trap sig do
+          server.stop!
+          puts
+          puts "** Thank you for using SequenceServer :)."
+          puts "   Please cite: "
+          puts "             Priyam A., Woodcroft B.J., Wurm Y (in prep)."
+          puts "             Sequenceserver: BLAST searching made easy."
+        end
+      end
     end
-  rescue Errno::EADDRINUSE, RuntimeError
-    puts "\n== Failed to start SequenceServer."
-    puts "== Is SequenceServer already running at: #{url}"
-  end
-
-  # Stop SequenceServer.
-  def quit!(server, handler_name)
-    # Use Thin's hard #stop! if available, otherwise just #stop.
-    server.respond_to?(:stop!) ? server.stop! : server.stop
-    puts "\n== Thank you for using SequenceServer :)." +
-          "\n== Please cite: " +
-          "\n==             Priyam A., Woodcroft B.J., Wurm Y (in prep)." +
-          "\n==             Sequenceserver: BLAST searching made easy." unless handler_name =~/cgi/i
+  rescue RuntimeError
+    puts "** Oops! There was an error."
+    puts "   Is SequenceServer already accessible at #{url}?"
+    puts "   Try running SequenceServer on another port, like so: sequenceserver -p 4570."
   end
 
   private
