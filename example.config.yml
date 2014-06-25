@@ -28,3 +28,11 @@
 # Uncomment the following line, and change to appropriate value to use.
 #
 # num_threads: 1
+# Port to run Sequence Server on.
+#
+# The app will then be accessible at http://your-ip:port. Defaults to 4567.
+# http://localhost:port is also valid for local access.
+#
+# Uncomment the following line, and change to appropriate value to use.
+#
+# port: 4567

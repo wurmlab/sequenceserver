@@ -83,6 +83,8 @@ module SequenceServer
     @num_threads = Integer(config.delete 'num_threads') rescue 1
     logger.info("Will use #@num_threads threads to run BLAST.")
 
+    port config.delete 'port'
+
     @app
   end
 
