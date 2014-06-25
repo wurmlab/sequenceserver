@@ -54,6 +54,10 @@ BANNER
       options['config_file'] = config_file
     end
 
+    opts.on('-D', '--devel', 'Start SequenceServer in development mode') do
+      ENV['RACK_ENV'] = 'development'
+    end
+
     opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do
       require 'sequenceserver/version'
       puts SequenceServer.version
