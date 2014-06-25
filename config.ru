@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
-require 'sequenceserver'
 
+ENV['RACK_ENV'] ||= 'production'
+
+require 'sequenceserver'
 run SequenceServer.init

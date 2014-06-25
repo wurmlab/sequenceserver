@@ -4,9 +4,11 @@ require 'rubygems'
 require 'bundler/setup'
 require 'optparse'
 
+options = {}
+ENV['RACK_ENV'] ||= 'production'
+
 # e.g:
 # sequenceserver --config .sequenceserver.conf format_database
-options = {}
 begin
   # parse command line till first non-option, removing parsed options from ARGV
   OptionParser.new do |opts|
