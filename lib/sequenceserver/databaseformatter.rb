@@ -22,8 +22,7 @@ module SequenceServer
     attr_accessor :db_path
 
     def initialize(db_path = nil)
-      SequenceServer.init2
-      @db_path = (db_path or SequenceServer.database_dir)
+      @db_path = db_path
     end
 
     def format_databases
@@ -182,5 +181,5 @@ BANNER
   end
 end.parse!
 
-app = SequenceServer::DatabaseFormatter.new(ARGV[0])
+app = SequenceServer::DatabaseFormatter.new(ARGV[0] || SequenceServer.database_dir)
 app.format_databases

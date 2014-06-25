@@ -62,7 +62,6 @@ BANNER
   end.order!
 
   require 'sequenceserver'
-  SequenceServer.init(options)
 
   # of the remaining items in ARGV, the first one must be a subcommand
   subcommand = ARGV.shift
@@ -72,6 +71,7 @@ BANNER
 
     case subcommand
     when 'format-databases'
+      SequenceServer.init2 options
       require 'sequenceserver/databaseformatter'
       exit
     else
@@ -89,4 +89,5 @@ end
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
 
+SequenceServer.init options
 SequenceServer.run
