@@ -46,12 +46,10 @@ OPTIONS
 BANNER
     opts.on('-p', '--port PORT', 'Port to run SequenceServer on') do |port|
       options['port'] = port
-      #SequenceServer.port port
     end
 
     opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
       options['config_file'] = config_file
-      #SequenceServer.config_file config_file
     end
 
     opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do
@@ -80,7 +78,7 @@ BANNER
       exit
     end
   end
-rescue OptionParser::InvalidOption =>e
+rescue OptionParser::InvalidOption => e
   puts e
   puts "Run '#{$0} -h' for help with command line options."
   exit
