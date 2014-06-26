@@ -58,8 +58,9 @@ BANNER
     end
 
     opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do
-      require 'sequenceserver/version'
-      puts SequenceServer.version
+      gemspec_file = File.join(File.dirname(__FILE__), '..', 'sequenceserver.gemspec')
+      gemspec = eval File.read gemspec_file
+      puts gemspec.version
       exit
     end
   end.order!
