@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'bundler/setup'
 
 ENV['RACK_ENV'] ||= 'production'
 
