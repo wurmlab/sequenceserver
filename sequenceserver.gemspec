@@ -15,7 +15,7 @@ DESC
   # dependencies
   s.add_dependency('thin',    '~> 1.6.2')
   s.add_dependency('sinatra', '~> 1.3.0')
-  s.add_dependency('ptools',  '~> 1.2.2')
+  s.add_dependency('ptools',  '~> 1.2.6')
 
   s.add_development_dependency('rack-test', '~> 0.6.2')
   s.add_development_dependency('rspec',     '~> 2.8.0')
