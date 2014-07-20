@@ -391,13 +391,14 @@ module SequenceServer
       # run blast and log
       blast = Blast.new(method, sequence, databases.join(' '), advanced_opts)
       blast.run!
+      blast.report!
       log.info('Ran: ' + blast.command)
 
       unless blast.success?
         halt(*blast.error)
       end
 
-      format_blast_results(blast.result, databases)
+      erb :result, :locals => {:result => blast.queries, :dbs => blast.querydb}
     end
 
     # get '/get_sequence/?id=sequence_ids&db=retreival_databases'

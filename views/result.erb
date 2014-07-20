@@ -1,0 +1,136 @@
+<% result.each do |iter, query| %>
+    <div class="resultn" id=<%="#{query.internal_id}"%>> <h3>Query= <%= query.def %></h3>
+        <b> Length = <%= query.len %> </b>
+        <br>
+        <b> Hit(s) = <%= query.hits.count %> </b>
+        <% if query.hits.is_a?(String) %>
+            <br><br>
+            <b> <%= "****** #{query.hits} ******" %> </b>
+            <br>
+        <% else %>
+            <div class="row">
+                <div class="col-md-8"> Sequences producing significant alignments: </div>
+                <div class="col-md-2"> Score<br>(bits) </div>
+                <div class="col-md-2"> E Value </div>
+            </div>
+            <% query.hits.each do |key, hit| %>
+                <div class="row">
+                    <div class="col-md-8"> <%= "#{hit.id}  #{hit.def}" %> </div>
+                    <div class="col-md-2"> <a href="#<%=query.internal_id%>_h<%=hit.index%>"> <%= hit.hsp.bit_score %> </a> </div>
+                    <div class="col-md-2"> <%= hit.hsp.evalue %> </div>
+                </div>
+            <% end %>
+            <br>
+            <div class="panel-group">
+                <% query.hits.each do |key, hit| %>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-target="#<%=query.internal_id%>_h<%=hit.index%>" data-hit-score="<%= hit.hsp.score %>">
+                                  <%= ">#{hit.id} #{hit.def} (Score: #{hit.hsp.score})" %>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="<%=query.internal_id%>_h<%=hit.index%>" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                Length = <%= hit.len %>
+                                <br>
+                                <div class="row show-grid">
+                                    <div class="col-md-2"> Score </div>
+                                    <div class="col-md-2"> Expect </div>
+                                    <div class="col-md-2"> Identities </div>
+                                    <div class="col-md-2"> Positives </div>
+                                    <div class="col-md-2"> Gaps </div>
+                                    <div class="col-md-2"> Strand </div>
+                                </div>
+                                <div class="row show-grid">
+                                    <div class="col-md-2"> <%= hit.hsp.bit_score %> (<%= hit.hsp.score %>)</div>
+                                    <div class="col-md-2"> <%= hit.hsp.evalue %></div>
+                                    <div class="col-md-2"> <%= hit.hsp.identity%>/<%= hit.hsp.len %></div>
+                                    <div class="col-md-2"> <%= hit.hsp.positives %>/<%= hit.hsp.len %></div>
+                                    <div class="col-md-2"> <%= hit.hsp.gaps %>/<%= hit.hsp.len %></div>
+                                    <div class="col-md-2"> (<%= hit.hsp.qframe.to_i>0?"Plus":"Minus"%>/<%= hit.hsp.hframe.to_i>0?"Plus":"Minus"%>)</div>
+                                </div>
+                                <br>
+                                <% if hit.hsp.len.to_i > 60 %>
+                                    <% 0.upto(hit.hsp.len.to_i.div(61)) do |x| %>
+                                        <div class="row alignment">
+                                        <div class="col-md-1"> Query </div>
+                                        <div class="col-md-1"> <%= hit.hsp.qstart.to_i+60*x %> </div>
+                                        <div class="col-md-9"> <%= hit.hsp.qseq[60*x,60] %> </div>
+                                        <div class="col-md-1"> <%= hit.hsp.qstart.to_i+60*(x+1)-1 %> </div>
+                                        </div>
+                                        <div class="row alignment">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-9"> <%= hit.hsp.midline[60*x, 60] %></div>
+                                        <div class="col-md-1"></div>
+                                        </div>
+                                        <div class="row alignment">
+                                        <div class="col-md-1"> Subject </div>
+                                        <% if hit.hsp.hframe.to_i > 0 %>
+                                            <div class="col-md-1"> <%= hit.hsp.start.to_i+60*x %> </div>
+                                            <div class="col-md-9"> <%= hit.hsp.hseq[60*x, 60] %> </div>
+                                            <div class="col-md-1"> <%= hit.hsp.start.to_i+60*(x+1)-1 %> </div>
+                                        <% else %>
+                                            <div class="col-md-1"> <%= hit.hsp.start.to_i+60*x %> </div>
+                                            <div class="col-md-9"> <%= hit.hsp.hseq[60*x, 60] %> </div>
+                                            <div class="col-md-1"> <%= hit.hsp.start.to_i-60*(x+1)+1 %> </div>
+                                        <% end %>
+                                        </div>
+                                    <% end %>
+                                <% else %>
+                                    <div class="row alignment">
+                                    <div class="col-md-1"> Query </div>
+                                    <div class="col-md-1"> <%= hit.hsp.qstart %> </div>
+                                    <div class="col-md-9"> <%= hit.hsp.qseq %> </div>
+                                    <div class="col-md-1"> <%= hit.hsp.qend %> </div>
+                                    </div>
+                                    <div class="row alignment">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-9"> <%= hit.hsp.midline %></div>
+                                    <div class="col-md-1"></div>
+                                    </div>
+                                    <div class="row alignment">
+                                    <div class="col-md-1"> Subject </div>
+                                    <div class="col-md-1"> <%= hit.hsp.start %> </div>
+                                    <div class="col-md-9"> <%= hit.hsp.hseq %> </div>
+                                    <div class="col-md-1"> <%= hit.hsp.send %> </div>
+                                    </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+        Lambda:  <%= query.stats["Statistics_lambda"] %>
+        <br>
+        Kappa:   <%= query.stats["Statistics_kappa"] %>
+        <br>
+        Entropy: <%= query.stats["Statistics_entropy"] %>
+        <br>
+        Effective search space used: <%= query.stats["Statistics_eff-space"] %>
+    </div>
+<% end %>
+
+<pre>
+Database = <%= dbs.split('/')[-2] %>: <%= dbs.split('/')[-1] %>
+</pre>
+<br>
+<pre>
+<b> <a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=PubMed&amp;cmd=Re
+trieve&amp;list_uids=9254694&amp;dopt=Citation">Reference</a> </b>
+Stephen F. Altschul, Thomas L. Madden, Alejandro A. Schäffer, Jinghui Zhang,
+Zheng Zhang, Webb Miller, and David J. Lipman (1997),
+"Gapped BLAST and PSI-BLAST: a new generation of protein database search
+programs", Nucleic Acids Res. 25:3389-3402.
+<a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=PubMed&cmd=Retrieve&list_uids=11452024&dopt=Citation">
++Reference for composition-based statistics </a>
+Alejandro A. Schäffer, L. Aravind, Thomas L. Madden, Sergei Shavirin,
+John L. Spouge, Yuri I. Wolf, Eugene V. Koonin, and Stephen F. Altschul (2001),
+"Improving the accuracy of PSI-BLAST protein database searches with
+composition-based statistics and other refinements", Nucleic Acids Res.
+29:2994-3005.
+</pre>

@@ -125,3 +125,11 @@ div.focussed {
 label {
   font-weight: normal;
 }
+
+.show-grid {
+    background-color: #ddd;
+}
+
+.alignment {
+   font-family: Courier, "Lucida Console", monospace !important;
+}
