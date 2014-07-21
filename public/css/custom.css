@@ -1,17 +1,9 @@
-html, body{
-  height: 100%;
+.navbar-brand {
+  font-size: 24px;
 }
 
-pre {
-  font-family: Monospace;
-}
-
-br.large {
-  line-height: 28px;
-}
-
-.control-group {
-  margin-bottom: 0px;
+.navbar-brand > small {
+  font-size: 50%;
 }
 
 .nojs-error {
@@ -21,73 +13,26 @@ br.large {
   background-color: red;
 }
 
-.offset-left {
-  margin-left: 20px;
+#blast, .result {
+  padding-top: 51px;
 }
 
-.box {
-  background: #D5E1DD;
-  border-radius: 6px;
-  -moz-border-radius: 6px;
-}
-
-fieldset legend {
-  padding-left: 2%;
-  margin-bottom: 0px;
-  font-size: 16px;
-  font-weight: bold;
-  border: 0px;
-  text-transform: capitalize;
-}
-
-body {
-  background-color: #2B3E42;
-}
-
-.page {
-  border-radius: 6px 6px 6px 6px;
-  margin: 50px 0px;
-}
-
-#banner {
-  background: #EBCD7B;
-  padding: 2%;
-  border-radius: 6px 6px 0px 0px;
-  text-align: center;
-}
-
-#blast {
-  background-color: white;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin: 0px;
-}
-
-.detached-top {
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-}
-
-.detached-bottom {
-  border-radius: 0px 0px 6px 6px;
-}
-
-#sequence {
-  height: 198px;
-  width: 890px;
-  display: block;
-  margin: 0 auto;
+#blast > .form-group, .result > .content {
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .notifications {
-  height: 0px;
+  height: 32px;
   position: relative;
-  top: -12px;
+  top: -32px;
 }
 
 .notification {
-  margin: 0 auto;
-  z-index: 1050;
+  height: 32px !important;
+}
+
+.notification .alert-info, .notification .alert-danger {
   border-radius: 6px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
@@ -105,46 +50,16 @@ body {
   font-style: italic;
 }
 
-#nucleotide-sequence-notification, #protein-sequence-notification {
-  width: 250px;
-}
-
-#mixed-sequence-notification {
-  width: 740px;
-}
-
-.databases-container {
-  overflow: hidden;
-}
-
-.databases {
-  padding-bottom: 10px;
-  margin-left: 20px;
-  width: 440px;
-  float: left;
-}
-
-.databases:only-child {
-  width: 900px;
+.databases-container .btn {
+  text-align: left;
+  white-space: normal;
 }
 
 span.highlight {
   font-weight: bold;
 }
 
-.advanced label {
-  display: inline-block;
-  font-size: 16px;
-  font-weight: bold;
-  padding-left: 2%;
-}
-
-.advanced input {
-  width: 440px;
-  margin: 1% 1%;
-}
-
-.advanced span {
+.advanced > label {
   cursor: pointer;
 }
 
@@ -172,23 +87,6 @@ span.highlight {
   border-bottom: 0px;
 }
 
-#methods > button {
-  height: 38px;
-}
-
-.results {
-  background-color: #2B3E42;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-#result {
-  padding: 20px;
-  background-color: white;
-  border-radius: 6px;
-  -moz-border-radius: 6px;
-}
-
 .resultn {
   background-color: #dfefe6;
   margin: 18px 0px 18px 0px;
@@ -202,39 +100,18 @@ div.focussed {
   border: 1px solid black;
 }
 
-#underbar {
-  background: #EBCD7B;
-  padding: 1%;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-  text-align: center;
+.footer a:first-child {
+  vertical-align: super;
 }
 
-#spinner {
-  color: gray;
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  overflow: hidden;
+#methods {
+  width: 100%
 }
 
-#spinner > div {
-  height: 200px;
+#method, #methods ul {
+  width: 92%;
 }
 
-#social p {
-  font-size: 14px;
-}
-
-#social .buttons {
-  width: 268px;
-  margin: 0px auto;
-}
-
-.button-container {
-  width: 74px;
-  height: 32px;
-  float: left;
-  margin-right: 20px;
-  text-align: center;
+label {
+  font-weight: normal;
 }

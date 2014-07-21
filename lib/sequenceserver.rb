@@ -567,7 +567,6 @@ HEADER
       # #dbs must be sep by ' '
       retrieval_text       = @all_retrievable_ids.empty? ? '' : "<a href='#{url(link_to_fasta_of_all)}'>FASTA of #{@all_retrievable_ids.length} retrievable hit(s)</a>"
 
-      "<h2>Results</h2>"+
       retrieval_text +
       "<br/><br/>" +
       formatted_results.join +

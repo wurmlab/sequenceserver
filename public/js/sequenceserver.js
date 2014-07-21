@@ -230,14 +230,8 @@ $(document).ready(function(){
         // reset hash so we can always _jump_ back to result
         location.hash = '';
 
-        // display a modal window and attach an activity spinner to it
+        // show activity spinner
         $('#spinner').modal();
-        $('#spinner > div').activity({
-           segments: 8,
-           length:   40,
-           width:    16,
-           speed:    1.8
-        });
 
         // BLAST now
         var data = ($(this).serialize() + '&method=' + $('#method').val());
@@ -246,11 +240,8 @@ $(document).ready(function(){
             // BLASTed successfully
 
             // display the result
-            $('.results').show();
-            $('#result').html(data);
-
-            $('#blast').addClass('detached-bottom');
-            $('#underbar').addClass('detached-top');
+            $('.result').show();
+            $('.result .content').html(data);
 
             //jump to the results
             location.hash = hash;
@@ -288,25 +279,9 @@ $(document).ready(function(){
             // BLAST complete (succefully or otherwise)
 
             // remove progress notification
-            $('#spinner > div').activity(false);
             $('#spinner').modal('hide');
         });
 
         return false;
     });
-
-    (function (store) {
-        try {
-            var visits = store.get('visits') || 0;
-            visits = visits + 1;
-            if (visits <= 10) {
-                store.set('visits', visits);
-
-                if (visits === 10) {
-                    $('#social').modal();
-                }
-            }
-        }
-        catch (e) {};
-    }(store));
 });

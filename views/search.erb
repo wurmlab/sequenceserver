@@ -8,166 +8,313 @@
   <meta name="author" content="Cedric Wurm" />
   <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)"/>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-  <script type="text/javascript" src="<%= uri('/js/store.min.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery-ui.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.enablePlaceholder.min.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.activity.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/jquery.scrollspy.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/bootstrap.transition.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/bootstrap.dropdown.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/bootstrap.modal.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/sequenceserver.js') %>"></script>
-  <script type="text/javascript" src="<%= uri('/js/sequenceserver.blast.js') %>"></script>
 
   <%# without a space after erb's closing tag, a / gets appended to css' path %>
   <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.min.css') %>" />
-  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.dropdown.css') %>" />
-  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.modal.css') %>" />
-  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/bootstrap.icons.css') %>" />
+  <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/font-awesome.min.css') %>" />
   <link rel="stylesheet" media="screen" type="text/css" href="<%= uri('/css/custom.css') %>" />
 </head>
 
 <body>
-  <div class="container">
+  <div
+    class="navbar navbar-inverse navbar-fixed-top" id="navbar">
+    <div
+      class="container">
+      <a
+        class="navbar-brand"
+        href="http://sequenceserver.com" target="_blank">
+        <i class="fa fa-magic"></i>
+        SequenceServer
+        <small>
+          BLAST search made easy!
+        </small>
+      </a>
+    </div>
+  </div>
+
+  <div
+    class="container">
     <noscript>
-      <div class="nojs-error">
+      <div
+        class="nojs-error">
         <h3>SequenceServer can't work without JavaScript.</h3>
-          <ul>
-            <li>Please see if you can enable JavaScript in your browser's preferences.</li>
-            <li>If your browser doesn't support JavaScript, please consider upgrading to the latest version or using Firefox or Chrome.</li>
-          </ul>
+        <ul>
+          <li>Please see if you can enable JavaScript in your browser's preferences.</li>
+          <li>If your browser doesn't support JavaScript, please consider upgrading to the latest version or using Firefox or Chrome.</li>
+        </ul>
       </div>
     </noscript>
 
-    <div class="page">
-      <div id="banner">
-        <h1>BLAST Sequence(s)</h1>
+    <form
+      class="form-horizontal" id="blast"
+      method="post" action="<%= uri('/#result') %>">
+      <div
+        class="page-header">
+        <h2>BLAST <small>sequence(s)</small></h2>
       </div>
 
-      <form method="post" id="blast" action="<%= uri('/#result') %>">
-        <div class="row">
-          <div class="span16">
-            <div class="control-group">
-              <textarea name="sequence" id="sequence" spellcheck="false" autofocus="true" placeholder="Paste your sequence(s) here..." ></textarea>
-            </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <textarea
+            class="form-control" name="sequence" id="sequence"
+            rows="10"
+            autofocus="true"
+            spellcheck="false"
+            placeholder="Paste your sequence(s) here..." ></textarea>
+        </div>
+      </div>
+
+      <div
+        class="notifications">
+        <div
+          class="notification"
+          id="nucleotide-sequence-notification"
+          style="display: none;">
+          <div
+            class="alert-info col-md-6 col-md-offset-3">
+            Detected: nucleotide sequence(s).
           </div>
         </div>
 
-        <div class="notifications">
-          <div class="notification alert-info hide"  id="nucleotide-sequence-notification">
-            Detected: nucleotide sequence(s).
-          </div>
-
-          <div class="notification alert-info hide"  id="protein-sequence-notification">
+        <div
+          class="notification"
+          id="protein-sequence-notification"
+          style="display: none;">
+          <div
+            class="alert-info col-md-6 col-md-offset-3">
             Detected: protein sequence(s).
           </div>
+        </div>
 
-          <div class="notification alert-error hide" id="mixed-sequence-notification">
+        <div
+          class="notification"
+          id="mixed-sequence-notification"
+          style="display: none;">
+          <div
+            class="alert-danger col-md-10 col-md-offset-1">
             Detected: mixed nucleotide and protein sequences. We can't handle that. Please try one sequence at a time.
           </div>
         </div>
+      </div>
 
-        <br class="large"/>
-
-        <%= erb :databases, :locals => {:databases => databases} %>
-
-        <br class="large"/>
-
-        <div class="row">
-          <div class="span12">
-            <div class="offset-left box advanced">
-              <div class="clearfix">
-                <label for="advanced">Advanced Parameters:</label>
-                <input class="span8" type="text" name="advanced" id="advanced" title="View, and enter advanced parameters." placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
-                <span class="icon-question-sign" data-toggle="modal" href="#help"></span>
+      <div
+        class="form-group databases-container">
+        <%# sort => same ordering of nucleotide and protein datbases %>
+        <% databases.keys.sort.each do |type| %>
+          <div
+            class="<%= databases[(databases.keys - [type]).first] ? 'col-md-6' : 'col-md-12' %>">
+            <div
+              class="panel panel-default">
+              <div
+                class="panel-heading">
+                <h4><%= type.capitalize %> databases</h4>
               </div>
+              <ul
+                class="list-group databases <%= type %>">
+                <% databases[type].sort.each do |database| %>
+                  <li class="list-group-item">
+                    <label>
+                      <input type="checkbox" name="databases[]" value="<%=database.hash%>" data-type="<%=database.type%>" />
+                      <%= database.title or database.name %>
+                    </label>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+      </div>
 
-              <div class="modal hide fade" id="help">
-                <div class="modal-header">
-                  <h3>Advanced Options</h3>
+      <div
+        class="form-group">
+        <div
+          class="col-md-8">
+          <div
+            class="form-group advanced">
+            <label
+              class="col-md-3 control-label"
+              for="advanced">
+              Advanced Parameters:
+            </label>
+            <div
+              class="col-md-9 input-group">
+              <input
+                type="text"
+                class="form-control" name="advanced" id="advanced"
+                title="View, and enter advanced parameters."
+                placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
+                <div class="input-group-addon" data-toggle="modal" data-toggle="modal" data-target="#help">
+                  <i class="fa fa-question"></i>
                 </div>
-                <div class="modal-body">
-                  <%= erb :_options %>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-primary" data-dismiss="modal">Got it!</button>
-                </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-md-4">
+          <div
+            class="form-group">
+            <div
+              class="col-md-12">
+              <div
+                id="methods">
+                <button
+                  type="submit"
+                  id="method" class="btn btn-default"
+                  disabled="disabled">
+                  blast
+                </button>
+                <button
+                  class="btn btn-default dropdown-toggle"
+                  style="display: none;"
+                  data-toggle="dropdown">
+                  <span class="caret"></span>
+                </button>
+                <ul
+                  class="dropdown-menu">
+                </ul>
               </div>
             </div>
           </div>
-
-          <div class="span4">
-            <div id="methods">
-              <button type="submit" class="span3 btn btn-large btn-primary" id="method" disabled="disabled">blast</button>
-              <button class="btn btn-primary btn-large dropdown-toggle hide" data-toggle="dropdown">
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu"></ul>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <div class="modal hide" id="spinner" data-keyboard="false" data-backdrop="static">
-        <div class="modal-body">
         </div>
       </div>
+    </form>
 
-      <div class="results hide">
-        <div id="result">Waiting for BLAST to be run <!-- need bit before for UI testing so it knows when BLAST is finished -->
-        </div>
+    <div
+      class="result" id="result"
+      style="display: none;">
+      <div
+        class="page-header">
+        <h2>Results</h2>
       </div>
-
-      <div class="modal hide fade" id="error">
-        <div class="modal-header">
-          <h3 id="error-short">Oops! BLAST Failed</h3>
-        </div>
-        <div class="modal-body">
-          <h4 id="error-type"></h4>
-          <br/>
-          <p id="error-message"></p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
+      <div
+        class="content">
       </div>
-
-      <div id="underbar">
-        <p><strong><a href='http://www.sequenceserver.com'>
-            <%=  [ "&copy; SequenceServer: BLAST search made easy!",
-                   "Custom BLAST web interface by SequenceServer.",
-                   "SequenceServer: Local BLAST with bespoke html interface.",
-                   "Set up custom BLAST interface with SequenceServer.",
-                   "Please cite: Priyam A, Woodcroft BJ, Wurm Y (<em>in prep</em>). " +
-                   "Sequenceserver: BLAST searching made easy."
-            ][rand(5)]
-          %>
-        </a></strong></p>
-      </div>
-    </div> <!-- /page -->
+    </div>
   </div> <!-- /container -->
 
-  <div id="social" class="modal hide fade">
-    <div class="modal-header">
-      <h3 id="error-short">Looks like you are fond of SequenceServer :).</h3>
-    </div>
-    <div class="modal-body">
-      <p>Please consider giving us a plus-one and/or tweeting about us. Thanks!</p>
-      <br/>
-      <div class="buttons">
-        <div class="button-container well">
-          <div class="g-plusone" data-annotation="none" data-href="http://www.sequenceserver.com"></div>
+  <div
+    class="footer" id="footer">
+    <hr>
+    <p
+      class="text-center">
+      <a
+        href='http://www.sequenceserver.com'>
+        <%=
+          [
+            "Custom BLAST web interface by SequenceServer.",
+            "SequenceServer: Local BLAST with bespoke html interface.",
+            "Set up custom BLAST interface with SequenceServer."
+          ][rand(3)]
+        %>
+      </a>
+      <a
+        class="twitter-share-button"
+        href="https://twitter.com/share"
+        data-url="http://www.sequenceserver.com" data-text="SequenceServer: BLAST search made easy." data-via="yeban" data-size="large" data-hashtags="bioinformatics">
+        Tweet
+      </a>
+      <%#<div class="g-plusone" data-annotation="none" data-href="http://www.sequenceserver.com"></div>%>
+
+      <br>
+      <br>
+
+      <a
+        href='http://www.sequenceserver.com'>
+        Please cite: Priyam A, Woodcroft BJ, Wurm Y (<em>in prep</em>). Sequenceserver: BLAST searching made easy.
+      </a>
+    </p>
+  </div>
+
+  <div
+    id="error"
+    class="modal fade"
+    tabindex="-1">
+    <div
+      class="modal-dialog">
+      <div
+        class="modal-content">
+        <div
+          class="modal-header">
+          <h3
+            id="error-short">
+            Oops! BLAST Failed
+          </h3>
         </div>
-        <div class="button-container well">
-          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.sequenceserver.com" data-text="SequenceServer: BLAST search made easy." data-via="yeban" data-size="large" data-count="none" data-hashtags="bioinformatics">Tweet</a>
+        <div
+          class="modal-body">
+          <h4
+            id="error-type">
+          </h4>
+          <br/>
+          <p
+            id="error-message">
+          </p>
+        </div>
+        <div
+          class="modal-footer">
+          <button
+            class="btn btn-default btn-danger"
+            data-dismiss="modal">
+            Close
+          </button>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary" data-dismiss="modal">Done</button>
+  </div> <!-- error -->
+
+  <div
+    class="modal fade" id="help"
+    tabindex="-1">
+    <div
+      class="modal-dialog modal-lg">
+      <div
+        class="modal-content">
+        <div
+          class="modal-header">
+          <h3>Advanced Options</h3>
+        </div>
+        <div
+          class="modal-body">
+          <%= erb :_options %>
+        </div>
+        <div
+          class="modal-footer">
+          <button
+            class="btn btn-default btn-primary"
+            data-dismiss="modal">
+            Got it!
+          </button>
+        </div>
+      </div>
     </div>
-  </div> <!-- /social -->
+  </div> <!-- advanced options -->
+
+  <div
+    class="modal" id="spinner">
+    <div
+      class="modal-dialog">
+      <div
+        class="modal-content">
+        <div
+          class="modal-body text-center">
+          <h2>
+            Loading ...
+          </h2>
+          <i class="fa fa-spinner fa-5x fa-spin"></i>
+        </div>
+      </div>
+    </div>
+  </div> <!-- spinner -->
+
+  <!-- JS -->
+  <script type="text/javascript" src="<%= uri('/js/jquery.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/bootstrap.min.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery-ui.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.enablePlaceholder.min.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/jquery.scrollspy.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/sequenceserver.js') %>"></script>
+  <script type="text/javascript" src="<%= uri('/js/sequenceserver.blast.js') %>"></script>
 
   <!-- google plus -->
   <script type="text/javascript">
