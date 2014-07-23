@@ -57,6 +57,7 @@
         var that, val, tmp;
 
         that = this;
+        val  = that.val();
 
         (function ping () {
             tmp = that.val();
