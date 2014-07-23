@@ -17,6 +17,12 @@
   font-family: monospace;
 }
 
+.sequence-controls {
+  position: absolute;
+  top: 4px;
+  right: 19px;
+}
+
 #blast, .result {
   padding-top: 51px;
 }

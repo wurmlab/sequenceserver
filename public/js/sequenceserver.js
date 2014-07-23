@@ -122,6 +122,11 @@ $(document).ready(function(){
 
     var notification_timeout;
 
+    // Handle clearing query sequences(s) when x button is pressed.
+    $('#btn-sequence-clear').click(function (e) {
+        $('#sequence').val("");
+    })
+
     // Handles the form submission when Ctrl+Enter is pressed anywhere on page
     $(document).bind("keydown", function (e) {
         if (e.ctrlKey && e.keyCode === 13 && !$('#method').is(':disabled')) {
