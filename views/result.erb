@@ -1,5 +1,15 @@
 <% result.each do |iter, query| %>
-  <div class="resultn" id=<%="#{query.internal_id}"%>> <h3>Query= <%= query.def %></h3>
+  <div
+    class="panel panel-default resultn" id=<%="#{query.internal_id}"%>>
+    <div
+      class="panel-heading">
+      <h3
+        class="panel-title">
+        Query= <%= query.def %>
+      </h3>
+    </div>
+    <div
+      class="panel-body">
     <b> Length = <%= query.len %> </b>
     <br>
     <b> Hit(s) = <%= query.hits.count %> </b>
@@ -112,6 +122,7 @@
     Entropy: <%= query.stats["Statistics_entropy"] %>
     <br>
     Effective search space used: <%= query.stats["Statistics_eff-space"] %>
+  </div>
   </div>
 <% end %>
 

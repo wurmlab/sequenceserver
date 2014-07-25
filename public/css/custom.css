@@ -97,15 +97,6 @@ span.highlight {
   border-bottom: 0px;
 }
 
-.resultn {
-  background-color: #dfefe6;
-  margin: 18px 0px 18px 0px;
-  border-radius: 6px;
-  -moz-border-radius: 6px;
-  padding: 3%;
-  border: 1px solid transparent;
-}
-
 div.focussed {
   border: 1px solid black;
 }
