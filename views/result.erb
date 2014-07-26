@@ -52,15 +52,15 @@
     <% else %>
       <div class="panel-group">
         <% query.hits.each do |key, hit| %>
-          <div class="panel panel-default">
+          <div class="panel panel-default" id="<%=query.internal_id%>_h<%=hit.index%>">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a data-toggle="collapse" data-target="#<%=query.internal_id%>_h<%=hit.index%>" data-hit-score="<%= hit.hsp.score %>">
+                <a data-toggle="collapse" data-target="#<%=query.internal_id%>_h<%=hit.index%>_a" data-hit-score="<%= hit.hsp.score %>">
                   <%= ">#{hit.id} #{hit.def} (Score: #{hit.hsp.score})" %>
                 </a>
               </h4>
             </div>
-            <div id="<%=query.internal_id%>_h<%=hit.index%>" class="panel-collapse collapse in">
+            <div id="<%=query.internal_id%>_h<%=hit.index%>_a" class="panel-collapse collapse in">
               <div class="panel-body">
                 Length = <%= hit.len %>
               <br>
