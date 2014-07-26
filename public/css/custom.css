@@ -1,3 +1,7 @@
+.navbar {
+  margin-bottom: 0px;
+}
+
 .navbar-brand {
   font-size: 24px;
 }
@@ -21,10 +25,6 @@
   position: absolute;
   top: 4px;
   right: 19px;
-}
-
-#blast, .result {
-  padding-top: 51px;
 }
 
 #blast > .form-group, .result > .content {
@@ -126,7 +126,7 @@ label {
 }
 
 .index.affix {
-  top: 51px;
+  top: 8px;
 }
 
 .index.nav > .active > a, .index.nav > .active:hover>a, .index.nav > .active:focus > a {
