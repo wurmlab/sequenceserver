@@ -580,11 +580,16 @@ HEADER
 
       link = nil
 
+      # Identify which database hit came from
+      original_seq_id = sequence_id[/\|[^\s]+/][1..-1]
+      hit_database = databases.select{|db| !sequence_from_blastdb(original_seq_id, db).empty?}
+
       # If a custom sequence hyperlink method has been defined,
       # use that.
       options = {
         :sequence_id => sequence_id,
         :databases => databases,
+        :hit_database => hit_database,
         :hit_coordinates => hit_coordinates
       }
 
