@@ -93,7 +93,7 @@ module SequenceServer
                 # Ensure a hit object is received. No hits, returns a newline.
                 # Note that checking to "\n" doesn't work since n[4] = ["\n"]
                 if n[4]==["\n"]
-                    @queries[n[2]][:hits] = "No hits found."
+                    @queries[n[2]][:hits] = []
                 else
                     n[4].each do |hits|
                         @queries[n[2]][:hits][hits[1]] = Hit.new(hits[0], hits[1], hits[2],\

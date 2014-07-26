@@ -45,9 +45,11 @@
     <b> Length = <%= query.len %> </b>
     <br>
     <b> Hit(s) = <%= query.hits.count %> </b>
-    <% if query.hits.is_a?(String) %>
-      <br><br>
-      <b> <%= "****** #{query.hits} ******" %> </b>
+    <% if query.hits.empty? %>
+      <br>
+      <br>
+      <b> <%= "****** No hits found ******" %> </b>
+      <br>
       <br>
     <% else %>
       <div class="panel-group">
@@ -136,7 +138,7 @@
         </div>
       <% end %>
     </div>
-  <% end %>
+    <% end %>
     Lambda:  <%= query.stats["Statistics_lambda"] %>
     <br>
     Kappa:   <%= query.stats["Statistics_kappa"] %>
