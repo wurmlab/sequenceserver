@@ -124,3 +124,43 @@ label {
 .alignment {
    font-family: Courier, "Lucida Console", monospace !important;
 }
+
+.index.affix {
+  top: 51px;
+}
+
+.index.nav > .active > a, .index.nav > .active:hover>a, .index.nav > .active:focus > a {
+  padding-left: 18px;
+  font-weight: 700;
+  color: #563d7c;
+  background-color: transparent;
+  border-left: 2px solid #563d7c;
+}
+
+.index.nav .nav>.active>a, .index.nav .nav>.active:hover>a, .index.nav .nav>.active:focus>a {
+  font-weight: 500;
+  padding-left: 28px;
+}
+
+.index .nav > li >a {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: #999;
+  padding: 4px 20px;
+}
+
+.index.nav .nav {
+  display: none;
+  padding-bottom: 10px;
+}
+
+.index.nav > .active > .nav {
+  display: block;
+  padding-bottom: 10px;
+}
+
+.index .nav {
+  max-height: 200px; /* accomodates 8 elements. IE7 and above. */
+  overflow: scroll;
+}

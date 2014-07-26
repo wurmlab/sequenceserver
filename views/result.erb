@@ -1,3 +1,32 @@
+<div
+  class="row">
+  <div
+    class="col-md-3">
+    <ul
+      class="nav nav-pills nav-stacked index">
+      <% result.each do |iter, query| %>
+        <li>
+          <a
+            href="#<%= query.internal_id %>">
+            Query= <%= query.def.split.first %>
+          </a>
+          <ul
+            class="nav">
+            <% query.hits.each do |key, hit| %>
+              <li>
+                <a
+                  href="#<%=query.internal_id%>_h<%=hit.index%>">
+                  <%= "#{hit.id}" %>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div
+    class="col-md-9">
 <% result.each do |iter, query| %>
   <div
     class="panel panel-default resultn" id=<%="#{query.internal_id}"%>>
@@ -5,7 +34,10 @@
       class="panel-heading">
       <h3
         class="panel-title">
-        Query= <%= query.def %>
+        Query= <%= query.def.split.first %>
+        <small>
+          <%= query.def.split[1..-1].join(' ') %>
+        </small>
       </h3>
     </div>
     <div
@@ -18,19 +50,6 @@
       <b> <%= "****** #{query.hits} ******" %> </b>
       <br>
     <% else %>
-      <div class="row">
-        <div class="col-md-8"> Sequences producing significant alignments: </div>
-        <div class="col-md-2"> Score<br>(bits) </div>
-        <div class="col-md-2"> E Value </div>
-      </div>
-      <% query.hits.each do |key, hit| %>
-        <div class="row">
-          <div class="col-md-8"> <%= "#{hit.id}  #{hit.def}" %> </div>
-          <div class="col-md-2"> <a href="#<%=query.internal_id%>_h<%=hit.index%>"> <%= hit.hsp.bit_score %> </a> </div>
-          <div class="col-md-2"> <%= hit.hsp.evalue %> </div>
-        </div>
-      <% end %>
-      <br>
       <div class="panel-group">
         <% query.hits.each do |key, hit| %>
           <div class="panel panel-default">
@@ -125,6 +144,8 @@
   </div>
   </div>
 <% end %>
+</div>
+</div>
 
 <pre>
 Database = <%= dbs.split('/')[-2] %>: <%= dbs.split('/')[-1] %>

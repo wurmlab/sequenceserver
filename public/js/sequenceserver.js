@@ -249,6 +249,20 @@ $(document).ready(function(){
             $('.result').show();
             $('.result .content').html(data);
 
+            // affix the index
+            $('.index').affix({
+                offset: {
+                    top:    function () { return $('.result .content').offset().top; }
+                }
+            });
+
+            // scrolling of huge index
+            $('.index .nav').on('activate.bs.scrollspy', function (e) {
+                var $this   = $(this);
+                var $target = $(e.target);
+                $this.scrollTop($target.offset().top - $this.offset().top);
+            });
+
             //jump to the results
             location.hash = hash;
 
