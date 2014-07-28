@@ -24,7 +24,15 @@ module SequenceServer
     # @member [String]     def
     # @member [Fixnum]     len
     # @member [Array(Hit)] hits
-    Query = Struct.new(:internal_id, :def, :len, :hits, :stats)
+    Query = Struct.new(:internal_id, :def, :len, :hits, :stats) do
+      def initialize(*args)
+        @id, *rest = args[1].split
+        @meta = rest.join(' ')
+        super
+      end
+
+      attr_reader :id, :meta
+    end
 
     # Hit Object to store all the hits per Query.
     # @member [Fixnum]     index

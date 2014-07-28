@@ -8,7 +8,7 @@
         <li>
           <a
             href="#<%= query.internal_id %>">
-            Query= <%= query.def.split.first %>
+            Query= <%= query.id %>
           </a>
           <ul
             class="nav">
@@ -34,9 +34,9 @@
       class="panel-heading">
       <h3
         class="panel-title">
-        Query= <%= query.def.split.first %>
+        Query= <%= query.id %>
         <small>
-          <%= query.def.split[1..-1].join(' ') %>
+          <%= query.meta %>
         </small>
       </h3>
     </div>
