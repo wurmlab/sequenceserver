@@ -52,12 +52,6 @@ describe 'Sequence helpers' do
     expected_comp = {"a"=>2, "d"=>3, "f"=>7, "s"=>3, "A"=>1}
     assert_equal(expected_comp, composition('asdfasdfffffAsdf'))
   end
-
-  it 'test_construct_standard_sequence_hyperlink' do
-    assert_equal "/get_sequence/?id=one&db=abc def", construct_standard_sequence_hyperlink({:sequence_id => 'one', :databases => %w(abc def)})
-    assert_equal nil, construct_standard_sequence_hyperlink({:sequence_id => ' one', :databases =>  %w(abc def)})
-    assert_equal "/get_sequence/?id=MAL13P1.218&db=abc def", construct_standard_sequence_hyperlink({:sequence_id => 'lcl|MAL13P1.218', :databases =>  %w(abc def)})
-  end
 end
 
 describe 'sequence id checker' do

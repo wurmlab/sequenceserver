@@ -67,26 +67,5 @@ module SequenceServer
       # If `blastdbcmd` throws error, we assume sequence not found.
       %x|blastdbcmd -db #{db} -entry '#{ids}' 2> /dev/null|
     end
-
-    # Given a sequence_id and databases, apply the default (standard)
-    # way to convert a sequence_id into a hyperlink, so that the
-    # blast results include hyperlinks.
-    def construct_standard_sequence_hyperlink(options)
-      if options[:sequence_id].match(/^[^ ]/) #if there is a space right after the '>', makeblastdb was run without -parse_seqids
-        # By default, add a link to a fasta file of the sequence (if makeblastdb was called with -parse_seqids)
-
-        sid = options[:sequence_id].gsub(/<\/?[^>]*>/, '') # strip html
-        cid = sid[/^(\S+)\s*.*/, 1]                        # get id part
-        id  = cid.include?('|') ? cid.split('|')[1] : cid.split('|')[0]
-        @all_retrievable_ids ||= []
-        @all_retrievable_ids.push(id)
-
-        link = "/get_sequence/?id=#{id}&db=#{options[:databases].join(' ')}" # several dbs... separate by ' '
-        return link
-      else
-        # do nothing - link == nil means no link will be incorporated
-        return nil
-      end
-    end
   end
 end
