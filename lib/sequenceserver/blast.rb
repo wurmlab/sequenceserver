@@ -26,6 +26,7 @@ module SequenceServer
     # @member [Array(Hit)] hits
     Query = Struct.new(:number, :def, :len, :hits, :stats) do
       def initialize(*args)
+        args[1] = "Query_#{args[0]}" if args[1] == 'No definition line'
         @id, *rest = args[1].split
         @meta = rest.join(' ')
         super

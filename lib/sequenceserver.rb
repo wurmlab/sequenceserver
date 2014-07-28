@@ -373,7 +373,7 @@ module SequenceServer
       advanced_opts = params['advanced']
 
       # evaluate empty sequence as nil, otherwise as fasta
-      sequence = sequence.empty? ? nil : to_fasta(sequence)
+      sequence = sequence.empty? ? nil : sequence
 
       # blastn implies blastn, not megablast; but let's not interfere if a user
       # specifies `task` herself
@@ -455,29 +455,6 @@ HEADER
 
       out << "<pre><code>#{found_sequences}</pre></code>"
       out
-    end
-
-    # Ensure a unique sequence identifier for each sequence. If the sequence
-    # identifier is missing, add one.
-    #
-    #   > to_fasta("acgt")
-    #   => '>Submitted_By_127.0.0.1_at_110214-15:33:34\nacgt'
-    def to_fasta(sequence)
-      sequence = sequence.lstrip
-      unique_queries = Hash.new()
-      if sequence[0,1] != '>'
-        sequence.insert(0, ">Submitted at #{Time.now.strftime('%H:%M, %A, %B %d, %Y')}\n")
-      end
-      sequence.gsub!(/^\>(\S+)/) do |s|
-        if unique_queries.has_key?(s)
-          unique_queries[s] += 1
-          s + '_' + (unique_queries[s]-1).to_s
-        else
-          unique_queries[s] = 1
-          s
-        end
-      end
-      return sequence
     end
 
     # Advanced options are specified by the user. Here they are checked for interference with SequenceServer operations.
