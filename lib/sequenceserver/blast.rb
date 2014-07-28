@@ -20,11 +20,11 @@ module SequenceServer
     attr_reader :error
 
     # Capture results per query of a BLAST search.
-    # @member [String]     id
+    # @member [String]     number
     # @member [String]     def
     # @member [Fixnum]     len
     # @member [Array(Hit)] hits
-    Query = Struct.new(:internal_id, :def, :len, :hits, :stats) do
+    Query = Struct.new(:number, :def, :len, :hits, :stats) do
       def initialize(*args)
         @id, *rest = args[1].split
         @meta = rest.join(' ')
@@ -35,17 +35,17 @@ module SequenceServer
     end
 
     # Hit Object to store all the hits per Query.
-    # @member [Fixnum]     index
+    # @member [Fixnum]     number
     # @member [String]     id
     # @member [String]     def
     # @member [String]     accession
     # @member [Fixnum]     len
     # @member [HSP]        hsp
-    Hit = Struct.new(:index, :id, :def, :accession, :len, :hsp)
+    Hit = Struct.new(:number, :id, :def, :accession, :len, :hsp)
 
     # Structure to hold the HSP information about each hit.
     # More information about values can be found at NCBI's BLAST manual page.
-    HSP = Struct.new(:num, :bit_score, :score, :evalue, :qstart, :qend, :start, \
+    HSP = Struct.new(:number, :bit_score, :score, :evalue, :qstart, :qend, :start, \
                      :send, :qframe, :hframe, :identity, :positives, :gaps, :len, \
                      :qseq, :hseq, :midline)
 
@@ -96,7 +96,7 @@ module SequenceServer
 
       hashed_out["BlastOutput_iterations"].each do |n|
         @queries ||= {}
-        @queries[n[2]] = Query.new(n[1], n[2], n[3], {}, n[5]["Statistics"])
+        @queries[n[2]] = Query.new(n[0], n[2], n[3], {}, n[5]["Statistics"])
 
         # Ensure a hit object is received. No hits, returns a newline.
         # Note that checking to "\n" doesn't work since n[4] = ["\n"]

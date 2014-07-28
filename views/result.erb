@@ -7,7 +7,7 @@
       <% result.each do |iter, query| %>
         <li>
           <a
-            href="#<%= query.internal_id %>">
+            href="#Query_<%= query.number %>">
             Query= <%= query.id %>
           </a>
           <ul
@@ -15,7 +15,7 @@
             <% query.hits.each do |key, hit| %>
               <li>
                 <a
-                  href="#<%=query.internal_id%>_h<%=hit.index%>">
+                  href="#Query_<%=query.number%>_h<%=hit.number%>">
                   <%= "#{hit.id}" %>
                 </a>
               </li>
@@ -29,7 +29,7 @@
     class="col-md-9">
 <% result.each do |iter, query| %>
   <div
-    class="panel panel-default resultn" id=<%="#{query.internal_id}"%>>
+    class="panel panel-default resultn" id="Query_<%="#{query.number}"%>">
     <div
       class="panel-heading">
       <h3
@@ -54,10 +54,10 @@
     <% else %>
       <div class="panel-group">
         <% query.hits.each do |key, hit| %>
-          <div class="panel panel-default" id="<%= "#{query.internal_id}_h#{hit.index}" %>">
+          <div class="panel panel-default" id="<%= "Query_#{query.number}_h#{hit.number}" %>">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a data-toggle="collapse" data-target="#<%= "#{query.internal_id}_h#{hit.index}_a" %>" data-hit-score="<%= hit.hsp.score %>">
+                <a data-toggle="collapse" data-target="#<%= "Query_#{query.number}_h#{hit.number}_a" %>" data-hit-score="<%= hit.hsp.score %>">
                   &gt;<%= hit.id %>
                   <small>
                     <%= hit.def %>
@@ -65,7 +65,7 @@
                 </a>
               </h4>
             </div>
-            <div id="<%= "#{query.internal_id}_h#{hit.index}_a" %>" class="panel-collapse collapse in">
+            <div id="<%= "Query_#{query.number}_h#{hit.number}_a" %>" class="panel-collapse collapse in">
               <div class="panel-body">
                 Length = <%= hit.len %>
               <br>
