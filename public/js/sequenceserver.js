@@ -246,22 +246,17 @@ $(document).ready(function(){
             // BLASTed successfully
 
             // display the result
-            $('.result').show();
-            $('.result .content').html(data);
+            $('.result').html(data).show();
 
             // affix the index
+            var index_offset_top = $('.index-container').offset().top;
             $('.index').affix({
                 offset: {
-                    top:    function () { return $('.result .content').offset().top; }
+                    top: index_offset_top
                 }
-            });
-
-            // scrolling of huge index
-            $('.index .nav').on('activate.bs.scrollspy', function (e) {
-                var $this   = $(this);
-                var $target = $(e.target);
-                $this.scrollTop($target.offset().top - $this.offset().top);
-            });
+            })
+            .height($(window).height())
+            .width($('.index').width());
 
             //jump to the results
             location.hash = hash;

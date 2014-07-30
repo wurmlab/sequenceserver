@@ -1,157 +1,159 @@
 <div
+  class="page-header">
+  <h2>Results</h2>
+</div>
+
+<div
   class="row">
   <div
-    class="col-md-3">
+    class="col-md-3 index-container">
     <ul
-      class="nav nav-pills nav-stacked index">
+      class="nav nav-stacked index">
       <% result.each do |iter, query| %>
         <li>
           <a
             href="<%="#Query_#{query.number}"%>">
             Query= <%= query.id %>
           </a>
-          <ul
-            class="nav">
-            <% query.hits.each do |key, hit| %>
-              <li>
-                <a
-                  href="<%="#Query_#{query.number}_hit_#{hit.number}"%>">
-                  <%= hit.id %>
-                </a>
-              </li>
-            <% end %>
-          </ul>
         </li>
       <% end %>
     </ul>
   </div>
-  <div
-    class="col-md-9">
-<% result.each do |iter, query| %>
-  <div
-    class="panel panel-default resultn" id="<%="Query_#{query.number}"%>">
-    <div
-      class="panel-heading">
-      <h3
-        class="panel-title">
-        Query= <%= query.id %>
-        <small>
-          <%= query.meta %>
-        </small>
-      </h3>
-    </div>
-    <div
-      class="panel-body">
-    <b> Length = <%= query.len %> </b>
-    <br>
-    <b> Hit(s) = <%= query.hits.count %> </b>
-    <% if query.hits.empty? %>
-      <br>
-      <br>
-      <b> <%= "****** No hits found ******" %> </b>
-      <br>
-      <br>
-    <% else %>
-      <div class="panel-group">
-        <% query.hits.each do |key, hit| %>
-          <div class="panel panel-default" id="<%="Query_#{query.number}_hit_#{hit.number}"%>">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-target="#<%= "Query_#{query.number}_hit_#{hit.number}_alignment" %>" data-hit-score="<%= hit.hsp.score %>">
-                  &gt;<%= hit.id %>
-                  <small>
-                    <%= hit.def %>
-                  </small>
-                </a>
-              </h4>
-            </div>
-            <div id="<%="Query_#{query.number}_hit_#{hit.number}_alignment"%>" class="panel-collapse collapse in">
-              <div class="panel-body">
-                Length = <%= hit.len %>
-              <br>
-              <div class="row show-grid">
-                <div class="col-md-2"> Score </div>
-                <div class="col-md-2"> Expect </div>
-                <div class="col-md-2"> Identities </div>
-                <div class="col-md-2"> Positives </div>
-                <div class="col-md-2"> Gaps </div>
-                <div class="col-md-2"> Strand </div>
-              </div>
-              <div class="row show-grid">
-                <div class="col-md-2"> <%= hit.hsp.bit_score %> (<%= hit.hsp.score %>)</div>
-                <div class="col-md-2"> <%= hit.hsp.evalue %></div>
-                <div class="col-md-2"> <%= hit.hsp.identity%>/<%= hit.hsp.len %></div>
-                <div class="col-md-2"> <%= hit.hsp.positives %>/<%= hit.hsp.len %></div>
-                <div class="col-md-2"> <%= hit.hsp.gaps %>/<%= hit.hsp.len %></div>
-                <div class="col-md-2"> (<%= hit.hsp.qframe.to_i>0?"Plus":"Minus"%>/<%= hit.hsp.hframe.to_i>0?"Plus":"Minus"%>)</div>
-              </div>
-              <br>
-              <% if hit.hsp.len.to_i > 60 %>
-                <% 0.upto(hit.hsp.len.to_i.div(61)) do |x| %>
-                  <div class="row alignment">
-                    <div class="col-md-1"> Query </div>
-                    <div class="col-md-1"> <%= hit.hsp.qstart.to_i+60*x %> </div>
-                    <div class="col-md-9"> <%= hit.hsp.qseq[60*x,60] %> </div>
-                    <div class="col-md-1"> <%= hit.hsp.qstart.to_i+60*(x+1)-1 %> </div>
-                  </div>
-                  <div class="row alignment">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-9"> <%= hit.hsp.midline[60*x, 60] %></div>
-                    <div class="col-md-1"></div>
-                  </div>
-                  <div class="row alignment">
-                    <div class="col-md-1"> Subject </div>
-                    <% if hit.hsp.hframe.to_i > 0 %>
-                      <div class="col-md-1"> <%= hit.hsp.start.to_i+60*x %> </div>
-                      <div class="col-md-9"> <%= hit.hsp.hseq[60*x, 60] %> </div>
-                      <div class="col-md-1"> <%= hit.hsp.start.to_i+60*(x+1)-1 %> </div>
-                    <% else %>
-                      <div class="col-md-1"> <%= hit.hsp.start.to_i+60*x %> </div>
-                      <div class="col-md-9"> <%= hit.hsp.hseq[60*x, 60] %> </div>
-                      <div class="col-md-1"> <%= hit.hsp.start.to_i-60*(x+1)+1 %> </div>
-                    <% end %>
-                  </div>
-                <% end %>
-              <% else %>
-                <div class="row alignment">
-                  <div class="col-md-1"> Query </div>
-                  <div class="col-md-1"> <%= hit.hsp.qstart %> </div>
-                  <div class="col-md-9"> <%= hit.hsp.qseq %> </div>
-                  <div class="col-md-1"> <%= hit.hsp.qend %> </div>
-                </div>
-                <div class="row alignment">
-                  <div class="col-md-1"></div>
-                  <div class="col-md-1"></div>
-                  <div class="col-md-9"> <%= hit.hsp.midline %></div>
-                  <div class="col-md-1"></div>
-                </div>
-                <div class="row alignment">
-                  <div class="col-md-1"> Subject </div>
-                  <div class="col-md-1"> <%= hit.hsp.start %> </div>
-                  <div class="col-md-9"> <%= hit.hsp.hseq %> </div>
-                  <div class="col-md-1"> <%= hit.hsp.send %> </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <% end %>
-    Lambda:  <%= query.stats["Statistics_lambda"] %>
-    <br>
-    Kappa:   <%= query.stats["Statistics_kappa"] %>
-    <br>
-    Entropy: <%= query.stats["Statistics_entropy"] %>
-    <br>
-    Effective search space used: <%= query.stats["Statistics_eff-space"] %>
-  </div>
-  </div>
-<% end %>
-</div>
-</div>
 
-<pre>
-Database = <%= dbs.split('/')[-2] %>: <%= dbs.split('/')[-1] %>
-</pre>
+  <div
+    class="col-md-9 result-container">
+    <% result.each do |iter, query| %>
+      <div
+        class="resultn" id="<%="Query_#{query.number}"%>">
+        <div
+          class="page-header">
+          <h3>
+            Query= <%= query.id %>
+            <small>
+              <%= query.meta %>
+            </small>
+          </h3>
+        </div>
+
+        <div
+          class="page-content">
+          <p
+            class="text-monospace">
+            Query length: <%= query.len %>, Number of Hit(s): <%= query.hits.count %>
+          </p>
+          <% if query.hits.empty? %>
+            <br>
+            <br>
+            <p
+              class="text-monospace">
+              <strong> <%= "****** No hits found ******" %> </strong>
+            </p>
+          <% else %>
+            <% query.hits.each do |key, hit| %>
+              <div
+                class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>"
+                data-hit-score="<%= hit.hsp.score %>">
+                <div
+                  class="page-header">
+                  <h4
+                    data-toggle="collapse" data-target="#<%= "Query_#{query.number}_hit_#{hit.number}_alignment" %>">
+                    <%= hit.id %>
+                    <small>
+                      <%= hit.def %>
+                    </small>
+                  </h4>
+                </div>
+
+                <div
+                  class="page-content text-monospace collapse in"
+                  id="<%="Query_#{query.number}_hit_#{hit.number}_alignment"%>">
+                  Hit length: <%= hit.len %>
+                  <br>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-2"> Score </div>
+                    <div class="col-md-2"> Expect </div>
+                    <div class="col-md-2"> Identities </div>
+                    <div class="col-md-2"> Positives </div>
+                    <div class="col-md-2"> Gaps </div>
+                    <div class="col-md-2"> Strand </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2"> <%= hit.hsp.bit_score %> (<%= hit.hsp.score %>)</div>
+                    <div class="col-md-2"> <%= hit.hsp.evalue %></div>
+                    <div class="col-md-2"> <%= hit.hsp.identity%>/<%= hit.hsp.len %></div>
+                    <div class="col-md-2"> <%= hit.hsp.positives %>/<%= hit.hsp.len %></div>
+                    <div class="col-md-2"> <%= hit.hsp.gaps %>/<%= hit.hsp.len %></div>
+                    <div class="col-md-2"> (<%= hit.hsp.qframe.to_i>0?"Plus":"Minus"%>/<%= hit.hsp.hframe.to_i>0?"Plus":"Minus"%>)</div>
+                  </div>
+                  <br>
+                  <% if hit.hsp.len.to_i > 60 %>
+                    <% 0.upto(hit.hsp.len.to_i.div(61)) do |x| %>
+                      <div class="row alignment">
+                        <div class="col-md-1"> Query </div>
+                        <div class="col-md-1"> <%= hit.hsp.qstart.to_i+60*x %> </div>
+                        <div class="col-md-9"> <%= hit.hsp.qseq[60*x,60] %> </div>
+                        <div class="col-md-1"> <%= hit.hsp.qstart.to_i+60*(x+1)-1 %> </div>
+                      </div>
+                      <div class="row alignment">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-9"> <%= hit.hsp.midline[60*x, 60] %></div>
+                        <div class="col-md-1"></div>
+                      </div>
+                      <div class="row alignment">
+                        <div class="col-md-1"> Subject </div>
+                        <% if hit.hsp.hframe.to_i > 0 %>
+                          <div class="col-md-1"> <%= hit.hsp.start.to_i+60*x %> </div>
+                          <div class="col-md-9"> <%= hit.hsp.hseq[60*x, 60] %> </div>
+                          <div class="col-md-1"> <%= hit.hsp.start.to_i+60*(x+1)-1 %> </div>
+                        <% else %>
+                          <div class="col-md-1"> <%= hit.hsp.start.to_i+60*x %> </div>
+                          <div class="col-md-9"> <%= hit.hsp.hseq[60*x, 60] %> </div>
+                          <div class="col-md-1"> <%= hit.hsp.start.to_i-60*(x+1)+1 %> </div>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <div class="row alignment">
+                      <div class="col-md-1"> Query </div>
+                      <div class="col-md-1"> <%= hit.hsp.qstart %> </div>
+                      <div class="col-md-9"> <%= hit.hsp.qseq %> </div>
+                      <div class="col-md-1"> <%= hit.hsp.qend %> </div>
+                    </div>
+                    <div class="row alignment">
+                      <div class="col-md-1"></div>
+                      <div class="col-md-1"></div>
+                      <div class="col-md-9"> <%= hit.hsp.midline %></div>
+                      <div class="col-md-1"></div>
+                    </div>
+                    <div class="row alignment">
+                      <div class="col-md-1"> Subject </div>
+                      <div class="col-md-1"> <%= hit.hsp.start %> </div>
+                      <div class="col-md-9"> <%= hit.hsp.hseq %> </div>
+                      <div class="col-md-1"> <%= hit.hsp.send %> </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+          <br>
+          <br>
+          <p
+            class="text-monospace">
+            Lambda:  <%= query.stats["Statistics_lambda"] %>
+            <br>
+            Kappa:   <%= query.stats["Statistics_kappa"] %>
+            <br>
+            Entropy: <%= query.stats["Statistics_entropy"] %>
+            <br>
+            Effective search space used: <%= query.stats["Statistics_eff-space"] %>
+            <br>
+            Databases: <%= dbs.split.map{|db| File.basename(db)}.join(', ') %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
