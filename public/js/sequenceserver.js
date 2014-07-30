@@ -128,6 +128,9 @@ $(document).ready(function(){
         $('#sequence').val("");
     })
 
+    // pre-select if only on db
+    $.onedb();
+
     // Handles the form submission when Ctrl+Enter is pressed anywhere on page
     $(document).bind("keydown", function (e) {
         if (e.ctrlKey && e.keyCode === 13 && !$('#method').is(':disabled')) {

@@ -11,3 +11,6 @@ end
 
 it "should sort the list of databases in alphabetical order" do
 end
+
+it "should pre-select if only one databae present" do
+end
