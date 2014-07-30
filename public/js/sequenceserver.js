@@ -137,7 +137,7 @@ $(document).ready(function(){
 
     $('#sequence').on('sequence_type_changed', function (event, type) {
         clearTimeout(notification_timeout);
-        $(this).parent('.control-group').removeClass('error');
+        $(this).parent().parent().removeClass('has-error');
         $('.notifications .active').hide().removeClass('active');
 
         if (type) {
@@ -148,7 +148,7 @@ $(document).ready(function(){
             }, 5000);
 
             if (type === 'mixed') {
-                $(this).parent('.control-group').addClass('error');
+                $(this).parent().parent().addClass('has-error');
             }
         }
     });
