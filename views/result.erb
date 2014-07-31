@@ -24,7 +24,8 @@
     class="col-md-9 result-container">
     <% result.each do |iter, query| %>
       <div
-        class="resultn" id="<%="Query_#{query.number}"%>">
+          class="resultn" id="<%="Query_#{query.number}"%>" data-query-len="<%= query.len %>"
+          data-graphit="overview">
         <div
           class="page-header">
           <h3>
@@ -52,7 +53,8 @@
             <% query.hits.each do |key, hit| %>
               <div
                 class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>"
-                data-hit-score="<%= hit.hsp.score %>">
+                data-hit-evalue="<%= hit.hsp.evalue %>" data-hit-start="<%= hit.hsp.qstart %>"
+                data-hit-end="<%= hit.hsp.qend %>">
                 <div
                   class="page-header">
                   <h4

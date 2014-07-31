@@ -149,3 +149,9 @@ span.highlight {
   vertical-align: super;
 }
 
+.axis path,
+.axis line {
+    fill: red;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}

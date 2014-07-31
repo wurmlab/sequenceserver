@@ -264,6 +264,8 @@ $(document).ready(function(){
             //jump to the results
             location.hash = hash;
 
+            $.draw();
+
             $('.resultn').
                 scrollspy({
                     approach: screen.height / 4
@@ -295,7 +297,6 @@ $(document).ready(function(){
         }).
           always(function () {
             // BLAST complete (succefully or otherwise)
-
             // remove progress notification
             $('#spinner').modal('hide');
         });
