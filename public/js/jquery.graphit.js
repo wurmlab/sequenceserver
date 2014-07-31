@@ -17,7 +17,7 @@
                 hits.sort(function(a,b) { return a.hitEvalue - b.hitEvalue; });
 
                 // DEBUG
-                console.log(hits);
+                // console.log(hits);
 
                 query_len = $(this).data().queryLen;
                 width = $(this).width();
@@ -31,11 +31,11 @@
                             .attr('height', height).append('g')
                             .attr('transform', 'translate('+margin+', '+margin+')');
                 // DEBUG
-                console.log(svg);
+                // console.log(svg);
 
                 var x = d3.scale.linear().range([0, width-margin*2])
                 x.domain([0, query_len]);
-                var xAxis = d3.svg.axis().scale(x).orient('top').ticks(6);
+                var xAxis = d3.svg.axis().scale(x).orient('top').ticks(10);
 
                 // Attach the axis to DOM (<svg> element)
                 var scale = svg.append('g')
@@ -55,20 +55,41 @@
                                 .domain((hits.map( function(d) { return d.hitId; } )).reverse())
                                 .rangeBands([10,180], 0.5);
 
-                svg.append('g').attr('transform', 'translate(0, '+(2*margin-legend)+')')
+                var t = svg.append('g').attr('transform', 'translate(0, '+(2*margin-legend)+')')
                     .selectAll('.hits')
                     .data(hits).enter()
                     .append('a')
-                    .attr('xlink:href', function(d,i) {return '#'+(d.hitId);})
-                    .append('rect')
+                    .attr('xlink:href', function(d,i) {return '#'+(d.hitId);});
+                    t.append('rect')
                     .attr('class', 'hits')
-                    .attr('x', function(d,i) { return d.hitStart;})
+                    .attr('x', function(d,i) {
+                        if(d.hitFrame < 0)
+                            return x(d.hitStart)+1;
+                        else
+                            return x(d.hitStart);
+                    })
                     .attr('y', function(d,i) { return y(d.hitId);})
-                    .attr('width', function(d,i) { return x(d.hitEnd - d.hitStart); })
+                    .attr('width', function(d,i) {
+                            return x(d.hitEnd - d.hitStart)-1;
+                    })
                     .attr('height', barheight)
                     .attr('fill', function(d) {
                         return d3.rgb(0,0,color2(d.hitId));
                     });
+
+                    t.append('path')
+                    .attr('d', d3.svg.symbol().type('triangle-up').size(35))
+                    .attr('fill', function(d) {
+                        return d3.rgb(0,0,color2(d.hitId));
+                    })
+                    .attr('transform', function(d,i) {
+                        // console.log(d.hitFrame);
+                        if(d.hitFrame > 0)
+                            return ('translate('+(x(d.hitEnd)+1)+', '+(y(d.hitId)+4)+')rotate(90)');
+                        else
+                            return ('translate('+(x(d.hitStart)-1)+', '+(y(d.hitId)+4)+')rotate(-90)');
+                    });
+
                 var svg_legend = svg.append('g')
                                 .attr('transform', 'translate(0,'+(height-margin-legend*1.25)+')');
 
