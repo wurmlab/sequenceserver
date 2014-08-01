@@ -50,6 +50,30 @@
               <strong> <%= "****** No hits found ******" %> </strong>
             </p>
           <% else %>
+            <div
+              class="tabular-view text-monospace">
+              <div class="row">
+                <div class="col-md-8">
+                  <p> Sequences producing significant alignments: </p>
+                </div>
+                <div class="col-md-1"> Total Score </div>
+                <div class="col-md-1"> E value </div>
+                <div class="col-md-2"> Accession </div>
+              </div>
+              <% query.hits.each do |hit| %>
+                <div class="row">
+                  <div class="col-md-8"> <%= "#{hit.id} #{hit.def}" %> </div>
+                  <div
+                    class="col-md-1">
+                    <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>">
+                      <%= "#{hit.hsps.inject(0) { |score, hsp| score += hsp.bit_score }}"%>
+                    </a>
+                  </div>
+                  <div class="col-md-1"> <%= "#{hit.hsps[0].evalue}" %> </div>
+                  <div class="col-md-2"> <%= "#{hit.accession}" %> </div>
+                </div>
+              <% end %>
+            </div>
             <% query.hits.each do |hit| %>
               <div
                 class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>">

@@ -149,6 +149,10 @@ span.highlight {
   vertical-align: super;
 }
 
+.tabular-view {
+    padding-top: 30px;
+}
+
 .axis path,
 .axis line {
     fill: red;
