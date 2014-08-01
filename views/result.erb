@@ -66,10 +66,10 @@
                   <div
                     class="col-md-1">
                     <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>">
-                      <%= "#{hit.hsps.inject(0) { |score, hsp| score += hsp.bit_score }}"%>
+                      <%= "#{hit.total_score}" %>
                     </a>
                   </div>
-                  <div class="col-md-1"> <%= "#{hit.hsps[0].evalue}" %> </div>
+                  <div class="col-md-1"> <%= "#{hit.evalue}" %> </div>
                   <div class="col-md-2"> <%= "#{hit.accession}" %> </div>
                 </div>
               <% end %>

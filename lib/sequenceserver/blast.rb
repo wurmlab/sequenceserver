@@ -52,6 +52,14 @@ module SequenceServer
         self.len = args[4].to_i
         self.hsps = args[5]
       end
+
+      def evalue
+        hsps.map(&:evalue).min
+      end
+
+      def total_score
+        hsps.map(&:score).reduce(:+)
+      end
     end
 
     # Structure to hold the HSP information about each hit.
