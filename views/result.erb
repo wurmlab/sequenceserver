@@ -9,7 +9,7 @@
     class="col-md-3 index-container">
     <ul
       class="nav nav-stacked index">
-      <% result.each do |iter, query| %>
+      <% result.each do |query| %>
         <li>
           <a
             href="<%="#Query_#{query.number}"%>">
@@ -22,7 +22,7 @@
 
   <div
     class="col-md-9 result-container">
-    <% result.each do |iter, query| %>
+    <% result.each do |query| %>
       <div
           class="resultn" id="<%="Query_#{query.number}"%>" data-query-len="<%= query.len %>"
           data-graphit="overview">
@@ -50,11 +50,9 @@
               <strong> <%= "****** No hits found ******" %> </strong>
             </p>
           <% else %>
-            <% query.hits.each do |key, hit| %>
+            <% query.hits.each do |hit| %>
               <div
-                class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>"
-                data-hit-evalue="<%= hit.hsp.evalue %>" data-hit-start="<%= hit.hsp.qstart %>"
-                data-hit-end="<%= hit.hsp.qend %>" data-hit-frame="<%= hit.hsp.hframe %>">
+                class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>">
                 <div
                   class="page-header">
                   <h4
@@ -69,73 +67,81 @@
                 <div
                   class="page-content text-monospace collapse in"
                   id="<%="Query_#{query.number}_hit_#{hit.number}_alignment"%>">
-                  Hit length: <%= hit.len %>
+                  Hit length: <%= hit.length %>
+                  Number of HSP(s): <%= hit.hsps.length %>
                   <br>
                   <br>
-                  <div class="row">
-                    <div class="col-md-2"> Score </div>
-                    <div class="col-md-2"> Expect </div>
-                    <div class="col-md-2"> Identities </div>
-                    <div class="col-md-2"> Positives </div>
-                    <div class="col-md-2"> Gaps </div>
-                    <div class="col-md-2"> Strand </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-2"> <%= hit.hsp.bit_score %> (<%= hit.hsp.score %>)</div>
-                    <div class="col-md-2"> <%= hit.hsp.evalue %></div>
-                    <div class="col-md-2"> <%= hit.hsp.identity%>/<%= hit.hsp.len %></div>
-                    <div class="col-md-2"> <%= hit.hsp.positives %>/<%= hit.hsp.len %></div>
-                    <div class="col-md-2"> <%= hit.hsp.gaps %>/<%= hit.hsp.len %></div>
-                    <div class="col-md-2"> (<%= hit.hsp.qframe.to_i>0?"Plus":"Minus"%>/<%= hit.hsp.hframe.to_i>0?"Plus":"Minus"%>)</div>
-                  </div>
-                  <br>
-                  <% if hit.hsp.len.to_i > 60 %>
-                    <% 0.upto(hit.hsp.len.to_i.div(61)) do |x| %>
-                      <div class="row alignment">
-                        <div class="col-md-1"> Query </div>
-                        <div class="col-md-1"> <%= hit.hsp.qstart.to_i+60*x %> </div>
-                        <div class="col-md-9"> <%= hit.hsp.qseq[60*x,60] %> </div>
-                        <div class="col-md-1"> <%= hit.hsp.qstart.to_i+60*(x+1)-1 %> </div>
+                  <% hit.hsps.each do |hsp| %>
+                  <div
+                      class="hsps" id="<%="Query_#{query.number}_hit_#{hit.number}_#{hsp.number}"%>"
+                      data-hsp-evalue="<%= hsp.evalue %>" data-hsp-start="<%= hsp.qstart %>"
+                      data-hsp-end="<%= hsp.qend %>" data-hsp-frame="<%= hsp.hframe %>">
+                      <div class="row">
+                        <div class="col-md-2"> Score </div>
+                        <div class="col-md-2"> Expect </div>
+                        <div class="col-md-2"> Identities </div>
+                        <div class="col-md-2"> Positives </div>
+                        <div class="col-md-2"> Gaps </div>
+                        <div class="col-md-2"> Strand </div>
                       </div>
-                      <div class="row alignment">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-9"> <%= hit.hsp.midline[60*x, 60] %></div>
-                        <div class="col-md-1"></div>
+                      <div class="row">
+                        <div class="col-md-2"> <%= hsp.bit_score %> (<%= hsp.score %>)</div>
+                        <div class="col-md-2"> <%= hsp.evalue %></div>
+                        <div class="col-md-2"> <%= hsp.identity%>/<%= hsp.len %></div>
+                        <div class="col-md-2"> <%= hsp.positives %>/<%= hsp.len %></div>
+                        <div class="col-md-2"> <%= hsp.gaps %>/<%= hsp.len %></div>
+                        <div class="col-md-2"> (<%= hsp.qframe>0?"Plus":"Minus"%>/<%= hsp.hframe>0?"Plus":"Minus"%>)</div>
                       </div>
-                      <div class="row alignment">
-                        <div class="col-md-1"> Subject </div>
-                        <% if hit.hsp.hframe.to_i > 0 %>
-                          <div class="col-md-1"> <%= hit.hsp.start.to_i+60*x %> </div>
-                          <div class="col-md-9"> <%= hit.hsp.hseq[60*x, 60] %> </div>
-                          <div class="col-md-1"> <%= hit.hsp.start.to_i+60*(x+1)-1 %> </div>
-                        <% else %>
-                          <div class="col-md-1"> <%= hit.hsp.start.to_i+60*x %> </div>
-                          <div class="col-md-9"> <%= hit.hsp.hseq[60*x, 60] %> </div>
-                          <div class="col-md-1"> <%= hit.hsp.start.to_i-60*(x+1)+1 %> </div>
+                      <br>
+                      <% if hsp.len > 60 %>
+                        <% 0.upto(hsp.len.div(61)) do |x| %>
+                          <div class="row alignment">
+                            <div class="col-md-1"> Query </div>
+                            <div class="col-md-1"> <%= hsp.qstart+60*x %> </div>
+                            <div class="col-md-9"> <%= hsp.qseq[60*x,60] %> </div>
+                            <div class="col-md-1"> <%= hsp.qstart+60*(x+1)-1 %> </div>
+                          </div>
+                          <div class="row alignment">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-9"> <%= hsp.midline[60*x, 60] %></div>
+                            <div class="col-md-1"></div>
+                          </div>
+                          <div class="row alignment">
+                            <div class="col-md-1"> Subject </div>
+                            <% if hsp.hframe > 0 %>
+                              <div class="col-md-1"> <%= hsp.start+60*x %> </div>
+                              <div class="col-md-9"> <%= hsp.hseq[60*x, 60] %> </div>
+                              <div class="col-md-1"> <%= hsp.start+60*(x+1)-1 %> </div>
+                            <% else %>
+                              <div class="col-md-1"> <%= hsp.start+60*x %> </div>
+                              <div class="col-md-9"> <%= hsp.hseq[60*x, 60] %> </div>
+                              <div class="col-md-1"> <%= hsp.start-60*(x+1)+1 %> </div>
+                            <% end %>
+                          </div>
                         <% end %>
-                      </div>
+                      <% else %>
+                        <div class="row alignment">
+                          <div class="col-md-1"> Query </div>
+                          <div class="col-md-1"> <%= hsp.qstart %> </div>
+                          <div class="col-md-9"> <%= hsp.qseq %> </div>
+                          <div class="col-md-1"> <%= hsp.qend %> </div>
+                        </div>
+                        <div class="row alignment">
+                          <div class="col-md-1"></div>
+                          <div class="col-md-1"></div>
+                          <div class="col-md-9"> <%= hsp.midline %></div>
+                          <div class="col-md-1"></div>
+                        </div>
+                        <div class="row alignment">
+                          <div class="col-md-1"> Subject </div>
+                          <div class="col-md-1"> <%= hsp.start %> </div>
+                          <div class="col-md-9"> <%= hsp.hseq %> </div>
+                          <div class="col-md-1"> <%= hsp.send %> </div>
+                        </div>
+                      <% end %>
+                    </div>
                     <% end %>
-                  <% else %>
-                    <div class="row alignment">
-                      <div class="col-md-1"> Query </div>
-                      <div class="col-md-1"> <%= hit.hsp.qstart %> </div>
-                      <div class="col-md-9"> <%= hit.hsp.qseq %> </div>
-                      <div class="col-md-1"> <%= hit.hsp.qend %> </div>
-                    </div>
-                    <div class="row alignment">
-                      <div class="col-md-1"></div>
-                      <div class="col-md-1"></div>
-                      <div class="col-md-9"> <%= hit.hsp.midline %></div>
-                      <div class="col-md-1"></div>
-                    </div>
-                    <div class="row alignment">
-                      <div class="col-md-1"> Subject </div>
-                      <div class="col-md-1"> <%= hit.hsp.start %> </div>
-                      <div class="col-md-9"> <%= hit.hsp.hseq %> </div>
-                      <div class="col-md-1"> <%= hit.hsp.send %> </div>
-                    </div>
-                  <% end %>
                 </div>
               </div>
             <% end %>
