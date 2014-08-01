@@ -64,7 +64,7 @@ module SequenceServer
         self.number = args[0].to_i
         self.bit_score = args[1].to_f.round(2)
         self.score = args[2].to_i
-        self.evalue = args[3]
+        self.evalue = args[3].split('e').collect { |x| x.to_f.round(1) }.join('e')
         self.qstart = args[4].to_i
         self.qend = args[5].to_i
         self.start = args[6].to_i
