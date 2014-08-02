@@ -1,22 +1,38 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>SequenceServer</title>
-    <meta name="author" content="Anurag Priyam" />
-    <meta name="author" content="Yannick Wurm" />
-    <meta name="author" content="Cedric Wurm" />
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+<div
+  class="modal-dialog modal-lg">
+  <div
+    class="modal-content">
+    <div
+      class="modal-header">
+      <h3>
+        Something went wonky
+      </h3>
+    </div>
 
-    <%# without a space after erb's closing tag, a / gets appended to css' path %>
-    <link rel="stylesheet" media="screen" type="text/css" href=<%= uri('/css/beige.css') %> />
-</head>
+    <div
+      class="modal-body">
+      <p>
+        Looks like you have encountered a bug in SequenceServer. Could you
+        please report this incident to your admin or to
+        <a
+          href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">SequenceServer
+          Google Group</a>
+        (if you are the admin), quoting the error message below?
 
-<body>
-  <div class="container">
-    <h1>Oops! Something went wonky!</h1>
-	<p>Apologies, there was an error with your request: 
-	  <strong><%=request.env['sinatra.error'].message %> </strong></p>
-    <p>If the error persists please contact the administrator</p>
+<pre class="pre-scrollable">
+  <%=
+    ["#{error.class} - #{error.message}:", *error.backtrace].map do |line|
+      ERB::Util.h line
+    end.join("\n")
+  %>
+</pre>
+
+      </p>
+    </div>
+
+    <div
+      class="modal-footer">
+      <button class="btn btn-danger" data-dismiss="modal">Done</button>
+    </div>
   </div>
-</body>
+</div>

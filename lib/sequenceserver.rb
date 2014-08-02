@@ -289,17 +289,11 @@ module SequenceServer
     include Blast
 
     enable :logging
+
+    # enable trapping internal server error in controller
+    disable :show_exceptions
+
     set :root, SequenceServer.root
-
-    configure :production do
-      error do
-        erb :'500'
-      end
-
-      not_found do
-        erb :'500'
-      end
-    end
 
     # A Hash of BLAST databases indexed by their id (or hash).
     attr_reader :databases
@@ -388,6 +382,11 @@ HEADER
     error 400 do
       error = env['sinatra.error']
       erb :'400', :locals => {:error => error}
+    end
+
+    error 500 do
+      error = env['sinatra.error']
+      erb :'500', :locals => {:error => error}
     end
   end
 end
