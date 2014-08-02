@@ -2,22 +2,52 @@ require 'tempfile'
 require 'ox'
 
 module SequenceServer
-  class Blast
 
-    ERROR_LINE = /\(CArgException.*\)\s(.*)/
+  # Simple wrapper around BLAST+ CLI (command line interface), intended to be
+  # mixed into SequenceServer::App.
+  #
+  # `Blast::ArgumentError` and `Blast::RuntimeError` signal errors encountered
+  # when attempting a BLAST search.  The error classes define `code` instance
+  # method which returns the equivalent HTTP status code, and is used by
+  # Sinatra to dispatch appropriate error handlers to fulfill an HTTP request.
+  module Blast
 
-    attr_accessor :program, :querydb
+    # To signal error in query sequence or options.
+    #
+    # ArgumentError is raised when BLAST+'s exit status is 1; see [1].
+    class ArgumentError < ArgumentError
 
-    attr_accessor :queries
+      # Instruct Sinatra to treat this exception object as HTTP BadRequest
+      # (400).
+      def code
+        400
+      end
+    end
 
-    # command string to be executed
-    attr_reader :command
+    # To signal internal errors.
+    #
+    # RuntimeError is raised when BLAST+'s exits status is one of 2, 3, 4, or
+    # 255; see [1].  These are rare, infrastructure errors, used internally,
+    # and of concern only to the admins/developers.
+    class RuntimeError  < RuntimeError
 
-    # result of executing command
-    attr_reader :result
+      def initialize(status, message)
+        @status  = status
+        @message = message
+      end
 
-    # errors as [status, message]
-    attr_reader :error
+      attr_reader :status, :message
+
+      # Instruct Sinatra to treat this exception object as HTTP
+      # InternalServerError (500).
+      def code
+        500
+      end
+
+      def to_s
+        "#{status}, #{message}"
+      end
+    end
 
     # Capture results per query of a BLAST search.
     # @member [String]     number
@@ -96,128 +126,213 @@ module SequenceServer
       end
     end
 
-    def initialize(method, query, databases, options = nil)
-      @method    = method
-      @databases = databases
+    # Captures BLAST results.
+    class Report
 
-      # create a tempfile for the given query
-      @qfile = Tempfile.new('sequenceserver_query')
-      @qfile.puts(query)
-      @qfile.close
+      def initialize(rfile)
+        # Generates BLAST report which one or moremultiple Query objects
+        # based on the blast query string.
+        rfile.open
+        parsed_out = Ox.parse(rfile.read)
+        hashed_out = node_to_dict(parsed_out.root)
+        @program = hashed_out["BlastOutput_program"]
+        @querydb = hashed_out["BlastOutput_db"]
 
-      @options = options.to_s
-      @options += " -outfmt 5"
-    end
+        hashed_out["BlastOutput_iterations"].each_with_index do |n, i|
+          @queries ||= []
+          @queries.push(Query.new(n[0], n[2], n[3], [], n[5]["Statistics"]))
 
-    def run!
-      @result, @error, status = execute(command)
-      status == 0 and return @success = true
-
-      if status == 1
-        message = @error.each{|l| l.match(ERROR_LINE) and break Regexp.last_match[1]}
-        message = message || @error
-        @error  = [400,  message]
-      else
-        @error = [500, @error]
+          # Ensure a hit object is received. No hits, returns a newline.
+          # Note that checking to "\n" doesn't work since n[4] = ["\n"]
+          if n[4]==["\n"]
+            @queries[n[1]][:hits] = []
+          else
+            n[4].each_with_index do |hits, j|
+              @queries[i][:hits].push(Hit.new(hits[0], hits[1], hits[2],\
+                                              hits[3], hits[4], []))
+              hits[5].each_with_index do |hsp, k|
+                @queries[i][:hits][j][:hsps].push(HSP.new(*hits[5][k].values))
+              end
+            end
+            @queries[i].sort_by_evalue
+          end
+        end
       end
 
-      false
-    end
+      attr_accessor :program, :querydb
 
-    def command
-      @command ||= "#@method -db '#@databases' -query '#{@qfile.path}' #@options"
-    end
+      attr_accessor :queries
 
-    # Return success status.
-    def success?
-      @success
-    end
+      private
 
-    def report!
-      # Generates BLAST report which one or moremultiple Query objects
-      # based on the blast query string.
-      parsed_out = Ox.parse(@result)
-      hashed_out = node_to_dict(parsed_out.root)
-      @program = hashed_out["BlastOutput_program"]
-      @querydb = hashed_out["BlastOutput_db"]
+      def node_to_array(element)
+        a = Array.new
+        element.nodes.each do |n|
+          a.push(node_to_value(n))
+        end
+        a
+      end
 
-      hashed_out["BlastOutput_iterations"].each_with_index do |n, i|
-        @queries ||= []
-        @queries.push(Query.new(n[0], n[2], n[3], [], n[5]["Statistics"]))
+      def node_to_dict(element)
+        dict = Hash.new
+        key = nil
+        element.nodes.each do |n|
+          raise "A dict can only contain elements." unless n.is_a?(::Ox::Element)
+          key = n.name
+          dict[key] = node_to_value(n)
+          key = nil
+        end
+        dict
+      end
 
-        # Ensure a hit object is received. No hits, returns a newline.
-        # Note that checking to "\n" doesn't work since n[4] = ["\n"]
-        if n[4]==["\n"]
-          @queries[n[1]][:hits] = []
+      def node_to_value(node)
+        # Ensure that the recursion doesn't fails when String value is received.
+        if node.is_a?(String)
+          return node
+        end
+        if ['Parameters', 'BlastOutput_param', 'Iteration_stat', \
+            'Statistics', 'Hsp'].include? node.name
+          value = node_to_dict(node)
+        elsif ['Iteration_hits', 'BlastOutput_iterations', \
+               'Iteration', 'Hit', 'Hit_hsps'].include? node.name
+          value = node_to_array(node)
         else
-          n[4].each_with_index do |hits, j|
-            @queries[i][:hits].push(Hit.new(hits[0], hits[1], hits[2],\
-                                                     hits[3], hits[4], []))
-            hits[5].each_with_index do |hsp, k|
-              @queries[i][:hits][j][:hsps].push(HSP.new(*hits[5][k].values))
-            end
-          end
-          @queries[i].sort_by_evalue
+          value = first_text(node)
+        end
+        value
+      end
+
+      def first_text(node)
+        node.nodes.each do |n|
+          return n if n.is_a?(String)
+        end
+        nil
+      end
+    end
+
+    ERROR_LINE = /\(CArgException.*\)\s(.*)/
+
+    ALGORITHMS = %w|blastn blastp blastx tblastn tblastx|
+
+    def blast(params)
+      validate_blast_params params
+
+      # Compile parameters for BLAST search into a shell executable command.
+      #
+      # Blast method to use.
+      method  = params[:method]
+      #
+      # BLAST+ expects query sequence as a file.
+      qfile = Tempfile.new('sequenceserver_query')
+      qfile.puts(params[:sequence])
+      qfile.close
+      #
+      # Retrieve database file from database id.
+      database_ids   = params[:databases]
+      database_names = databases.values_at(*database_ids).map(&:name).join(' ')
+      #
+      # Concatenate other blast options.
+      options = params[:advanced] + defaults
+      #
+      # blastn implies blastn, not megablast; but let's not interfere if a user
+      # specifies `task` herself.
+      if method == 'blastn' and not options =~ /task/
+        options << ' -task blastn'
+      end
+
+      # Run BLAST search.
+      #
+      # Command to execute.
+      command = "#{method} -db '#{database_names}' -query '#{qfile.path}' #{options}"
+      #
+      # Debugging log.
+      log.debug("Executing: #{command}")
+      #
+      # Temporary files to capture stdout and stderr.
+      rfile = Tempfile.new('sequenceserver_blast_result')
+      efile = Tempfile.new('sequenceserver_blast_error')
+      [rfile, efile].each(&:close)
+      #
+      # Execute.
+      system("#{command} > #{rfile.path} 2> #{efile.path}")
+
+      # Capture error.
+      status = $?.exitstatus
+      case status
+      when 1 # error in query sequence or options; see [1]
+        efile.open
+
+        # Most of the time BLAST+ generates a verbose error message with
+        # details we don't require.  So we parse out the relevant lines.
+        error = efile.each_line do |l|
+          break Regexp.last_match[1] if l.match(ERROR_LINE)
+        end
+
+        # But sometimes BLAST+ returns the exact/relevant error message.
+        # Trying to parse such messages returns nil, and we use the error
+        # message from BLAST+ as it is.
+        error = efile.rewind && efile.read unless error.is_a? String
+
+        efile.close
+        raise ArgumentError.new(error)
+      when 2, 3, 4, 255 # see [1]
+        efile.open
+        error = efile.read
+        efile.close
+        raise RuntimeError.new(status, error)
+      end
+
+      # Report the results.
+      Report.new(rfile)
+    end
+
+    def validate_blast_params(params)
+      validate_blast_method    params[:method]
+      validate_blast_sequences params[:sequence]
+      validate_blast_databases params[:databases]
+      validate_blast_options   params[:advanced]
+    end
+
+    def defaults
+      "-outfmt 5 -num_threads #{num_threads}"
+    end
+
+    def validate_blast_method(method)
+      return true if ALGORITHMS.include? method
+      raise ArgumentError.new("BLAST algorithm should be one of:
+                              #{ALGORITHMS.join(', ')}.")
+    end
+
+    def validate_blast_sequences(sequences)
+      return true if sequences.is_a? String and not sequences.empty?
+      raise ArgumentError.new("Sequences should be a non-empty string.")
+    end
+
+    def validate_blast_databases(database_ids)
+      return true if (databases.keys & database_ids).length == database_ids.length
+      raise ArgumentError.new("Database id should be one of:
+                              #{databases.keys.join("\n")}.")
+    end
+
+    # Advanced options are specified by the user. Here they are checked for interference with SequenceServer operations.
+    # raise ArgumentError if an error has occurred, otherwise return without value
+    def validate_blast_options(options)
+      return true if options.empty?
+
+      unless options =~ /\A[a-z0-9\-_\. ']*\Z/i
+        raise ArgumentError.new("Invalid characters detected in options.")
+      end
+
+      disallowed_options = %w(-out -html -outfmt -db -query)
+      disallowed_options.each do |o|
+        if options =~ /#{o}/i
+          raise ArgumentError.new("Option \"#{o}\" is prohibited.")
         end
       end
     end
-
-    def execute(command)
-      rfile = Tempfile.new('sequenceserver_result')
-      efile = Tempfile.new('sequenceserver_error')
-      [rfile, efile].each {|file| file.close}
-
-      system("#{command} > #{rfile.path} 2> #{efile.path}")
-      status = $?.exitstatus
-
-      return File.read(rfile.path), File.read(efile.path), status
-    ensure
-      rfile.unlink
-      efile.unlink
-    end
-
-    def node_to_array(element)
-      a = Array.new
-      element.nodes.each do |n|
-        a.push(node_to_value(n))
-      end
-      a
-    end
-
-    def node_to_dict(element)
-      dict = Hash.new
-      key = nil
-      element.nodes.each do |n|
-        raise "A dict can only contain elements." unless n.is_a?(::Ox::Element)
-        key = n.name
-        dict[key] = node_to_value(n)
-        key = nil
-      end
-      dict
-    end
-
-    def node_to_value(node)
-      # Ensure that the recursion doesn't fails when String value is received.
-      if node.is_a?(String)
-        return node
-      end
-      if ['Parameters', 'BlastOutput_param', 'Iteration_stat', \
-          'Statistics', 'Hsp'].include? node.name
-        value = node_to_dict(node)
-      elsif ['Iteration_hits', 'BlastOutput_iterations', \
-             'Iteration', 'Hit', 'Hit_hsps'].include? node.name
-        value = node_to_array(node)
-      else
-        value = first_text(node)
-      end
-      value
-    end
-
-    def first_text(node)
-      node.nodes.each do |n|
-        return n if n.is_a?(String)
-      end
-      nil
-    end
   end
 end
+
+# References
+# ----------
+# [1]: http://www.ncbi.nlm.nih.gov/books/NBK1763/

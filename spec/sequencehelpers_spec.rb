@@ -54,20 +54,6 @@ describe 'Sequence helpers' do
   end
 end
 
-describe 'app tester' do
-  it 'test_process_advanced_blast_options' do
-    SequenceServer.init
-    app = SequenceServer::App.new!(SequenceServer.databases)
-
-    # Tests below fail by raising and error
-    app.validate_advanced_parameters('')
-    app.validate_advanced_parameters('-word_size 5')
-
-    expect {app.validate_advanced_parameters('-word_size 5; rm -rf /')}.to raise_error(ArgumentError)
-    expect {app.validate_advanced_parameters('-db roar')}.to raise_error(ArgumentError)
-  end
-end
-
 describe 'SystemHelpers' do
   it 'test_multipart_database_name?' do
     assert_equal true, SequenceServer.send(:multipart_database_name?, '/home/ben/pd.ben/sequenceserver/db/nr.00')

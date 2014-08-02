@@ -286,6 +286,7 @@ module SequenceServer
 
   class App < Sinatra::Base
     include SequenceHelpers
+    include Blast
 
     enable :logging
     set :root, SequenceServer.root
@@ -320,83 +321,10 @@ module SequenceServer
       erb :search, :locals => {:databases => databases.values.group_by(&:type)}
     end
 
-    before '/' do
-      pass if params.empty?
-
-      # ensure required params present
-      #
-      # If a required parameter is missing, SequnceServer returns 'Bad Request
-      # (400)' error.
-      #
-      # See Twitter's [Error Codes & Responses][1] page for reference.
-      #
-      # [1]: https://dev.twitter.com/docs/error-codes-responses
-
-      if params[:method].nil? or params[:method].empty?
-         halt 400, "No BLAST method provided."
-      end
-
-      if params[:sequence].nil? or params[:sequence].empty?
-         halt 400, "No input sequence provided."
-      end
-
-      if params[:databases].nil?
-         halt 400, "No BLAST database provided."
-      end
-
-      # ensure params are valid #
-
-      # only allowed blast methods should be used
-      blast_methods = %w|blastn blastp blastx tblastn tblastx|
-      unless blast_methods.include?(params[:method])
-        halt 400, "Unknown BLAST method: #{params[:method]}."
-      end
-
-      # check the advanced options are sensible
-      begin #FIXME
-        validate_advanced_parameters(params[:advanced])
-      rescue ArgumentError => error
-        halt 400, "Advanced parameters invalid: #{error}"
-      end
-
-      # log params
-      log.debug('method: '   + params[:method])
-      log.debug('sequence: ' + params[:sequence])
-      log.debug('database: ' + params[:databases].inspect)
-      log.debug('advanced: ' + params[:advanced])
-    end
-
     post '/' do
-      method        = params['method']
-      databases     = params[:databases]
-      sequence      = params[:sequence]
-      advanced_opts = params['advanced']
-
-      # evaluate empty sequence as nil, otherwise as fasta
-      sequence = sequence.empty? ? nil : sequence
-
-      # blastn implies blastn, not megablast; but let's not interfere if a user
-      # specifies `task` herself
-      if method == 'blastn' and not advanced_opts =~ /task/
-        advanced_opts << ' -task blastn '
-      end
-
-      databases = params[:databases].map{|index|
-        self.databases[index].name
-      }
-      advanced_opts << " -num_threads #{num_threads}"
-
-      # run blast and log
-      blast = Blast.new(method, sequence, databases.join(' '), advanced_opts)
-      blast.run!
-      blast.report!
-      log.info('Ran: ' + blast.command)
-
-      unless blast.success?
-        halt(*blast.error)
-      end
-
-      erb :result, :locals => {:result => blast.queries, :dbs => blast.querydb}
+      log.debug params
+      report = blast params
+      erb :result, :locals => {:result => report.queries, :dbs => report.querydb}
     end
 
     # get '/get_sequence/?id=sequence_ids&db=retreival_databases'
@@ -457,14 +385,9 @@ HEADER
       out
     end
 
-    # Advanced options are specified by the user. Here they are checked for interference with SequenceServer operations.
-    # raise ArgumentError if an error has occurred, otherwise return without value
-    def validate_advanced_parameters(advanced_options)
-      raise ArgumentError, "Invalid characters detected in the advanced options" unless advanced_options =~ /\A[a-z0-9\-_\. ']*\Z/i
-      disallowed_options = %w(-out -html -outfmt -db -query)
-      disallowed_options.each do |o|
-        raise ArgumentError, "The advanced BLAST option \"#{o}\" is used internally by SequenceServer and so cannot be specified by you" if advanced_options =~ /#{o}/i
-      end
+    error 400 do
+      error = env['sinatra.error']
+      erb :'400', :locals => {:error => error}
     end
   end
 end
