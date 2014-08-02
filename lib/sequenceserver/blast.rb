@@ -32,6 +32,10 @@ module SequenceServer
         super
       end
 
+      def sort_by_evalue
+        hits.sort_by!(&:evalue)
+      end
+
       attr_reader :id, :meta
     end
 
@@ -53,12 +57,14 @@ module SequenceServer
         self.hsps = args[5]
       end
 
+      # Hit evalue is the minimum evalue of all HSP(s).
       def evalue
         hsps.map(&:evalue).min
       end
 
+      # Hit score is the sum of bit scores of all HSP(s).
       def total_score
-        hsps.map(&:score).reduce(:+)
+        hsps.map(&:bit_score).reduce(:+)
       end
     end
 
@@ -72,7 +78,8 @@ module SequenceServer
         self.number = args[0].to_i
         self.bit_score = args[1].to_f.round(2)
         self.score = args[2].to_i
-        self.evalue = args[3].split('e').collect { |x| x.to_f.round(1) }.join('e')
+        # self.evalue = args[3].split('e').collect { |x| x.to_f.round(1) }.join('e').to_f
+        self.evalue = args[3].to_f
         self.qstart = args[4].to_i
         self.qend = args[5].to_i
         self.start = args[6].to_i
@@ -150,6 +157,7 @@ module SequenceServer
               @queries[i][:hits][j][:hsps].push(HSP.new(*hits[5][k].values))
             end
           end
+          @queries[i].sort_by_evalue
         end
       end
     end

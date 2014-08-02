@@ -53,23 +53,23 @@
             <div
               class="tabular-view text-monospace">
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                   <p> Sequences producing significant alignments: </p>
                 </div>
                 <div class="col-md-1"> Total Score </div>
-                <div class="col-md-1"> E value </div>
+                <div class="col-md-2"> E value </div>
                 <div class="col-md-2"> Accession </div>
               </div>
               <% query.hits.each do |hit| %>
                 <div class="row">
-                  <div class="col-md-8"> <%= "#{hit.id} #{hit.def}" %> </div>
+                  <div class="col-md-7"> <%= "#{hit.id} #{hit.def}" %> </div>
                   <div
                     class="col-md-1">
                     <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>">
                       <%= "#{hit.total_score}" %>
                     </a>
                   </div>
-                  <div class="col-md-1"> <%= "#{hit.evalue}" %> </div>
+                  <div class="col-md-2"> <%= "#{hit.evalue}" %> </div>
                   <div class="col-md-2"> <%= "#{hit.accession}" %> </div>
                 </div>
               <% end %>
@@ -143,6 +143,7 @@
                               <div class="col-md-1"> <%= hsp.start-60*(x+1)+1 %> </div>
                             <% end %>
                           </div>
+                          <br>
                         <% end %>
                       <% else %>
                         <div class="row alignment">
@@ -164,6 +165,7 @@
                           <div class="col-md-1"> <%= hsp.send %> </div>
                         </div>
                       <% end %>
+                      <br><br>
                     </div>
                     <% end %>
                 </div>
