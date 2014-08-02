@@ -31,7 +31,7 @@
 
                 query_len = $(this).data().queryLen;
                 width = $(this).width();
-                height = hits.length*(barheight + barpadding) + 4*margin + legend*2;
+                height = hits.length*(barheight + barpadding) + 5*margin + legend*3;
                 var graph_dom = $(this).children().eq(1).children().eq(0).after("<div class='graph'/>");
 
                 var svg = d3.select($(this).find('.graph')[0])
@@ -53,7 +53,7 @@
                             .append('g').attr('class', 'x axis')
                             .call(xAxis);
 
-                var y = d3.scale.ordinal().rangeBands([0,height-2*margin-2*legend], .5);
+                var y = d3.scale.ordinal().rangeBands([0,height-3*margin-2*legend], .5);
                 y.domain(hits.map( function(d, i) { return d.hitId; } ));
 
                 /* Kept for future.
@@ -63,7 +63,7 @@
                 */
                 var color2 = d3.scale.ordinal()
                                 .domain((hits.map( function(d) { return d.hitId; } )))
-                                .rangeBands([10,120], 0.5);
+                                .rangeBands([10,150], 0.5);
 
                 var t = svg.append('g').attr('transform', 'translate(0, '+(2*margin-legend)+')')
                     .selectAll('.hits')
@@ -96,23 +96,24 @@
                             .append('rect')
                             .attr('x', function(d) {
                                 if(d.hspFrame < 0)
-                                    return x(d.hspStart)+1;
+                                    return x(d.hspStart)+3;
                                 else
                                     return x(d.hspStart);
                             })
                             .attr('y', y(p_id))
                             .attr('width', function(d) {
-                                    return x(d.hspEnd - d.hspStart)-1;
+                                    return x(d.hspEnd - d.hspStart)-3;
                             })
                             .attr('height', barheight)
-                            .attr('fill', d3.rgb(0,0,255-color2(p_id)))
+                            .attr('fill', d3.rgb(color2(p_id),color2(p_id),color2(p_id)))
                                 /*function(d) {
                                 //return d3.rgb(0,0,color_hsp(d.hspId));
                                 return d3.rgb(0, 0, 255-y(d.hitId));
                             }) */
-                            .append('path')
+                            d3.select(this).append('path')
                             .attr('d', d3.svg.symbol().type('triangle-up').size(35))
-                            .attr('fill', d3.rgb(0,0,255-color2(p_id)))
+                            //.attr('fill', 'green')
+                            .attr('fill', d3.rgb(color2(p_id),color2(p_id),color2(p_id)))
                             .attr('transform', function(d, i) {
                                 // console.log(d.hitFrame);
                                 if(d.hspFrame > 0)
@@ -146,8 +147,8 @@
                     .attr('id', 'legend-grad')
                   .selectAll('stop')
                     .data([
-                        {offset: "0%", color: "black"},
-                        {offset: "100%", color: "blue"}
+                        {offset: "0%", color: "#eee"},
+                        {offset: "100%", color: "#333"}
                         ])
                   .enter().append('stop')
                     .attr('offset', function(d) { return d.offset })
