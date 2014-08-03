@@ -9,7 +9,7 @@
     class="col-md-3 index-container">
     <ul
       class="nav nav-stacked index">
-      <% result.each do |query| %>
+      <% report.queries.each do |query| %>
         <li>
           <a
             href="<%="#Query_#{query.number}"%>">
@@ -22,7 +22,7 @@
 
   <div
     class="col-md-9 result-container">
-    <% result.each do |query| %>
+    <% report.queries.each do |query| %>
       <div
           class="resultn" id="<%="Query_#{query.number}"%>" data-query-len="<%= query.len %>"
           data-graphit="overview">
@@ -42,7 +42,7 @@
             <div
               class="col-md-2 text-right">
               <a
-                href="<%= "/get_sequence/?id=#{query.hits.map(&:id).join(' ')}&db=#{dbs.split.join(' ')}" %>"
+                href="<%= "/get_sequence/?id=#{query.hits.map(&:id).join(' ')}&db=#{report.querydb.split.join(' ')}" %>"
                 class="link-fasta link-fasta-query">
                 [FASTA]
               </a>
@@ -106,7 +106,7 @@
                     <div
                       class="col-md-2 text-right">
                       <a
-                        href="<%= "/get_sequence/?id=#{hit.id}&db=#{dbs.split.join(' ')}" %>"
+                        href="<%= "/get_sequence/?id=#{hit.id}&db=#{report.querydb.split.join(' ')}" %>"
                         class="link-fasta link-fasta-hit">
                         [FASTA]
                       </a>
@@ -210,7 +210,7 @@
             <br>
             Effective search space used: <%= query.stats["Statistics_eff-space"] %>
             <br>
-            Databases: <%= dbs.split.map{|db| File.basename(db)}.join(', ') %>
+            Databases: <%= report.querydb.split.map{|db| File.basename(db)}.join(', ') %>
           </p>
         </div>
       </div>

@@ -317,8 +317,7 @@ module SequenceServer
 
     post '/' do
       log.debug params
-      report = blast params
-      erb :result, :locals => {:result => report.queries, :dbs => report.querydb}
+      erb :result, :locals => {:report => blast(params)}
     end
 
     # get '/get_sequence/?id=sequence_ids&db=retreival_databases[&download=true]'
