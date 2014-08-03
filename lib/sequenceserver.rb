@@ -317,7 +317,7 @@ module SequenceServer
 
     post '/' do
       log.debug params
-      erb :result, :locals => {:report => blast(params)}
+      erb :result, :locals => {:report => blast(params), :database_ids => params[:databases]}
     end
 
     # get '/get_sequence/?id=sequence_ids&db=retreival_databases[&download=true]'
@@ -327,10 +327,13 @@ module SequenceServer
     # database's name, so it's safe).
     get '/get_sequence/' do
       sequenceids = params[:id].split(/\s/)
-      retrieval_databases = params[:db].split(/\s/)
+      databaseids = params[:db].split(/\s/)
 
       # in a multi-blast query some may have been found multiply
       sequenceids.uniq!
+
+      # database ids -> databases
+      retrieval_databases = databases.values_at(*databaseids).map(&:name)
 
       log.info("Looking for: '#{sequenceids.join(', ')}' in '#{retrieval_databases.join(', ')}'")
 
@@ -351,6 +354,7 @@ module SequenceServer
       else
         erb :fasta, :locals => {:sequences => sequences,
                                 :sequenceids => sequenceids,
+                                :databaseids => databaseids,
                                 :retrieval_databases => retrieval_databases}
       end
     end
