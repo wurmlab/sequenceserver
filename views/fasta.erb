@@ -1,0 +1,78 @@
+<div
+  class="modal-dialog modal-lg">
+  <div
+    class="modal-content">
+    <div
+      class="modal-header">
+      <h3>View and Download FASTA Sequence(s)</h3>
+    </div>
+
+    <div
+      class="modal-body">
+      <%# check if we found right number of sequences %>
+      <% if sequences.length != sequenceids.length %>
+        <h4>
+          ERROR: incorrect number of sequences found.
+        </h4>
+
+        <p>
+          Dear user,
+        </p>
+
+        <p>
+          <strong>We have found
+            <em>
+              <%= sequences.length > sequenceids.length ? 'more' : 'less' %>
+            </em>
+            sequence than expected.
+          </strong>
+        </p>
+
+        <p>
+          This is likely due to a problem with how databases are formatted.
+          <strong>
+            Please share this text with the person managing this website so
+            they can resolve the issue.
+          </strong>
+        </p>
+
+        <p>
+          You requested <%= sequenceids.length %> sequence<%= sequenceids.length > 1 ? 's' : '' %>
+          with the following identifiers:
+          <code>
+            <%= sequenceids.join(', ') %>
+          </code>,
+          from the following databases:
+          <code>
+            <%= retrieval_databases.join(', ') %>
+          </code>.
+          But we found <%= sequences.length %> sequence<%= sequences.length> 1 ? 's' : ''%>.
+        </p>
+
+        <p>
+          If sequences were retrieved, you can find them below (but some may be incorrect, so be careful!).
+        </p>
+
+        <hr/>
+      <% end %>
+
+      <% sequences.each do |sequence| %>
+<pre class="pre-scrollable">
+<%= sequence %>
+</pre>
+<br>
+      <% end %>
+
+    </div>
+
+    <div
+      class="modal-footer">
+      <a
+        href="<%= "/get_sequence/?id=#{sequenceids.join(' ')}&db=#{retrieval_databases.join(' ')}&download=true" %>"
+        class="btn btn-default">
+        <i class="fa fa-download"></i>
+        Download
+      </a>
+    </div>
+  </div>
+</div>

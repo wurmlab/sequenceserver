@@ -145,6 +145,18 @@ span.highlight {
   border-left: 4px #eee solid;
 }
 
+a.link-fasta {
+  display: block;
+}
+
+a.link-fasta-hit {
+  margin: 10px 0px;
+}
+
+a.link-fasta-query {
+  margin: 20px 0px;
+}
+
 .footer a:first-child {
   vertical-align: super;
 }

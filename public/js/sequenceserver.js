@@ -284,6 +284,18 @@ $(document).ready(function(){
 
                     return false;
                 });
+
+                $('a.link-fasta')
+                .on('click', function (event) {
+                    event.preventDefault();
+                    var clicked = $(event.target);
+
+                    var url = clicked.attr('href');
+                    $.get(url)
+                    .done(function (sequences) {
+                        $('#fasta').html(sequences).modal();
+                    });
+                });
         }).
           fail(function (jqXHR, status, error) {
             //alert user

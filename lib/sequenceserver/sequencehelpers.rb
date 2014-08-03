@@ -55,17 +55,18 @@ module SequenceServer
       end
     end
 
-    def sequence_from_blastdb(ids, db)  # helpful when displaying parsed blast results
-      # we know how to handle an Array of ids
+    def sequence_from_blastdb(ids, dbs)
+      # we know how to handle an Array of ids and Array of dbs
       ids = ids.join(',') if ids.is_a? Array
+      dbs = dbs.join(',') if dbs.is_a? Array
 
       # we don't know what to do if the arguments ain't String
-      raise TypeError unless ids.is_a? String and db.is_a? String
+      raise TypeError unless ids.is_a? String and dbs.is_a? String
 
       # query now!
       #
       # If `blastdbcmd` throws error, we assume sequence not found.
-      %x|blastdbcmd -db #{db} -entry '#{ids}' 2> /dev/null|
+      %x|blastdbcmd -db #{dbs} -entry '#{ids}' 2> /dev/null|
     end
   end
 end

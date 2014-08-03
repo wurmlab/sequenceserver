@@ -321,62 +321,39 @@ module SequenceServer
       erb :result, :locals => {:result => report.queries, :dbs => report.querydb}
     end
 
-    # get '/get_sequence/?id=sequence_ids&db=retreival_databases'
+    # get '/get_sequence/?id=sequence_ids&db=retreival_databases[&download=true]'
     #
     # Use whitespace to separate entries in sequence_ids (all other chars exist
     # in identifiers) and retreival_databases (we don't allow whitespace in a
     # database's name, so it's safe).
     get '/get_sequence/' do
-      sequenceids = params[:id].split(/\s/).uniq  # in a multi-blast
-      # query some may have been found multiply
+      sequenceids = params[:id].split(/\s/)
       retrieval_databases = params[:db].split(/\s/)
+
+      # in a multi-blast query some may have been found multiply
+      sequenceids.uniq!
 
       log.info("Looking for: '#{sequenceids.join(', ')}' in '#{retrieval_databases.join(', ')}'")
 
-      # the results do not indicate which database a hit is from.
-      # Thus if several databases were used for blasting, we must check them all
-      # if it works, refactor with "inject" or "collect"?
-      found_sequences     = ''
+      # The results do not indicate which database a hit is from. Thus if
+      # several databases were used for blasting, we must check them all.
+      sequences = sequenceids.map do |sequenceid|
+        sequence_from_blastdb(sequenceid, retrieval_databases)
+      end
 
-      retrieval_databases.each do |database|     # we need to populate this session variable from the erb.
-        sequence = sequence_from_blastdb(sequenceids, database)
-        if sequence.empty?
-          log.debug("'#{sequenceids.join(', ')}' not found in #{database}")
-        else
-          found_sequences += sequence
+      if params[:download]
+        download_name = "sequenceserver_#{sequenceids.first}.fa.txt"
+        file = Tempfile.open(download_name) do |f|
+          f.puts sequences
+          f
         end
+
+        send_file file.path, :filename => download_name
+      else
+        erb :fasta, :locals => {:sequences => sequences,
+                                :sequenceids => sequenceids,
+                                :retrieval_databases => retrieval_databases}
       end
-
-      found_sequences_count = found_sequences.count('>')
-
-      out = ''
-      # just in case, checking we found right number of sequences
-      if found_sequences_count != sequenceids.length
-        out << <<HEADER
-<h1>ERROR: incorrect number of sequences found.</h1>
-<p>Dear user,</p>
-
-<p><strong>We have found
-<em>#{found_sequences_count > sequenceids.length ? 'more' : 'less'}</em>
-sequence than expected.</strong></p>
-
-<p>This is likely due to a problem with how databases are formatted.
-<strong>Please share this text with the person managing this website so
-they can resolve the issue.</strong></p>
-
-<p> You requested #{sequenceids.length} sequence#{sequenceids.length > 1 ? 's' : ''}
-with the following identifiers: <code>#{sequenceids.join(', ')}</code>,
-from the following databases: <code>#{retrieval_databases.join(', ')}</code>.
-But we found #{found_sequences_count} sequence#{found_sequences_count> 1 ? 's' : ''}.
-</p>
-
-<p>If sequences were retrieved, you can find them below (but some may be incorrect, so be careful!).</p>
-<hr/>
-HEADER
-      end
-
-      out << "<pre><code>#{found_sequences}</pre></code>"
-      out
     end
 
     error 400 do
