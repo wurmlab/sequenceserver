@@ -106,7 +106,7 @@ module SequenceServer
       def initialize(*args)
         super(*args)
         self.number = args[0].to_i
-        self.bit_score = args[1].to_f.round(2)
+        self.bit_score = args[1].to_f
         self.score = args[2].to_i
         # self.evalue = args[3].split('e').collect { |x| x.to_f.round(1) }.join('e').to_f
         self.evalue = args[3].to_f
