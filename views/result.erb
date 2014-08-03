@@ -53,22 +53,22 @@
             <div
               class="tabular-view text-monospace">
               <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                   <p> Sequences producing significant alignments: </p>
                 </div>
-                <div class="col-md-2"> Total Score </div>
-                <div class="col-md-2"> E value </div>
+                <div class="col-md-2 text-right"> Total Score </div>
+                <div class="col-md-3 text-right"> E value </div>
               </div>
               <% query.hits.each do |hit| %>
                 <div class="row">
-                  <div class="col-md-8"> <%= "#{hit.id}" %> </div>
+                  <div class="col-md-7"> <%= "#{hit.id}" %> </div>
                   <div
-                    class="col-md-2">
+                    class="col-md-2 text-right">
                     <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>">
                       <%= "#{hit.total_score.round(2)}" %>
                     </a>
                   </div>
-                  <div class="col-md-2"> <%= "#{hit.evalue}" %> </div>
+                  <div class="col-md-3 text-right"> <%= hit.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %> </div>
                 </div>
               <% end %>
             </div>
