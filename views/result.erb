@@ -6,7 +6,7 @@
 <div
   class="row">
   <div
-    class="col-md-3 index-container">
+    class="col-md-3">
     <ul
       class="nav nav-stacked index">
       <% report.queries.each do |query| %>
@@ -21,7 +21,7 @@
   </div>
 
   <div
-    class="col-md-9 result-container">
+    class="col-md-9">
     <% report.queries.each do |query| %>
       <div
           class="resultn" id="<%="Query_#{query.number}"%>" data-query-len="<%= query.len %>"

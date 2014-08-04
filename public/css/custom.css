@@ -116,6 +116,7 @@ span.highlight {
 }
 
 .index {
+  max-height: 416px; /* will accomodate 10 elements. IE 7 and above only. */
   overflow-y: auto;
 }
 

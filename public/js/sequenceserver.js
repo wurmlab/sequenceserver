@@ -252,14 +252,13 @@ $(document).ready(function(){
             $('.result').html(data).show();
 
             // affix the index
-            var index_offset_top = $('.index-container').offset().top;
-            $('.index').affix({
+            var $index = $('.index');
+            $index.affix({
                 offset: {
-                    top: index_offset_top
+                    top: $index.offset().top
                 }
             })
-            .height($(window).height())
-            .width($('.index').width());
+            .width($index.width());
 
             //jump to the results
             location.hash = hash;
