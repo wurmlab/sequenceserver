@@ -123,7 +123,7 @@ span.highlight {
   color: #999;
 }
 
-.resultn > .page-header, .resultn > .page-header > h3 {
+.resultn > .page-header, .resultn > .page-header > h3, .fastan:first-child > .page-header {
   margin-top: 0px;
 }
 

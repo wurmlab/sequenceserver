@@ -1,6 +1,8 @@
 require 'tempfile'
 require 'ox'
 
+require 'sequenceserver/sequence'
+
 module SequenceServer
 
   # Simple wrapper around BLAST+ CLI (command line interface), intended to be
@@ -284,6 +286,39 @@ module SequenceServer
 
       # Report the results.
       Report.new(rfile)
+    end
+
+    # Returns an Array of SequenceServer::Sequence objects capturing the
+    # sequences fetched from BLAST database and an Array of absolute path
+    # to BLAST databases from which the sequences were fetched.
+    #
+    # FIXME: Reconsider if databases should be returned.
+    def sequences_from_blastdb(sequence_ids, database_ids)
+      sequence_ids   = sequence_ids.join(',')
+      database_names = databases.values_at(*database_ids).map(&:name).join(',')
+
+      # Fetch sequences from BLAST db.
+      #
+      # Command to execute.
+      # NOTE: tabs in the command below are intentional.
+      command = "blastdbcmd -db #{database_names} -entry '#{sequence_ids}' -outfmt '%a	%t	%s'"
+      #
+      # Debugging log.
+      log.debug("Executing: #{command}")
+      #
+      # Execute.
+      #
+      # If `blastdbcmd` throws error, we assume sequence not found.
+      output = `#{command} 2> /dev/null`
+      #
+      # Parse.
+      sequences = []
+      output.each_line do |line|
+        # NOTE: yes, we are splitting on a tab.
+        sequences << Sequence.new(*line.split('	'))
+      end
+
+      [sequences, database_names]
     end
 
     def validate_blast_params(params)

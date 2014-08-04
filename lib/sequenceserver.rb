@@ -3,9 +3,9 @@ require 'sinatra/base'
 require 'yaml'
 require 'logger'
 require 'fileutils'
+require 'sequenceserver/sequence'
 require 'sequenceserver/database'
 require 'sequenceserver/blast'
-require 'sequenceserver/sequencehelpers'
 require 'sequenceserver/sinatralikeloggerformatter'
 
 # Helper module - initialize the blast server.
@@ -285,7 +285,7 @@ module SequenceServer
   end
 
   class App < Sinatra::Base
-    include SequenceHelpers
+
     include Blast
 
     enable :logging
@@ -320,42 +320,33 @@ module SequenceServer
       erb :result, :locals => {:report => blast(params), :database_ids => params[:databases]}
     end
 
-    # get '/get_sequence/?id=sequence_ids&db=retreival_databases[&download=true]'
+    # get '/get_sequence/?sequence_ids=sequence_ids&database_ids=retreival_databases[&download=fasta]'
     #
     # Use whitespace to separate entries in sequence_ids (all other chars exist
     # in identifiers) and retreival_databases (we don't allow whitespace in a
     # database's name, so it's safe).
     get '/get_sequence/' do
-      sequenceids = params[:id].split(/\s/)
-      databaseids = params[:db].split(/\s/)
+      log.debug params
 
-      # in a multi-blast query some may have been found multiply
-      sequenceids.uniq!
+      sequence_ids = params[:sequence_ids].split(/\s/)
+      database_ids = params[:database_ids].split(/\s/)
 
-      # database ids -> databases
-      retrieval_databases = databases.values_at(*databaseids).map(&:name)
+      sequences, database_names = sequences_from_blastdb(sequence_ids, database_ids)
 
-      log.info("Looking for: '#{sequenceids.join(', ')}' in '#{retrieval_databases.join(', ')}'")
-
-      # The results do not indicate which database a hit is from. Thus if
-      # several databases were used for blasting, we must check them all.
-      sequences = sequenceids.map do |sequenceid|
-        sequence_from_blastdb(sequenceid, retrieval_databases)
-      end
-
-      if params[:download]
-        download_name = "sequenceserver_#{sequenceids.first}.fa.txt"
+      if format = params[:download]
+        download_name = "sequenceserver_#{sequence_ids.first}.fa.txt"
         file = Tempfile.open(download_name) do |f|
-          f.puts sequences
+          sequences.each do |sequence|
+            f.puts sequence.send(format)
+          end
           f
         end
-
         send_file file.path, :filename => download_name
       else
         erb :fasta, :locals => {:sequences => sequences,
-                                :sequenceids => sequenceids,
-                                :databaseids => databaseids,
-                                :retrieval_databases => retrieval_databases}
+                                :sequence_ids => sequence_ids,
+                                :database_names => database_names,
+                                :database_ids => database_ids}
       end
     end
 

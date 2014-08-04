@@ -294,6 +294,15 @@ $(document).ready(function(){
                     $.get(url)
                     .done(function (sequences) {
                         $('#fasta').html(sequences).modal();
+                    })
+                    .fail(function (jqXHR, status, error) {
+                        //alert user
+                        if (jqXHR.responseText) {
+                            $("#error").html(jqXHR.responseText).modal();
+                        }
+                        else {
+                            $("#error-no-response").modal();
+                        }
                     });
                 });
         }).

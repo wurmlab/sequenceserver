@@ -4,13 +4,13 @@
     class="modal-content">
     <div
       class="modal-header">
-      <h3>View and Download FASTA Sequence(s)</h3>
+      <h3>View and download FASTA sequence(s)</h3>
     </div>
 
     <div
       class="modal-body">
       <%# check if we found right number of sequences %>
-      <% if sequences.length != sequenceids.length %>
+      <% if sequences.length != sequence_ids.length %>
         <h4>
           ERROR: incorrect number of sequences found.
         </h4>
@@ -22,7 +22,7 @@
         <p>
           <strong>We have found
             <em>
-              <%= sequences.length > sequenceids.length ? 'more' : 'less' %>
+              <%= sequences.length > sequence_ids.length ? 'more' : 'less' %>
             </em>
             sequence than expected.
           </strong>
@@ -37,15 +37,19 @@
         </p>
 
         <p>
-          You requested <%= sequenceids.length %> sequence<%= sequenceids.length > 1 ? 's' : '' %>
+          You requested <%= sequence_ids.length %> sequence<%= sequence_ids.length > 1 ? 's' : '' %>
           with the following identifiers:
+          <br>
           <code>
-            <%= sequenceids.join(', ') %>
+            <%= sequence_ids.join(', ') %>
           </code>,
+          <br>
           from the following databases:
+          <br>
           <code>
-            <%= retrieval_databases.join(', ') %>
+            <%= database_names %>
           </code>.
+          <br>
           But we found <%= sequences.length %> sequence<%= sequences.length> 1 ? 's' : ''%>.
         </p>
 
@@ -57,18 +61,29 @@
       <% end %>
 
       <% sequences.each do |sequence| %>
-<pre class="pre-scrollable">
-<%= sequence %>
-</pre>
-<br>
+        <div
+          class="fastan">
+          <div
+            class="page-header">
+            <h4>
+              <%= sequence.accession %>
+              <small>
+                <%= sequence.title %>
+              </small>
+            </h4>
+          </div>
+          <pre
+            class="pre-scrollable">
+<%= sequence.genbank %>
+          </pre>
+        </div>
       <% end %>
-
     </div>
 
     <div
       class="modal-footer">
       <a
-        href="<%= "/get_sequence/?id=#{sequenceids.join(' ')}&db=#{databaseids.join(' ')}&download=true" %>"
+        href="<%= "/get_sequence/?sequence_ids=#{sequence_ids.join(' ')}&database_ids=#{database_ids.join(' ')}&download=fasta" %>"
         class="btn btn-default">
         <i class="fa fa-download"></i>
         Download

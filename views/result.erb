@@ -42,7 +42,7 @@
             <div
               class="col-md-2 text-right">
               <a
-                href="<%= "/get_sequence/?id=#{query.hits.map(&:id).join(' ')}&db=#{database_ids.join(' ')}" %>"
+                href="<%= "/get_sequence/?sequence_ids=#{query.hits.map(&:id).join(' ')}&database_ids=#{database_ids.join(' ')}" %>"
                 class="link-fasta link-fasta-query">
                 [FASTA]
               </a>
@@ -106,7 +106,7 @@
                     <div
                       class="col-md-2 text-right">
                       <a
-                        href="<%= "/get_sequence/?id=#{hit.id}&db=#{database_ids.join(' ')}" %>"
+                        href="<%= "/get_sequence/?sequence_ids=#{hit.id}&database_ids=#{database_ids.join(' ')}" %>"
                         class="link-fasta link-fasta-hit">
                         [FASTA]
                       </a>
