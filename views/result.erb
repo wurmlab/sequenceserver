@@ -136,8 +136,8 @@
                         <div class="col-md-2"> Strand </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-2"> <%= hsp.bit_score %> (<%= hsp.score %>)</div>
-                        <div class="col-md-2"> <%= hsp.evalue %></div>
+                        <div class="col-md-2"> <%= hsp.bit_score.round(2) %> (<%= hsp.score %>)</div>
+                        <div class="col-md-2"> <%= hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %></div>
                         <div class="col-md-2"> <%= hsp.identity%>/<%= hsp.len %></div>
                         <div class="col-md-2"> <%= hsp.positives %>/<%= hsp.len %></div>
                         <div class="col-md-2"> <%= hsp.gaps %>/<%= hsp.len %></div>

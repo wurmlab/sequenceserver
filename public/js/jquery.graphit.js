@@ -157,6 +157,3 @@
         }
     });
 }( jQuery ));
-
-
-$('#blast').submit($.draw());
