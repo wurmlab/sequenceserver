@@ -89,6 +89,8 @@ module SequenceServer
         self.hsps = args[5]
       end
 
+      alias length len
+
       # Hit evalue is the minimum evalue of all HSP(s).
       def evalue
         hsps.map(&:evalue).min
@@ -126,6 +128,8 @@ module SequenceServer
         self.hseq = args[15]
         self.midline = args[16]
       end
+
+      alias length len
     end
 
     # Captures BLAST results.
