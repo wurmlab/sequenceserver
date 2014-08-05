@@ -84,7 +84,7 @@
       class="modal-footer">
       <a
         href="<%= "/get_sequence/?sequence_ids=#{sequence_ids.join(' ')}&database_ids=#{database_ids.join(' ')}&download=fasta" %>"
-        class="btn btn-default">
+        class="btn btn-default" <%= "disabled='true'" if sequences.length < 1 %>>
         <i class="fa fa-download"></i>
         Download
       </a>
