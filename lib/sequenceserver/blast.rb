@@ -64,8 +64,8 @@ module SequenceServer
         super
       end
 
-      def sort_by_evalue
-        hits.sort_by!(&:evalue)
+      def sort_hits_by_evalue!
+        @hits = hits.sort_by(&:evalue)
       end
 
       attr_reader :id, :meta
@@ -160,7 +160,7 @@ module SequenceServer
                 @queries[i][:hits][j][:hsps].push(HSP.new(*hits[5][k].values))
               end
             end
-            @queries[i].sort_by_evalue
+            @queries[i].sort_hits_by_evalue!
           end
         end
       end
