@@ -4,7 +4,6 @@
 # TODO: move the file to a 'command/' sub-directory (probably makes more sense if we have several subcommands)
 # TODO: needs more love (read refactoring) overall
 
-require 'ptools' # for File.binary?(file)
 require 'find'
 require 'logger'
 require 'optparse'
@@ -41,10 +40,6 @@ module SequenceServer
         end
         if formatted_dbs.include?(file)
           LOG.debug("Ignoring file #{file} since it is already a blast database")
-          next
-        end
-        if File.binary?(file)
-          LOG.debug("Ignoring file #{file} since it is a binary file, not plaintext as FASTA files are")
           next
         end
 
