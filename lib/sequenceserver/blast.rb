@@ -9,9 +9,10 @@ module SequenceServer
   # mixed into SequenceServer::App.
   #
   # `Blast::ArgumentError` and `Blast::RuntimeError` signal errors encountered
-  # when attempting a BLAST search.  The error classes define `code` instance
-  # method which returns the equivalent HTTP status code, and is used by
-  # Sinatra to dispatch appropriate error handlers to fulfill an HTTP request.
+  # when attempting a BLAST search.  The error classes define `http_status`
+  # instance method which returns the equivalent HTTP status code, and is used
+  # by Sinatra to dispatch appropriate error handlers to fulfill an HTTP
+  # request.
   module Blast
 
     # To signal error in query sequence or options.
@@ -21,7 +22,7 @@ module SequenceServer
 
       # Instruct Sinatra to treat this exception object as HTTP BadRequest
       # (400).
-      def code
+      def http_status
         400
       end
     end
@@ -42,7 +43,7 @@ module SequenceServer
 
       # Instruct Sinatra to treat this exception object as HTTP
       # InternalServerError (500).
-      def code
+      def http_status
         500
       end
 
