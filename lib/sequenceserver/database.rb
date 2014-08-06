@@ -1,7 +1,12 @@
 require 'digest/md5'
 
 module SequenceServer
-  class Database < Struct.new("Database", :name, :title, :type)
+
+  # Captures a BLAST database.
+  # @member [String]     name
+  # @member [String]     title
+  # @member [String]     type
+  Database = Struct.new(:name, :title, :type) do
     def to_s
       "#{type}: #{title} #{name}"
     end
