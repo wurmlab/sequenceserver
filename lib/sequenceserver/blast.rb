@@ -238,7 +238,7 @@ module SequenceServer
       database_names = databases.values_at(*database_ids).map(&:name).join(' ')
       #
       # Concatenate other blast options.
-      options = params[:advanced] + defaults
+      options = params[:advanced].to_s.strip + defaults
       #
       # blastn implies blastn, not megablast; but let's not interfere if a user
       # specifies `task` herself.
@@ -333,7 +333,7 @@ module SequenceServer
     end
 
     def defaults
-      "-outfmt 5 -num_threads #{num_threads}"
+      " -outfmt 5 -num_threads #{num_threads}"
     end
 
     def validate_blast_method(method)
@@ -348,7 +348,8 @@ module SequenceServer
     end
 
     def validate_blast_databases(database_ids)
-      return true if (databases.keys & database_ids).length == database_ids.length
+      return true if database_ids.is_a?(Array) && !database_ids.empty? &&
+        (databases.keys & database_ids).length == database_ids.length
       raise ArgumentError.new("Database id should be one of:
                               #{databases.keys.join("\n")}.")
     end
@@ -356,7 +357,7 @@ module SequenceServer
     # Advanced options are specified by the user. Here they are checked for interference with SequenceServer operations.
     # raise ArgumentError if an error has occurred, otherwise return without value
     def validate_blast_options(options)
-      return true if options.empty?
+      return true if !options || (options.is_a?(String) && options.strip.empty?)
 
       unless options =~ /\A[a-z0-9\-_\. ']*\Z/i
         raise ArgumentError.new("Invalid characters detected in options.")
