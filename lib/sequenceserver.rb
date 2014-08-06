@@ -90,7 +90,8 @@ module SequenceServer
 
     @app = App.new(databases)
 
-    @num_threads = Integer(config.delete 'num_threads') rescue 1
+    @num_threads = config.delete('num_threads') || 1
+    assert_num_threads_valid @num_threads
     logger.info("Will use #@num_threads threads to run BLAST.")
 
     port config.delete 'port'
@@ -200,6 +201,17 @@ module SequenceServer
       puts "*** Couldn't find #{blast_database_directory}."
       puts "    Typo in #{config_file}?"
       exit
+    end
+  end
+
+  def assert_num_threads_valid num_threads
+    unless num_threads > 0
+      puts "*** Can't use #{num_threads} number of threads."
+      puts "    Number of threads should be greater than or equal to 1."
+      exit
+    end
+    if num_threads > 256
+      logger.warn "*** Number of threads set at #{num_threads} is unusually high."
     end
   end
 
