@@ -80,7 +80,7 @@
                   <div
                     class="col-md-2 text-right">
                     <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>">
-                      <%= '%.2f' % hit.total_score %>
+                      <%= '%.2f' % hit.score %>
                     </a>
                   </div>
                   <div class="col-md-3 text-right"> <%= hit.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %> </div>

@@ -81,13 +81,10 @@ module SequenceServer
     # @member [HSP]        hsp
     Hit = Struct.new(:number, :id, :def, :accession, :len, :hsps) do
       def initialize(*args)
-        super(*args)
-        self.number = args[0].to_i
-        self.id = args[1]
-        self.def = args[2]
-        self.accession = args[3]
-        self.len = args[4].to_i
-        self.hsps = args[5]
+        args[0] = args[0].to_i
+        args[2] = '' if args[2] == 'No definition line'
+        args[4] = args[4].to_i
+        super
       end
 
       alias length len
@@ -98,7 +95,7 @@ module SequenceServer
       end
 
       # Hit score is the sum of bit scores of all HSP(s).
-      def total_score
+      def score
         hsps.map(&:bit_score).reduce(:+)
       end
     end
