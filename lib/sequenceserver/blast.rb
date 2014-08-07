@@ -102,29 +102,23 @@ module SequenceServer
 
     # Structure to hold the HSP information about each hit.
     # More information about values can be found at NCBI's BLAST manual page.
-    HSP = Struct.new(:number, :bit_score, :score, :evalue, :qstart, :qend, :start, \
-                     :send, :qframe, :hframe, :identity, :positives, :gaps, :len, \
+    HSP = Struct.new(:number, :bit_score, :score, :evalue, :qstart, :qend, :start,
+                     :send, :qframe, :hframe, :identity, :positives, :gaps, :len,
                      :qseq, :hseq, :midline) do
+
+      INTEGER_ARGS = [0, 2].concat (4..13).to_a
+      FLOAT_ARGS   = [1, 3]
+
       def initialize(*args)
-        super(*args)
-        self.number = args[0].to_i
-        self.bit_score = args[1].to_f
-        self.score = args[2].to_i
-        # self.evalue = args[3].split('e').collect { |x| x.to_f.round(1) }.join('e').to_f
-        self.evalue = args[3].to_f
-        self.qstart = args[4].to_i
-        self.qend = args[5].to_i
-        self.start = args[6].to_i
-        self.send = args[7].to_i
-        self.qframe = args[8].to_i
-        self.hframe = args[9].to_i
-        self.identity = args[10].to_i
-        self.positives = args[11].to_i
-        self.gaps = args[12].to_i
-        self.len = args[13].to_i
-        self.qseq = args[14]
-        self.hseq = args[15]
-        self.midline = args[16]
+        INTEGER_ARGS.each do |i|
+          args[i] = args[i].to_i
+        end
+
+        FLOAT_ARGS.each do |i|
+          args[i] = args[i].to_f
+        end
+
+        super
       end
 
       alias length len
