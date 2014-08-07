@@ -130,18 +130,18 @@
                       <div class="row">
                         <div class="col-md-2"> Score </div>
                         <div class="col-md-2"> Expect </div>
-                        <div class="col-md-2"> Identities </div>
+                        <div class="col-md-3"> Identities </div>
                         <div class="col-md-2"> Positives </div>
                         <div class="col-md-2"> Gaps </div>
-                        <div class="col-md-2"> Strand </div>
+                        <div class="col-md-1"> Strand </div>
                       </div>
                       <div class="row">
                         <div class="col-md-2"> <%= '%.2f' % hsp.bit_score %> (<%= hsp.score %>)</div>
                         <div class="col-md-2"> <%= hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %></div>
-                        <div class="col-md-2"> <%= hsp.identity%>/<%= hsp.len %></div>
-                        <div class="col-md-2"> <%= hsp.positives %>/<%= hsp.len %></div>
-                        <div class="col-md-2"> <%= hsp.gaps %>/<%= hsp.len %></div>
-                        <div class="col-md-2"> (<%= hsp.qframe>0?"Plus":"Minus"%>/<%= hsp.hframe>0?"Plus":"Minus"%>)</div>
+                        <div class="col-md-3"> <%= "#{hsp.identity_fraction} (#{'%.2f%' % hsp.identity_percentage})" %></div>
+                        <div class="col-md-2"> <%= "#{hsp.positives_fraction} (#{'%.2f%' % hsp.positives_percentage})" %></div>
+                        <div class="col-md-2"> <%= "#{hsp.gaps_fraction} (#{'%.2f%' % hsp.gaps_percentage})" %></div>
+                        <div class="col-md-1"> (<%= hsp.qframe>0?"Plus":"Minus"%>/<%= hsp.hframe>0?"Plus":"Minus"%>)</div>
                       </div>
                       <br>
                       <% if hsp.len > 60 %>

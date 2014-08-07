@@ -123,6 +123,30 @@ module SequenceServer
       end
 
       alias length len
+
+      def identity_fraction
+        "#{identity}/#{length}"
+      end
+
+      def positives_fraction
+        "#{positives}/#{length}"
+      end
+
+      def gaps_fraction
+        "#{gaps}/#{length}"
+      end
+
+      def identity_percentage
+        identity * 100.0 / length
+      end
+
+      def positives_percentage
+        positives * 100.0 / length
+      end
+
+      def gaps_percentage
+        gaps * 100.0 / length
+      end
     end
 
     # Captures BLAST results.
