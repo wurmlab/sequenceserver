@@ -172,3 +172,20 @@ a.link-fasta-query {
     stroke: #000;
     shape-rendering: crispEdges;
 }
+
+/* Override/extend tablesorter */
+
+.tablesorter-default {
+    font-family: monospace;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.tablesorter-default th,
+.tablesorter-default thead td{
+    border-bottom: none;
+}
+
+.tablesorter-default td {
+    border-bottom: none;
+}

@@ -65,28 +65,23 @@
               <strong> <%= "****** No hits found ******" %> </strong>
             </p>
           <% else %>
-            <div
-              class="tabular-view text-monospace">
-              <div class="row">
-                <div class="col-md-7">
-                  <p> Sequences producing significant alignments: </p>
-                </div>
-                <div class="col-md-2 text-right"> Total Score </div>
-                <div class="col-md-3 text-right"> E value </div>
-              </div>
+            <table data-table="view"
+              class="tablesorter text-monospace">
+              <thead>
+                <th> Sequences producing significant alignments: </th>
+                <th> Total Score </th>
+                <th> E value </th>
+              </thead>
+              <tbody>
               <% query.hits.each do |hit| %>
-                <div class="row">
-                  <div class="col-md-7"> <%= "#{hit.id}" %> </div>
-                  <div
-                    class="col-md-2 text-right">
-                    <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>">
-                      <%= '%.2f' % hit.score %>
-                    </a>
-                  </div>
-                  <div class="col-md-3 text-right"> <%= hit.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %> </div>
-                </div>
+                <tr>
+                  <td> <%= "#{hit.id}" %> </td>
+                  <td class="text-right"> <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>"> <%= '%.2f' % hit.score %> </a> </td>
+                  <td class="text-right"> <%= hit.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %> </td>
+                </tr>
               <% end %>
-            </div>
+              </tbody>
+            </table>
             <% query.hits.each do |hit| %>
               <div
                 class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>">
@@ -141,7 +136,7 @@
                         <div class="col-md-3"> <%= "#{hsp.identity_fraction} (#{'%.2f%' % hsp.identity_percentage})" %></div>
                         <div class="col-md-2"> <%= "#{hsp.positives_fraction} (#{'%.2f%' % hsp.positives_percentage})" %></div>
                         <div class="col-md-2"> <%= "#{hsp.gaps_fraction} (#{'%.2f%' % hsp.gaps_percentage})" %></div>
-                        <div class="col-md-1"> (<%= hsp.qframe>0?"Plus":"Minus"%>/<%= hsp.hframe>0?"Plus":"Minus"%>)</div>
+                        <div class="col-md-1"> (<%= hsp.qframe>0?"+":"-"%>/<%= hsp.hframe>0?"+":"-"%>)</div>
                       </div>
                       <br>
                       <% if hsp.len > 60 %>
