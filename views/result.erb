@@ -149,7 +149,7 @@
                             <div class="col-md-1"> Query </div>
                             <div class="col-md-1 text-right"> <%= hsp.qstart+60*x %> </div>
                             <div class="col-md-8"> <%= hsp.qseq[60*x,60] %> </div>
-                            <div class="col-md-1 text-right"> <%= hsp.qstart+60*(x+1)-1 > hsp.qend ? hsp.qend : hsp.qstart+60*(x+1) %> </div>
+                            <div class="col-md-1 text-right"> <%= hsp.qstart+60*(x+1)-1 > hsp.qend ? hsp.qend : hsp.qstart+60*(x+1)-1 %> </div>
                           </div>
                           <div class="row alignment">
                             <div class="col-md-1"></div>
@@ -162,11 +162,11 @@
                             <% if hsp.hframe > 0 %>
                               <div class="col-md-1 text-right"> <%= hsp.start+60*x %> </div>
                               <div class="col-md-8"> <%= hsp.hseq[60*x, 60] %> </div>
-                              <div class="col-md-1 text-right"> <%= hsp.start+60*(x+1)-1 > hsp.send ? hsp.send : hsp.start+60*(x+1) %> </div>
+                              <div class="col-md-1 text-right"> <%= hsp.start+60*(x+1)-1 > hsp.send ? hsp.send : hsp.start+60*(x+1)-1 %> </div>
                             <% else %>
                               <div class="col-md-1 text-right"> <%= hsp.start+60*x %> </div>
                               <div class="col-md-8"> <%= hsp.hseq[60*x, 60] %> </div>
-                              <div class="col-md-1 text-right"> <%= hsp.start-60*(x+1)+1 < hsp.send ? hsp.send : hsp.start-60*(x+1) %> </div>
+                              <div class="col-md-1 text-right"> <%= hsp.start-60*(x+1)+1 < hsp.send ? hsp.send : hsp.start-60*(x+1)-1 %> </div>
                             <% end %>
                           </div>
                           <br>
