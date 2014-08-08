@@ -268,6 +268,12 @@ $(document).ready(function(){
             $("[data-table='view']").each(function(index) {
                 $(this).tablesorter({
                     theme: 'default',
+
+                    headers: {
+                        0: {sorter: false},
+                        1: { sortInitialOrder: 'desc' }
+                    },
+
                     textSorter : {
                         2: function(a, b, direction, columnIndex, table) {
                             var re = /(\d*.\d*)\s*x\s*\d*\s\d*([+-]?\d*)/;
