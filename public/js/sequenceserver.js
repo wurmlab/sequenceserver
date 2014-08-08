@@ -274,6 +274,8 @@ $(document).ready(function(){
                         1: { sortInitialOrder: 'desc' }
                     },
 
+                    sortRestart: true,
+
                     textSorter : {
                         2: function(a, b, direction, columnIndex, table) {
                             var re = /(\d*.\d*)\s*x\s*\d*\s\d*([+-]?\d*)/;
