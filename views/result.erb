@@ -66,11 +66,11 @@
             </p>
           <% else %>
             <table data-table="view"
-              class="tablesorter text-monospace">
+              class="text-monospace">
               <thead>
-                <th> Sequences producing significant alignments: </th>
-                <th> Total Score </th>
-                <th> E value </th>
+                <th> Sequences producing significant alignments </th>
+                <th class="text-right"> Total Score </th>
+                <th class="text-right"> E value </th>
               </thead>
               <tbody>
               <% query.hits.each do |hit| %>

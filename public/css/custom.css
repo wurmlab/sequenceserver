@@ -174,7 +174,6 @@ a.link-fasta-query {
 }
 
 /* Override/extend tablesorter */
-
 .tablesorter-default {
     font-family: monospace;
     font-size: 14px;
@@ -188,6 +187,13 @@ a.link-fasta-query {
 
 .tablesorter-default td {
     border-bottom: none;
+}
+
+.tablesorter-default tbody > tr:hover > td,
+.tablesorter-default tbody > tr.even:hover > td,
+.tablesorter-default tbody > tr.odd:hover > td {
+    background: #eee;
+    color: #000;
 }
 
 .table-hsp {

@@ -284,12 +284,15 @@ $(document).ready(function(){
                             return _a > _b ? 1 : (_a < _b ? -1 : 0);
                         }
                     },
+
+                    initWidgets: true,
+
                     widgets : ['stickyHeaders'],
 
                     widgetOptions: {
                         stickyHeaders : '',
                         stickyHeaders_attachTo : null,
-                    }
+                    },
                 }); 
             });
 
