@@ -189,3 +189,23 @@ a.link-fasta-query {
 .tablesorter-default td {
     border-bottom: none;
 }
+
+.table-hsp {
+    font-family: monospace;
+    width: 100%;
+    border-bottom: none;
+    border-collapse: collapse;
+}
+
+.table-hsp th,
+.table-hsp thead td{
+    color: #000;
+    background-color: #fff;
+    text-align:left;
+    padding: 4px;
+}
+
+.table-hsp td {
+    padding: 4px;
+}
+

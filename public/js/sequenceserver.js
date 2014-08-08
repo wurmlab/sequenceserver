@@ -283,6 +283,12 @@ $(document).ready(function(){
                             }
                             return _a > _b ? 1 : (_a < _b ? -1 : 0);
                         }
+                    },
+                    widgets : ['stickyHeaders'],
+
+                    widgetOptions: {
+                        stickyHeaders : '',
+                        stickyHeaders_attachTo : null,
                     }
                 }); 
             });
