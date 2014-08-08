@@ -23,6 +23,7 @@
                     hits.push(_hsps);
                 });
                 
+                if(hits.length < 1) return false;
                 // Sort according to evalues
                 // hits.sort(function(a,b) { return a.hitEvalue - b.hitEvalue; });
 
