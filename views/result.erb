@@ -129,7 +129,7 @@
                           <th> Identities </th>
                           <th> Positives </th>
                           <th> Gaps </th>
-                          <th> Strand </th>
+                          <th> Frame </th>
                         </thead>
                         <tbody>
                           <tr>
@@ -138,7 +138,7 @@
                             <td> <%= "#{hsp.identity_fraction} (#{'%.2f%' % hsp.identity_percentage})" %></td>
                             <td> <%= "#{hsp.positives_fraction} (#{'%.2f%' % hsp.positives_percentage})" %></td>
                             <td> <%= "#{hsp.gaps_fraction} (#{'%.2f%' % hsp.gaps_percentage})" %></td>
-                            <td> (<%= hsp.qframe>0?"+":"-"%>/<%= hsp.hframe>0?"+":"-"%>)</td>
+                            <td> (<%= hsp.qframe %>/<%= hsp.hframe %>)</td>
                           </tr>
                           </tbody>
                       </table>
