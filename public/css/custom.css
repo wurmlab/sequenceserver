@@ -169,7 +169,7 @@ a.link-fasta-query {
 .axis path,
 .axis line {
     fill: red;
-    stroke: #000;
+    stroke: #fff;
     shape-rendering: crispEdges;
 }
 
