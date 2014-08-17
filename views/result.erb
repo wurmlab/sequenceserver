@@ -203,15 +203,19 @@
           <br>
           <p
             class="text-monospace">
-            Lambda:  <%= query.stats["Statistics_lambda"] %>
+            Lambda: <%= query.stats[5] %>
             <br>
-            Kappa:   <%= query.stats["Statistics_kappa"] %>
+            Kappa: <%= query.stats[4] %>
             <br>
-            Entropy: <%= query.stats["Statistics_entropy"] %>
+            Entropy: <%= query.stats[6] %>
             <br>
-            Effective search space used: <%= query.stats["Statistics_eff-space"] %>
+            Effective search space used: <%= query.stats[3] %>
             <br>
             Databases: <%= report.querydb.split.map{|db| File.basename(db)}.join(', ') %>
+            <br>
+            No. of letters in database: <%= query.stats[1] %>
+            <br>
+            No. of sequences in database: <%= query.stats[0] %>
           </p>
         </div>
       </div>

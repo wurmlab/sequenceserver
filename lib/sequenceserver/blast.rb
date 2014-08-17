@@ -101,12 +101,13 @@ module SequenceServer
     end
 
     # Structure to hold the HSP information about each hit.
-    # More information about values can be found at NCBI's BLAST manual page.
+    # For more information, check the link contained in the references section
+    # at the end of the file.
     HSP = Struct.new(:number, :bit_score, :score, :evalue, :qstart, :qend, :start,
                      :send, :qframe, :hframe, :identity, :positives, :gaps, :len,
                      :qseq, :hseq, :midline) do
 
-      INTEGER_ARGS = [0, 2].concat (4..13).to_a
+      INTEGER_ARGS = [0, 2].concat((4..13).to_a)
       FLOAT_ARGS   = [1, 3]
 
       def initialize(*args)
@@ -132,13 +133,15 @@ module SequenceServer
         # based on the blast query string.
         rfile.open
         parsed_out = Ox.parse(rfile.read)
-        hashed_out = node_to_dict(parsed_out.root)
-        @program = hashed_out["BlastOutput_program"]
-        @querydb = hashed_out["BlastOutput_db"]
+        hashed_out = node_to_array(parsed_out.root)
+        @program = hashed_out[0]
+        @version = hashed_out[1]
+        @querydb = hashed_out[3]
+        @parameters = hashed_out[7]
 
-        hashed_out["BlastOutput_iterations"].each_with_index do |n, i|
+        hashed_out[8].each_with_index do |n, i|
           @queries ||= []
-          @queries.push(Query.new(n[0], n[2], n[3], [], n[5]["Statistics"]))
+          @queries.push(Query.new(n[0], n[2], n[3], [], n[5][0]))
 
           # Ensure a hit object is received. No hits, returns a newline.
           # Note that checking to "\n" doesn't work since n[4] = ["\n"]
@@ -146,10 +149,10 @@ module SequenceServer
             @queries[i][:hits] = []
           else
             n[4].each_with_index do |hits, j|
-              @queries[i][:hits].push(Hit.new(hits[0], hits[1], hits[2],\
+              @queries[i][:hits].push(Hit.new(hits[0], hits[1], hits[2],
                                               hits[3], hits[4], []))
               hits[5].each_with_index do |hsp, k|
-                @queries[i][:hits][j][:hsps].push(HSP.new(*hits[5][k].values))
+                @queries[i][:hits][j][:hsps].push(HSP.new(*hits[5][k]))
               end
             end
             @queries[i].sort_hits_by_evalue!
@@ -157,7 +160,8 @@ module SequenceServer
         end
       end
 
-      attr_accessor :program, :querydb
+      attr_reader :program, :querydb
+      attr_reader :parameters, :version
 
       attr_accessor :queries
 
@@ -171,28 +175,14 @@ module SequenceServer
         a
       end
 
-      def node_to_dict(element)
-        dict = Hash.new
-        key = nil
-        element.nodes.each do |n|
-          raise "A dict can only contain elements." unless n.is_a?(::Ox::Element)
-          key = n.name
-          dict[key] = node_to_value(n)
-          key = nil
-        end
-        dict
-      end
-
       def node_to_value(node)
         # Ensure that the recursion doesn't fails when String value is received.
         if node.is_a?(String)
           return node
         end
-        if ['Parameters', 'BlastOutput_param', 'Iteration_stat', \
-            'Statistics', 'Hsp'].include? node.name
-          value = node_to_dict(node)
-        elsif ['Iteration_hits', 'BlastOutput_iterations', \
-               'Iteration', 'Hit', 'Hit_hsps'].include? node.name
+        if ['Parameters', 'BlastOutput_param', 'Iteration_stat', 'Statistics',
+            'Hsp', 'Iteration_hits', 'BlastOutput_iterations', 'Iteration',
+            'Hit', 'Hit_hsps'].include? node.name
           value = node_to_array(node)
         else
           value = first_text(node)
