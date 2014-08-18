@@ -22,7 +22,7 @@
                     _hsps['hitId'] = $(this).attr('id');
                     hits.push(_hsps);
                 });
-                
+
                 if(hits.length < 1) return false;
                 // Sort according to evalues
                 // hits.sort(function(a,b) { return a.hitEvalue - b.hitEvalue; });
@@ -44,12 +44,12 @@
                 // DEBUG
                 // console.log(svg);
 
-                var x = d3.scale.linear().range([0, width-margin*2])
+                var x = d3.scale.linear().range([0, width-margin])
                 x.domain([0, query_len]);
                 var xAxis = d3.svg.axis()
                     .scale(x)
                     .orient('top')
-                    .ticks(10);
+                    .ticks(11);
 
                 // Attach the axis to DOM (<svg> element)
                 var scale = svg.append('g')
@@ -95,7 +95,7 @@
                             //console.log(d3.select(this.parentNode).datum().hitId);
                             //
                             var y_hspline = y(p_id)+barheight/2;
-                            var hspline_color = d3.rgb(20,20,20);
+                            var hspline_color = d3.rgb(color2(p_id),color2(p_id),color2(p_id));
 
                             if (j+1 < p_count) {
                                 if( p_hsp[j].hspEnd < p_hsp[j+1].hspStart ) {
