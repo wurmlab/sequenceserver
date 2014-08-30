@@ -32,6 +32,7 @@
 
                 query_len = $(this).data().queryLen;
                 var graph_dom = $(this).children().eq(1).children().eq(0).after("<div class='graph'/>");
+                $(this).children().eq(1).children().eq(1).after("<button type='submit' class='btn btn-default'> Load more .. </button>");
                 width = $('.graph', this).width();
                 height = hits.length*(barheight + barpadding) + 5*margin + legend*3;
 

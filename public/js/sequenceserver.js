@@ -263,7 +263,19 @@ $(document).ready(function(){
             //jump to the results
             location.hash = hash;
 
-            $.draw();
+            //$.draw();
+            $("[data-graphit='overview']").each( function(i) {
+                $.graphIt(this, 0, 20);
+            });
+
+            $('.more').on('click', function(e) {
+                var howMany = 20;
+                var pId = '#'+$(this).data().parentQuery;
+                var start = $(pId).find('.ghit > g').length;
+                console.log(start);
+                if(start < 20) return false;
+                $.graphIt((pId), start, howMany);
+            });
 
             $("[data-table='view']").each(function(index) {
                 $(this).tablesorter({
