@@ -84,7 +84,8 @@
             </table>
             <% query.hits.each do |hit| %>
               <div
-                class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>">
+                  class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>"
+                  data-hit-def="<%= hit.id %>" data-hit-evalue="<%= hit.evalue %>">
                 <div
                   class="page-header">
                   <div

@@ -20,6 +20,8 @@
                     _hsps.push(__hsps);
                 });
                 _hsps['hitId'] = $(this).attr('id');
+                _hsps['hitDef'] = $(this).data().hitDef;
+                _hsps['hitEvalue'] = $(this).data().hitEvalue;
                 hits.push(_hsps);
             });
             return hits;
@@ -36,6 +38,8 @@
             var options = $.extend(defaults, opts);
 
             var hits = $.toD3(selector, index, howMany);
+
+            if(hits < 1) return false;
 
             if( index == 0 ) {
                 $.initialize(selector);
@@ -82,6 +86,15 @@
                 return d.hitId; 
             }));
 
+            var tip = d3.tip()
+              .attr('class', 'd3-tip')
+              .offset([-10, 0])
+              .html(function(d) {
+                return "<strong>" + d.hitDef + " ( " + d.hitEvalue + " )</strong>";
+            });
+
+            svg.call(tip);
+
             var color = d3.scale.ordinal()
                 .domain((hits.map( function(d) { return d.hitId; } )))
                 .rangeBands([10,150], 0.5);
@@ -127,7 +140,7 @@
                         };
 
                         d3.select(this)
-                        .attr('xlink:href', function(d,i) {return q_i+'_hit_'+(h_i);})
+                        .attr('xlink:href', function(d,i) {return '#'+q_i+'_hit_'+(h_i);})
                         .append('rect')
                         .attr('x', function(d) {
                             if(d.hspFrame < 0)
@@ -142,6 +155,11 @@
                         .attr('height', options.barHeight)
                         .attr('fill', d3.rgb(hspline_color));
                     });
+
+                    d3.select(this)
+                        .on('mouseover', tip.show)
+                        .on('mouseout', tip.hide);
+
                 });
 
                 var svg_legend = svg.append('g')
