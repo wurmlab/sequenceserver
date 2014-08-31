@@ -289,7 +289,8 @@ $(document).ready(function(){
 
                     headers: {
                         0: {sorter: false},
-                        1: { sortInitialOrder: 'desc' }
+                        1: {sorter: false}, 
+                        2: {sortInitialOrder: 'asc', sorter: false}
                     },
 
                     sortRestart: true,
