@@ -50,7 +50,7 @@
                 .remove();
             }
 
-            var query_len = $(selector).data().queryLen;
+            var queryLen = $(selector).data().queryLen;
             var q_i = $(selector).attr('id');
 
             var width = $('.graph', selector).width();
@@ -67,11 +67,16 @@
                 .attr('transform', 'translate('+options.margin/4+', '+options.margin/4+')');
 
             var x = d3.scale.linear().range([0, width-options.margin])
-            x.domain([0, query_len]);
+            x.domain([0, queryLen]);
+
+            var _t = d3.scale.ordinal().domain([1,2,3,4]).rangeBands([0, queryLen]);
+            var _t_a = _t.range()
+
             var xAxis = d3.svg.axis()
                 .scale(x)
                 .orient('top')
-                .ticks(11);
+                .tickValues(_t_a.concat([queryLen]))
+                .tickSize(4,2,-4);
 
             // Attach the axis to DOM (<svg> element)
             var scale = svg.append('g')
