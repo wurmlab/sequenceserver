@@ -95,9 +95,19 @@
 
             svg.call(tip);
 
+            var gradScale = d3.scale.log()
+                .domain([d3.min([1e-5, d3.min(hits.map(function(d) {
+                    return d.hitEvalue;
+                }))]), d3.max(hits.map(function(d) {
+                    return d.hitEvalue;
+                }))])
+                .range([40,150]);
+
+            /*
             var color = d3.scale.ordinal()
-                .domain((hits.map( function(d) { return d.hitId; } )))
+                .domain((hits.map( function(d) { return d.id; } )))
                 .rangeBands([10,150], 0.5);
+            */
 
             svg.append('g')
                 .attr('class', 'ghit')
@@ -118,7 +128,8 @@
                         .append('a')
                         .each( function(pd, j) {
                             var y_hspline = y(p_id)+options.barHeight/2;
-                            var hspline_color = d3.rgb(color(p_id),color(p_id),color(p_id));
+                            var hspline_color = d3.rgb(gradScale(p_hsp.hitEvalue),
+                                gradScale(p_hsp.hitEvalue),gradScale(p_hsp.hitEvalue));
 
                             if(j+1 < p_count) {
                                 if( p_hsp[j].hspEnd < p_hsp[j+1].hspStart ) {
