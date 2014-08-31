@@ -175,11 +175,11 @@
                 svg_legend.append('text')
                         .attr('transform', 'translate(0, '+options.legend+')')
                         .attr('x', 6*(width-2*options.margin)/10 - options.margin/2)
-                        .text("Weak hits");
+                        .text("Weaker hits");
                 svg_legend.append('text')
                         .attr('transform', 'translate(0, '+options.legend+')')
                         .attr('x', 9*(width-2*options.margin)/10 + options.margin/2)
-                        .text("Strong hits");
+                        .text("Stronger hits");
 
                 svg.append('linearGradient')
                     .attr('id', 'legend-grad')

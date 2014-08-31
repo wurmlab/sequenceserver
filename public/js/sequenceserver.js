@@ -263,7 +263,6 @@ $(document).ready(function(){
             //jump to the results
             location.hash = hash;
 
-            //$.draw();
             $("[data-graphit='overview']").each( function(i) {
                 $.graphIt(this, 0, 20);
             });
