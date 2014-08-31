@@ -272,9 +272,16 @@ $(document).ready(function(){
                 var howMany = 20;
                 var pId = '#'+$(this).data().parentQuery;
                 var start = $(pId).find('.ghit > g').length;
-                console.log(start);
-                if(start < 20) return false;
-                $.graphIt((pId), start, howMany);
+                if(start < 20) {
+                    $(this).attr('disabled', 'disabled');
+                    e.stopPropagation();
+                }
+                else {
+                    $.graphIt((pId), start, howMany);
+                    if(start+howMany >= $(pId).data().hitCount) {
+                        $(this).attr('disabled', 'disabled');
+                    }
+                }
             });
 
             $("[data-table='view']").each(function(index) {

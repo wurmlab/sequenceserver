@@ -22,13 +22,12 @@
                 _hsps['hitId'] = $(this).attr('id');
                 hits.push(_hsps);
             });
-            console.log(hits);
             return hits;
         },
 
         graphIt: function(selector, index, howMany, opts) {
             var defaults = {
-                barHeight: 5,
+                barHeight: 4,
                 barPadding: 5,
                 legend: 10,
                 margin: 20
@@ -40,6 +39,11 @@
 
             if( index == 0 ) {
                 $.initialize(selector);
+            }
+            else {
+                d3.select($(selector).find('.graph')[0])
+                .selectAll('svg')
+                .remove();
             }
 
             var query_len = $(selector).data().queryLen;
@@ -58,8 +62,6 @@
                 .append('g')
                 .attr('transform', 'translate('+options.margin/4+', '+options.margin/4+')');
 
-            console.log(svg);
-
             var x = d3.scale.linear().range([0, width-options.margin])
             x.domain([0, query_len]);
             var xAxis = d3.svg.axis()
@@ -74,7 +76,7 @@
                         .call(xAxis);
 
             var y = d3.scale.ordinal()
-                .rangeBands([0,height-3*options.margin-2*options.legend], .5);
+                .rangeBands([0,height-3*options.margin-2*options.legend], .3);
 
             y.domain(hits.map( function(d, i) {
                 return d.hitId; 
