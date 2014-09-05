@@ -290,6 +290,13 @@ $(document).ready(function(){
                 }
             });
 
+            $('[data-toggle="tooltip"]').tooltip({
+                'placement': 'top',
+                'container': 'body',
+                'html': 'true',
+                'white-space': 'nowrap'
+            });
+
             $('.resultn').
                 scrollspy({
                     approach: screen.height / 4
