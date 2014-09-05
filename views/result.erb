@@ -124,23 +124,17 @@
                       data-hsp-evalue="<%= hsp.evalue %>" data-hsp-start="<%= hsp.qstart %>"
                       data-hsp-end="<%= hsp.qend %>" data-hsp-frame="<%= hsp.hframe %>">
                       <table class="table-hsp">
-                        <thead>
-                          <th> Score </th>
-                          <th> Expect </th>
-                          <th> Identities </th>
-                          <th> Positives </th>
-                          <th> Gaps </th>
-                          <th> Frame </th>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td> <%= '%.2f' % hsp.bit_score %> (<%= hsp.score %>)</td>
-                            <td> <%= hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %></td>
-                            <td> <%= "#{hsp.identity_fraction} (#{'%.2f%' % hsp.identity_percentage})" %></td>
-                            <td> <%= "#{hsp.positives_fraction} (#{'%.2f%' % hsp.positives_percentage})" %></td>
-                            <td> <%= "#{hsp.gaps_fraction} (#{'%.2f%' % hsp.gaps_percentage})" %></td>
-                            <td> (<%= hsp.qframe %>/<%= hsp.hframe %>)</td>
-                          </tr>
+                          <thead>
+                            <% report.filter_hsp_stats(hsp).each do |key, value| %>
+                              <th> <%= key %> </th>
+                            <% end %>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <% report.filter_hsp_stats(hsp).each do |key, value| %>
+                                <td> <%= value %> </th>
+                              <% end %>
+                            </tr>
                           </tbody>
                       </table>
                       <br>

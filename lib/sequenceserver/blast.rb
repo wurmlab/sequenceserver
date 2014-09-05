@@ -109,6 +109,10 @@ module SequenceServer
 
       alias length len
 
+      def pretty_evalue
+        evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s}
+      end
+
       def identity_fraction
         "#{identity}/#{length}"
       end
@@ -122,15 +126,15 @@ module SequenceServer
       end
 
       def identity_percentage
-        identity * 100.0 / length
+        "#{(identity * 100.0 / length).round(2)}"
       end
 
       def positives_percentage
-        positives * 100.0 / length
+        "#{(positives * 100.0 / length).round(2)}"
       end
 
       def gaps_percentage
-        gaps * 100.0 / length
+        "#{(gaps * 100.0 / length).round(2)}"
       end
     end
 
@@ -167,6 +171,29 @@ module SequenceServer
             @queries[i].sort_hits_by_evalue!
           end
         end
+      end
+
+      def filter_hsp_stats(hsp)
+        hsp_stats = {"Score" => hsp[:bit_score].to_s + "(" + hsp[:score].to_s + ")",
+                     "Expect" => hsp.pretty_evalue,
+                     "Identities" => hsp.identity_fraction + "(" + hsp.identity_percentage + "%)",
+                     "Gaps" => hsp.gaps_fraction + "(" + hsp.gaps_percentage + "%)"}
+
+        if @program == 'blastp'
+          hsp_stats["Positives"] = hsp.positives_fraction + "(" + hsp.positives_percentage + "%)"
+        elsif @program == 'blastx'
+          hsp_stats["Query Frame"] = hsp[:qframe]
+        elsif @program == 'tblastn'
+          hsp_stats["Hit Frame"] = hsp[:hframe]
+        elsif @program == 'tblastx'
+          hsp_stats["Positives"] = hsp.positives_fraction + "(" + hsp.positives_percentage + "%)"
+        end
+        if ['blastn', 'tblastx'].include? @program
+          hsp_stats["Strand"] = (hsp[:qframe] > 1 ? "(Plus" : "(Minus") +
+                               (hsp[:hframe] > 1 ? "/Plus)" : "/Minus)")
+        end
+
+        hsp_stats
       end
 
       attr_reader :program, :querydb
