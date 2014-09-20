@@ -44,7 +44,9 @@ module SequenceServer
     # @member [Array(Hit)] hits
     Query = Struct.new(:number, :def, :len, :hits, :stats) do
       def initialize(*args)
+        args[0] = args[0].to_i
         args[1] = "Query_#{args[0]}" if args[1] == 'No definition line'
+        args[2] = args[2].to_i
         @id, *rest = args[1].split
         @meta = rest.join(' ')
         super
@@ -144,7 +146,6 @@ module SequenceServer
       def initialize(rfile)
         # Generates BLAST report which one or moremultiple Query objects
         # based on the blast query string.
-        rfile.open
         parsed_out = Ox.parse(rfile.read)
         hashed_out = node_to_array(parsed_out.root)
         @program = hashed_out[0]
@@ -306,8 +307,10 @@ module SequenceServer
         raise RuntimeError.new(status, error)
       end
 
-      # Report the results.
-      Report.new(rfile)
+      # Report the results, ensures that file is closed after execution.
+      File.open(rfile) {|f|
+        Report.new(f)
+      }
     end
 
     # Returns an Array of SequenceServer::Sequence objects capturing the
