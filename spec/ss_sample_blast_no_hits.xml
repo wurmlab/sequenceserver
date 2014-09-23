@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE BlastOutput PUBLIC "-//NCBI//NCBI BlastOutput/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd">
+<BlastOutput>
+    <BlastOutput_program>blastn</BlastOutput_program>
+    <BlastOutput_version>BLASTN 2.2.30+</BlastOutput_version>
+    <BlastOutput_reference>
+        Zheng Zhang, Scott Schwartz, Lukas Wagner, and Webb Miller (2000), "A greedy algorithm for aligning DNA sequences", J Comput Biol 2000; 7(1-2):203-14.
+    </BlastOutput_reference>
+    <BlastOutput_db>nr</BlastOutput_db>
+    <BlastOutput_query-ID>64839</BlastOutput_query-ID>
+    <BlastOutput_query-def>No definition line</BlastOutput_query-def>
+    <BlastOutput_query-len>52</BlastOutput_query-len>
+    <BlastOutput_param>
+        <Parameters>
+            <Parameters_expect>10</Parameters_expect>
+            <Parameters_sc-match>1</Parameters_sc-match>
+            <Parameters_sc-mismatch>-2</Parameters_sc-mismatch>
+            <Parameters_gap-open>0</Parameters_gap-open>
+            <Parameters_gap-extend>0</Parameters_gap-extend>
+            <Parameters_filter>L;m;</Parameters_filter> 
+        </Parameters>
+    </BlastOutput_param>
+    <BlastOutput_iterations>
+        <Iteration>
+            <Iteration_iter-num>1</Iteration_iter-num>
+            <Iteration_query-ID>64839</Iteration_query-ID>
+            <Iteration_query-def>No definition line</Iteration_query-def>
+            <Iteration_query-len>52</Iteration_query-len>
+            <Iteration_hits></Iteration_hits>
+            <Iteration_stat>
+                <Statistics>
+                    <Statistics_db-num>24890803</Statistics_db-num>
+                    <Statistics_db-len>68157438941</Statistics_db-len>
+                    <Statistics_hsp-len>0</Statistics_hsp-len>
+                    <Statistics_eff-space>0</Statistics_eff-space>
+                    <Statistics_kappa>0.46</Statistics_kappa>
+                    <Statistics_lambda>1.28</Statistics_lambda>
+                    <Statistics_entropy>0.85</Statistics_entropy>
+                </Statistics>
+            </Iteration_stat>
+        </Iteration>
+    </BlastOutput_iterations>
+</BlastOutput>
