@@ -65,19 +65,19 @@
               <strong> <%= "****** No hits found ******" %> </strong>
             </p>
           <% else %>
-            <table data-table="view"
-              class="text-monospace">
+            <table
+              class="table table-hover table-condensed text-monospace">
               <thead>
-                <th> Sequences producing significant alignments </th>
+                <th>Sequences producing significant alignments</th>
                 <th class="text-right"> Total Score </th>
                 <th class="text-right"> E value </th>
               </thead>
               <tbody>
               <% query.hits.each do |hit| %>
                 <tr>
-                    <td> <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>"> <%= "#{hit.id}" %>  </a> </td>
-                  <td class="text-right"> <%= '%.2f' % hit.score %> </td>
-                  <td class="text-right"> <%= hit.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %> </td>
+                  <td> <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>"><%= "#{hit.id}" %></a> </td>
+                  <td class="text-right"><%= '%.2f' % hit.score %></td>
+                  <td class="text-right"><%= hit.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %></td>
                 </tr>
               <% end %>
               </tbody>

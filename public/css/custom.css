@@ -19,6 +19,11 @@ label {
   font-weight: normal;
 }
 
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
+.table>tbody>tr>td, .table>tfoot>tr>td {
+  border-top: none;
+}
+
 /* SequenceServer */
 .nojs-error {
   margin-top: 10px;
@@ -171,29 +176,6 @@ a.link-fasta-query {
     fill: red;
     stroke: #fff;
     shape-rendering: crispEdges;
-}
-
-/* Override/extend tablesorter */
-.tablesorter-default {
-    font-family: monospace;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-.tablesorter-default th,
-.tablesorter-default thead td{
-    border-bottom: none;
-}
-
-.tablesorter-default td {
-    border-bottom: none;
-}
-
-.tablesorter-default tbody > tr:hover > td,
-.tablesorter-default tbody > tr.even:hover > td,
-.tablesorter-default tbody > tr.odd:hover > td {
-    background: #eee;
-    color: #000;
 }
 
 .table-hsp {
