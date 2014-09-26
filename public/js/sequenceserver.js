@@ -106,22 +106,29 @@ if (!SS) {
       }).join('');
     }
 
-    /*
-        ask each module to initialize itself
-    */
-    SS.main = function () {
+    SS.init = function () {
+        this.$sequence = $('#sequence');
+        this.$sequenceControls = $('.sequence-controls');
+
+        this.$sequence.poll();
+
         SS.blast.init();
     }
 }()); //end SS module
 
 $(document).ready(function(){
-    // poll the sequence textbox for a change in user input
-    $('#sequence').poll();
-
-    // start SequenceServer's event loop
-    SS.main();
+    SS.init();
 
     var notification_timeout;
+
+    SS.$sequence.change(function () {
+        if (SS.$sequence.val()) {
+            SS.$sequenceControls.removeClass('hidden');
+        }
+        else {
+            SS.$sequenceControls.addClass('hidden');
+        }
+    });
 
     // Handle clearing query sequences(s) when x button is pressed.
     $('#btn-sequence-clear').click(function (e) {
