@@ -6,25 +6,16 @@ require 'sequenceserver/sequence'
 module SequenceServer
 
   # Simple wrapper around BLAST+ CLI (command line interface), intended to be
-  # mixed into SequenceServer::App.
+  # mixed into SequenceServer.
   #
   # `Blast::ArgumentError` and `Blast::RuntimeError` signal errors encountered
-  # when attempting a BLAST search.  The error classes define `http_status`
-  # instance method which returns the equivalent HTTP status code, and is used
-  # by Sinatra to dispatch appropriate error handlers to fulfill an HTTP
-  # request.
+  # when attempting a BLAST search.
   module Blast
 
     # To signal error in query sequence or options.
     #
     # ArgumentError is raised when BLAST+'s exit status is 1; see [1].
     class ArgumentError < ArgumentError
-
-      # Instruct Sinatra to treat this exception object as HTTP BadRequest
-      # (400).
-      def http_status
-        400
-      end
     end
 
     # To signal internal errors.
@@ -40,12 +31,6 @@ module SequenceServer
       end
 
       attr_reader :status, :message
-
-      # Instruct Sinatra to treat this exception object as HTTP
-      # InternalServerError (500).
-      def http_status
-        500
-      end
 
       def to_s
         "#{status}, #{message}"
@@ -106,7 +91,7 @@ module SequenceServer
                      :send, :qframe, :hframe, :identity, :positives, :gaps, :len,
                      :qseq, :hseq, :midline) do
 
-      INTEGER_ARGS = [0, 2].concat (4..13).to_a
+      INTEGER_ARGS = [0, 2].concat((4..13).to_a)
       FLOAT_ARGS   = [1, 3]
 
       def initialize(*args)
@@ -227,7 +212,7 @@ module SequenceServer
       #
       # Retrieve database file from database id.
       database_ids   = params[:databases]
-      database_names = databases.values_at(*database_ids).map(&:name).join(' ')
+      database_names = databases.select{|d| database_ids.include? d.id}.map(&:name).join(' ')
       #
       # Concatenate other blast options.
       options = params[:advanced].to_s.strip + defaults
@@ -244,7 +229,7 @@ module SequenceServer
       command = "#{method} -db '#{database_names}' -query '#{qfile.path}' #{options}"
       #
       # Debugging log.
-      log.debug("Executing: #{command}")
+      logger.debug("Executing: #{command}")
       #
       # Temporary files to capture stdout and stderr.
       rfile = Tempfile.new('sequenceserver_blast_result')
@@ -300,7 +285,7 @@ module SequenceServer
       command = "blastdbcmd -db #{database_names} -entry '#{sequence_ids}' -outfmt '%a	%t	%s'"
       #
       # Debugging log.
-      log.debug("Executing: #{command}")
+      logger.debug("Executing: #{command}")
       #
       # Execute.
       #
@@ -325,7 +310,7 @@ module SequenceServer
     end
 
     def defaults
-      " -outfmt 5 -num_threads #{num_threads}"
+      " -outfmt 5 -num_threads #{config[:num_threads]}"
     end
 
     def validate_blast_method(method)
@@ -340,10 +325,11 @@ module SequenceServer
     end
 
     def validate_blast_databases(database_ids)
+      ids = databases.map(&:id)
       return true if database_ids.is_a?(Array) && !database_ids.empty? &&
-        (databases.keys & database_ids).length == database_ids.length
+        (ids & database_ids).length == database_ids.length
       raise ArgumentError.new("Database id should be one of:
-                              #{databases.keys.join("\n")}.")
+                              #{ids.join("\n")}.")
     end
 
     # Advanced options are specified by the user. Here they are checked for interference with SequenceServer operations.

@@ -16,6 +16,7 @@ DESC
   s.add_dependency('thin',    '~> 1.6.2')
   s.add_dependency('sinatra', '~> 1.4.5')
   s.add_dependency('ox',      '~> 2.1.1')
+  s.add_dependency('slop',    '~> 3.6.0')
 
   s.add_development_dependency('rack-test', '~> 0.6.2')
   s.add_development_dependency('rspec',     '~> 2.8.0')

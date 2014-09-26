@@ -1,34 +1,22 @@
+require 'find'
 require 'digest/md5'
 
 module SequenceServer
 
   # Captures a BLAST database.
-  # @member [String]     name
-  # @member [String]     title
-  # @member [String]     type
+  #
+  # Formatting a FASTA for use with BLAST+ will create 3 or 6 files,
+  # collectively referred to as a BLAST database.
   Database = Struct.new(:name, :title, :type) do
+    def initialize(*args)
+      @id = Digest::MD5.hexdigest args[0]
+      super
+    end
+
+    attr_reader :id
+
     def to_s
       "#{type}: #{title} #{name}"
-    end
-
-    # Its not very meaningful to compare Database objects, however,
-    # we still add the 'spaceship' operator to be able to sort the
-    # databases by 'title', or 'name' for better visual presentation.
-    # 
-    # We use 'title' for comparison, while relying on 'name' as fallback.
-    #
-    # Trying to sort a list of dbs with 'title' set only for some of them
-    # will obviously produce unpredictable sorting order.
-    def <=>(other)
-      if self.title and other.title
-        self.title.downcase <=> other.title.downcase
-      else
-        self.name.downcase <=> other.name.downcase
-      end
-    end
-
-    def hash
-      @hash ||= Digest::MD5.hexdigest(self.name)
     end
   end
 end

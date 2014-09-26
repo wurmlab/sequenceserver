@@ -11,4 +11,3 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get -qq install ncbi-blast+
   - gem install bundler
-  - cp $PWD/example.config.yml $HOME/.sequenceserver.conf

@@ -1,2 +1,3 @@
 require 'sequenceserver'
-run SequenceServer.init
+SequenceServer.init
+run SequenceServer

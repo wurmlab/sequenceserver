@@ -124,10 +124,10 @@
               </div>
               <ul
                 class="list-group databases <%= type %>">
-                <% databases[type].sort.each do |database| %>
+                <% databases[type].sort_by(&:title).each do |database| %>
                   <li class="list-group-item">
                     <label>
-                      <input type="checkbox" name="databases[]" value="<%=database.hash%>" data-type="<%=database.type%>" />
+                      <input type="checkbox" name="databases[]" value="<%=database.id%>" data-type="<%=database.type%>" />
                       <%= database.title or database.name %>
                     </label>
                   </li>

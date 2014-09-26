@@ -1,96 +1,265 @@
 #!/usr/bin/env ruby
+require 'slop'
 
-require 'optparse'
-
-options = {}
 ENV['RACK_ENV'] ||= 'production'
-
-# e.g:
-# sequenceserver --config .sequenceserver.conf format_database
-begin
-  # parse command line till first non-option, removing parsed options from ARGV
-  OptionParser.new do |opts|
-    opts.banner =<<BANNER
-
-SUMMARY
-
-  custom, local, BLAST server
-
-USAGE
-
-  sequenceserver [options] [subcommand] [subcommand's options]
-
-  Example:
-
-    # launch SequenceServer with the given config file
-    $ sequenceserver --config ~/.sequenceserver.ants.conf
-
-    # use the bundled database formatter utility to prepare databases for use
-    # with SequenceServer
-    $ sequenceserver format-databases
-
-DESCRIPTION
-
-  SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
-  interface for use locally or over the web.
-
-SUB-COMMANDS
-
-  format-databases:
-    prepare BLAST databases for use with SequenceServer
-
-    Run '#{$0} format-databases -h' for help.
-
-OPTIONS
-
-BANNER
-    opts.on('-p', '--port PORT', 'Port to run SequenceServer on') do |port|
-      options['port'] = port
-    end
-
-    opts.on('-c', '--config CONFIG_FILE', 'Use the given configuration file') do |config_file|
-      options['config_file'] = config_file
-    end
-
-    opts.on('-D', '--devel', 'Start SequenceServer in development mode') do
-      ENV['RACK_ENV'] = 'development'
-    end
-
-    opts.on('-v', '--version', 'Print version number of SequenceServer that will be loaded.' ) do
-      gemspec_file = File.join(File.dirname(__FILE__), '..', 'sequenceserver.gemspec')
-      gemspec = eval File.read gemspec_file
-      puts gemspec.version
-      exit
-    end
-  end.order!
-
-  require 'sequenceserver'
-
-  # of the remaining items in ARGV, the first one must be a subcommand
-  subcommand = ARGV.shift
-
-  if subcommand
-    # process subcommands now
-
-    case subcommand
-    when 'format-databases'
-      SequenceServer.init2 options
-      require 'sequenceserver/databaseformatter'
-      exit
-    else
-      puts "invalid subcommand: #{subcommand}"
-      puts "Run '#{$0} -h' for help with command line options."
-      exit
-    end
-  end
-rescue OptionParser::InvalidOption => e
-  puts e
-  puts "Run '#{$0} -h' for help with command line options."
-  exit
-end
 
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
 
-SequenceServer.init options
-SequenceServer.run
+begin
+  Slop.parse!(:strict => true, :help => true) do
+    banner <<BANNER
+SUMMARY
+
+custom, local, BLAST server
+
+USAGE
+
+sequenceserver [options]
+
+Example:
+
+  # launch SequenceServer with the given config file
+  $ sequenceserver --config ~/.sequenceserver.ants.conf
+
+  # use the bundled database formatter utility to prepare databases for use
+  # with SequenceServer
+  $ sequenceserver format-databases
+
+DESCRIPTION
+
+SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
+interface for use locally or over the web.
+
+If BLAST+ is not installed on your system, SequenceServer will offer to install
+BLAST+ for you.
+
+You should only ever have to point it to a directory of FASTA files.
+
+In a given directory, SequenceServer is able to tell FASTA files that are yet
+to be formatted for use with BLAST+ and format them, and FASTA files that are
+already formatted for use with BLAST+, heuristically skipping all other files
+in the directory. Directories are scanned recursively. Type of sequences in a
+FASTA file is detected automagically. `parse_seqids` option of `makeblastdb` is
+used to create BLAST+ databases.
+BANNER
+
+    on 'c', 'config_file=',
+      'Use the given configuration file',
+      :argument => true
+
+    on 'b', 'bin=',
+      'Load BLAST+ binaries from this directory',
+      :argument => true
+
+    on 'd', 'database_dir=',
+      'Read FASTA and BLAST database from this directory',
+      :argument => true
+
+    on 'n', 'num_threads=',
+      'Number of threads to use to run a BLAST search',
+      :argument => true
+      #:as       => Integer
+
+    on 'r', 'require=',
+      'Load extension from this file',
+      :argument => true
+
+    on 'h', 'host=',
+      'Host to run SequenceServer on',
+      :argument => true
+
+    on 'p', 'port=',
+      'Port to run SequenceServer on',
+      :argument => true
+
+    on 's', 'set',
+      'Set configuration value in default or given config file'
+
+    on 'm', 'make-blast-databases',
+      'Create BLAST databases'
+
+    on 'l', 'list_databases',
+      'List BLAST databases'
+
+    on 'u', 'list-unformatted-fastas',
+      'List unformatted FASTA files'
+
+    on 'i', 'interactive',
+      'Run SequenceServer in interactive mode'
+
+    on 'D', 'devel',
+      'Start SequenceServer in development mode'
+
+    on '-v', '--version',
+      'Print version number of SequenceServer that will be loaded'
+
+    on '-h', '--help',
+      'Display this help message'
+
+    run do
+      if version?
+        gemspec_file = File.join(File.dirname(__FILE__), '..', 'sequenceserver.gemspec')
+        gemspec = eval File.read gemspec_file
+        puts gemspec.version
+        exit
+      end
+
+      ENV['RACK_ENV'] = 'development' if devel?
+
+      require 'sequenceserver'
+      begin
+        opts = to_h.delete_if{|k, v| v.nil?}
+        SequenceServer.init opts
+      rescue SystemExit => e
+        # The aim of following error recovery scenarios is to guide user to a
+        # working SequenceServer installation. We expect to land following
+        # error scenarios either when creating a new SequenceServer (first
+        # time or later), or updating config values using -s CLI option.
+
+        # Try error recovery now.
+        case e.status
+        when SequenceServer::EXIT_CONFIG_FILE_NOT_FOUND
+          # Create an empty configuration file to make SequenceServer happy.
+          File.open(SequenceServer.config_file, 'w') {}
+          puts "    Created."
+          redo
+        when SequenceServer::EXIT_BLAST_NOT_INSTALLED,
+          SequenceServer::EXIT_BLAST_NOT_COMPATIBLE
+
+          # Set a flag so that if we recovered from error resulting config can be
+          # saved. Config will be saved unless invoked with -b option.
+          fetch_option(:set).value = !bin?
+
+          # Ask user if she already has BLAST+ downloaded or offer to download
+          # BLAST+ for her.
+          puts
+          print "Do you have BLAST+ downloaded already? [y/n]: "
+          response = STDIN.gets.chomp
+          if response.match(/^[y]$/i)
+            print "Where? "
+            response = STDIN.gets.chomp
+            fetch_option(:bin).value = response
+            redo
+          end
+
+          puts
+          print "Install BLAST+? [y/n]: "
+          response = STDIN.gets.chomp
+          if response.match(/^[y]$/i)
+            puts
+            puts "*** Installing BLAST+."
+            puts "RUBY_PLATFORM #{RUBY_PLATFORM}"
+            url = case RUBY_PLATFORM
+                  when /i686-linux/   # 32 bit Linux
+                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.25/ncbi-blast-2.2.25+-ia32-linux.tar.gz"
+                  when /x86_64-linux/ # 64 bit Linux
+                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.25/ncbi-blast-2.2.25+-x64-linux.tar.gz"
+                  when /darwin/       # Mac
+                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.25/ncbi-blast-2.2.25+-universal-macosx.tar.gz"
+                  else
+                    puts <<ERR
+------------------------------------------------------------------------
+FAILED!! to install NCBI BLAST+.
+
+We currently support Linux and Mac only (both 32 and 64 bit). If you
+believe you are running a supported platform, please open a support
+ticket titled "#{RUBY_PLATFORM}" at:
+
+https://github.com/yannickwurm/sequenceserver/issues
+------------------------------------------------------------------------
+
+ERR
+                  end
+
+            archive = File.join('/tmp', File.basename(url))
+            system "wget -c #{url} -O #{archive} && tar xvf #{archive} -C ~"
+            unless $?.success?
+              puts "*** Failed to install BLAST+."
+              puts "    You may need to download BLAST+ from - "
+              puts "     http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download"
+              exit SequenceServer::EXIT_BLAST_INSTALLATION_FAILED
+            end
+            fetch_option(:bin).value = '~/ncbi-blast-2.2.25+'
+            redo
+          else
+            exit e.status unless set?
+          end
+        when SequenceServer::EXIT_NO_SEQUENCE_DIR
+          # Ask user for the directory containing sequences or BLAST+
+          # databases.
+
+          # Set a flag so that if we recovered from error resulting config can be
+          # saved. Config will be saved unless invoked with -d option.
+          fetch_option(:set).value = !database_dir?
+
+          puts
+          print "Where are the sequences you would like to search? "
+          response = STDIN.gets.chomp
+          fetch_option(:database_dir).value = response
+          redo
+        when SequenceServer::EXIT_NO_BLAST_DATABASE
+          unless list_databases? or list_unformatted_fastas? or make_blast_databases?
+            # Offer user to format the FASTA files.
+            puts
+            print "Create databases? [y/n]: "
+            response = STDIN.gets.chomp
+            if response.match(/^[y]$/i)
+              puts
+              puts "*** Creating databases."
+              SequenceServer.make_blast_databases
+              redo
+            else
+              exit e.status unless set?
+            end
+          end
+        else
+          exit e.status
+        end
+      end
+
+      if set?
+        SequenceServer.send :write_config_file
+        exit
+      end
+
+      if fetch_option(:set).value
+        SequenceServer.send :write_config_file
+      end
+
+      if interactive?
+        SequenceServer.irb
+        exit
+      end
+
+      if list_databases?
+        puts SequenceServer.databases
+        exit
+      end
+
+      if list_unformatted_fastas? or make_blast_databases?
+        unformatted_fastas = SequenceServer.unformatted_fastas
+        if unformatted_fastas.empty?
+          puts "All FASTA files in #{SequenceServer[:database_dir]} are formatted."
+          exit
+        end
+      end
+
+      if list_unformatted_fastas?
+        puts unformatted_fastas
+        exit
+      end
+
+      if make_blast_databases?
+        SequenceServer.make_blast_databases
+        exit
+      end
+
+      SequenceServer.run
+    end
+  end
+rescue Slop::Error => e
+  puts e
+  puts "Run '#{$0} -h' for help with command line options."
+  exit
+end
