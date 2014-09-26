@@ -263,7 +263,65 @@ $(document).ready(function(){
             //jump to the results
             location.hash = hash;
 
-            $.draw();
+            $("[data-graphit='overview']").each( function(i) {
+                $.graphIt(this, 0, 20);
+            });
+
+            $('.more').on('click', function(e) {
+                var howMany = 20;
+                var pId = '#'+$(this).data().parentQuery;
+                var start = $(pId).find('.ghit > g').length;
+                if(start < 20) {
+                    $(this).attr('disabled', 'disabled');
+                    e.stopPropagation();
+                }
+                else {
+                    $.graphIt((pId), start, howMany);
+                    if(start+howMany >= $(pId).data().hitCount) {
+                        $(this).attr('disabled', 'disabled');
+                    }
+                }
+            });
+
+            $("[data-table='view']").each(function(index) {
+                $(this).tablesorter({
+                    theme: 'default',
+
+                    headers: {
+                        0: {sorter: false},
+                        1: {sorter: false}, 
+                        2: {sortInitialOrder: 'asc', sorter: false}
+                    },
+
+                    sortRestart: true,
+
+                    textSorter : {
+                        2: function(a, b, direction, columnIndex, table) {
+                            var re = /(\d*.\d*)\s*x\s*\d*\s\d*([+-]?\d*)/;
+                            if(a.match(re)) {
+                                var _a = a.match(re)[1]*Math.pow(10,a.match(re)[2]);
+                            } else {
+                                var _a = a;
+                            }
+                            if(b.match(re)) {
+                                var _b = b.match(re)[1]*Math.pow(10,b.match(re)[2]);
+                            } else {
+                                var _b = b;
+                            }
+                            return _a > _b ? 1 : (_a < _b ? -1 : 0);
+                        }
+                    },
+
+                    initWidgets: true,
+
+                    widgets : ['stickyHeaders'],
+
+                    widgetOptions: {
+                        stickyHeaders : '',
+                        stickyHeaders_attachTo : null,
+                    },
+                }); 
+            });
 
             $('.resultn').
                 scrollspy({

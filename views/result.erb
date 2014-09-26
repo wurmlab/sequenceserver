@@ -26,7 +26,7 @@
     <% report.queries.each do |query| %>
       <div
           class="resultn" id="<%="Query_#{query.number}"%>" data-query-len="<%= query.len %>"
-          data-graphit="overview">
+          data-graphit="overview" data-hit-count="<%= query.hits.count %>">
         <div
           class="page-header">
           <div
@@ -65,31 +65,27 @@
               <strong> <%= "****** No hits found ******" %> </strong>
             </p>
           <% else %>
-            <div
-              class="tabular-view text-monospace">
-              <div class="row">
-                <div class="col-md-7">
-                  <p> Sequences producing significant alignments: </p>
-                </div>
-                <div class="col-md-2 text-right"> Total Score </div>
-                <div class="col-md-3 text-right"> E value </div>
-              </div>
+            <table data-table="view"
+              class="text-monospace">
+              <thead>
+                <th> Sequences producing significant alignments </th>
+                <th class="text-right"> Total Score </th>
+                <th class="text-right"> E value </th>
+              </thead>
+              <tbody>
               <% query.hits.each do |hit| %>
-                <div class="row">
-                  <div class="col-md-7"> <%= "#{hit.id}" %> </div>
-                  <div
-                    class="col-md-2 text-right">
-                    <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>">
-                      <%= '%.2f' % hit.score %>
-                    </a>
-                  </div>
-                  <div class="col-md-3 text-right"> <%= hit.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %> </div>
-                </div>
+                <tr>
+                    <td> <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>"> <%= "#{hit.id}" %>  </a> </td>
+                  <td class="text-right"> <%= '%.2f' % hit.score %> </td>
+                  <td class="text-right"> <%= hit.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %> </td>
+                </tr>
               <% end %>
-            </div>
+              </tbody>
+            </table>
             <% query.hits.each do |hit| %>
               <div
-                class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>">
+                  class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>"
+                  data-hit-def="<%= hit.id %>" data-hit-evalue="<%= hit.evalue %>">
                 <div
                   class="page-header">
                   <div
@@ -127,47 +123,51 @@
                       class="hsps" id="<%="Query_#{query.number}_hit_#{hit.number}_#{hsp.number}"%>"
                       data-hsp-evalue="<%= hsp.evalue %>" data-hsp-start="<%= hsp.qstart %>"
                       data-hsp-end="<%= hsp.qend %>" data-hsp-frame="<%= hsp.hframe %>">
-                      <div class="row">
-                        <div class="col-md-2"> Score </div>
-                        <div class="col-md-2"> Expect </div>
-                        <div class="col-md-2"> Identities </div>
-                        <div class="col-md-2"> Positives </div>
-                        <div class="col-md-2"> Gaps </div>
-                        <div class="col-md-2"> Strand </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-2"> <%= '%.2f' % hsp.bit_score %> (<%= hsp.score %>)</div>
-                        <div class="col-md-2"> <%= hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %></div>
-                        <div class="col-md-2"> <%= hsp.identity%>/<%= hsp.len %></div>
-                        <div class="col-md-2"> <%= hsp.positives %>/<%= hsp.len %></div>
-                        <div class="col-md-2"> <%= hsp.gaps %>/<%= hsp.len %></div>
-                        <div class="col-md-2"> (<%= hsp.qframe>0?"Plus":"Minus"%>/<%= hsp.hframe>0?"Plus":"Minus"%>)</div>
-                      </div>
+                      <table class="table-hsp">
+                        <thead>
+                          <th> Score </th>
+                          <th> Expect </th>
+                          <th> Identities </th>
+                          <th> Positives </th>
+                          <th> Gaps </th>
+                          <th> Frame </th>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td> <%= '%.2f' % hsp.bit_score %> (<%= hsp.score %>)</td>
+                            <td> <%= hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s} %></td>
+                            <td> <%= "#{hsp.identity_fraction} (#{'%.2f%' % hsp.identity_percentage})" %></td>
+                            <td> <%= "#{hsp.positives_fraction} (#{'%.2f%' % hsp.positives_percentage})" %></td>
+                            <td> <%= "#{hsp.gaps_fraction} (#{'%.2f%' % hsp.gaps_percentage})" %></td>
+                            <td> (<%= hsp.qframe %>/<%= hsp.hframe %>)</td>
+                          </tr>
+                          </tbody>
+                      </table>
                       <br>
                       <% if hsp.len > 60 %>
                         <% 0.upto(hsp.len.div(61)) do |x| %>
                           <div class="row alignment">
                             <div class="col-md-1"> Query </div>
-                            <div class="col-md-1"> <%= hsp.qstart+60*x %> </div>
-                            <div class="col-md-9"> <%= hsp.qseq[60*x,60] %> </div>
-                            <div class="col-md-1"> <%= hsp.qstart+60*(x+1)-1 > hsp.qend ? hsp.qend : hsp.qstart+60*(x+1) %> </div>
+                            <div class="col-md-1 text-right"> <%= hsp.qstart+60*x %> </div>
+                            <div class="col-md-8"> <%= hsp.qseq[60*x,60] %> </div>
+                            <div class="col-md-1 text-right"> <%= hsp.qstart+60*(x+1)-1 > hsp.qend ? hsp.qend : hsp.qstart+60*(x+1)-1 %> </div>
                           </div>
                           <div class="row alignment">
                             <div class="col-md-1"></div>
                             <div class="col-md-1"></div>
-                            <div class="col-md-9"> <%= hsp.midline[60*x, 60] %></div>
-                            <div class="col-md-1"></div>
+                            <div class="col-md-8"> <%= hsp.midline[60*x, 60] %></div>
+                            <div class="col-md-1 text-right"></div>
                           </div>
                           <div class="row alignment">
                             <div class="col-md-1"> Subject </div>
                             <% if hsp.hframe > 0 %>
-                              <div class="col-md-1"> <%= hsp.start+60*x %> </div>
-                              <div class="col-md-9"> <%= hsp.hseq[60*x, 60] %> </div>
-                              <div class="col-md-1"> <%= hsp.start+60*(x+1)-1 > hsp.send ? hsp.send : hsp.start+60*(x+1) %> </div>
+                              <div class="col-md-1 text-right"> <%= hsp.start+60*x %> </div>
+                              <div class="col-md-8"> <%= hsp.hseq[60*x, 60] %> </div>
+                              <div class="col-md-1 text-right"> <%= hsp.start+60*(x+1)-1 > hsp.send ? hsp.send : hsp.start+60*(x+1)-1 %> </div>
                             <% else %>
-                              <div class="col-md-1"> <%= hsp.start+60*x %> </div>
-                              <div class="col-md-9"> <%= hsp.hseq[60*x, 60] %> </div>
-                              <div class="col-md-1"> <%= hsp.start-60*(x+1)+1 < hsp.send ? hsp.send : hsp.start-60*(x+1) %> </div>
+                              <div class="col-md-1 text-right"> <%= hsp.start+60*x %> </div>
+                              <div class="col-md-8"> <%= hsp.hseq[60*x, 60] %> </div>
+                              <div class="col-md-1 text-right"> <%= hsp.start-60*(x+1)+1 < hsp.send ? hsp.send : hsp.start-60*(x+1)-1 %> </div>
                             <% end %>
                           </div>
                           <br>
@@ -175,21 +175,21 @@
                       <% else %>
                         <div class="row alignment">
                           <div class="col-md-1"> Query </div>
-                          <div class="col-md-1"> <%= hsp.qstart %> </div>
-                          <div class="col-md-9"> <%= hsp.qseq %> </div>
-                          <div class="col-md-1"> <%= hsp.qend %> </div>
+                          <div class="col-md-1 text-right"> <%= hsp.qstart %> </div>
+                          <div class="col-md-8"> <%= hsp.qseq %> </div>
+                          <div class="col-md-1 text-right"> <%= hsp.qend %> </div>
                         </div>
                         <div class="row alignment">
                           <div class="col-md-1"></div>
                           <div class="col-md-1"></div>
-                          <div class="col-md-9"> <%= hsp.midline %></div>
+                          <div class="col-md-8"> <%= hsp.midline %></div>
                           <div class="col-md-1"></div>
                         </div>
                         <div class="row alignment">
                           <div class="col-md-1"> Subject </div>
-                          <div class="col-md-1"> <%= hsp.start %> </div>
-                          <div class="col-md-9"> <%= hsp.hseq %> </div>
-                          <div class="col-md-1"> <%= hsp.send %> </div>
+                          <div class="col-md-1 text-right"> <%= hsp.start %> </div>
+                          <div class="col-md-8"> <%= hsp.hseq %> </div>
+                          <div class="col-md-1 text-right"> <%= hsp.send %> </div>
                         </div>
                       <% end %>
                       <br><br>
@@ -201,17 +201,23 @@
           <% end %>
           <br>
           <br>
+          <strong class="text-monospace">Statistics</strong>
+          <br>
           <p
             class="text-monospace">
-            Lambda:  <%= query.stats["Statistics_lambda"] %>
+            Lambda: <%= query.stats[5] %>
             <br>
-            Kappa:   <%= query.stats["Statistics_kappa"] %>
+            Kappa: <%= query.stats[4] %>
             <br>
-            Entropy: <%= query.stats["Statistics_entropy"] %>
+            Entropy: <%= query.stats[6] %>
             <br>
-            Effective search space used: <%= query.stats["Statistics_eff-space"] %>
+            Effective search space used: <%= query.stats[3] %>
             <br>
             Databases: <%= report.querydb.split.map{|db| File.basename(db)}.join(', ') %>
+            <br>
+            No. of letters in database: <%= query.stats[1] %>
+            <br>
+            No. of sequences in database: <%= query.stats[0] %>
           </p>
         </div>
       </div>
