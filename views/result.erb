@@ -119,10 +119,10 @@
                   <br>
                   <br>
                   <% hit.hsps.each do |hsp| %>
-                  <div
+                    <div
                       class="hsps" id="<%="Query_#{query.number}_hit_#{hit.number}_#{hsp.number}"%>"
                       data-hsp-evalue="<%= hsp.evalue %>" data-hsp-start="<%= hsp.qstart %>"
-                      data-hsp-end="<%= hsp.qend %>" data-hsp-frame="<%= hsp.hframe %>">
+                      data-hsp-end="<%= hsp.qend %>" data-hsp-frame="<%= hsp.sframe %>">
                       <table class="table-hsp">
                           <thead>
                             <% report.filter_hsp_stats(hsp).each do |key, value| %>
@@ -138,57 +138,9 @@
                           </tbody>
                       </table>
                       <br>
-                      <% if hsp.len > 60 %>
-                        <% 0.upto(hsp.len.div(61)) do |x| %>
-                          <div class="row alignment">
-                            <div class="col-md-1"> Query </div>
-                            <div class="col-md-1 text-right"> <%= hsp.qstart+60*x %> </div>
-                            <div class="col-md-8"> <%= hsp.qseq[60*x,60] %> </div>
-                            <div class="col-md-1 text-right"> <%= hsp.qstart+60*(x+1)-1 > hsp.qend ? hsp.qend : hsp.qstart+60*(x+1)-1 %> </div>
-                          </div>
-                          <div class="row alignment">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-8"> <%= hsp.midline[60*x, 60] %></div>
-                            <div class="col-md-1 text-right"></div>
-                          </div>
-                          <div class="row alignment">
-                            <div class="col-md-1"> Subject </div>
-                            <% if hsp.hframe > 0 %>
-                              <div class="col-md-1 text-right"> <%= hsp.start+60*x %> </div>
-                              <div class="col-md-8"> <%= hsp.hseq[60*x, 60] %> </div>
-                              <div class="col-md-1 text-right"> <%= hsp.start+60*(x+1)-1 > hsp.send ? hsp.send : hsp.start+60*(x+1)-1 %> </div>
-                            <% else %>
-                              <div class="col-md-1 text-right"> <%= hsp.start+60*x %> </div>
-                              <div class="col-md-8"> <%= hsp.hseq[60*x, 60] %> </div>
-                              <div class="col-md-1 text-right"> <%= hsp.start-60*(x+1)+1 < hsp.send ? hsp.send : hsp.start-60*(x+1)-1 %> </div>
-                            <% end %>
-                          </div>
-                          <br>
-                        <% end %>
-                      <% else %>
-                        <div class="row alignment">
-                          <div class="col-md-1"> Query </div>
-                          <div class="col-md-1 text-right"> <%= hsp.qstart %> </div>
-                          <div class="col-md-8"> <%= hsp.qseq %> </div>
-                          <div class="col-md-1 text-right"> <%= hsp.qend %> </div>
-                        </div>
-                        <div class="row alignment">
-                          <div class="col-md-1"></div>
-                          <div class="col-md-1"></div>
-                          <div class="col-md-8"> <%= hsp.midline %></div>
-                          <div class="col-md-1"></div>
-                        </div>
-                        <div class="row alignment">
-                          <div class="col-md-1"> Subject </div>
-                          <div class="col-md-1 text-right"> <%= hsp.start %> </div>
-                          <div class="col-md-8"> <%= hsp.hseq %> </div>
-                          <div class="col-md-1 text-right"> <%= hsp.send %> </div>
-                        </div>
-                      <% end %>
-                      <br><br>
+                      <div class="alignment"><%= hsp.pp %></div>
                     </div>
-                    <% end %>
+                  <% end %>
                 </div>
               </div>
             <% end %>

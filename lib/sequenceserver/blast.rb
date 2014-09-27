@@ -90,9 +90,9 @@ module SequenceServer
     # Structure to hold the HSP information about each hit.
     # For more information, check the link contained in the references section
     # at the end of the file.
-    HSP = Struct.new(:number, :bit_score, :score, :evalue, :qstart, :qend, :start,
-                     :send, :qframe, :hframe, :identity, :positives, :gaps, :len,
-                     :qseq, :hseq, :midline) do
+    HSP = Struct.new(:number, :bit_score, :score, :evalue, :qstart, :qend,
+                     :sstart, :send, :qframe, :sframe, :identity, :positives,
+                     :gaps, :len, :qseq, :sseq, :midline) do
 
       INTEGER_ARGS = [0, 2].concat((4..13).to_a)
       FLOAT_ARGS   = [1, 3]
@@ -137,6 +137,37 @@ module SequenceServer
 
       def gaps_percentage
         "#{(gaps * 100.0 / length).round(2)}"
+      end
+
+      def pp
+        chars = 60
+        lines = (length / chars.to_f).ceil
+        width = [qend.to_s.length, send.to_s.length].max
+
+        s = ''
+        nqseq = qstart
+        nsseq = sstart
+        (1..lines).each do |i|
+          lqstart = nqseq
+          lqseq = qseq[chars * (i - 1), chars]
+          nqseq = nqseq + (lqseq.length - lqseq.count('-')) * qframe
+          lqend = nqseq - qframe
+          s << "Query   %#{width}d  #{lqseq}  #{lqend}\n" % lqstart
+
+          lmseq = midline[chars * (i - 1), chars]
+          s << "#{' ' * (width + 8)}  #{lmseq}\n"
+
+          lsstart = nsseq
+          lsseq   = sseq[chars * (i - 1), chars]
+          nsseq   = nsseq + (lsseq.length - lsseq.count('-')) * sframe
+          lsend   = nsseq - sframe
+          s << "Subject %#{width}d  #{lsseq}  #{lsend}\n" % lsstart
+
+          s << "\n" unless i == lines
+        end
+        #p qend == nqseq - qframe
+        #p send == nsseq - sframe
+        s
       end
     end
 

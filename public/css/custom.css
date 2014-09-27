@@ -147,6 +147,11 @@ span.highlight {
   padding: 0px 15px;
 }
 
+.hsps .alignment {
+  font-family: monospace;
+  white-space: pre;
+}
+
 .index .focussed, .resultn.focussed {
   border-left: 4px #eee solid;
 }
