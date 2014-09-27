@@ -139,19 +139,55 @@ module SequenceServer
         "#{(gaps * 100.0 / length).round(2)}"
       end
 
-      def pp
+      def qframe_sign
+        qframe >= 0 ? 1 : -1
+      end
+
+      def sframe_sign
+        sframe >= 0 ? 1 : -1
+      end
+
+      def pp method
+        # In many of the BLAST algorithms, translated queries are performed which
+        # has to be taken care while determining end co ordinates of query and
+        # subject sequences. Since each amino acid is encoded using three nucl.
+        # referred to as codons, necessary value is multiplied to determine the
+        # coordinates.
+
+        # blastn and blastp search the nucleotide and protein databases using
+        # nucleotide and protein queries respectively.
+        qframe_unit = 1
+        sframe_unit = 1
+        # tblastn searches translated nucleotide database using a protein query
+        if method == 'tblastn'
+          sframe_unit = 3
+        # blastx searches protein database using a translated nucleotide query,
+        elsif method == 'blastx'
+          qframe_unit = 3
+        # tblastx searches translated nucleotide database using a translated
+        # nucleotide query.
+        elsif method == 'tblastx'
+          qframe_unit = 3
+          sframe_unit = 3
+        end
+
         chars = 60
         lines = (length / chars.to_f).ceil
         width = [qend.to_s.length, send.to_s.length].max
 
         s = ''
-        nqseq = qstart
-        nsseq = sstart
+        if method != 'blastn'
+            nqseq = qframe > 0 ? qstart : qend
+            nsseq = sframe > 0 ? sstart : send
+        else
+            nqseq = qstart
+            nsseq = sstart
+        end
         (1..lines).each do |i|
           lqstart = nqseq
           lqseq = qseq[chars * (i - 1), chars]
-          nqseq = nqseq + (lqseq.length - lqseq.count('-')) * qframe
-          lqend = nqseq - qframe
+          nqseq = nqseq + (lqseq.length - lqseq.count('-')) * qframe_unit * qframe_sign
+          lqend = nqseq - qframe_sign
           s << "Query   %#{width}d  #{lqseq}  #{lqend}\n" % lqstart
 
           lmseq = midline[chars * (i - 1), chars]
@@ -159,8 +195,8 @@ module SequenceServer
 
           lsstart = nsseq
           lsseq   = sseq[chars * (i - 1), chars]
-          nsseq   = nsseq + (lsseq.length - lsseq.count('-')) * sframe
-          lsend   = nsseq - sframe
+          nsseq   = nsseq + (lsseq.length - lsseq.count('-')) * sframe_unit * sframe_sign
+          lsend   = nsseq - sframe_sign
           s << "Subject %#{width}d  #{lsseq}  #{lsend}\n" % lsstart
 
           s << "\n" unless i == lines
@@ -216,13 +252,13 @@ module SequenceServer
         elsif @program == 'blastx'
           hsp_stats["Query Frame"] = hsp[:qframe]
         elsif @program == 'tblastn'
-          hsp_stats["Hit Frame"] = hsp[:hframe]
+          hsp_stats["Hit Frame"] = hsp[:sframe]
         elsif @program == 'tblastx'
           hsp_stats["Positives"] = hsp.positives_fraction + "(" + hsp.positives_percentage + "%)"
-        end
-        if ['blastn', 'tblastx'].include? @program
-          hsp_stats["Strand"] = (hsp[:qframe] > 1 ? "(Plus" : "(Minus") +
-                               (hsp[:hframe] > 1 ? "/Plus)" : "/Minus)")
+          hsp_stats["Frame"] = hsp[:qframe].to_s+'/'+hsp[:sframe].to_s
+        elsif @program == 'blastn'
+          hsp_stats["Strand"] = (hsp[:qframe] > 0 ? "(Plus" : "(Minus") +
+                               (hsp[:sframe] > 0 ? "/Plus)" : "/Minus)")
         end
 
         hsp_stats
