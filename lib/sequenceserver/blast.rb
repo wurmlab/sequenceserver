@@ -177,8 +177,8 @@ module SequenceServer
 
         s = ''
         if method != 'blastn'
-            nqseq = qframe > 0 ? qstart : qend
-            nsseq = sframe > 0 ? sstart : send
+            nqseq = qframe >= 0 ? qstart : qend
+            nsseq = sframe >= 0 ? sstart : send
         else
             nqseq = qstart
             nsseq = sstart
