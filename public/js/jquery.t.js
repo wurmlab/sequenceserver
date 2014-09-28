@@ -2,11 +2,15 @@
     $.extend({
         initialize: function (selector) {
             var selectorId = $(selector).attr('id');
-            var graphDOM = $(selector).children().eq(1).children()
-                .eq(0).after("<div class='graph'/>");
-            $(selector).children().eq(1).children().eq(1)
-                .after("<button type='button' data-parent-query="+ selectorId +
-                    " class='more btn btn-link btn-xs'> Load more .. </button>");
+
+            // FIXME: SS should create the container and pass id of the
+            // container to graphit.
+            var container = $("<div class='graphical-overview'/>");
+            container.append("<div class='graph'/>");
+            container.append("<button type='button' data-parent-query="+ selectorId +
+                             " class='btn btn-link btn-xs more'> Load more .. </button>");
+
+            $(selector).children().eq(1).children().eq(0).after(container);
         },
 
         toD3: function (selector, index, howMany) {
