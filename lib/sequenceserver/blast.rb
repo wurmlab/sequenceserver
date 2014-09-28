@@ -108,103 +108,6 @@ module SequenceServer
 
         super
       end
-
-      alias length len
-
-      def pretty_evalue
-        evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s}
-      end
-
-      def identity_fraction
-        "#{identity}/#{length}"
-      end
-
-      def positives_fraction
-        "#{positives}/#{length}"
-      end
-
-      def gaps_fraction
-        "#{gaps}/#{length}"
-      end
-
-      def identity_percentage
-        "#{'%.2f' % (identity * 100.0 / length)}"
-      end
-
-      def positives_percentage
-        "#{'%.2f' % (positives * 100.0 / length)}"
-      end
-
-      def gaps_percentage
-        "#{'%.2f' % (gaps * 100.0 / length)}"
-      end
-
-      def qframe_sign
-        qframe >= 0 ? 1 : -1
-      end
-
-      def sframe_sign
-        sframe >= 0 ? 1 : -1
-      end
-
-      def pp method
-        # In many of the BLAST algorithms, translated queries are performed which
-        # has to be taken care while determining end co ordinates of query and
-        # subject sequences. Since each amino acid is encoded using three nucl.
-        # referred to as codons, necessary value is multiplied to determine the
-        # coordinates.
-
-        # blastn and blastp search the nucleotide and protein databases using
-        # nucleotide and protein queries respectively.
-        qframe_unit = 1
-        sframe_unit = 1
-        # tblastn searches translated nucleotide database using a protein query
-        if method == 'tblastn'
-          sframe_unit = 3
-        # blastx searches protein database using a translated nucleotide query,
-        elsif method == 'blastx'
-          qframe_unit = 3
-        # tblastx searches translated nucleotide database using a translated
-        # nucleotide query.
-        elsif method == 'tblastx'
-          qframe_unit = 3
-          sframe_unit = 3
-        end
-
-        chars = 60
-        lines = (length / chars.to_f).ceil
-        width = [qend.to_s.length, send.to_s.length].max
-
-        s = ''
-        if method != 'blastn'
-            nqseq = qframe >= 0 ? qstart : qend
-            nsseq = sframe >= 0 ? sstart : send
-        else
-            nqseq = qstart
-            nsseq = sstart
-        end
-        (1..lines).each do |i|
-          lqstart = nqseq
-          lqseq = qseq[chars * (i - 1), chars]
-          nqseq = nqseq + (lqseq.length - lqseq.count('-')) * qframe_unit * qframe_sign
-          lqend = nqseq - qframe_sign
-          s << "Query   %#{width}d  #{lqseq}  #{lqend}\n" % lqstart
-
-          lmseq = midline[chars * (i - 1), chars]
-          s << "#{' ' * (width + 8)}  #{lmseq}\n"
-
-          lsstart = nsseq
-          lsseq   = sseq[chars * (i - 1), chars]
-          nsseq   = nsseq + (lsseq.length - lsseq.count('-')) * sframe_unit * sframe_sign
-          lsend   = nsseq - sframe_sign
-          s << "Subject %#{width}d  #{lsseq}  #{lsend}\n" % lsstart
-
-          s << "\n" unless i == lines
-        end
-        #p qend == nqseq - qframe
-        #p send == nsseq - sframe
-        s
-      end
     end
 
     # Captures BLAST results from BLAST+'s XML output.
@@ -240,24 +143,124 @@ module SequenceServer
         end
       end
 
+      # Helper methods for pretty printing results
+      #
+      def pretty_evalue hsp
+        hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s}
+      end
+
+      def identity_fraction hsp
+        "#{hsp.identity}/#{hsp.length}"
+      end
+
+      def positives_fraction hsp
+        "#{hsp.positives}/#{hsp.length}"
+      end
+
+      def gaps_fraction hsp
+        "#{hsp.gaps}/#{hsp.length}"
+      end
+
+      def identity_percentage hsp
+        "#{'%.2f' % (hsp.identity * 100.0 / hsp.length)}"
+      end
+
+      def positives_percentage hsp
+        "#{'%.2f' % (hsp.positives * 100.0 / hsp.length)}"
+      end
+
+      def gaps_percentage hsp
+        "#{'%.2f' % (hsp.gaps * 100.0 / hsp.length)}"
+      end
+
+      def qframe_sign hsp
+        hsp.qframe >= 0 ? 1 : -1
+      end
+
+      def sframe_sign hsp
+        hsp.sframe >= 0 ? 1 : -1
+      end
+
+      def pp hsp
+        # In many of the BLAST algorithms, translated queries are performed which
+        # has to be taken care while determining end co ordinates of query and
+        # subject sequences. Since each amino acid is encoded using three nucl.
+        # referred to as codons, necessary value is multiplied to determine the
+        # coordinates.
+
+        # blastn and blastp search the nucleotide and protein databases using
+        # nucleotide and protein queries respectively.
+        qframe_unit = 1
+        sframe_unit = 1
+        # tblastn searches translated nucleotide database using a protein query
+        if @program == 'tblastn'
+          sframe_unit = 3
+        # blastx searches protein database using a translated nucleotide query,
+        elsif @program == 'blastx'
+          qframe_unit = 3
+        # tblastx searches translated nucleotide database using a translated
+        # nucleotide query.
+        elsif @program == 'tblastx'
+          qframe_unit = 3
+          sframe_unit = 3
+        end
+
+        chars = 60
+        lines = (hsp.length / chars.to_f).ceil
+        width = [hsp.qend.to_s.length, hsp.send.to_s.length,
+                 hsp.qstart.to_s.length, hsp.qend.to_s.length].max
+
+        s = ''
+        if @program != 'blastn'
+            nqseq = hsp.qframe >= 0 ? hsp.qstart : hsp.qend
+            nsseq = hsp.sframe >= 0 ? hsp.sstart : hsp.send
+        else
+            nqseq = hsp.qstart
+            nsseq = hsp.sstart
+        end
+        (1..lines).each do |i|
+          lqstart = nqseq
+          lqseq = hsp.qseq[chars * (i - 1), chars]
+          nqseq = nqseq + (lqseq.length - lqseq.count('-')) * qframe_unit * qframe_sign(hsp)
+          lqend = nqseq - qframe_sign(hsp)
+          s << "Query   %#{width}d  #{lqseq}  #{lqend}\n" % lqstart
+
+          lmseq = hsp.midline[chars * (i - 1), chars]
+          s << "#{' ' * (width + 8)}  #{lmseq}\n"
+
+          lsstart = nsseq
+          lsseq   = hsp.sseq[chars * (i - 1), chars]
+          nsseq   = nsseq + (lsseq.length - lsseq.count('-')) * sframe_unit * sframe_sign(hsp)
+          lsend   = nsseq - sframe_sign(hsp)
+          s << "Subject %#{width}d  #{lsseq}  #{lsend}\n" % lsstart
+
+          s << "\n" unless i == lines
+        end
+        #p qend == nqseq - qframe
+        #p send == nsseq - sframe
+        s
+      end
+
       def filter_hsp_stats(hsp)
-        hsp_stats = {"Score" => "#{'%.2f' % hsp[:bit_score]}(" + hsp[:score].to_s + ")",
-                     "Expect" => hsp.pretty_evalue,
-                     "Identities" => hsp.identity_fraction + "(" + hsp.identity_percentage + "%)",
-                     "Gaps" => hsp.gaps_fraction + "(" + hsp.gaps_percentage + "%)"}
+        hsp_stats = {
+          "Score" => "#{'%.2f' % hsp[:bit_score]}(#{hsp[:score]})",
+          "Expect" => "#{pretty_evalue hsp}",
+          "Identities" => "#{identity_fraction hsp}(#{identity_percentage hsp})",
+          "Gaps" => "#{gaps_fraction hsp}(#{gaps_percentage hsp})"
+        }
 
         if @program == 'blastp'
-          hsp_stats["Positives"] = hsp.positives_fraction + "(" + hsp.positives_percentage + "%)"
+          hsp_stats["Positives"] = "#{positives_fraction hsp}(#{positives_percentage hsp})"
         elsif @program == 'blastx'
-          hsp_stats["Query Frame"] = hsp[:qframe]
+          hsp_stats["Query Frame"] = "#{hsp[:qframe]}"
         elsif @program == 'tblastn'
-          hsp_stats["Hit Frame"] = hsp[:sframe]
+          hsp_stats["Hit Frame"] = "#{hsp[:sframe]}"
         elsif @program == 'tblastx'
-          hsp_stats["Positives"] = hsp.positives_fraction + "(" + hsp.positives_percentage + "%)"
-          hsp_stats["Frame"] = hsp[:qframe].to_s+'/'+hsp[:sframe].to_s
+          hsp_stats["Positives"] = "#{positives_fraction hsp}(#{positives_percentage hsp})"
+          hsp_stats["Frame"] = "#{hsp[:qframe]}/#{hsp[:sframe]}"
         elsif @program == 'blastn'
-          hsp_stats["Strand"] = (hsp[:qframe] > 0 ? "(Plus" : "(Minus") +
-                               (hsp[:sframe] > 0 ? "/Plus)" : "/Minus)")
+          hsp_stats["Strand"] = "#{hsp[:qframe] > 0 ? "(Plus" : "(Minus"}"<<
+                                "#{hsp[:sframe] > 0 ? "/Plus)" : "/Minus)"}"
         end
 
         hsp_stats
