@@ -207,12 +207,11 @@ module SequenceServer
       end
     end
 
-    # Captures BLAST results.
+    # Captures BLAST results from BLAST+'s XML output.
     class Report
 
+      # Expects a File object.
       def initialize(rfile)
-        # Generates BLAST report which one or moremultiple Query objects
-        # based on the blast query string.
         parsed_out = Ox.parse(rfile.read)
         hashed_out = node_to_array(parsed_out.root)
         @program = hashed_out[0]
@@ -375,9 +374,7 @@ module SequenceServer
       end
 
       # Report the results, ensures that file is closed after execution.
-      File.open(rfile) {|f|
-        Report.new(f)
-      }
+      File.open(rfile.path) {|f| Report.new(f) }
     end
 
     # Returns an Array of SequenceServer::Sequence objects capturing the
