@@ -104,7 +104,40 @@ if (!SS) {
             }
         }
       }).join('');
-    }
+    };
+
+    SS.generateGraphicalOverview = function () {
+        var setupTooltip = function () {
+            $('[data-toggle="tooltip"]').tooltip({
+                'placement': 'top',
+                'container': 'body',
+                'html': 'true',
+                'white-space': 'nowrap'
+            });
+        }
+
+        $("[data-graphit='overview']").each(function () {
+            $.graphIt(this, 0, 20);
+        });
+        setupTooltip();
+
+        $('.more').on('click', function (e) {
+            var howMany = 20;
+            var pId = '#'+$(this).data().parentQuery;
+            var start = $(pId).find('.ghit > g').length;
+            if (start < 20) {
+                $(this).attr('disabled', 'disabled');
+                e.stopPropagation();
+            }
+            else {
+                $.graphIt((pId), start, howMany);
+                setupTooltip();
+                if(start + howMany >= $(pId).data().hitCount) {
+                    $(this).attr('disabled', 'disabled');
+                }
+            }
+        });
+    };
 
     SS.init = function () {
         this.$sequence = $('#sequence');
@@ -270,32 +303,7 @@ $(document).ready(function(){
             //jump to the results
             location.hash = hash;
 
-            $("[data-graphit='overview']").each( function(i) {
-                $.graphIt(this, 0, 20);
-            });
-
-            $('.more').on('click', function(e) {
-                var howMany = 20;
-                var pId = '#'+$(this).data().parentQuery;
-                var start = $(pId).find('.ghit > g').length;
-                if(start < 20) {
-                    $(this).attr('disabled', 'disabled');
-                    e.stopPropagation();
-                }
-                else {
-                    $.graphIt((pId), start, howMany);
-                    if(start+howMany >= $(pId).data().hitCount) {
-                        $(this).attr('disabled', 'disabled');
-                    }
-                }
-            });
-
-            $('[data-toggle="tooltip"]').tooltip({
-                'placement': 'top',
-                'container': 'body',
-                'html': 'true',
-                'white-space': 'nowrap'
-            });
+            SS.generateGraphicalOverview();
 
             $('.resultn').
                 scrollspy({
