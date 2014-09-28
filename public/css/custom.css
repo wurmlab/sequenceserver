@@ -32,14 +32,14 @@ label {
   background-color: red;
 }
 
+#blast {
+  margin-top: 30px;
+}
+
 .sequence-controls {
   position: absolute;
   top: 4px;
   right: 19px;
-}
-
-#blast > .form-group {
-  padding-left: 15px;
 }
 
 .notifications {
@@ -66,6 +66,10 @@ label {
   padding: 6px 12px 6px 12px;
 }
 
+.databases-container {
+  margin-top: -15px;
+}
+
 .databases-container .btn {
   text-align: left;
   white-space: normal;
@@ -73,6 +77,10 @@ label {
 
 span.highlight {
   font-weight: bold;
+}
+
+#blast > .form-group:last-child {
+  margin-top: -5px;
 }
 
 .advanced > label {
@@ -111,6 +119,9 @@ span.highlight {
   width: 92%;
 }
 
+#result {
+  margin-top: 45px;
+}
 .index-container {
   padding-left: 30px;
   padding-right: 0px;
@@ -134,17 +145,7 @@ span.highlight {
 }
 
 .resultn {
-  border-left: 1px #eee solid;
-  padding-left: 15px;
   margin-bottom: 50px;
-}
-
-.resultn > .page-content {
-  padding-left: 15px;
-}
-
-.hitn > .page-content {
-  padding: 0px 15px;
 }
 
 .hsps .alignment {
@@ -152,7 +153,7 @@ span.highlight {
   white-space: pre;
 }
 
-.index .focussed, .resultn.focussed {
+.index .focussed {
   border-left: 4px #eee solid;
 }
 

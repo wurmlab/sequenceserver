@@ -1,26 +1,5 @@
 <div
-  class="page-header">
-  <h2>Results</h2>
-</div>
-
-<div
   class="row">
-  <div
-    class="col-md-3">
-    <ul
-      class="nav nav-stacked index">
-      <% report.queries.each do |query| %>
-        <li>
-          <a
-            href="<%="#Query_#{query.number}"%>"
-            title="<%= "Query= #{query.id}" %>">
-            <%= "Query= #{query.id}"[0, 30] + (query.id.length > 30 ? ' ...' : '')%>
-          </a>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-
   <div
     class="col-md-9">
     <% report.queries.each do |query| %>
@@ -170,4 +149,21 @@
       </div>
     <% end %>
   </div>
+
+  <div
+    class="col-md-3">
+    <ul
+      class="nav nav-stacked index">
+      <% report.queries.each do |query| %>
+        <li>
+          <a
+            href="<%="#Query_#{query.number}"%>"
+            title="<%= "Query= #{query.id}" %>">
+            <%= "Query= #{query.id}"[0, 30] + (query.id.length > 30 ? ' ...' : '')%>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
 </div>
