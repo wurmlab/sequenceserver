@@ -144,7 +144,8 @@ module SequenceServer
       end
 
       # Helper methods for pretty printing results
-      #
+
+      # FIXME: HTML!!
       def pretty_evalue hsp
         hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s}
       end
@@ -173,15 +174,8 @@ module SequenceServer
         "#{'%.2f' % (hsp.gaps * 100.0 / hsp.length)}"
       end
 
-      def qframe_sign hsp
-        hsp.qframe >= 0 ? 1 : -1
-      end
-
-      def sframe_sign hsp
-        hsp.sframe >= 0 ? 1 : -1
-      end
-
-      def pp hsp
+      # FIXME: Test me.
+      def pp_hsp hsp
         # In many of the BLAST algorithms, translated queries are performed which
         # has to be taken care while determining end co ordinates of query and
         # subject sequences. Since each amino acid is encoded using three nucl.
@@ -205,12 +199,14 @@ module SequenceServer
           sframe_unit = 3
         end
 
+        qframe_sign = hsp.qframe >= 0 ? 1 : -1
+        sframe_sign = hsp.sframe >= 0 ? 1 : -1
+
         chars = 60
         lines = (hsp.length / chars.to_f).ceil
-        width = [hsp.qend.to_s.length, hsp.send.to_s.length,
-                 hsp.qstart.to_s.length, hsp.qend.to_s.length].max
+        width = [hsp.qend, hsp.send, hsp.qstart,
+                 hsp.qend].map(&:to_s).map(&:length).max
 
-        s = ''
         # blastn results are inconsistent with the other methods as it
         # automatically reverse the start and end coordinates (based on
         # frame), while for others it has to be inferred.
@@ -221,11 +217,13 @@ module SequenceServer
             nqseq = hsp.qstart
             nsseq = hsp.sstart
         end
+
+        s = ''
         (1..lines).each do |i|
           lqstart = nqseq
           lqseq = hsp.qseq[chars * (i - 1), chars]
-          nqseq = nqseq + (lqseq.length - lqseq.count('-')) * qframe_unit * qframe_sign(hsp)
-          lqend = nqseq - qframe_sign(hsp)
+          nqseq = nqseq + (lqseq.length - lqseq.count('-')) * qframe_unit * qframe_sign
+          lqend = nqseq - qframe_sign
           s << "Query   %#{width}d  #{lqseq}  #{lqend}\n" % lqstart
 
           lmseq = hsp.midline[chars * (i - 1), chars]
@@ -233,8 +231,8 @@ module SequenceServer
 
           lsstart = nsseq
           lsseq   = hsp.sseq[chars * (i - 1), chars]
-          nsseq   = nsseq + (lsseq.length - lsseq.count('-')) * sframe_unit * sframe_sign(hsp)
-          lsend   = nsseq - sframe_sign(hsp)
+          nsseq   = nsseq + (lsseq.length - lsseq.count('-')) * sframe_unit * sframe_sign
+          lsend   = nsseq - sframe_sign
           s << "Subject %#{width}d  #{lsseq}  #{lsend}\n" % lsstart
 
           s << "\n" unless i == lines
@@ -244,6 +242,7 @@ module SequenceServer
         s
       end
 
+      # FIXME: Document me.
       def filter_hsp_stats(hsp)
         hsp_stats = {
           "Score" => "#{'%.2f' % hsp[:bit_score]}(#{hsp[:score]})",
