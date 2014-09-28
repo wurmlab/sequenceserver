@@ -239,7 +239,6 @@ module SequenceServer
             @queries[i].sort_hits_by_evalue!
           end
         end
-        pp @queries
       end
 
       def filter_hsp_stats(hsp)
