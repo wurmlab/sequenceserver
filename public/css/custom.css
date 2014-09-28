@@ -176,6 +176,10 @@ a.link-fasta-query {
     padding-top: 30px;
 }
 
+.graphical-overview {
+  text-align: center;
+}
+
 .axis path,
 .axis line {
     fill: red;
