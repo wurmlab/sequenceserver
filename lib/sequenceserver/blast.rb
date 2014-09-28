@@ -108,6 +108,9 @@ module SequenceServer
 
         super
       end
+
+      alias length len
+
     end
 
     # Captures BLAST results from BLAST+'s XML output.
@@ -247,18 +250,18 @@ module SequenceServer
         hsp_stats = {
           "Score" => "#{'%.2f' % hsp[:bit_score]}(#{hsp[:score]})",
           "Expect" => "#{pretty_evalue hsp}",
-          "Identities" => "#{identity_fraction hsp}(#{identity_percentage hsp})",
-          "Gaps" => "#{gaps_fraction hsp}(#{gaps_percentage hsp})"
+          "Identities" => "#{identity_fraction hsp}(#{identity_percentage hsp}%)",
+          "Gaps" => "#{gaps_fraction hsp}(#{gaps_percentage hsp}%)"
         }
 
         if @program == 'blastp'
-          hsp_stats["Positives"] = "#{positives_fraction hsp}(#{positives_percentage hsp})"
+          hsp_stats["Positives"] = "#{positives_fraction hsp}(#{positives_percentage hsp}%)"
         elsif @program == 'blastx'
           hsp_stats["Query Frame"] = "#{hsp[:qframe]}"
         elsif @program == 'tblastn'
           hsp_stats["Hit Frame"] = "#{hsp[:sframe]}"
         elsif @program == 'tblastx'
-          hsp_stats["Positives"] = "#{positives_fraction hsp}(#{positives_percentage hsp})"
+          hsp_stats["Positives"] = "#{positives_fraction hsp}(#{positives_percentage hsp}%)"
           hsp_stats["Frame"] = "#{hsp[:qframe]}/#{hsp[:sframe]}"
         elsif @program == 'blastn'
           hsp_stats["Strand"] = "#{hsp[:qframe] > 0 ? "(Plus" : "(Minus"}"<<
