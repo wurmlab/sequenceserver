@@ -211,6 +211,9 @@ module SequenceServer
                  hsp.qstart.to_s.length, hsp.qend.to_s.length].max
 
         s = ''
+        # blastn results are inconsistent with the other methods as it
+        # automatically reverse the start and end coordinates (based on
+        # frame), while for others it has to be inferred.
         if @program != 'blastn'
             nqseq = hsp.qframe >= 0 ? hsp.qstart : hsp.qend
             nsseq = hsp.sframe >= 0 ? hsp.sstart : hsp.send
