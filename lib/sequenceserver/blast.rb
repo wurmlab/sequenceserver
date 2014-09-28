@@ -128,15 +128,15 @@ module SequenceServer
       end
 
       def identity_percentage
-        "#{(identity * 100.0 / length).round(2)}"
+        "#{'%.2f' % (identity * 100.0 / length)}"
       end
 
       def positives_percentage
-        "#{(positives * 100.0 / length).round(2)}"
+        "#{'%.2f' % (positives * 100.0 / length)}"
       end
 
       def gaps_percentage
-        "#{(gaps * 100.0 / length).round(2)}"
+        "#{'%.2f' % (gaps * 100.0 / length)}"
       end
 
       def qframe_sign
@@ -239,10 +239,11 @@ module SequenceServer
             @queries[i].sort_hits_by_evalue!
           end
         end
+        pp @queries
       end
 
       def filter_hsp_stats(hsp)
-        hsp_stats = {"Score" => hsp[:bit_score].to_s + "(" + hsp[:score].to_s + ")",
+        hsp_stats = {"Score" => "#{'%.2f' % hsp[:bit_score]}(" + hsp[:score].to_s + ")",
                      "Expect" => hsp.pretty_evalue,
                      "Identities" => hsp.identity_fraction + "(" + hsp.identity_percentage + "%)",
                      "Gaps" => hsp.gaps_fraction + "(" + hsp.gaps_percentage + "%)"}
