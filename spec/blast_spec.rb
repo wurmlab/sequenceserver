@@ -1,4 +1,5 @@
 require 'sequenceserver'
+require 'rack/test'
 
 module SequenceServer
 
@@ -6,8 +7,8 @@ module SequenceServer
   no_hits_xml = File.join(SequenceServer.root, 'spec', 'ss_sample_blast_no_hits.xml')
 
   describe 'Report' do
-    hits_report = Blast::Report.new(File.new(with_hits_xml))
-    no_hits_report = Blast::Report.new(File.new(no_hits_xml))
+    hits_report = File.open(with_hits_xml) {|f| Blast::Report.new(f)}
+    no_hits_report = File.open(no_hits_xml) {|f| Blast::Report.new(f)}
 
     it 'will return an Array of queries' do
       hits_report.queries.should be_a Array
@@ -17,8 +18,8 @@ module SequenceServer
   end
 
   describe 'Query' do
-    hits_report = Blast::Report.new(File.new(with_hits_xml))
-    no_hits_report = Blast::Report.new(File.new(no_hits_xml))
+    hits_report = File.open(with_hits_xml) {|f| Blast::Report.new(f)}
+    no_hits_report = File.open(no_hits_xml) {|f| Blast::Report.new(f)}
 
     it 'will return queries with valid length' do
       hits_report.queries.first.len.should be_a Fixnum
@@ -45,8 +46,8 @@ module SequenceServer
   end
 
   describe 'Hits' do
-    hits_report = Blast::Report.new(File.new(with_hits_xml))
-    no_hits_report = Blast::Report.new(File.new(no_hits_xml))
+    hits_report = File.open(with_hits_xml) {|f| Blast::Report.new(f)}
+    no_hits_report = File.open(no_hits_xml) {|f| Blast::Report.new(f)}
 
     it 'will have non zero length' do
       hits_report.queries.last.hits.first.len.should satisfy {|n| n > 0}
@@ -67,7 +68,8 @@ module SequenceServer
   end
 
   describe 'HSPs' do
-    hits_report = Blast::Report.new(File.new(with_hits_xml))
+    hits_report = File.open(with_hits_xml) {|f| Blast::Report.new(f)}
+    method = hits_report.program
 
     # Currently using all 17 HSP parameters in BLAST Report.
     it 'have all the necessary values' do
@@ -78,7 +80,9 @@ module SequenceServer
     it 'have correct alignment values' do
       hits_report.queries.last.hits.first.hsps.last.bit_score.should be_a Float
       hits_report.queries.last.hits.first.hsps.last.score.should be_a Fixnum
+
       hits_report.queries.first.hits.first.hsps.first.evalue.should be_a Float
+      hits_report.queries.first.hits.first.hsps.first.evalue.should_not satisfy {|n| n < 0}
 
       hits_report.queries.first.hits.last.hsps.first.qstart.should be_a Fixnum
       hits_report.queries.first.hits.last.hsps.first.qstart.should_not satisfy {|n| n < 0}
@@ -117,6 +121,42 @@ module SequenceServer
       hsp.qseq.length.should eql(hsp.sseq.length)
       hsp.sseq.length.should eql(hsp.midline.length)
       hsp.midline.length.should eql(hsp.qseq.length)
+    end
+
+    it 'have correctly ordered query, and subject\'s start, end coordinates' do
+      hsp = hits_report.queries.last.hits.last.hsps.first
+      case method
+      when 'blastn'
+        if hsp.sframe > 0
+          hsp.sstart.should be <= hsp.send
+        else
+          hsp.sstart.should be >= hsp.send
+        end
+      else
+        hsp.qstart.should be <= hsp.qend
+        hsp.sstart.should be <= hsp.send
+      end
+    end
+
+    it 'have correct query and subject frames' do
+      hsp = hits_report.queries.last.hits.last.hsps.first
+      case method
+      when 'blastn'
+        [1, -1].should include(hsp.qframe)
+        [1, -1].should include(hsp.sframe)
+      when 'blastx'
+        hsp.qframe.should_not eql(0)
+        hsp.sframe.should eql(0)
+      when 'tblastx'
+        hsp.qframe.should_not eql(0)
+        hsp.sframe.should_not eql(0)
+      when 'tblastn'
+        hsp.qframe.should eql(0)
+        hsp.sframe.should_not eql(0)
+      else
+        hsp.qframe.should_not eql(0)
+        hsp.sframe.should_not eql(0)
+      end
     end
 
   end
