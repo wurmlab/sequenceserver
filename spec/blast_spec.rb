@@ -86,14 +86,14 @@ module SequenceServer
       hits_report.queries.first.hits.last.hsps.first.qend.should be_a Fixnum
       hits_report.queries.first.hits.last.hsps.first.qend.should_not satisfy {|n| n < 0}
 
-      hits_report.queries.last.hits.last.hsps.last.start.should be_a Fixnum
-      hits_report.queries.last.hits.last.hsps.last.start.should_not satisfy {|n| n < 0}
+      hits_report.queries.last.hits.last.hsps.last.sstart.should be_a Fixnum
+      hits_report.queries.last.hits.last.hsps.last.sstart.should_not satisfy {|n| n < 0}
 
       hits_report.queries.first.hits.first.hsps.last.send.should be_a Fixnum
       hits_report.queries.first.hits.first.hsps.last.send.should_not satisfy {|n| n < 0}
 
       hits_report.queries.first.hits.first.hsps.last.qframe.should be_a Fixnum
-      hits_report.queries.first.hits.first.hsps.last.hframe.should be_a Fixnum
+      hits_report.queries.first.hits.first.hsps.last.sframe.should be_a Fixnum
 
       hits_report.queries.first.hits.first.hsps.last.identity.should be_a Fixnum
       hits_report.queries.first.hits.first.hsps.last.identity.should_not satisfy {|n| n < 0 }
@@ -108,14 +108,14 @@ module SequenceServer
       hits_report.queries.first.hits.first.hsps.last.len.should satisfy {|n| n > 0}
 
       hits_report.queries.last.hits.last.hsps.first.qseq.should be_a String
-      hits_report.queries.last.hits.last.hsps.first.hseq.should be_a String
+      hits_report.queries.last.hits.last.hsps.first.sseq.should be_a String
       hits_report.queries.last.hits.last.hsps.first.midline.should be_a String
     end
 
     it 'have correctly matched query, hit and midline alignments' do
       hsp = hits_report.queries.last.hits.last.hsps.first
-      hsp.qseq.length.should eql(hsp.hseq.length)
-      hsp.hseq.length.should eql(hsp.midline.length)
+      hsp.qseq.length.should eql(hsp.sseq.length)
+      hsp.sseq.length.should eql(hsp.midline.length)
       hsp.midline.length.should eql(hsp.qseq.length)
     end
 
