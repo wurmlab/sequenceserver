@@ -392,7 +392,7 @@ module SequenceServer
     # FIXME: Reconsider if databases should be returned.
     def sequences_from_blastdb(sequence_ids, database_ids)
       sequence_ids   = sequence_ids.join(',')
-      database_names = databases.values_at(*database_ids).map(&:name).join(',')
+      database_names = databases.select{|d| database_ids.include? d.id}.map(&:name).join(' ')
 
       # Fetch sequences from BLAST db.
       #

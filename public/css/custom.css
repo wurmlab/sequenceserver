@@ -1,4 +1,9 @@
 /* Override or extend Bootstrap */
+code {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
 .text-monospace {
   font-family: monospace;
 }
