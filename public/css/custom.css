@@ -22,6 +22,12 @@ label {
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
 .table>tbody>tr>td, .table>tfoot>tr>td {
   border-top: none;
+  padding-left: 0px;
+}
+
+.table>thead>tr>th {
+  /*border-bottom: 2px solid #ddd;*/
+  border-bottom: 1px solid #eee;
 }
 
 /* SequenceServer */
@@ -140,12 +146,16 @@ span.highlight {
   color: #999;
 }
 
-.resultn > .page-header, .resultn > .page-header > h3, .fastan:first-child > .page-header {
+.page-header {
   margin-top: 0px;
 }
 
 .resultn {
   margin-bottom: 50px;
+}
+
+.hsps .hsp-stats {
+  margin-bottom: 0px;
 }
 
 .hsps .alignment {
@@ -186,23 +196,4 @@ a.link-fasta-query {
     fill: red;
     stroke: #fff;
     shape-rendering: crispEdges;
-}
-
-.table-hsp {
-    font-family: monospace;
-    width: 100%;
-    border-bottom: none;
-    border-collapse: collapse;
-}
-
-.table-hsp th,
-.table-hsp thead td{
-    color: #000;
-    background-color: #fff;
-    text-align:left;
-    padding: 4px;
-}
-
-.table-hsp td {
-    padding: 4px;
 }

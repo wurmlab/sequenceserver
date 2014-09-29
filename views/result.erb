@@ -102,7 +102,8 @@
                       class="hsps" id="<%="Query_#{query.number}_hit_#{hit.number}_#{hsp.number}"%>"
                       data-hsp-evalue="<%= hsp.evalue %>" data-hsp-start="<%= hsp.qstart %>"
                       data-hsp-end="<%= hsp.qend %>" data-hsp-frame="<%= hsp.sframe %>">
-                      <table class="table-hsp">
+                      <table
+                        class="table table-hover table-condensed hsp-stats">
                           <thead>
                             <% report.filter_hsp_stats(hsp).each do |key, value| %>
                               <th> <%= key %> </th>
