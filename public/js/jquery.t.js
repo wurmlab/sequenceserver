@@ -140,7 +140,7 @@
                                 gradScale(p_hsp.hitEvalue),gradScale(p_hsp.hitEvalue));
 
                             if (j+1 < p_count) {
-                                if (p_hsp[j].hspEnd < p_hsp[j+1].hspStart) {
+                                if (p_hsp[j].hspEnd <= p_hsp[j+1].hspStart) {
                                     d3.select(this.parentNode).append('line')
                                         .attr('x1', x(p_hsp[j].hspEnd))
                                         .attr('y1', y_hspline)
@@ -153,26 +153,23 @@
                                         .attr('x1', x(p_hsp[j+1].hspEnd))
                                         .attr('y1', y_hspline)
                                         .attr('x2', x(p_hsp[j].hspStart))
-                                    .attr('y2', y_hspline)
-                                    .attr('stroke', hspline_color);
+                                        .attr('y2', y_hspline)
+                                        .attr('stroke', hspline_color);
+                                };
                             };
-                        };
 
-                        d3.select(this)
-                        .attr('xlink:href', function (d,i) {return '#'+q_i+'_hit_'+(h_i);})
-                        .append('rect')
-                        .attr('x', function (d) {
-                            if (d.hspFrame < 0)
-                                return x(d.hspStart);
-                            else
-                                return x(d.hspStart);
-                        })
-                        .attr('y', y(p_id))
-                        .attr('width', function (d) {
-                                return x(d.hspEnd - d.hspStart);
-                        })
-                        .attr('height', options.barHeight)
-                        .attr('fill', d3.rgb(hspline_color));
+                            d3.select(this)
+                            .attr('xlink:href', function (d,i) {return '#'+q_i+'_hit_'+(h_i);})
+                            .append('rect')
+                            .attr('x', function (d) {
+                                    return x(d.hspStart);
+                            })
+                            .attr('y', y(p_id))
+                            .attr('width', function (d) {
+                                    return x(d.hspEnd - d.hspStart + 1);
+                            })
+                            .attr('height', options.barHeight)
+                            .attr('fill', d3.rgb(hspline_color));
                     });
                 });
 
