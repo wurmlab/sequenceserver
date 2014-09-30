@@ -314,6 +314,7 @@ module SequenceServer
     ALGORITHMS = %w|blastn blastp blastx tblastn tblastx|
 
     def blast(params)
+      pre_process params
       validate_blast_params params
 
       # Compile parameters for BLAST search into a shell executable command.
@@ -416,6 +417,12 @@ module SequenceServer
       end
 
       [sequences, database_names]
+    end
+
+    def pre_process(params)
+      unless params[:sequence].nil?
+        params[:sequence].strip!
+      end
     end
 
     def validate_blast_params(params)
