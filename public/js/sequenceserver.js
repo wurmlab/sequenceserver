@@ -341,6 +341,11 @@ $(document).ready(function(){
 
             SS.generateGraphicalOverview();
 
+            $("[data-toggle='collapse']").on('click', function(event){
+                event.preventDefault();
+                $(this).find('.fa').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
+            });
+
             $('.resultn').
                 scrollspy({
                     approach: screen.height / 4
