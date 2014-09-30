@@ -9,6 +9,8 @@
             container.append("<div class='graph'/>");
             container.append("<button type='button' data-parent-query="+ selectorId +
                              " class='btn btn-link more'><i class='fa fa-angle-double-down'></i> View more</button>");
+            container.append("<button type='button' data-parent-query="+ selectorId +
+                             " class='btn btn-link less'><i class='fa fa-angle-double-up'></i> View less</button>");
 
             $(selector).children().eq(1).children().eq(0).after(container);
         },
