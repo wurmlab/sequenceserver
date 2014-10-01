@@ -94,11 +94,11 @@ span.highlight {
   margin-top: -5px;
 }
 
-.advanced > label {
+.advanced > label, .advanced .input-group-addon {
   cursor: pointer;
 }
 
-.hover-focus {
+#help pre:hover {
   background-color: #FFC;
 }
 

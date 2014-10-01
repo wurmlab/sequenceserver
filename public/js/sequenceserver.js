@@ -298,13 +298,6 @@ $(document).ready(function(){
     $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
     $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
 
-    $('.advanced pre').hover(function () {
-        $(this).addClass('hover-focus');
-    },
-    function () {
-        $(this).removeClass('hover-focus');
-    });
-
     $('.result').on('click', "[data-toggle='collapse']", function (event) {
         event.preventDefault();
         $(this).find('.fa').toggleClass('fa-rotate-270');
