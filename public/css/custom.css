@@ -159,6 +159,10 @@ span.highlight {
   margin-bottom: 50px;
 }
 
+.hitn h4 {
+  cursor: pointer;
+}
+
 .hsps .hsp-stats {
   margin-bottom: 0px;
 }

@@ -305,6 +305,11 @@ $(document).ready(function(){
         $(this).removeClass('hover-focus');
     });
 
+    $('.result').on('click', "[data-toggle='collapse']", function (event) {
+        event.preventDefault();
+        $(this).find('.fa').toggleClass('fa-rotate-270');
+    });
+
     $('#blast').submit(function(){
         //parse AJAX URL
         var action = $(this).attr('action');
@@ -340,11 +345,6 @@ $(document).ready(function(){
             location.hash = hash;
 
             SS.generateGraphicalOverview();
-
-            $("[data-toggle='collapse']").on('click', function(event){
-                event.preventDefault();
-                $(this).find('.fa').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
-            });
 
             $('.resultn').
                 scrollspy({
