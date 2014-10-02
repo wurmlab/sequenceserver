@@ -37,7 +37,8 @@
         </p>
 
         <p>
-          You requested <%= sequence_ids.length %> sequence<%= sequence_ids.length > 1 ? 's' : '' %>
+          You requested <%= sequence_ids.length %>
+          sequence<%= sequence_ids.length > 1 ? 's' : '' %>
           with the following identifiers:
           <br>
           <code>
@@ -50,11 +51,13 @@
             <%= database_names %>
           </code>.
           <br>
-          But we found <%= sequences.length %> sequence<%= sequences.length> 1 ? 's' : ''%>.
+          But we found <%= sequences.length %>
+          sequence<%= sequences.length> 1 ? 's' : ''%>.
         </p>
 
         <p>
-          If sequences were retrieved, you can find them below (but some may be incorrect, so be careful!).
+          If sequences were retrieved, you can find them below (but some may be
+          incorrect, so be careful!).
         </p>
 
         <hr/>
@@ -65,12 +68,25 @@
           class="fastan">
           <div
             class="page-header">
-            <h4>
-              <%= sequence.accession %>
-              <small>
-                <%= sequence.title %>
-              </small>
-            </h4>
+            <div
+              class="row">
+              <div
+                class="col-md-10">
+                <h4>
+                  <%= sequence.accession %>
+                  <small>
+                    <%= sequence.title %>
+                  </small>
+                </h4>
+              </div>
+              <div
+                class="col-md-2 checkbox text-right">
+                <label>
+                  <input type="checkbox" class="hits-box"
+                  value=<%="#{ sequence.accession }"%>>Select</input>
+                </label>
+              </div>
+            </div>
           </div>
           <pre
             class="pre-scrollable">
@@ -83,10 +99,11 @@
     <div
       class="modal-footer">
       <a
-        href="<%= "/get_sequence/?sequence_ids=#{sequence_ids.join(' ')}&database_ids=#{database_ids.join(' ')}&download=fasta" %>"
-        class="btn btn-default" <%= "disabled='true'" if sequences.length < 1 %>>
+        class="btn btn-default fasta-download" href=""
+        <%= "disabled='true'" if sequences.length < 1 %>
+        data-databases=<%="#{ database_ids.join(' ') }"%> >
         <i class="fa fa-download"></i>
-        Download
+        Download all
       </a>
     </div>
   </div>

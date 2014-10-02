@@ -303,6 +303,39 @@ $(document).ready(function(){
         $(this).find('.fa').toggleClass('fa-rotate-270');
     });
 
+    $('#fasta').on('change', '.hits-box:checkbox', function(event) {
+        var checkboxes = $('.hits-box:checkbox').length,
+            checked_boxes = $('.hits-box:checkbox:checked').length,
+            container = $('.fasta-download'),
+            text = container.html();
+        if (checked_boxes > 0 &&
+            checked_boxes != checkboxes) {
+            container.html(text.replace('all', 'selected'));
+        }
+        else {
+            container.html(text.replace('selected', 'all'));
+        }
+    });
+
+    $('#fasta').on('click', '.fasta-download', function(event) {
+        var sequence_ids = $('.hits-box:checkbox:checked').map(function () {
+                return this.value;
+            }).get(),
+            database_ids = $(this).data().databases;
+        // DEBUG
+        //console.log(sequence_ids, database_ids);
+
+        if (sequence_ids.length < 1) {
+            sequence_ids = $('.hits-box:checkbox').map(function() {
+                return this.value;
+            }).get();
+        }
+        var url = "/get_sequence/?sequence_ids=" +
+                  sequence_ids.join(' ') + "&database_ids=" + database_ids +
+                  "&download=fasta";
+        this.href = url;
+    });
+
     $('#blast').submit(function(){
         //parse AJAX URL
         var action = $(this).attr('action');

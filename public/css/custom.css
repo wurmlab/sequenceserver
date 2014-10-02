@@ -188,6 +188,11 @@ a.link-fasta-query {
   margin: 20px 0px;
 }
 
+.checkbox {
+  cursor: pointer;
+  margin: 10px 0px;
+}
+
 .footer a:first-child {
   vertical-align: super;
 }
