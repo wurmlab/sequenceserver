@@ -17,6 +17,8 @@ require 'sequenceserver/blast'
 # and use `parse_seqids` option of `makeblastdb` to format databases.
 module SequenceServer
 
+  # Use a fixed minimum version of BLAST+
+  MINIMUM_BLAST_VERSION           = '2.2.27+'
   # Use the following exit codes, or 1.
   EXIT_BLAST_NOT_INSTALLED        = 2
   EXIT_BLAST_NOT_COMPATIBLE       = 3
@@ -230,7 +232,6 @@ module SequenceServer
       database_dir = config[:database_dir]
       list = %x|blastdbcmd -recursive -list #{database_dir} -list_outfmt "%p %f %t" 2>&1|
       list.each_line do |line|
-        next if line.empty?  # required for BLAST+ 2.2.22
         type, name, *title =  line.split(' ')
         type = type.downcase
         name = name.freeze
@@ -264,9 +265,9 @@ module SequenceServer
         exit EXIT_BLAST_NOT_INSTALLED
       end
       version = %x|blastdbcmd -version|.split[1]
-      unless version >= '2.2.25+'
+      unless version >= MINIMUM_BLAST_VERSION
         puts "*** Your BLAST+ version #{version} is outdated."
-        puts "    SequenceServer needs NCBI BLAST+ version 2.2.25+ or higher."
+        puts "    SequenceServer needs NCBI BLAST+ version #{MINIMUM_BLAST_VERSION} or higher."
         exit EXIT_BLAST_NOT_COMPATIBLE
       end
     end
