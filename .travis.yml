@@ -8,6 +8,5 @@ rvm:
   - 2.1.2
 
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get -qq install ncbi-blast+=2.2.28-2
+  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.27/ncbi-blast-2.2.27+-x64-linux.tar.gz" && tar xvf ncbi-blast-2.2.27+-x64-linux.tar.gz && export PATH="./ncbi-blast-2.2.27+/bin:$PATH"
   - gem install bundler
