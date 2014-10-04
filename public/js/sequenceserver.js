@@ -295,9 +295,6 @@ $(document).ready(function(){
         $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
     });
 
-    $("input#advanced").enablePlaceholder({"withPlaceholderClass": "greytext"});
-    $("textarea#sequence").enablePlaceholder({"withPlaceholderClass": "greytext"});
-
     $('.result').on('click', "[data-toggle='collapse']", function (event) {
         event.preventDefault();
         $(this).find('.fa').toggleClass('fa-rotate-270');
