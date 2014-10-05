@@ -86,6 +86,10 @@ label {
   white-space: normal;
 }
 
+.databases-container label {
+  cursor: pointer;
+}
+
 span.highlight {
   font-weight: bold;
 }
