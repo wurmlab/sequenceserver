@@ -192,6 +192,11 @@ $(document).ready(function(){
 
     SS.$sequence.change(function () {
         if (SS.$sequence.val()) {
+            // Calculation below is based on -
+            // http://chris-spittles.co.uk/jquery-calculate-scrollbar-width/
+            var sequenceControlsRight = SS.$sequence[0].offsetWidth -
+                SS.$sequence[0].clientWidth;
+            SS.$sequenceControls.css('right', sequenceControlsRight + 17);
             SS.$sequenceControls.removeClass('hidden');
         }
         else {
