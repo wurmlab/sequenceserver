@@ -69,7 +69,7 @@ module SequenceServer
       @config[:database_dir] = File.expand_path(@config[:database_dir])
       assert_blast_databases_present_in_database_dir
 
-      scan_database_dir
+      scan_databases_dir
 
       @config[:num_threads] = Integer(@config[:num_threads])
       assert_num_threads_valid @config[:num_threads]
@@ -80,6 +80,7 @@ module SequenceServer
         assert_file_present 'extension file', @config[:require]
         require @config[:require]
       end
+
       # We don't validate port and host settings. If SequenceServer is run
       # self-hosted, bind will fail on incorrect values. If SequenceServer
       # is run via Apache+Passenger, we don't need to worry.
@@ -228,23 +229,22 @@ module SequenceServer
     end
 
     # Recurisvely scan `database_dir` for blast databases.
-    def scan_database_dir
+    def scan_databases_dir
       database_dir = config[:database_dir]
-      list = %x|blastdbcmd -recursive -list #{database_dir} -list_outfmt "%p %f %t" 2>&1|
+      list = %x|blastdbcmd -recursive -list #{database_dir} -list_outfmt "%p	%f	%t" 2>&1|
       list.each_line do |line|
-        type, name, *title =  line.split(' ')
-        type = type.downcase
-        name = name.freeze
-        title = title.join(' ').freeze
+        type, name, title =  line.split('	')
+        type.downcase!
+        [type, name, title].each(&:freeze)
 
         # skip past all but alias file of a NCBI multi-part BLAST database
         if multipart_database_name?(name)
-          logger.debug(%|Found a multi-part database volume at #{name} - ignoring it.|)
+          logger.debug(%|Ignoring multi-part database volume at #{name}.|)
           next
         end
 
+        logger.debug("Found #{type} database: #{title} at #{name}")
         database = Database.new(name, title, type)
-        logger.debug("Found #{database.type} database: #{database.title} at #{database.name}")
         databases << database
       end
     end
