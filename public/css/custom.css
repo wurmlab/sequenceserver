@@ -153,23 +153,49 @@ span.highlight {
 
 .page-header {
   margin-top: 0px;
+  margin-bottom: 5px;
+  padding-bottom: 0px;
 }
 
 .resultn {
   margin-bottom: 50px;
 }
 
+.hitn {
+  margin-top: 24px;
+}
+
 .hitn h4 {
   cursor: pointer;
 }
 
-.hsps .hsp-stats {
+.hsps:first-child {
+  margin-top: 14px;
+}
+
+.hsps {
+  margin-top: 18px;
+}
+
+.hsp-stats {
   margin-bottom: 0px;
 }
 
-.hsps .alignment {
-  font-family: monospace;
+.hsp-stats>thead>tr>th {
+  border-bottom: none;
+  padding: 0px;
+}
+
+.hsp-stats>tbody>tr>td {
+  padding: 0px;
+  border-bottom: 1px solid #eee;
+}
+
+.alignment {
+  margin-top: 8px;
   white-space: pre;
+  font-family: monospace;
+  line-height: 16px;
 }
 
 .index .focussed {
