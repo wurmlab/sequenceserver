@@ -18,7 +18,7 @@ module SequenceServer
 
       s = ">#{accession} #{title}\n"
       (1..lines).each do |i|
-        s << to_s[chars * (i - 1), chars].scan(/\w{1,10}/).join(' ')
+        s << to_s[chars * (i - 1), chars]
         s << "\n"
       end
       s
