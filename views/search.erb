@@ -51,23 +51,36 @@
     <form
       class="form-horizontal" id="blast"
       method="post" action="#result">
-      <div class="form-group">
-        <div class="col-md-12">
+      <div
+        class="form-group">
+        <div
+          class="col-md-12">
           <div
             class="sequence-controls hidden">
             <button
               type="button"
               class="btn btn-sm btn-default" id="btn-sequence-clear"
               title="Clear query sequence(s).">
+              <span id="sequence-file"></span>
               <i class="fa fa-times"></i>
             </button>
           </div>
-          <textarea
-            class="form-control text-monospace" name="sequence" id="sequence"
-            rows="10"
-            autofocus="true"
-            spellcheck="false"
-            placeholder="Paste your sequence(s) here..." ></textarea>
+          <div
+            class="sequence">
+            <div
+              class="hidden" id="dnd-target-marker">
+              <div
+                id="dnd-target-marker-text">
+                Drop query sequence file here
+              </div>
+            </div>
+            <textarea
+              class="form-control text-monospace" name="sequence" id="sequence"
+              rows="10"
+              autofocus="true"
+              spellcheck="false"
+              placeholder="Paste query sequence(s) or drag file containing query sequence(s) here ..." ></textarea>
+          </div>
         </div>
       </div>
 
@@ -100,6 +113,47 @@
           <div
             class="alert-danger col-md-10 col-md-offset-1">
             Detected: mixed nucleotide and protein sequences. We can't handle that. Please try one sequence at a time.
+          </div>
+        </div>
+
+        <div
+          class="notification"
+          id="dnd-read-error-notification"
+          style="display: none;">
+          <div
+            class="alert-danger col-md-6 col-md-offset-3">
+            Error reading file <span class="filename"></span>!
+          </div>
+        </div>
+
+        <div
+          class="notification"
+          id="dnd-large-file-notification"
+          style="display: none;">
+          <div
+            class="alert-danger col-md-6 col-md-offset-3">
+            File <span class="filename"></span> is too large!
+          </div>
+        </div>
+
+        <div
+          class="notification"
+          id="dnd-format-notification"
+          style="display: none;">
+          <div
+            class="alert-danger col-md-6 col-md-offset-3">
+            File <span class="filename"></span> does not appear to be
+            in FASTA format!
+          </div>
+        </div>
+
+        <div
+          class="notification"
+          id="dnd-multi-notification"
+          style="display: none;">
+          <div
+            class="alert-danger col-md-6 col-md-offset-3">
+            Please upload only one single file.
           </div>
         </div>
       </div>

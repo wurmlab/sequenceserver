@@ -237,3 +237,29 @@ a.link-fasta-query {
     stroke: #fff;
     shape-rendering: crispEdges;
 }
+
+#dnd-target-marker {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  height: 100%;
+  border: 4px solid #d3d3d3;
+  border-radius: 6px;
+  background-color: white;
+}
+
+#dnd-target-marker-text {
+  font-size: 18pt;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 80px;
+}
+
+#dnd-target-marker.drop-target-hover {
+  border: 4px solid black;
+}
+
+#drag-drop-overwrite {
+  color: red;
+  font-size: 22pt;
+}
