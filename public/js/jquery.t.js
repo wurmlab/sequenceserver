@@ -1,54 +1,144 @@
 (function ($) {
-    $.extend({
-        initialize: function (selector) {
-            var selectorId = $(selector).attr('id');
 
-            // FIXME: SS should create the container and pass id of the
-            // container to graphit.
-            var container = $("<div class='graphical-overview'/>");
-            container.append("<div class='graph'/>");
-            container.append("<button type='button' data-parent-query="+ selectorId +
-                             " class='btn btn-link more'><i class='fa fa-angle-double-down'></i> View more</button>");
-            container.append("<button type='button' data-parent-query="+ selectorId +
-                             " class='btn btn-link less'><i class='fa fa-angle-double-up'></i> View less</button>");
+    function setupTooltip () {
+        $('[data-toggle="tooltip"]').tooltip({
+            'placement': 'top',
+            'container': 'body',
+            'html': 'true',
+            'white-space': 'nowrap'
+        });
+    }
 
-            $(selector).children().eq(1).children().eq(0).after(container);
-        },
+    function initialize (selector) {
+        var selectorId = $(selector).attr('id');
 
-        toD3: function (selector, index, howMany) {
-            var hits = []
-            hitPanels = $(selector).find('.hitn').slice(0, index + howMany);
-            hitPanels.map(function () {
-                _hsps = [];
-                $(this).find('.hsps').each(function () {
-                    __hsps = [];
-                    __hsps = $(this).data();
-                    __hsps.hspId = $(this).attr('id');
-                    _hsps.push(__hsps);
-                });
-                _hsps.hitId = $(this).attr('id');
-                _hsps.hitDef = $(this).data().hitDef;
-                _hsps.hitEvalue = $(this).data().hitEvalue;
-                hits.push(_hsps);
+        // FIXME: SS should create the container and pass id of the
+        // container to graphit.
+        var container = $("<div class='graphical-overview'/>");
+        container.append("<div class='graph'/>");
+        container.append("<button type='button' data-parent-query="+ selectorId +
+                         " class='btn btn-link more'>" +
+                         "<i class='fa fa-angle-double-down'></i> View more</button>");
+        container.append("<button type='button' data-parent-query="+ selectorId +
+                         " class='btn btn-link less'>" +
+                         "<i class='fa fa-angle-double-up'></i> View less</button>");
+
+        $(selector).children().eq(1).children().eq(0).after(container);
+    }
+
+    function graphControls (pId, isInit) {
+        // Show/Hide view more or less buttons according to the number of
+        // hits already drawn, and yet to be drawn.
+        var initButtons = function (pId) {
+            var lessButton = $('.less'),
+                moreButton = $('.more'),
+                totalHits = $(pId).data().hitCount,
+                shownHits = $(pId).find('.ghit > g').length;
+
+                if (shownHits < 20) {
+                    lessButton.hide();
+                    moreButton.hide();
+                }
+                else if (shownHits === totalHits) {
+                    moreButton.hide();
+                    lessButton.show();
+                }
+                else if (shownHits === 20) {
+                    lessButton.hide();
+                    moreButton.show();
+                }
+                else {
+                    lessButton.show();
+                    moreButton.show();
+                }
+        }
+
+        // To check if drawing for first time, then run initButtons to
+        // hide/show accordingly, or otherwise buttons may require a click
+        // to show desired behavior.
+        if (isInit === true) {
+            initButtons(pId);
+        }
+
+        // Minimum number of hits in graphical overview that we always
+        // want to retain.
+        var MIN_HITS_TO_SHOW = 20;
+
+        $('.more').on('click', function (e) {
+            var pId = '#'+$(this).data().parentQuery;
+            var shownHits = $(pId).find('.ghit > g').length;
+            $.graphIt(pId, shownHits, MIN_HITS_TO_SHOW);
+            initButtons(pId);
+            setupTooltip();
+            e.stopPropagation();
+        });
+
+        $('.less').on('click', function (e) {
+            var pId = '#'+$(this).data().parentQuery;
+            var shownHits = $(pId).find('.ghit > g').length;
+            var diff = shownHits - MIN_HITS_TO_SHOW;
+
+            // We are drawing less hits than currently shown, and hence
+            // negative value has to be passed to graphIt.
+            if (diff >= MIN_HITS_TO_SHOW) {
+                $.graphIt(pId, shownHits, -MIN_HITS_TO_SHOW);
+                initButtons(pId);
+            }
+            else if (diff !== 0) { // Don't show less than MIN_HITS_TO_SHOW hits.
+                $.graphIt(pId, shownHits, MIN_HITS_TO_SHOW - shownHits);
+                initButtons(pId);
+            }
+            setupTooltip();
+            e.stopPropagation();
+        });
+    }
+
+    // Returns an array of all the hits within the given selector
+    // element, where the hit data is obtained from the data-attribs.
+    // HSPs class name is indicated in data-graphit-target in the
+    // selector element.
+    function toD3 (selector, index, howMany) {
+        var hits = []
+        hitPanels = $(selector).find('.hitn').slice(0, index + howMany);
+        hitPanels.map(function () {
+            _hsps = [];
+            $(this).find('.hsps').each(function () {
+                __hsps = [];
+                __hsps = $(this).data();
+                __hsps.hspId = $(this).attr('id');
+                _hsps.push(__hsps);
             });
-            return hits;
-        },
+            _hsps.hitId = $(this).attr('id');
+            _hsps.hitDef = $(this).data().hitDef;
+            _hsps.hitEvalue = $(this).data().hitEvalue;
+            hits.push(_hsps);
+        });
+        return hits;
+    }
 
+    $.extend({
         graphIt: function (selector, index, howMany, opts) {
+            // barHeight: Height of each hit track.
+            // barPadding: Padding around each hit track.
+            // legend: Height reserved for the overview legend.
+            // margin: Margin around the svg element.
             var defaults = {
                 barHeight: 4,
                 barPadding: 5,
                 legend: 10,
                 margin: 20
             }, options = $.extend(defaults, opts),
-               hits = $.toD3(selector, index, howMany);
+               hits = toD3(selector, index, howMany);
 
+            // Don't draw anything when no hits are obtained.
             if (hits < 1) return false;
 
             if (index == 0) {
-                $.initialize(selector);
+                initialize(selector);
             }
             else {
+                // Currently, we have no good way to extend pre-existing graph
+                // and hence, are removing the old one and redrawing.
                 d3.select($(selector).find('.graph')[0])
                 .selectAll('svg')
                 .remove();
@@ -102,12 +192,6 @@
                 }))])
                 .range([40,150]);
 
-            /*
-            var color = d3.scale.ordinal()
-                .domain((hits.map(function (d) { return d.id; })))
-                .rangeBands([10,150], 0.5);
-            */
-
             svg.append('g')
                 .attr('class', 'ghit')
                 .attr('transform', 'translate(0, '+(2*options.margin-options.legend)+')')
@@ -117,6 +201,7 @@
                 .append('g')
                 .attr('data-toggle', 'tooltip')
                 .attr('title', function(d) {
+                    // Pretty print evalue in tooltip.
                     var regex = /(\d*\.\d*)e?([+-]\d*)?/;
                     var parsedVal = regex.exec(d.hitEvalue);
                     var prettyEvalue = +parseFloat(parsedVal[1]).toFixed(3)
@@ -127,6 +212,7 @@
                     return returnString;
                 })
                 .each(function (d,i) {
+                    // Cached parameters to be used later. Perhaps, can be avoided.
                     var h_i = i+1;
                     var p_hsp = d;
                     var p_id = d.hitId;
@@ -137,6 +223,8 @@
                         .data(d).enter()
                         .append('a')
                         .each(function (pd, j) {
+                            // Drawing the HSPs connector line using the same
+                            // color as that of the hit track (using lookahead).
                             var y_hspline = y(p_id)+options.barHeight/2;
                             var hspline_color = d3.rgb(gradScale(p_hsp.hitEvalue),
                                 gradScale(p_hsp.hitEvalue),gradScale(p_hsp.hitEvalue));
@@ -160,6 +248,7 @@
                                 };
                             };
 
+                            // Draw the rectangular hit tracks itself.
                             d3.select(this)
                             .attr('xlink:href', function (d,i) {return '#'+q_i+'_hit_'+(h_i);})
                             .append('rect')
@@ -205,6 +294,14 @@
                   .enter().append('stop')
                     .attr('offset', function (d) { return d.offset })
                     .attr('stop-color', function (d) { return d.color });
+
+                // Bind listener events once all the graphical elements have
+                // been drawn for first time.
+                if (index === 0) {
+                    graphControls(selector, true);
+                }
+                // Refresh tooltip each time graph is redrawn.
+                setupTooltip();
         } 
     });
 }(jQuery));

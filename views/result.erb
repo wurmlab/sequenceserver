@@ -4,7 +4,8 @@
     class="col-md-9">
     <% report.queries.each do |query| %>
       <div
-          class="resultn" id="<%="Query_#{query.number}"%>" data-query-len="<%= query.len %>"
+          class="resultn" id="<%="Query_#{query.number}"%>"
+          data-query-len="<%= query.len %>" data-graphit-target="hsps"
           data-graphit="overview" data-hit-count="<%= query.hits.count %>">
         <div
           class="page-header">

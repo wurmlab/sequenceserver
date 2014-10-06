@@ -107,72 +107,11 @@ if (!SS) {
     };
 
     SS.generateGraphicalOverview = function () {
-        var setupTooltip = function () {
-            $('[data-toggle="tooltip"]').tooltip({
-                'placement': 'top',
-                'container': 'body',
-                'html': 'true',
-                'white-space': 'nowrap'
-            });
-        }
-
-        var initButtons = function (pId, howMany) {
-            var lessButton = $('.less', pId),
-                moreButton = $('.more', pId),
-                totalHits = $(pId).data().hitCount,
-                shownHits = $(pId).find('.ghit > g').length;
-
-            if (shownHits < 20) {
-                lessButton.attr('disabled', 'disabled');
-                moreButton.attr('disabled', 'disabled');
-            }
-            else if (shownHits === totalHits) {
-                moreButton.attr('disabled', 'disabled');
-                lessButton.removeAttr('disabled');
-            }
-            else if (shownHits === 20) {
-                lessButton.attr('disabled', 'disabled');
-                moreButton.removeAttr('disabled');
-            }
-            else {
-                lessButton.removeAttr('disabled');
-                moreButton.removeAttr('disabled');
-            }
-        }
 
         $("[data-graphit='overview']").each(function () {
             $.graphIt(this, 0, 20);
-            initButtons(this, 0);
         });
 
-        setupTooltip();
-
-        $('.more').on('click', function (e) {
-            var howMany = 20;
-            var pId = '#'+$(this).data().parentQuery;
-            var shownHits = $(pId).find('.ghit > g').length;
-            $.graphIt(pId, shownHits, howMany);
-            initButtons(pId, howMany);
-            setupTooltip();
-            e.stopPropagation();
-        });
-
-        $('.less').on('click', function (e) {
-            var howMany = 20;
-            var pId = '#'+$(this).data().parentQuery;
-            var shownHits = $(pId).find('.ghit > g').length;
-            var diff = shownHits - 20;
-            if (diff < howMany) {
-                $.graphIt(pId, shownHits, howMany - shownHits);
-                initButtons(pId, howMany - shownHits);
-            }
-            else {
-                $.graphIt(pId, shownHits, -howMany);
-                initButtons(pId, -howMany);
-            }
-            setupTooltip();
-            e.stopPropagation();
-        });
     };
 
     SS.init = function () {
