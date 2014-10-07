@@ -36,6 +36,76 @@
   </div>
 
   <div
+    class="dnd-overlay"
+    style="display: none;">
+    <div
+      class="container dnd-overlay-container">
+      <div
+        class="row">
+        <div
+          class="col-md-offset-2 col-md-10">
+          <p
+            class="dnd-overlay-drop"
+            style="display: none;">
+            <i class="fa fa-2x fa-file-o"></i>
+            Drop query sequence file here
+          </p>
+          <p
+            class="dnd-overlay-overwrite"
+            style="display: none;">
+            <i class="fa fa-2x fa-file-o"></i>
+            <span style="color: red;">Overwrite</span> query sequence file
+          </p>
+
+          <div
+            class="dnd-errors">
+            <div
+              class="dnd-error"
+              id="dnd-multi-notification"
+              style="display: none;">
+              <div
+                class="col-md-6 col-md-offset-3">
+                One file at a time please.
+              </div>
+            </div>
+
+            <div
+              class="dnd-error"
+              id="dnd-large-file-notification"
+              style="display: none;">
+              <div
+                class="col-md-6 col-md-offset-3">
+                Too big a file. Can only do less than 10 MB. &gt;_&lt;
+              </div>
+            </div>
+
+            <div
+              class="dnd-error"
+              id="dnd-format-notification"
+              style="display: none;">
+              <div
+                class="col-md-6 col-md-offset-3">
+                Only FASTA files please.
+              </div>
+            </div>
+
+            <div
+              class="dnd-error"
+              id="dnd-read-error-notification"
+              style="display: none;">
+              <div
+                class="col-md-6 col-md-offset-3">
+                Sorry. Something went wonky :(. Try pasting query sequences
+                instead?
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
     class="container">
     <noscript>
       <div
@@ -67,13 +137,6 @@
           </div>
           <div
             class="sequence">
-            <div
-              class="hidden" id="dnd-target-marker">
-              <div
-                id="dnd-target-marker-text">
-                Drop query sequence file here
-              </div>
-            </div>
             <textarea
               class="form-control text-monospace" name="sequence" id="sequence"
               rows="10"
@@ -116,46 +179,6 @@
           </div>
         </div>
 
-        <div
-          class="notification"
-          id="dnd-read-error-notification"
-          style="display: none;">
-          <div
-            class="alert-danger col-md-6 col-md-offset-3">
-            Error reading file <span class="filename"></span>!
-          </div>
-        </div>
-
-        <div
-          class="notification"
-          id="dnd-large-file-notification"
-          style="display: none;">
-          <div
-            class="alert-danger col-md-6 col-md-offset-3">
-            File <span class="filename"></span> is too large!
-          </div>
-        </div>
-
-        <div
-          class="notification"
-          id="dnd-format-notification"
-          style="display: none;">
-          <div
-            class="alert-danger col-md-6 col-md-offset-3">
-            File <span class="filename"></span> does not appear to be
-            in FASTA format!
-          </div>
-        </div>
-
-        <div
-          class="notification"
-          id="dnd-multi-notification"
-          style="display: none;">
-          <div
-            class="alert-danger col-md-6 col-md-offset-3">
-            Please upload only one single file.
-          </div>
-        </div>
       </div>
 
       <div

@@ -43,6 +43,11 @@ label {
   background-color: red;
 }
 
+.dnd-errors {
+  color: red;
+  font-size: 18px;
+}
+
 .sequence-controls {
   position: absolute;
   top: 4px;
@@ -238,28 +243,24 @@ a.link-fasta-query {
     shape-rendering: crispEdges;
 }
 
-#dnd-target-marker {
+.dnd-overlay {
   position: absolute;
-  left: 15px;
-  right: 15px;
-  height: 100%;
-  border: 4px solid #d3d3d3;
-  border-radius: 6px;
-  background-color: white;
+  top: 51px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
-#dnd-target-marker-text {
-  font-size: 18pt;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 80px;
+.dnd-overlay * {
+  pointer-events: none;
 }
 
-#dnd-target-marker.drop-target-hover {
-  border: 4px solid black;
+.dnd-overlay-container {
+  padding-top: 72px;
 }
 
-#drag-drop-overwrite {
-  color: red;
-  font-size: 22pt;
+.dnd-overlay-container p {
+  font-size: 48px;
 }

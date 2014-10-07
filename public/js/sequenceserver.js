@@ -186,129 +186,83 @@ if (!SS) {
     }
 }()); //end SS module
 
-function startDrag() {
-    $('#dnd-target-marker').removeClass("hidden");
-    document.inDrag = true;
-}
-
-function inDrag() {
-    if (! document.inDrag) {
-        startDrag();
-    }
-}
-
-function endDrag() {
-    $('#dnd-target-marker').addClass("hidden");
-    document.inDrag = false;
-}
-
 $(document).ready(function(){
     SS.init();
 
     var notification_timeout;
 
-    function _clearNotifications() {
-        $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
-    }
-
-    function clearNotifications() {
-        clearTimeout(notification_timeout);
-        _clearNotifications();
-    }
-
-    function showNotification(ident) {
-        $('#' + ident + '-notification').show('drop', {direction: 'up'}).addClass('active');
-        notification_timeout = setTimeout(_clearNotifications, 5000);
-    }
-
     // drag-and-drop code
-    $('body').on('dragover', function(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-        inDrag();
-    });
+    var tgtMarker = $('.dnd-overlay');
+    var $sequence = $('#sequence');
 
-    $('body').on('dragleave', function(evt) {
-        if (! $('#dnd-target-marker')[0].dragActive) {
-            endDrag();
+    var dndError = function (id) {
+        $('.dnd-error').hide();
+        $('#' + id + '-notification').show('drop', {direction: 'up'});
+        tgtMarker.effect('fade', 2500);
+    };
+
+    $(document)
+    .on('dragenter', function (evt) {
+        tgtMarker.show();
+
+        if ($sequence.val() === '') {
+            $('.dnd-overlay-overwrite').hide();
+            $('.dnd-overlay-drop').show('drop', {direction: 'down'}, 'fast');
         }
-    });
-
-    var tgtMarker = $('#dnd-target-marker');
-    //Timeout approach suggested at http://stackoverflow.com/questions/14392293/javascript-double-file-dragover-event-firing/14392772#14392772
-    var withinQueryBox = false;
-    tgtMarker.on('dragenter', function(evt) {
-        evt.preventDefault();
-        withinQueryBox = true;
-        setTimeout(function() { withinQueryBox = false; }, 0);
-
-        tgtMarker[0].dragActive = true;
-        evt.originalEvent.dataTransfer.dropEffect = 'copy';
-        tgtMarker.addClass('drop-target-hover');
-        var textarea = $('#sequence')
-        if (textarea.val().length > 0){
-          $('#dnd-target-marker-text').html('<span style="color:red" class=drag-drop-overwrite>Overwrite</span> existing query sequence file');
-        } else {
-          $('#dnd-target-marker-text').html('Drop query sequence file here');
+        else {
+            $('.dnd-overlay-drop').hide();
+            $('.dnd-overlay-overwrite').show('drop', {direction: 'down'}, 'fast');
         }
     })
-    tgtMarker.on('dragover', function(evt) {
+    .on('dragleave', '.dnd-overlay', function (evt) {
+        tgtMarker.hide();
+        $('.dnd-overlay-drop').hide();
+        $('.dnd-overlay-overwrite').hide();
+    })
+    .on('dragover', function (evt) {
         evt.preventDefault();
-    });
-    tgtMarker.on('dragleave', function(evt) {
-      if (! withinQueryBox) {
-          $('#dnd-target-marker')[0].dragActive = false;
-          $(this).removeClass('drop-target-hover');
-      }
-      withinQueryBox = false;
-    });
-
-    tgtMarker.on('drop', function(evt) {
-        // Clear anything leftover from the previously accepted dropped file, to prevent confusion
-        var textarea = $('#sequence');
-        textarea.val("");
-
+        evt.originalEvent.dataTransfer.dropEffect = 'copy';
+    })
+    .on('drop', function (evt) {
+        evt.preventDefault();
         evt.stopPropagation();
-        evt.preventDefault();
-        tgtMarker.removeClass('drop-target-hover');
-        tgtMarker[0].dragActive = false;
-        endDrag();
 
-        var files = evt.originalEvent.dataTransfer.files; // FileList
-        if (files.length == 1) {
-            var file = files[0];
-            if (file.size < 10 * 1048576) {
-                var reader = new FileReader();
-                reader.onload = (function(file) {
-                    return function(e) {
-                        var putativeFastaText = e.target.result;
-                        // Query file must start with > (possibly after whitespace), or be entirely alphanumeric+whitespace
-                        if (/^\s*>/.test(putativeFastaText) || /^\s*[0-9A-Za-z\*]+[\s0-9A-Za-z\*]*$/.test(putativeFastaText)) {
-                            var textarea = $('#sequence');
-                            textarea.val(putativeFastaText);
-                            var indicator = $('#sequence-file');
-                            indicator.text(file.name);
-                        } else {
-                            // apparently not FASTA
-                            $('#dnd-format-notification .filename').text(file.name);
-                            showNotification('dnd-format');
-                        }
-                    };
-                })(file);
-                reader.onerror = (function(file) {
-                    return function(e) {
-                        $('#dnd-read-error-notification .filename').text(file.name);
-                        showNotification('dnd-read-error');
-                    }
-                })(file);
-                reader.readAsText(file);
-            } else {
-                $('#dnd-large-file-notification .filename').text(file.name);
-                showNotification('dnd-large-file');
-            }
-        } else {
-            showNotification('dnd-multi');
+        var textarea  = $('#sequence');
+        var indicator = $('#sequence-file');
+        textarea.focus();
+
+        var files = evt.originalEvent.dataTransfer.files;
+        if (files.length > 1) {
+            dndError('dnd-multi');
+            return;
         }
+
+        var file = files[0];
+        if (file.size > 10 * 1048576) {
+            $('#dnd-large-file-notification .filename').text(file.name);
+            dndError('dnd-large-file');
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var putativeFastaText = e.target.result;
+            // Query file must start with > (possibly after whitespace), or be entirely alphanumeric+whitespace
+            if (/^\s*>/.test(putativeFastaText) || /^\s*[0-9A-Za-z\*]+[\s0-9A-Za-z\*]*$/.test(putativeFastaText)) {
+                textarea.val(putativeFastaText);
+                indicator.text(file.name);
+                tgtMarker.hide();
+            } else {
+                // apparently not FASTA
+                $('#dnd-format-notification .filename').text(file.name);
+                dndError('dnd-format');
+            }
+        };
+        reader.onerror = function (e) {
+            $('#dnd-read-error-notification .filename').text(file.name);
+            dndError('dnd-read-error');
+        }
+        reader.readAsText(file);
     });
     // end drag-and-drop
 
@@ -324,6 +278,7 @@ $(document).ready(function(){
         else {
             SS.$sequenceFile.empty();
             SS.$sequenceControls.addClass('hidden');
+            SS.$sequence.parent().removeClass('has-error');
         }
     });
 
@@ -344,7 +299,7 @@ $(document).ready(function(){
 
     $('#sequence').on('sequence_type_changed', function (event, type) {
         clearTimeout(notification_timeout);
-        $(this).parent().parent().removeClass('has-error');
+        $(this).parent().removeClass('has-error');
         $('.notifications .active').hide().removeClass('active');
 
         if (type) {
@@ -355,7 +310,7 @@ $(document).ready(function(){
             }, 5000);
 
             if (type === 'mixed') {
-                $(this).parent().parent().addClass('has-error');
+                $(this).parent().addClass('has-error');
             }
         }
     });
