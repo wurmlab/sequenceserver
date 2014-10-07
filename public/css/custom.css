@@ -9,7 +9,7 @@ code {
 }
 
 .navbar {
-  margin-bottom: 0px;
+  border-radius: 0px;
 }
 
 .navbar-brand {
@@ -41,10 +41,6 @@ label {
   padding: 10px;
   color: white;
   background-color: red;
-}
-
-#blast {
-  margin-top: 30px;
 }
 
 .sequence-controls {
