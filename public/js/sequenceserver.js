@@ -402,15 +402,13 @@ $(document).ready(function(){
                 return this.value;
             }).get(),
             database_ids = $(this).data().databases;
-        // DEBUG
-        //console.log(sequence_ids, database_ids);
 
         if (sequence_ids.length < 1) {
             sequence_ids = $('.hits-box:checkbox').map(function() {
                 return this.value;
             }).get();
         }
-        var url = "/get_sequence/?sequence_ids=" +
+        var url = "get_sequence/?sequence_ids=" +
                   sequence_ids.join(' ') + "&database_ids=" + database_ids +
                   "&download=fasta";
         this.href = url;
