@@ -395,11 +395,11 @@ module SequenceServer
       sequence_ids   = sequence_ids.join(',')
       database_names = databases.select{|d| database_ids.include? d.id}.map(&:name).join(' ')
 
-      # Fetch sequences from BLAST db.
-      #
-      # Command to execute.
-      # NOTE: tabs in the command below are intentional.
-      command = "blastdbcmd -db #{database_names} -entry '#{sequence_ids}' -outfmt '%a	%t	%s'"
+      # Command to fetch sequences from BLAST db.
+      # NOTE: tabs, and escaped single/double quotes in the command below are
+      # intentional[1].
+      command = "blastdbcmd -db \' #{database_names} \' -entry" \
+                " '#{sequence_ids}' -outfmt '%a	%t	%s'"
       #
       # Debugging log.
       logger.debug("Executing: #{command}")
