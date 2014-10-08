@@ -395,28 +395,15 @@ module SequenceServer
       sequence_ids   = sequence_ids.join(',')
       database_names = databases.select{|d| database_ids.include? d.id}.map(&:name).join(' ')
 
-      # Command to fetch sequences from BLAST db.
-      # NOTE: tabs, and escaped single/double quotes in the command below are
-      # intentional[1].
-      command = "blastdbcmd -db \' #{database_names} \' -entry" \
-                " '#{sequence_ids}' -outfmt '%a	%t	%s'"
-      #
-      # Debugging log.
-      logger.debug("Executing: #{command}")
-      #
-      # Execute.
-      #
-      # If `blastdbcmd` throws error, we assume sequence not found.
-      output = `#{command} 2> /dev/null`
-      #
-      # Parse.
-      sequences = []
-      output.each_line do |line|
-        # NOTE: yes, we are splitting on a tab.
-        sequences << Sequence.new(*line.split('	'))
-      end
+      # Output of the command will be tab separated three columns.
+      command = "blastdbcmd -outfmt '%a	%t	%s' " \
+        "-db '#{database_names}' -entry '#{sequence_ids}'"
 
-      [sequences, database_names]
+      logger.debug("Executing: #{command}")
+
+      # Not interested in stderr.
+      `#{command} 2> /dev/null`.
+        each_line.map {|line| Sequence.new(*line.split('	'))}
     end
 
     def pre_process(params)

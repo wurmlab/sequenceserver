@@ -394,7 +394,8 @@ module SequenceServer
       sequence_ids = params[:sequence_ids].split(/\s/)
       database_ids = params[:database_ids].split(/\s/)
 
-      sequences, database_names = SequenceServer.sequences_from_blastdb(sequence_ids, database_ids)
+      sequences = SequenceServer.sequences_from_blastdb(sequence_ids,
+                                                        database_ids)
 
       if format = params[:download]
         download_name = "sequenceserver_#{sequence_ids.first}.fa.txt"
@@ -408,7 +409,6 @@ module SequenceServer
       else
         erb :fasta, :locals => {:sequences => sequences,
                                 :sequence_ids => sequence_ids,
-                                :database_names => database_names,
                                 :database_ids => database_ids}
       end
     end
