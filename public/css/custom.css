@@ -35,7 +35,6 @@ label {
 }
 
 .table>thead>tr>th {
-  /*border-bottom: 2px solid #ddd;*/
   border-bottom: 1px solid #eee;
 }
 
@@ -93,10 +92,6 @@ label {
 
 .databases-container label {
   cursor: pointer;
-}
-
-span.highlight {
-  font-weight: bold;
 }
 
 #blast > .form-group:last-child {

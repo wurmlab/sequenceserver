@@ -38,20 +38,6 @@
     };
 })( jQuery );
 
-(function( $ ){
-    //highlight an element
-    $.fn.highlight = function() {
-        return this.addClass('focussed');
-    };
-})( jQuery );
-
-(function( $ ){
-    //unhighlight an element
-    $.fn.unhighlight = function() {
-        return this.removeClass('focussed');
-    };
-})( jQuery );
-
 (function ($) {
     $.fn.poll = function () {
         var that, val, tmp;
