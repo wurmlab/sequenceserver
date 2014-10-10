@@ -4,6 +4,10 @@ code {
   word-wrap: break-word;
 }
 
+body {
+  position: relative;
+}
+
 .text-monospace {
   font-family: monospace;
 }
@@ -138,10 +142,6 @@ span.highlight {
 #result {
   margin-top: 45px;
 }
-.index-container {
-  padding-left: 30px;
-  padding-right: 0px;
-}
 
 .index.affix {
   top: 8px;
@@ -154,6 +154,10 @@ span.highlight {
 
 .index a {
   color: #999;
+}
+
+.index .active a {
+  border-left: 4px #eee solid;
 }
 
 .page-header {
@@ -201,10 +205,6 @@ span.highlight {
   white-space: pre;
   font-family: monospace;
   line-height: 16px;
-}
-
-.index .focussed {
-  border-left: 4px #eee solid;
 }
 
 .hit-links {

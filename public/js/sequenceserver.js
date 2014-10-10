@@ -409,24 +409,7 @@ $(document).ready(function(){
 
             SS.generateGraphicalOverview();
 
-            $('.resultn').
-                scrollspy({
-                    approach: screen.height / 4
-                }).
-                on('enter.scrollspy', function () {
-                    var id = $(this).attr('id');
-                    $(this).highlight();
-                    $('.index').find('a[href="#' + id + '"]').parent().highlight();
-
-                    return false;
-                }).
-                on('leave.scrollspy', function () {
-                    var id = $(this).attr('id');
-                    $(this).unhighlight();
-                    $('.index').find('a[href="#' + id + '"]').parent().unhighlight();
-
-                    return false;
-                });
+            $('body').scrollspy({target: '.index-container'});
         }).
           fail(function (jqXHR, status, error) {
             //alert user
