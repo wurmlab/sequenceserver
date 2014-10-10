@@ -209,7 +209,7 @@ $(document).ready(function(){
 
     // Handle clearing query sequences(s) when x button is pressed.
     $('#btn-sequence-clear').click(function (e) {
-        $('#sequence').val("");
+        $('#sequence').val("").focus();
     })
 
     // pre-select if only on db
