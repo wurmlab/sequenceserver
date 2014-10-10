@@ -8,6 +8,10 @@ body {
   position: relative;
 }
 
+.disabled {
+  color: #ccc;
+}
+
 .text-monospace {
   font-family: monospace;
 }
