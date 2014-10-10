@@ -90,10 +90,6 @@ label {
   white-space: normal;
 }
 
-.databases-container label {
-  cursor: pointer;
-}
-
 #blast > .form-group:last-child {
   margin-top: -5px;
 }
@@ -211,11 +207,6 @@ label {
 
 .hit-links-query {
   margin: 20px 0px;
-}
-
-.checkbox {
-  cursor: pointer;
-  margin: 10px 0px;
 }
 
 .footer a:first-child {

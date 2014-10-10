@@ -248,12 +248,15 @@ $(document).ready(function(){
         switch (type) {
             case 'protein':
                 $('.databases.nucleotide input:checkbox').uncheck().disable();
+                $('.databases.nucleotide .checkbox').addClass('disabled');
                 break;
             case 'nucleotide':
                 $('.databases.protein input:checkbox').uncheck().disable();
+                $('.databases.protein .checkbox').addClass('disabled');
                 break;
             default:
                 $('.databases input:checkbox').enable();
+                $('.databases .checkbox').removeClass('disabled');
                 break;
         }
     });
