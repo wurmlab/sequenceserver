@@ -22,11 +22,14 @@
             </div>
             <div
               class="col-md-2 text-right">
-              <a
-                href="<%= "get_sequence/?sequence_ids=#{query.hits.map(&:id).join(' ')}&database_ids=#{database_ids.join(' ')}" %>"
-                class="link-fasta link-fasta-query">
-                [FASTA of all hits]
-              </a>
+              <div
+                class="hit-links-query">
+                <a
+                  href="<%= "get_sequence/?sequence_ids=#{query.hits.map(&:id).join(' ')}&database_ids=#{database_ids.join(' ')}" %>"
+                  class="view-sequence">
+                  [FASTA of all hits]
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -71,7 +74,7 @@
                   <div
                     class="row">
                     <div
-                      class="col-md-10">
+                      class="col-md-8">
                       <h4
                         data-toggle="collapse" data-target="#<%= "Query_#{query.number}_hit_#{hit.number}_alignment" %>">
                         <i class="fa fa-chevron-down"> </i>
@@ -82,12 +85,23 @@
                       </h4>
                     </div>
                     <div
-                      class="col-md-2 text-right">
-                      <a
-                        href="<%= "get_sequence/?sequence_ids=#{hit.id}&database_ids=#{database_ids.join(' ')}" %>"
-                        class="link-fasta link-fasta-hit">
-                        [FASTA]
-                      </a>
+                      class="col-md-4 text-right">
+                      <div
+                        class="hit-links">
+                        <a
+                          href="<%= "get_sequence/?sequence_ids=#{hit.id}&database_ids=#{database_ids.join(' ')}" %>"
+                          class="view-sequence">
+                          <i class="fa fa-file-text"></i>
+                          View Sequence
+                        </a>
+                        /
+                        <a
+                          href="<%= "get_sequence/?sequence_ids=#{hit.id}&database_ids=#{database_ids.join(' ')}&download=fasta" %>"
+                          class="download-fasta">
+                          <i class="fa fa-download"></i>
+                          Download FASTA
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>

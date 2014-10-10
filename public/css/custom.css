@@ -207,15 +207,11 @@ span.highlight {
   border-left: 4px #eee solid;
 }
 
-a.link-fasta {
-  display: block;
-}
-
-a.link-fasta-hit {
+.hit-links {
   margin: 10px 0px;
 }
 
-a.link-fasta-query {
+.hit-links-query {
   margin: 20px 0px;
 }
 

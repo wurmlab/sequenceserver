@@ -322,6 +322,26 @@ $(document).ready(function(){
         $(this).find('.fa').toggleClass('fa-rotate-270');
     });
 
+    $('.result').on('click', '.view-sequence', function (event) {
+        event.preventDefault();
+        var clicked = $(event.target);
+
+        var url = clicked.attr('href');
+        $.get(url)
+        .done(function (sequences) {
+            $('#fasta').html(sequences).modal();
+        })
+        .fail(function (jqXHR, status, error) {
+            //alert user
+            if (jqXHR.responseText) {
+                $("#error").html(jqXHR.responseText).modal();
+            }
+            else {
+                $("#error-no-response").modal();
+            }
+        });
+    });
+
     $('#fasta').on('change', '.hits-box:checkbox', function(event) {
         var checkboxes = $('.hits-box:checkbox').length,
             checked_boxes = $('.hits-box:checkbox:checked').length,
@@ -406,27 +426,6 @@ $(document).ready(function(){
                     $('.index').find('a[href="#' + id + '"]').parent().unhighlight();
 
                     return false;
-                });
-
-                $('a.link-fasta')
-                .on('click', function (event) {
-                    event.preventDefault();
-                    var clicked = $(event.target);
-
-                    var url = clicked.attr('href');
-                    $.get(url)
-                    .done(function (sequences) {
-                        $('#fasta').html(sequences).modal();
-                    })
-                    .fail(function (jqXHR, status, error) {
-                        //alert user
-                        if (jqXHR.responseText) {
-                            $("#error").html(jqXHR.responseText).modal();
-                        }
-                        else {
-                            $("#error-no-response").modal();
-                        }
-                    });
                 });
         }).
           fail(function (jqXHR, status, error) {
