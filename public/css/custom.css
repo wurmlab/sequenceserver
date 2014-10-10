@@ -162,6 +162,7 @@ label {
   margin-top: 0px;
   margin-bottom: 5px;
   padding-bottom: 0px;
+  word-break: break-word;
 }
 
 .resultn {
