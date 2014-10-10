@@ -4,14 +4,12 @@ require 'ox'
 require 'sequenceserver/sequence'
 
 module SequenceServer
-
   # Simple wrapper around BLAST+ CLI (command line interface), intended to be
   # mixed into SequenceServer.
   #
   # `Blast::ArgumentError` and `Blast::RuntimeError` signal errors encountered
   # when attempting a BLAST search.
   module Blast
-
     # To signal error in query sequence or options.
     #
     # ArgumentError is raised when BLAST+'s exit status is 1; see [1].
@@ -24,7 +22,6 @@ module SequenceServer
     # 255; see [1].  These are rare, infrastructure errors, used internally,
     # and of concern only to the admins/developers.
     class RuntimeError  < RuntimeError
-
       def initialize(status, message)
         @status  = status
         @message = message
@@ -74,7 +71,7 @@ module SequenceServer
         super
       end
 
-      alias length len
+      alias_method :length, :len
 
       # Hit evalue is the minimum evalue of all HSP(s).
       def evalue
@@ -87,9 +84,9 @@ module SequenceServer
       end
     end
 
-    # Structure to hold the HSP information about each hit.
-    # For more information, check the link contained in the references section
-    # at the end of the file.
+    # Structure to hold the HSP information about each hit. For more
+    # information, check the link contained in the references section at the
+    # end of the file.
     HSP = Struct.new(:number, :bit_score, :score, :evalue, :qstart, :qend,
                      :sstart, :send, :qframe, :sframe, :identity, :positives,
                      :gaps, :len, :qseq, :sseq, :midline) do
@@ -109,13 +106,12 @@ module SequenceServer
         super
       end
 
-      alias length len
+      alias_method :length, :len
 
     end
 
     # Captures BLAST results from BLAST+'s XML output.
     class Report
-
       # Expects a File object.
       def initialize(rfile)
         parsed_out = Ox.parse(rfile.read)
@@ -129,16 +125,16 @@ module SequenceServer
           @queries ||= []
           @queries.push(Query.new(n[0], n[2], n[3], [], n[5][0]))
 
-          # Ensure a hit object is received. No hits, returns a newline.
-          # Note that checking to "\n" doesn't work since n[4] = ["\n"]
-          if n[4]==["\n"]
+          # Ensure a hit object is received. No hits, returns a newline. Note
+          # that checking to "\n" doesn't work since n[4] = ["\n"]
+          if n[4] == ["\n"]
             @queries[i][:hits] = []
           else
             n[4].each_with_index do |hits, j|
               @queries[i][:hits].push(Hit.new(hits[0], hits[1], hits[2],
                                               hits[3], hits[4], []))
-              hits[5].each_with_index do |hsp, k|
-                @queries[i][:hits][j][:hsps].push(HSP.new(*hits[5][k]))
+              hits[5].each do |hsp|
+                @queries[i][:hits][j][:hsps].push(HSP.new(*hsp))
               end
             end
             @queries[i].sort_hits_by_evalue!
@@ -149,41 +145,45 @@ module SequenceServer
       # Helper methods for pretty printing results
 
       # FIXME: HTML!!
-      def pretty_evalue hsp
-        hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) {|l| s = '%.3f' % $1; s << " x 10<sup>#{$2}</sup>" if $2; s}
+      def pretty_evalue(hsp)
+        hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) do
+          s = '%.3f' % Regexp.last_match[1]
+          s << " x 10<sup>#{Regexp.last_match[2]}</sup>" if Regexp.last_match[2]
+          s
+        end
       end
 
-      def identity_fraction hsp
+      def identity_fraction(hsp)
         "#{hsp.identity}/#{hsp.length}"
       end
 
-      def positives_fraction hsp
+      def positives_fraction(hsp)
         "#{hsp.positives}/#{hsp.length}"
       end
 
-      def gaps_fraction hsp
+      def gaps_fraction(hsp)
         "#{hsp.gaps}/#{hsp.length}"
       end
 
-      def identity_percentage hsp
+      def identity_percentage(hsp)
         "#{'%.2f' % (hsp.identity * 100.0 / hsp.length)}"
       end
 
-      def positives_percentage hsp
+      def positives_percentage(hsp)
         "#{'%.2f' % (hsp.positives * 100.0 / hsp.length)}"
       end
 
-      def gaps_percentage hsp
+      def gaps_percentage(hsp)
         "#{'%.2f' % (hsp.gaps * 100.0 / hsp.length)}"
       end
 
       # FIXME: Test me.
-      def pp_hsp hsp
-        # In many of the BLAST algorithms, translated queries are performed which
-        # has to be taken care while determining end co ordinates of query and
-        # subject sequences. Since each amino acid is encoded using three nucl.
-        # referred to as codons, necessary value is multiplied to determine the
-        # coordinates.
+      def pp_hsp(hsp)
+        # In many of the BLAST algorithms, translated queries are performed
+        # which has to be taken care while determining end co ordinates of
+        # query and subject sequences. Since each amino acid is encoded using
+        # three nucl.  referred to as codons, necessary value is multiplied
+        # to determine the coordinates.
 
         # blastn and blastp search the nucleotide and protein databases using
         # nucleotide and protein queries respectively.
@@ -214,18 +214,18 @@ module SequenceServer
         # automatically reverse the start and end coordinates (based on
         # frame), while for others it has to be inferred.
         if @program != 'blastn'
-            nqseq = hsp.qframe >= 0 ? hsp.qstart : hsp.qend
-            nsseq = hsp.sframe >= 0 ? hsp.sstart : hsp.send
+          nqseq = hsp.qframe >= 0 ? hsp.qstart : hsp.qend
+          nsseq = hsp.sframe >= 0 ? hsp.sstart : hsp.send
         else
-            nqseq = hsp.qstart
-            nsseq = hsp.sstart
+          nqseq = hsp.qstart
+          nsseq = hsp.sstart
         end
 
         s = ''
         (1..lines).each do |i|
           lqstart = nqseq
           lqseq = hsp.qseq[chars * (i - 1), chars]
-          nqseq = nqseq + (lqseq.length - lqseq.count('-')) * qframe_unit * qframe_sign
+          nqseq += (lqseq.length - lqseq.count('-')) * qframe_unit * qframe_sign
           lqend = nqseq - qframe_sign
           s << "Query   %#{width}d  #{lqseq}  #{lqend}\n" % lqstart
 
@@ -233,39 +233,40 @@ module SequenceServer
           s << "#{' ' * (width + 8)}  #{lmseq}\n"
 
           lsstart = nsseq
-          lsseq   = hsp.sseq[chars * (i - 1), chars]
-          nsseq   = nsseq + (lsseq.length - lsseq.count('-')) * sframe_unit * sframe_sign
-          lsend   = nsseq - sframe_sign
+          lsseq = hsp.sseq[chars * (i - 1), chars]
+          nsseq += (lsseq.length - lsseq.count('-')) * sframe_unit * sframe_sign
+          lsend = nsseq - sframe_sign
           s << "Subject %#{width}d  #{lsseq}  #{lsend}\n" % lsstart
 
           s << "\n" unless i == lines
         end
-        #p qend == nqseq - qframe
-        #p send == nsseq - sframe
         s
       end
 
       # FIXME: Document me.
       def filter_hsp_stats(hsp)
         hsp_stats = {
-          "Score" => "#{'%.2f' % hsp[:bit_score]}(#{hsp[:score]})",
-          "Expect" => "#{pretty_evalue hsp}",
-          "Identities" => "#{identity_fraction hsp}(#{identity_percentage hsp}%)",
-          "Gaps" => "#{gaps_fraction hsp}(#{gaps_percentage hsp}%)"
+          'Score' => "#{'%.2f' % hsp[:bit_score]}(#{hsp[:score]})",
+          'Expect' => "#{pretty_evalue hsp}",
+          'Identities' => "#{identity_fraction hsp}" \
+                          "(#{identity_percentage hsp}%)",
+          'Gaps' => "#{gaps_fraction hsp}(#{gaps_percentage hsp}%)"
         }
 
         if @program == 'blastp'
-          hsp_stats["Positives"] = "#{positives_fraction hsp}(#{positives_percentage hsp}%)"
+          hsp_stats['Positives'] = "#{positives_fraction hsp}" \
+                                     "(#{positives_percentage hsp}%)"
         elsif @program == 'blastx'
-          hsp_stats["Query Frame"] = "#{hsp[:qframe]}"
+          hsp_stats['Query Frame'] = "#{hsp[:qframe]}"
         elsif @program == 'tblastn'
-          hsp_stats["Hit Frame"] = "#{hsp[:sframe]}"
+          hsp_stats['Hit Frame'] = "#{hsp[:sframe]}"
         elsif @program == 'tblastx'
-          hsp_stats["Positives"] = "#{positives_fraction hsp}(#{positives_percentage hsp}%)"
-          hsp_stats["Frame"] = "#{hsp[:qframe]}/#{hsp[:sframe]}"
+          hsp_stats['Positives'] = "#{positives_fraction hsp}" \
+                                   "(#{positives_percentage hsp}%)"
+          hsp_stats['Frame'] = "#{hsp[:qframe]}/#{hsp[:sframe]}"
         elsif @program == 'blastn'
-          hsp_stats["Strand"] = "#{hsp[:qframe] > 0 ? "+" : "-"}/" \
-                                "#{hsp[:sframe] > 0 ? "+" : "-"}"
+          hsp_stats['Strand'] = "#{hsp[:qframe] > 0 ? '+' : '-'}/" \
+                                "#{hsp[:sframe] > 0 ? '+' : '-'}"
         end
 
         hsp_stats
@@ -278,22 +279,19 @@ module SequenceServer
 
       private
 
+      PARSEABLE_AS_ARRAY = %w(Parameters BlastOutput_param Iteration_stat
+                              Statistics Iteration_hits BlastOutput_iterations
+                              Iteration Hit Hit_hsps Hsp)
+
       def node_to_array(element)
-        a = Array.new
-        element.nodes.each do |n|
-          a.push(node_to_value(n))
-        end
-        a
+        element.nodes.map {|n| node_to_value n}
       end
 
       def node_to_value(node)
         # Ensure that the recursion doesn't fails when String value is received.
-        if node.is_a?(String)
-          return node
-        end
-        if ['Parameters', 'BlastOutput_param', 'Iteration_stat', 'Statistics',
-            'Hsp', 'Iteration_hits', 'BlastOutput_iterations', 'Iteration',
-            'Hit', 'Hit_hsps'].include? node.name
+        return node if node.is_a?(String)
+
+        if PARSEABLE_AS_ARRAY.include? node.name
           value = node_to_array(node)
         else
           value = first_text(node)
@@ -302,16 +300,13 @@ module SequenceServer
       end
 
       def first_text(node)
-        node.nodes.each do |n|
-          return n if n.is_a?(String)
-        end
-        nil
+        node.nodes.find {|n| n.is_a? String}
       end
     end
 
     ERROR_LINE = /\(CArgException.*\)\s(.*)/
 
-    ALGORITHMS = %w|blastn blastp blastx tblastn tblastx|
+    ALGORITHMS = %w(blastn blastp blastx tblastn tblastx)
 
     def blast(params)
       pre_process params
@@ -329,7 +324,8 @@ module SequenceServer
       #
       # Retrieve database file from database id.
       database_ids   = params[:databases]
-      database_names = databases.select{|d| database_ids.include? d.id}.map(&:name).join(' ')
+      database_names = databases.select {|d| database_ids.include? d.id}
+                                        .map(&:name).join(' ')
       #
       # Concatenate other blast options.
       options = params[:advanced].to_s.strip + defaults
@@ -343,7 +339,8 @@ module SequenceServer
       # Run BLAST search.
       #
       # Command to execute.
-      command = "#{method} -db '#{database_names}' -query '#{qfile.path}' #{options}"
+      command = "#{method} -db '#{database_names}' -query" \
+                " '#{qfile.path}' #{options}"
       #
       # Debugging log.
       logger.debug("Executing: #{command}")
@@ -374,7 +371,7 @@ module SequenceServer
         error = efile.rewind && efile.read unless error.is_a? String
 
         efile.close
-        raise ArgumentError.new(error)
+        raise ArgumentError, error
       when 2, 3, 4, 255 # see [1]
         efile.open
         error = efile.read
@@ -383,7 +380,7 @@ module SequenceServer
       end
 
       # Report the results, ensures that file is closed after execution.
-      File.open(rfile.path) {|f| Report.new(f) }
+      File.open(rfile.path) {|f| Report.new(f)}
     end
 
     # Returns an Array of SequenceServer::Sequence objects capturing the
@@ -393,11 +390,12 @@ module SequenceServer
     # FIXME: Reconsider if databases should be returned.
     def sequences_from_blastdb(sequence_ids, database_ids)
       sequence_ids   = sequence_ids.join(',')
-      database_names = databases.select{|d| database_ids.include? d.id}.map(&:name).join(' ')
+      database_names = databases.select {|d| database_ids.include? d.id}
+                                        .map(&:name).join(' ')
 
       # Output of the command will be tab separated three columns.
       command = "blastdbcmd -outfmt '%a	%t	%s' " \
-        "-db '#{database_names}' -entry '#{sequence_ids}'"
+                "-db '#{database_names}' -entry '#{sequence_ids}'"
 
       logger.debug("Executing: #{command}")
 
@@ -413,10 +411,10 @@ module SequenceServer
     end
 
     def validate_blast_params(params)
-      validate_blast_method    params[:method]
+      validate_blast_method params[:method]
       validate_blast_sequences params[:sequence]
       validate_blast_databases params[:databases]
-      validate_blast_options   params[:advanced]
+      validate_blast_options params[:advanced]
     end
 
     def defaults
@@ -425,36 +423,37 @@ module SequenceServer
 
     def validate_blast_method(method)
       return true if ALGORITHMS.include? method
-      raise ArgumentError.new("BLAST algorithm should be one of:
-                              #{ALGORITHMS.join(', ')}.")
+      raise ArgumentError, "BLAST algorithm should be one of:" \
+                           " #{ALGORITHMS.join(', ')}."
     end
 
     def validate_blast_sequences(sequences)
       return true if sequences.is_a? String and not sequences.empty?
-      raise ArgumentError.new("Sequences should be a non-empty string.")
+      raise ArgumentError, 'Sequences should be a non-empty string.'
     end
 
     def validate_blast_databases(database_ids)
       ids = databases.map(&:id)
       return true if database_ids.is_a?(Array) && !database_ids.empty? &&
         (ids & database_ids).length == database_ids.length
-      raise ArgumentError.new("Database id should be one of:
-                              #{ids.join("\n")}.")
+      raise ArgumentError, "Database id should be one of:" \
+                           " #{ids.join("\n")}."
     end
 
-    # Advanced options are specified by the user. Here they are checked for interference with SequenceServer operations.
-    # raise ArgumentError if an error has occurred, otherwise return without value
+    # Advanced options are specified by the user. Here they are checked for
+    # interference with SequenceServer operations.
+    # raise ArgumentError if an error has occurred, else return without value
     def validate_blast_options(options)
       return true if !options || (options.is_a?(String) && options.strip.empty?)
 
       unless options =~ /\A[a-z0-9\-_\. ']*\Z/i
-        raise ArgumentError.new("Invalid characters detected in options.")
+        raise ArgumentError, 'Invalid characters detected in options.'
       end
 
       disallowed_options = %w(-out -html -outfmt -db -query)
       disallowed_options.each do |o|
         if options =~ /#{o}/i
-          raise ArgumentError.new("Option \"#{o}\" is prohibited.")
+          raise ArgumentError, "Option \"#{o}\" is prohibited."
         end
       end
     end
