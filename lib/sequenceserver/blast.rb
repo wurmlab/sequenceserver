@@ -264,8 +264,8 @@ module SequenceServer
           hsp_stats["Positives"] = "#{positives_fraction hsp}(#{positives_percentage hsp}%)"
           hsp_stats["Frame"] = "#{hsp[:qframe]}/#{hsp[:sframe]}"
         elsif @program == 'blastn'
-          hsp_stats["Strand"] = "#{hsp[:qframe] > 0 ? "(Plus" : "(Minus"}"<<
-                                "#{hsp[:sframe] > 0 ? "/Plus)" : "/Minus)"}"
+          hsp_stats["Strand"] = "#{hsp[:qframe] > 0 ? "+" : "-"}/" \
+                                "#{hsp[:sframe] > 0 ? "+" : "-"}"
         end
 
         hsp_stats
