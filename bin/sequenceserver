@@ -110,6 +110,7 @@ BANNER
       require 'sequenceserver'
       begin
         opts = to_h.delete_if{|k, v| v.nil?}
+        opts.delete :set
         SequenceServer.init opts
       rescue SystemExit => e
         # The aim of following error recovery scenarios is to guide user to a
@@ -220,15 +221,6 @@ ERR
         end
       end
 
-      if set?
-        SequenceServer.send :write_config_file
-        exit
-      end
-
-      if fetch_option(:set).value
-        SequenceServer.send :write_config_file
-      end
-
       if interactive?
         SequenceServer.irb
         exit
@@ -255,6 +247,15 @@ ERR
       if make_blast_databases?
         SequenceServer::Database.make_blast_databases
         exit
+      end
+
+      if set?
+        SequenceServer.send :write_config_file
+        exit
+      end
+
+      if fetch_option(:set).value
+        SequenceServer.send :write_config_file
       end
 
       SequenceServer.run
