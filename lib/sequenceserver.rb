@@ -8,13 +8,6 @@ require 'sequenceserver/sequence'
 require 'sequenceserver/database'
 require 'sequenceserver/blast'
 
-# It is important that formatted BLAST database files have the same dirname and
-# basename as the source FASTA for SequenceServer to be able to tell formatted
-# FASTA from unformatted. And that FASTA files be formatted with `parse_seqids`
-# option of `makeblastdb` for sequence retrieval to work.
-#
-# SequenceServer will always place BLAST database files alongside input FASTA,
-# and use `parse_seqids` option of `makeblastdb` to format databases.
 module SequenceServer
 
   # Use a fixed minimum version of BLAST+
@@ -26,8 +19,6 @@ module SequenceServer
   EXIT_BLAST_INSTALLATION_FAILED  = 5
   EXIT_CONFIG_FILE_NOT_FOUND      = 6
   EXIT_NO_SEQUENCE_DIR            = 7
-
-  extend Blast
 
   class << self
     def environment
@@ -69,7 +60,7 @@ module SequenceServer
       @config[:database_dir] = File.expand_path(@config[:database_dir])
       assert_blast_databases_present_in_database_dir
 
-      scan_databases_dir
+      Database.scan_databases_dir
 
       @config[:num_threads] = Integer(@config[:num_threads])
       assert_num_threads_valid @config[:num_threads]
@@ -93,63 +84,6 @@ module SequenceServer
     def [](key)
       config[key]
     end
-
-    def databases
-      @databases ||= Set.new
-    end
-
-
-    # Recursively scan `database_dir` for un-formatted FASTA and format them
-    # for use with BLAST+.
-    def make_blast_databases
-      unformatted_fastas.each do |file, sequence_type|
-        make_blast_database(file, sequence_type)
-      end
-    end
-
-    # Returns an Array of FASTA files that may require formatting, and the type
-    # of sequence contained in each FASTA.
-    #
-    #   > unformatted_fastas
-    #   => [['/foo/bar.fasta', :nulceotide], ...]
-    def unformatted_fastas
-      list = []
-      database_dir = config[:database_dir]
-      formatted_fastas = databases.map{|d| d.name}
-      Find.find database_dir do |file|
-        next if File.directory?(file)
-        next if formatted_fastas.include? file
-        if probably_fasta? file
-          sequence_type = guess_sequence_type_in_fasta file
-          if [:protein, :nucleotide].include?(sequence_type)
-            list << [file, sequence_type]
-          end
-        end
-      end
-      list
-    end
-
-    # Create BLAST database, given FASTA file and sequence type in FASTA file.
-    def make_blast_database(file, type)
-      puts "FASTA file: #{file}"
-      puts "FASTA type: #{type}"
-
-      response = ''
-      until response.match(/^[yn]$/i) do
-        print "Proceed? [y/n]: "
-        response = STDIN.gets.chomp
-      end
-
-      if response.match(/y/i)
-        print "Enter a database title or will use '#{File.basename(file)}': "
-        title = STDIN.gets.chomp
-        title.gsub!('"', "'")
-        title = File.basename(file) if title.empty?
-
-        `makeblastdb -in #{file} -dbtype #{type.to_s.slice(0,4)} -title "#{title}" -parse_seqids`
-      end
-    end
-
 
     # Run SequenceServer as a self-hosted server using Thin webserver.
     def run
@@ -189,7 +123,6 @@ module SequenceServer
       App.call(env)
     end
 
-
     # Run SequenceServer interactively.
     def irb
       ARGV.clear
@@ -227,28 +160,6 @@ module SequenceServer
         end
       end
     end
-
-    # Recurisvely scan `database_dir` for blast databases.
-    def scan_databases_dir
-      database_dir = config[:database_dir]
-      list = %x|blastdbcmd -recursive -list #{database_dir} -list_outfmt "%p	%f	%t" 2>&1|
-      list.each_line do |line|
-        type, name, title =  line.split('	')
-        type.downcase!
-        [type, name, title].each(&:freeze)
-
-        # skip past all but alias file of a NCBI multi-part BLAST database
-        if multipart_database_name?(name)
-          logger.debug(%|Ignoring multi-part database volume at #{name}.|)
-          next
-        end
-
-        logger.debug("Found #{type} database: #{title} at #{name}")
-        database = Database.new(name, title, type)
-        databases << database
-      end
-    end
-
 
     def assert_file_present desc, file, exit_code = 1
       unless file and File.exists? File.expand_path file
@@ -310,32 +221,6 @@ module SequenceServer
       system("which #{command} > /dev/null 2>&1")
     end
 
-    # Returns true if the database name appears to be a multi-part database name.
-    #
-    # e.g.
-    # /home/ben/pd.ben/sequenceserver/db/nr.00 => yes
-    # /home/ben/pd.ben/sequenceserver/db/nr => no
-    # /home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01 => yes
-    def multipart_database_name?(db_name)
-      !(db_name.match(/.+\/\S+\d{2}$/).nil?)
-    end
-
-    # Returns true if first character of the file is '>'.
-    def probably_fasta?(file)
-      File.read(file, 1) == '>'
-    end
-
-    # Guess whether FASTA file contains protein or nucleotide sequences based
-    # on first 32768 characters.
-    #
-    # NOTE: 2^15 == 32786. Approximately 546 lines, assuming 60 characters on
-    # each line.
-    def guess_sequence_type_in_fasta(file)
-      sample = File.read(file, 32768)
-      sequences = sample.split(/^>.+$/).delete_if { |seq| seq.empty? }
-      sequence_types = sequences.map {|seq| Sequence.guess_type(seq)}.uniq.compact
-      (sequence_types.length == 1) && sequence_types.first
-    end
   end
 
   # Controller.
@@ -376,12 +261,12 @@ module SequenceServer
 
     # Render the search form.
     get '/' do
-      erb :search, :locals => {:databases => SequenceServer.databases.group_by(&:type)}
+      erb :search, :locals => {:databases => Database.group_by(&:type)}
     end
 
     # BLAST search!
     post '/' do
-      erb :result, :locals => {:report => SequenceServer.blast(params), :method => params[:method],
+      erb :result, :locals => {:report => BLAST.run(params),
                                :database_ids => params[:databases]}
     end
 
@@ -394,8 +279,7 @@ module SequenceServer
       sequence_ids = params[:sequence_ids].split(/\s/)
       database_ids = params[:database_ids].split(/\s/)
 
-      sequences = SequenceServer.sequences_from_blastdb(sequence_ids,
-                                                        database_ids)
+      sequences = Sequence.from_blastdb(sequence_ids, database_ids)
 
       if format = params[:download]
         download_name = "sequenceserver_#{sequence_ids.first}.fa.txt"
@@ -416,7 +300,7 @@ module SequenceServer
     # This error block will only ever be hit if the user gives us a funny
     # sequence or incorrect advanced parameter. Well, we could hit this block
     # if someone is playing around with our HTTP API too.
-    error Blast::ArgumentError do
+    error BLAST::ArgumentError do
       status 400
       error = env['sinatra.error']
       erb :'400', :locals => {:error => error}
@@ -427,7 +311,7 @@ module SequenceServer
     # or something really weird going on. If we hit this error block we show
     # the stacktrace to the user requesting them to post the same to our Google
     # Group.
-    error Exception, Blast::RuntimeError do
+    error Exception, BLAST::RuntimeError do
       status 500
       error = env['sinatra.error']
       erb :'500', :locals => {:error => error}

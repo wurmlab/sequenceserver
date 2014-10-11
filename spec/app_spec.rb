@@ -25,9 +25,9 @@ module SequenceServer
 
     before :each do
       app
-      @params = {'method'    => (SequenceServer.databases.first.type == 'protein' ? 'blastp' : 'blastn'),
+      @params = {'method'    => (Database.first.type == 'protein' ? 'blastp' : 'blastn'),
                  'sequence'  => 'AGCTAGCTAGCT',
-                 'databases' => [SequenceServer.databases.first.id]}
+                 'databases' => [Database.first.id]}
     end
 
     it 'returns Bad Request (400) if no blast method is provided' do

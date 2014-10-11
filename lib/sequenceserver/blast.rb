@@ -1,15 +1,13 @@
+require 'forwardable'
 require 'tempfile'
 require 'ox'
 
-require 'sequenceserver/sequence'
-
 module SequenceServer
-  # Simple wrapper around BLAST+ CLI (command line interface), intended to be
-  # mixed into SequenceServer.
+  # Simple wrapper around BLAST+ search algorithms.
   #
-  # `Blast::ArgumentError` and `Blast::RuntimeError` signal errors encountered
+  # `BLAST::ArgumentError` and `BLAST::RuntimeError` signal errors encountered
   # when attempting a BLAST search.
-  module Blast
+  module BLAST
     # To signal error in query sequence or options.
     #
     # ArgumentError is raised when BLAST+'s exit status is 1; see [1].
@@ -308,13 +306,19 @@ module SequenceServer
 
     ALGORITHMS = %w(blastn blastp blastx tblastn tblastx)
 
-    def blast(params)
+    extend self
+
+    extend Forwardable
+
+    def_delegators SequenceServer, :config, :logger
+
+    def run(params)
       pre_process params
       validate_blast_params params
 
       # Compile parameters for BLAST search into a shell executable command.
       #
-      # Blast method to use.
+      # BLAST method to use.
       method  = params[:method]
       #
       # BLAST+ expects query sequence as a file.
@@ -324,8 +328,7 @@ module SequenceServer
       #
       # Retrieve database file from database id.
       database_ids   = params[:databases]
-      database_names = databases.select {|d| database_ids.include? d.id}
-                                        .map(&:name).join(' ')
+      database_names = Database[database_ids].map(&:name).join(' ')
       #
       # Concatenate other blast options.
       options = params[:advanced].to_s.strip + defaults
@@ -383,27 +386,6 @@ module SequenceServer
       File.open(rfile.path) {|f| Report.new(f)}
     end
 
-    # Returns an Array of SequenceServer::Sequence objects capturing the
-    # sequences fetched from BLAST database and an Array of absolute path
-    # to BLAST databases from which the sequences were fetched.
-    #
-    # FIXME: Reconsider if databases should be returned.
-    def sequences_from_blastdb(sequence_ids, database_ids)
-      sequence_ids   = sequence_ids.join(',')
-      database_names = databases.select {|d| database_ids.include? d.id}
-                                        .map(&:name).join(' ')
-
-      # Output of the command will be tab separated three columns.
-      command = "blastdbcmd -outfmt '%a	%t	%s' " \
-                "-db '#{database_names}' -entry '#{sequence_ids}'"
-
-      logger.debug("Executing: #{command}")
-
-      # Not interested in stderr.
-      `#{command} 2> /dev/null`.
-        each_line.map {|line| Sequence.new(*line.split('	'))}
-    end
-
     def pre_process(params)
       unless params[:sequence].nil?
         params[:sequence].strip!
@@ -433,7 +415,7 @@ module SequenceServer
     end
 
     def validate_blast_databases(database_ids)
-      ids = databases.map(&:id)
+      ids = Database.ids
       return true if database_ids.is_a?(Array) && !database_ids.empty? &&
         (ids & database_ids).length == database_ids.length
       raise ArgumentError, "Database id should be one of:" \

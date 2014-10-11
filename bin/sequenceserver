@@ -235,12 +235,12 @@ ERR
       end
 
       if list_databases?
-        puts SequenceServer.databases
+        puts SequenceServer::Database.all
         exit
       end
 
       if list_unformatted_fastas? or make_blast_databases?
-        unformatted_fastas = SequenceServer.unformatted_fastas
+        unformatted_fastas = SequenceServer::Database.unformatted_fastas
         if unformatted_fastas.empty?
           puts "All FASTA files in #{SequenceServer[:database_dir]} are formatted."
           exit
@@ -253,7 +253,7 @@ ERR
       end
 
       if make_blast_databases?
-        SequenceServer.make_blast_databases
+        SequenceServer::Database.make_blast_databases
         exit
       end
 

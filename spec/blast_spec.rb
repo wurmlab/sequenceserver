@@ -7,8 +7,8 @@ module SequenceServer
   no_hits_xml = File.join(SequenceServer.root, 'spec', 'ss_sample_blast_no_hits.xml')
 
   describe 'Report' do
-    hits_report = File.open(with_hits_xml) {|f| Blast::Report.new(f)}
-    no_hits_report = File.open(no_hits_xml) {|f| Blast::Report.new(f)}
+    hits_report = File.open(with_hits_xml) {|f| BLAST::Report.new(f)}
+    no_hits_report = File.open(no_hits_xml) {|f| BLAST::Report.new(f)}
 
     it 'will return an Array of queries' do
       hits_report.queries.should be_a Array
@@ -18,8 +18,8 @@ module SequenceServer
   end
 
   describe 'Query' do
-    hits_report = File.open(with_hits_xml) {|f| Blast::Report.new(f)}
-    no_hits_report = File.open(no_hits_xml) {|f| Blast::Report.new(f)}
+    hits_report = File.open(with_hits_xml) {|f| BLAST::Report.new(f)}
+    no_hits_report = File.open(no_hits_xml) {|f| BLAST::Report.new(f)}
 
     it 'will return queries with valid length' do
       hits_report.queries.first.len.should be_a Fixnum
@@ -46,8 +46,8 @@ module SequenceServer
   end
 
   describe 'Hits' do
-    hits_report = File.open(with_hits_xml) {|f| Blast::Report.new(f)}
-    no_hits_report = File.open(no_hits_xml) {|f| Blast::Report.new(f)}
+    hits_report = File.open(with_hits_xml) {|f| BLAST::Report.new(f)}
+    no_hits_report = File.open(no_hits_xml) {|f| BLAST::Report.new(f)}
 
     it 'will have non zero length' do
       hits_report.queries.last.hits.first.len.should satisfy {|n| n > 0}
@@ -68,7 +68,7 @@ module SequenceServer
   end
 
   describe 'HSPs' do
-    hits_report = File.open(with_hits_xml) {|f| Blast::Report.new(f)}
+    hits_report = File.open(with_hits_xml) {|f| BLAST::Report.new(f)}
     method = hits_report.program
 
     # Currently using all 17 HSP parameters in BLAST Report.

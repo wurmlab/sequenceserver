@@ -34,32 +34,9 @@ module SequenceServer
       assert_equal(nil, Sequence.guess_type('ACSFGT'), message='too little sequence')
     end
 
-    ## Tests for type_of_sequences  (multi-fasta  kind of thing the user would enter)
-    #it 'test_type_of_sequences' do
-      #aa_multifasta = ">SDFDSF\nACGTGSDLKJGNLDKSJFLSDKJFLSDKOIU\n>asdfas\nasfasdfffffffffffffffffffff\n>alksjflkasdj slakdjf\nasdfasdfasdfljaslkdjf"
-      #aa_multifasta_including_short_seq_missing_lead = "ACGTGSDLKJGNLDKSJFLSDKJFLSDKOIU\n>asdfas\nasf\n>alksjflkasdj slakdjf\nasdfasdfasdfljaslkdjf"
-      #aa_singlesequence =  "ACGTGSDLKJGNLDKSJFLSDKJFLSDKOIU\n"
-      #nt_multifasta = ">asdf\nAAAAAAAAAAAAAAAAAAAAT\n>sfaslkj\nCAGATGCRRCAAAGCAAACGGCAA\n>asssssjlkj\nACCCANNNNNNXXXXCAUUUUUU"
-      #aa_nt_mix = ">alksjflkasdj slakdjf\nasdfasdfasdfljaslkdjf\n>ffffffassdf\nACGCNAGTGCCCCCCCCGANATGGGTGGTTXXXXXGGTG"
-
-      #assert_equal(:protein, type_of_sequences(aa_multifasta), 'aa_multifasta')
-      #assert_equal(:protein, type_of_sequences(aa_multifasta_including_short_seq_missing_lead ), 'aa_multifasta_short_seq_and_no_>')
-      #assert_equal(:protein, type_of_sequences(aa_singlesequence), 'single AA sequence')
-      #assert_equal(:nucleotide, type_of_sequences(nt_multifasta), 'nt_multifasta')
-      #expect { type_of_sequences(aa_nt_mix) }.to raise_error(ArgumentError)
-    #end
-
     it 'test_composition' do
       expected_comp = {"a"=>2, "d"=>3, "f"=>7, "s"=>3, "A"=>1}
       assert_equal(expected_comp, Sequence.composition('asdfasdfffffAsdf'))
-    end
-  end
-
-  describe 'SystemHelpers' do
-    it 'test_multipart_database_name?' do
-      assert_equal true, SequenceServer.send(:multipart_database_name?, '/home/ben/pd.ben/sequenceserver/db/nr.00')
-      assert_equal false, SequenceServer.send(:multipart_database_name?, '/home/ben/pd.ben/sequenceserver/db/nr')
-      assert_equal true, SequenceServer.send(:multipart_database_name?, '/home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01')
     end
   end
 end
