@@ -152,7 +152,7 @@
             <br>
             Effective search space used: <%= query.stats[3] %>
             <br>
-            Databases: <%= report.querydb.split.map{|db| File.basename(db)}.join(', ') %>
+            Databases: <%= report.querydb.map(&:title).join(', ') %>
             <br>
             No. of letters in database: <%= query.stats[1] %>
             <br>

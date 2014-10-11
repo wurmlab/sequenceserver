@@ -110,13 +110,15 @@ module SequenceServer
 
     # Captures BLAST results from BLAST+'s XML output.
     class Report
-      # Expects a File object.
-      def initialize(rfile)
+      # Expects a File object, and Database objects used to BLAST against.
+      #
+      # NOTE: databases param is optional for test suite.
+      def initialize(rfile, databases = nil)
         parsed_out = Ox.parse(rfile.read)
         hashed_out = node_to_array(parsed_out.root)
         @program = hashed_out[0]
         @version = hashed_out[1]
-        @querydb = hashed_out[3]
+        @querydb = Array databases
         @parameters = hashed_out[7]
 
         hashed_out[8].each_with_index do |n, i|
@@ -326,9 +328,8 @@ module SequenceServer
       qfile.puts(params[:sequence])
       qfile.close
       #
-      # Retrieve database file from database id.
-      database_ids   = params[:databases]
-      database_names = Database[database_ids].map(&:name).join(' ')
+      # Retrieve database objects from database id.
+      databases = Database[params[:databases]]
       #
       # Concatenate other blast options.
       options = params[:advanced].to_s.strip + defaults
@@ -342,8 +343,8 @@ module SequenceServer
       # Run BLAST search.
       #
       # Command to execute.
-      command = "#{method} -db '#{database_names}' -query" \
-                " '#{qfile.path}' #{options}"
+      command = "#{method} -db '#{databases.map(&:name).join(' ')}'" \
+                " -query '#{qfile.path}' #{options}"
       #
       # Debugging log.
       logger.debug("Executing: #{command}")
@@ -383,7 +384,7 @@ module SequenceServer
       end
 
       # Report the results, ensures that file is closed after execution.
-      File.open(rfile.path) {|f| Report.new(f)}
+      File.open(rfile.path) {|f| Report.new(f, databases)}
     end
 
     def pre_process(params)
