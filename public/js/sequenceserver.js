@@ -142,6 +142,7 @@ $(document).ready(function(){
 
         if (!isFile) { return; }
 
+        $('.dnd-error').hide();
         tgtMarker.show();
         dt.effectAllowed = 'copy';
         if ($sequence.val() === '') {
