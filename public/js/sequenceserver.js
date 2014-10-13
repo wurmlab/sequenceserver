@@ -129,14 +129,15 @@ $(document).ready(function(){
     $(document)
     .on('dragenter', function (evt) {
         // Based on http://stackoverflow.com/a/8494918/1205465.
+        // Contrary to what the above link says, the snippet below can't
+        // distinguish directories from files. We handle that on drop.
         var dt = evt.originalEvent.dataTransfer;
         var isFile = dt.types && ((dt.types.indexOf &&  // Chrome and Safari
                                   dt.types.indexOf('Files') != -1) ||
                                   (dt.types.contains && // Firefox
                                    dt.types.contains('application/x-moz-file')));
-        if (!isFile) {
-            return;
-        }
+
+        if (!isFile) { return; }
 
         tgtMarker.show();
         dt.effectAllowed = 'copy';
@@ -194,8 +195,9 @@ $(document).ready(function(){
             }
         };
         reader.onerror = function (e) {
+            // Couldn't read. Means dropped stuff wasn't FASTA file.
             $('#dnd-read-error-notification .filename').text(file.name);
-            dndError('dnd-read-error');
+            dndError('dnd-format');
         }
         reader.readAsText(file);
     });
