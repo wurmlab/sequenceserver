@@ -1,6 +1,6 @@
 (function ($) {
 
-    function setupTooltip () {
+    var setupTooltip = function () {
         $('[data-toggle="tooltip"]').tooltip({
             'placement': 'top',
             'container': 'body',
@@ -9,7 +9,7 @@
         });
     }
 
-    function initialize (selector) {
+    var initialize = function (selector) {
         var selectorId = $(selector).attr('id');
 
         // FIXME: SS should create the container and pass id of the
@@ -26,7 +26,7 @@
         $(selector).children().eq(1).children().eq(0).after(container);
     }
 
-    function graphControls (pId, isInit) {
+    var graphControls = function (pId, isInit) {
         // Show/Hide view more or less buttons according to the number of
         // hits already drawn, and yet to be drawn.
         var initButtons = function (pId) {
@@ -97,7 +97,7 @@
     // element, where the hit data is obtained from the data-attribs.
     // HSPs class name is indicated in data-graphit-target in the
     // selector element.
-    function toD3 (selector, index, howMany) {
+    var toD3 = function (selector, index, howMany) {
         var hits = []
         hitPanels = $(selector).find('.hitn').slice(0, index + howMany);
         hitPanels.map(function () {
@@ -116,7 +116,7 @@
         return hits;
     }
 
-    function drawLegend (svg, options, width, height) {
+    var drawLegend = function (svg, options, width, height) {
         var svg_legend = svg.append('g')
                 .attr('transform',
                     'translate(0,'+(height-options.margin-options.legend*1.25)+')');
@@ -258,26 +258,26 @@
                         .each(function (pd, j) {
                             // Drawing the HSPs connector line using the same
                             // color as that of the hit track (using lookahead).
-                            var y_hspline = y(p_id)+options.barHeight/2;
-                            var hspline_color = d3.rgb(gradScale(p_hsp.hitEvalue),
+                            var yHspline = y(p_id)+options.barHeight/2;
+                            var hsplineColor = d3.rgb(gradScale(p_hsp.hitEvalue),
                                 gradScale(p_hsp.hitEvalue),gradScale(p_hsp.hitEvalue));
 
                             if (j+1 < p_count) {
                                 if (p_hsp[j].hspEnd <= p_hsp[j+1].hspStart) {
                                     d3.select(this.parentNode).append('line')
                                         .attr('x1', x(p_hsp[j].hspEnd))
-                                        .attr('y1', y_hspline)
+                                        .attr('y1', yHspline)
                                         .attr('x2', x(p_hsp[j+1].hspStart))
-                                        .attr('y2', y_hspline)
-                                        .attr('stroke', hspline_color);
+                                        .attr('y2', yHspline)
+                                        .attr('stroke', hsplineColor);
                                 }
                                 else if (p_hsp[j].hspStart > p_hsp[j+1].hspEnd) {
                                     d3.select(this.parentNode).append('line')
                                         .attr('x1', x(p_hsp[j+1].hspEnd))
-                                        .attr('y1', y_hspline)
+                                        .attr('y1', yHspline)
                                         .attr('x2', x(p_hsp[j].hspStart))
-                                        .attr('y2', y_hspline)
-                                        .attr('stroke', hspline_color);
+                                        .attr('y2', yHspline)
+                                        .attr('stroke', hsplineColor);
                                 };
                             };
 
@@ -293,7 +293,7 @@
                                     return x(d.hspEnd - d.hspStart + 1);
                             })
                             .attr('height', options.barHeight)
-                            .attr('fill', d3.rgb(hspline_color));
+                            .attr('fill', d3.rgb(hsplineColor));
                     });
                 });
 
