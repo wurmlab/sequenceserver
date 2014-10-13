@@ -143,6 +143,7 @@ $(document).ready(function(){
         if (!isFile) { return; }
 
         $('.dnd-error').hide();
+        tgtMarker.stop(true, true);
         tgtMarker.show();
         dt.effectAllowed = 'copy';
         if ($sequence.val() === '') {
