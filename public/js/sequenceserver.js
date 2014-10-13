@@ -125,7 +125,7 @@ $(document).ready(function(){
 
     var dndError = function (id) {
         $('.dnd-error').hide();
-        $('#' + id + '-notification').show('drop', {direction: 'up'});
+        $('#' + id + '-notification').show();
         tgtMarker.effect('fade', 2500);
     };
 
