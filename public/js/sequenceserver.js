@@ -79,6 +79,9 @@ if (!SS) {
 //SS module
 (function () {
 
+    // Starts with >.
+    SS.FASTA_FORMAT = /^>/;
+
     SS.decorate = function (name) {
       return name.match(/(.?)(blast)(.?)/).slice(1).map(function (token, _) {
         if (token) {
@@ -175,28 +178,24 @@ $(document).ready(function(){
 
         var file = files[0];
         if (file.size > 10 * 1048576) {
-            $('#dnd-large-file-notification .filename').text(file.name);
             dndError('dnd-large-file');
             return;
         }
 
         var reader = new FileReader();
         reader.onload = function (e) {
-            var putativeFastaText = e.target.result;
-            // Query file must start with > (possibly after whitespace), or be entirely alphanumeric+whitespace
-            if (/^\s*>/.test(putativeFastaText) || /^\s*[0-9A-Za-z\*]+[\s0-9A-Za-z\*]*$/.test(putativeFastaText)) {
-                textarea.val(putativeFastaText);
+            var content = e.target.result;
+            if (SS.FASTA_FORMAT.test(content)) {
+                textarea.val(content);
                 indicator.text(file.name);
                 tgtMarker.hide();
             } else {
                 // apparently not FASTA
-                $('#dnd-format-notification .filename').text(file.name);
                 dndError('dnd-format');
             }
         };
         reader.onerror = function (e) {
             // Couldn't read. Means dropped stuff wasn't FASTA file.
-            $('#dnd-read-error-notification .filename').text(file.name);
             dndError('dnd-format');
         }
         reader.readAsText(file);
