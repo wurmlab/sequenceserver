@@ -116,6 +116,39 @@
         return hits;
     }
 
+    function drawLegend (svg, options, width, height) {
+        var svg_legend = svg.append('g')
+                .attr('transform',
+                    'translate(0,'+(height-options.margin-options.legend*1.25)+')');
+
+        svg_legend.append('rect')
+                .attr('x', 7*(width-2*options.margin)/10)
+                .attr('width', 2*(width-4*options.margin)/10)
+                .attr('height', options.legend)
+                .attr('fill', 'url(#legend-grad)');
+
+        svg_legend.append('text')
+                .attr('transform', 'translate(0, '+options.legend+')')
+                .attr('x', 6*(width-2*options.margin)/10 - options.margin/2)
+                .text("Weaker hits");
+        svg_legend.append('text')
+                .attr('transform', 'translate(0, '+options.legend+')')
+                .attr('x', 9*(width-2*options.margin)/10 + options.margin/2)
+                .text("Stronger hits");
+
+        svg.append('linearGradient')
+            .attr('id', 'legend-grad')
+          .selectAll('stop')
+            .data([
+                {offset: "0%", color: "#ccc"},
+                {offset: '50%', color: '#888'},
+                {offset: "100%", color: "#000"}
+                ])
+          .enter().append('stop')
+            .attr('offset', function (d) { return d.offset })
+            .attr('stop-color', function (d) { return d.color });
+    }
+
     $.extend({
         graphIt: function (selector, index, howMany, opts) {
             // barHeight: Height of each hit track.
@@ -131,7 +164,7 @@
                hits = toD3(selector, index, howMany);
 
             // Don't draw anything when no hits are obtained.
-            if (hits < 1) return false;
+            if (hits.length < 1) return false;
 
             if (index == 0) {
                 initialize(selector);
@@ -264,37 +297,10 @@
                     });
                 });
 
-                var svg_legend = svg.append('g')
-                        .attr('transform', 
-                            'translate(0,'+(height-options.margin-options.legend*1.25)+')');
-
-                svg_legend.append('rect')
-                        .attr('x', 7*(width-2*options.margin)/10)
-                        .attr('width', 2*(width-4*options.margin)/10)
-                        .attr('height', options.legend)
-                        .attr('fill', 'url(#legend-grad)');
-
-                svg_legend.append('text')
-                        .attr('transform', 'translate(0, '+options.legend+')')
-                        .attr('x', 6*(width-2*options.margin)/10 - options.margin/2)
-                        .text("Weaker hits");
-                svg_legend.append('text')
-                        .attr('transform', 'translate(0, '+options.legend+')')
-                        .attr('x', 9*(width-2*options.margin)/10 + options.margin/2)
-                        .text("Stronger hits");
-
-                svg.append('linearGradient')
-                    .attr('id', 'legend-grad')
-                  .selectAll('stop')
-                    .data([
-                        {offset: "0%", color: "#ccc"},
-                        {offset: '50%', color: '#888'},
-                        {offset: "100%", color: "#000"}
-                        ])
-                  .enter().append('stop')
-                    .attr('offset', function (d) { return d.offset })
-                    .attr('stop-color', function (d) { return d.color });
-
+                // Draw legend only when more than one hit present
+                if (hits.length > 1) {
+                    drawLegend(svg, options, width, height);
+                }
                 // Bind listener events once all the graphical elements have
                 // been drawn for first time.
                 if (index === 0) {
