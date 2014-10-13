@@ -128,8 +128,18 @@ $(document).ready(function(){
 
     $(document)
     .on('dragenter', function (evt) {
-        tgtMarker.show();
+        // Based on http://stackoverflow.com/a/8494918/1205465.
+        var dt = evt.originalEvent.dataTransfer;
+        var isFile = dt.types && ((dt.types.indexOf &&  // Chrome and Safari
+                                  dt.types.indexOf('Files') != -1) ||
+                                  (dt.types.contains && // Firefox
+                                   dt.types.contains('application/x-moz-file')));
+        if (!isFile) {
+            return;
+        }
 
+        tgtMarker.show();
+        dt.effectAllowed = 'copy';
         if ($sequence.val() === '') {
             $('.dnd-overlay-overwrite').hide();
             $('.dnd-overlay-drop').show('drop', {direction: 'down'}, 'fast');
@@ -144,11 +154,11 @@ $(document).ready(function(){
         $('.dnd-overlay-drop').hide();
         $('.dnd-overlay-overwrite').hide();
     })
-    .on('dragover', function (evt) {
-        evt.preventDefault();
+    .on('dragover', '.dnd-overlay', function (evt) {
         evt.originalEvent.dataTransfer.dropEffect = 'copy';
+        evt.preventDefault();
     })
-    .on('drop', function (evt) {
+    .on('drop', '.dnd-overlay', function (evt) {
         evt.preventDefault();
         evt.stopPropagation();
 
