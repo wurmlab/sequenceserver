@@ -75,13 +75,9 @@ module SequenceServer
     def fasta
       chars = 60
       lines = (length / chars.to_f).ceil
-
-      s = ">#{accession} #{title}\n"
-      (1..lines).each do |i|
-        s << to_s[chars * (i - 1), chars]
-        s << "\n"
-      end
-      s
+      defline  = ">#{accession} #{title}"
+      seqlines = (1..lines).map {|i| to_s[chars * (i - 1), chars]}
+      [defline].concat(seqlines).join("\n")
     end
 
     # Returns genbank-style formatted sequence.

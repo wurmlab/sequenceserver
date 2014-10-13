@@ -281,15 +281,14 @@ module SequenceServer
 
       sequences = Sequence.from_blastdb(sequence_ids, database_ids)
 
-      if format = params[:download]
-        download_name = "sequenceserver_#{sequence_ids.first}.fa.txt"
-        file = Tempfile.open(download_name) do |f|
-          sequences.each do |sequence|
-            f.puts sequence.send(format)
-          end
-          f
+      if params[:download]
+        file_name = "sequenceserver_#{sequence_ids.first}.fa"
+        file = Tempfile.new file_name
+        sequences.each do |sequence|
+          file.puts sequence.fasta
         end
-        send_file file.path, :filename => download_name
+        file.close
+        send_file file.path, :type => :text, :filename => file_name
       else
         erb :fasta, :locals => {:sequences => sequences,
                                 :sequence_ids => sequence_ids,
