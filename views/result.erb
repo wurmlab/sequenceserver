@@ -25,7 +25,7 @@
               <div
                 class="hit-links-query">
                 <a
-                  href="<%= "get_sequence/?sequence_ids=#{query.hits.map(&:id).join(' ')}&database_ids=#{database_ids.join(' ')}" %>"
+                  href="<%= "get_sequence/?sequence_ids=#{query.hits.map(&:id).join(' ')}&database_ids=#{report.querydb.map(&:id).join(' ')}" %>"
                   class="view-sequence">
                   [FASTA of all hits]
                 </a>
@@ -86,22 +86,20 @@
                     </div>
                     <div
                       class="col-md-4 text-right">
-                      <div
-                        class="hit-links">
-                        <a
-                          href="<%= "get_sequence/?sequence_ids=#{hit.id}&database_ids=#{database_ids.join(' ')}" %>"
-                          class="view-sequence">
-                          <i class="fa fa-file-text"></i>
-                          View Sequence
-                        </a>
-                        /
-                        <a
-                          href="<%= "get_sequence/?sequence_ids=#{hit.id}&database_ids=#{database_ids.join(' ')}&download=fasta" %>"
-                          class="download-fasta">
-                          <i class="fa fa-download"></i>
-                          Download FASTA
-                        </a>
-                      </div>
+                        <div class="btn-group hit-links">
+                          <button type="button" class="btn btn-default view-sequence"
+                              href="<%= "get_sequence/?sequence_ids=#{hit.id}&database_ids=#{report.querydb.map(&:id).join(' ')}" %>">
+                              View Sequence
+                          </button>
+                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <% report.link_per_hit(hit.id).each do |link| %>
+                              <li><a href="<%= link[:url] %>" target="_blank"> <%= link[:title] %> </a></li>
+                            <% end %>
+                          </ul>
+                        </div>
                     </div>
                   </div>
                 </div>

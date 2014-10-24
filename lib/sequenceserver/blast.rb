@@ -2,6 +2,8 @@ require 'forwardable'
 require 'tempfile'
 require 'ox'
 
+require 'sequenceserver/links'
+
 module SequenceServer
   # Simple wrapper around BLAST+ search algorithms.
   #
@@ -110,6 +112,7 @@ module SequenceServer
 
     # Captures BLAST results from BLAST+'s XML output.
     class Report
+      include Links
       # Expects a File object, and Database objects used to BLAST against.
       #
       # NOTE: databases param is optional for test suite.
@@ -270,6 +273,11 @@ module SequenceServer
         end
 
         hsp_stats
+      end
+
+      def link_per_hit(sequence_id)
+        links = Links.instance_methods.map {|m| send(m, sequence_id)}
+        links.compact
       end
 
       attr_reader :program, :querydb
