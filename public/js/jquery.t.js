@@ -29,13 +29,14 @@
     var graphControls = function (pId, isInit) {
         // Show/Hide view more or less buttons according to the number of
         // hits already drawn, and yet to be drawn.
-        var initButtons = function (pId) {
-            var lessButton = $('.less'),
-                moreButton = $('.more'),
-                totalHits = $(pId).data().hitCount,
-                shownHits = $(pId).find('.ghit > g').length;
+        var lessButton = $('.less', pId),
+            moreButton = $('.more', pId);
 
-                if (shownHits < 20) {
+        var initButtons = function (pId) {
+                var totalHits = $(pId).data().hitCount,
+                    shownHits = $(pId).find('.ghit > g').length;
+
+                if (totalHits === 20 || shownHits < 20) {
                     lessButton.hide();
                     moreButton.hide();
                 }
@@ -64,7 +65,7 @@
         // want to retain.
         var MIN_HITS_TO_SHOW = 20;
 
-        $('.more').on('click', function (e) {
+        moreButton.on('click', function (e) {
             var pId = '#'+$(this).data().parentQuery;
             var shownHits = $(pId).find('.ghit > g').length;
             $.graphIt(pId, shownHits, MIN_HITS_TO_SHOW);
@@ -73,7 +74,7 @@
             e.stopPropagation();
         });
 
-        $('.less').on('click', function (e) {
+        lessButton.on('click', function (e) {
             var pId = '#'+$(this).data().parentQuery;
             var shownHits = $(pId).find('.ghit > g').length;
             var diff = shownHits - MIN_HITS_TO_SHOW;
@@ -214,11 +215,12 @@
                 .rangeBands([0,height-3*options.margin-2*options.legend], .3);
 
             y.domain(hits.map(function (d, i) {
-                return d.hitId; 
+                return d.hitId;
             }));
 
             var gradScale = d3.scale.log()
                 .domain([d3.min([1e-5, d3.min(hits.map(function (d) {
+                    if (parseFloat(d.hitEvalue) === 0.0) return undefined;
                     return d.hitEvalue;
                 }))]), d3.max(hits.map(function (d) {
                     return d.hitEvalue;
