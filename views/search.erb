@@ -4,6 +4,7 @@
   <title>SequenceServer: Custom BLAST Server</title>
   <meta name="author" content="Anurag Priyam" />
   <meta name="author" content="Ben J. Woodcroft" />
+  <meta name="author" content="Vivek Rai" />
   <meta name="author" content="Yannick Wurm" />
   <meta name="author" content="Cedric Wurm" />
   <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)"/>
@@ -236,12 +237,12 @@
                 id="methods">
                 <button
                   type="submit"
-                  id="method" class="btn btn-default"
+                  id="method" class="btn btn-primary"
                   disabled="disabled">
                   blast
                 </button>
                 <button
-                  class="btn btn-default dropdown-toggle"
+                  class="btn btn-primary dropdown-toggle"
                   style="display: none;"
                   data-toggle="dropdown">
                   <span class="caret"></span>
@@ -273,8 +274,9 @@
           quote = [
             "Custom BLAST web interface by SequenceServer.",
             "SequenceServer: Local BLAST with bespoke html interface.",
-            "Set up custom BLAST interface with SequenceServer."
-          ][rand(3)]
+            "Set up custom BLAST interface with SequenceServer.",
+            "Easy BLASTing with SequenceServer."
+          ][rand(4)]
         %>
       </a>
       <a
@@ -286,17 +288,11 @@
       <%#<div class="g-plusone" data-annotation="none" data-href="http://www.sequenceserver.com"></div>%>
 
       <br>
-
-      <a
-        href='http://www.sequenceserver.com'>
-        Please cite: Priyam A, Woodcroft BJ, Wurm Y, "SequenceServer: BLAST searching made easy (<em>in preparation</em>)" &
+            Please Cite:
+      <a href='http://www.sequenceserver.com'>
+        Please cite: Priyam, Woodcroft, Rai & Wurm, <strong>SequenceServer</strong> (<em>in prep</em>)</a>
       </a>
-      <br>
-      <a
-        href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=PubMed&amp;cmd=Re
-        trieve&amp;list_uids=9254694&amp;dopt=Citation">
-        Camacho et al, "BLAST+: architecture and applications", BMC Bioinformatics 10:421.
-      </a>
+            &amp; relevant data sources.
     </p>
   </div>
 

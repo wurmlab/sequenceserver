@@ -32,6 +32,14 @@ label {
   font-weight: normal;
 }
 
+.checkbox label {
+  padding-left: 0px;
+}
+
+.checkbox {
+  padding-left: 5px;
+}
+
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
 .table>tbody>tr>td, .table>tfoot>tr>td {
   border-top: none;
@@ -253,4 +261,27 @@ label {
 
 .dnd-overlay-container p {
   font-size: 48px;
+}
+
+/* input form */
+.col-md-6 .panel-heading h4 {
+  margin: 0px;
+}
+
+ul.list-group.databases {
+  padding-top: 6px;
+  padding-bottom: 3px;
+}
+
+ul.list-group.databases li.list-group-item {
+  border: 0px;
+  padding: 1px 10px;
+}
+
+ul.list-group.databases li.list-group-item input {
+    padding: 0;
+    margin:0;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
 }
