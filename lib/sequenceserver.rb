@@ -266,8 +266,7 @@ module SequenceServer
 
     # BLAST search!
     post '/' do
-      erb :result, :locals => {:report => BLAST.run(params),
-                               :database_ids => params[:databases]}
+      erb :result, :locals => {:report => BLAST.run(params)}
     end
 
     # get '/get_sequence/?sequence_ids=sequence_ids&database_ids=retreival_databases[&download=fasta]'
