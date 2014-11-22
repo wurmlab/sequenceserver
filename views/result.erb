@@ -25,7 +25,7 @@
               <div
                 class="hit-links-query">
                 <a
-                  href="<%= "get_sequence/?sequence_ids=#{query.hits.map(&:id).join(' ')}&database_ids=#{report.querydb.map(&:id).join(' ')}" %>"
+                  href="<%= report.send(:sequence_viewer, query.hits.map(&:id))[:url] %>"
                   class="view-sequence">
                   [FASTA of all hits]
                 </a>
@@ -87,16 +87,22 @@
                     <div
                       class="col-md-4 text-right">
                         <div class="btn-group hit-links">
-                          <button type="button" class="btn btn-default view-sequence"
-                              href="<%= "get_sequence/?sequence_ids=#{hit.id}&database_ids=#{report.querydb.map(&:id).join(' ')}" %>">
-                              View Sequence
-                          </button>
+                          <% # cache all generated links of easy access elsewhere %>
+                          <% links = report.link_per_hit(hit.id) %>
+                          <a
+                            role="button"
+                            class="btn btn-default <%= links.first[:classes].join(' ') %>"
+                            href="<%= links.first[:url] %>">
+                            <%= links.first[:title] %>
+                          </a>
                           <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                           </button>
                           <ul class="dropdown-menu" role="menu">
-                            <% report.link_per_hit(hit.id).each do |link| %>
-                              <li><a href="<%= link[:url] %>" target="_blank"> <%= link[:title] %> </a></li>
+                            <% links.drop(1).each do |link| %>
+                              <li class="<%= link[:classes].join(' ') %>">
+                                <a href="<%= link[:url] %>" target="_blank"> <%= link[:title] %> </a>
+                              </li>
                             <% end %>
                           </ul>
                         </div>

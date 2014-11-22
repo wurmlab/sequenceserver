@@ -277,7 +277,9 @@ module SequenceServer
 
       def link_per_hit(sequence_id)
         links = Links.instance_methods.map {|m| send(m, sequence_id)}
-        links.compact
+
+        # Sort links based on :order key (ascending)
+        links.compact!.sort_by! {|link| link[:order]}
       end
 
       attr_reader :program, :querydb
