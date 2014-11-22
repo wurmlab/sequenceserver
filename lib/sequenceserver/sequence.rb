@@ -57,7 +57,7 @@ module SequenceServer
 
         # Not interested in stderr.
         `#{command} 2> /dev/null`.
-          each_line.map {|line| Sequence.new(*line.split('	'))}
+          each_line.map {|line| Sequence.new(*line.chomp.split('	'))}
       end
     end
 

@@ -103,8 +103,8 @@ module SequenceServer
             puts
             puts "** Thank you for using SequenceServer :)."
             puts "   Please cite: "
-            puts "             Priyam A., Woodcroft B.J., Wurm Y (in prep)."
-            puts "             Sequenceserver: BLAST searching made easy."
+            puts "             Priyam, Woodcroft, Rai & Wurm,"
+            puts "             SequenceServer (in prep)."
           end
         end
       end
