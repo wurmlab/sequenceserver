@@ -46,6 +46,9 @@ module SequenceServer
       # Returns an Array of Sequences capturing the sequences fetched from BLAST
       # database.
       def from_blastdb(sequence_ids, database_ids)
+        # Allows one to query sequences containing all numbers.
+        # See yannickwurm/sequenceserver bug #88 for full report.
+        sequence_ids = sequence_ids.map{|s| 'lcl|' << s}
         sequence_ids   = sequence_ids.join(',')
         database_names = Database[database_ids].map(&:name).join(' ')
 
