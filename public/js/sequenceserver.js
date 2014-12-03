@@ -369,9 +369,11 @@ $(document).ready(function(){
                 return this.value;
             }).get();
         }
-        var url = "get_sequence/?sequence_ids=" +
-                  sequence_ids.join(' ') + "&database_ids=" + database_ids +
-                  "&download=fasta";
+        // Encode URIs against strange characters in sequence ids.
+        sequence_ids = encodeURIComponent(sequence_ids.join(' '));
+
+        var url = "get_sequence/?sequence_ids=" + sequence_ids +
+                  "&database_ids=" + database_ids + "&download=fasta";
         this.href = url;
     });
 
