@@ -20,17 +20,19 @@
                 </small>
               </h3>
             </div>
-            <div
-              class="col-md-2 text-right">
+            <% unless query.hits.empty? %>
               <div
-                class="hit-links-query">
-                <a
-                  href="<%= report.send(:sequence_viewer, query.hits.map(&:id))[:url] %>"
-                  class="view-sequence">
-                  [FASTA of all hits]
-                </a>
+                class="col-md-2 text-right">
+                <div
+                  class="hit-links-query">
+                  <a
+                    href="<%= report.send(:sequence_viewer, query.hits.map(&:id))[:url] %>"
+                    class="view-sequence">
+                    [FASTA of all hits]
+                  </a>
+                </div>
               </div>
-            </div>
+            <% end %>
           </div>
         </div>
 
