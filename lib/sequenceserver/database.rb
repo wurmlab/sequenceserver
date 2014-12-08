@@ -119,7 +119,8 @@ module SequenceServer
           title.gsub!('"', "'")
           title = File.basename(file) if title.empty?
 
-          `makeblastdb -in #{file} -dbtype #{type.to_s.slice(0,4)} -title "#{title}" -parse_seqids`
+          `makeblastdb -parse_seqids -hash_index \
+            -in #{file} -dbtype #{type.to_s.slice(0,4)} -title "#{title}"`
         end
       end
 
