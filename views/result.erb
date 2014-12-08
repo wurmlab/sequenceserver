@@ -1,7 +1,7 @@
 <div
   class="row">
   <div
-    class="col-md-9">
+    class="<%= (report.queries.length == 1 && report.queries.first.hits.empty?) ? 'col-md-12' : 'col-md-9' %>">
     <% report.queries.each do |query| %>
       <div
           class="resultn" id="<%="Query_#{query.number}"%>"
@@ -167,20 +167,21 @@
     <% end %>
   </div>
 
-  <div
-    class="col-md-3 index-container">
-    <ul
-      class="nav nav-stacked index">
-      <% report.queries.each do |query| %>
-        <li>
-          <a
-            href="<%="#Query_#{query.number}"%>"
-            title="<%= "Query= #{query.id}" %>">
-            <%= "Query= #{query.id}" %>
-          </a>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-
+  <% unless report.queries.length == 1 && report.queries.first.hits.empty? %>
+    <div
+      class="col-md-3 index-container">
+      <ul
+        class="nav nav-stacked index">
+        <% report.queries.each do |query| %>
+          <li>
+            <a
+              href="<%="#Query_#{query.number}"%>"
+              title="<%= "Query= #{query.id}" %>">
+              <%= "Query= #{query.id}" %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 </div>

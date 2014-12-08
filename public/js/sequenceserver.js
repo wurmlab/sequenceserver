@@ -401,12 +401,14 @@ $(document).ready(function(){
 
             // affix the index
             var $index = $('.index');
-            $index.affix({
-                offset: {
-                    top: $index.offset().top
-                }
-            })
-            .width($index.width());
+            if ($index.length !== 0) {
+                $index.affix({
+                    offset: {
+                        top: $index.offset().top
+                    }
+                })
+                .width($index.width());
+            }
 
             //jump to the results
             location.hash = hash;
