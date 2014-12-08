@@ -59,8 +59,6 @@
           If sequences were retrieved, you can find them below (but some may be
           incorrect, so be careful!).
         </p>
-
-        <hr/>
       <% end %>
 
       <% sequences.each do |sequence| %>
@@ -98,13 +96,14 @@
 
     <div
       class="modal-footer">
-      <a
-        class="btn btn-default fasta-download" href=""
-        <%= "disabled='true'" if sequences.length < 1 %>
-        data-databases=<%="#{ database_ids.join(' ') }"%> >
-        <i class="fa fa-download"></i>
-        <%= "#{sequences.length <= 1 ? 'Download FASTA' : 'Download FASTA of all'}" %>
-      </a>
+      <% if sequences.length >= 1 %>
+        <a
+          class="btn btn-default fasta-download" href=""
+          data-databases=<%="#{ database_ids.join(' ') }"%> >
+          <i class="fa fa-download"></i>
+          <%= "#{sequences.length <= 1 ? 'Download FASTA' : 'Download FASTA of all'}" %>
+        </a>
+      <% end %>
     </div>
   </div>
 </div>
