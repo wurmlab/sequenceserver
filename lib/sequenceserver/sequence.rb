@@ -60,7 +60,7 @@ module SequenceServer
         database_names = Database[database_ids].map(&:name).join(' ')
 
         # Output of the command will be five columns TSV.
-        command = "blastdbcmd -outfmt '%g	%i	%a	%t	%s'" \
+        command = "blastdbcmd -target_only -outfmt '%g	%i	%a	%t	%s'" \
           " -db '#{database_names}' -entry '#{accessions}'"
 
         logger.debug("Executing: #{command}")
