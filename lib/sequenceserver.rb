@@ -11,7 +11,8 @@ require 'sequenceserver/blast'
 module SequenceServer
 
   # Use a fixed minimum version of BLAST+
-  MINIMUM_BLAST_VERSION           = '2.2.27+'
+  MINIMUM_BLAST_VERSION           = '2.2.30+'
+
   # Use the following exit codes, or 1.
   EXIT_BLAST_NOT_INSTALLED        = 2
   EXIT_BLAST_NOT_COMPATIBLE       = 3
