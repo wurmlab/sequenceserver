@@ -2,7 +2,7 @@ require 'forwardable'
 
 module SequenceServer
 
-  class Sequence < Struct.new(:accession, :title, :value)
+  class Sequence < Struct.new(:gi, :seqid, :accession, :title, :value)
 
     class << self
 
@@ -52,8 +52,8 @@ module SequenceServer
         sequence_ids   = sequence_ids.join(',')
         database_names = Database[database_ids].map(&:name).join(' ')
 
-        # Output of the command will be tab separated three columns.
-        command = "blastdbcmd -outfmt '%a	%t	%s'" \
+        # Output of the command will be tab separated four columns.
+        command = "blastdbcmd -outfmt '%g	%i	%a	%t	%s'" \
           " -db '#{database_names}' -entry '#{sequence_ids}'"
 
         logger.debug("Executing: #{command}")
@@ -62,6 +62,26 @@ module SequenceServer
         `#{command} 2> /dev/null`.
           each_line.map {|line| Sequence.new(*line.chomp.split('	'))}
       end
+    end
+
+    def initialize(*args)
+      args[0] = nil if args[0] == 'N/A'
+      super
+    end
+
+    # Returns FASTA sequence id.
+    #
+    #              sequence id    -> self.seqid
+    #              -------------
+    #                 accession   -> self.accession
+    #                 ----------
+    # gi|322796550|gb|EFZ19024.1| -> self.id
+    #    ---------
+    #    gi number                -> self.gi
+    #
+    # For local databases, id == seqid == accession.
+    def id
+      (gi ? ['gi', gi, seqid] : [seqid]).join('|')
     end
 
     # Returns length of the sequence.
