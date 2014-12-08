@@ -153,13 +153,15 @@ BANNER
             puts
             puts "*** Installing BLAST+."
             puts "RUBY_PLATFORM #{RUBY_PLATFORM}"
+
+            version = SequenceServer::MINIMUM_BLAST_VERSION
             url = case RUBY_PLATFORM
                   when /i686-linux/   # 32 bit Linux
-                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.27/ncbi-blast-2.2.27+-ia32-linux.tar.gz"
+                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-ia32-linux.tar.gz"
                   when /x86_64-linux/ # 64 bit Linux
-                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.27/ncbi-blast-2.2.27+-x64-linux.tar.gz"
+                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-x64-linux.tar.gz"
                   when /darwin/       # Mac
-                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.27/ncbi-blast-2.2.27+-universal-macosx.tar.gz"
+                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-universal-macosx.tar.gz"
                   else
                     puts <<ERR
 ------------------------------------------------------------------------
@@ -185,7 +187,7 @@ ERR
               #{SequenceServer::MINIMUM_BLAST_VERSION} or higher."
               exit SequenceServer::EXIT_BLAST_INSTALLATION_FAILED
             end
-            fetch_option(:bin).value = '~/.sequenceserver/ncbi-blast-2.2.27+/bin/'
+            fetch_option(:bin).value = "~/.sequenceserver/ncbi-blast-#{version}/bin/"
             redo
           else
             exit e.status unless set?
