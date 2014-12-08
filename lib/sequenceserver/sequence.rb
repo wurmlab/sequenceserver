@@ -51,6 +51,9 @@ module SequenceServer
       # Returns an Array of `Sequence` objects each capturing a sequence
       # fetched from BLAST database.
       def from_blastdb(accessions, database_ids)
+        accessions = Array accessions
+        database_ids = Array database_ids
+
         # NOTE:
         #   We prefix 'lcl|' to accessions because querying the databases
         #   otherwise doesn't work if accession contains only numbers.
