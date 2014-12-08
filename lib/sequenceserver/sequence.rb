@@ -2,65 +2,104 @@ require 'forwardable'
 
 module SequenceServer
 
+  # Provides simple sequence processing utilities via class methods. Instance
+  # of the class serves as a simple data object to captures sequences fetched
+  # from BLAST databases.
+  #
+  # NOTE:
+  #   What all do we need to consistently construct FASTA from `blastdbcmd's`
+  #   output?
+  #
+  #   It would seem rather straightforward. But it's not.
+  #
+  #   FASTA format:
+  #
+  #     >defline
+  #     actual sequence
+  #
+  #   where,
+  #
+  #     defline = >id title
+  #
+  #   ID of a sequence fetched from nr database should look like this:
+  #
+  #                  sequence id    -> self.seqid
+  #                  -------------
+  #                     accession   -> self.accession
+  #                     ----------
+  #     gi|322796550|gb|EFZ19024.1| -> self.id
+  #        ---------
+  #        gi number                -> self.gi
+  #
+  #   while for local databases, the id should be the exact same, as in the
+  #   original FASTA file:
+  #
+  #     SI2.2.0_06267 -> self.id == self.seqid == self.accession.
   class Sequence < Struct.new(:gi, :seqid, :accession, :title, :value)
 
     class << self
 
       extend Forwardable
 
-      def_delegators SequenceServer, :config, :logger
+      # Derive `logger` from SequenceServer module.
+      def_delegators SequenceServer, :logger
 
-      # copied from bioruby's Bio::Sequence
-      # returns a Hash. Eg: composition("asdfasdfffffasdf")
-      #                      => {"a"=>3, "d"=>3, "f"=>7, "s"=>3}
-      def composition(sequence_string)
-        count = Hash.new(0)
-        sequence_string.scan(/./) do |x|
-          count[x] += 1
-        end
-        return count
-      end
+      # Disable using `Sequence.new`. Should use `Sequence.from_blastdb`
+      # instead.
+      private :new
 
-      # Strips all non-letter characters. If less than 10 useable characters
-      # return `nil`. If at least 90% is ACGTU, returns `:nucleotide`, else
-      # `:protein`.
-      def guess_type(sequence_string)
-        cleaned_sequence = sequence_string.gsub(/[^A-Z]/i, '')  # removing non-letter characters
-        cleaned_sequence.gsub!(/[NX]/i, '')                     # removing ambiguous  characters
-
-        return nil if cleaned_sequence.length < 10 # conservative
-
-        composition = composition(cleaned_sequence)
-        composition_NAs    = composition.select {|character, count| character.match(/[ACGTU]/i)} # only putative NAs
-        putative_NA_counts = composition_NAs.collect {|key_value_array| key_value_array[1]}      # only count, not char
-        putative_NA_sum    = putative_NA_counts.inject {|sum, n| sum + n}                        # count of all putative NA
-        putative_NA_sum    = 0 if putative_NA_sum.nil?
-
-        if putative_NA_sum > (0.9 * cleaned_sequence.length)
-          return :nucleotide
-        else
-          return :protein
-        end
-      end
-
-      # Returns an Array of Sequences capturing the sequences fetched from BLAST
-      # database.
-      def from_blastdb(sequence_ids, database_ids)
-        # Allows one to query sequences containing all numbers.
-        # See yannickwurm/sequenceserver bug #88 for full report.
-        sequence_ids = sequence_ids.map{|s| 'lcl|' << s}
-        sequence_ids   = sequence_ids.join(',')
+      # Returns an Array of `Sequence` objects each capturing a sequence
+      # fetched from BLAST database.
+      def from_blastdb(accessions, database_ids)
+        # NOTE:
+        #   We prefix 'lcl|' to accessions because querying the databases
+        #   otherwise doesn't work if accession contains only numbers.
+        #   See #88. We should remove this hack once it's fixed upstream.
+        accessions = accessions.map{|s| "lcl|#{s}"}
+        accessions = accessions.join(',')
         database_names = Database[database_ids].map(&:name).join(' ')
 
-        # Output of the command will be tab separated four columns.
+        # Output of the command will be five columns TSV.
         command = "blastdbcmd -outfmt '%g	%i	%a	%t	%s'" \
-          " -db '#{database_names}' -entry '#{sequence_ids}'"
+          " -db '#{database_names}' -entry '#{accessions}'"
 
         logger.debug("Executing: #{command}")
 
         # Not interested in stderr.
         `#{command} 2> /dev/null`.
-          each_line.map {|line| Sequence.new(*line.chomp.split('	'))}
+          each_line.map {|line| new(*line.chomp.split('	'))}
+      end
+
+      # Strips all non-letter characters. If less than 10 useable characters
+      # return `nil`. If at least 90% is ACGTU, returns `:nucleotide`, else
+      # `:protein`.
+      def guess_type(sequence)
+        # Clean the sequence: first remove non-letter characters, then
+        # ambiguous characters.
+        cleaned_sequence = sequence.gsub(/[^A-Z]/i, '').gsub(/[NX]/i, '')
+
+        return if cleaned_sequence.length < 10 # conservative
+
+        # Count putative NA in the sequence.
+        na_count = 0
+        composition = composition(cleaned_sequence)
+        composition.each do |character, count|
+          na_count = na_count + count if character.match(/[ACGTU]/i)
+        end
+
+        na_count > (0.9 * cleaned_sequence.length) ? :nucleotide : :protein
+      end
+
+      # Copied from BioRuby's `Bio::Sequence` class.
+      #
+      # > composition("asdfasdfffffasdf")
+      # => {"a"=>3, "d"=>3, "f"=>7, "s"=>3}
+      def composition(sequence_string)
+        count = Hash.new(0)
+        sequence_string.scan(/./) do |x|
+          count[x] += 1
+        end
+        count
       end
     end
 
@@ -70,16 +109,6 @@ module SequenceServer
     end
 
     # Returns FASTA sequence id.
-    #
-    #              sequence id    -> self.seqid
-    #              -------------
-    #                 accession   -> self.accession
-    #                 ----------
-    # gi|322796550|gb|EFZ19024.1| -> self.id
-    #    ---------
-    #    gi number                -> self.gi
-    #
-    # For local databases, id == seqid == accession.
     def id
       (gi ? ['gi', gi, seqid] : [seqid]).join('|')
     end
@@ -98,7 +127,7 @@ module SequenceServer
     def fasta
       chars = 60
       lines = (length / chars.to_f).ceil
-      defline  = ">#{accession} #{title}"
+      defline  = ">#{id} #{title}"
       seqlines = (1..lines).map {|i| to_s[chars * (i - 1), chars]}
       [defline].concat(seqlines).join("\n")
     end
