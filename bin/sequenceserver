@@ -140,7 +140,9 @@ BANNER
           if response.match(/^[y]$/i)
             print "Where? "
             response = STDIN.gets.chomp
-            fetch_option(:bin).value = response
+            unless File.basename(response) == 'bin'
+              fetch_option(:bin).value = File.join(response, 'bin')
+            end
             redo
           end
 
@@ -183,7 +185,7 @@ ERR
               #{SequenceServer::MINIMUM_BLAST_VERSION} or higher."
               exit SequenceServer::EXIT_BLAST_INSTALLATION_FAILED
             end
-            fetch_option(:bin).value = '~/.sequenceserver/ncbi-blast-2.2.27+'
+            fetch_option(:bin).value = '~/.sequenceserver/ncbi-blast-2.2.27+/bin/'
             redo
           else
             exit e.status unless set?
