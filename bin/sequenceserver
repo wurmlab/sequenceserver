@@ -174,7 +174,7 @@ ERR
                   end
 
             archive = File.join('/tmp', File.basename(url))
-            system "wget -c #{url} -O #{archive} && tar xvf #{archive} -C ~"
+            system "wget -c #{url} -O #{archive} && mkdir -p ~/.sequenceserver && tar xvf #{archive} -C ~/.sequenceserver"
             unless $?.success?
               puts "*** Failed to install BLAST+."
               puts "    You may need to download BLAST+ from - "
@@ -183,7 +183,7 @@ ERR
               #{SequenceServer::MINIMUM_BLAST_VERSION} or higher."
               exit SequenceServer::EXIT_BLAST_INSTALLATION_FAILED
             end
-            fetch_option(:bin).value = '~/ncbi-blast-2.2.27+'
+            fetch_option(:bin).value = '~/.sequenceserver/ncbi-blast-2.2.27+'
             redo
           else
             exit e.status unless set?
