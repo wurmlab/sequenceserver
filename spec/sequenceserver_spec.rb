@@ -34,7 +34,7 @@ module SequenceServer
 
     it "has a list of databases after startup" do
       Database.all.should_not be_empty
-      Database.all.length.should == 2
+      Database.all.length.should == 4
     end
   end
 end
