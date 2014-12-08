@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'readline'
 require 'slop'
 
 ENV['RACK_ENV'] ||= 'production'
@@ -106,6 +107,15 @@ BANNER
       end
 
       ENV['RACK_ENV'] = 'development' if devel?
+      # Save the state of user terminal
+      stty_save = `stty -g`.chomp
+      # Exit gracefully on SIGINT
+      trap('INT') do
+        puts ''
+        puts 'Aborted.'
+        system('stty', stty_save)
+        exit
+      end
 
       require 'sequenceserver'
       begin
@@ -138,8 +148,7 @@ BANNER
           print "Do you have BLAST+ downloaded already? [y/n]: "
           response = STDIN.gets.chomp
           if response.match(/^[y]$/i)
-            print "Where? "
-            response = STDIN.gets.chomp
+            response = Readline.readline('Where? ').strip || ''
             unless File.basename(response) == 'bin'
               fetch_option(:bin).value = File.join(response, 'bin')
             end
@@ -201,8 +210,8 @@ ERR
           fetch_option(:set).value = !database_dir?
 
           puts
-          print "Where are the sequences you would like to search? "
-          response = STDIN.gets.chomp
+          print 'Where are the sequences you would like to search? '
+          response = Readline.readline.strip || ''
           fetch_option(:database_dir).value = response
           redo
         when SequenceServer::EXIT_NO_BLAST_DATABASE
