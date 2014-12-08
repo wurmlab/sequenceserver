@@ -103,7 +103,7 @@
         <%= "disabled='true'" if sequences.length < 1 %>
         data-databases=<%="#{ database_ids.join(' ') }"%> >
         <i class="fa fa-download"></i>
-        <%= "#{sequences.length <= 1 ? 'Download' : 'Download all'}" %>
+        <%= "#{sequences.length <= 1 ? 'Download FASTA' : 'Download FASTA of all'}" %>
       </a>
     </div>
   </div>
