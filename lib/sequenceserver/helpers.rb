@@ -73,8 +73,8 @@ module SequenceServer
           choice = gets.chomp[0,1].downcase
 
           unless choice == 'n'
-            database_formatter = File.join(settings.root, 'database_formatter.rb')
-            system("#{database_formatter} #{db_root}")
+            database_formatter = File.join(settings.root, 'lib', 'sequenceserver', 'database_formatter.rb')
+            require database_formatter
             retry
           else
             raise # let the caller decide what to do if database discovery fails
