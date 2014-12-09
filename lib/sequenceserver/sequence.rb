@@ -54,11 +54,6 @@ module SequenceServer
         accessions = Array accessions
         database_ids = Array database_ids
 
-        # NOTE:
-        #   We prefix 'lcl|' to accessions because querying the databases
-        #   otherwise doesn't work if accession contains only numbers.
-        #   See #88. We should remove this hack once it's fixed upstream.
-        accessions = accessions.map{|s| "lcl|#{s}"}
         accessions = accessions.join(',')
         database_names = Database[database_ids].map(&:name).join(' ')
 
