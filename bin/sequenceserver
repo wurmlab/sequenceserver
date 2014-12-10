@@ -210,9 +210,9 @@ ERR
           fetch_option(:set).value = !database_dir?
 
           puts
-          print 'Where are the sequences you would like to search?' \
-                ' (Default: current dir) '
-          response = Readline.readline.strip rescue ''
+          prompt = 'Where are the sequences you would like to search?' \
+                   ' (Default: current dir) '
+          response = Readline.readline(prompt).strip rescue ''
           fetch_option(:database_dir).value = response
           redo
         when SequenceServer::EXIT_NO_BLAST_DATABASE
