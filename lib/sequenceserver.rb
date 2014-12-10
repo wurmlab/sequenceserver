@@ -142,7 +142,7 @@ module SequenceServer
       config.inject({}){|c, e| c[e.first.to_sym] = e.last; c}
     rescue ArgumentError => error
       puts "*** Error in config file: #{error}."
-      puts "YAML is white space sensitive. Is your config file properly indented?"
+      puts "    YAML is white space sensitive. Is your config file properly indented?"
       exit 1
     end
 

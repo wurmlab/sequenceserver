@@ -145,8 +145,8 @@ BANNER
           # Ask user if she already has BLAST+ downloaded or offer to download
           # BLAST+ for her.
           puts
-          print "Do you have BLAST+ downloaded already? [y/n]: "
-          response = STDIN.gets.chomp
+          print 'Do you have BLAST+ downloaded already? [y/n] (Default: n): '
+          response = STDIN.gets.strip rescue 'n'
           if response.match(/^[y]$/i)
             response = Readline.readline('Where? ').strip || ''
             unless File.basename(response) == 'bin'
@@ -156,9 +156,9 @@ BANNER
           end
 
           puts
-          print "Install BLAST+? [y/n]: "
-          response = STDIN.gets.chomp
-          if response.match(/^[y]$/i)
+          print "Install BLAST+? [y/n] (Default: y): "
+          response = STDIN.gets.strip rescue 'y'
+          unless response.match(/^[n]$/i)
             puts
             puts "*** Installing BLAST+."
             puts "RUBY_PLATFORM #{RUBY_PLATFORM}"
@@ -210,20 +210,21 @@ ERR
           fetch_option(:set).value = !database_dir?
 
           puts
-          print 'Where are the sequences you would like to search? '
-          response = Readline.readline.strip || ''
+          print 'Where are the sequences you would like to search?' \
+                ' (Default: current dir) '
+          response = Readline.readline.strip rescue ''
           fetch_option(:database_dir).value = response
           redo
         when SequenceServer::EXIT_NO_BLAST_DATABASE
           unless list_databases? or list_unformatted_fastas? or make_blast_databases?
             # Offer user to format the FASTA files.
             puts
-            print "Create databases? [y/n]: "
-            response = STDIN.gets.chomp
-            if response.match(/^[y]$/i)
+            print 'Create databases? [y/n] (Default: y): '
+            response = STDIN.gets.strip rescue 'y'
+            unless response.match(/^[n]$/i)
               puts
               puts "*** Creating databases."
-              SequenceServer.make_blast_databases
+              SequenceServer::Database.make_blast_databases
               redo
             else
               exit e.status unless set?
