@@ -107,17 +107,18 @@ module SequenceServer
         puts "FASTA file: #{file}"
         puts "FASTA type: #{type}"
 
-        response = ''
-        until response.match(/^[yn]$/i) do
-          print "Proceed? [y/n]: "
-          response = STDIN.gets.chomp
-        end
+        print "Proceed? [y/n] (Default: y): "
+        response = STDIN.gets.strip rescue 'y'
 
-        if response.match(/y/i)
-          print "Enter a database title or will use '#{File.basename(file)}': "
-          title = STDIN.gets.chomp
-          title.gsub!('"', "'")
-          title = File.basename(file) if title.empty?
+        unless response.match(/n/i)
+          default_title = make_db_title(File.basename(file))
+          print "Enter a database title or will use '#{default_title}': "
+          title = STDIN.gets
+          if title.empty?
+            title = default_title
+          else
+            title = make_db_title(title.strip)
+          end
 
           `makeblastdb -parse_seqids -hash_index \
             -in #{file} -dbtype #{type.to_s.slice(0,4)} -title "#{title}"`
@@ -137,6 +138,14 @@ module SequenceServer
       # Returns true if first character of the file is '>'.
       def probably_fasta?(file)
         File.read(file, 1) == '>'
+      end
+
+      def make_db_title(db_name)
+        db_name.gsub!('"', "'")
+        db_name.gsub!(File.extname(db_name), '')
+        db_name.gsub!(/(_)/, ' ')
+        db_name.gsub!(/(?<![0-9])\.(?![0-9])/, ' ')
+        db_name
       end
 
       # Guess whether FASTA file contains protein or nucleotide sequences based
