@@ -113,12 +113,8 @@ module SequenceServer
         unless response.match(/n/i)
           default_title = make_db_title(File.basename(file))
           print "Enter a database title or will use '#{default_title}': "
-          title = STDIN.gets
-          if title.empty?
-            title = default_title
-          else
-            title = make_db_title(title.strip)
-          end
+          title = String STDIN.gets
+          title = default_title if title.strip.empty?
 
           `makeblastdb -parse_seqids -hash_index \
             -in #{file} -dbtype #{type.to_s.slice(0,4)} -title "#{title}"`
@@ -140,11 +136,21 @@ module SequenceServer
         File.read(file, 1) == '>'
       end
 
+      # Suggests improved titles when generating database names from files
+      # for improved apperance and readability in web interface.
+      # For example:
+      # Cobs1.4.proteins.fasta -> Cobs 1.4 proteins
+      # S_invicta.xx.2.5.small.nucl.fa -> S invicta xx 2.5 small nucl
       def make_db_title(db_name)
         db_name.gsub!('"', "'")
+        # removes .fasta like extension names
         db_name.gsub!(File.extname(db_name), '')
+        # replaces _ with ' ',
         db_name.gsub!(/(_)/, ' ')
+        # replaces '.' with ' ' when no numbers are on either side,
         db_name.gsub!(/(?<![0-9])\.(?![0-9])/, ' ')
+        # preserves version numbers
+        db_name.gsub!(/\W*(\d+([.-]\d+)+)\W*/, ' \1 ')
         db_name
       end
 

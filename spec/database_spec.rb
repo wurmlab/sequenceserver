@@ -57,5 +57,16 @@ module SequenceServer
       #assert_equal(:nucleotide, type_of_sequences(nt_multifasta), 'nt_multifasta')
       #expect { type_of_sequences(aa_nt_mix) }.to raise_error(ArgumentError)
     #end
+
+    it 'can make intelligent database name suggestions' do
+      db_name_pairs = [['Si_gnf.fasta', 'Si gnf'],
+                       ['Aech.3.8.cds.fasta', 'Aech 3.8 cds'],
+                       ['Cobs1.4.proteins.fasta', 'Cobs 1.4 proteins'],
+                       ['S_inv.x.small.2.5.nucl.fa', 'S inv x small 2.5 nucl'],
+                       ['Sinvicta2-2-3.prot.fasta', 'Sinvicta 2-2-3 prot']]
+      db_name_pairs.each do |db|
+        Database.make_db_title(db[0]).should eql(db[1])
+      end
+    end
   end
 end
