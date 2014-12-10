@@ -144,29 +144,24 @@
               </div>
             <% end %>
           <% end %>
-          <br>
-          <br>
-          <strong class="text-monospace">Statistics</strong>
-          <br>
-          <p
-            class="text-monospace">
-            Lambda: <%= query.stats[5] %>
-            <br>
-            Kappa: <%= query.stats[4] %>
-            <br>
-            Entropy: <%= query.stats[6] %>
-            <br>
-            Effective search space used: <%= query.stats[3] %>
-            <br>
-            Databases: <%= report.querydb.map(&:title).join(', ') %>
-            <br>
-            No. of letters in database: <%= query.stats[1] %>
-            <br>
-            No. of sequences in database: <%= query.stats[0] %>
-          </p>
         </div>
       </div>
     <% end %>
+
+    <hr>
+
+    <div
+      class="report-statistics">
+<%= report.version %>
+<br>
+Databases queried:
+<% report.querydb.each do |db| %>
+  <%= "#{db.title}\n    #{db.nsequences} sequences, #{db.ncharacters} letters\n    created/updated on - #{db.updated_on}" %>
+<% end %>
+
+Total sequences in queried databases: <%= report.stats[0] %>
+Total letters in queried databases: <%= report.stats[1] %>
+    </div>
   </div>
 
   <% unless report.queries.length == 1 && report.queries.first.hits.empty? %>

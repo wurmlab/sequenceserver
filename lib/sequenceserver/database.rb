@@ -18,7 +18,7 @@ module SequenceServer
   #
   # SequenceServer will always place BLAST database files alongside input FASTA,
   # and use `parse_seqids` option of `makeblastdb` to format databases.
-  class Database < Struct.new(:name, :title, :type)
+  class Database < Struct.new(:name, :title, :type, :nsequences, :ncharacters, :updated_on)
 
     class << self
 
@@ -65,11 +65,11 @@ module SequenceServer
       # Recurisvely scan `database_dir` for blast databases.
       def scan_databases_dir
         database_dir = config[:database_dir]
-        list = %x|blastdbcmd -recursive -list #{database_dir} -list_outfmt "%p	%f	%t" 2>&1|
+        list = %x|blastdbcmd -recursive -list #{database_dir} -list_outfmt "%f	%t	%p	%n	%l	%d" 2>&1|
         list.each_line do |line|
-          type, name, title =  line.split('	')
+          name = line.split('	')[0]
           next if multipart_database_name?(name)
-          self << Database.new(name, title, type)
+          self << Database.new(*line.split('	'))
         end
       end
 
@@ -162,7 +162,7 @@ module SequenceServer
     end
 
     def initialize(*args)
-      args.last.downcase!
+      args[2].downcase!   # database type
       args.each(&:freeze)
       super
 

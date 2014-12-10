@@ -15,6 +15,15 @@ module SequenceServer
       no_hits_report.queries.should be_a Array
     end
 
+    it 'will return an Array of stats' do
+      hits_report.stats.should be_a Array
+      no_hits_report.stats.should be_a Array
+    end
+
+    it 'contains all the necessary stats' do
+      hits_report.stats.length.should eql(7)
+      no_hits_report.stats.length.should eql(7)
+    end
   end
 
   describe 'Query' do
@@ -32,17 +41,6 @@ module SequenceServer
       hits_report.queries.first.hits.should be_a Array
       no_hits_report.queries.first.hits.should be_a Array
     end
-
-    it 'will return an Array of stats' do
-      hits_report.queries.last.stats.should be_a Array
-      no_hits_report.queries.last.stats.should be_a Array
-    end
-
-    it 'contains all the necessary stats' do
-      hits_report.queries.first.stats.length.should eql(7)
-      no_hits_report.queries.first.stats.length.should eql(7)
-    end
-
   end
 
   describe 'Hits' do

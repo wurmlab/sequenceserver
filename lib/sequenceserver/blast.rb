@@ -39,7 +39,7 @@ module SequenceServer
     # @member [String]     def
     # @member [Fixnum]     len
     # @member [Array(Hit)] hits
-    Query = Struct.new(:number, :def, :len, :hits, :stats) do
+    Query = Struct.new(:number, :def, :len, :hits) do
       def initialize(*args)
         args[0] = args[0].to_i
         args[1] = "Query_#{args[0]}" if args[1] == 'No definition line'
@@ -125,8 +125,9 @@ module SequenceServer
         @parameters = hashed_out[7]
 
         hashed_out[8].each_with_index do |n, i|
+          @stats ||= n[5][0]
           @queries ||= []
-          @queries.push(Query.new(n[0], n[2], n[3], [], n[5][0]))
+          @queries.push(Query.new(n[0], n[2], n[3], []))
 
           # Ensure a hit object is received. No hits, returns a newline. Note
           # that checking to "\n" doesn't work since n[4] = ["\n"]
@@ -285,7 +286,7 @@ module SequenceServer
       attr_reader :program, :querydb
       attr_reader :parameters, :version
 
-      attr_accessor :queries
+      attr_accessor :queries, :stats
 
       private
 
