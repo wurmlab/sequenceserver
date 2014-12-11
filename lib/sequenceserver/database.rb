@@ -108,12 +108,12 @@ module SequenceServer
         puts "FASTA type: #{type}"
 
         print "Proceed? [y/n] (Default: y): "
-        response = STDIN.gets.strip rescue 'y'
+        response = STDIN.gets.to_s.strip
 
         unless response.match(/n/i)
           default_title = make_db_title(File.basename(file))
           print "Enter a database title or will use '#{default_title}': "
-          title = String STDIN.gets
+          title = STDIN.gets.to_s
           title = default_title if title.strip.empty?
 
           `makeblastdb -parse_seqids -hash_index \

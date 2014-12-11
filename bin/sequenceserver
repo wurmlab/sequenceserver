@@ -146,9 +146,9 @@ BANNER
           # BLAST+ for her.
           puts
           print 'Do you have BLAST+ downloaded already? [y/n] (Default: n): '
-          response = STDIN.gets.strip rescue 'n'
+          response = STDIN.gets.to_s.strip
           if response.match(/^[y]$/i)
-            response = Readline.readline('Where? ').strip || ''
+            response = Readline.readline('Where? ').to_s.strip
             unless File.basename(response) == 'bin'
               fetch_option(:bin).value = File.join(response, 'bin')
             end
@@ -157,7 +157,7 @@ BANNER
 
           puts
           print "Install BLAST+? [y/n] (Default: y): "
-          response = STDIN.gets.strip rescue 'y'
+          response = STDIN.gets.to_s.strip
           unless response.match(/^[n]$/i)
             puts
             puts "*** Installing BLAST+."
@@ -212,7 +212,7 @@ ERR
           puts
           prompt = 'Where are the sequences you would like to search?' \
                    ' (Default: current dir) '
-          response = Readline.readline(prompt).strip rescue ''
+          response = Readline.readline(prompt).to_s.strip
           fetch_option(:database_dir).value = response
           redo
         when SequenceServer::EXIT_NO_BLAST_DATABASE
@@ -220,7 +220,7 @@ ERR
             # Offer user to format the FASTA files.
             puts
             print 'Create databases? [y/n] (Default: y): '
-            response = STDIN.gets.strip rescue 'y'
+            response = STDIN.gets.to_s.strip
             unless response.match(/^[n]$/i)
               puts
               puts "*** Creating databases."
