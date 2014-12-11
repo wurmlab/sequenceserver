@@ -344,10 +344,10 @@ $(document).ready(function(){
         });
     });
 
-    $('#fasta').on('change', '.hits-box:checkbox', function(event) {
-        var checkboxes = $('.hits-box:checkbox').length,
-            checked_boxes = $('.hits-box:checkbox:checked').length,
-            container = $('.fasta-download'),
+    $('.result').on('change', '.hit-checkbox:checkbox', function (event) {
+        var checkboxes = $('.hit-checkbox:checkbox').length,
+            checked_boxes = $('.hit-checkbox:checkbox:checked').length,
+            container = $('.view-many-sequence'),
             text = container.html();
         if (checked_boxes > 0 &&
             checked_boxes != checkboxes) {
@@ -356,25 +356,26 @@ $(document).ready(function(){
         else {
             container.html(text.replace('selected', 'all'));
         }
-    });
 
-    $('#fasta').on('click', '.fasta-download', function(event) {
-        var sequence_ids = $('.hits-box:checkbox:checked').map(function () {
-                return this.value;
-            }).get(),
-            database_ids = $(this).data().databases;
-
+        var $a = $('.view-many-sequence');
+        var sequence_ids = $('.hit-checkbox:checkbox:checked').map(function () {
+            return this.value;
+        }).get();
         if (sequence_ids.length < 1) {
-            sequence_ids = $('.hits-box:checkbox').map(function() {
+            sequence_ids = $('.hit-checkbox:checkbox').map(function() {
                 return this.value;
             }).get();
         }
+
+        var database_ids = $a.data().databases;
+
         // Encode URIs against strange characters in sequence ids.
         sequence_ids = encodeURIComponent(sequence_ids.join(' '));
 
         var url = "get_sequence/?sequence_ids=" + sequence_ids +
-                  "&database_ids=" + database_ids + "&download=fasta";
-        this.href = url;
+                  "&database_ids=" + database_ids;
+
+        $a.attr('href', url);
     });
 
     $('#blast').submit(function(){
