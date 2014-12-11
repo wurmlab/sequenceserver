@@ -54,7 +54,8 @@ module SequenceServer
         :title => 'View Sequence',
         :url => url,
         :order => 0,
-        :classes => ['view-sequence']
+        :classes => ['view-sequence'],
+        :icon => ['fa-eye']
       }
     end
 
@@ -69,7 +70,8 @@ module SequenceServer
         :title => 'Download FASTA',
         :url => url,
         :order => 1,
-        :classes => []
+        :classes => [],
+        :icon => ['fa-download']
       }
     end
 
@@ -88,7 +90,8 @@ module SequenceServer
         :title => 'View on NCBI',
         :url => url,
         :order => 3,
-        :classes => []
+        :classes => [],
+        :icon => ['fa-external-link']
       }
     end
   end

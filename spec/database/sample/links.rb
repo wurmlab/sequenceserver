@@ -18,7 +18,8 @@ module SequenceServer
         :title => 'View on UniProt',
         :url => uniprot,
         :order => 2,
-        :classes => []
+        :classes => [],
+        :icon => ['fa-external-link']
       }
     end
   end

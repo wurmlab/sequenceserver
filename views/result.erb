@@ -29,6 +29,7 @@
                     href="#"
                     class="view-sequence view-many-sequence"
                     data-databases=<%="#{ report.querydb.map(&:id).join(' ') }"%> >
+                    <i class="fa fa-eye"></i>
                     View all sequences
                   </a>
                 </div>
@@ -98,16 +99,21 @@
                         <a
                           class="<%= links.first[:classes].join(' ') %>"
                           href="<%= links.first[:url] %>">
+                          <i class="fa <%= links.first[:icon].join(' ') %>"></i>
                           <%= links.first[:title] %>
                         </a>
                         <a
                           class="dropdown-toggle" data-toggle="dropdown">
                           <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu" role="menu">
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
                           <% links.drop(1).each do |link| %>
                             <li class="<%= link[:classes].join(' ') %>">
-                              <a href="<%= link[:url] %>" target="_blank"> <%= link[:title] %> </a>
+                              <a
+                                href="<%= link[:url] %>" target="_blank">
+                                <i class="fa fa-fw <%= link[:icon].join(' ') %>"></i>
+                                <%= link[:title] %>
+                              </a>
                             </li>
                           <% end %>
                         </ul>
