@@ -21,6 +21,7 @@ DESC
   s.add_development_dependency('rack-test', '~> 0.6.2')
   s.add_development_dependency('rspec',     '~> 2.8.0')
   s.add_development_dependency('rake',      '~> 10.3.2')
+  s.add_development_dependency('rubocop',   '~> 0.26.1')
 
   # gem
   s.files         = Dir['lib/**/*'] + Dir['views/**/*'] + Dir['public/**/*'] + Dir['tests/**/*']
