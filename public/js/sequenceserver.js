@@ -411,6 +411,18 @@ $(document).ready(function(){
                 .width($index.width());
             }
 
+            // affix query headers
+            var $queries = $('.resultn > .page-header');
+            $queries.each(function () {
+                var $query = $(this);
+                $query.affix({
+                    offset: {
+                        top: $query.offset().top
+                    }
+                })
+                .width($query.width());
+            });
+
             //jump to the results
             location.hash = hash;
 
