@@ -12,7 +12,7 @@
           <div
             class="row">
             <div
-              class="col-md-9">
+              class="col-md-8">
               <h3>
                 Query= <%= query.id %>
                 <small>
@@ -22,15 +22,15 @@
             </div>
             <% unless query.hits.empty? %>
               <div
-                class="col-md-3 text-right">
+                class="col-md-4 text-right">
                 <div
                   class="hit-links-query">
                   <a
                     href="#"
                     class="view-sequence view-many-sequence"
                     data-databases=<%="#{ report.querydb.map(&:id).join(' ') }"%> >
-                    <i class="fa fa-eye"></i>
-                    View all sequences
+                    <i class="fa fa-download"></i>
+                    Download FASTA of all hits
                   </a>
                 </div>
               </div>
@@ -71,55 +71,18 @@
             </table>
             <% query.hits.each do |hit| %>
               <div
-                  class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>"
-                  data-hit-def="<%= hit.id %>" data-hit-evalue="<%= hit.evalue %>">
+                class="hitn" id="<%="Query_#{query.number}_hit_#{hit.number}"%>"
+                data-hit-def="<%= hit.id %>" data-hit-evalue="<%= hit.evalue %>">
                 <div
                   class="page-header">
-                  <div
-                    class="row">
-                    <div
-                      class="col-md-8">
-                      <h4
-                        data-toggle="collapse" data-target="#<%= "Query_#{query.number}_hit_#{hit.number}_alignment" %>">
-                        <i class="fa fa-chevron-down"> </i>
-                        <%= hit.id %>
-                        <small>
-                          <%= hit.title %>
-                        </small>
-                      </h4>
-                    </div>
-                    <div
-                      class="col-md-4 text-right">
-                      <input
-                      type="checkbox" class="hit-checkbox" value=<%="#{ hit.accession }"%>>
-                      <div
-                        class="btn-group hit-links">
-                        <% # cache all generated links of easy access elsewhere %>
-                        <% links = report.link_per_hit(hit.accession) %>
-                        <a
-                          class="<%= links.first[:classes].join(' ') %>"
-                          href="<%= links.first[:url] %>">
-                          <i class="fa <%= links.first[:icon].join(' ') %>"></i>
-                          <%= links.first[:title] %>
-                        </a>
-                        <a
-                          class="dropdown-toggle" data-toggle="dropdown">
-                          <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                          <% links.drop(1).each do |link| %>
-                            <li class="<%= link[:classes].join(' ') %>">
-                              <a
-                                href="<%= link[:url] %>" target="_blank">
-                                <i class="fa fa-fw <%= link[:icon].join(' ') %>"></i>
-                                <%= link[:title] %>
-                              </a>
-                            </li>
-                          <% end %>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                  <h4
+                    data-toggle="collapse" data-target="#<%= "Query_#{query.number}_hit_#{hit.number}_alignment" %>">
+                    <i class="fa fa-chevron-down"> </i>
+                    <%= hit.id %>
+                    <small>
+                      <%= hit.title %>
+                    </small>
+                  </h4>
                 </div>
 
                 <div
@@ -150,6 +113,22 @@
                       <div class="alignment"><%= report.pp_hsp hsp%></div>
                     </div>
                   <% end %>
+                  <div class="hit-links text-right">
+                    <% report.link_per_hit(hit.accession).reverse.each do |link| %>
+                      <a
+                        class="<%= link[:classes].join(' ') %>"
+                        href="<%= link[:url] %>" target="_blank">
+                        <i class="fa <%= link[:icon].join(' ') %>"></i>
+                        <%= link[:title] %>
+                      </a>
+                    <% end %>
+                    |
+                    <label>
+                      <input
+                      type="checkbox" class="hit-checkbox" value=<%="#{ hit.accession }"%>>
+                      Select for bulk download
+                    </label>
+                  </div>
                 </div>
               </div>
             <% end %>
