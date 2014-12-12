@@ -45,7 +45,7 @@ module SequenceServer
         args[1] = "Query_#{args[0]}" if args[1] == 'No definition line'
         args[2] = args[2].to_i
         @id, *rest = args[1].split
-        @meta = rest.join(' ')
+        @title = rest.join(' ')
         super
       end
 
@@ -53,7 +53,9 @@ module SequenceServer
         @hits = hits.sort_by(&:evalue)
       end
 
-      attr_reader :id, :meta
+      attr_reader :id, :title
+
+      alias_method :length, :len
     end
 
     # Hit Object to store all the hits per Query.
@@ -63,7 +65,7 @@ module SequenceServer
     # @member [String]     accession
     # @member [Fixnum]     len
     # @member [HSP]        hsp
-    Hit = Struct.new(:number, :id, :def, :accession, :len, :hsps) do
+    Hit = Struct.new(:number, :id, :title, :accession, :len, :hsps) do
       def initialize(*args)
         args[0] = args[0].to_i
         args[2] = '' if args[2] == 'No definition line'
@@ -112,19 +114,31 @@ module SequenceServer
 
     # Captures BLAST results from BLAST+'s XML output.
     class Report
-      include Links
-      # Expects a File object, and Database objects used to BLAST against.
-      #
-      # NOTE: databases param is optional for test suite.
-      def initialize(rfile, databases = nil)
-        parsed_out = Ox.parse(rfile.read)
-        hashed_out = node_to_array(parsed_out.root)
-        @program = hashed_out[0]
-        @version = hashed_out[1]
-        @querydb = Array databases
-        @parameters = hashed_out[7]
 
-        hashed_out[8].each_with_index do |n, i|
+      include Links
+
+      # Expects a File object and Database objects used to BLAST against.
+      #
+      # Parses the XML file into an intermediate representation (ir) and
+      # constructs an object model from that.
+      #
+      # NOTE:
+      #   Databases param is optional for test suite.
+      def initialize(rfile, databases = nil)
+        ir = node_to_array Ox.parse(rfile.read).root
+
+        @program = ir[0]
+        @program_version = ir[1]
+        @querydb = Array databases
+        @parameters = {
+          :matrix    => ir[7][0],
+          :evalue    => ir[7][1],
+          :gapopen   => ir[7][2],
+          :gapextend => ir[7][3],
+          :filters   => ir[7][4]
+        }
+
+        ir[8].each_with_index do |n, i|
           @stats ||= n[5][0]
           @queries ||= []
           @queries.push(Query.new(n[0], n[2], n[3], []))
@@ -145,6 +159,20 @@ module SequenceServer
           end
         end
       end
+
+      attr_reader :program, :program_version
+
+      # :nodoc:
+      # params are defaults provided by BLAST or user input to tweak the
+      # result. stats are computed metrics provided by BLAST.
+      #
+      # BLAST+ doesn't list all input params (like word_size) in the XML
+      # output. Only matrix, evalue, gapopen, gapextend, and filters.
+      attr_reader :params, :stats
+
+      attr_reader :querydb
+
+      attr_reader :queries
 
       # Helper methods for pretty printing results
 
@@ -282,11 +310,6 @@ module SequenceServer
         # Sort links based on :order key (ascending)
         links.compact!.sort_by! {|link| link[:order]}
       end
-
-      attr_reader :program, :querydb
-      attr_reader :parameters, :version
-
-      attr_accessor :queries, :stats
 
       private
 
