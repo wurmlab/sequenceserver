@@ -139,7 +139,15 @@ module SequenceServer
     def parse_config_file
       logger.debug("Reading configuration file: #{config_file}.")
       config = YAML.load_file(config_file) || {}
-      config.inject({}){|c, e| c[e.first.to_sym] = e.last; c}
+
+      # Symbolize hash keys
+      config = config.inject({}){|c, e| c[e.first.to_sym] = e.last; c}
+
+      # The newer config file version replaces the older database key with
+      # database_dir. If an older version is found, we auto-migrate it to
+      # newer one.
+      config[:database_dir] ||= config.delete(:database)
+      config
     rescue ArgumentError => error
       puts "*** Error in config file: #{error}."
       puts "    YAML is white space sensitive. Is your config file properly indented?"
