@@ -18,9 +18,11 @@ module SequenceServer
   #
   # SequenceServer will always place BLAST database files alongside input FASTA,
   # and use `parse_seqids` option of `makeblastdb` to format databases.
-  class Database < Struct.new(:name, :title, :type, :nsequences, :ncharacters, :updated_on)
+  class Database < Struct.new(:name, :title, :type, :nsequences, :ncharacters, :updated_on, :seqids)
 
     class << self
+
+      include Enumerable
 
       extend Forwardable
 
@@ -49,6 +51,10 @@ module SequenceServer
         collection.values
       end
 
+      def each(&block)
+        all.each(&block)
+      end
+
       def include?(path)
         collection.include? Digest::MD5.hexdigest path
       end
@@ -69,8 +75,16 @@ module SequenceServer
         list.each_line do |line|
           name = line.split('	')[0]
           next if multipart_database_name?(name)
-          self << Database.new(*line.split('	'))
+          database = Database.new(*line.split('	'))
+          database[:seqids] = load_seqids(database.name)
+          self << database
         end
+      end
+
+      # Generate a Set of all sequence ids within the database.
+      def load_seqids(db_path)
+        out = `blastdbcmd -entry all -outfmt "%a" -db #{db_path} 2> /dev/null`
+        Set.new out.to_s.split
       end
 
       # Recursively scan `database_dir` for un-formatted FASTA and format them
@@ -176,6 +190,10 @@ module SequenceServer
     end
 
     attr_reader :id
+
+    def include?(accession)
+      seqids.include? accession
+    end
 
     def to_s
       "#{type}: #{title} #{name}"

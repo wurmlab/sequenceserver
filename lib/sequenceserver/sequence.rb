@@ -59,7 +59,7 @@ module SequenceServer
 
         # Output of the command will be five columns TSV.
         command = "blastdbcmd -outfmt '%g	%i	%a	%t	%s'" \
-          " -db '#{database_names}' -entry '#{accessions}'"
+                  " -db '#{database_names}' -entry '#{accessions}'"
 
         logger.debug("Executing: #{command}")
 
@@ -109,6 +109,11 @@ module SequenceServer
     # Returns FASTA sequence id.
     def id
       (gi ? ['gi', gi, seqid] : [seqid]).join('|')
+    end
+
+    # Returns an array of all database objects where the accession is found.
+    def which_blastdb
+      Database.select {|db| db.include?(accession)}
     end
 
     # Returns length of the sequence.
