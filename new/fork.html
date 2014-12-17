@@ -208,7 +208,6 @@ our resources are limited and we prefer to first concentrate on making SequenceS
 </section>
 
 <!-- Setup ================================================== -->
-
 <section id="installation">
 <div class="page-header">
   <h1>Download &amp; Setup<small> in just a few minutes</small></h1>
@@ -231,7 +230,7 @@ screen.</p>
 <p>SequenceServer needs to know the location of the BLAST+ binaries
 (<a
 href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">NCBI
-BLAST+ download directory</a> or <code>brew install blast</code>),
+BLAST+ download directory</a> or <code>brew tap homebrew/science; brew install blast</code>),
 and the BLAST databases. This is accomplished by providing a
 <code>.sequenceserver.conf</code> in the user's home directory.</p>
 
@@ -477,7 +476,7 @@ a license (it's cheap, quick &amp; easy!)</a>.
 
 		<dt>Can I use a preformatted BLAST database? Can I use alias?</dt>
 		<dd>Preformatted BLAST databases can also be used with SequenceServer. Most preformatted database ar split between multiple files (like .00, .01...). Thanks to <a href="http://acgt.tumblr.com/">Mark Anthony Gibbins'</a> contributions, SequenceServer can correctly understand these.</dd>
-		<dd>If you use a custom  <code>.nal</code> or <code>.pal</code> BLAST database alias file, and copy this alias file as well as the linked databases into SequenceServer's <code>db</code> directory, SequenceServer will display both the alias and the linked databases. If you want to display only the alias, remove the linked databases from <code>db</code>, then edit the <code>DBLIST</code> line in the <code>.pal</code> or <code>.nal</code> file so that it contains the complete path of each of the database files (e.g: <code>DBLIST species1_custom_blast_db species2_custom_blast_database</code> may become: <code>DBLIST /Users/blastuser/mydbs/species1 <br> _custom_blast_db /Users/blastuser/mydbs/species2_custom_blast_database</code>)</dd>
+		<dd>If you use a custom  <code>.nal</code> or <code>.pal</code> BLAST database alias file, and copy this alias file as well as the linked databases into SequenceServer's <code>db</code> directory, SequenceServer will display both the alias and the linked databases. If you want to display only the alias, remove the linked databases from <code>db</code>, then edit the <code>DBLIST</code> line in the <code>.pal</code> or <code>.nal</code> file so that it contains the complete path of each of the database files (e.g: <code>DBLIST species1_custom_blast_db species2_custom_blast_database</code> may become: <code>DBLIST /Users/blastuser/mydbs/species1_custom_blast_db /Users/blastuser/mydbs/species2_custom_blast_database</code>)</dd>
 
 		<dt>How does BLAST identify similar regions? Why don't the
 		ends match? What is the bitscore? What is the e-value that BLAST
@@ -654,12 +653,14 @@ run SequenceServer::App
 				<li><a href="http://aviangenomes.org/blast-public">AvianGenomes.org</a></li>
 				<li><a href="http://haroun.iplantc.org/sequenceserver">iPlantCollaborative</a> Saccharum Genome Database</li>
 				<li><a href="http://fastdb.biocloud.ca/">BioCloud.ca</a></li>
+				<li><a href="">The Streptocarpus rexii database</a> at <a href="http://beaconlab.it"> Bioinformatics Evolution and COmparative Genomics lab, Uni Milan</a></li>
 				<li><a href="http://culture.no-ip.org/blast.shtml">Dr. Wolfang Rumpf @ U Maryland</a></li>
 				<li><a href="http://www.ecology.kyoto-u.ac.jp/">Center for Ecological Research, Kyoto University</a></li>
 				<li><a href="http://morse-ccmar.ualg.pt/edge/">European clam database</a> @ CCMAR at University of Algarve</li>
 				<li><a href="http://spottedwingflybase.oregonstate.edu/blast">Spotted Drosophila Flybase</a> @ Oregon State</li>
-				<li><a
-				href="http://amborella.uga.edu/blast/">Amborella
+				<li><a href="http://www.sviridis.com">Setariabase</a> for Setaria viridis at  Donald Danforth Plant Science Center</li>
+				<li><a href="https://geefu.oadb.tsl.ac.uk/sequenceserver"></a> at <a href="https://geefu.oadb.tsl.ac.uk">Open Ash Dieback GeeFu</a></li>
+				<li><a	href="http://amborella.uga.edu/blast/">Amborella
 				Genome</a> at University of Georgia</li>
 				<li><a href="http://jekely-lab.tuebingen.mpg.de/blast/">Jekely
 				Lab</a> at Max Planck Institute for Developmental Biology, Tuebigen</li>
@@ -671,6 +672,7 @@ run SequenceServer::App
 				Research Organisation (private)</li>
 				<li>Max Planck Institute of Molecular Cell Biology and
 				Genetics (private)</li>
+				<li>School of Biological Sciences, <a href="http://www.biology.uq.edu.au">University of Queensland</a> (private)</li>
 			  </ul>
 			  <p>and many additional private installations we don't know about...</p>
 			  </ul>
