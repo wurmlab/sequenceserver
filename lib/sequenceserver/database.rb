@@ -18,7 +18,7 @@ module SequenceServer
   #
   # SequenceServer will always place BLAST database files alongside input FASTA,
   # and use `parse_seqids` option of `makeblastdb` to format databases.
-  class Database < Struct.new(:name, :title, :type, :nsequences, :ncharacters, :updated_on, :seqids)
+  class Database < Struct.new(:name, :title, :type, :nsequences, :ncharacters, :updated_on)
 
     class << self
 
@@ -75,16 +75,8 @@ module SequenceServer
         list.each_line do |line|
           name = line.split('	')[0]
           next if multipart_database_name?(name)
-          database = Database.new(*line.split('	'))
-          database[:seqids] = load_seqids(database.name)
-          self << database
+          self << Database.new(*line.split('	'))
         end
-      end
-
-      # Generate a Set of all sequence ids within the database.
-      def load_seqids(db_path)
-        out = `blastdbcmd -entry all -outfmt "%a" -db #{db_path} 2> /dev/null`
-        Set.new out.to_s.split
       end
 
       # Recursively scan `database_dir` for un-formatted FASTA and format them
@@ -192,7 +184,8 @@ module SequenceServer
     attr_reader :id
 
     def include?(accession)
-      seqids.include? accession
+      out = `blastdbcmd -entry '#{accession}' -db #{name} 2> /dev/null`
+      not out.empty?
     end
 
     def to_s

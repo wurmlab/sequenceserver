@@ -311,6 +311,16 @@ module SequenceServer
         links.compact!.sort_by! {|link| link[:order]}
       end
 
+      # Returns an array of database objects which contain the queried
+      # sequence id.
+      # NOTE: This function may return more than one database object for
+      # a single sequence id.
+      #
+      # e.g., which_blastdb('SI_2.2.23') => [<Database: ...>, ...]
+      def which_blastdb(sequence_id)
+        querydb.select {|db| db.include? sequence_id}
+      end
+
       private
 
       PARSEABLE_AS_ARRAY = %w(Parameters BlastOutput_param Iteration_stat

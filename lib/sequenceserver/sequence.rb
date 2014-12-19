@@ -111,11 +111,6 @@ module SequenceServer
       (gi ? ['gi', gi, seqid] : [seqid]).join('|')
     end
 
-    # Returns an array of all database objects where the accession is found.
-    def which_blastdb
-      Database.select {|db| db.include?(accession)}
-    end
-
     # Returns length of the sequence.
     def length
       value.length

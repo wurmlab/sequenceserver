@@ -14,11 +14,13 @@ module SequenceServer
     # Your custom method should have following pattern:
     #
     # Input:
+    # ------
     # @param sequence_id: Array of sequence ids
     # @param querydb: An array of queried database ids in format (name, title,
     # type)
     #
     # Return:
+    # -------
     # The return value should consist of a Hash in format
     #
     # {
@@ -30,7 +32,18 @@ module SequenceServer
     #
     # If no url could be generated, return nil.
     #
+    # Accessory Methods:
+    # ------------------
+    # You can use a couple of accessory methods from SequenceServer to generate
+    # highly specific links. Say you want to find which database the hit came from
+    # and then accordingly create a database specific URI. You could then do:
+    #
+    # hit_database = send :which_blastdb, sequence_ids.join(',')
+    #
+    # `which_blastdb` takes atleast one comma separated sequence ids.
+    #
     # Examples:
+    # ---------
     # See methods provided by default for an example implementation.
 
     def sequence_viewer(sequence_ids)
