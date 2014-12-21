@@ -68,5 +68,14 @@ module SequenceServer
         Database.make_db_title(db[0]).should eql(db[1])
       end
     end
+
+    let 'solenopsis_protein_database' do
+      id = Digest::MD5.hexdigest File.expand_path 'spec/database/sample/proteins/Solenopsis_invicta/Sinvicta2-2-3.prot.subset.fasta'
+      Database[id].first
+    end
+
+    it 'knows if a given accession is in the database or not' do
+      solenopsis_protein_database.include?('SI2.2.0_06267').should be_true
+    end
   end
 end
