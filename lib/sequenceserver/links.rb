@@ -1,15 +1,12 @@
 module SequenceServer
   # Module to contain methods for generating sequence retrieval links.
   module Links
-    require 'yaml'
     require 'erb'
 
     # See [1]
     include ERB::Util
 
     NCBI_ID_PATTERN = /gi\|(\d+)\|/
-    UNIPROT_ID_PATTERN = /SI2.2.0.(\d*)/
-    SINV = YAML.load_file('./ext/uniprot/sinv.yml')
 
     # Your custom method should have following pattern:
     #
@@ -72,23 +69,6 @@ module SequenceServer
         :title => 'Download FASTA',
         :url => url,
         :order => 1,
-        :classes => []
-      }
-    end
-
-    def uniprot(sequence_id)
-      return nil unless sequence_id.match(UNIPROT_ID_PATTERN)
-
-      # construct uniprot link
-      ukey = sequence_id.match(/SI2.2.0_(\d*)/)[1]
-      uid  = url_encode(SINV["SINV_#{ukey}"])
-      return uid if uid.nil?
-
-      uniprot = "http://www.uniprot.org/uniprot/#{uid}"
-      {
-        :title => 'View on UniProt',
-        :url => uniprot,
-        :order => 2,
         :classes => []
       }
     end
