@@ -1,5 +1,4 @@
-require 'sequenceserver'
-require 'rack/test'
+require 'spec_helper'
 
 module SequenceServer
   describe "App" do

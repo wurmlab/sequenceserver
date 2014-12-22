@@ -1,7 +1,6 @@
-require 'sequenceserver'
+require 'spec_helper'
 require 'sequenceserver/sequence'
 require 'digest/md5'
-require 'rspec'
 
 module SequenceServer
 

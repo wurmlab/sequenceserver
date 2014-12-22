@@ -1,6 +1,5 @@
-require 'sequenceserver'
+require 'spec_helper'
 require 'sequenceserver/database'
-require 'rspec'
 
 module SequenceServer
 

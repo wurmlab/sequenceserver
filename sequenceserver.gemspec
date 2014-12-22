@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
   s.version     = '0.8.7'
-  s.authors     = ['Anurag Priyam', 'Ben J Woodcroft', 'Yannick Wurm']
+  s.authors     = ['Anurag Priyam', 'Ben J Woodcroft', 'Vivek Rai', 'Yannick Wurm']
   s.email       = ['anurag08priyam@gmail.com', 'b.woodcroft@uq.edu.au']
   s.homepage    = 'http://sequenceserver.com'
   s.license     = 'SequenceServer (custom)'
@@ -22,6 +22,8 @@ DESC
   s.add_development_dependency('rspec',     '~> 2.8.0')
   s.add_development_dependency('rake',      '~> 10.3.2')
   s.add_development_dependency('rubocop',   '~> 0.26.1')
+  s.add_development_dependency('capybara',   '~> 2.4.4')
+  s.add_development_dependency('capybara-webkit',   '~> 1.3.0')
 
   # gem
   s.files         = Dir['lib/**/*'] + Dir['views/**/*'] + Dir['public/**/*'] + Dir['tests/**/*']

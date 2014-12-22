@@ -1,4 +1,4 @@
-require 'sequenceserver'
+require 'spec_helper'
 
 module SequenceServer
   describe 'SequenceServer' do
