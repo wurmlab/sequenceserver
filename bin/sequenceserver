@@ -21,11 +21,11 @@ sequenceserver [options]
 Example:
 
   # launch SequenceServer with the given config file
-  $ sequenceserver --config ~/.sequenceserver.ants.conf
+  $ sequenceserver -c ~/.sequenceserver.ants.conf
 
   # use the bundled database formatter utility to prepare databases for use
   # with SequenceServer
-  $ sequenceserver format-databases
+  $ sequenceserver -m
 
 DESCRIPTION
 
