@@ -103,6 +103,105 @@ if (!SS) {
 
     };
 
+    /* Populate the View Sequence modal.
+     *
+     * @param {JSON object} containing requested sequence_ids and
+     * database_ids, retrieved sequences,
+     * @param {string} target url, and
+     * @param {string} modal div id.
+     */
+    SS.generateViewSequence = function (response, url, fastaDiv) {
+        var $fastaModal  = $(fastaDiv);
+        var sequenceDiv  = 'sequence-js';
+
+        var sequence_ids = response.sequence_ids,
+            sequences    = response.sequences,
+            databases = response.databases;
+
+        // Show appropriate message when incorrect number of sequences
+        // have been retreived.
+        if (sequence_ids.length != sequences.length) {
+
+            $('.modal-body', fastaDiv)
+            .append(
+                $('<h4/>')
+                .html("ERROR: incorrect number of sequences found."),
+                $('<p/>')
+                .html('Dear user, <strong> We have found <em> ' +
+                      (sequences.length > sequence_ids.length ? 'more' : 'less') +
+                      '</em> sequences than expected. </strong>'),
+                $('<p/>')
+                .html('This is likley due to a problem with how databases ' +
+                      'are formatted.<strong> Please share this text with ' +
+                      'the person managing this website so that the issue ' +
+                      'can be resolved.'),
+                $('<p/>')
+                .html('You requested ' + sequence_ids.length +
+                      ' sequence(s) with the following identifiers: <br>' +
+                     '<code>' + sequence_ids.join(', ') + '</code> <br>' +
+                     'from the following databases: <br>' +
+                     '<code>' + databases.join(', ') + '</code> <br>' +
+                     'but we found ' + sequences.length + ' sequence(s).'),
+                $('<p/>')
+                .html('If sequences were retrieved, you can find them below ' +
+                      '(but some may be incorrect, so be careful!)')
+            );
+
+        }
+
+        $('.modal-body', fastaDiv).empty();
+
+        sequences.forEach(function(sequence) {
+
+            var header = sequence.id + "<small>&nbsp;" + sequence.title + "</small>";
+
+            // populate modal-body
+            $('.modal-body', fastaDiv)
+            .append(
+                $('<div/>')
+                .addClass('fastan')
+                .append(
+                    $('<div/>')
+                    .addClass('page-header')
+                    .append(
+                        $('<div/>')
+                        .addClass('row')
+                        .append(
+                            $('<div/>')
+                            .addClass('col-md-12')
+                            .append(
+                                $('<h4>')
+                                .html(header)
+                            )
+                        )
+                    ),
+                    $('<div>')
+                    .attr('id', sequenceDiv)
+                )
+            );
+
+            // attach BioJs sequence viewer
+            var mySequence = new Sequence({
+                sequence : sequence.value,
+                target : sequenceDiv,
+                format : 'PRIDE',
+                id : sequence.id,
+                columns: {
+                    size:40,
+                    spacedEach:10
+                },
+                formatOptions: {
+                    title: false,
+                    footer: false
+                }
+            });
+        });
+
+        // create button and update href link
+        $fastaModal.find('i').html("&nbsp;Download FASTA");
+        $fastaModal.find('.fasta-download').attr('href', url + '&download=fasta');
+    };
+
     SS.init = function () {
         this.$sequence = $('#sequence');
         this.$sequenceFile = $('#sequence-file');
@@ -111,7 +210,8 @@ if (!SS) {
         this.$sequence.poll();
 
         SS.blast.init();
-    }
+    };
+
 }()); //end SS module
 
 $(document).ready(function(){
@@ -329,9 +429,10 @@ $(document).ready(function(){
         var clicked = $(event.target);
 
         var url = clicked.attr('href');
-        $.get(url)
-        .done(function (sequences) {
-            $('#fasta').html(sequences).modal();
+        $.getJSON(url)
+        .done(function (response) {
+            SS.generateViewSequence(response, url, '#fasta');
+            $('#fasta').modal().show();
         })
         .fail(function (jqXHR, status, error) {
             //alert user
@@ -347,35 +448,37 @@ $(document).ready(function(){
     $('.result').on('change', '.hit-checkbox:checkbox', function (event) {
         var checkboxes = $('.hit-checkbox:checkbox').length,
             checked_boxes = $('.hit-checkbox:checkbox:checked').length,
-            container = $('.view-many-sequence'),
+            container = $('.download-many-sequences'),
             text = container.html();
-        if (checked_boxes > 0 &&
-            checked_boxes != checkboxes) {
-            container.html(text.replace('all', 'selected'));
-        }
-        else {
-            container.html(text.replace('selected', 'all'));
-        }
 
-        var $a = $('.view-many-sequence');
-        var sequence_ids = $('.hit-checkbox:checkbox:checked').map(function () {
-            return this.value;
-        }).get();
-        if (sequence_ids.length < 1) {
-            sequence_ids = $('.hit-checkbox:checkbox').map(function() {
+            if (checked_boxes > 0 &&
+                checked_boxes != checkboxes) {
+                container.html(text.replace('all', 'selected'));
+            }
+            else {
+                container.html(text.replace('selected', 'all'));
+            }
+
+            var $a = $('.download-many-sequences');
+
+            var sequence_ids = $('.hit-checkbox:checkbox:checked').map(function () {
                 return this.value;
             }).get();
-        }
+            if (sequence_ids.length < 1) {
+                sequence_ids = $('.hit-checkbox:checkbox').map(function() {
+                    return this.value;
+                }).get();
+            }
 
-        var database_ids = $a.data().databases;
+            var database_ids = $a.data().databases;
 
-        // Encode URIs against strange characters in sequence ids.
-        sequence_ids = encodeURIComponent(sequence_ids.join(' '));
+            // Encode URIs against strange characters in sequence ids.
+            sequence_ids = encodeURIComponent(sequence_ids.join(' '));
 
-        var url = "get_sequence/?sequence_ids=" + sequence_ids +
-                  "&database_ids=" + database_ids;
+            var url = "get_sequence/?sequence_ids=" + sequence_ids +
+                "&database_ids=" + database_ids + '&download=fasta';
 
-        $a.attr('href', url);
+            $a.attr('href', url);
     });
 
     $('#blast').submit(function(){

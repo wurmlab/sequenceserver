@@ -2,6 +2,7 @@ require 'yaml'
 require 'fileutils'
 require 'sinatra/base'
 require 'thin'
+require 'json'
 
 require 'sequenceserver/logger'
 require 'sequenceserver/sequence'
@@ -298,9 +299,11 @@ module SequenceServer
         file.close
         send_file file.path, :type => :text, :filename => file_name
       else
-        erb :fasta, :locals => {:sequences => sequences,
-                                :sequence_ids => sequence_ids,
-                                :database_ids => database_ids}
+        {
+          :sequence_ids => sequence_ids,
+          :databases    => Database[database_ids].map(&:title),
+          :sequences    => sequences.map {|s| s.info}
+        }.to_json
       end
     end
 

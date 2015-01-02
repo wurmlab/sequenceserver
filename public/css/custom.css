@@ -69,6 +69,13 @@ label {
   right: 19px;
 }
 
+#sequence-js pre {
+  border: none;
+  background-color: transparent;
+  word-break: normal;
+  word-wrap: normal;
+}
+
 .notifications {
   height: 32px;
   position: relative;

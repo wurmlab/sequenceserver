@@ -121,6 +121,10 @@ module SequenceServer
       value
     end
 
+    def info
+      {:value => value, :id => id, :title => title}
+    end
+
     # Returns FASTA formatted sequence.
     def fasta
       chars = 60
@@ -128,22 +132,6 @@ module SequenceServer
       defline  = ">#{id} #{title}"
       seqlines = (1..lines).map {|i| to_s[chars * (i - 1), chars]}
       [defline].concat(seqlines).join("\n")
-    end
-
-    # Returns genbank-style formatted sequence.
-    def genbank
-      chars = 60
-      lines = (length / chars.to_f).ceil
-      width = length.to_s.length
-
-      s = ''
-      (1..lines).each do |i|
-        s << "%#{width}d" % (chars * (i - 1) + 1)
-        s << ' '
-        s << to_s[chars * (i - 1), chars].scan(/\w{1,10}/).join(' ')
-        s << "\n"
-      end
-      s
     end
   end
 end

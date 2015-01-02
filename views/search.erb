@@ -298,12 +298,6 @@
   </div>
 
   <div
-    id="fasta"
-    class="modal fade"
-    tabindex="-1">
-  </div> <!-- fasta -->
-
-  <div
     id="error"
     class="modal fade"
     tabindex="-1">
@@ -394,6 +388,34 @@
     </div>
   </div> <!-- spinner -->
 
+  <div
+    id="fasta" class="modal fade"
+    tabindex=-1>
+    <div
+      class="modal-dialog">
+      <div
+        class="modal-content">
+        <div
+          class="modal-header">
+          <h3>View and download sequence</h3>
+        </div>
+
+        <div
+          class="modal-body">
+        </div>
+
+        <div
+          class="modal-footer">
+          <a
+            class="btn btn-default fasta-download"
+            href>
+            <i class="fa fa-download"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div> <!-- sequence viewing -->
+
   <!-- JS -->
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/webshims/polyfiller.js"></script>
@@ -406,6 +428,7 @@
   <script type="text/javascript" src="js/sequenceserver.js"></script>
   <script type="text/javascript" src="js/sequenceserver.blast.js"></script>
   <script type="text/javascript" src="js/jquery.t.js"></script>
+  <script type="text/javascript" src="js/sequence.min.js"></script>
 
   <!-- twitter -->
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
