@@ -517,6 +517,16 @@ $(document).ready(function(){
             $a.disable();
         }
 
+        if(this.checked) {
+            $(this)
+            .closest('.hitn')
+            .css('background-color', '#ffe');
+        } else {
+            $(this)
+            .closest('.hitn')
+            .css('background-color', "");
+        }
+
         var sequence_ids = $('.hit-checkbox:checkbox:checked').map(function () {
             return this.value;
         }).get();

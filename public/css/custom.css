@@ -181,8 +181,7 @@ label {
 
 .page-header {
   margin-top: 0px;
-  margin-bottom: 5px;
-  padding-bottom: 0px;
+  margin-bottom: 0px;
   word-break: break-word;
 }
 
@@ -191,7 +190,15 @@ label {
 }
 
 .hitn {
-  margin-top: 24px;
+  padding: 5px 5px 0px 5px;
+}
+
+.hitn .page-header {
+  padding-bottom: 5px;
+}
+
+.hitn:hover {
+  background-color: #ffe;
 }
 
 .hitn h4 {
