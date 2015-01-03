@@ -202,6 +202,41 @@ if (!SS) {
         $fastaModal.find('.fasta-download').attr('href', url + '&download=fasta');
     };
 
+    SS.updateFaDownloader = function () {
+        var $checkboxes = $('.hit-checkbox:checkbox'),
+            $checked_boxes = $('.hit-checkbox:checkbox:checked');
+            $a = $('.download-many-sequences');
+
+        if ($checkboxes.length > 30 && $checked_boxes.length === 0) {
+            $a.disable();
+        }
+        else {
+            var sequence_ids = $checked_boxes.map(function () {
+                return this.value;
+            }).get();
+
+            if (sequence_ids.length < 1) {
+                sequence_ids = $checkboxes.map(function() {
+                    return this.value;
+                }).get();
+            }
+
+            var database_ids = $a.data().databases;
+
+            $a.attr('href', SS.generateURI(sequence_ids, database_ids));
+        }
+    };
+
+    SS.generateURI = function (sequence_ids, database_ids) {
+        // Encode URIs against strange characters in sequence ids.
+        sequence_ids = encodeURIComponent(sequence_ids.join(' '));
+
+        var url = "get_sequence/?sequence_ids=" + sequence_ids +
+            "&database_ids=" + database_ids + '&download=fasta';
+
+        return url;
+    },
+
     SS.init = function () {
         this.$sequence = $('#sequence');
         this.$sequenceFile = $('#sequence-file');
@@ -448,38 +483,44 @@ $(document).ready(function(){
     $('.result').on('change', '.hit-checkbox:checkbox', function (event) {
         var checkboxes = $('.hit-checkbox:checkbox').length,
             checked_boxes = $('.hit-checkbox:checkbox:checked').length,
-            container = $('.download-many-sequences'),
-            text = container.html();
+            $a = $('.download-many-sequences'),
+            text = $a.html();
 
-            if (checked_boxes > 0 &&
-                checked_boxes != checkboxes) {
-                container.html(text.replace('all', 'selected'));
-            }
-            else {
-                container.html(text.replace('selected', 'all'));
-            }
+        if (checked_boxes > 0 &&
+            checked_boxes !== checkboxes) {
+            $a.html(text.replace('all', 'selected'));
+        }
+        else {
+            $a.html(text.replace('selected', 'all'));
+        }
 
-            var $a = $('.download-many-sequences');
+        // add and remove disabled class when user selects
+        // more than 30 links or unselects all links
+        if (checked_boxes > 0 && checked_boxes <= 30) {
+            $a.enable();
+        }
+        else if ((checked_boxes === 0 && checkboxes > 30) ||
+                checked_boxes > 30) {
+            $a.disable();
+        }
 
-            var sequence_ids = $('.hit-checkbox:checkbox:checked').map(function () {
+        var sequence_ids = $('.hit-checkbox:checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+
+        if (sequence_ids.length < 1) {
+            sequence_ids = $('.hit-checkbox:checkbox').map(function() {
                 return this.value;
             }).get();
-            if (sequence_ids.length < 1) {
-                sequence_ids = $('.hit-checkbox:checkbox').map(function() {
-                    return this.value;
-                }).get();
-            }
+        }
 
-            var database_ids = $a.data().databases;
+        var database_ids = $a.data().databases;
 
-            // Encode URIs against strange characters in sequence ids.
-            sequence_ids = encodeURIComponent(sequence_ids.join(' '));
+        $a.attr('href', SS.generateURI(sequence_ids, database_ids));
 
-            var url = "get_sequence/?sequence_ids=" + sequence_ids +
-                "&database_ids=" + database_ids + '&download=fasta';
-
-            $a.attr('href', url);
+        event.stopPropagation();
     });
+
 
     $('#blast').submit(function(){
         //parse AJAX URL
@@ -530,6 +571,8 @@ $(document).ready(function(){
             location.hash = hash;
 
             SS.generateGraphicalOverview();
+
+            SS.updateFaDownloader();
 
             $('body').scrollspy({target: '.index-container'});
         }).
