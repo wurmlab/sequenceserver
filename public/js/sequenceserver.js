@@ -454,13 +454,24 @@ $(document).ready(function(){
         $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
     });
 
-    $('.result').on('click', "[data-toggle='collapse']", function (event) {
-        event.preventDefault();
-        $(this).find('.fa').toggleClass('fa-rotate-270');
+    // HACK to allow users to select names from hit headers
+
+    $('.result').on('mousedown', ".hitn > .page-header > h4", function (event) {
+        var $this = $(this);
+        $this.on('mouseup mousemove', function handler(event) {
+            if (event.type === 'mouseup') {
+                // user wants to toggle
+                $this.attr('data-toggle', 'collapse');
+                $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
+            } else {
+                // user wants to select
+                $this.attr('data-toggle', '');
+            }
+            $this.off('mouseup mousemove', handler);
+        });
     });
 
     $('.result').on('click', '.view-sequence', function (event) {
-        event.preventDefault();
         var clicked = $(event.target);
 
         var url = clicked.attr('href');
@@ -478,6 +489,8 @@ $(document).ready(function(){
                 $("#error-no-response").modal();
             }
         });
+
+        event.stopPropagation();
     });
 
     $('.result').on('change', '.hit-checkbox:checkbox', function (event) {
@@ -575,6 +588,7 @@ $(document).ready(function(){
             SS.updateFaDownloader();
 
             $('body').scrollspy({target: '.index-container'});
+
         }).
           fail(function (jqXHR, status, error) {
             //alert user
