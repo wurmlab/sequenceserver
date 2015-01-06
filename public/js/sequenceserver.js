@@ -114,6 +114,24 @@ if (!SS) {
         var $fastaModal  = $(fastaDiv);
         var sequenceDiv  = 'sequence-js';
 
+        // Remove any previous content from the modal div.
+        $('.modal-body', fastaDiv).empty();
+
+        // create button and update href link
+        $fastaModal.find('i').html("&nbsp;Download FASTA");
+        $fastaModal.find('.fasta-download').attr('href', url + '&download=fasta');
+
+        // Show appropriate message when no response is received
+        if (response === null) {
+            $('.modal-body', fastaDiv)
+            .append(
+                $('<h4>')
+                .html('<i class="fa fa-warning"></i> Sequence is too long to' +
+                      ' show. Please view it locally after download.')
+            );
+            return;
+        }
+
         var sequence_ids = response.sequence_ids,
             sequences    = response.sequences,
             databases = response.databases;
@@ -121,7 +139,6 @@ if (!SS) {
         // Show appropriate message when incorrect number of sequences
         // have been retreived.
         if (sequence_ids.length != sequences.length) {
-
             $('.modal-body', fastaDiv)
             .append(
                 $('<h4/>')
@@ -146,16 +163,12 @@ if (!SS) {
                 .html('If sequences were retrieved, you can find them below ' +
                       '(but some may be incorrect, so be careful!)')
             );
-
         }
 
-        $('.modal-body', fastaDiv).empty();
-
+        // Show sequence if no error is found till now.
         sequences.forEach(function(sequence) {
-
             var header = sequence.id + "<small>&nbsp;" + sequence.title + "</small>";
 
-            // populate modal-body
             $('.modal-body', fastaDiv)
             .append(
                 $('<div/>')
@@ -196,10 +209,6 @@ if (!SS) {
                 }
             });
         });
-
-        // create button and update href link
-        $fastaModal.find('i').html("&nbsp;Download FASTA");
-        $fastaModal.find('.fasta-download').attr('href', url + '&download=fasta');
     };
 
     /* Update the FASTA downloader button's state appropriately.
@@ -478,9 +487,17 @@ $(document).ready(function(){
 
     $('.result').on('click', '.view-sequence', function (event) {
         event.preventDefault();
+        event.stopPropagation();
 
         var clicked = $(event.target);
         var url = clicked.attr('href');
+
+        // return if hit length is larger than 10,000.
+        if ($(this).closest('.hitn').data().hitLen > 10000) {
+            SS.generateViewSequence(null, url, '#fasta');
+            $('#fasta').modal().show();
+            return;
+        }
 
         $.getJSON(url)
         .done(function (response) {
@@ -496,8 +513,6 @@ $(document).ready(function(){
                 $("#error-no-response").modal();
             }
         });
-
-        event.stopPropagation();
     });
 
     $('.result').on('change', '.hit-checkbox:checkbox', function (event) {
