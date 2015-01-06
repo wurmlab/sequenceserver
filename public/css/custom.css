@@ -189,7 +189,23 @@ label {
   margin-bottom: 50px;
 }
 
+.hit-label {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 2px 4px 2px 4px;
+  color: #fff;
+  background-color: #7f7f77;
+  font-size: 14px;
+  text-align: center;
+  -moz-border-radius: 0px 0px 0px 5px;
+  -webkit-border-radius: 0px 0px 0px 5px;
+  border-radius: 0px 0px 0px 5px;
+}
+
 .hitn {
+  position: relative;
+  overflow: hidden;
   padding: 5px 5px 0px 5px;
 }
 
@@ -198,7 +214,7 @@ label {
 }
 
 .hitn:hover {
-  background-color: #ffe;
+  background-color: #fffff4;
 }
 
 .hitn h4 {

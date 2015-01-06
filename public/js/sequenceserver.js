@@ -527,7 +527,7 @@ $(document).ready(function(){
         if(this.checked) {
             $(this)
             .closest('.hitn')
-            .css('background-color', '#ffe');
+            .css('background-color', '#fffff4');
         } else {
             $(this)
             .closest('.hitn')
