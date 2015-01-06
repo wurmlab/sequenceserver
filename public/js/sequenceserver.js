@@ -202,10 +202,17 @@ if (!SS) {
         $fastaModal.find('.fasta-download').attr('href', url + '&download=fasta');
     };
 
+    /* Update the FASTA downloader button's state appropriately.
+     *
+     * When more than 30 hits are obtained, the link is disabled.
+     * When no hits are obtained, the link is not present at all.
+     */
     SS.updateFaDownloader = function () {
         var $checkboxes = $('.hit-checkbox:checkbox'),
             $checked_boxes = $('.hit-checkbox:checkbox:checked');
             $a = $('.download-many-sequences');
+
+        if (!$a.length) return;
 
         if ($checkboxes.length > 30 && $checked_boxes.length === 0) {
             $a.disable();
@@ -221,9 +228,7 @@ if (!SS) {
                 }).get();
             }
 
-            var database_ids = $a.data().databases;
-
-            $a.attr('href', SS.generateURI(sequence_ids, database_ids));
+            $a.attr('href', SS.generateURI(sequence_ids, $a.data().databases));
         }
     };
 
@@ -472,9 +477,11 @@ $(document).ready(function(){
     });
 
     $('.result').on('click', '.view-sequence', function (event) {
-        var clicked = $(event.target);
+        event.preventDefault();
 
+        var clicked = $(event.target);
         var url = clicked.attr('href');
+
         $.getJSON(url)
         .done(function (response) {
             SS.generateViewSequence(response, url, '#fasta');
@@ -537,9 +544,7 @@ $(document).ready(function(){
             }).get();
         }
 
-        var database_ids = $a.data().databases;
-
-        $a.attr('href', SS.generateURI(sequence_ids, database_ids));
+        $a.attr('href', SS.generateURI(sequence_ids, $a.data().databases));
 
         event.stopPropagation();
     });
