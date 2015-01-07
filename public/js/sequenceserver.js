@@ -114,11 +114,9 @@ if (!SS) {
         var $fastaModal  = $(fastaDiv);
         var sequenceDiv  = 'sequence-js';
 
-        // Remove any previous content from the modal div.
-        $('.modal-body', fastaDiv).empty();
-
         // create button and update href link
-        $fastaModal.find('i').html("&nbsp;Download FASTA");
+        $fastaModal.find('.fasta-download').html("<i class='fa fa-download'>" +
+                                                 "</i> Download FASTA");
         $fastaModal.find('.fasta-download').attr('href', url + '&download=fasta');
 
         // Show appropriate message when no response is received
@@ -491,28 +489,47 @@ $(document).ready(function(){
 
         var clicked = $(event.target);
         var url = clicked.attr('href');
+        var fastaDiv = '#fasta';
+
+        // Remove any previous content from the modal div.
+        $('.modal-body', fastaDiv).empty();
 
         // return if hit length is larger than 10,000.
         if ($(this).closest('.hitn').data().hitLen > 10000) {
-            SS.generateViewSequence(null, url, '#fasta');
-            $('#fasta').modal().show();
+            SS.generateViewSequence(null, url, fastaDiv);
+            $(fastaDiv).modal().show();
             return;
         }
 
-        $.getJSON(url)
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            beforeSend: function () {
+                  $(fastaDiv).modal('show');
+                  $('#sequence-spinner').show();
+            }
+        })
         .done(function (response) {
-            SS.generateViewSequence(response, url, '#fasta');
-            $('#fasta').modal().show();
+            SS.generateViewSequence(response, url, fastaDiv);
+            $('#sequence-spinner').hide();
         })
         .fail(function (jqXHR, status, error) {
-            //alert user
-            if (jqXHR.responseText) {
-                $("#error").html(jqXHR.responseText).modal();
-            }
-            else {
-                $("#error-no-response").modal();
-            }
-        });
+            // alert user after 500 ms
+            setTimeout(function () {
+                $(fastaDiv).modal('hide');
+                if (jqXHR.responseText) {
+                    $("#error").html(jqXHR.responseText).modal();
+                }
+                else {
+                    $("#error-no-response").modal();
+                }
+            }, 500);
+        })
+        .always(function (jqXHR, status, error) {
+            //$('#sequence-spinner').hide();
+        })
+
     });
 
     $('.result').on('change', '.hit-checkbox:checkbox', function (event) {
@@ -630,7 +647,7 @@ $(document).ready(function(){
             }
         }).
           always(function () {
-            // BLAST complete (succefully or otherwise)
+            // BLAST complete (successfully or otherwise)
             // remove progress notification
             $('#spinner').modal('hide');
         });

@@ -69,6 +69,10 @@ label {
   right: 19px;
 }
 
+#sequence-js {
+  padding-top: 5px;
+}
+
 #sequence-js pre {
   border: none;
   background-color: transparent;
@@ -325,4 +329,10 @@ ul.list-group.databases li.list-group-item input {
 .report-statistics {
   white-space: pre;
   font-family: monospace;
+}
+
+#sequence-spinner {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 30px;
 }

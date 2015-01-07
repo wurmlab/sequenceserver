@@ -389,7 +389,7 @@
   </div> <!-- spinner -->
 
   <div
-    id="fasta" class="modal fade"
+    id="fasta" class="modal"
     tabindex=-1>
     <div
       class="modal-dialog">
@@ -405,11 +405,17 @@
         </div>
 
         <div
+          id="sequence-spinner">
+          <i class="fa fa-spinner fa-3x fa-spin"></i>
+        </div>
+
+        <div
           class="modal-footer">
           <a
             class="btn btn-default fasta-download"
             href>
             <i class="fa fa-download"></i>
+            Download FASTA
           </a>
         </div>
       </div>
