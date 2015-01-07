@@ -249,6 +249,18 @@ if (!SS) {
         return url;
     },
 
+    SS.showErrorModal = function (jqXHR, beforeShow) {
+        setTimeout(function () {
+            beforeShow();
+            if (jqXHR.responseText) {
+                $("#error").html(jqXHR.responseText).modal();
+            }
+            else {
+                $("#error-no-response").modal();
+            }
+        }, 500);
+    },
+
     SS.init = function () {
         this.$sequence = $('#sequence');
         this.$sequenceFile = $('#sequence-file');
@@ -515,21 +527,10 @@ $(document).ready(function(){
             $('#sequence-spinner').hide();
         })
         .fail(function (jqXHR, status, error) {
-            // alert user after 500 ms
-            setTimeout(function () {
+            SS.showErrorModal(jqXHR, function () {
                 $(fastaDiv).modal('hide');
-                if (jqXHR.responseText) {
-                    $("#error").html(jqXHR.responseText).modal();
-                }
-                else {
-                    $("#error-no-response").modal();
-                }
-            }, 500);
-        })
-        .always(function (jqXHR, status, error) {
-            //$('#sequence-spinner').hide();
-        })
-
+            });
+        });
     });
 
     $('.result').on('change', '.hit-checkbox:checkbox', function (event) {
@@ -636,20 +637,13 @@ $(document).ready(function(){
 
             $('body').scrollspy({target: '.index-container'});
 
+            $('#spinner').modal('hide');
+
         }).
           fail(function (jqXHR, status, error) {
-            //alert user
-            if (jqXHR.responseText) {
-                $("#error").html(jqXHR.responseText).modal();
-            }
-            else {
-                $("#error-no-response").modal();
-            }
-        }).
-          always(function () {
-            // BLAST complete (successfully or otherwise)
-            // remove progress notification
-            $('#spinner').modal('hide');
+            SS.showErrorModal(jqXHR, function () {
+                $('#spinner').modal('hide');
+            });
         });
 
         return false;
