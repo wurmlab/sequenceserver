@@ -118,8 +118,9 @@
                       <div class="alignment"><%= report.pp_hsp hsp%></div>
                     </div>
                   <% end %>
-                  <div class="hit-links text-right">
-                    <% report.link_per_hit(hit.accession).reverse.each do |link| %>
+                  <div class="hit-links text-right text-monospace">
+                    <% report.link_per_hit(hit.accession).reverse.each_with_index do |link, i| %>
+                      <%= "|" unless i == 0 %>
                       <a
                         class="<%= link[:classes].join(' ') %>"
                         href="<%= link[:url] %>" target="_blank">
@@ -127,7 +128,7 @@
                         <%= link[:title] %>
                       </a>
                     <% end %>
-                    |
+                    /
                     <label>
                       <input
                       type="checkbox" class="hit-checkbox" value=<%="#{ hit.accession }"%>>

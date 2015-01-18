@@ -96,116 +96,8 @@ if (!SS) {
     };
 
     SS.generateGraphicalOverview = function () {
-
         $("[data-graphit='overview']").each(function () {
             $.graphIt(this, 0, 20);
-        });
-
-    };
-
-    /* Populate the View Sequence modal.
-     *
-     * @param {JSON object} containing requested sequence_ids and
-     * database_ids, retrieved sequences,
-     * @param {string} target url, and
-     * @param {string} modal div id.
-     */
-    SS.generateViewSequence = function (response, url, fastaDiv) {
-        var $fastaModal  = $(fastaDiv);
-        var sequenceDiv  = 'sequence-js';
-
-        // create button and update href link
-        $fastaModal.find('.fasta-download').html("<i class='fa fa-download'>" +
-                                                 "</i> Download FASTA");
-        $fastaModal.find('.fasta-download').attr('href', url + '&download=fasta');
-
-        // Show appropriate message when no response is received
-        if (response === null) {
-            $('.modal-body', fastaDiv)
-            .append(
-                $('<h4>')
-                .html('<i class="fa fa-warning"></i> Sequence is too long to' +
-                      ' show. Please view it locally after download.')
-            );
-            return;
-        }
-
-        var sequence_ids = response.sequence_ids,
-            sequences    = response.sequences,
-            databases = response.databases;
-
-        // Show appropriate message when incorrect number of sequences
-        // have been retreived.
-        if (sequence_ids.length != sequences.length) {
-            $('.modal-body', fastaDiv)
-            .append(
-                $('<h4/>')
-                .html("ERROR: incorrect number of sequences found."),
-                $('<p/>')
-                .html('Dear user, <strong> We have found <em> ' +
-                      (sequences.length > sequence_ids.length ? 'more' : 'less') +
-                      '</em> sequences than expected. </strong>'),
-                $('<p/>')
-                .html('This is likley due to a problem with how databases ' +
-                      'are formatted.<strong> Please share this text with ' +
-                      'the person managing this website so that the issue ' +
-                      'can be resolved.'),
-                $('<p/>')
-                .html('You requested ' + sequence_ids.length +
-                      ' sequence(s) with the following identifiers: <br>' +
-                     '<code>' + sequence_ids.join(', ') + '</code> <br>' +
-                     'from the following databases: <br>' +
-                     '<code>' + databases.join(', ') + '</code> <br>' +
-                     'but we found ' + sequences.length + ' sequence(s).'),
-                $('<p/>')
-                .html('If sequences were retrieved, you can find them below ' +
-                      '(but some may be incorrect, so be careful!)')
-            );
-        }
-
-        // Show sequence if no error is found till now.
-        sequences.forEach(function(sequence) {
-            var header = sequence.id + "<small>&nbsp;" + sequence.title + "</small>";
-
-            $('.modal-body', fastaDiv)
-            .append(
-                $('<div/>')
-                .addClass('fastan')
-                .append(
-                    $('<div/>')
-                    .addClass('page-header')
-                    .append(
-                        $('<div/>')
-                        .addClass('row')
-                        .append(
-                            $('<div/>')
-                            .addClass('col-md-12')
-                            .append(
-                                $('<h4>')
-                                .html(header)
-                            )
-                        )
-                    ),
-                    $('<div>')
-                    .attr('id', sequenceDiv)
-                )
-            );
-
-            // attach BioJs sequence viewer
-            var mySequence = new Sequence({
-                sequence : sequence.value,
-                target : sequenceDiv,
-                format : 'PRIDE',
-                id : sequence.id,
-                columns: {
-                    size:40,
-                    spacedEach:10
-                },
-                formatOptions: {
-                    title: false,
-                    footer: false
-                }
-            });
         });
     };
 
@@ -272,6 +164,143 @@ if (!SS) {
     };
 
 }()); //end SS module
+
+SS.showSequenceViewer = (function () {
+
+    // Do not fetch and render sequences bigger than a threshold.
+    var MAX_LENGTH = 10000;
+
+    var $viewer = $('#fasta');
+    var $viewerBody = $('.modal-body', $viewer);
+    var $viewerFooter = $('.modal-footer', $viewer);
+
+    var $spinner = $('#sequence-spinner');
+    var sequenceDiv = 'sequence-js';
+
+    var initViewer = function ($clicked) {
+        $viewerBody.empty();
+        $viewerFooter.empty();
+
+        initFooter($clicked);
+        $spinner.show();
+        $viewer.modal('show');
+    };
+
+    var initFooter = function ($clicked) {
+        // Generate links in the footer.
+        var links = $clicked.parent().clone();
+        var viewSequenceLink = links.find('.view-sequence');
+        var nextSeparator = $(viewSequenceLink[0].nextSibling);
+        viewSequenceLink.remove();
+        nextSeparator.remove();
+        $viewerFooter.empty().append(links);
+    };
+
+    var showSequences = function (sequence_ids, sequences, databases) {
+        // Inform user if number of sequences retrieved is more or less than requested for.
+        if (sequence_ids.length != sequences.length) {
+            showLessOrMoreSequencesRetrievedMessage(sequence_ids, sequences, databases);
+        }
+
+        // Render sequence.
+        sequences.forEach(showSequence);
+    };
+
+    var showSequence = function (sequence) {
+        // generate html template
+        var header = sequence.id + "<small>&nbsp;" + sequence.title + "</small>";
+
+        $viewerBody
+        .append(
+            $('<div/>')
+            .addClass('fastan')
+            .append(
+                $('<div/>')
+                .addClass('page-header')
+                .append(
+                    $('<h4>')
+                    .html(header)
+                ),
+                $('<div>')
+                .attr('id', sequenceDiv)
+            )
+        );
+
+        // attach BioJS sequence viewer
+        var widget = new Sequence({
+            sequence: sequence.value,
+            target: sequenceDiv,
+            format: 'PRIDE',
+            id: sequence.id,
+            columns: {
+                size: 50,
+                spacedEach: 10
+            },
+            formatOptions: {
+                title: false,
+                footer: false
+            }
+        });
+        widget.hideFormatSelector();
+    };
+
+    showLessOrMoreSequencesRetrievedMessage = function (sequence_ids, sequences, databases) {
+        $viewerBody
+        .append(
+            $('<h4/>')
+            .html("ERROR: incorrect number of sequences found."),
+            $('<p/>')
+            .html('You requested ' + sequence_ids.length +
+                  ' sequence(s) with the following identifiers: <br>' +
+                  '<code>' + sequence_ids.join(', ') + '</code> <br>' +
+                  'from the following databases: <br>' +
+                  '<code>' + databases.join(', ') + '</code> <br>' +
+                  'but we found ' + sequences.length + ' sequence(s).'),
+            $('<p/>')
+            .html('This is likley due to a problem with how databases ' +
+                  'are formatted.<strong> Please share this text with ' +
+                  'the person managing this website so that the issue ' +
+                  'can be resolved.'),
+            $('<p/>')
+            .html('If sequences were retrieved, you can find them below ' +
+                  '(but some may be incorrect, so be careful!)')
+        );
+    };
+
+    showSequenceTooLongMessage = function () {
+        $viewerBody
+        .append(
+            $('<h4>')
+            .html('<i class="fa fa-warning"></i> Sequence is too long to' +
+                  ' show. Please view it locally after download.')
+        );
+    };
+
+    return function (clicked) {
+        var $clicked = $(clicked);
+        initViewer($clicked);
+
+        // Do not fetch and show sequence if sequence bigger than MAX_LENGTH.
+        var $hitn = $clicked.closest('.hitn');
+        if ($hitn.data().hitLen > MAX_LENGTH) {
+            showSequenceTooLongMessage();
+            $spinner.hide();
+            return;
+        }
+
+        var url = $clicked.attr('href');
+        $.getJSON(url)
+        .done(function (response) {
+            showSequences(response.sequence_ids, response.sequences, response.databases);
+            $spinner.hide();
+        })
+        .fail(function (jqXHR, status, error) {
+            SS.showErrorModal(jqXHR, function () {
+                $viewer.modal('hide');
+            });
+        });
+    };
+}());
 
 $(document).ready(function(){
     SS.init();
@@ -498,39 +527,7 @@ $(document).ready(function(){
     $('.result').on('click', '.view-sequence', function (event) {
         event.preventDefault();
         event.stopPropagation();
-
-        var clicked = $(event.target);
-        var url = clicked.attr('href');
-        var fastaDiv = '#fasta';
-
-        // Remove any previous content from the modal div.
-        $('.modal-body', fastaDiv).empty();
-
-        // return if hit length is larger than 10,000.
-        if ($(this).closest('.hitn').data().hitLen > 10000) {
-            SS.generateViewSequence(null, url, fastaDiv);
-            $(fastaDiv).modal().show();
-            return;
-        }
-
-        $.ajax({
-            type: 'GET',
-            url: url,
-            dataType: 'json',
-            beforeSend: function () {
-                  $(fastaDiv).modal('show');
-                  $('#sequence-spinner').show();
-            }
-        })
-        .done(function (response) {
-            SS.generateViewSequence(response, url, fastaDiv);
-            $('#sequence-spinner').hide();
-        })
-        .fail(function (jqXHR, status, error) {
-            SS.showErrorModal(jqXHR, function () {
-                $(fastaDiv).modal('hide');
-            });
-        });
+        SS.showSequenceViewer(event.target);
     });
 
     $('.result').on('change', '.hit-checkbox:checkbox', function (event) {

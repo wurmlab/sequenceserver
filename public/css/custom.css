@@ -258,6 +258,10 @@ label {
   margin: 20px 0px;
 }
 
+.hit-links a {
+  text-decoration: none;
+}
+
 .hit-links-query {
   margin: 20px 0px;
 }
