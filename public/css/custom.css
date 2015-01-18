@@ -1,4 +1,9 @@
 /* Override or extend Bootstrap */
+label {
+  cursor: pointer;
+  font-weight: normal;
+}
+
 code {
   white-space: normal;
   word-wrap: break-word;
@@ -26,18 +31,6 @@ body {
 
 .navbar-brand > small {
   font-size: 50%;
-}
-
-label {
-  font-weight: normal;
-}
-
-.checkbox label {
-  padding-left: 0px;
-}
-
-.checkbox {
-  padding-left: 5px;
 }
 
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
@@ -111,6 +104,14 @@ label {
 .databases-container .btn {
   text-align: left;
   white-space: normal;
+}
+
+.databases .checkbox {
+  padding-left: 5px;
+}
+
+.databases label {
+  padding-left: 0px;
 }
 
 #blast > .form-group:last-child {
