@@ -175,7 +175,6 @@ SS.showSequenceViewer = (function () {
     var $viewerFooter = $('.modal-footer', $viewer);
 
     var $spinner = $('#sequence-spinner');
-    var sequenceDiv = 'sequence-js';
 
     var initViewer = function ($clicked) {
         $viewerBody.empty();
@@ -209,6 +208,13 @@ SS.showSequenceViewer = (function () {
     var showSequence = function (sequence) {
         // generate html template
         var header = sequence.id + "<small>&nbsp;" + sequence.title + "</small>";
+        var sequenceDiv = sequence.id.replace(/[^\w\s]/gi, '');
+        var counter = $('#' + sequenceDiv).length;
+
+        // Give unique values to sequence.js target divs.
+        if (counter > 0) {
+          sequenceDiv = sequenceDiv + counter.toString();
+        }
 
         $viewerBody
         .append(
@@ -223,6 +229,7 @@ SS.showSequenceViewer = (function () {
                 ),
                 $('<div>')
                 .attr('id', sequenceDiv)
+                .addClass('sequence-js')
             )
         );
 
@@ -262,8 +269,9 @@ SS.showSequenceViewer = (function () {
                   'the person managing this website so that the issue ' +
                   'can be resolved.'),
             $('<p/>')
-            .html('If sequences were retrieved, you can find them below ' +
-                  '(but some may be incorrect, so be careful!)')
+            .html('If any sequences were retrieved, you ' +
+                  'can find them below (but some may be incorrect, so ' +
+                  'be careful!)')
         );
     };
 

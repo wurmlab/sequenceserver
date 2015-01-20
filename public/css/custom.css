@@ -62,11 +62,11 @@ body {
   right: 19px;
 }
 
-#sequence-js {
+.sequence-js {
   padding-top: 5px;
 }
 
-#sequence-js pre {
+.sequence-js pre {
   border: none;
   background-color: transparent;
   word-break: normal;
