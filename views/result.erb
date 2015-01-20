@@ -2,7 +2,7 @@
   class="row">
   <div
     class="<%= (report.queries.length == 1 && report.queries.first.hits.empty?) ? 'col-md-12' : 'col-md-9' %>">
-    <% report.queries.each do |query| %>
+    <% report.queries.each_with_index do |query, q| %>
       <div
           class="resultn" id="<%="Query_#{query.number}"%>"
           data-query-len="<%= query.len %>" data-graphit-target="hsps"
@@ -28,6 +28,7 @@
                   <a
                     href="#"
                     class="btn btn-link download-many-sequences"
+                    style="<%= "display: none;" unless q == 0 %>"
                     data-databases=<%="#{ report.querydb.map(&:id).join(' ') }"%> >
                     <i class="fa fa-download"></i>
                     Download FASTA of all hits

@@ -622,6 +622,14 @@ $(document).ready(function(){
                         top: $query.offset().top
                     }
                 })
+                .on('affixed.bs.affix',     function (e) {
+                    $('.download-many-sequences', e.target).show();
+                })
+                .on('affixed-top.bs.affix', function (e) {
+                    if (!$(e.target).is($('.resultn:first > .page-header'))) {
+                        $('.download-many-sequences', e.target).hide();
+                    }
+                })
                 .width($query.width());
             });
 
