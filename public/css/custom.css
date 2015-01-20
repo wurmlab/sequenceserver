@@ -226,6 +226,10 @@ body {
   cursor: pointer;
 }
 
+.hitn h4 span {
+  cursor: text;
+}
+
 .hsps:first-child {
   margin-top: 14px;
 }
