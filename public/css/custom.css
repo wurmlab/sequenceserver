@@ -23,10 +23,16 @@ body {
 
 .navbar {
   border-radius: 0px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 35px;
 }
 
 .navbar-brand {
-  font-size: 24px;
+  height: auto;
+  padding: 20px 15px;
+  font-size: 32px;
+  font-weight: 300;
+  font-family: "Roboto";
 }
 
 .navbar-brand > small {
