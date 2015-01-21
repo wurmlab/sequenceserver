@@ -126,7 +126,8 @@
                       <%= "|" unless i == 0 %>
                       <a
                         class="<%= link[:classes].join(' ') %>"
-                        href="<%= link[:url] %>" target="_blank">
+                        href="<%= link[:url] %>"
+                        target="<%= if absolute? link[:url] then '_blank' else '_self' end %>">
                         <i class="fa <%= link[:icon].join(' ') %>"></i>
                         <%= link[:title] %>
                       </a>

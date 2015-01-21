@@ -263,6 +263,12 @@ module SequenceServer
       set :root,    lambda { SequenceServer.root }
     end
 
+    helpers do
+      def absolute?(uri)
+        URI.parse(uri).absolute?
+      end
+    end
+
     # For any request that hits the app in development mode, log incoming
     # params.
     before do
