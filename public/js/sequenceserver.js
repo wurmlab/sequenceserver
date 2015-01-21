@@ -170,11 +170,12 @@ SS.showSequenceViewer = (function () {
     // Do not fetch and render sequences bigger than a threshold.
     var MAX_LENGTH = 10000;
 
-    var $viewer = $('#fasta');
+    var $viewer = $('#sequence-viewer');
+    var $spinner = $('.spinner', $viewer);
     var $viewerBody = $('.modal-body', $viewer);
     var $viewerFooter = $('.modal-footer', $viewer);
 
-    var $spinner = $('#sequence-spinner');
+    var widgetClass = 'biojs-vis-sequence';
 
     var initViewer = function ($clicked) {
         $viewerBody.empty();
@@ -208,37 +209,26 @@ SS.showSequenceViewer = (function () {
     var showSequence = function (sequence) {
         // generate html template
         var header = sequence.id + "<small>&nbsp;" + sequence.title + "</small>";
-        var sequenceDiv = sequence.id.replace(/[^\w\s]/gi, '');
-        var counter = $('#' + sequenceDiv).length;
-
-        // Give unique values to sequence.js target divs.
-        if (counter > 0) {
-          sequenceDiv = sequenceDiv + counter.toString();
-        }
+        var widgetId = widgetClass + (new Date().getUTCMilliseconds());
 
         $viewerBody
         .append(
             $('<div/>')
             .addClass('fastan')
             .append(
-                $('<div/>')
-                .addClass('page-header')
-                .append(
-                    $('<h4>')
-                    .html(header)
-                ),
+                $('<h4>')
+                .html(header),
                 $('<div>')
-                .attr('id', sequenceDiv)
-                .addClass('sequence-js')
+                .attr('id', widgetId)
+                .addClass(widgetClass)
             )
         );
 
         // attach BioJS sequence viewer
         var widget = new Sequence({
             sequence: sequence.value,
-            target: sequenceDiv,
+            target: widgetId,
             format: 'PRIDE',
-            id: sequence.id,
             columns: {
                 size: 50,
                 spacedEach: 10

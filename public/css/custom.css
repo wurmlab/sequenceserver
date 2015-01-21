@@ -62,15 +62,9 @@ body {
   right: 19px;
 }
 
-.sequence-js {
-  padding-top: 5px;
-}
-
-.sequence-js pre {
-  border: none;
-  background-color: transparent;
-  word-break: normal;
-  word-wrap: normal;
+.biojs-vis-sequence pre {
+  max-height: 340px;
+  overflow-y: scroll;
 }
 
 .notifications {
@@ -340,8 +334,12 @@ ul.list-group.databases li.list-group-item input {
   font-family: monospace;
 }
 
-#sequence-spinner {
+.spinner {
   width: 100%;
   text-align: center;
   padding-bottom: 30px;
+}
+
+#sequence-viewer .modal-footer {
+  padding: 0 15px;
 }
