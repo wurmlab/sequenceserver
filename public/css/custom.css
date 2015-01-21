@@ -162,12 +162,6 @@ body {
   top: 8px;
 }
 
-.resultn > .page-header.affix {
-  top: 0px;
-  z-index: 1;
-  background-color: white;
-}
-
 .index {
   max-height: 416px; /* will accomodate 10 elements. IE 7 and above only. */
   overflow-y: auto;
