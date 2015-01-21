@@ -264,14 +264,17 @@ module SequenceServer
     end
 
     helpers do
+      # Is the given URI absolute? (or relative?)
       def absolute?(uri)
         URI.parse(uri).absolute?
       end
 
+      # Formats score (a float) to two decimal places.
       def prettify_score(score)
         '%.2f' % score
       end
 
+      # Formats evalue (a float expressed in scientific notation) to "a x b^c".
       def prettify_evalue(evalue)
         evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) do
           s = '%.3f' % Regexp.last_match[1]
