@@ -289,9 +289,9 @@ module SequenceServer
           hsp_stats['Positives'] = "#{positives_fraction hsp}" \
                                      "(#{positives_percentage hsp}%)"
         elsif @program == 'blastx'
-          hsp_stats['Query Frame'] = "#{hsp[:qframe]}"
+          hsp_stats['Query frame'] = "#{hsp[:qframe]}"
         elsif @program == 'tblastn'
-          hsp_stats['Hit Frame'] = "#{hsp[:sframe]}"
+          hsp_stats['Hit frame'] = "#{hsp[:sframe]}"
         elsif @program == 'tblastx'
           hsp_stats['Positives'] = "#{positives_fraction hsp}" \
                                    "(#{positives_percentage hsp}%)"
