@@ -483,7 +483,7 @@ $(document).ready(function(){
             }
 
             // jiggle
-            $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
+            $("#methods").effect("bounce", { times:5, direction: 'left', distance: 24 }, 500);
         }
     });
 
