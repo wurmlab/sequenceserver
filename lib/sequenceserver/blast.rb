@@ -180,7 +180,7 @@ module SequenceServer
       def pretty_evalue(hsp)
         hsp.evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) do
           s = '%.3f' % Regexp.last_match[1]
-          s << " x 10<sup>#{Regexp.last_match[2]}</sup>" if Regexp.last_match[2]
+          s << " &times; 10<sup>#{Regexp.last_match[2]}</sup>" if Regexp.last_match[2]
           s
         end
       end
