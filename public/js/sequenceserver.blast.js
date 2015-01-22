@@ -96,21 +96,21 @@ SS.blast = (function () {
         return true;
     }
 
-    /*
-        determine input sequence type, and trigger 'sequence_type_changed'
-        event if the input sequence type has changed
-    */
+    /**
+     * Determine input sequence type, and trigger 'sequence_type_changed' event
+     * if the input sequence type has changed, or cannot be determined.
+     */
     var signal_sequence_type_changed = function () {
-        var type, tmp;
+        var type, _type;
 
         $('#sequence').change(function () {
-            tmp = type_of_sequences();
+            _type = type_of_sequences();
 
-            if (tmp != type){
-              type = tmp;
+            if (!_type || _type !== type) {
+                type = _type;
 
-              //notify listeners
-              $(this).trigger('sequence_type_changed', type);
+                //notify listeners
+                $(this).trigger('sequence_type_changed', type);
             }
         });
     };
