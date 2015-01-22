@@ -112,7 +112,11 @@ if (!SS) {
 
     SS.generateGraphicalOverview = function () {
         $("[data-graphit='overview']").each(function () {
-            $.graphIt(this, 0, 20);
+            var $this = $(this);
+            var $graphDiv = $('<div/>').addClass('graphical-overview');
+            $this.children().eq(1).children().eq(0).after($graphDiv);
+
+            $.graphIt($this, $graphDiv, 0, 20);
         });
     };
 

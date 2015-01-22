@@ -346,11 +346,20 @@ code {
   text-align: center;
 }
 
+svg:not(:root) {
+  overflow: visible;
+}
+
 .axis path,
 .axis line {
-    fill: red;
-    stroke: #fff;
+    fill: none;
+    stroke: #f00;
+    stroke-width: 2px;
     shape-rendering: crispEdges;
+}
+
+.axis path {
+  stroke-width: 3px;
 }
 
 .dnd-overlay {
