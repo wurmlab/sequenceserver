@@ -146,14 +146,6 @@ body {
   border-bottom: 0px;
 }
 
-#methods {
-  width: 100%
-}
-
-#method, #methods ul {
-  width: 92%;
-}
-
 #result {
   margin-top: 45px;
 }

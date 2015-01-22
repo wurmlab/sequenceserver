@@ -477,24 +477,45 @@ $(document).ready(function(){
 
     $('form').on('blast_method_changed', function (event, methods) {
         // reset
-        $('#methods .dropdown-menu').html('');
-        $('#method').disable().val('').html('blast');
-        $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
+        $('#method')
+        .disable().val('').html('blast')
+        .removeClass('col-md-11').addClass('col-md-12');
 
+        $('#methods')
+        .children().not('#method').remove();
+
+        // set
         if (methods.length > 0) {
             var method = methods.shift();
 
-            $('#method').enable().val(method).html(SS.decorate(method));
+            $('#method')
+            .enable().val(method).html(SS.decorate(method));
 
             if (methods.length >=1) {
-                $('#methods').addClass('btn-group').
-                    children('.dropdown-toggle').show();
+                $('#methods')
+                .append
+                (
+                    $('<button/>')
+                    .attr('type', 'button')
+                    .addClass("btn btn-primary dropdown-toggle col-md-1")
+                    .attr('data-toggle', 'dropdown')
+                    .append
+                    (
+                        $('<span/>')
+                        .addClass('caret')
+                    ),
+                    $('<ul/>')
+                    .addClass('dropdown-menu')
+                    .append
+                    (
+                        $.map(methods, function (method) {
+                            return $('<li/>').html(SS.decorate(method));
+                        })
+                    )
+                );
 
-                var methods_list = $.map(methods, function (method, _) {
-                    return "<li>" + SS.decorate(method) + "</li>";
-                }).join('');
-
-                $('#methods .dropdown-menu').html(methods_list);
+                $('#method')
+                .removeClass('col-md-12').addClass('col-md-11');
             }
 
             // jiggle
