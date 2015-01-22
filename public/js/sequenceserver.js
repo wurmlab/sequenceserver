@@ -636,15 +636,15 @@ $(document).ready(function(){
             // display the result
             $('.result').html(data).show();
 
-            // affix the index
-            var $index = $('.index');
-            if ($index.length !== 0) {
-                $index.affix({
+            // affix sidebar
+            var $sidebar = $('.sidebar');
+            if ($sidebar.length !== 0) {
+                $sidebar.affix({
                     offset: {
-                        top: $index.offset().top
+                        top: $sidebar.offset().top
                     }
                 })
-                .width($index.width());
+                .width($sidebar.width());
             }
 
             //jump to the results
@@ -654,7 +654,7 @@ $(document).ready(function(){
 
             SS.updateFaDownloader();
 
-            $('body').scrollspy({target: '.index-container'});
+            $('body').scrollspy({target: '.sidebar'});
 
             $('#spinner').modal('hide');
 

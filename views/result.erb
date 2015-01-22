@@ -4,39 +4,17 @@
     class="<%= (report.queries.length == 1 && report.queries.first.hits.empty?) ? 'col-md-12' : 'col-md-9' %>">
     <% report.queries.each_with_index do |query, q| %>
       <div
-          class="resultn" id="<%="Query_#{query.number}"%>"
-          data-query-len="<%= query.len %>" data-graphit-target="hsps"
-          data-graphit="overview" data-hit-count="<%= query.hits.count %>">
+        class="resultn" id="<%="Query_#{query.number}"%>"
+        data-query-len="<%= query.len %>" data-graphit-target="hsps"
+        data-graphit="overview" data-hit-count="<%= query.hits.count %>">
         <div
           class="page-header">
-          <div
-            class="row">
-            <div
-              class="col-md-8">
-              <h3>
-                Query= <%= query.id %>
-                <small>
-                  <%= query.title %>
-                </small>
-              </h3>
-            </div>
-            <% unless query.hits.empty? %>
-              <div
-                class="col-md-4 text-right">
-                <div
-                  class="hit-links-query">
-                  <a
-                    href="#"
-                    class="btn btn-link download-many-sequences"
-                    style="<%= "display: none;" unless q == 0 %>"
-                    data-databases=<%="#{ report.querydb.map(&:id).join(' ') }"%> >
-                    <i class="fa fa-download"></i>
-                    Download FASTA of all hits
-                  </a>
-                </div>
-              </div>
-            <% end %>
-          </div>
+          <h3>
+            Query= <%= query.id %>
+            <small>
+              <%= query.title %>
+            </small>
+          </h3>
         </div>
 
         <div
@@ -164,19 +142,33 @@ Total letters in queried databases: <%= report.stats[1] %>
 
   <% unless report.queries.length == 1 && report.queries.first.hits.empty? %>
     <div
-      class="col-md-3 index-container">
-      <ul
-        class="nav nav-stacked index">
-        <% report.queries.each do |query| %>
-          <li>
-            <a
-              href="<%="#Query_#{query.number}"%>"
-              title="<%= "Query= #{query.id}" %>">
-              <%= "Query= #{query.id}" %>
-            </a>
-          </li>
-        <% end %>
-      </ul>
+      class="col-md-3">
+      <div
+        class="sidebar">
+        <ul
+          class="nav nav-stacked index">
+          <% report.queries.each do |query| %>
+            <li>
+              <a
+                href="<%="#Query_#{query.number}"%>"
+                title="<%= "Query= #{query.id}" %>">
+                <%= "Query= #{query.id}" %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+
+        <div
+          class="hit-links-query">
+          <a
+            href="#"
+            class="btn btn-link download-many-sequences"
+            data-databases=<%="#{ report.querydb.map(&:id).join(' ') }"%> >
+            <i class="fa fa-download"></i>
+            Download FASTA of all hits
+          </a>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>
