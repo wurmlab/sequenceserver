@@ -2,14 +2,16 @@ require 'spec_helper'
 
 # Test BLAST module.
 module SequenceServer
-  with_hits_xml = File.join(SequenceServer.root, 'spec',
-                            'ss_sample_blast_with_hits.xml')
-  no_hits_xml = File.join(SequenceServer.root, 'spec',
-                          'ss_sample_blast_no_hits.xml')
+  with_hits_asn = File.join(SequenceServer.root,
+                            'spec',
+                            'ss_sample_blast_with_hits.asn')
+  no_hits_asn   = File.join(SequenceServer.root,
+                            'spec',
+                            'ss_sample_blast_no_hits.asn')
 
   describe 'Report' do
-    hits_report = File.open(with_hits_xml) { |f| BLAST::Report.new(f) }
-    no_hits_report = File.open(no_hits_xml) { |f| BLAST::Report.new(f) }
+    hits_report = BLAST::Report.new(with_hits_asn)
+    no_hits_report = BLAST::Report.new(no_hits_asn)
 
     it 'will return an Array of queries' do
       hits_report.queries.should be_a Array
@@ -28,8 +30,8 @@ module SequenceServer
   end
 
   describe 'Query' do
-    hits_report = File.open(with_hits_xml) { |f| BLAST::Report.new(f) }
-    no_hits_report = File.open(no_hits_xml) { |f| BLAST::Report.new(f) }
+    hits_report = BLAST::Report.new(with_hits_asn)
+    no_hits_report = BLAST::Report.new(no_hits_asn)
 
     it 'will return queries with valid length' do
       hits_report.queries.first.len.should be_a Fixnum
@@ -45,8 +47,8 @@ module SequenceServer
   end
 
   describe 'Hits' do
-    hits_report = File.open(with_hits_xml) { |f| BLAST::Report.new(f) }
-    no_hits_report = File.open(no_hits_xml) { |f| BLAST::Report.new(f) }
+    hits_report = BLAST::Report.new(with_hits_asn)
+    no_hits_report = BLAST::Report.new(no_hits_asn)
 
     it 'will have non zero length' do
       hits_report.queries.last.hits.first.len.should satisfy { |n| n > 0 }
@@ -66,7 +68,7 @@ module SequenceServer
   end
 
   describe 'HSPs' do
-    hits_report = File.open(with_hits_xml) { |f| BLAST::Report.new(f) }
+    hits_report = BLAST::Report.new(with_hits_asn)
     method = hits_report.program
 
     # Currently using all 17 HSP parameters in BLAST Report.

@@ -14,7 +14,15 @@ module SequenceServer
       #
       # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def initialize(rfile, databases = nil)
-        ir = node_to_array Ox.parse(rfile.read).root
+        @archive_file = rfile
+
+        xml_file = BLAST.format('report' => @archive_file,
+                                'type'   => 'full',
+                                'format' => 'xml')
+
+        ir = File.open(xml_file[:filepath]) do |f|
+          node_to_array Ox.parse(f.read).root
+        end
 
         @program = ir[0]
         @program_version = ir[1]
@@ -51,6 +59,7 @@ module SequenceServer
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
+      attr_reader :archive_file
       attr_reader :program, :program_version
 
       # :nodoc:

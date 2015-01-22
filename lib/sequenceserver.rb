@@ -270,6 +270,8 @@ module SequenceServer
     # http://www.sinatrarb.com/intro.html#Mime%20Types
     configure do
       mime_type :fasta, 'text/fasta'
+      mime_type :xml,   'text/xml'
+      mime_type :tsv,   'text/tsv'
     end
 
     helpers do
@@ -371,6 +373,14 @@ module SequenceServer
           :sequences    => sequences.map(&:info)
         }.to_json
       end
+    end
+
+    get '/get_report/' do
+      ofile = BLAST.format(params)
+
+      send_file ofile[:filepath],
+                :filename => ofile[:filename],
+                :type => ofile[:type].to_sym
     end
 
     # This error block will only ever be hit if the user gives us a funny
