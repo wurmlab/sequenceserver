@@ -27,6 +27,21 @@
     };
 })( jQuery );
 
+/**
+ * Wiggle an element.
+ *
+ * Used for wiggling BLAST button.
+ */
+(function ($) {
+    $.fn.wiggle = function() {
+        this.finish().effect("bounce", {
+            direction: 'left',
+            distance: 24,
+            times: 8,
+        }, 500);
+    };
+}(jQuery));
+
 (function( $ ){
     //(pre-)check the only active database checkbox
     $.onedb = function(selector) {
@@ -483,7 +498,7 @@ $(document).ready(function(){
             }
 
             // jiggle
-            $("#methods").effect("bounce", { times:5, direction: 'left', distance: 24 }, 500);
+            $("#methods").wiggle();
         }
     });
 
@@ -502,7 +517,7 @@ $(document).ready(function(){
         mbutton.val(new_method).html(SS.decorate(new_method));
 
         // jiggle
-        $("#methods").effect("bounce", { times:5, direction: 'left', distance: 12 }, 120);
+        $("#methods").wiggle();
     });
 
     // HACK to allow users to select names from hit headers
