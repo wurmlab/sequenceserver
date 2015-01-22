@@ -131,39 +131,36 @@ SS.blast = (function () {
         });
     }
 
-    /* */
+    /**
+     * Triggers 'blast_method_changed' event if BLAST algorithms that can be
+     * used for the user input have changed.
+     */
     var signal_blast_method_changed = function () {
-        var method, tmp;
+        var method, _method;
 
         $('#blast').on('sequence_type_changed database_type_changed',
             function (event) {
-                  tmp = determine_blast_method();
+                  _method = determine_blast_method();
 
-                  if (tmp != method) {
-                      method = tmp;
+                  if (!_.isEqual(_method, method)) {
+                      method = _method;
 
                       //notify listeners
-                      $(this).trigger('blast_method_changed', [method]);
+                      $(this).trigger('blast_method_changed', [method.slice()]);
                   }
             });
     }
 
-    /*
-        Return a BLAST method to use for the selected database and input
-        sequence type.
-
-             database       method
-            ------------------------
-             protein        blastx
-             protein        blastp
-            ------------------------
-             nucleotide     tblastx
-             nucleotide     tblastn
-             nucleotide     blastn
-    */
+    /**
+     * Returns name of BLAST algorithms that can be used for the input query
+     * and selected database combination.
+     *
+     * Returns empty array if no BLAST algorithm is appropriate for the user
+     * input.
+     */
     var determine_blast_method = function () {
         if (!required_params_present()) {
-            return
+            return [];
         }
 
         var database_type = type_of_databases();
@@ -190,6 +187,8 @@ SS.blast = (function () {
                         return ['blastn', 'tblastx'];
                 }
         }
+
+        return [];
     }
 
     /* public interface */

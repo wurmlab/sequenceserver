@@ -475,13 +475,13 @@ $(document).ready(function(){
         }
     });
 
-    $('form').on('blast_method_changed', function (event, methods){
+    $('form').on('blast_method_changed', function (event, methods) {
         // reset
         $('#methods .dropdown-menu').html('');
         $('#method').disable().val('').html('blast');
         $('#methods').removeClass('btn-group').children('.dropdown-toggle').hide();
 
-        if (methods) {
+        if (methods.length > 0) {
             var method = methods.shift();
 
             $('#method').enable().val(method).html(SS.decorate(method));
