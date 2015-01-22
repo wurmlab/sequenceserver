@@ -39,6 +39,18 @@ body {
   font-size: 50%;
 }
 
+/**
+ * Take padding-right out of .control-label and keep padding of .input-group.
+ * Works better when browser is resized to smaller width.
+ */
+.control-label[class*="col-"] {
+ padding-right: 0;
+}
+.input-group[class*="col-"] {
+ padding-left: 15px;
+ padding-right: 15px;
+}
+
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
 .table>tbody>tr>td, .table>tfoot>tr>td {
   border-top: none;
