@@ -666,6 +666,63 @@ $(document).ready(function(){
         SS.selectHit(this);
     });
 
+    $('.result').on('click', '#tsv-report', function (event) {
+        event.preventDefault();
+
+        var $reportCustomizer = $('#report-customizer');
+        $reportCustomizer.modal('show');
+        $('#tsv-specifiers input:text').focus();
+        $('#tsv-report-download').attr('href', this.href);
+    });
+
+    $(document).on('change', '#tsv-specifiers input:checkbox', function (event) {
+      var $tsvAllFields = $('#tsv-all-fields');
+
+      if(this.checked) {
+          $tsvAllFields.find('input:checkbox').uncheck().disable();
+          $tsvAllFields.disable();
+      } else {
+          $tsvAllFields.enable();
+          $tsvAllFields.find('input:checkbox').enable();
+      }
+    });
+
+    $(document).on('change', '#tsv-all-fields input:checkbox', function (event) {
+        var $tsvStdFields = $('#tsv-std-fields'),
+            $tsvSpecifiers = $('#tsv-specifiers');
+
+        if(this.checked) {
+            $tsvStdFields.find('input:checkbox').uncheck().disable();
+            $tsvStdFields.disable();
+            $tsvSpecifiers.find('input:checkbox').uncheck().disable();
+            $tsvSpecifiers.find('.checkbox').disable();
+            $tsvSpecifiers.find('input:text').disable();
+        } else {
+            $tsvStdFields.find('input:checkbox').uncheck().enable();
+            $tsvStdFields.enable();
+            $tsvSpecifiers.find('input:checkbox').uncheck().enable();
+            $tsvSpecifiers.find('.checkbox').enable();
+            $tsvSpecifiers.find('input:text').enable();
+        }
+    });
+
+    $(document).on('click', '#tsv-report-download', function (event) {
+        var $reportCustomizer = $('#report-customizer'),
+            checkedBoxes = $reportCustomizer.find('input:checkbox:checked');
+            customSpecifiers = checkedBoxes.val();
+
+        if ($('#tsv-specifiers input:checkbox').is(':checked')) {
+          customSpecifiers =  customSpecifiers + ' ' +
+                              $('#tsv-specifiers input:text').val();
+        }
+
+        if (customSpecifiers) {
+          var queryParam = '&specifiers=' + encodeURIComponent(customSpecifiers);
+          this.href = this.href + queryParam;
+        }
+
+        $('#report-customizer').modal('hide');
+    });
 
     $('#blast').submit(function(){
         //parse AJAX URL

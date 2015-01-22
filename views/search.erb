@@ -401,6 +401,84 @@
     </div>
   </div> <!-- sequence viewing -->
 
+  <div
+    id="report-customizer" class="modal"
+    tabindex=-1>
+    <div
+      class="modal-dialog">
+      <div
+        class="modal-content">
+        <div
+          class="modal-header">
+        <h3>Customize download report</h3>
+        </div>
+        <div
+          class="modal-body">
+          <div>
+            <div
+              id="tsv-std-fields"
+              class="checkbox">
+              <label>
+                <input type="checkbox" checked
+                value="std">
+                Standard fields
+              </label>
+            </div>
+            <div
+              id="tsv-all-fields"
+              class="checkbox">
+              <label>
+                <input type="checkbox"
+                value="qseqid qgi qacc sseqid sallseqid sgi sallgi sacc sallacc
+                qstart qend sstart send qseq sseq evalue bitscore score length
+                length pident nident mismatch positive gapopen gaps ppos frames
+                qframe hframe btop staxids sscinames scomnames sblastnames
+                sskingdoms stitle salltitles sstrand qcovs qcovhsp">
+                All fields
+              </label>
+            </div>
+          </div>
+
+          <div
+            id="tsv-specifiers"
+            class="input-group">
+            <div
+              class="checkbox input-group-addon">
+              <label>
+                <input
+                type="checkbox">
+                Custom
+              </label>
+            </div>
+            <input
+              type="text" class="form-control"
+              placeholder="eg: qstart qend qframe gapopen">
+          </div>
+
+          <div class="help-block">
+            In case no custom specifers are provided, a report with selected
+            value from the checkboxes (standard or all fields) is downloaded.
+            Leaving all fields blank will download a standard report as well.
+            <br>
+            Standard report contains specifiers <em>'qseqid sseqid pident
+            length mismatch gapopen qstart qend sstart send evalue
+            bitscore'</em>, which is equivalent to the keyword <em>'std'</em>.
+          </div>
+        </div>
+
+        <div
+          class="modal-footer">
+          <a
+            id="tsv-report-download"
+            href="#">
+            <i class="fa fa-download"></i>
+            Get Report!
+          </a>
+        </div>
+      </div>
+    </div>
+  </div> <!-- report customization -->
+
   <!-- JS -->
   <script type="text/javascript" src="js/underscore.min.js"></script>
   <script type="text/javascript" src="js/jquery.js"></script>

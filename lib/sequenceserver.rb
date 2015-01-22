@@ -22,6 +22,21 @@ module SequenceServer
   EXIT_CONFIG_FILE_NOT_FOUND      = 6
   EXIT_NO_SEQUENCE_DIR            = 7
 
+  OUTFMT = {
+    'pairwise' => 0,
+    'qa_identity' => 1,
+    'qa_no_identity' => 2,
+    'fqa_identity' => 3,
+    'fqa_no_identity' => 4,
+    'xml' => 5,
+    'tsv' => 6,
+    'tsv_commented' => 7,
+    'asn_text' => 8,
+    'asn_binary' => 9,
+    'csv' => 10,
+    'arhive_format' => 11
+  } # See [1]
+
   class << self
     def environment
       ENV['RACK_ENV']
@@ -350,6 +365,26 @@ module SequenceServer
       end
     end
 
+    get '/get_report/' do
+      format = params[:format]
+      specifiers = params[:specifiers]
+
+      rfile  = File.join(Dir.tmpdir, params[:report])
+
+      file_name = "sequenceserver_report_#{Time.now.strftime('%H%M')}.#{format}"
+      file = Tempfile.new file_name
+
+      case format
+      when 'xml'
+        file.write(BLAST.blast_formatter(rfile, OUTFMT['xml']))
+      when 'tsv'
+        file.write(BLAST.blast_formatter(rfile, OUTFMT['tsv'], specifiers))
+      end
+
+      file.close
+      send_file file.path, :type => :text, :filename => file_name
+    end
+
     # This error block will only ever be hit if the user gives us a funny
     # sequence or incorrect advanced parameter. Well, we could hit this block
     # if someone is playing around with our HTTP API too.
@@ -371,3 +406,5 @@ module SequenceServer
     end
   end
 end
+
+# [1]: http://www.ncbi.nlm.nih.gov/books/NBK1763/#CmdLineAppsManual.Appendix_C_Options_for

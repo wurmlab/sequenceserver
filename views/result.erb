@@ -195,14 +195,16 @@ Total letters in queried databases: <%= report.stats[1] %>
           </li>
           <li>
             <a
-              class="disabled">
-              XML report (coming soon)
+              id='xml-report'
+              href="get_report/?report=<%= File.basename(report.archive_file) %>&format=xml&download=true">
+              XML report
             </a>
           </li>
           <li>
             <a
-              class="disabled">
-              TSV report (coming soon)
+              id="tsv-report"
+              href="get_report/?report=<%= File.basename(report.archive_file) %>&format=tsv&download=true">
+              TSV report
             </a>
           </li>
         </ul>

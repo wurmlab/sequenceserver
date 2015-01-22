@@ -125,7 +125,11 @@ module SequenceServer
       # NOTE:
       #   Databases param is optional for test suite.
       def initialize(rfile, databases = nil)
-        ir = node_to_array Ox.parse(rfile.read).root
+        @archive_file = rfile.path
+
+        xml_results = BLAST.blast_formatter(@archive_file, OUTFMT['xml'])
+
+        ir = node_to_array Ox.parse(xml_results).root
 
         @program = ir[0]
         @program_version = ir[1]
@@ -159,6 +163,8 @@ module SequenceServer
           end
         end
       end
+
+      attr_reader :archive_file
 
       attr_reader :program, :program_version
 
@@ -428,7 +434,11 @@ module SequenceServer
       end
 
       # Report the results, ensures that file is closed after execution.
-      File.open(rfile.path) {|f| Report.new(f, databases)}
+      Report.new(rfile, databases)
+    end
+
+    def blast_formatter(rfile_path, outfmt, specifiers = nil)
+      `blast_formatter -archive '#{rfile_path}' -outfmt '#{outfmt} #{specifiers}'`
     end
 
     def pre_process(params)
@@ -445,7 +455,7 @@ module SequenceServer
     end
 
     def defaults
-      " -outfmt 5 -num_threads #{config[:num_threads]}"
+      " -outfmt 11 -num_threads #{config[:num_threads]}"
     end
 
     def validate_blast_method(method)
