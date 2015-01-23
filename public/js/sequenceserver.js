@@ -16,14 +16,14 @@
 (function( $ ){
     //uncheck an element
     $.fn.uncheck = function() {
-        return this.removeAttr('checked');
+        return this.prop('checked', false);
     };
 })( jQuery );
 
 (function( $ ){
     //check an element
     $.fn.check = function() {
-        return this.attr('checked', 'checked');
+        return this.prop('checked', true);
     };
 })( jQuery );
 
