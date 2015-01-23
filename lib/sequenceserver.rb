@@ -263,6 +263,12 @@ module SequenceServer
       set :root,    lambda { SequenceServer.root }
     end
 
+    # See
+    # http://www.sinatrarb.com/intro.html#Mime%20Types
+    configure do
+      mime_type :fasta, 'text/fasta'
+    end
+
     helpers do
       # Is the given URI absolute? (or relative?)
       def absolute?(uri)
@@ -312,13 +318,13 @@ module SequenceServer
       sequences = Sequence.from_blastdb(sequence_ids, database_ids)
 
       if params[:download]
-        file_name = "sequenceserver_#{sequence_ids.first}.fa"
+        file_name = "sequenceserver_#{sequence_ids.first}.fasta"
         file = Tempfile.new file_name
         sequences.each do |sequence|
           file.puts sequence.fasta
         end
         file.close
-        send_file file.path, :type => :text, :filename => file_name
+        send_file file.path, :type => :fasta, :filename => file_name
       else
         {
           :sequence_ids => sequence_ids,
