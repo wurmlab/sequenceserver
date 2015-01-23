@@ -291,7 +291,7 @@ SS.showSequenceViewer = (function () {
         widget.hideFormatSelector();
     };
 
-    showLessOrMoreSequencesRetrievedMessage = function (sequence_ids, sequences, databases) {
+    var showLessOrMoreSequencesRetrievedMessage = function (sequence_ids, sequences, databases) {
         $viewerBody
         .append(
             $('<h4/>')
@@ -315,7 +315,7 @@ SS.showSequenceViewer = (function () {
         );
     };
 
-    showSequenceTooLongMessage = function () {
+    var showSequenceTooLongMessage = function () {
         $viewerBody
         .append(
             $('<h4>')
