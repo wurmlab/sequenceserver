@@ -121,28 +121,40 @@ if (!SS) {
      * When more than 30 hits are obtained, the link is disabled.
      * When no hits are obtained, the link is not present at all.
      */
-    SS.updateFaDownloader = function () {
-        var $checkboxes = $('.hit-checkbox:checkbox'),
-            $checked_boxes = $('.hit-checkbox:checkbox:checked');
-            $a = $('.download-many-sequences');
+    SS.updateBulkDownloadLink = function () {
+        var num_checkboxes = $('.hitn :checkbox').length
+            , num_checked  = $('.hitn :checkbox:checked').length;
 
-        if (!$a.length) return;
+        var $a = $('.download-many-sequences')
+            , text = $a.html();
 
-        if ($checkboxes.length > 30 && $checked_boxes.length === 0) {
-            $a.disable();
+        // Update text of bulk download link.
+        if (num_checked > 0 &&
+            num_checked !== num_checkboxes) {
+            $a.html(text.replace('all', 'selected'));
         }
         else {
-            var sequence_ids = $checked_boxes.map(function () {
+            $a.html(text.replace('selected', 'all'));
+        }
+
+        // Update href of bulk download link.
+        var sequence_ids = $('.hitn :checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+        if (sequence_ids.length < 1) {
+            sequence_ids = $('.hitn :checkbox').map(function() {
                 return this.value;
             }).get();
+        }
+        $a.attr('href', SS.generateURI(sequence_ids, $a.data().databases));
 
-            if (sequence_ids.length < 1) {
-                sequence_ids = $checkboxes.map(function() {
-                    return this.value;
-                }).get();
-            }
-
-            $a.attr('href', SS.generateURI(sequence_ids, $a.data().databases));
+        // Enable or disable bulk download link.
+        if (num_checked >= 1 && num_checked <= 30) {
+            $a.enable();
+        }
+        else if (num_checked > 30 ||
+                (num_checked === 0 && num_checkboxes > 30)) {
+            $a.disable();
         }
     };
 
@@ -179,6 +191,29 @@ if (!SS) {
     };
 
 }()); //end SS module
+
+/**
+ * Highlight hit div corresponding to given checkbox and update bulk download
+ * link.
+ */
+SS.selectHit = function (checkbox) {
+    if (!checkbox || !checkbox.value) return;
+
+    var $hitn = $('.hitn[data-hit-def="' + checkbox.value + '"]');
+
+    // Highlight selected hit and sync checkboxes if sequence viewer is open.
+    if(checkbox.checked) {
+        $hitn
+        .css('background-color', '#fffff4')
+        .find(":checkbox").not(checkbox).check();
+    } else {
+        $hitn
+        .css('background-color', "")
+        .find(":checkbox").not(checkbox).uncheck();
+    }
+
+    this.updateBulkDownloadLink();
+};
 
 SS.showSequenceViewer = (function () {
 
@@ -526,7 +561,6 @@ $(document).ready(function(){
     // The list of possible blast methods is dynamically generated.  So we
     // leverage event bubbling and delegation to trap 'click' event on the list items.
     // Please see : http://api.jquery.com/on/#direct-and-delegated-events
-
     $(document).on("click", "#methods .dropdown-menu li", function(event) {
         var clicked = $(this);
         var mbutton = $('#method');
@@ -542,7 +576,6 @@ $(document).ready(function(){
     });
 
     // HACK to allow users to select names from hit headers
-
     $('.result').on('mousedown', ".hitn > .page-header > h4", function (event) {
         var $this = $(this);
         $this.on('mouseup mousemove', function handler(event) {
@@ -564,53 +597,9 @@ $(document).ready(function(){
         SS.showSequenceViewer(event.target);
     });
 
-    $('.result').on('change', '.hit-checkbox:checkbox', function (event) {
-        var checkboxes = $('.hit-checkbox:checkbox').length,
-            checked_boxes = $('.hit-checkbox:checkbox:checked').length,
-            $a = $('.download-many-sequences'),
-            text = $a.html();
-
-        if (checked_boxes > 0 &&
-            checked_boxes !== checkboxes) {
-            $a.html(text.replace('all', 'selected'));
-        }
-        else {
-            $a.html(text.replace('selected', 'all'));
-        }
-
-        // add and remove disabled class when user selects
-        // more than 30 links or unselects all links
-        if (checked_boxes > 0 && checked_boxes <= 30) {
-            $a.enable();
-        }
-        else if ((checked_boxes === 0 && checkboxes > 30) ||
-                checked_boxes > 30) {
-            $a.disable();
-        }
-
-        if(this.checked) {
-            $(this)
-            .closest('.hitn')
-            .css('background-color', '#fffff4');
-        } else {
-            $(this)
-            .closest('.hitn')
-            .css('background-color', "");
-        }
-
-        var sequence_ids = $('.hit-checkbox:checkbox:checked').map(function () {
-            return this.value;
-        }).get();
-
-        if (sequence_ids.length < 1) {
-            sequence_ids = $('.hit-checkbox:checkbox').map(function() {
-                return this.value;
-            }).get();
-        }
-
-        $a.attr('href', SS.generateURI(sequence_ids, $a.data().databases));
-
+    $(document).on('change', '.hit-links :checkbox', function (event) {
         event.stopPropagation();
+        SS.selectHit(this);
     });
 
 
@@ -652,7 +641,7 @@ $(document).ready(function(){
 
             SS.generateGraphicalOverview();
 
-            SS.updateFaDownloader();
+            SS.updateBulkDownloadLink();
 
             $('body').scrollspy({target: '.sidebar'});
 
