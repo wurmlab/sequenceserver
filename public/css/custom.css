@@ -40,6 +40,24 @@ body {
 }
 
 /**
+ * Take out margin from .page-header and use table layout with first cell
+ * taking up all available space left by its siblings.
+ *
+ * Useful for displaying small, extra bit of information in the page
+ * header alongside title.
+ */
+.page-header {
+  display: table;
+  margin: 0px;
+}
+.page-header > * {
+  display: table-cell;
+}
+.page-header > *:first-child {
+  width: 100%;
+}
+
+/**
  * Take padding-right out of .control-label and keep padding of .input-group.
  * Works better when browser is resized to smaller width.
  */
@@ -59,6 +77,14 @@ body {
 
 .table>thead>tr>th {
   border-bottom: 1px solid #eee;
+}
+
+/**
+ * Use with .label class if want to use the foreground color defined by parent
+ * element.
+ */
+.label-inherit {
+  color: inherit;
 }
 
 /* SequenceServer */
@@ -182,28 +208,8 @@ body {
   border-left: 4px #eee solid;
 }
 
-.page-header {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  word-break: break-word;
-}
-
 .resultn {
   margin-bottom: 50px;
-}
-
-.hit-label {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  padding: 2px 4px 2px 4px;
-  color: #fff;
-  background-color: #7f7f77;
-  font-size: 14px;
-  text-align: center;
-  -moz-border-radius: 0px 0px 0px 5px;
-  -webkit-border-radius: 0px 0px 0px 5px;
-  border-radius: 0px 0px 0px 5px;
 }
 
 .hitn {

@@ -15,6 +15,9 @@
               <%= query.title %>
             </small>
           </h3>
+          <span class="label label-inherit">
+            <%= "#{query.number} / #{report.queries.length}"%>
+          </span>
         </div>
 
         <div
@@ -65,10 +68,9 @@
                       </small>
                     </span>
                   </h4>
-                  <div
-                    class="hit-label pull-right">
-                    <%= hit.number %>
-                  </div>
+                  <span class="label label-inherit">
+                    <%= "#{hit.number} / #{query.hits.length}"%>
+                  </span>
                 </div>
 
                 <div
