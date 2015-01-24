@@ -188,7 +188,7 @@ Total letters in queried databases: <%= report.stats[1] %>
           <a
             href="#"
             class="btn btn-link download-many-sequences"
-            data-databases=<%="#{ report.querydb.map(&:id).join(' ') }"%> >
+            data-databases="<%= report.querydb.map(&:id).join(' ') %>">
             <i class="fa fa-download"></i>
             Download FASTA of all hits
           </a>

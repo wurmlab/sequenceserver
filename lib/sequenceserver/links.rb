@@ -3,8 +3,10 @@ module SequenceServer
   module Links
     require 'erb'
 
-    # See [1]
+    # Provide a method to URL encode _query parameters_. See [1].
     include ERB::Util
+    #
+    alias encode url_encode
 
     NCBI_ID_PATTERN = /gi\|(\d+)\|/
 
@@ -13,8 +15,6 @@ module SequenceServer
     # Input:
     # ------
     # @param sequence_id: Array of sequence ids
-    # @param querydb: An array of queried database ids in format (name, title,
-    # type)
     #
     # Return:
     # -------
@@ -45,8 +45,8 @@ module SequenceServer
 
     def sequence_viewer(sequence_ids)
       sequence_ids = Array sequence_ids
-      sequence_ids = url_encode(sequence_ids.join(' '))
-      database_ids = querydb.map(&:id).join(' ')
+      sequence_ids = encode sequence_ids.join(' ')
+      database_ids = encode querydb.map(&:id).join(' ')
       url = "get_sequence/?sequence_ids=#{sequence_ids}" \
             "&database_ids=#{database_ids}"
 
@@ -61,8 +61,8 @@ module SequenceServer
 
     def fasta_download(sequence_ids)
       sequence_ids = Array sequence_ids
-      sequence_ids = url_encode(sequence_ids.join(' '))
-      database_ids = querydb.map(&:id).join(' ')
+      sequence_ids = encode sequence_ids.join(' ')
+      database_ids = encode querydb.map(&:id).join(' ')
       url = "get_sequence/?sequence_ids=#{sequence_ids}" \
             "&database_ids=#{database_ids}&download=fasta"
 
@@ -78,7 +78,7 @@ module SequenceServer
     def ncbi(sequence_id)
       return nil unless sequence_id.match(NCBI_ID_PATTERN)
 
-      ncbi_id = url_encode(Regexp.last_match[1])
+      ncbi_id = encode Regexp.last_match[1]
       # Generate urls according to the type of database
       case querydb.first.type
       when 'nucleotide'

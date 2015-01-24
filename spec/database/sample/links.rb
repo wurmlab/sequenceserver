@@ -10,9 +10,10 @@ module SequenceServer
 
       # construct uniprot link
       ukey = sequence_id.match(/SI2.2.0_(\d*)/)[1]
-      uid  = url_encode(SI_UNIPROT_IDMAP["SINV_#{ukey}"])
-      return uid if uid.nil?
+      uid  = SI_UNIPROT_IDMAP["SINV_#{ukey}"]
+      return unless uid
 
+      uid = encode uid
       uniprot = "http://www.uniprot.org/uniprot/#{uid}"
       {
         :title => 'View on UniProt',
