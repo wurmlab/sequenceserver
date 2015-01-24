@@ -1,32 +1,53 @@
-/* Override or extend Bootstrap */
+/**********************
+ * Override Bootstrap *
+ **********************/
+
+/**
+ * For scrollspy, etc.
+ */
+body {
+  position: relative;
+}
+
+/**
+ * No underlines on links, ever
+ */
+a:hover, .btn-link:hover {
+  text-decoration: none;
+}
+
+/**
+ * Use normal font weight for labels and indicate they are clickable by setting
+ * `cursor: pointer`.
+ */
 label {
   cursor: pointer;
   font-weight: normal;
 }
 
+/**
+ * Most of the times we want code to wrap to next line.
+ */
 code {
   white-space: normal;
   word-wrap: break-word;
 }
 
-body {
-  position: relative;
-}
-
+/**
+ * Without this .disable'd elements hardly look disabled.
+ */
 .disabled {
   color: #ccc;
 }
 
-.text-monospace {
-  font-family: monospace;
-}
-
+/**
+ * Increase font size, add border, make place for subtext to app name.
+ */
 .navbar {
   border-radius: 0px;
   border-bottom: 1px solid #eee;
   margin-bottom: 35px;
 }
-
 .navbar-brand {
   height: auto;
   padding: 20px 15px;
@@ -34,7 +55,6 @@ body {
   font-weight: 300;
   font-family: "Roboto";
 }
-
 .navbar-brand > small {
   font-size: 50%;
 }
@@ -49,6 +69,7 @@ body {
 .page-header {
   display: table;
   margin: 0px;
+  width: 100%;
 }
 .page-header > * {
   display: table-cell;
@@ -69,25 +90,61 @@ body {
  padding-right: 15px;
 }
 
+/**
+ * Take our border from each row and apply only to table header.
+ */
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
 .table>tbody>tr>td, .table>tfoot>tr>td {
   border-top: none;
   padding-left: 0px;
 }
-
 .table>thead>tr>th {
   border-bottom: 1px solid #eee;
 }
 
+
+/********************
+ * Extend Bootstrap *
+ ********************/
+
 /**
- * Use with .label class if want to use the foreground color defined by parent
- * element.
+ * Use monospace font.
  */
-.label-inherit {
+.text-monospace {
+  font-family: monospace;
+}
+
+/**
+ * Do not wrap text or show horizontal scrollbar if text overflows the width of
+ * the element. Show ellipsis instead.
+ */
+.nowrap-ellipsis {
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/**
+ * Helpers to override :hover and .active on .nav elements.
+ */
+.nav.hover-reset>li>a:hover {
+  background-color: inherit;
+}
+.nav.active-bold>li.active>a {
+  font-weight: bold;
+}
+
+/**
+ * Use with .label class to use the foreground color defined by parent element.
+ */
+.label-reset {
   color: inherit;
 }
 
-/* SequenceServer */
+
+/***************************
+ * SequenceServer specific *
+ ***************************/
 .nojs-error {
   margin-top: 10px;
   padding: 10px;
@@ -188,24 +245,26 @@ body {
   margin-top: 45px;
 }
 
+.main {
+  border-right: 1px solid #eee;
+  padding-right: 20px;
+}
+
+.side {
+  padding-left: 0px;
+}
+
+.sidebar > .page-header > h4 {
+  padding: 8px 0px 0px 8px;
+}
+
 .sidebar.affix {
-  top: 8px;
+  top: 0px;
 }
 
 .index {
   max-height: 416px; /* will accomodate 10 elements. IE 7 and above only. */
   overflow-y: auto;
-}
-
-.index a {
-  color: #999;
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.index .active a {
-  border-left: 4px #eee solid;
 }
 
 .resultn {

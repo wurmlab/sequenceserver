@@ -1,7 +1,7 @@
 <div
   class="row">
   <div
-    class="<%= (report.queries.length == 1 && report.queries.first.hits.empty?) ? 'col-md-12' : 'col-md-9' %>">
+    class="main <%= (report.queries.length == 1 && report.queries.first.hits.empty?) ? 'col-md-12' : 'col-md-9' %>">
     <% report.queries.each_with_index do |query, q| %>
       <div
         class="resultn" id="<%="Query_#{query.number}"%>"
@@ -15,7 +15,7 @@
               <%= query.title %>
             </small>
           </h3>
-          <span class="label label-inherit">
+          <span class="label label-reset">
             <%= "#{query.number} / #{report.queries.length}"%>
           </span>
         </div>
@@ -68,7 +68,7 @@
                       </small>
                     </span>
                   </h4>
-                  <span class="label label-inherit">
+                  <span class="label label-reset">
                     <%= "#{hit.number} / #{query.hits.length}"%>
                   </span>
                 </div>
@@ -144,22 +144,45 @@ Total letters in queried databases: <%= report.stats[1] %>
 
   <% unless report.queries.length == 1 && report.queries.first.hits.empty? %>
     <div
-      class="col-md-3">
+      class="side col-md-3">
       <div
         class="sidebar">
+        <div
+          class="page-header">
+          <h4>
+            <%= report.queries.length %> queries,
+            <small>
+              <%= report.querydb.length %> database, <%= report.program.upcase %>
+            </small>
+          </h4>
+        </div>
         <ul
-          class="nav nav-stacked index">
+          class="nav hover-reset active-bold index">
           <% report.queries.each do |query| %>
             <li>
               <a
+                class="nowrap-ellipsis hover-bold"
                 href="<%="#Query_#{query.number}"%>"
                 title="<%= "Query= #{query.id}" %>">
+                <i class="fa fa-long-arrow-right"></i>
                 <%= "Query= #{query.id}" %>
               </a>
             </li>
           <% end %>
         </ul>
 
+        <br>
+        <br>
+
+        <div
+          class="page-header">
+          <h4>
+            Download
+            <small>
+              FASTA
+            </small>
+          </h4>
+        </div>
         <div
           class="hit-links-query">
           <a
