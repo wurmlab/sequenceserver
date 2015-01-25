@@ -270,6 +270,22 @@ module SequenceServer
     end
 
     helpers do
+      # Render an anchor element from the given Hash.
+      #
+      # See links.rb for example of a Hash object that will be rendered.
+      def a(link)
+        return unless link[:title] and link[:url]
+        _a = ["<a"]
+        _a <<   "href=#{link[:url]}"
+        _a <<   "class=\"#{link[:class]}\"" if link[:class]
+        _a <<   "target=\"_blank\""         if absolute? link[:url]
+        _a << '>'
+        _a <<   "<i class=\"fa #{link[:icon]}\"></i>" if link[:icon]
+        _a <<   link[:title]
+        _a << "</a>"
+        _a.join("\n")
+      end
+
       # Is the given URI absolute? (or relative?)
       def absolute?(uri)
         URI.parse(uri).absolute?

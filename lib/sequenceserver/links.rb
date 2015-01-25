@@ -12,86 +12,100 @@ module SequenceServer
 
     # Your custom method should have following pattern:
     #
-    # Input:
-    # ------
-    # @param sequence_id: Array of sequence ids
+    # Input
+    # -----
+    # sequence_id: Array of sequence ids
     #
-    # Return:
-    # -------
-    # The return value should consist of a Hash in format
+    # Return
+    # ------
+    # The return value should be a Hash:
     #
     # {
-    #  :title => "title", # title used in dropdown
-    #  :url => url, # generated url
-    #  :order => int, signifying the order in which it appears in dropdown list,
-    #  :classes => [classes] # classes to apply to the button
+    #   # Required. Display title.
+    #   :title => "title",
+    #
+    #   # Required. Generated url.
+    #   :url => url,
+    #
+    #   # Optional. Left-right order in which the link should appear.
+    #   :order => num,
+    #
+    #   # Optional. Classes, if any, to apply to the link.
+    #   :class => "class1 class2",
+    #
+    #   # Optional. Class name of a FontAwesome icon to use.
+    #   :icon => "fa-icon-class"
     # }
     #
     # If no url could be generated, return nil.
     #
-    # Accessory Methods:
-    # ------------------
-    # You can use a couple of accessory methods from SequenceServer to generate
-    # highly specific links. Say you want to find which database the hit came from
-    # and then accordingly create a database specific URI. You could then do:
+    # Helper methods
+    # --------------
     #
-    # hit_database = send :which_blastdb, sequence_ids.join(',')
+    # Following helper methods are available to help with link generation.
     #
-    # `which_blastdb` takes atleast one comma separated sequence ids.
+    #   encode:
+    #     URL encode query params.
+    #
+    #     Don't use this function to encode the entire URL. Only params.
+    #
+    #     e.g:
+    #         sequence_id = encode sequence_id
+    #         url = "http://www.ncbi.nlm.nih.gov/nucleotide/#{sequence_id}"
+    #
+    #   querydb:
+    #     Returns an array of databases that were used for BLASTing.
+    #
+    #   which_blastdb:
+    #     Returns the database from which the given hit came from.
+    #
+    #     e.g:
+    #
+    #         hit_database = which_blastdb sequence_id
     #
     # Examples:
     # ---------
     # See methods provided by default for an example implementation.
 
-    def sequence_viewer(sequence_ids)
-      sequence_ids = Array sequence_ids
-      sequence_ids = encode sequence_ids.join(' ')
+    def sequence_viewer(sequence_id)
+      sequence_id  = encode sequence_id
       database_ids = encode querydb.map(&:id).join(' ')
-      url = "get_sequence/?sequence_ids=#{sequence_ids}" \
+      url = "get_sequence/?sequence_ids=#{sequence_id}" \
             "&database_ids=#{database_ids}"
 
       {
-        :title => 'View Sequence',
-        :url => url,
         :order => 0,
-        :classes => ['view-sequence'],
-        :icon => ['fa-eye']
+        :url   => url,
+        :title => 'View Sequence',
+        :class => 'view-sequence',
+        :icon  => 'fa-eye'
       }
     end
 
-    def fasta_download(sequence_ids)
-      sequence_ids = Array sequence_ids
-      sequence_ids = encode sequence_ids.join(' ')
+    def fasta_download(sequence_id)
+      sequence_id  = encode sequence_id
       database_ids = encode querydb.map(&:id).join(' ')
-      url = "get_sequence/?sequence_ids=#{sequence_ids}" \
+      url = "get_sequence/?sequence_ids=#{sequence_id}" \
             "&database_ids=#{database_ids}&download=fasta"
 
       {
-        :title => 'Download FASTA',
-        :url => url,
         :order => 1,
-        :classes => [],
-        :icon => ['fa-download']
+        :title => 'Download FASTA',
+        :url   => url,
+        :icon  => 'fa-download'
       }
     end
 
     def ncbi(sequence_id)
       return nil unless sequence_id.match(NCBI_ID_PATTERN)
-
-      ncbi_id = encode Regexp.last_match[1]
-      # Generate urls according to the type of database
-      case querydb.first.type
-      when 'nucleotide'
-        url = "http://www.ncbi.nlm.nih.gov/nucleotide/#{ncbi_id}"
-      when 'protein'
-        url = "http://www.ncbi.nlm.nih.gov/protein/#{ncbi_id}"
-      end
+      ncbi_id = Regexp.last_match[1]
+      ncbi_id = encode ncbi_id
+      url = "http://www.ncbi.nlm.nih.gov/#{querydb.first.typ}/#{ncbi_id}"
       {
-        :title => 'View on NCBI',
-        :url => url,
         :order => 2,
-        :classes => [],
-        :icon => ['fa-external-link']
+        :title => 'View on NCBI',
+        :url   => url,
+        :icon  => 'fa-external-link'
       }
     end
   end

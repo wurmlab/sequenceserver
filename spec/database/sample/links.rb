@@ -14,13 +14,12 @@ module SequenceServer
       return unless uid
 
       uid = encode uid
-      uniprot = "http://www.uniprot.org/uniprot/#{uid}"
+      url = "http://www.uniprot.org/uniprot/#{uid}"
       {
-        :title => 'View on UniProt',
-        :url => uniprot,
         :order => 2,
-        :classes => [],
-        :icon => ['fa-external-link']
+        :title => 'View on UniProt',
+        :url   => url,
+        :icon  => 'fa-external-link'
       }
     end
   end
