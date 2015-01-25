@@ -1,7 +1,7 @@
 <div
   class="row">
   <div
-    class="main <%= (report.queries.length == 1 && report.queries.first.hits.empty?) ? 'col-md-12' : 'col-md-9' %>">
+    class="<%= (report.queries.length == 1 && report.queries.first.hits.empty?) ? 'col-md-12' : 'col-md-9 main' %>">
     <% report.queries.each_with_index do |query, q| %>
       <div
         class="resultn" id="<%="Query_#{query.number}"%>"
