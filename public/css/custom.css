@@ -119,6 +119,13 @@ a.disabled:hover {
 }
 
 /**
+ * Make text bold.
+ */
+.text-bold {
+  font-weight: bold;
+}
+
+/**
  * Do not wrap text or show horizontal scrollbar if text overflows the width of
  * the element. Show ellipsis instead.
  */
@@ -145,6 +152,12 @@ a.disabled:hover {
   color: inherit;
 }
 
+/**
+ * Set padding: 10px and 15px on li.
+ */
+.list-padded li {
+  padding: 10px 15px;
+}
 
 /***************************
  * SequenceServer specific *
@@ -425,3 +438,4 @@ ul.list-group.databases li.list-group-item input {
 #sequence-viewer .modal-footer {
   padding: 0 15px;
 }
+

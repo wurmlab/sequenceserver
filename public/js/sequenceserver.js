@@ -120,46 +120,88 @@ if (!SS) {
         });
     };
 
+    SS.updateDownloadFastaOfAllLink = function () {
+        var num_hits = $('.hitn').length;
+
+        var $a = $('.download-fasta-of-all');
+        if (num_hits >= 1 && num_hits <= 30) {
+            var sequence_ids = $('.hitn :checkbox').map(function() {
+                return this.value;
+            }).get();
+            $a
+            .enable()
+            .attr('href', SS.generateURI(sequence_ids, $a.data().databases));
+            return;
+        }
+
+        if (num_hits == 0) {
+            $a
+            .tooltip('destroy')
+            .tooltip({
+                placement: 'left',
+                title: "No hit to download."
+            });
+        }
+
+        if (num_hits > 30) {
+            $a
+            .tooltip('destroy')
+            .tooltip({
+                placement: 'left',
+                title: "Can't download more than 30 hits."
+            });
+        }
+        $a.disable();
+    };
+
     /* Update the FASTA downloader button's state appropriately.
      *
      * When more than 30 hits are obtained, the link is disabled.
      * When no hits are obtained, the link is not present at all.
      */
-    SS.updateBulkDownloadLink = function () {
-        var num_checkboxes = $('.hitn :checkbox').length
-            , num_checked  = $('.hitn :checkbox:checked').length;
+    SS.updateDownloadFastaOfSelectedLink = function () {
+        var num_checked  = $('.hitn :checkbox:checked').length;
 
-        var $a = $('.download-many-sequences')
-            , text = $a.html();
+        var $a = $('.download-fasta-of-selected');
+        var $n = $a.find('span');
 
-        // Update text of bulk download link.
-        if (num_checked > 0 &&
-            num_checked !== num_checkboxes) {
-            $a.html(text.replace('all', 'selected'));
-        }
-        else {
-            $a.html(text.replace('selected', 'all'));
-        }
-
-        // Update href of bulk download link.
-        var sequence_ids = $('.hitn :checkbox:checked').map(function () {
-            return this.value;
-        }).get();
-        if (sequence_ids.length < 1) {
-            sequence_ids = $('.hitn :checkbox').map(function() {
+        if (num_checked >= 1 && num_checked <= 30) {
+            var sequence_ids = $('.hitn :checkbox:checked').map(function () {
                 return this.value;
             }).get();
-        }
-        $a.attr('href', SS.generateURI(sequence_ids, $a.data().databases));
 
-        // Enable or disable bulk download link.
-        if (num_checked >= 1 && num_checked <= 30) {
-            $a.enable();
+            $a
+            .enable()
+            .attr('href', SS.generateURI(sequence_ids, $a.data().databases))
+            .tooltip('destroy')
+            .tooltip({
+                placement: 'left',
+                title: num_checked + " hit(s) selected."
+            })
+            .find('span').html(num_checked);
+            return;
         }
-        else if (num_checked > 30 ||
-                (num_checked === 0 && num_checkboxes > 30)) {
-            $a.disable();
+
+        if (num_checked == 0) {
+            $n.empty();
+            $a
+            .tooltip('destroy')
+            .tooltip({
+                placement: 'left',
+                title: "No hit selected."
+            });
         }
+
+        if (num_checked > 30) {
+            $a
+            .tooltip('destroy')
+            .tooltip({
+                placement: 'left',
+                title: "Can't download more than 30 hits."
+            });
+        }
+
+        $a.disable();
     };
 
     SS.updateSequenceViewerLinks = function () {
@@ -235,7 +277,7 @@ SS.selectHit = function (checkbox) {
         .find(":checkbox").not(checkbox).uncheck();
     }
 
-    this.updateBulkDownloadLink();
+    this.updateDownloadFastaOfSelectedLink();
 };
 
 SS.showSequenceViewer = (function () {
@@ -645,7 +687,8 @@ $(document).ready(function(){
 
             SS.generateGraphicalOverview();
 
-            SS.updateBulkDownloadLink();
+            SS.updateDownloadFastaOfAllLink();
+            SS.updateDownloadFastaOfSelectedLink();
             SS.updateSequenceViewerLinks();
 
             $('body').scrollspy({target: '.sidebar'});

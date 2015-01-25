@@ -176,16 +176,27 @@ Total letters in queried databases: <%= report.stats[1] %>
             </small>
           </h4>
         </div>
-        <div
-          class="hit-links-query">
-          <a
-            href="#"
-            class="btn btn-link download-many-sequences"
-            data-databases="<%= report.querydb.map(&:id).join(' ') %>">
-            <i class="fa fa-download"></i>
-            Download FASTA of all hits
-          </a>
-        </div>
+        <ul
+          class="list-unstyled list-padded">
+          <li>
+            <a
+              href="#"
+              class="download-fasta-of-all"
+              data-databases="<%= report.querydb.map(&:id).join(' ') %>">
+              <i class="fa fa-download"></i>
+              Download FASTA of all hits
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="download-fasta-of-selected disabled"
+              data-databases="<%= report.querydb.map(&:id).join(' ') %>">
+              <i class="fa fa-download"></i>
+              Download FASTA of <span class="text-bold"></span> selected hits
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   <% end %>
