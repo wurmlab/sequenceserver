@@ -2,14 +2,14 @@
 (function( $ ){
     //disable an element
     $.fn.disable = function() {
-        return this.attr('disabled', 'disabled');
+        return this.prop('disabled', true).addClass('disabled');
     };
 })( jQuery );
 
 (function( $ ){
     //enable an element
     $.fn.enable = function() {
-        return this.removeAttr('disabled');
+        return this.prop('disabled', false).removeClass('disabled');
     };
 })( jQuery );
 
@@ -162,6 +162,24 @@ if (!SS) {
         }
     };
 
+    SS.updateSequenceViewerLinks = function () {
+        var MAX_LENGTH = 10000;
+
+        $('.view-sequence').each(function () {
+            var $this = $(this);
+            var $hitn = $this.closest('.hitn');
+            if ($hitn.data().hitLen > MAX_LENGTH) {
+                $this
+                .disable()
+                .removeAttr('href')
+                .tooltip({
+                    title: 'Sequence too long to show. Please view it ' +
+                           'locally after download.'
+                });
+            }
+        });
+    };
+
     SS.generateURI = function (sequence_ids, database_ids) {
         // Encode URIs against strange characters in sequence ids.
         sequence_ids = encodeURIComponent(sequence_ids.join(' '));
@@ -221,9 +239,6 @@ SS.selectHit = function (checkbox) {
 };
 
 SS.showSequenceViewer = (function () {
-
-    // Do not fetch and render sequences bigger than a threshold.
-    var MAX_LENGTH = 10000;
 
     var $viewer = $('#sequence-viewer');
     var $spinner = $('.spinner', $viewer);
@@ -320,26 +335,9 @@ SS.showSequenceViewer = (function () {
         );
     };
 
-    var showSequenceTooLongMessage = function () {
-        $viewerBody
-        .append(
-            $('<h4>')
-            .html('<i class="fa fa-warning"></i> Sequence is too long to' +
-                  ' show. Please view it locally after download.')
-        );
-    };
-
     return function (clicked) {
         var $clicked = $(clicked);
         initViewer($clicked);
-
-        // Do not fetch and show sequence if sequence bigger than MAX_LENGTH.
-        var $hitn = $clicked.closest('.hitn');
-        if ($hitn.data().hitLen > MAX_LENGTH) {
-            showSequenceTooLongMessage();
-            $spinner.hide();
-            return;
-        }
 
         var url = $clicked.attr('href');
         $.getJSON(url)
@@ -599,7 +597,8 @@ $(document).ready(function(){
     $('.result').on('click', '.view-sequence', function (event) {
         event.preventDefault();
         event.stopPropagation();
-        SS.showSequenceViewer(event.target);
+        if (!event.target.disabled)
+            SS.showSequenceViewer(event.target);
     });
 
     $(document).on('change', '.hit-links :checkbox', function (event) {
@@ -647,6 +646,7 @@ $(document).ready(function(){
             SS.generateGraphicalOverview();
 
             SS.updateBulkDownloadLink();
+            SS.updateSequenceViewerLinks();
 
             $('body').scrollspy({target: '.sidebar'});
 

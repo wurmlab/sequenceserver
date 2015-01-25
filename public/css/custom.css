@@ -39,6 +39,10 @@ code {
 .disabled {
   color: #ccc;
 }
+a.disabled:hover {
+  color: #ccc;
+  cursor: not-allowed;
+}
 
 /**
  * Increase font size, add border, make place for subtext to app name.
