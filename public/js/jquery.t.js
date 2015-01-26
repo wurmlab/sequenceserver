@@ -8,6 +8,14 @@
         });
     };
 
+    var setupClick = function ($graphDiv) {
+        $('a', $graphDiv).click(function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+            window.location.hash = $(this).attr('href');
+        });
+    };
+
     var graphControls = function ($queryDiv, $graphDiv, isInit) {
         var MIN_HITS_TO_SHOW = 20;
 
@@ -337,6 +345,9 @@
             }
             // Refresh tooltip each time graph is redrawn.
             setupTooltip();
+            // Ensure clicking on 'rect' takes user to the relevant hit on all
+            // browsers.
+            setupClick($graphDiv);
         }
     });
 }(jQuery));
