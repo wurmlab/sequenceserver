@@ -6,6 +6,7 @@
  * For scrollspy, etc.
  */
 body {
+  font-size: 13px;
   position: relative;
 }
 
@@ -22,6 +23,7 @@ a:hover, .btn-link:hover {
  */
 label {
   cursor: pointer;
+  margin-bottom: 0px;
   font-weight: normal;
 }
 
@@ -56,8 +58,8 @@ a.disabled:hover {
   height: auto;
   padding: 20px 15px;
   font-size: 32px;
-  font-weight: 300;
   font-family: "Roboto";
+  color: rgb(51, 51, 51);
 }
 .navbar-brand > small {
   font-size: 50%;
@@ -74,12 +76,30 @@ a.disabled:hover {
   display: table;
   margin: 0px;
   width: 100%;
+  border-color: #ddd;
+  padding-bottom: 5px;
 }
 .page-header > * {
   display: table-cell;
 }
 .page-header > *:first-child {
   width: 100%;
+}
+
+.page-content {
+  padding: 5px 0px 0px 5px;
+}
+
+.panel {
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+.panel .panel-heading {
+  color: #428BCE;
+  padding: 10px 1px;
+  font-family: "Roboto";
+  background-color: inherit;
 }
 
 /**
@@ -97,13 +117,17 @@ a.disabled:hover {
 /**
  * Take our border from each row and apply only to table header.
  */
+.table {
+  margin-bottom: 0;
+}
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
 .table>tbody>tr>td, .table>tfoot>tr>td {
   border-top: none;
   padding-left: 0px;
+  font-weight: normal;
 }
 .table>thead>tr>th {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #ddd;
 }
 
 
@@ -123,6 +147,13 @@ a.disabled:hover {
  */
 .text-bold {
   font-weight: bold;
+}
+
+/**
+ * Set cursor: pointer on the given element.
+ */
+.cursor-pointer {
+  cursor: pointer;
 }
 
 /**
@@ -150,6 +181,7 @@ a.disabled:hover {
  */
 .label-reset {
   color: inherit;
+  line-height: inherit;
 }
 
 /**
@@ -158,6 +190,7 @@ a.disabled:hover {
 .list-padded li {
   padding: 10px 15px;
 }
+
 
 /***************************
  * SequenceServer specific *
@@ -230,12 +263,17 @@ a.disabled:hover {
   margin-top: -5px;
 }
 
-.advanced > label, .advanced .input-group-addon {
-  cursor: pointer;
-}
-
 #help pre:hover {
   background-color: #FFC;
+}
+
+label[for="advanced"] {
+  font-family: "Roboto";
+  font-size: 16px;
+}
+
+#methods{
+  font-family: "Roboto";
 }
 
 #method, #methods li {
@@ -262,13 +300,13 @@ a.disabled:hover {
   margin-top: 45px;
 }
 
-.main {
-  border-right: 1px solid #eee;
-  padding-right: 20px;
+h1,h2,h3,h4,h5,h6,.page-header {
+  font-family: "Roboto";
+  color: rgb(51, 51, 51);
 }
 
-.side {
-  padding-left: 0px;
+.main {
+  border-right: 1px solid #ddd;
 }
 
 .sidebar > .page-header > h4 {
@@ -284,89 +322,18 @@ a.disabled:hover {
   overflow-y: auto;
 }
 
+/* Result per query. */
 .resultn {
   margin-bottom: 50px;
 }
 
-.hitn {
-  position: relative;
-  overflow: hidden;
-  padding: 5px 5px 0px 5px;
-}
-
-.hitn .page-header {
-  padding-bottom: 5px;
-}
-
-.hitn:hover {
-  background-color: #fffff4;
-}
-
-.hitn h4 {
-  cursor: pointer;
-}
-
-.hitn h4 span {
-  cursor: text;
-}
-
-.hsps:first-child {
-  margin-top: 14px;
-}
-
-.hsps {
-  margin-top: 18px;
-}
-
-.hsp-stats {
-  margin-bottom: 0px;
-}
-
-.hsp-stats>thead>tr>th {
-  border-bottom: none;
-  padding: 0px;
-}
-
-.hsp-stats>tbody>tr>td {
-  padding: 0px;
-  border-bottom: 1px solid #eee;
-}
-
-.alignment {
-  margin-top: 8px;
-  white-space: pre;
-  font-family: monospace;
-  line-height: 16px;
-}
-
-.hit-links {
-  margin: 20px 0px;
-}
-
-.hit-links a {
-  text-decoration: none;
-}
-
-.hit-links-query {
-  margin: 20px 0px;
-}
-
-.footer a:first-child {
-  vertical-align: super;
-}
-
-.tabular-view {
-    margin-top: 8px;
-}
-
 .graphical-overview {
+  font-size: 12px;
   text-align: center;
 }
-
 svg:not(:root) {
   overflow: visible;
 }
-
 .axis path,
 .axis line {
     fill: none;
@@ -374,9 +341,57 @@ svg:not(:root) {
     stroke-width: 2px;
     shape-rendering: crispEdges;
 }
-
 .axis path {
   stroke-width: 3px;
+}
+
+.tabular-view {
+  margin-bottom: 14px;
+}
+
+.hitn {
+  padding-top: 14px;
+  margin-top: 4px;
+}
+.hitn h4 {
+  cursor: pointer;
+}
+.hitn h4 span {
+  cursor: text;
+}
+.hitn > p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.hsps {
+  margin-top: 14px;
+}
+.hsp-stats>thead>tr>th {
+  border-bottom: none;
+  padding: 0px;
+}
+.hsp-stats>tbody>tr>td {
+  padding: 0px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.alignment {
+  margin-top: 8px;
+  white-space: pre;
+  font-family: monospace;
+  line-height: 12px;
+  letter-spacing: 1px;
+}
+
+.hit-links {
+  padding: 14px 0;
+  letter-spacing: 1px;
+}
+
+.footer a:first-child {
+  vertical-align: super;
 }
 
 .dnd-overlay {
@@ -406,19 +421,18 @@ svg:not(:root) {
   margin: 0px;
 }
 
-ul.list-group.databases {
-  padding-top: 6px;
-  padding-bottom: 3px;
+.list-group.databases {
+  padding: 0px;
 }
 
-ul.list-group.databases li.list-group-item {
-  border: 0px;
-  padding: 1px 10px;
+.list-group.databases .list-group-item {
+  border: none;
+  padding: 1px 0px;
 }
 
-ul.list-group.databases li.list-group-item input {
+.list-group.databases .list-group-item input {
+    margin: 0;
     padding: 0;
-    margin:0;
     vertical-align: middle;
     position: relative;
     top: -1px;
@@ -435,7 +449,18 @@ ul.list-group.databases li.list-group-item input {
   padding-bottom: 30px;
 }
 
-#sequence-viewer .modal-footer {
-  padding: 0 15px;
+.glow {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow;
+  transition-property: box-shadow;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  padding-left: 16px;
+  padding-right: 16px;
 }
-

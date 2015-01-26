@@ -114,7 +114,7 @@ if (!SS) {
         $("[data-graphit='overview']").each(function () {
             var $this = $(this);
             var $graphDiv = $('<div/>').addClass('graphical-overview');
-            $this.children().eq(1).children().eq(0).after($graphDiv);
+            $this.children().eq(1).children().eq(0).before($graphDiv);
 
             $.graphIt($this, $graphDiv, 0, 20);
         });
@@ -130,7 +130,12 @@ if (!SS) {
             }).get();
             $a
             .enable()
-            .attr('href', SS.generateURI(sequence_ids, $a.data().databases));
+            .attr('href', SS.generateURI(sequence_ids, $a.data().databases))
+            .tooltip('destroy')
+            .tooltip({
+                placement: 'left',
+                title: num_hits + " hit(s)."
+            });
             return;
         }
 
@@ -222,6 +227,15 @@ if (!SS) {
         });
     };
 
+    SS.setupTooltipsForPosLabels = function () {
+        $('.pos-label').each(function () {
+            $(this).tooltip({
+                container: 'body',
+                placement: 'right',
+            });
+        });
+    };
+
     SS.generateURI = function (sequence_ids, database_ids) {
         // Encode URIs against strange characters in sequence ids.
         sequence_ids = encodeURIComponent(sequence_ids.join(' '));
@@ -269,11 +283,11 @@ SS.selectHit = function (checkbox) {
     // Highlight selected hit and sync checkboxes if sequence viewer is open.
     if(checkbox.checked) {
         $hitn
-        .css('background-color', '#fffff4')
+        .addClass('glow')
         .find(":checkbox").not(checkbox).check();
     } else {
         $hitn
-        .css('background-color', "")
+        .removeClass('glow')
         .find(":checkbox").not(checkbox).uncheck();
     }
 
@@ -690,6 +704,7 @@ $(document).ready(function(){
             SS.updateDownloadFastaOfAllLink();
             SS.updateDownloadFastaOfSelectedLink();
             SS.updateSequenceViewerLinks();
+            SS.setupTooltipsForPosLabels();
 
             $('body').scrollspy({target: '.sidebar'});
 
