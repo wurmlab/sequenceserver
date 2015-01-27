@@ -342,11 +342,16 @@ SS.showSequenceViewer = (function () {
             $('<div/>')
             .addClass('fastan')
             .append(
-                $('<h4>')
-                .html(header),
+                $('<div/>')
+                .addClass('page-header')
+                .append(
+                    $('<h4>')
+                    .html(header)
+                ),
                 $('<div>')
                 .attr('id', widgetId)
                 .addClass(widgetClass)
+                .addClass('page-content')
             )
         );
 
@@ -354,10 +359,9 @@ SS.showSequenceViewer = (function () {
         var widget = new Sequence({
             sequence: sequence.value,
             target: widgetId,
-            format: 'PRIDE',
+            format: 'CODATA',
             columns: {
-                size: 50,
-                spacedEach: 10
+                size: 35
             },
             formatOptions: {
                 title: false,

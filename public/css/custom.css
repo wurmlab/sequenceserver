@@ -214,8 +214,11 @@ a.disabled:hover {
 }
 
 .biojs-vis-sequence pre {
-  max-height: 340px;
-  overflow-y: scroll;
+  margin: 0 0;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  background-color: inherit;
 }
 
 .notifications {
@@ -463,4 +466,8 @@ svg:not(:root) {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
   padding-left: 16px;
   padding-right: 16px;
+}
+
+.pos-marker {
+  display: none;
 }
