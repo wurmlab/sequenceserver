@@ -1118,7 +1118,7 @@ Sequence = Class(
 			for(var x = opt.numTopEach; x < opt.numCols; x += opt.numTopEach) {
 				str += this._formatIndex(x, size, ' ', true);
 			}
-			str += '</span><br/>'
+			str += '</span>'
 		}
 		
 		
