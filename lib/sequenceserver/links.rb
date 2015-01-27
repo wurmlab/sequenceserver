@@ -76,7 +76,7 @@ module SequenceServer
       {
         :order => 0,
         :url   => url,
-        :title => 'View Sequence',
+        :title => 'Sequence',
         :class => 'view-sequence',
         :icon  => 'fa-eye'
       }
@@ -90,7 +90,7 @@ module SequenceServer
 
       {
         :order => 1,
-        :title => 'Download FASTA',
+        :title => 'FASTA',
         :url   => url,
         :icon  => 'fa-download'
       }

@@ -17,7 +17,7 @@ module SequenceServer
       url = "http://www.uniprot.org/uniprot/#{uid}"
       {
         :order => 2,
-        :title => 'View on UniProt',
+        :title => 'UniProt',
         :url   => url,
         :icon  => 'fa-external-link'
       }
