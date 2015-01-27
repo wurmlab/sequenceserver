@@ -1218,6 +1218,7 @@ Sequence = Class(
 	_addSpanEvents : function() {
 		var self = this;
 		var isMouseDown = false;
+		var clickPos;
 		var currentPos;
 
 		self._contentDiv.find('.sequence').each( function () {	
