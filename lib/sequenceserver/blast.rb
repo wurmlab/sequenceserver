@@ -278,11 +278,11 @@ module SequenceServer
       # FIXME: Document me.
       def filter_hsp_stats(hsp)
         hsp_stats = {
-          'Score' => "#{'%.2f' % hsp[:bit_score]}(#{hsp[:score]})",
+          'Score' => "#{'%.2f' % hsp[:bit_score]} (#{hsp[:score]})",
           'Expect' => "#{pretty_evalue hsp}",
-          'Identities' => "#{identity_fraction hsp}" \
+          'Identities' => "#{identity_fraction hsp} " \
                           "(#{identity_percentage hsp}%)",
-          'Gaps' => "#{gaps_fraction hsp}(#{gaps_percentage hsp}%)"
+          'Gaps' => "#{gaps_fraction hsp} (#{gaps_percentage hsp}%)"
         }
 
         if @program == 'blastp'
