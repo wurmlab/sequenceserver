@@ -1115,7 +1115,7 @@ Sequence = Class(
 		// Index at top?
 		if( opt.numTop )
 		{
-			str += '<span style="'+spaceStyle+'" class="numTop">'
+			str += '<span style="'+spaceStyle+'" class="numTop pos-marker">'
 			var size = (opt.spaceBetweenChars)? opt.numTopEach*2: opt.numTopEach;
 			
 			if (opt.numLeft) {
@@ -1133,8 +1133,11 @@ Sequence = Class(
 		
 		// Index at the left?
 		if (opt.numLeft) {
+			str += '<span id="numLeft_' + this.getId() + '_' + 0 + '"';
+			str += 'class="pos-marker">'
 			str += this._formatIndex(1, opt.numLeftSize, opt.numLeftPad);
 			str += '  ';
+			str += '</span>';
 		}
 
 		var j=1;
@@ -1144,7 +1147,8 @@ Sequence = Class(
 				str += '<span class="sequence" id="' + this.getId() + '_' + i + '">' + a[i-1] + '</span>';
 				
 				if (opt.numRight) {
-					str += '<span style="'+spaceStyle+'" id="numRight_' + this.getId() + '_' + i + '">';
+					str += '<span style="'+spaceStyle+'" id="numRight_' + this.getId() + '_' + i + '"';
+					str += 'class="pos-marker">'
 					str += '  ';
 					str += this._formatIndex(i, opt.numRightSize, opt.numRightPad);	
 					str += '</span>';
@@ -1154,7 +1158,8 @@ Sequence = Class(
 				
 				var aaRemaining = a.length - i;
 				if (opt.numLeft && aaRemaining > 0) {
-					str += '<span id="numLeft_' + this.getId() + '_' + i + '">';
+					str += '<span id="numLeft_' + this.getId() + '_' + i + '"';
+					str += 'class="pos-marker">'
 					str += this._formatIndex(i+1, opt.numLeftSize, opt.numLeftPad);
 					str += '  ';
 					str += '</span>';
