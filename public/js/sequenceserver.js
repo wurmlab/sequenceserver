@@ -206,7 +206,9 @@ if (!SS) {
             });
         }
 
-        $a.disable();
+        $a
+        .disable()
+        .removeAttr('href');
     };
 
     SS.updateSequenceViewerLinks = function () {

@@ -148,9 +148,11 @@ Total letters in queried databases: <%= report.stats[1] %>
         <div
           class="page-header">
           <h4>
-            <%= report.queries.length %> <%= report.queries.length > 1 ? 'queries' : 'query' %>
+            <i class="fa fa-street-view"></i>
             <small>
-              <%= report.querydb.length %> <%= report.querydb.length > 1 ? 'databases' : 'database' %>, <%= report.program.upcase %>
+              <%= report.queries.length %> <%= report.queries.length > 1 ? 'queries' : 'query' %>,
+              <%= report.querydb.length %> <%= report.querydb.length > 1 ? 'databases' : 'database' %>,
+              <%= report.program.upcase %>
             </small>
           </h4>
         </div>
@@ -174,9 +176,9 @@ Total letters in queried databases: <%= report.stats[1] %>
         <div
           class="page-header">
           <h4>
-            Download
+            <i class="fa fa-download"></i>
             <small>
-              FASTA
+              FASTA, XML, TSV
             </small>
           </h4>
         </div>
@@ -187,17 +189,26 @@ Total letters in queried databases: <%= report.stats[1] %>
               href="#"
               class="download-fasta-of-all"
               data-databases="<%= report.querydb.map(&:id).join(' ') %>">
-              <i class="fa fa-download"></i>
-              Download FASTA of all hits
+              FASTA of all hits
             </a>
           </li>
           <li>
             <a
-              href="#"
               class="download-fasta-of-selected disabled"
               data-databases="<%= report.querydb.map(&:id).join(' ') %>">
-              <i class="fa fa-download"></i>
-              Download FASTA of <span class="text-bold"></span> selected hits
+              FASTA of <span class="text-bold"></span> selected hit(s)
+            </a>
+          </li>
+          <li>
+            <a
+              class="disabled">
+              XML report (coming soon)
+            </a>
+          </li>
+          <li>
+            <a
+              class="disabled">
+              TSV report (coming soon)
             </a>
           </li>
         </ul>
