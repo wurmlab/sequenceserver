@@ -279,7 +279,7 @@ module SequenceServer
       def filter_hsp_stats(hsp)
         hsp_stats = {
           'Score' => "#{'%.2f' % hsp[:bit_score]} (#{hsp[:score]})",
-          'Expect' => "#{pretty_evalue hsp}",
+          'E value' => "#{pretty_evalue hsp}",
           'Identities' => "#{identity_fraction hsp} " \
                           "(#{identity_percentage hsp}%)",
           'Gaps' => "#{gaps_fraction hsp} (#{gaps_percentage hsp}%)"
