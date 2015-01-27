@@ -472,23 +472,6 @@ Sequence = Class(
 	},
 	
 	/**
-    * Highlights a region using the font color defined in {Biojs.Protein3D#highlightFontColor} by default is red.
-    *
-    * @deprecated use addHighlight instead.
-    * 
-    * @param {int} start The starting character of the highlighting.
-    * @param {int} end The ending character of the highlighting.
-    * @param {string} [color] HTML color code.
-    * @param {string} [background] HTML color code.
-    * @param {string} [id] Custom identifier.
-    * 
-    * @return {int} representing the id of the highlight on the internal array. Returns -1 on failure  
-    */
-	highlight : function (start, end, color, background, id ) {
-		return this.addHighlight({ "start": start, "end": end, "color": color, "background": background, "id": id });
-	},
-	
-	/**
     * Highlights a region using the font color defined in {Sequence#highlightFontColor} by default is red.
     *
     * @example
@@ -618,17 +601,6 @@ Sequence = Class(
 	},
 	
 	/**
-    * Clear a highlighted region using.
-    *
-    * @deprecated use removeHighlight instead.
-    * 
-    * @param {int} id The id of the highlight on the internal array. This value is returned by method highlight.
-    */
-	unHighlight : function (id) {	
-		this.removeHighlight(id);
-	},
-	
-	/**
     * Remove a highlight.
     *
     * @example
@@ -651,14 +623,6 @@ Sequence = Class(
 				break;
 			}
 		}
-	},
-	
-	/**
-    * Clear the highlights of whole sequence.
-    * @deprecated use removeAllHighlights instead.
-    */
-	unHighlightAll : function () {
-		this.removeAllHighlights();
 	},
 	
 	/**
@@ -1361,18 +1325,6 @@ Sequence = Class(
 	        //Remove the appended tooltip template
 	        jQuery( tipId ).hide();	         
 	    });
-	},
-	
-   /**
-    * Annotate a set of intervals provided in the argument.
-	* 
-	* @deprecated Use addAnnotation() instead.
-    * 
-    * @param {Object} annotation The intervals belonging to the same annotation. 
-    * Syntax: { name: &lt;value&gt;, color: &lt;HTMLColorCode&gt;, html: &lt;HTMLString&gt;, regions: [{ start: &lt;startVal1&gt;, end: &lt;endVal1&gt;}, ...,  { start: &lt;startValN&gt;, end: &lt;endValN&gt;}] }
-    */
-	setAnnotation: function ( annotation ) {
-		this.addAnnotation(annotation);
 	},
 	
 	/**
