@@ -272,7 +272,7 @@
                         var regex = /(\d*\.\d*)e?([+-]\d*)?/;
                         var parsedVal = regex.exec(d.hitEvalue);
                         var prettyEvalue = parseFloat(parsedVal[1]).toFixed(3);
-                        var returnString = d.hitDef + '<br><strong>Evalue:</strong> ' + prettyEvalue;
+                        var returnString = d.hitDef + '<br><strong>E value:</strong> ' + prettyEvalue;
                         if (parsedVal[2] !== undefined) {
                             returnString +=  ' &times; 10<sup>' + parsedVal[2] + '</sup>';
                         }
