@@ -273,14 +273,6 @@ Sequence = Class(
 			this._container.height( this.opt.height );
 		}
 		
-		// Disable text selection
-		
-		this._container.css({
-			'-moz-user-select':'none',
-			'-webkit-user-select':'none',
-			'user-select':'none'
-        });
-		
 		// DIV for the format selector
 		this._buildFormatSelector();
 		
@@ -767,16 +759,6 @@ Sequence = Class(
 
 		current.start = start;
 		current.end = end;
-
-		if ( change.start != undefined ) {
-			this._applyHighlight({
-				"start": change.start, 
-				"end": change.end, 
-				"color": this.opt.selectionFontColor, 
-				"background": this.opt.selectionColor 
-			});
-		}
-		
 	},
 	
 	/* 
