@@ -183,8 +183,6 @@ Sequence = Class(
 		selectionFontColor : 'black',
 		highlightFontColor : 'red',
 		highlightBackgroundColor : 'white',
-		fontFamily: '"Andale mono", courier, monospace',
-		fontSize: '12px',
 		fontColor : 'inherit',
 		backgroundColor : 'inherit',
 		width: undefined,
@@ -279,8 +277,6 @@ Sequence = Class(
 		// DIV for the sequence
 		this._contentDiv = jQuery('<div></div>').appendTo(this._container);
 		this._contentDiv.css({
-				'font-family': this.opt.fontFamily,
-				'font-size': this.opt.fontSize,
 				'text-align': 'left'
 			});
 		
@@ -442,10 +438,7 @@ Sequence = Class(
 		var self = this;
 		
 		this._headerDiv = jQuery('<div></div>').appendTo(this._container);
-		this._headerDiv.css({
-			'font-family': '"Heveltica Neue", Arial, "sans serif"',
-			'font-size': '14px'	
-		}).append('Format: ');
+		this._headerDiv.append('Format: ');
 		
 		this._formatSelector = jQuery('<select> '+
 				'<option value="FASTA">FASTA</option>'+
@@ -846,7 +839,7 @@ Sequence = Class(
 		
 		var self = this;
 		var a = this.opt.sequence.toUpperCase().split('');
-		var pre = jQuery('<pre style="white-space:pre"></pre>').appendTo(this._contentDiv);
+		var pre = jQuery('<pre/>').appendTo(this._contentDiv);
 
 		var i = 0;
 		var str = 'ENTRY           ' + this.opt.id + '<br/>';
@@ -1110,12 +1103,10 @@ Sequence = Class(
 	_drawSequence : function(a, opt) {
 		var str = '';
 
-		var spaceStyle =  "white-space: pre;";
-		
 		// Index at top?
 		if( opt.numTop )
 		{
-			str += '<span style="'+spaceStyle+'" class="numTop pos-marker">'
+			str += '<span class="numTop pos-marker">'
 			var size = (opt.spaceBetweenChars)? opt.numTopEach*2: opt.numTopEach;
 			
 			if (opt.numLeft) {
@@ -1147,7 +1138,7 @@ Sequence = Class(
 				str += '<span class="sequence" id="' + this.getId() + '_' + i + '">' + a[i-1] + '</span>';
 				
 				if (opt.numRight) {
-					str += '<span style="'+spaceStyle+'" id="numRight_' + this.getId() + '_' + i + '"';
+					str += '<span id="numRight_' + this.getId() + '_' + i + '"';
 					str += 'class="pos-marker">'
 					str += '  ';
 					str += this._formatIndex(i, opt.numRightSize, opt.numRightPad);	
@@ -1168,7 +1159,7 @@ Sequence = Class(
 				j = 1;
 				
 			} else {
-                str += '<span class="sequence" style="'+spaceStyle+'" id="' + this.getId() + '_' + i + '">' + a[i-1];
+                str += '<span class="sequence" id="' + this.getId() + '_' + i + '">' + a[i-1];
 				str += ( j % opt.numColsForSpace == 0)? ' ' : '';
 				str += (opt.spaceBetweenChars)? ' ' : '';
 				str += '</span>';
