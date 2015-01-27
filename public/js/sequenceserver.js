@@ -37,8 +37,8 @@
         this.finish().effect("bounce", {
             direction: 'left',
             distance: 24,
-            times: 8,
-        }, 500);
+            times: 4,
+        }, 250);
     };
 }(jQuery));
 
