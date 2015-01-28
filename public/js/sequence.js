@@ -275,10 +275,7 @@ Sequence = Class(
 		this._buildFormatSelector();
 		
 		// DIV for the sequence
-		this._contentDiv = jQuery('<div></div>').appendTo(this._container);
-		this._contentDiv.css({
-				'text-align': 'left'
-			});
+		this._contentDiv = jQuery('<div/>').appendTo(this._container);
 		
 		// Initialize highlighting 
 		this._highlights = this.opt.highlights;
@@ -836,21 +833,18 @@ Sequence = Class(
      * Inputs: -
      */
 	_drawCodata : function() {
-		
-		var self = this;
-		var a = this.opt.sequence.toUpperCase().split('');
-		var pre = jQuery('<pre/>').appendTo(this._contentDiv);
+		var seq = this.opt.sequence.toUpperCase().split('');
 
-		var i = 0;
-		var str = 'ENTRY           ' + this.opt.id + '<br/>';
-		str += 'SEQUENCE<br/>';
+		// Add header.
 		if ( this.opt.formatOptions !== undefined ){
 			if(this.opt.formatOptions.title !== undefined ){
-				if (this.opt.formatOptions.title == false) {
-					str = '';
-				}			
+				if (this.opt.formatOptions.title != false) {
+					var header =
+						$('<pre/>').addClass('header').appendTo(this._contentDiv);
+					header.html('ENTRY           ' + this.opt.id +
+								'<br/>SEQUENCE<br/>'); }			
 			}
-		} 
+		}
 		
 		/* Correct column size in case the sequence is as small peptide */
 		var numCols = this.opt.columns.size;
@@ -868,19 +862,18 @@ Sequence = Class(
 			    numColsForSpace: 0,
 			    spaceBetweenChars: true
 		};
+		this._drawSequence(seq, opt);
 		
-		str += this._drawSequence(a, opt);
-		
-		var footer = '<br/>///';
+		// Add footer.
 		if (this.opt.formatOptions !== undefined) {
 			if (this.opt.formatOptions.footer !== undefined) {
-				if (this.opt.formatOptions.footer == false) {
-					footer = '';
+				if (this.opt.formatOptions.footer != false) {
+					var footer =
+						$('<pre/>').addClass('footer').appendTo(this._contentDiv);
+					footer.html('<br/>///');
 				}
 			}
 		}
-		str += footer;
-		pre.html(str);
 		
 		this._drawAnnotations(opt);
 	},
@@ -1066,9 +1059,7 @@ Sequence = Class(
      * Inputs: -
      */
 	_drawPride : function() {
-		var self = this;
-		var a = this.opt.sequence.toUpperCase().split('');
-		var pre = jQuery('<pre></pre>').appendTo(this._contentDiv);
+		var seq = this.opt.sequence.toUpperCase().split('');
 		
 		/* Correct column size in case the sequence is as small peptide */
 		var numCols = this.opt.columns.size;
@@ -1079,18 +1070,14 @@ Sequence = Class(
 		opt = {
 			numLeft: true,
 			numLeftSize: 5,
-			numLeftPad:'0',
-			numRight: true,
+			numLeftPad: ' ',
+			numRight: false,
 			numRightSize: 5,
-			numRightPad: '0',
+			numRightPad: '',
 			numCols: numCols,
-		    numColsForSpace: self.opt.columns.spacedEach
+		    numColsForSpace: this.opt.columns.spacedEach
 		};
-		
-		pre.html(
-			this._drawSequence(a, opt)
-		);
-		
+		this._drawSequence(seq, opt);
 		this._drawAnnotations(opt);
 	},
 	/* 
@@ -1101,34 +1088,38 @@ Sequence = Class(
      * 			 opt -> {Object} opt The CUSTOM format.
      */
 	_drawSequence : function(a, opt) {
-		var str = '';
+        var indL = '';
+		var indT = '';
+		var indR = '\n';
+		var str  = '';
 
 		// Index at top?
 		if( opt.numTop )
 		{
-			str += '<span class="numTop pos-marker">'
+			indT += '<span class="numTop pos-marker">'
 			var size = (opt.spaceBetweenChars)? opt.numTopEach*2: opt.numTopEach;
 			
 			if (opt.numLeft) {
-				str += this._formatIndex(' ', opt.numLeftSize, ' ');
+				indT += this._formatIndex(' ', opt.numLeftSize, ' ');
 			}
 			
-			str += this._formatIndex(' ', size, ' ');
+			indT += this._formatIndex(' ', size, ' ');
 			
 			for(var x = opt.numTopEach; x < opt.numCols; x += opt.numTopEach) {
-				str += this._formatIndex(x, size, ' ', true);
+				indT += this._formatIndex(x, size, ' ', true);
 			}
-			str += '</span>'
+			indT += '</span>'
 		}
 		
 		
 		// Index at the left?
 		if (opt.numLeft) {
-			str += '<span id="numLeft_' + this.getId() + '_' + 0 + '"';
-			str += 'class="pos-marker">'
-			str += this._formatIndex(1, opt.numLeftSize, opt.numLeftPad);
-			str += '  ';
-			str += '</span>';
+			indL += '<span id="numLeft_' + this.getId() + '_' + 0 + '"';
+			indL += 'class="pos-marker">'
+			indL += this._formatIndex(1, opt.numLeftSize, opt.numLeftPad);
+			indL += '  ';
+			indL += '</span>';
+            indL += '\n';
 		}
 
 		var j=1;
@@ -1138,30 +1129,33 @@ Sequence = Class(
 				str += '<span class="sequence" id="' + this.getId() + '_' + i + '">' + a[i-1] + '</span>';
 				
 				if (opt.numRight) {
-					str += '<span id="numRight_' + this.getId() + '_' + i + '"';
-					str += 'class="pos-marker">'
-					str += '  ';
-					str += this._formatIndex(i, opt.numRightSize, opt.numRightPad);	
-					str += '</span>';
+					indR += '<span id="numRight_' + this.getId() + '_' + i + '"';
+					indR += 'class="pos-marker">'
+					indR += '  ';
+					indR += this._formatIndex(i, opt.numRightSize, opt.numRightPad);	
+					indR += '</span>';
+					indR += '\n';
 				}
 				
 				str += '<br/>';
 				
 				var aaRemaining = a.length - i;
 				if (opt.numLeft && aaRemaining > 0) {
-					str += '<span id="numLeft_' + this.getId() + '_' + i + '"';
-					str += 'class="pos-marker">'
-					str += this._formatIndex(i+1, opt.numLeftSize, opt.numLeftPad);
-					str += '  ';
-					str += '</span>';
-				}
+					indL += '<span id="numLeft_' + this.getId() + '_' + i + '"';
+					indL += 'class="pos-marker">'
+					indL += this._formatIndex(i+1, opt.numLeftSize, opt.numLeftPad);
+					indL += '  ';
+					indL += '</span>';
+                    indL += '\n';
+                }
 				
 				j = 1;
 				
 			} else {
-                str += '<span class="sequence" id="' + this.getId() + '_' + i + '">' + a[i-1];
-				str += ( j % opt.numColsForSpace == 0)? ' ' : '';
-				str += (opt.spaceBetweenChars)? ' ' : '';
+                str += '<span class="sequence" id="' + this.getId() + '_' + i + '"';
+				str += (j % opt.numColsForSpace == 0)? ' style="letter-spacing: 1em;"' : '';
+				str += (opt.spaceBetweenChars)? ' style="letter-spacing: 1em;"' : '';
+				str += '">' + a[i-1];
 				str += '</span>';
 				j++;
 			}
@@ -1173,6 +1167,47 @@ Sequence = Class(
 			str = "<pre>" + str + "</pre>";
 		}	
 			
+
+		var ret = [];
+		if (opt.numTop) {
+			$('<pre/>')
+			.html(indT)
+			.addClass('indT')
+			.css({
+				color: '#aaa'
+			})
+			.appendTo(this._contentDiv);
+		}
+		if (opt.numLeft) {
+			$('<pre/>')
+			.html(indL)
+			.addClass('indL')
+			.css({
+				color: '#aaa',
+				display: 'inline-block'
+			})
+			.appendTo(this._contentDiv);
+		}
+
+		$('<pre/>')
+		.html(str)
+		.addClass('seqF')
+		.css({
+			display: 'inline-block'
+		})
+		.appendTo(this._contentDiv);
+
+		if (opt.numRight) {
+			$('<pre/>')
+			.html(indR)
+			.addClass('indR')
+			.css({
+				color: '#aaa',
+				display: 'inline-block'
+			})
+			.appendTo(this._contentDiv);
+		}
+
 		return str;
 	},
 	/* 

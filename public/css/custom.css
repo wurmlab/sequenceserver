@@ -467,7 +467,3 @@ svg:not(:root) {
   padding-left: 16px;
   padding-right: 16px;
 }
-
-.pos-marker {
-  display: none;
-}
