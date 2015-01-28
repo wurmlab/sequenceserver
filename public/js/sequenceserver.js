@@ -361,9 +361,10 @@ SS.showSequenceViewer = (function () {
         var widget = new Sequence({
             sequence: sequence.value,
             target: widgetId,
-            format: 'CODATA',
+            format: 'PRIDE',
             columns: {
-                size: 35
+                size: 40,
+                spacedEach: 5
             },
             formatOptions: {
                 title: false,
