@@ -280,7 +280,7 @@ if (!SS) {
 SS.selectHit = function (checkbox) {
     if (!checkbox || !checkbox.value) return;
 
-    var $hitn = $('.hitn[data-hit-def="' + checkbox.value + '"]');
+    var $hitn = $($(checkbox).data('target'));
 
     // Highlight selected hit and sync checkboxes if sequence viewer is open.
     if(checkbox.checked) {

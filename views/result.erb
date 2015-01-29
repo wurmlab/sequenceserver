@@ -109,7 +109,7 @@
                   <div class="hit-links text-right">
                     <label>
                       <input
-                      type="checkbox" value=<%="#{ hit.accession }"%>>
+                      type="checkbox" value="<%= hit.accession %>" data-target="<%= "#Query_#{query.number}_hit_#{hit.number}" %>">
                       Select
                     </label>
                     <% report.link_per_hit(hit.accession).each do |link| %>
