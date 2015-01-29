@@ -314,7 +314,8 @@ h1,h2,h3,h4,h5,h6,.page-header {
 }
 
 .sidebar > .page-header > h4 {
-  padding: 8px 0px 0px 8px;
+  padding: 10px 0px 0px 0px;
+  font-size: 14px;
 }
 
 .sidebar.affix {

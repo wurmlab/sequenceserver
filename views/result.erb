@@ -148,12 +148,9 @@ Total letters in queried databases: <%= report.stats[1] %>
         <div
           class="page-header">
           <h4>
-            <i class="fa fa-street-view"></i>
-            <small>
-              <%= report.queries.length %> <%= report.queries.length > 1 ? 'queries' : 'query' %>,
-              <%= report.querydb.length %> <%= report.querydb.length > 1 ? 'databases' : 'database' %>,
-              <%= report.program.upcase %>
-            </small>
+            <%= report.program.upcase %>:
+            <%= report.queries.length %> <%= report.queries.length > 1 ? 'queries' : 'query' %>,
+            <%= report.querydb.length %> <%= report.querydb.length > 1 ? 'databases' : 'database' %>
           </h4>
         </div>
         <ul
@@ -176,10 +173,7 @@ Total letters in queried databases: <%= report.stats[1] %>
         <div
           class="page-header">
           <h4>
-            <i class="fa fa-download"></i>
-            <small>
-              FASTA, XML, TSV
-            </small>
+            Download FASTA, XML, TSV
           </h4>
         </div>
         <ul
