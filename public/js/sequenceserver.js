@@ -55,16 +55,15 @@
 
 (function ($) {
     $.fn.poll = function () {
-        var that, val, tmp;
-
-        that = this;
-        val  = that.val();
+        var that = this;
+        var val  = null;
+        var newval;
 
         (function ping () {
-            tmp = that.val();
+            newval = that.val();
 
-            if (tmp != val){
-                val = tmp;
+            if (newval != val){
+                val = newval;
                 that.change();
             }
 
@@ -265,8 +264,6 @@ if (!SS) {
         this.$sequence = $('#sequence');
         this.$sequenceFile = $('#sequence-file');
         this.$sequenceControls = $('.sequence-controls');
-
-        this.$sequence.poll();
 
         SS.blast.init();
     };
@@ -726,4 +723,6 @@ $(document).ready(function(){
 
         return false;
     });
+
+    SS.$sequence.poll();
 });
