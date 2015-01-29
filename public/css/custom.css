@@ -182,6 +182,7 @@ a.disabled:hover {
 .label-reset {
   color: inherit;
   line-height: inherit;
+  font-weight: normal;
 }
 
 /**
