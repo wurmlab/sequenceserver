@@ -309,7 +309,7 @@ h1,h2,h3,h4,h5,h6,.page-header {
 }
 
 .main {
-  border-right: 1px solid #ddd;
+  /*border-right: 1px solid #ddd;*/
 }
 
 .sidebar > .page-header > h4 {
@@ -461,17 +461,8 @@ svg:not(:root) {
 }
 
 .glow {
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-property: box-shadow;
-  transition-property: box-shadow;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+  border-left: 2px solid #f0ad4e;
   padding-left: 16px;
   padding-right: 16px;
 }
