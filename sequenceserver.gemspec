@@ -13,17 +13,17 @@ SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user in
 DESC
 
   # dependencies
-  s.add_dependency('thin',    '~> 1.6.2')
-  s.add_dependency('sinatra', '~> 1.4.5')
-  s.add_dependency('ox',      '~> 2.1.1')
-  s.add_dependency('slop',    '~> 3.6.0')
+  s.add_dependency('thin',    '~> 1.6',  '>= 1.6.2')
+  s.add_dependency('sinatra', '~> 1.4',  '>= 1.4.5')
+  s.add_dependency('ox',      '~> 2.1',  '>= 2.1.1')
+  s.add_dependency('slop',    '~> 3.6',  '>= 3.6.0')
 
-  s.add_development_dependency('rack-test', '~> 0.6.2')
-  s.add_development_dependency('rspec',     '~> 2.8.0')
-  s.add_development_dependency('rake',      '~> 10.3.2')
-  s.add_development_dependency('rubocop',   '~> 0.26.1')
-  s.add_development_dependency('capybara',   '~> 2.4.4')
-  s.add_development_dependency('capybara-webkit',   '~> 1.3.0')
+  s.add_development_dependency('rack-test',       '~> 0.6',  '>= 0.6.2')
+  s.add_development_dependency('rspec',           '~> 2.8',  '>= 2.8.0')
+  s.add_development_dependency('rake',            '~> 10.3', '>= 10.3.2')
+  s.add_development_dependency('rubocop',         '~> 0.26', '>= 0.26.1')
+  s.add_development_dependency('capybara',        '~> 2.4',  '>= 2.4.4')
+  s.add_development_dependency('capybara-webkit', '~> 1.3',  '>= 1.3.0')
 
   # gem
   s.files         = Dir['lib/**/*'] + Dir['views/**/*'] + Dir['public/**/*'] + Dir['tests/**/*']
