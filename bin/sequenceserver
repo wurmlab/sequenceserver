@@ -245,8 +245,9 @@ ERR
           redo
         else
           unless File.basename(response) == 'bin'
-            fetch_option(:bin).value = File.join(response, 'bin')
+            response = File.join(response, 'bin')
           end
+          fetch_option(:bin).value = File.join(response)
           puts
           redo
         end
