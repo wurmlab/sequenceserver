@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'thin'
 require 'json'
 
+require 'sequenceserver/exceptions'
 require 'sequenceserver/logger'
 require 'sequenceserver/sequence'
 require 'sequenceserver/database'
@@ -13,14 +14,6 @@ module SequenceServer
 
   # Use a fixed minimum version of BLAST+
   MINIMUM_BLAST_VERSION           = '2.2.30+'
-
-  # Use the following exit codes, or 1.
-  EXIT_BLAST_NOT_INSTALLED        = 2
-  EXIT_BLAST_NOT_COMPATIBLE       = 3
-  EXIT_NO_BLAST_DATABASE          = 4
-  EXIT_BLAST_INSTALLATION_FAILED  = 5
-  EXIT_CONFIG_FILE_NOT_FOUND      = 6
-  EXIT_NO_SEQUENCE_DIR            = 7
 
   class << self
     def environment
@@ -40,45 +33,18 @@ module SequenceServer
     end
 
     def init(config = {})
-      @config_file = config.delete(:config_file) || '~/.sequenceserver.conf'
-      @config_file = File.expand_path(config_file)
-      assert_file_present('config file', config_file, EXIT_CONFIG_FILE_NOT_FOUND)
+      @config = config
 
-      @config = {
-        :num_threads  => 1,
-        :port         => 4567,
-        :host         => 'localhost'
-      }.update(parse_config_file.merge(config))
-
-      if @config[:bin]
-        @config[:bin] = File.expand_path @config[:bin]
-        assert_dir_present 'bin dir', @config[:bin]
-        export_bin_dir
-      end
-
-      assert_blast_installed_and_compatible
-
-      assert_dir_present 'database dir', @config[:database_dir], EXIT_NO_SEQUENCE_DIR
-      @config[:database_dir] = File.expand_path(@config[:database_dir])
-      assert_blast_databases_present_in_database_dir
-
-      Database.scan_databases_dir
-
-      @config[:num_threads] = Integer(@config[:num_threads])
-      assert_num_threads_valid @config[:num_threads]
-      logger.debug("Will use #{@config[:num_threads]} threads to run BLAST.")
-
-      if @config[:require]
-        @config[:require] = File.expand_path @config[:require]
-        assert_file_present 'extension file', @config[:require]
-        require @config[:require]
-      end
+      init_config
+      init_binaries
+      init_database
+      load_extension
+      check_num_threads
+      self
 
       # We don't validate port and host settings. If SequenceServer is run
       # self-hosted, bind will fail on incorrect values. If SequenceServer
       # is run via Apache+Passenger, we don't need to worry.
-
-      self
     end
 
     attr_reader :config_file, :config
@@ -137,7 +103,10 @@ module SequenceServer
 
     private
 
+    # Parse config file if present. Returns a Hash.
     def parse_config_file
+      return {} unless @config_file && File.exist?(@config_file)
+
       logger.debug("Reading configuration file: #{config_file}.")
       config = YAML.load_file(config_file) || {}
 
@@ -161,6 +130,76 @@ module SequenceServer
       end
     end
 
+    def init_config
+      @config_file = @config.delete(:config_file) || '~/.sequenceserver.conf'
+      @config_file = File.expand_path(config_file)
+
+      @config = {
+        :num_threads  => 1,
+        :port         => 4567,
+        :host         => 'localhost'
+      }.update(parse_config_file.update(@config))
+    end
+
+    def init_binaries
+      if config[:bin]
+        config[:bin] = File.expand_path config[:bin]
+        unless File.exists?(config[:bin]) && File.directory?(config[:bin])
+          raise BIN_DIR_NOT_FOUND, config[:bin]
+        end
+        logger.debug("Will use NCBI BLAST+ at: #{config[:bin]}")
+        export_bin_dir
+      else
+        logger.debug("Will use NCBI BLAST+ at: $PATH")
+      end
+
+      assert_blast_installed_and_compatible
+    end
+
+    def init_database
+      raise DATABASE_DIR_NOT_SET unless config[:database_dir]
+
+      config[:database_dir] = File.expand_path(config[:database_dir])
+      unless File.exists?(config[:database_dir]) &&
+          File.directory?(config[:database_dir])
+        raise DATABASE_DIR_NOT_FOUND, config[:database_dir]
+      end
+
+      assert_blast_databases_present_in_database_dir
+      logger.debug("Will use BLAST+ databases at: #{config[:database_dir]}")
+
+      Database.scan_databases_dir
+      Database.each do |database|
+        logger.debug("Found #{database.type} database '#{database.title}' at '#{database.name}'")
+      end
+    end
+
+    def check_num_threads
+      num_threads = Integer(config[:num_threads])
+      unless num_threads > 0
+        raise NUM_THREADS_INCORRECT
+      end
+
+      logger.debug "Will use #{num_threads} threads to run BLAST."
+      if num_threads > 256
+        logger.warn "Number of threads set at #{num_threads} is unusually high."
+      end
+    rescue
+      raise NUM_THREADS_INCORRECT
+    end
+
+    def load_extension
+      return unless config[:require]
+
+      config[:require] = File.expand_path config[:require]
+      unless File.exists?(config[:require]) && File.file?(config[:require])
+        raise EXTENSION_FILE_NOT_FOUND, config[:require]
+      end
+
+      logger.debug("Loading extension: #{config[:require]}")
+      require config[:require]
+    end
+
     # Export NCBI BLAST+ bin dir to PATH environment variable.
     def export_bin_dir
       bin_dir = config[:bin]
@@ -171,66 +210,26 @@ module SequenceServer
       end
     end
 
-    def assert_file_present desc, file, exit_code = 1
-      unless file and File.exists? File.expand_path file
-        puts "*** Couldn't find #{desc}: #{file}."
-        exit exit_code
-      end
-    end
-
-    alias assert_dir_present assert_file_present
-
     def assert_blast_installed_and_compatible
-      unless command? 'blastdbcmd'
-        puts "*** Could not find BLAST+ binaries."
-        exit EXIT_BLAST_NOT_INSTALLED
-      end
+      raise BLAST_NOT_INSTALLED unless command? 'blastdbcmd'
       version = %x|blastdbcmd -version|.split[1]
-      unless version >= MINIMUM_BLAST_VERSION
-        puts "*** Your BLAST+ version #{version} is outdated."
-        puts "    SequenceServer needs NCBI BLAST+ version #{MINIMUM_BLAST_VERSION} or higher."
-        exit EXIT_BLAST_NOT_COMPATIBLE
-      end
+      raise BLAST_NOT_COMPATIBLE, version unless version >= MINIMUM_BLAST_VERSION
     end
 
     def assert_blast_databases_present_in_database_dir
       database_dir = config[:database_dir]
-      out = %x|blastdbcmd -recursive -list #{database_dir}|
-      if out.empty?
-        puts "*** Could not find BLAST databases in '#{database_dir}'."
-        exit EXIT_NO_BLAST_DATABASE
-      elsif out.match(/BLAST Database error/) or not $?.success?
-        puts "*** Error obtaining BLAST databases."
-        puts "    Tried: #{find_dbs_command}"
-        puts "    Error:"
-        out.strip.split("\n").each do |l|
-          puts "      #{l}"
-        end
-        puts "    Please could you report this to 'https://groups.google.com/forum/#!forum/sequenceserver'?"
-        exit EXIT_BLAST_DATABASE_ERROR
+      cmd = "blastdbcmd -recursive -list #{database_dir}"
+      out = `#{cmd}`
+      raise NO_BLAST_DATABASE_FOUND, database_dir if out.empty?
+      if out.match(/BLAST Database error/) or not $?.success?
+        raise BLAST_DATABASE_ERROR, cmd, out
       end
     end
-
-    def assert_num_threads_valid num_threads
-      unless num_threads > 0
-        puts "*** Can't use #{num_threads} number of threads."
-        puts "    Number of threads should be greater than or equal to 1."
-        exit 1
-      end
-      if num_threads > 256
-        logger.warn "*** Number of threads set at #{num_threads} is unusually high."
-      end
-    rescue
-      puts "*** Number of threads should be a number."
-      exit 1
-    end
-
 
     # Return `true` if the given command exists and is executable.
     def command?(command)
       system("which #{command} > /dev/null 2>&1")
     end
-
   end
 
   # Controller.

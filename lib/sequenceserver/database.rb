@@ -82,7 +82,7 @@ module SequenceServer
       # Recursively scan `database_dir` for un-formatted FASTA and format them
       # for use with BLAST+.
       def make_blast_databases
-        unformatted_fastas.each do |file, sequence_type|
+        unformatted_fastas.select do |file, sequence_type|
           make_blast_database(file, sequence_type)
         end
       end
@@ -110,6 +110,8 @@ module SequenceServer
 
       # Create BLAST database, given FASTA file and sequence type in FASTA file.
       def make_blast_database(file, type)
+        puts
+        puts
         puts "FASTA file: #{file}"
         puts "FASTA type: #{type}"
 
@@ -122,8 +124,8 @@ module SequenceServer
           title = STDIN.gets.to_s
           title = default_title if title.strip.empty?
 
-          `makeblastdb -parse_seqids -hash_index \
-            -in #{file} -dbtype #{type.to_s.slice(0,4)} -title "#{title}"`
+          system "makeblastdb -parse_seqids -hash_index \
+            -in #{file} -dbtype #{type.to_s.slice(0,4)} -title '#{title}'"
         end
       end
 

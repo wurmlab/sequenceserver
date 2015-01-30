@@ -107,72 +107,117 @@ BANNER
       end
 
       ENV['RACK_ENV'] = 'development' if devel?
-      # Save the state of user terminal
-      stty_save = `stty -g`.chomp
-      # Exit gracefully on SIGINT
+
+      # Exit gracefully on SIGINT.
+      stty = `stty -g`.chomp
       trap('INT') do
         puts ''
         puts 'Aborted.'
-        system('stty', stty_save)
+        system('stty', stty)
         exit
       end
 
       require 'sequenceserver'
+
       begin
-        opts = to_h.delete_if{|k, v| v.nil?}
-        opts.delete :set
+        opts = to_h.delete_if { |k, v| k == :set || v.nil? }
         SequenceServer.init opts
-      rescue SystemExit => e
-        # The aim of following error recovery scenarios is to guide user to a
-        # working SequenceServer installation. We expect to land following
-        # error scenarios either when creating a new SequenceServer (first
-        # time or later), or updating config values using -s CLI option.
 
-        # Try error recovery now.
-        case e.status
-        when SequenceServer::EXIT_CONFIG_FILE_NOT_FOUND
-          # Create an empty configuration file to make SequenceServer happy.
-          File.open(SequenceServer.config_file, 'w') {}
-          puts "    Created."
-          redo
-        when SequenceServer::EXIT_BLAST_NOT_INSTALLED,
-          SequenceServer::EXIT_BLAST_NOT_COMPATIBLE
+      # The aim of following error recovery scenarios is to guide user to a
+      # working SequenceServer installation. We expect to land following
+      # error scenarios either when creating a new SequenceServer (first
+      # time or later), or updating config values using -s CLI option.
 
-          # Set a flag so that if we recovered from error resulting config can be
-          # saved. Config will be saved unless invoked with -b option.
-          fetch_option(:set).value = !bin?
+      rescue SequenceServer::BIN_DIR_NOT_FOUND => e
 
-          # Ask user if she already has BLAST+ downloaded or offer to download
-          # BLAST+ for her.
+        puts e
+
+        unless bin?
+          puts "You can set the correct value by running:"
           puts
-          print 'Do you have BLAST+ downloaded already? [y/n] (Default: n): '
-          response = STDIN.gets.to_s.strip
-          if response.match(/^[y]$/i)
-            response = Readline.readline('Where? ').to_s.strip
-            unless File.basename(response) == 'bin'
-              fetch_option(:bin).value = File.join(response, 'bin')
-            end
-            redo
-          end
-
+          puts "  sequenceserver -s -b <value>"
           puts
-          print "Install BLAST+? [y/n] (Default: y): "
-          response = STDIN.gets.to_s.strip
-          unless response.match(/^[n]$/i)
-            puts
-            puts "*** Installing BLAST+."
-            puts "RUBY_PLATFORM #{RUBY_PLATFORM}"
+        end
 
-            version = SequenceServer::MINIMUM_BLAST_VERSION
-            url = case RUBY_PLATFORM
-                  when /i686-linux/   # 32 bit Linux
-                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-ia32-linux.tar.gz"
-                  when /x86_64-linux/ # 64 bit Linux
-                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-x64-linux.tar.gz"
-                  when /darwin/       # Mac
-                    "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-universal-macosx.tar.gz"
-                  else
-                    puts <<ERR
+        exit!
+
+      rescue SequenceServer::DATABASE_DIR_NOT_FOUND => e
+
+        puts e
+
+        unless database_dir?
+          puts "You can set the correct value by running:"
+          puts
+          puts "  sequenceserver -s -d <value>"
+          puts
+        end
+
+        exit!
+
+      rescue SequenceServer::NUM_THREADS_INCORRECT => e
+
+        puts e
+
+        unless num_threads?
+          puts "You can set the correct value by running:"
+          puts
+          puts "  sequenceserver -s -n <value>"
+          puts
+        end
+
+        exit!
+
+      rescue SequenceServer::EXTENSION_FILE_NOT_FOUND => e
+
+        puts e
+
+        unless require?
+          puts "You can set the correct value by running:"
+          puts
+          puts "  sequenceserver -s -r <value>"
+          puts
+        end
+
+        exit!
+
+      rescue SequenceServer::BLAST_NOT_INSTALLED,
+          SequenceServer::BLAST_NOT_COMPATIBLE => e
+
+        # Show original error message first.
+        puts
+        puts e
+
+        # Set a flag so that if we recovered from error resulting config can be
+        # saved. Config will be saved unless invoked with -b option.
+        fetch_option(:set).value = !bin?
+
+        # Ask user if she already has BLAST+ downloaded or offer to download
+        # BLAST+ for her.
+        puts
+        puts <<MSG
+SequenceServer can use NCBI BLAST+ that you may have on your system already, or
+download the correct package for itself. Please enter the path to NCBI BLAST+
+or press Enter to download.
+
+Press Ctrl+C to quit.
+MSG
+        puts
+        response = Readline.readline('>> ').to_s.strip
+        if response.empty?
+          puts
+          puts "Installing NCBI BLAST+."
+          puts "RUBY_PLATFORM #{RUBY_PLATFORM}"
+
+          version = SequenceServer::MINIMUM_BLAST_VERSION
+          url = case RUBY_PLATFORM
+                when /i686-linux/   # 32 bit Linux
+                  "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-ia32-linux.tar.gz"
+                when /x86_64-linux/ # 64 bit Linux
+                  "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-x64-linux.tar.gz"
+                when /darwin/       # Mac
+                  "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-universal-macosx.tar.gz"
+                else
+                  puts <<ERR
 ------------------------------------------------------------------------
 FAILED!! to install NCBI BLAST+.
 
@@ -184,54 +229,83 @@ https://github.com/yannickwurm/sequenceserver/issues
 ------------------------------------------------------------------------
 
 ERR
-                  end
+                end
 
-            archive = File.join('/tmp', File.basename(url))
-            system "wget -c #{url} -O #{archive} && mkdir -p ~/.sequenceserver && tar xvf #{archive} -C ~/.sequenceserver"
-            unless $?.success?
-              puts "*** Failed to install BLAST+."
-              puts "    You may need to download BLAST+ from - "
-              puts "     http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download"
-              puts "    Please ensure that you download BLAST+ version
-              #{SequenceServer::MINIMUM_BLAST_VERSION} or higher."
-              exit SequenceServer::EXIT_BLAST_INSTALLATION_FAILED
-            end
-            fetch_option(:bin).value = "~/.sequenceserver/ncbi-blast-#{version}/bin/"
-            redo
-          else
-            exit e.status unless set?
+          archive = File.join('/tmp', File.basename(url))
+          system "wget -c #{url} -O #{archive} && mkdir -p ~/.sequenceserver && tar xvf #{archive} -C ~/.sequenceserver"
+          unless $?.success?
+            puts "Failed to install BLAST+."
+            puts "  You may need to download BLAST+ from - "
+            puts "   http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download"
+            puts "  Please ensure that you download BLAST+ version
+            #{SequenceServer::MINIMUM_BLAST_VERSION} or higher."
+            exit!
           end
-        when SequenceServer::EXIT_NO_SEQUENCE_DIR
-          # Ask user for the directory containing sequences or BLAST+
-          # databases.
-
-          # Set a flag so that if we recovered from error resulting config can be
-          # saved. Config will be saved unless invoked with -d option.
-          fetch_option(:set).value = !database_dir?
-
-          puts
-          prompt = 'Where are the sequences you would like to search?' \
-                   ' (Default: current dir) '
-          response = Readline.readline(prompt).to_s.strip
-          fetch_option(:database_dir).value = response
+          fetch_option(:bin).value = "~/.sequenceserver/ncbi-blast-#{version}/bin/"
           redo
-        when SequenceServer::EXIT_NO_BLAST_DATABASE
-          unless list_databases? or list_unformatted_fastas? or make_blast_databases?
-            # Offer user to format the FASTA files.
-            puts
-            print 'Create databases? [y/n] (Default: y): '
-            response = STDIN.gets.to_s.strip
-            unless response.match(/^[n]$/i)
-              puts
-              puts "*** Creating databases."
-              SequenceServer::Database.make_blast_databases
-              redo
-            else
-              exit e.status unless set?
-            end
-          end
         else
-          exit e.status
+          unless File.basename(response) == 'bin'
+            fetch_option(:bin).value = File.join(response, 'bin')
+          end
+          puts
+          redo
+        end
+      rescue SequenceServer::DATABASE_DIR_NOT_SET => e
+
+        # Show original error message.
+        puts
+        puts e
+
+        # Set a flag so that if we recovered from error resulting config can be
+        # saved. Config will be saved unless invoked with -d option.
+        fetch_option(:set).value = !database_dir?
+
+        # Ask user for the directory containing sequences or BLAST+
+        # databases.
+        puts
+        puts <<MSG
+SequenceServer needs to know where your FASTA files or BLAST+ databases are.
+Please enter the path to the relevant directory (default: current directory).
+
+Press Ctrl+C to quit.
+MSG
+
+        puts
+        response = Readline.readline('>> ').to_s.strip
+        fetch_option(:database_dir).value = response
+        redo
+
+      rescue SequenceServer::NO_BLAST_DATABASE_FOUND => e
+        unless list_databases? or list_unformatted_fastas? or make_blast_databases?
+
+          # Print error raised.
+          puts
+          puts e
+
+          # Offer user to format the FASTA files.
+          database_dir = SequenceServer[:database_dir]
+          puts
+          puts <<MSG
+Search for FASTA files (.fa, .fasta, .fna) in '#{database_dir}' and try
+creating BLAST+ databases? [y/n] (Default: y).
+MSG
+          puts
+          print '>> '
+          response = STDIN.gets.to_s.strip
+          unless response.match(/^[n]$/i)
+            puts
+            puts "Searching ..."
+            if SequenceServer::Database.unformatted_fastas.empty?
+              puts "Couldn't find any FASTA files."
+              exit!
+            else
+              formatted = SequenceServer::Database.make_blast_databases
+              exit! if formatted.empty? && !set?
+              redo unless set?
+            end
+          else
+            exit! unless set?
+          end
         end
       end
 
