@@ -1,0 +1,297 @@
+body {
+  padding-top: 130px;
+}
+
+a {
+  outline: none !important;
+}
+
+.navbar {
+  background-color: #1e8bc3;
+}
+
+.navbar .disabled-nav {
+  opacity: 0.5;
+}
+
+.navbar .navbar-nav.nav li a {
+  color: white;
+  background-color: transparent;
+  font-size: 20px;
+}
+
+.navbar .navbar-nav.nav li.active a, .navbar .navbar-nav.nav li:hover:not(.disabled-nav) a {
+  color: black;
+  background-color: #f7ca18;
+}
+
+.navbar-nav {
+  margin-top: 8px;
+}
+@media(min-width: 768px) {
+  .navbar-nav {
+    margin-top: 42px;
+  }
+}
+
+#control-panel-help img {
+  display: block;
+  margin-top: 35px;
+}
+
+.navbar-header h1 {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../img/kablammo_logo.svg');
+  width: 300px;
+  height: 60.92px;
+  margin-left: 1em;
+}
+
+.navbar-header span {
+  display: none;
+}
+
+#results-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1100px;
+}
+
+#results-container > .row {
+  margin-bottom: 22px;
+}
+
+.query-header, .subject-header {
+  color: white;
+  vertical-align: bottom;
+}
+
+.query-index, .subject-index {
+  display: inline-block;
+  background-color: #1e8bc3;
+  padding: 8px 15px 8px 15px;
+  font-size: 24px;
+  vertical-align: bottom;
+  text-align: left;
+}
+
+#results-container .query-name, #results-container .subject-name {
+  background-color: #69b2d7;
+  vertical-align: bottom;
+  padding: 8px 15px 8px 15px;
+  text-align: right;
+}
+
+.subject, .subject-header {
+  margin-left: 1em;
+}
+
+.subject svg {
+  /* Prevent selecting axis labels and other text, which may happen
+   * accidentally as user is clicking and dragging mouse to pan the SVG. */
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.subject-info {
+  padding-left: 2em;
+}
+
+.subject-params {
+  list-style: none;
+  display: none;
+  padding-left: 0;
+}
+
+.subject-info span {
+  font-weight: bold;
+}
+
+.subject .selected-count {
+  display: none;
+}
+
+.subject-buttons .hsp-selection-controls {
+  display: none;
+}
+
+.subject-buttons .hsp-selection-controls button {
+  width: 100%;
+}
+
+#control-panels .control-panel {
+  background-color: white;
+  padding-top: 15px;
+  padding-bottom: 30px;
+  top: 92px;
+  left: 0;
+  z-index: 1000;
+  position: fixed;
+  overflow: auto;
+  max-height: calc(100vh - 92px);
+  display: none;
+  border-bottom: 1px solid #999;
+}
+
+#control-panels .tab-pane {
+  padding: 15px;
+  border-left: 1px solid #ddd;
+}
+
+#lab-logo-container {
+  text-align: center;
+}
+
+#lab-logo {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+#local-file-chooser {
+  display: none;
+}
+
+#display-params input {
+  display: inline;
+  width: 5em;
+}
+
+.file-label {
+  margin-top: 1em;
+  overflow: hidden;
+}
+
+#display-results-container {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#curtain {
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  display: none;
+  text-align: center;
+}
+
+#curtain .message {
+  background-color: white;
+  padding: 2em;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 20%;
+}
+
+#errors {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  width: 300px;
+  z-index: 99999;
+  overflow: hidden;
+}
+
+.colpick {
+  z-index: 99998;
+}
+
+#snippets {
+ display: none;
+}
+
+#png-exporter {
+  display: none;
+}
+
+#introduction {
+  text-align: center;
+}
+
+#introduction p {
+  font-size: 18px;
+}
+
+#introduction h1 {
+  font-size: 36px;
+}
+
+#introduction h1, #introduction p {
+  text-align: left;
+}
+
+#example-results {
+  width: 80%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#start-tour {
+  margin-bottom: 30px;
+}
+
+#alignment-viewer {
+  /* Appear in front of "tour" dialog. */
+  z-index: 1200;
+}
+
+#alignment-viewer pre {
+  white-space: pre;
+  word-wrap: normal;
+  font-weight: bold;
+  font-size: 15px;
+  /* Show default pointer instead of 'text' cursor. */
+  cursor: default;
+}
+
+#alignment-viewer .midline-seq {
+  color: rgb(120, 120, 120);
+}
+
+#alignment-viewer .modal-dialog {
+  width: 80%;
+}
+
+.query-seq span, .midline-seq span, .subject-seq span {
+  padding: 2px;
+}
+
+.navbar-toggle {
+  background-color: transparent !important;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: white !important;
+}
+
+.alignment-name {
+  font-weight: bold;
+}
+
+/* AA colours taken from http://www.bioinformatics.nl/~berndb/aacolour.html. */
+.aa-g, .aa-a, .aa-s, .aa-t                                    { background-color: #c7cdfd; } /* Blue */
+.aa-c, .aa-v, .aa-i, .aa-l, .aa-p, .aa-f, .aa-y, .aa-m, .aa-w { background-color: #c7fddd; } /* Green */
+.aa-n, .aa-q, .aa-h                                           { background-color: #fdfdc7; } /* Yellow */
+.aa-d, .aa-e                                                  { background-color: #fdc7e9; } /* Pink */
+.aa-k, .aa-r                                                  { background-color: #c7fcfd; } /* Teal */
+
+.na-a { background-color: #c7cdfd; } /* Blue */
+.na-c { background-color: #c7fddd; } /* Green */
+.na-g { background-color: #fdfdc7; } /* Yellow */
+.na-t { background-color: #fdc7e9; } /* Pink */
+
+.ml-diff    { background-color: rgb(204,0,0); } /* Red */
+.ml-similar { background-color: rgb(204,204,0); } /* Yellow */
+.ml-match   { }

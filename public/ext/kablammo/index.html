@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,width=600">
+    <meta name="description" content="">
+    <meta name="author" content="Jeff Wintersinger">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>Kablammo</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">-->
+    <link rel="stylesheet" href="css/ext/colpick.css">
+    <link rel="stylesheet" href="css/ext/bootstrap-tour.min.css">
+
+    <link rel="stylesheet" href="css/kablammo.css">
+    <!-- svg-css class indicates that this stylesheet should have its rules included in exported SVGs. -->
+    <link rel="stylesheet" href="css/svg.css" class="svg-css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <a href=""><h1><span>Kablammo</span></h1></a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li id="load-results"><a href="#load"><span class="glyphicon glyphicon-cloud-upload"></span> Load results</a></li>
+            <li id="help"><a href="#help"><span class="glyphicon glyphicon-question-sign"></span> Help</a></li>
+            <li id="about"><a href="#about"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid" id="control-panels">
+      <div class="row">
+        <div class="control-panel col-sm-12" id="control-panel-load">
+          <form id="load-results-form" class="form-inline">
+            <div class="row">
+              <div class="col-sm-6">
+                <ul class="nav nav-tabs">
+                  <li class="active">
+                    <a id="load-local-nav" href="#load-local" data-toggle="tab">Load results from your computer</a>
+                  </li>
+                  <li>
+                    <a id="load-server-nav" href="#load-server" data-toggle="tab">Load results from server</a>
+                  </li>
+                </ul>
+
+                <div class="tab-content">
+                  <div class="tab-pane active" id="load-local">
+                    <div class="alert alert-info file-label">
+                      Upload BLAST results in XML format.  <a class="show-help" href="#">(How do I do this?)</a>
+                    </div>
+
+                    <input type="file" id="local-file-chooser" accept="text/xml" />
+                    <button type="button" class="btn btn-primary" id="choose-file">Choose file ...</button>
+                  </div>
+
+                  <div class="tab-pane" id="load-server">
+                    <select id="server-results-chooser" class="form-control"></select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6" id="display-params">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a href="#">Display parameters</a></li>
+                </ul>
+
+                <div class="tab-pane">
+                  <p>Show up to <input id="max-query-seqs" class="form-control" type="number" min="1" value="10" /> query sequences</p>
+                  <p>Show up to <input id="max-subjects-per-query-seq" class="form-control" type="number" min="1" value="5" /> subjects per query</p>
+                  <p>Show only queries with <input id="query-filter" class="form-control" type="text" placeholder="..." /> in their names</p>
+                  <p>Show only subjects with <input id="subject-filter" class="form-control" type="text" placeholder="..." /> in their names</p>
+                  <p>
+                    <div class="form-group">
+                      Show only alignments whose E value is at most
+                      <div class="input-group">
+                        <span class="input-group-addon">1e</span>
+                        <input id="evalue-threshold" class="form-control" type="number" step="any" value="10" />
+                      </div>
+                    </div>
+                  </p>
+                  <p>Show only alignments whose bit score is at least <input id="bitscore-threshold" class="form-control" type="number" step="any" min="0" value="0" /></p>
+                  <p>
+                    <div class="form-group">
+                      Show only alignments covering at least
+                      <div class="input-group">
+                        <input id="hsp-coverage-threshold" class="form-control" type="number" step="any" value="0" min="0" max="100" />
+                        <span class="input-group-addon">%</span>
+                      </div>
+                      of their queries
+                    </div>
+                  </p>
+                  <div class="input-group-btn">
+                    <a id="graph-colour-example" class="btn btn-default" role="button">&nbsp;&nbsp;&nbsp;</a>
+                    <a id="choose-graph-colour" class="btn btn-default" role="button">Choose graph colour</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12" id="display-results-container">
+                <button type="submit" class="btn btn-lg btn-primary disabled">Display results</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="control-panel col-sm-12" id="control-panel-help">
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+              <h3>How do I use Kablammo?</h3>
+              <p>To learn how to use Kablammo, please <a class="start-tour" href="#">take the tour</a>.</p>
+
+              <h3>How do I load result data if I am using the web-based NCBI BLAST?</h3>
+              <p>If you are using the web-based NCBI BLAST, you must download its results in XML format before you can load them into Kablammo.</p>
+              <p><img src="img/ncbi_blast_help_1.png" alt="NCBI BLAST help 1"></p>
+              <p>First, click the Download link on the NCBI BLAST results page.</p>
+              <p><img src="img/ncbi_blast_help_2.png" alt="NCBI BLAST help 2"></p>
+              <p>Now, click the XML link to download results in XML format.</p>
+              <p><img src="img/choose_local_file_example.png" alt="Choose local file example"></p>
+              <p>Finally, click on <strong>Load results</strong> in Kablammo,
+              then click the <strong>Choose file ...</strong> button and choose
+              the <strong>Load results from your computer</strong> tab. Select
+              the XML file you just downloaded from NCBI BLAST, which will
+              likely be by default in your downloads directory.</p>
+
+              <h3>How do I load result data if I am running BLAST myself?</h3>
+              <p>If you are running BLAST yourself from the command line,
+              simply specify the <code>-outfmt 5</code> parameter to output
+              results in XML format. An example command, then, would be thus:</p>
+              <pre><code>blastn -query seqs.fa -db some/blast/db -outfmt 5 -out results.xml</code></pre>
+              <p>Once BLAST finishes, click <strong>Load
+              results</strong> in Kablammo, choose the <strong>Load results from
+              your computer</strong> tab, then click the <strong>Choose files
+              ...</strong> button and select the XML file that BLAST created.</p>
+              <p>If you want the BLAST results to be viewable from other
+              computers (such as when BLAST is running on a central lab server
+              instead of your own machine), read the <a
+              href="https://github.com/jwintersinger/kablammo#serving-blast-results">Serving
+              BLAST results</a> section in Kablammo's README.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="control-panel col-sm-12" id="control-panel-about">
+          <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+              <p id="lab-logo-container"><a href="http://www.wasmuthlab.org"><img src="img/wasmuth_lab_logo.svg" alt="Wasmuth lab" id="lab-logo"></a></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+              <p>Kablammo was created with loving attention to each handcrafted
+              detail by the <a href="http://www.wasmuthlab.org">Wasmuth
+              Lab</a>. Made fresh each day using only local ingredients. Mmm,
+              tasty.</p>
+              <p><a href="https://github.com/jwintersinger/kablammo">Kablammo's
+              source code</a> is available on GitHub.</p>
+              <p><strong>Jeff Wintersinger</strong> (<a
+              href="http://jeff.wintersinger.org">web site</a>, <a
+              href="https://twitter.com/jwintersinger">Twitter</a>) wrote
+              Kablammo. He also proposed the project's brilliant name.</p>
+              <p><strong>James Wasmuth</strong> (<a
+              href="mailto:jwasmuth@ucalgary.ca">e-mail</a>, <a
+              href="https://twitter.com/jdwasmuth">Twitter</a>) supervised
+              Kablammo's creation. He eventually acquiesced to calling it
+              Kablammo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="container">
+      <div class="jumbotron">
+        <h1>Navbar example</h1>
+        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+        <p>To see the difference between static and fixed top navbars, just scroll.</p>
+        <p>
+          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+        </p>
+      </div>
+    </div>-->
+
+    <div class="container-fluid" id="results-container">
+      <div class="container">
+        <div class="row" id="introduction">
+          <div class="col-sm-8 col-sm-push-2">
+            <h1>Visualize your BLAST results.</h1>
+            <p>Kablammo helps you create interactive visualizations of BLAST
+            results from your web browser. Find your most interesting alignments, list
+            detailed parameters for each, and export a publication-ready vector
+            image, all without installing any software.</p>
+            <div>
+              <img src="img/example_results.svg" alt="Example results" id="example-results">
+            </div>
+            <div>
+              <button type="button" class="start-tour btn btn-primary btn-lg btn-block">Show me how Kablammo works &raquo;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="errors">
+    </div>
+
+    <div id="curtain">
+      <div class="message">Loading ...</div>
+    </div>
+
+    <div id="snippets">
+      <div class="alignment" id="example-alignment">
+        <h5 class="alignment-name">Pants</h5>
+        <pre class="alignment-seqs"><div class="query-seq"></div><div
+                  class="midline-seq"></div><div
+                  class="subject-seq"></div></pre>
+      </div>
+
+      <div class="query-header row" id="example-query-header">
+        <div class="query-index">Query 1 of 4</div><div
+          class="query-name">tgme49_asmbl.111 | organism=Toxoplasma_gondii_ME49 | version=2012-07-08 | length=6619 | SO=supercontig</div>
+      </div>
+
+      <div class="subject-header row" id="example-subject-header">
+        <div class="subject-index">Subject 1 of 4</div><div
+          class="subject-name">tgme49_asmbl.111 | organism=Toxoplasma_gondii_ME49 | version=2012-07-08 | length=6619 | SO=supercontig</div>
+      </div>
+
+      <div class="row subject" id="example-subject-result">
+        <div class="subject-plot col-md-6">
+          <!-- SVG inserted here via prepend(). -->
+        </div>
+
+        <div class="subject-info col-md-3">
+          <p class="selected-count"></p>
+
+          <ul class="subject-params">
+            <li><span>Subject ID:</span> Pants</li>
+            <li><span>Bit score:</span> Pants</li>
+            <li><span>E value:</span> Pants</li>
+            <li><span>Query coords:</span> Pants and socks</li>
+            <li><span>Subject coords:</span> Pants</li>
+            <li><span>Alignment length:</span> Pants</li>
+          </ul>
+        </div>
+
+        <div class="btn-group-vertical subject-buttons col-md-3">
+          <div class="btn-group">
+            <button type="button" class="export-image btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Export image
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#" class="export-to-svg">Export to SVG</a></li>
+              <li><a href="#" class="export-to-png">Export to PNG</a></li>
+            </ul>
+          </div>
+          <div class="btn-group">
+            <div class="hsp-selection-controls">
+              <button type="button" class="btn btn-default view-alignment">View alignments</button>
+              <button type="button" class="btn btn-default export-alignment">Export alignments</button>
+              <button type="button" class="btn btn-default deselect-all-hsps">Deselect all alignments</button>
+              <div class="checkbox">
+                <label>
+                  <input class="toggle-hsp-outline" type="checkbox" value="" checked="checked">
+                  Outline selected alignments
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="alignment-viewer" tabindex="-1" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="modal-title">
+                  <h5><strong>Subject:</strong> <span class="subject-title"></span></h5>
+                  <h5><strong>Query:</strong> <span class="query-title"></span></h5>
+                </div>
+              </div>
+              <div class="modal-body alignments">
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-default export-alignments" type="button">Export alignments</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="example-error" class="alert alert-danger fade in">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Error</h4>
+        <p class="message">This is an example error.</p>
+      </div>
+    </div>
+
+    <canvas id="png-exporter"></canvas>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/ext/colpick.js"></script>
+    <script type="text/javascript" src="js/ext/bootstrap-tour.min.js"></script>
+
+    <script type="text/javascript" src="js/grapher.js"></script>
+    <script type="text/javascript" src="js/graph.js"></script>
+    <script type="text/javascript" src="js/blast_parser.js"></script>
+    <script type="text/javascript" src="js/blast_results_loader.js"></script>
+    <script type="text/javascript" src="js/interface.js"></script>
+    <script type="text/javascript" src="js/exporter.js"></script>
+    <script type="text/javascript" src="js/image_exporter.js"></script>
+    <script type="text/javascript" src="js/alignment_viewer.js"></script>
+    <script type="text/javascript" src="js/alignment_exporter.js"></script>
+    <script type="text/javascript" src="js/tour_guide.js"></script>
+    <script type="text/javascript" src="js/kablammo.js"></script>
+  </body>
+</html>

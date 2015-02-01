@@ -1,5 +1,6 @@
 require 'forwardable'
 require 'tempfile'
+require 'json'
 require 'ox'
 
 require 'sequenceserver/links'
@@ -128,6 +129,16 @@ module SequenceServer
         @archive_file = rfile.path
 
         xml_results = BLAST.blast_formatter(@archive_file, OUTFMT['xml'])
+
+        BLAST.save_result(File.join(SequenceServer.root,
+                                    'public',
+                                    'ext',
+                                    'kablammo',
+                                    'data',
+                                    "#{File.basename(rfile)}.xml"),
+                          xml_results)
+
+        kablammo_JSON
 
         ir = node_to_array Ox.parse(xml_results).root
 
@@ -327,6 +338,20 @@ module SequenceServer
         querydb.select {|db| db.include? sequence_id}
       end
 
+      def kablammo_JSON
+        dest_path = File.join(SequenceServer.root,
+                              'public',
+                              'ext',
+                              'kablammo',
+                              'data')
+
+        Dir.chdir(dest_path) do
+          files_found = Dir.glob('*.xml').select {|f| File.file? f}
+          File.write('blast_results.json',
+                     JSON.generate({'blast_results' => files_found}))
+        end
+      end
+
       private
 
       PARSEABLE_AS_ARRAY = %w(Parameters BlastOutput_param Iteration_stat
@@ -439,6 +464,10 @@ module SequenceServer
 
     def blast_formatter(rfile_path, outfmt, specifiers = nil)
       `blast_formatter -archive '#{rfile_path}' -outfmt '#{outfmt} #{specifiers}'`
+    end
+
+    def save_result(destination, data)
+      File.write(destination, data)
     end
 
     def pre_process(params)
