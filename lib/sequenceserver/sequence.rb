@@ -1,7 +1,6 @@
 require 'forwardable'
 
 module SequenceServer
-
   # Provides simple sequence processing utilities via class methods. Instance
   # of the class serves as a simple data object to captures sequences fetched
   # from BLAST databases.
@@ -36,9 +35,7 @@ module SequenceServer
   #
   #     SI2.2.0_06267 -> self.id == self.seqid == self.accession.
   class Sequence < Struct.new(:gi, :seqid, :accession, :title, :value)
-
     class << self
-
       extend Forwardable
 
       # Derive `logger` from SequenceServer module.
@@ -64,8 +61,8 @@ module SequenceServer
         logger.debug("Executing: #{command}")
 
         # Not interested in stderr.
-        `#{command} 2> /dev/null`.
-          each_line.map {|line| new(*line.chomp.split('	'))}
+        `#{command} 2> /dev/null`
+          .each_line.map { |line| new(*line.chomp.split('	')) }
       end
 
       # Strips all non-letter characters. If less than 10 useable characters
@@ -82,7 +79,7 @@ module SequenceServer
         na_count = 0
         composition = composition(cleaned_sequence)
         composition.each do |character, count|
-          na_count = na_count + count if character.match(/[ACGTU]/i)
+          na_count += count if character.match(/[ACGTU]/i)
         end
 
         na_count > (0.9 * cleaned_sequence.length) ? :nucleotide : :protein
@@ -122,7 +119,7 @@ module SequenceServer
     end
 
     def info
-      {:value => value, :id => id, :title => title}
+      { :value => value, :id => id, :title => title }
     end
 
     # Returns FASTA formatted sequence.
@@ -130,7 +127,7 @@ module SequenceServer
       chars = 60
       lines = (length / chars.to_f).ceil
       defline  = ">#{id} #{title}"
-      seqlines = (1..lines).map {|i| to_s[chars * (i - 1), chars]}
+      seqlines = (1..lines).map { |i| to_s[chars * (i - 1), chars] }
       [defline].concat(seqlines).join("\n")
     end
   end

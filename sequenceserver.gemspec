@@ -2,14 +2,16 @@ Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
   s.version     = '1.0.0-2'
-  s.authors     = ['Anurag Priyam', 'Ben J Woodcroft', 'Vivek Rai', 'Yannick Wurm']
+  s.authors     = ['Anurag Priyam', 'Ben J Woodcroft',
+                   'Vivek Rai', 'Yannick Wurm']
   s.email       = ['anurag08priyam@gmail.com', 'b.woodcroft@uq.edu.au']
   s.homepage    = 'http://sequenceserver.com'
   s.license     = 'SequenceServer (custom)'
 
   s.summary     = 'BLAST search made easy!'
   s.description = <<DESC
-SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user interface for use locally or over the web.
+SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
+interface for use locally or over the web.
 DESC
 
   # dependencies
@@ -21,13 +23,14 @@ DESC
   s.add_development_dependency('rack-test',       '~> 0.6',  '>= 0.6.2')
   s.add_development_dependency('rspec',           '~> 2.8',  '>= 2.8.0')
   s.add_development_dependency('rake',            '~> 10.3', '>= 10.3.2')
-  s.add_development_dependency('rubocop',         '~> 0.26', '>= 0.26.1')
+  s.add_development_dependency('rubocop',         '~> 0.28', '>= 0.28.0')
   s.add_development_dependency('capybara',        '~> 2.4',  '>= 2.4.4')
   s.add_development_dependency('capybara-webkit', '~> 1.3',  '>= 1.3.0')
 
   # gem
-  s.files         = Dir['lib/**/*'] + Dir['views/**/*'] + Dir['public/**/*'] + Dir['tests/**/*']
-  s.files         = s.files + ['config.ru', 'Gemfile', 'sequenceserver.gemspec']
+  s.files         = Dir['lib/**/*'] + Dir['views/**/*'] + Dir['public/**/*']
+  s.files         = s.files + ['config.ru'] + Dir['tests/**/*']
+  s.files         = s.files + ['Gemfile', 'sequenceserver.gemspec']
   s.files         = s.files + ['LICENSE.txt', 'LICENSE.Apache.txt', 'README.md']
   s.executables   = ['sequenceserver']
   s.require_paths = ['lib']

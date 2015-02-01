@@ -46,61 +46,61 @@ used to create BLAST+ databases.
 BANNER
 
     on 'c', 'config_file=',
-      'Use the given configuration file',
-      :argument => true
+       'Use the given configuration file',
+       :argument => true
 
     on 'b', 'bin=',
-      'Load BLAST+ binaries from this directory',
-      :argument => true
+       'Load BLAST+ binaries from this directory',
+       :argument => true
 
     on 'd', 'database_dir=',
-      'Read FASTA and BLAST database from this directory',
-      :argument => true
+       'Read FASTA and BLAST database from this directory',
+       :argument => true
 
     on 'n', 'num_threads=',
-      'Number of threads to use to run a BLAST search',
-      :argument => true
-      #:as       => Integer
+       'Number of threads to use to run a BLAST search',
+       :argument => true
 
     on 'r', 'require=',
-      'Load extension from this file',
-      :argument => true
+       'Load extension from this file',
+       :argument => true
 
     on 'h', 'host=',
-      'Host to run SequenceServer on',
-      :argument => true
+       'Host to run SequenceServer on',
+       :argument => true
 
     on 'p', 'port=',
-      'Port to run SequenceServer on',
-      :argument => true
+       'Port to run SequenceServer on',
+       :argument => true
 
     on 's', 'set',
-      'Set configuration value in default or given config file'
+       'Set configuration value in default or given config file'
 
     on 'm', 'make-blast-databases',
-      'Create BLAST databases'
+       'Create BLAST databases'
 
     on 'l', 'list_databases',
-      'List BLAST databases'
+       'List BLAST databases'
 
     on 'u', 'list-unformatted-fastas',
-      'List unformatted FASTA files'
+       'List unformatted FASTA files'
 
     on 'i', 'interactive',
-      'Run SequenceServer in interactive mode'
+       'Run SequenceServer in interactive mode'
 
     on 'D', 'devel',
-      'Start SequenceServer in development mode'
+       'Start SequenceServer in development mode'
 
     on '-v', '--version',
-      'Print version number of SequenceServer that will be loaded'
+       'Print version number of SequenceServer that will be loaded'
 
     on '-h', '--help',
-      'Display this help message'
+       'Display this help message'
 
     run do
       if version?
-        gemspec_file = File.join(File.dirname(__FILE__), '..', 'sequenceserver.gemspec')
+        gemspec_file = File.join(File.dirname(__FILE__), '..',
+                                 'sequenceserver.gemspec')
         gemspec = eval File.read gemspec_file
         puts gemspec.version
         exit
@@ -133,9 +133,9 @@ BANNER
         puts e
 
         unless bin?
-          puts "You can set the correct value by running:"
+          puts 'You can set the correct value by running:'
           puts
-          puts "  sequenceserver -s -b <value>"
+          puts '  sequenceserver -s -b <value>'
           puts
         end
 
@@ -146,9 +146,9 @@ BANNER
         puts e
 
         unless database_dir?
-          puts "You can set the correct value by running:"
+          puts 'You can set the correct value by running:'
           puts
-          puts "  sequenceserver -s -d <value>"
+          puts '  sequenceserver -s -d <value>'
           puts
         end
 
@@ -159,9 +159,9 @@ BANNER
         puts e
 
         unless num_threads?
-          puts "You can set the correct value by running:"
+          puts 'You can set the correct value by running:'
           puts
-          puts "  sequenceserver -s -n <value>"
+          puts '  sequenceserver -s -n <value>'
           puts
         end
 
@@ -172,16 +172,16 @@ BANNER
         puts e
 
         unless require?
-          puts "You can set the correct value by running:"
+          puts 'You can set the correct value by running:'
           puts
-          puts "  sequenceserver -s -r <value>"
+          puts '  sequenceserver -s -r <value>'
           puts
         end
 
         exit!
 
       rescue SequenceServer::BLAST_NOT_INSTALLED,
-          SequenceServer::BLAST_NOT_COMPATIBLE => e
+             SequenceServer::BLAST_NOT_COMPATIBLE => e
 
         # Show original error message first.
         puts
@@ -205,17 +205,20 @@ MSG
         response = Readline.readline('>> ').to_s.strip
         if response.empty?
           puts
-          puts "Installing NCBI BLAST+."
+          puts 'Installing NCBI BLAST+.'
           puts "RUBY_PLATFORM #{RUBY_PLATFORM}"
 
           version = SequenceServer::MINIMUM_BLAST_VERSION
           url = case RUBY_PLATFORM
                 when /i686-linux/   # 32 bit Linux
-                  "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-ia32-linux.tar.gz"
+                  'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/' \
+                  "#{version.chop}/ncbi-blast-#{version}-ia32-linux.tar.gz"
                 when /x86_64-linux/ # 64 bit Linux
-                  "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-x64-linux.tar.gz"
+                  'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/' \
+                  "#{version.chop}/ncbi-blast-#{version}-x64-linux.tar.gz"
                 when /darwin/       # Mac
-                  "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/#{version.chop}/ncbi-blast-#{version}-universal-macosx.tar.gz"
+                  'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/' \
+                  "#{version.chop}/ncbi-blast-#{version}-universal-macosx.tar.gz"
                 else
                   puts <<ERR
 ------------------------------------------------------------------------
@@ -232,11 +235,12 @@ ERR
                 end
 
           archive = File.join('/tmp', File.basename(url))
-          system "wget -c #{url} -O #{archive} && mkdir -p ~/.sequenceserver && tar xvf #{archive} -C ~/.sequenceserver"
+          system "wget -c #{url} -O #{archive} && mkdir -p ~/.sequenceserver" \
+            "&& tar xvf #{archive} -C ~/.sequenceserver"
           unless $?.success?
-            puts "Failed to install BLAST+."
-            puts "  You may need to download BLAST+ from - "
-            puts "   http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download"
+            puts 'Failed to install BLAST+.'
+            puts '  You may need to download BLAST+ from - '
+            puts '   http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
             puts "  Please ensure that you download BLAST+ version
             #{SequenceServer::MINIMUM_BLAST_VERSION} or higher."
             exit!
@@ -277,7 +281,8 @@ MSG
         redo
 
       rescue SequenceServer::NO_BLAST_DATABASE_FOUND => e
-        unless list_databases? or list_unformatted_fastas? or make_blast_databases?
+        unless list_databases? || list_unformatted_fastas? ||
+            make_blast_databases?
 
           # Print error raised.
           puts
@@ -295,7 +300,7 @@ MSG
           response = STDIN.gets.to_s.strip
           unless response.match(/^[n]$/i)
             puts
-            puts "Searching ..."
+            puts 'Searching ...'
             if SequenceServer::Database.unformatted_fastas.empty?
               puts "Couldn't find any FASTA files."
               exit!
@@ -320,10 +325,11 @@ MSG
         exit
       end
 
-      if list_unformatted_fastas? or make_blast_databases?
+      if list_unformatted_fastas? || make_blast_databases?
         unformatted_fastas = SequenceServer::Database.unformatted_fastas
         if unformatted_fastas.empty?
-          puts "All FASTA files in #{SequenceServer[:database_dir]} are formatted."
+          puts "All FASTA files in #{SequenceServer[:database_dir]} are "\
+               'formatted.'
           exit
         end
       end
@@ -343,15 +349,13 @@ MSG
         exit
       end
 
-      if fetch_option(:set).value
-        SequenceServer.send :write_config_file
-      end
+      SequenceServer.send :write_config_file if fetch_option(:set).value
 
       SequenceServer.run
     end
   end
 rescue Slop::Error => e
   puts e
-  puts "Run '#{$0} -h' for help with command line options."
+  puts "Run '#{$PROGRAM_NAME} -h' for help with command line options."
   exit
 end

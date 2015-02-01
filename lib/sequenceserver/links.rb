@@ -6,7 +6,7 @@ module SequenceServer
     # Provide a method to URL encode _query parameters_. See [1].
     include ERB::Util
     #
-    alias encode url_encode
+    alias_method :encode, :url_encode
 
     NCBI_ID_PATTERN = /gi\|(\d+)\|/
 

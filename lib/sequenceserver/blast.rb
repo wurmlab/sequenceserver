@@ -305,10 +305,10 @@ module SequenceServer
       end
 
       def link_per_hit(sequence_id)
-        links = Links.instance_methods.map {|m| send(m, sequence_id)}
+        links = Links.instance_methods.map { |m| send(m, sequence_id) }
 
         # Sort links based on :order key (ascending)
-        links.compact!.sort_by! {|link| link[:order]}
+        links.compact!.sort_by! { |link| link[:order] }
       end
 
       # Returns an array of database objects which contain the queried
@@ -318,7 +318,7 @@ module SequenceServer
       #
       # e.g., which_blastdb('SI_2.2.23') => [<Database: ...>, ...]
       def which_blastdb(sequence_id)
-        querydb.select {|db| db.include? sequence_id}
+        querydb.select { |db| db.include? sequence_id }
       end
 
       private
@@ -328,7 +328,7 @@ module SequenceServer
                               Iteration Hit Hit_hsps Hsp)
 
       def node_to_array(element)
-        element.nodes.map {|n| node_to_value n}
+        element.nodes.map { |n| node_to_value n }
       end
 
       def node_to_value(node)
@@ -344,7 +344,7 @@ module SequenceServer
       end
 
       def first_text(node)
-        node.nodes.find {|n| n.is_a? String}
+        node.nodes.find { |n| n.is_a? String }
       end
     end
 
@@ -380,9 +380,7 @@ module SequenceServer
       #
       # blastn implies blastn, not megablast; but let's not interfere if a user
       # specifies `task` herself.
-      if method == 'blastn' and not options =~ /task/
-        options << ' -task blastn'
-      end
+      options << ' -task blastn' if method == 'blastn' && !options =~ /task/
 
       # Run BLAST search.
       #
@@ -419,22 +417,20 @@ module SequenceServer
         error = efile.rewind && efile.read unless error.is_a? String
 
         efile.close
-        raise ArgumentError, error
+        fail ArgumentError, error
       when 2, 3, 4, 255 # see [1]
         efile.open
         error = efile.read
         efile.close
-        raise RuntimeError.new(status, error)
+        fail RuntimeError.new(status, error)
       end
 
       # Report the results, ensures that file is closed after execution.
-      File.open(rfile.path) {|f| Report.new(f, databases)}
+      File.open(rfile.path) { |f| Report.new(f, databases) }
     end
 
     def pre_process(params)
-      unless params[:sequence].nil?
-        params[:sequence].strip!
-      end
+      params[:sequence].strip! unless params[:sequence].nil?
     end
 
     def validate_blast_params(params)
@@ -450,21 +446,21 @@ module SequenceServer
 
     def validate_blast_method(method)
       return true if ALGORITHMS.include? method
-      raise ArgumentError, "BLAST algorithm should be one of:" \
-                           " #{ALGORITHMS.join(', ')}."
+      fail ArgumentError, 'BLAST algorithm should be one of:' \
+                          " #{ALGORITHMS.join(', ')}."
     end
 
     def validate_blast_sequences(sequences)
-      return true if sequences.is_a? String and not sequences.empty?
-      raise ArgumentError, 'Sequences should be a non-empty string.'
+      return true if sequences.is_a?(String) && !sequences.empty?
+      fail ArgumentError, 'Sequences should be a non-empty string.'
     end
 
     def validate_blast_databases(database_ids)
       ids = Database.ids
       return true if database_ids.is_a?(Array) && !database_ids.empty? &&
         (ids & database_ids).length == database_ids.length
-      raise ArgumentError, "Database id should be one of:" \
-                           " #{ids.join("\n")}."
+      fail ArgumentError, 'Database id should be one of:' \
+                          " #{ids.join("\n")}."
     end
 
     # Advanced options are specified by the user. Here they are checked for
@@ -474,13 +470,13 @@ module SequenceServer
       return true if !options || (options.is_a?(String) && options.strip.empty?)
 
       unless options =~ /\A[a-z0-9\-_\. ']*\Z/i
-        raise ArgumentError, 'Invalid characters detected in options.'
+        fail ArgumentError, 'Invalid characters detected in options.'
       end
 
       disallowed_options = %w(-out -html -outfmt -db -query)
       disallowed_options.each do |o|
         if options =~ /#{o}/i
-          raise ArgumentError, "Option \"#{o}\" is prohibited."
+          fail ArgumentError, "Option \"#{o}\" is prohibited."
         end
       end
     end

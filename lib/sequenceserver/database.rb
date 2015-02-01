@@ -11,14 +11,15 @@ module SequenceServer
   # Formatting a FASTA for use with BLAST+ will create 3 or 6 files,
   # collectively referred to as a BLAST database.
   #
-  # It is important that formatted BLAST database files have the same dirname and
-  # basename as the source FASTA for SequenceServer to be able to tell formatted
-  # FASTA from unformatted. And that FASTA files be formatted with `parse_seqids`
-  # option of `makeblastdb` for sequence retrieval to work.
+  # It is important that formatted BLAST database files have the same dirname
+  # and basename as the source FASTA for SequenceServer to be able to tell
+  # formatted FASTA from unformatted. And that FASTA files be formatted with
+  # `parse_seqids` option of `makeblastdb` for sequence retrieval to work.
   #
   # SequenceServer will always place BLAST database files alongside input FASTA,
   # and use `parse_seqids` option of `makeblastdb` to format databases.
-  class Database < Struct.new(:name, :title, :type, :nsequences, :ncharacters, :updated_on)
+  class Database < Struct.new(:name, :title, :type, :nsequences, :ncharacters,
+                              :updated_on)
 
     class << self
 
@@ -71,7 +72,9 @@ module SequenceServer
       # Recurisvely scan `database_dir` for blast databases.
       def scan_databases_dir
         database_dir = config[:database_dir]
-        list = %x|blastdbcmd -recursive -list #{database_dir} -list_outfmt "%f	%t	%p	%n	%l	%d" 2>&1|
+        cmd = "blastdbcmd -recursive -list #{database_dir}" \
+              ' -list_outfmt "%f	%t	%p	%n	%l	%d" 2>&1'
+        list = `#{cmd}`
         list.each_line do |line|
           name = line.split('	')[0]
           next if multipart_database_name?(name)
@@ -87,8 +90,8 @@ module SequenceServer
         end
       end
 
-      # Returns an Array of FASTA files that may require formatting, and the type
-      # of sequence contained in each FASTA.
+      # Returns an Array of FASTA files that may require formatting, and the
+      # type of sequence contained in each FASTA.
       #
       #   > unformatted_fastas
       #   => [['/foo/bar.fasta', :nulceotide], ...]
@@ -115,21 +118,22 @@ module SequenceServer
         puts "FASTA file: #{file}"
         puts "FASTA type: #{type}"
 
-        print "Proceed? [y/n] (Default: y): "
+        print 'Proceed? [y/n] (Default: y): '
         response = STDIN.gets.to_s.strip
 
-        unless response.match(/n/i)
-          default_title = make_db_title(File.basename(file))
-          print "Enter a database title or will use '#{default_title}': "
-          title = STDIN.gets.to_s
-          title = default_title if title.strip.empty?
+        return if response.match(/n/i)
 
-          system "makeblastdb -parse_seqids -hash_index \
-            -in #{file} -dbtype #{type.to_s.slice(0,4)} -title '#{title}'"
-        end
+        default_title = make_db_title(File.basename(file))
+        print "Enter a database title or will use '#{default_title}': "
+        title = STDIN.gets.to_s
+        title = default_title if title.strip.empty?
+
+        system "makeblastdb -parse_seqids -hash_index " \
+               "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'"
       end
 
-      # Returns true if the database name appears to be a multi-part database name.
+      # Returns true if the database name appears to be a multi-part database
+      # name.
       #
       # e.g.
       # /home/ben/pd.ben/sequenceserver/db/nr.00 => yes
@@ -168,9 +172,10 @@ module SequenceServer
       # NOTE: 2^15 == 32786. Approximately 546 lines, assuming 60 characters on
       # each line.
       def guess_sequence_type_in_fasta(file)
-        sample = File.read(file, 32768)
-        sequences = sample.split(/^>.+$/).delete_if { |seq| seq.empty? }
-        sequence_types = sequences.map {|seq| Sequence.guess_type(seq)}.uniq.compact
+        sample = File.read(file, 32_768)
+        sequences = sample.split(/^>.+$/).delete_if(&:empty?)
+        sequence_types = sequences.map { |seq| Sequence.guess_type(seq) }
+        sequence_types = sequence_types.uniq.compact
         (sequence_types.length == 1) && sequence_types.first
       end
     end
@@ -187,7 +192,7 @@ module SequenceServer
 
     def include?(accession)
       out = `blastdbcmd -entry '#{accession}' -db #{name} 2> /dev/null`
-      not out.empty?
+      !out.empty?
     end
 
     def to_s
