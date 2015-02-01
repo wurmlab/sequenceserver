@@ -47,8 +47,8 @@
                 <tr>
                   <td class="text-left"><%= h + 1 %>.</td>
                   <td> <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>"><%= "#{hit.id}" %></a> </td>
-                  <td class="text-right"><%= prettify_score hit.score %></td>
-                  <td class="text-right"><%= prettify_evalue hit.evalue %></td>
+                  <td class="text-right"><%= prettify_float hit.score  %></td>
+                  <td class="text-right"><%= prettify_float hit.evalue %></td>
                 </tr>
               <% end %>
               </tbody>
@@ -91,19 +91,19 @@
                       <table
                         class="table table-condensed hsp-stats">
                         <thead>
-                          <% report.filter_hsp_stats(hsp).each do |key, value| %>
+                          <% hsp.stats.keys.each do |key| %>
                             <th> <%= key %> </th>
                           <% end %>
                         </thead>
                         <tbody>
                           <tr>
-                            <% report.filter_hsp_stats(hsp).each do |key, value| %>
-                              <td> <%= value %> </th>
+                            <% hsp.stats.values.each do |value| %>
+                              <td> <%= prettify value %> </th>
                             <% end %>
                           </tr>
                         </tbody>
                       </table>
-                      <div class="alignment"><%= report.pp_hsp hsp%></div>
+                      <div class="alignment"><%= hsp.pp %></div>
                     </div>
                   <% end %>
                   <div class="hit-links text-right">

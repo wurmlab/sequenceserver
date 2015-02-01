@@ -296,20 +296,33 @@ module SequenceServer
         URI.parse(uri).absolute?
       end
 
-      # Formats score (a float) to two decimal places.
-      def prettify_score(score)
-        '%.2f' % score
+      # Prettify given data.
+      def prettify(data)
+        return prettify_tuple(data) if tuple? data
+        return prettify_float(data) if data.is_a? Float
+        return data
       end
 
-      # Formats evalue (a float expressed in scientific notation) to "a x b^c".
-      def prettify_evalue(evalue)
-        evalue.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) do
+      # Formats float as "a.bcd" or "a x b^c". The latter if float is
+      # scientific notation. Former otherwise.
+      def prettify_float(float)
+        float.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) do
           base  = Regexp.last_match[1]
           power = Regexp.last_match[2]
-          s = '%.3f' % base
+          s = '%.2f' % base
           s << " &times; 10<sup>#{power}</sup>" if power
           s
         end
+      end
+
+      # Formats an array of two elements as "first (last)".
+      def prettify_tuple(tuple)
+        "#{tuple.first} (#{tuple.last})"
+      end
+
+      # Is the given value a tuple? (array of length two).
+      def tuple?(data)
+        return true if data.is_a?(Array) && data.length == 2
       end
     end
 
