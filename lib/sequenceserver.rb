@@ -1,5 +1,5 @@
 require 'yaml'
-require 'english'
+require 'English'
 require 'fileutils'
 require 'sinatra/base'
 require 'thin'

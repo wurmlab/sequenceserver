@@ -1,6 +1,6 @@
 require 'forwardable'
 require 'tempfile'
-require 'english'
+require 'English'
 require 'ox'
 
 require 'sequenceserver/links'
