@@ -3,12 +3,7 @@ require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 
 desc 'Run RuboCop to generate HTML report'
-RuboCop::RakeTask.new(:rubocop) do |task|
-  require 'rubocop'
-  task.fail_on_error = false
-  cli = RuboCop::CLI.new
-  cli.run(%w(--format html -o rubocop.html))
-end
+RuboCop::RakeTask.new :rubocop
 
 desc 'Run main spec testing task'
 RSpec::Core::RakeTask.new(:spec) do |spec|

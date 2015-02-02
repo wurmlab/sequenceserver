@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'readline'
+require 'english'
 require 'slop'
 
 ENV['RACK_ENV'] ||= 'production'
@@ -218,7 +219,8 @@ MSG
                   "#{version.chop}/ncbi-blast-#{version}-x64-linux.tar.gz"
                 when /darwin/       # Mac
                   'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/' \
-                  "#{version.chop}/ncbi-blast-#{version}-universal-macosx.tar.gz"
+                  "#{version.chop}/" \
+                  "ncbi-blast-#{version}-universal-macosx.tar.gz"
                 else
                   puts <<ERR
 ------------------------------------------------------------------------
@@ -237,7 +239,7 @@ ERR
           archive = File.join('/tmp', File.basename(url))
           system "wget -c #{url} -O #{archive} && mkdir -p ~/.sequenceserver" \
             "&& tar xvf #{archive} -C ~/.sequenceserver"
-          unless $?.success?
+          unless $CHILD_STATUS.success?
             puts 'Failed to install BLAST+.'
             puts '  You may need to download BLAST+ from - '
             puts '   http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
@@ -245,7 +247,8 @@ ERR
             #{SequenceServer::MINIMUM_BLAST_VERSION} or higher."
             exit!
           end
-          fetch_option(:bin).value = "~/.sequenceserver/ncbi-blast-#{version}/bin/"
+          fetch_option(:bin).value =
+            "~/.sequenceserver/ncbi-blast-#{version}/bin/"
           redo
         else
           unless File.basename(response) == 'bin'
@@ -282,7 +285,7 @@ MSG
 
       rescue SequenceServer::NO_BLAST_DATABASE_FOUND => e
         unless list_databases? || list_unformatted_fastas? ||
-            make_blast_databases?
+               make_blast_databases?
 
           # Print error raised.
           puts

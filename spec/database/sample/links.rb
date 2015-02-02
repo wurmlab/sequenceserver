@@ -1,9 +1,9 @@
 module SequenceServer
-
+  # Sample hit link customization file.
   module Links
-
     SI_UNIPROT_IDPAT = /SI2.2.0.(\d*)/
-    SI_UNIPROT_IDMAP = YAML.load_file(File.expand_path('si_uniprot_idmap.yml', File.dirname(__FILE__)))
+    SI_UNIPROT_IDMAP = YAML.load_file(File.expand_path('si_uniprot_idmap.yml',
+                                                       File.dirname(__FILE__)))
 
     def uniprot(sequence_id)
       return nil unless sequence_id.match(SI_UNIPROT_IDPAT)

@@ -5,7 +5,6 @@ require 'forwardable'
 require 'sequenceserver/sequence'
 
 module SequenceServer
-
   # Captures a directory containing FASTA files and BLAST databases.
   #
   # Formatting a FASTA for use with BLAST+ will create 3 or 6 files,
@@ -20,9 +19,7 @@ module SequenceServer
   # and use `parse_seqids` option of `makeblastdb` to format databases.
   class Database < Struct.new(:name, :title, :type, :nsequences, :ncharacters,
                               :updated_on)
-
     class << self
-
       include Enumerable
 
       extend Forwardable
@@ -99,13 +96,12 @@ module SequenceServer
         list = []
         database_dir = config[:database_dir]
         Find.find database_dir do |file|
-          next if File.directory?(file)
+          next if File.directory? file
           next if Database.include? file
-          if probably_fasta? file
-            sequence_type = guess_sequence_type_in_fasta file
-            if [:protein, :nucleotide].include?(sequence_type)
-              list << [file, sequence_type]
-            end
+          next unless probably_fasta? file
+          sequence_type = guess_sequence_type_in_fasta file
+          if [:protein, :nucleotide].include?(sequence_type)
+            list << [file, sequence_type]
           end
         end
         list
@@ -128,7 +124,7 @@ module SequenceServer
         title = STDIN.gets.to_s
         title = default_title if title.strip.empty?
 
-        system "makeblastdb -parse_seqids -hash_index " \
+        system 'makeblastdb -parse_seqids -hash_index ' \
                "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'"
       end
 

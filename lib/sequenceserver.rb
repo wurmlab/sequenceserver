@@ -1,4 +1,5 @@
 require 'yaml'
+require 'english'
 require 'fileutils'
 require 'sinatra/base'
 require 'thin'
@@ -10,8 +11,8 @@ require 'sequenceserver/sequence'
 require 'sequenceserver/database'
 require 'sequenceserver/blast'
 
+# Top level module / namespace.
 module SequenceServer
-
   # Use a fixed minimum version of BLAST+
   MINIMUM_BLAST_VERSION           = '2.2.30+'
 
@@ -126,8 +127,9 @@ module SequenceServer
       config[:database_dir] ||= config.delete(:database)
       config
     rescue ArgumentError => error
-      puts "*** Error in config file: #{error}."
-      puts '    YAML is white space sensitive. Is your config file properly indented?'
+      puts "Error in config file: #{error}."
+      puts 'YAML is white space sensitive. Is your config file properly'\
+           'indented?'
       exit 1
     end
 
@@ -184,9 +186,7 @@ module SequenceServer
 
     def check_num_threads
       num_threads = Integer(config[:num_threads])
-      unless num_threads > 0
-        fail NUM_THREADS_INCORRECT
-      end
+      fail NUM_THREADS_INCORRECT unless num_threads > 0
 
       logger.debug "Will use #{num_threads} threads to run BLAST."
       if num_threads > 256
@@ -223,13 +223,12 @@ module SequenceServer
     end
 
     def assert_blast_databases_present_in_database_dir
-      database_dir = config[:database_dir]
-      cmd = "blastdbcmd -recursive -list #{database_dir}"
+      cmd = "blastdbcmd -recursive -list #{config[:database_dir]}"
       out = `#{cmd}`
-      fail NO_BLAST_DATABASE_FOUND, database_dir if out.empty?
-      if out.match(/BLAST Database error/) || !$?.success?
-        fail BLAST_DATABASE_ERROR, cmd, out
-      end
+      errpat = /BLAST Database error/
+      fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
+      fail BLAST_DATABASE_ERROR, cmd, out if out.match(errpat) ||
+                                             !$CHILD_STATUS.success?
     end
 
     # Return `true` if the given command exists and is executable.
@@ -240,7 +239,6 @@ module SequenceServer
 
   # Controller.
   class App < Sinatra::Base
-
     # See
     # http://www.sinatrarb.com/configuration.html
     configure do
@@ -300,7 +298,7 @@ module SequenceServer
       def prettify(data)
         return prettify_tuple(data) if tuple? data
         return prettify_float(data) if data.is_a? Float
-        return data
+        data
       end
 
       # Formats float as "a.bcd" or "a x b^c". The latter if float is
@@ -309,7 +307,7 @@ module SequenceServer
         float.to_s.sub(/(\d*\.\d*)e?([+-]\d*)?/) do
           base  = Regexp.last_match[1]
           power = Regexp.last_match[2]
-          s = '%.2f' % base
+          s = format '%.2f', base
           s << " &times; 10<sup>#{power}</sup>" if power
           s
         end
@@ -342,8 +340,12 @@ module SequenceServer
       erb :result, :locals => { :report => BLAST.run(params) }
     end
 
-    # get
-    # '/get_sequence/?sequence_ids=sequence_ids&database_ids=retreival_databases[&download=fasta]'
+    # @params sequence_ids: whitespace separated list of sequence ids to
+    # retrieve
+    # @params database_ids: whitespace separated list of database ids to
+    # retrieve the sequence from.
+    # @params download: whether to return raw response or initiate file
+    # download
     #
     # Use whitespace to separate entries in sequence_ids (all other chars exist
     # in identifiers) and retreival_databases (we don't allow whitespace in a

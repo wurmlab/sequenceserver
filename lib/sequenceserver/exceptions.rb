@@ -12,7 +12,6 @@
 # on them.
 
 module SequenceServer
-
   ## ENOENT ##
 
   # Name borrowed from standard Errno::ENOENT, this class serves as a template
@@ -24,7 +23,6 @@ module SequenceServer
   # is not raised if database_dir is not set. ENOENT is raised if database_dir
   # was set, but does not exist.
   class ENOENT < StandardError
-
     def initialize(des, ent)
       @des = des
       @ent = ent
@@ -39,25 +37,22 @@ module SequenceServer
 
   # Raised if bin dir set, but does not exist.
   class BIN_DIR_NOT_FOUND < ENOENT
-
     def initialize(ent)
-      super "bin dir", ent
+      super 'bin dir', ent
     end
   end
 
   # Raised if database dir set, but does not exist.
   class DATABASE_DIR_NOT_FOUND < ENOENT
-
     def initialize(ent)
-      super "database dir", ent
+      super 'database dir', ent
     end
   end
 
   # Raised if extension file set, but does not exist.
   class EXTENSION_FILE_NOT_FOUND < ENOENT
-
     def initialize(ent)
-      super "extension file", ent
+      super 'extension file', ent
     end
   end
 
@@ -65,9 +60,8 @@ module SequenceServer
 
   # Raised if num_threads set by the user is incorrect.
   class NUM_THREADS_INCORRECT < StandardError
-
     def to_s
-      "Number of threads should be a number greater than or equal to 1."
+      'Number of threads should be a number greater than or equal to 1.'
     end
   end
 
@@ -76,7 +70,6 @@ module SequenceServer
   # Raised if SequenceServer could not locate NCBI BLAST+ installation on
   # user's system.
   class BLAST_NOT_INSTALLED < StandardError
-
     def to_s
       'Could not locate BLAST+ binaries.'
     end
@@ -92,7 +85,7 @@ module SequenceServer
     attr_reader :version
 
     def to_s
-<<MSG
+      <<MSG
 Your BLAST+ version #{version} is outdated.
 SequenceServer needs NCBI BLAST+ version #{MINIMUM_BLAST_VERSION} or higher.
 MSG
@@ -103,15 +96,13 @@ MSG
 
   # Raised if 'database_dir' not set.
   class DATABASE_DIR_NOT_SET < StandardError
-
     def to_s
-      "Database dir not set."
+      'Database dir not set.'
     end
   end
 
   # Raised if not even one BLAST+ database was found in database_dir.
   class NO_BLAST_DATABASE_FOUND < StandardError
-
     def initialize(database_dir)
       @database_dir = database_dir
     end
@@ -125,7 +116,6 @@ MSG
 
   # Raised if there was an error determining BLAST+ databases in database_dir.
   class BLAST_DATABASE_ERROR
-
     def initialize(cmd, out)
       @cmd = cmd
       @out = out
@@ -134,7 +124,7 @@ MSG
     attr_reader :cmd, :out
 
     def to_s
-<<MSG
+      <<MSG
 Error obtaining BLAST databases.
 Tried: #{cmd}
 Error:

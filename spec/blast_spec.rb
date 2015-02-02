@@ -1,13 +1,15 @@
 require 'spec_helper'
 
+# Test BLAST module.
 module SequenceServer
-
-  with_hits_xml = File.join(SequenceServer.root, 'spec', 'ss_sample_blast_with_hits.xml')
-  no_hits_xml = File.join(SequenceServer.root, 'spec', 'ss_sample_blast_no_hits.xml')
+  with_hits_xml = File.join(SequenceServer.root, 'spec',
+                            'ss_sample_blast_with_hits.xml')
+  no_hits_xml = File.join(SequenceServer.root, 'spec',
+                          'ss_sample_blast_no_hits.xml')
 
   describe 'Report' do
-    hits_report = File.open(with_hits_xml) {|f| BLAST::Report.new(f)}
-    no_hits_report = File.open(no_hits_xml) {|f| BLAST::Report.new(f)}
+    hits_report = File.open(with_hits_xml) { |f| BLAST::Report.new(f) }
+    no_hits_report = File.open(no_hits_xml) { |f| BLAST::Report.new(f) }
 
     it 'will return an Array of queries' do
       hits_report.queries.should be_a Array
@@ -26,14 +28,14 @@ module SequenceServer
   end
 
   describe 'Query' do
-    hits_report = File.open(with_hits_xml) {|f| BLAST::Report.new(f)}
-    no_hits_report = File.open(no_hits_xml) {|f| BLAST::Report.new(f)}
+    hits_report = File.open(with_hits_xml) { |f| BLAST::Report.new(f) }
+    no_hits_report = File.open(no_hits_xml) { |f| BLAST::Report.new(f) }
 
     it 'will return queries with valid length' do
       hits_report.queries.first.len.should be_a Fixnum
-      hits_report.queries.first.len.should satisfy {|n| n > 0}
+      hits_report.queries.first.len.should satisfy { |n| n > 0 }
       no_hits_report.queries.first.len.should be_a Fixnum
-      no_hits_report.queries.first.len.should satisfy {|n| n > 0}
+      no_hits_report.queries.first.len.should satisfy { |n| n > 0 }
     end
 
     it 'will return an Array of hits' do
@@ -43,11 +45,11 @@ module SequenceServer
   end
 
   describe 'Hits' do
-    hits_report = File.open(with_hits_xml) {|f| BLAST::Report.new(f)}
-    no_hits_report = File.open(no_hits_xml) {|f| BLAST::Report.new(f)}
+    hits_report = File.open(with_hits_xml) { |f| BLAST::Report.new(f) }
+    no_hits_report = File.open(no_hits_xml) { |f| BLAST::Report.new(f) }
 
     it 'will have non zero length' do
-      hits_report.queries.last.hits.first.len.should satisfy {|n| n > 0}
+      hits_report.queries.last.hits.first.len.should satisfy { |n| n > 0 }
     end
 
     it 'will return an Array of HSPs' do
@@ -61,11 +63,10 @@ module SequenceServer
     it 'will contain no element if no hits were obtained' do
       no_hits_report.queries.first.hits.length.should eql(0)
     end
-
   end
 
   describe 'HSPs' do
-    hits_report = File.open(with_hits_xml) {|f| BLAST::Report.new(f)}
+    hits_report = File.open(with_hits_xml) { |f| BLAST::Report.new(f) }
     method = hits_report.program
 
     # Currently using all 17 HSP parameters in BLAST Report.
@@ -79,34 +80,44 @@ module SequenceServer
       hits_report.queries.last.hits.first.hsps.last.score.should be_a Fixnum
 
       hits_report.queries.first.hits.first.hsps.first.evalue.should be_a Float
-      hits_report.queries.first.hits.first.hsps.first.evalue.should_not satisfy {|n| n < 0}
+      hits_report.queries.first.hits.first.hsps.first.evalue
+        .should_not satisfy { |n| n < 0 }
 
       hits_report.queries.first.hits.last.hsps.first.qstart.should be_a Fixnum
-      hits_report.queries.first.hits.last.hsps.first.qstart.should_not satisfy {|n| n < 0}
+      hits_report.queries.first.hits.last.hsps.first.qstart
+        .should_not satisfy { |n| n < 0 }
 
       hits_report.queries.first.hits.last.hsps.first.qend.should be_a Fixnum
-      hits_report.queries.first.hits.last.hsps.first.qend.should_not satisfy {|n| n < 0}
+      hits_report.queries.first.hits.last.hsps.first.qend
+        .should_not satisfy { |n| n < 0 }
 
       hits_report.queries.last.hits.last.hsps.last.sstart.should be_a Fixnum
-      hits_report.queries.last.hits.last.hsps.last.sstart.should_not satisfy {|n| n < 0}
+      hits_report.queries.last.hits.last.hsps.last.sstart
+        .should_not satisfy { |n| n < 0 }
 
       hits_report.queries.first.hits.first.hsps.last.send.should be_a Fixnum
-      hits_report.queries.first.hits.first.hsps.last.send.should_not satisfy {|n| n < 0}
+      hits_report.queries.first.hits.first.hsps.last.send
+        .should_not satisfy { |n| n < 0 }
 
       hits_report.queries.first.hits.first.hsps.last.qframe.should be_a Fixnum
       hits_report.queries.first.hits.first.hsps.last.sframe.should be_a Fixnum
 
       hits_report.queries.first.hits.first.hsps.last.identity.should be_a Fixnum
-      hits_report.queries.first.hits.first.hsps.last.identity.should_not satisfy {|n| n < 0 }
+      hits_report.queries.first.hits.first.hsps.last.identity
+        .should_not satisfy { |n| n < 0 }
 
       hits_report.queries.first.hits.first.hsps.last.gaps.should be_a Fixnum
-      hits_report.queries.first.hits.first.hsps.last.gaps.should_not satisfy {|n| n < 0}
+      hits_report.queries.first.hits.first.hsps.last.gaps
+        .should_not satisfy { |n| n < 0 }
 
-      hits_report.queries.first.hits.first.hsps.last.positives.should be_a Fixnum
-      hits_report.queries.first.hits.first.hsps.last.positives.should_not satisfy {|n| n < 0}
+      hits_report.queries.first.hits.first.hsps.last.positives
+        .should be_a Fixnum
+      hits_report.queries.first.hits.first.hsps.last.positives
+        .should_not satisfy { |n| n < 0 }
 
       hits_report.queries.first.hits.first.hsps.last.len.should be_a Fixnum
-      hits_report.queries.first.hits.first.hsps.last.len.should satisfy {|n| n > 0}
+      hits_report.queries.first.hits.first.hsps.last.len
+        .should satisfy { |n| n > 0 }
 
       hits_report.queries.last.hits.last.hsps.first.qseq.should be_a String
       hits_report.queries.last.hits.last.hsps.first.sseq.should be_a String
@@ -155,6 +166,5 @@ module SequenceServer
         hsp.sframe.should_not eql(0)
       end
     end
-
   end
 end

@@ -2,10 +2,10 @@ require 'spec_helper'
 require 'capybara/rspec'
 require 'capybara-webkit'
 
-describe "an headless mode with webkit" do
-  sequence = "ATCGATCAGCTACGATCAGCATCGACTAGCATCGACTACGA"
-  sample_nucl_db = "Sinvicta2-2-3.cdna"
-  sample_prot_db = "Sinvicta2-2-3.prot"
+describe 'an headless mode with webkit' do
+  sequence = 'ATCGATCAGCTACGATCAGCATCGACTAGCATCGACTACGA'
+  sample_nucl_db = 'Sinvicta2-2-3.cdna'
+  # sample_prot_db = 'Sinvicta2-2-3.prot'
 
   before(:all) do
     Capybara.current_driver = :webkit
@@ -19,5 +19,4 @@ describe "an headless mode with webkit" do
     click_button('method')
     page.should have_content('Query')
   end
-
 end

@@ -1,7 +1,8 @@
 require 'spec_helper'
 
+# Basic unit tests for HTTP / Rack interface.
 module SequenceServer
-  describe "App" do
+  describe 'App' do
     ENV['RACK_ENV'] = 'test'
     include Rack::Test::Methods
 
@@ -17,16 +18,23 @@ module SequenceServer
       File.join(root, 'spec', 'database')
     end
 
-    let 'app' do
+    before :each do
       SequenceServer.init(:config_file  => empty_config,
                           :database_dir => database_dir)
+
+      algorithm = Database.first.type == 'protein' ? 'blastp' : 'blastn'
+      sequence  = 'AGCTAGCTAGCT'
+      databases = [Database.first.id]
+
+      @params   = {
+        'method'    => algorithm,
+        'sequence'  => sequence,
+        'databases' => databases
+      }
     end
 
-    before :each do
-      app
-      @params = {'method'    => (Database.first.type == 'protein' ? 'blastp' : 'blastn'),
-                 'sequence'  => 'AGCTAGCTAGCT',
-                 'databases' => [Database.first.id]}
+    let 'app' do
+      SequenceServer
     end
 
     it 'returns Bad Request (400) if no blast method is provided' do
@@ -51,7 +59,7 @@ module SequenceServer
       @params['databases'].pop
 
       # ensure the list of databases is empty
-      @params['databases'].length.should == 0
+      @params['databases'].should be_empty
 
       post '/', @params
       last_response.status.should == 400
@@ -75,16 +83,18 @@ module SequenceServer
       last_response.status.should == 400
     end
 
-    it 'returns OK (200) when correct method, sequence, and database ids are provided but no advanced params' do
+    it 'returns OK (200) when correct method, sequence, and database ids are'\
+       'provided but no advanced params' do
       post '/', @params
-      last_response.status.should == 200
+      last_response.status.should eq 200
 
       @params['advanced'] = '  '
       post '/', @params
       last_response.status.should == 200
     end
 
-    it 'returns OK (200) when correct method, sequence, and database ids and advanced params are provided' do
+    it 'returns OK (200) when correct method, sequence, and database ids and'\
+       'advanced params are provided' do
       @params['advanced'] = '-evalue 1'
       post '/', @params
       last_response.status.should == 200
