@@ -26,6 +26,7 @@ DESC
   s.add_development_dependency('rubocop',         '~> 0.28', '>= 0.28.0')
   s.add_development_dependency('capybara',        '~> 2.4',  '>= 2.4.4')
   s.add_development_dependency('capybara-webkit', '~> 1.3',  '>= 1.3.0')
+  s.add_development_dependency('codeclimate-test-reporter')
 
   # gem
   s.files         = Dir['lib/**/*'] + Dir['views/**/*'] + Dir['public/**/*']
