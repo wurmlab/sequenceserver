@@ -49,7 +49,7 @@ module SequenceServer
         #
         # blastn implies blastn, not megablast; but let's not interfere if a
         # user specifies `task` herself.
-        options << ' -task blastn' if method == 'blastn' && !options =~ /task/
+        options << ' -task blastn' if method == 'blastn' && !(options =~ /task/)
 
         # Run BLAST search.
         #
