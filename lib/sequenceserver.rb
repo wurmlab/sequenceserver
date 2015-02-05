@@ -272,6 +272,11 @@ module SequenceServer
       mime_type :fasta, 'text/fasta'
     end
 
+    configure :production do
+      set :public_folder,
+          lambda { File.join SequenceServer.root, 'public', 'dist' }
+    end
+
     helpers do
       # Render an anchor element from the given Hash.
       #

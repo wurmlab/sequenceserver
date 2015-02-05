@@ -16,9 +16,13 @@
 
   <link href='http://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" media="screen,print" type="text/css" href="css/bootstrap.min.css"/>
-  <link rel="stylesheet" media="screen,print" type="text/css" href="css/font-awesome.min.css"/>
-  <link rel="stylesheet" media="screen,print" type="text/css" href="css/custom.css"/>
+  <% if settings.production? %>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css"/>
+  <% else %>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/custom.css"/>
+  <% end %>
 </head>
 
 <body>
@@ -402,19 +406,20 @@
   </div> <!-- sequence viewing -->
 
   <!-- JS -->
-  <script type="text/javascript" src="js/jquery.min.js"></script>
-  <script type="text/javascript" src="js/underscore.min.js"></script>
-  <script type="text/javascript" src="js/webshims/polyfiller.js"></script>
-  <script type="text/javascript">
-    $.webshims.polyfill('forms');
-  </script>
-  <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="js/d3.v3.min.js"></script>
-  <script type="text/javascript" src="js/sequenceserver.js"></script>
-  <script type="text/javascript" src="js/sequenceserver.blast.js"></script>
-  <script type="text/javascript" src="js/jquery.t.js"></script>
-  <script type="text/javascript" src="js/sequence.js"></script>
+  <% if settings.production? %>
+    <script src="js/sequenceserver.min.js"></script>
+  <% else %>
+    <script type="text/javascript" src="js/underscore.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/webshims/polyfiller.js"></script>
+    <script type="text/javascript" src="js/d3.v3.min.js"></script>
+    <script type="text/javascript" src="js/sequenceserver.js"></script>
+    <script type="text/javascript" src="js/sequenceserver.blast.js"></script>
+    <script type="text/javascript" src="js/jquery.t.js"></script>
+    <script type="text/javascript" src="js/sequence.js"></script>
+  <% end %>
 
   <!-- twitter -->
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>

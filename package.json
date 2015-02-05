@@ -1,0 +1,24 @@
+{
+    "name": "SequenceServer",
+    "description": "BLAST searching made easy!",
+    "version": "1.0.0-2",
+    "homepage": "http://www.sequenceserver.com",
+    "repository": "https://github.com/yannickwurm/sequenceserver",
+    "author": {
+        "name": "Anurag Priyam",
+        "email": "anurag08priyam@gmail.com"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+        "grunt":                  "0.4.5",
+        "grunt-cli":              "0.1.13",
+        "grunt-contrib-cssmin":   "0.11.0",
+        "grunt-contrib-uglify":   "0.4.0",
+        "grunt-contrib-copy":     "0.7.0",
+        "grunt-contrib-compress": "0.13.0"
+    },
+    "scripts": {
+        "build":         "grunt build"
+    }
+}

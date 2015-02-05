@@ -1,31 +1,36 @@
-//helpers methods to disable, enable, and uncheck radio buttons and checkboxes
-(function( $ ){
+/**
+ * Load necessary polyfills.
+ */
+$.webshims.polyfill('forms');
+
+/**
+ * Helpers methods to disable, enable, and uncheck radio buttons and
+ * checkboxes.
+ */
+(function ($) {
     //disable an element
     $.fn.disable = function() {
         return this.prop('disabled', true).addClass('disabled');
     };
-})( jQuery );
-
-(function( $ ){
+})(jQuery);
+(function ($) {
     //enable an element
     $.fn.enable = function() {
         return this.prop('disabled', false).removeClass('disabled');
     };
-})( jQuery );
-
-(function( $ ){
+})(jQuery);
+(function ($) {
     //uncheck an element
     $.fn.uncheck = function() {
         return this.prop('checked', false);
     };
-})( jQuery );
-
-(function( $ ){
+})(jQuery);
+(function ($) {
     //check an element
     $.fn.check = function() {
         return this.prop('checked', true);
     };
-})( jQuery );
+})(jQuery);
 
 /**
  * Wiggle an element.
