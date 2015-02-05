@@ -2,6 +2,8 @@ AllCops:
   Exclude:
     # Because we don't use this test suite at the moment.
     - 'spec/ui_test.rb'
+    # Because these are vendor files.
+    - 'node_modules/**/*'
 
 Metrics/AbcSize:
   Exclude:

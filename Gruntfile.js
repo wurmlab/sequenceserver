@@ -3,6 +3,32 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         prefix: 'public/dist/',
         name: '<%= pkg.name.toLowerCase() %>',
+        //htmllint: {
+            //options: {
+            //},
+            //all: 'views/*'
+        //},
+        bootlint: {
+            options: {
+                stoponerror: false,
+                relaxerror: []
+            },
+            files: 'views/*'
+        },
+        csslint: {
+            files: 'public/css/custom.css'
+        },
+        jshint: {
+            options: {
+                force: true
+            },
+            files: [
+                'Gruntfile.js',
+                'public/js/sequenceserver.js',
+                'public/js/sequenceserver.blast.js',
+                'public/js/jquery.t.js',
+            ]
+        },
         cssmin: {
             options: {
                 keepSpecialComments: 0
@@ -77,10 +103,16 @@ module.exports = function (grunt) {
         }
     });
 
+    //grunt.loadNpmTasks('grunt-html');
+    grunt.loadNpmTasks('grunt-bootlint');
+    grunt.loadNpmTasks('grunt-contrib-csslint');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-compress');
 
+    //grunt.registerTask('cop', ['htmllint', 'bootlint', 'csslint', 'jshint']);
+    grunt.registerTask('cop', ['bootlint', 'csslint', 'jshint']);
     grunt.registerTask('build', ['cssmin', 'uglify', 'copy', 'compress']);
 };
