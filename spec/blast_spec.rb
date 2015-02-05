@@ -2,16 +2,14 @@ require 'spec_helper'
 
 # Test BLAST module.
 module SequenceServer
-  with_hits_asn = File.join(SequenceServer.root,
-                            'spec',
-                            'ss_sample_blast_with_hits.asn')
-  no_hits_asn   = File.join(SequenceServer.root,
-                            'spec',
-                            'ss_sample_blast_no_hits.asn')
+  sample_reports = File.join(SequenceServer.root, 'spec', 'sample_reports')
+
+  with_hits      = File.join(sample_reports, 'with_hits_sample.asn')
+  no_hits        = File.join(sample_reports, 'no_hits_sample.asn')
 
   describe 'Report' do
-    hits_report = BLAST::Report.new(with_hits_asn)
-    no_hits_report = BLAST::Report.new(no_hits_asn)
+    hits_report = BLAST::Report.new(with_hits)
+    no_hits_report = BLAST::Report.new(no_hits)
 
     it 'will return an Array of queries' do
       hits_report.queries.should be_a Array
@@ -30,8 +28,8 @@ module SequenceServer
   end
 
   describe 'Query' do
-    hits_report = BLAST::Report.new(with_hits_asn)
-    no_hits_report = BLAST::Report.new(no_hits_asn)
+    hits_report = BLAST::Report.new(with_hits)
+    no_hits_report = BLAST::Report.new(no_hits)
 
     it 'will return queries with valid length' do
       hits_report.queries.first.len.should be_a Fixnum
@@ -47,8 +45,8 @@ module SequenceServer
   end
 
   describe 'Hits' do
-    hits_report = BLAST::Report.new(with_hits_asn)
-    no_hits_report = BLAST::Report.new(no_hits_asn)
+    hits_report = BLAST::Report.new(with_hits)
+    no_hits_report = BLAST::Report.new(no_hits)
 
     it 'will have non zero length' do
       hits_report.queries.last.hits.first.len.should satisfy { |n| n > 0 }
@@ -67,9 +65,10 @@ module SequenceServer
     end
   end
 
+  # Test general features of HSPs. Algorithm specific customizations are
+  # tested separetly.
   describe 'HSPs' do
-    hits_report = BLAST::Report.new(with_hits_asn)
-    method = hits_report.program
+    hits_report = BLAST::Report.new(with_hits)
 
     # Currently using all 17 HSP parameters in BLAST Report.
     it 'have all the necessary values' do
@@ -133,40 +132,165 @@ module SequenceServer
       hsp.midline.length.should eql(hsp.qseq.length)
     end
 
-    it 'have correctly ordered query, and subject\'s start, end coordinates' do
+    it 'have correct pretty printing' do
       hsp = hits_report.queries.last.hits.last.hsps.first
-      case method
-      when 'blastn'
-        if hsp.sframe > 0
-          hsp.sstart.should be <= hsp.send
-        else
-          hsp.sstart.should be >= hsp.send
-        end
-      else
-        hsp.qstart.should be <= hsp.qend
+      pp  = hsp.pp
+
+      pp.should_not be_empty
+      pp.should be_a_kind_of(String)
+      (pp.lines.count % 3).should eql(0)
+
+      pp.should match(/^Query/)
+      pp.should match(/Subject/)
+    end
+
+    it 'have relevant stats' do
+      hsp   = hits_report.queries.last.hits.last.hsps.last
+      stats = hsp.stats
+
+      stats.size.should be >= 4
+      stats.should include('Score', 'E value', 'Identities', 'Gaps')
+
+      stats['Score'].should be_a Array
+      stats['Identities'].should be_a Array
+      stats['Gaps'].should be_a Array
+    end
+  end
+
+  # Individually test different BLAST+ algorithms
+  #
+  describe 'BLASTN' do
+    let 'hsp' do
+      report = BLAST::Report.new(File.join(sample_reports,
+                                           'blastn_sample.asn'))
+      report.queries.first.hits.last.hsps.first
+    end
+
+    it 'have correct query and subject frame' do
+      [1, -1].should include(hsp.qframe)
+      [1, -1].should include(hsp.sframe)
+
+      hsp.qframe_unit.should eq(1)
+      hsp.sframe_unit.should eq(1)
+    end
+
+    it 'have correct qstart, qend, sstart, send' do
+      if hsp.sframe > 0
         hsp.sstart.should be <= hsp.send
+      else
+        hsp.sstart.should be >= hsp.send
       end
     end
 
-    it 'have correct query and subject frames' do
-      hsp = hits_report.queries.last.hits.last.hsps.first
-      case method
-      when 'blastn'
-        [1, -1].should include(hsp.qframe)
-        [1, -1].should include(hsp.sframe)
-      when 'blastx'
-        hsp.qframe.should_not eql(0)
-        hsp.sframe.should eql(0)
-      when 'tblastx'
-        hsp.qframe.should_not eql(0)
-        hsp.sframe.should_not eql(0)
-      when 'tblastn'
-        hsp.qframe.should eql(0)
-        hsp.sframe.should_not eql(0)
-      else
-        hsp.qframe.should_not eql(0)
-        hsp.sframe.should_not eql(0)
-      end
+    it 'have relevant stats' do
+      hsp.stats.size.should eq(5)
+      hsp.stats.should include('Strand')
+    end
+  end
+
+  describe 'BLASTP' do
+    let 'hsp' do
+      report = BLAST::Report.new(File.join(sample_reports,
+                                           'blastp_sample.asn'))
+      report.queries.first.hits.last.hsps.first
+    end
+
+    it 'have correct query and subject frame' do
+      hsp.qframe.should eql(0)
+      hsp.sframe.should eql(0)
+
+      hsp.qframe_unit.should eq(1)
+      hsp.sframe_unit.should eq(1)
+    end
+
+    it 'have correct qstart, qend, sstart, send values' do
+      hsp.qstart.should be <= hsp.qend
+      hsp.sstart.should be <= hsp.send
+    end
+
+    it 'have relevant stats' do
+      hsp.stats.size.should eq(5)
+      hsp.stats.should include('Positives')
+    end
+  end
+
+  describe 'BLASTX' do
+    let 'hsp' do
+      report = BLAST::Report.new(File.join(sample_reports,
+                                           'blastx_sample.asn'))
+
+      report.queries.first.hits.last.hsps.first
+    end
+
+    it 'have correct query and subject frame' do
+      hsp.qframe.should_not eql(0)
+      hsp.sframe.should eql(0)
+
+      hsp.qframe_unit.should eq(3)
+      hsp.sframe_unit.should eq(1)
+    end
+
+    it 'have correct qstart, qend, sstart, send' do
+      hsp.qstart.should be <= hsp.qend
+      hsp.sstart.should be <= hsp.send
+    end
+
+    it 'have relevant stats' do
+      hsp.stats.size.should eq(5)
+      hsp.stats.should include('Query frame')
+    end
+  end
+
+  describe 'TBLASTX' do
+    let 'hsp' do
+      report = BLAST::Report.new(File.join(sample_reports,
+                                           'tblastx_sample.asn'))
+      report.queries.first.hits.last.hsps.first
+    end
+
+    it 'have correct query and subject frame' do
+      hsp.qframe.should_not eql(0)
+      hsp.sframe.should_not eql(0)
+
+      hsp.qframe_unit.should eq(3)
+      hsp.sframe_unit.should eq(3)
+    end
+
+    it 'have correct qstart, qend, sstart, send' do
+      hsp.qstart.should be <= hsp.qend
+      hsp.sstart.should be <= hsp.send
+    end
+
+    it 'have relevant stats' do
+      hsp.stats.size.should eq(6)
+      hsp.stats.should include('Frame')
+      hsp.stats.should include('Positives')
+    end
+  end
+
+  describe 'TBLASTN' do
+    let 'hsp' do
+      report = BLAST::Report.new(File.join(sample_reports,
+                                           'tblastn_sample.asn'))
+      report.queries.first.hits.last.hsps.first
+    end
+
+    it 'have correct query and subject frame' do
+      hsp.qframe.should eql(0)
+      hsp.sframe.should_not eql(0)
+
+      hsp.qframe_unit.should eq(1)
+      hsp.sframe_unit.should eq(3)
+    end
+
+    it 'have correct qstart, qend, sstart, send' do
+      hsp.qstart.should be <= hsp.qend
+      hsp.sstart.should be <= hsp.send
+    end
+
+    it 'have relevant stats' do
+      hsp.stats.size.should eq(5)
+      hsp.stats.should include('Hit frame')
     end
   end
 end

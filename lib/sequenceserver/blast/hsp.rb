@@ -29,7 +29,6 @@ module SequenceServer
       # Returns a Hash of stats common to all BLAST algorithms. Subclasses must
       # update the returned Hash to add relevant stats of their own.
       #
-      # FIXME: Test me for each BLAST algorithm.
       def stats
         {
           'Score'      => [bit_score, score],
@@ -48,7 +47,6 @@ module SequenceServer
       # these attributes suit BLASTP. Subclasses must override these
       # attributes appropriately.
       #
-      # FIXME: Test me for each BLAST algorithm.
       # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/MethodLength, Style/FormatString
       def pp
