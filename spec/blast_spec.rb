@@ -59,7 +59,7 @@ module SequenceServer
     end
 
     it 'will return an Array with atleast one HSP' do
-      hits_report.queries.first.hits.first.hsps.should have_at_least(1).items
+      hits_report.queries.first.hits.first.hsps.length.should be >= 1
     end
 
     it 'will contain no element if no hits were obtained' do
