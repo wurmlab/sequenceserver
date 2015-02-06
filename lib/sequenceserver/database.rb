@@ -89,6 +89,11 @@ module SequenceServer
         all.first
       end
 
+      # Intended to be used only for testing.
+      def clear
+        collection.clear
+      end
+
       # Recurisvely scan `database_dir` for blast databases.
       def scan_databases_dir
         database_dir = config[:database_dir]
@@ -132,23 +137,42 @@ module SequenceServer
 
       # Create BLAST database, given FASTA file and sequence type in FASTA file.
       def make_blast_database(file, type)
+        return unless make_blast_database? file, type
+        title = get_database_title(file)
+        _make_blast_database(file, type, title)
+      end
+
+      def _make_blast_database(file, type, title, quiet = false)
+        cmd = 'makeblastdb -parse_seqids -hash_index ' \
+              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'"
+        cmd << ' &> /dev/null' if quiet
+        system cmd
+      end
+
+      # Show file path and guessed sequence type to the user and obtain a y/n
+      # response.
+      #
+      # Returns true if the user entered anything but 'n' or 'N'.
+      def make_blast_database?(file, type)
         puts
         puts
         puts "FASTA file: #{file}"
         puts "FASTA type: #{type}"
-
         print 'Proceed? [y/n] (Default: y): '
+
         response = STDIN.gets.to_s.strip
+        !response.match(/n/i)
+      end
 
-        return if response.match(/n/i)
-
-        default_title = make_db_title(File.basename(file))
-        print "Enter a database title or will use '#{default_title}': "
-        title = STDIN.gets.to_s
-        title = default_title if title.strip.empty?
-
-        system 'makeblastdb -parse_seqids -hash_index ' \
-               "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'"
+      # Generate a title for the given database and show it to the user for
+      # confirmation.
+      #
+      # Returns user input if any. Auto-generated title otherwise.
+      def get_database_title(path)
+        default = make_db_title(File.basename(path))
+        print "Enter a database title or will use '#{default}': "
+        from_user = STDIN.gets.to_s
+        from_user.strip.empty? && default || from_user
       end
 
       # Returns true if the database name appears to be a multi-part database
@@ -191,11 +215,20 @@ module SequenceServer
       # NOTE: 2^15 == 32786. Approximately 546 lines, assuming 60 characters on
       # each line.
       def guess_sequence_type_in_fasta(file)
-        sample = File.read(file, 32_768)
-        sequences = sample.split(/^>.+$/).delete_if(&:empty?)
+        sequences = sample_sequences(file)
         sequence_types = sequences.map { |seq| Sequence.guess_type(seq) }
         sequence_types = sequence_types.uniq.compact
         (sequence_types.length == 1) && sequence_types.first
+      end
+
+      # Read first 32768 characters of the file. Split on fasta def line
+      # pattern and return.
+      #
+      # If the given file is FASTA, returns Array of as many different
+      # sequences in the portion of the file read. Returns the portion
+      # of the file read wrapped in an Array otherwise.
+      def sample_sequences(file)
+        File.read(file, 32_768).split(/^>.+$/).delete_if(&:empty?)
       end
     end
   end

@@ -41,23 +41,26 @@ module SequenceServer
   end
 
   describe 'Sequence retrieval' do
-    let 'root' do
-      SequenceServer.root
-    end
+    root = SequenceServer.root
+    database_dir = File.join(root, 'spec', 'database')
 
     let 'a_normal_database_id' do
-      Digest::MD5.hexdigest File.join(root, 'spec', 'database', 'sample',
-                                      'proteins', 'Solenopsis_invicta',
+      Digest::MD5.hexdigest File.join(database_dir, 'sample', 'proteins',
+                                      'Solenopsis_invicta',
                                       'Sinvicta2-2-3.prot.subset.fasta')
     end
 
     let 'funky_ids_database_id' do
-      Digest::MD5.hexdigest File.join(root, 'spec', 'database',
-                                      'funky_ids', 'funky_ids.fa')
+      Digest::MD5.hexdigest File.join(database_dir, 'funky_ids',
+                                      'funky_ids.fa')
+    end
+
+    before :all do
+      SequenceServer.config[:database_dir] = database_dir
+      Database.scan_databases_dir
     end
 
     it 'should be able to retrieve sequences from database' do
-      Database.scan_databases_dir
       sequences = Sequence.from_blastdb('SI2.2.0_06267', a_normal_database_id)
 
       sequences.length.should eq 1
@@ -73,7 +76,6 @@ PLYMVLALSQFITYLLILIVGEKENKIKEGMKMMGLNDSVF"
     end
 
     it 'should be able to retrieve more than one sequence from a database' do
-      Database.scan_databases_dir
       sequences = Sequence.from_blastdb(['SI2.2.0_06267', 'SI2.2.0_13722'],
                                         a_normal_database_id)
       sequences.length.should == 2
@@ -88,7 +90,6 @@ PLYMVLALSQFITYLLILIVGEKENKIKEGMKMMGLNDSVF"
 
     it 'should be able to retrieve sequences from database for all kinds of'\
        'funky accessions' do
-      Database.scan_databases_dir
       funky_accessions = ['abcdef#', 'abc#def', '123#456'] # , '123456#']
       sequences = Sequence.from_blastdb(funky_accessions,
                                         funky_ids_database_id)

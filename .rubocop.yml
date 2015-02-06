@@ -17,6 +17,11 @@ Metrics/MethodLength:
   Exclude:
     # TODO:
     - 'lib/sequenceserver.rb'
+Metrics/ClassLength:
+  Exclude:
+    # TODO:
+    #   Evaluate whether to make class smaller or to increase 'Max'.
+    - 'lib/sequenceserver/database.rb'
 Metrics/BlockNesting:
   Exclude:
     # TODO:
