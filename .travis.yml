@@ -13,8 +13,7 @@ addons:
 
 before_install:
   - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.30/ncbi-blast-2.2.30+-x64-linux.tar.gz" && tar xvf ncbi-blast-2.2.30+-x64-linux.tar.gz && export PATH="./ncbi-blast-2.2.30+/bin:$PATH"
-  - sudo apt-get install xvfb
-  - sudo apt-get install libqtwebkit-dev
+  - sudo apt-get install libqtwebkit-dev xvfb
   - gem install bundler
 
 script: xvfb-run bundle exec rake
