@@ -49,6 +49,9 @@ BANNER
     on 'c', 'config_file=',
        'Use the given configuration file',
        :argument => true
+    on 'config=',
+       'Same as --config_file (deprecated)',
+       :argument => true
 
     on 'b', 'bin=',
        'Load BLAST+ binaries from this directory',
@@ -98,6 +101,12 @@ BANNER
     on '-h', '--help',
        'Display this help message'
 
+    clean_opts = lambda do |hash|
+      hash.delete_if { |k, v| k == :set || v.nil? }
+      hash[:config_file] ||= hash.delete(:config)
+      hash
+    end
+
     run do
       if version?
         gemspec_file = File.join(File.dirname(__FILE__), '..',
@@ -121,8 +130,7 @@ BANNER
       require 'sequenceserver'
 
       begin
-        opts = to_h.delete_if { |k, v| k == :set || v.nil? }
-        SequenceServer.init opts
+        SequenceServer.init clean_opts[to_h]
 
       # The aim of following error recovery scenarios is to guide user to a
       # working SequenceServer installation. We expect to land following
