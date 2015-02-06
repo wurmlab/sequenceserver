@@ -95,10 +95,10 @@ module SequenceServer
       Database.unformatted_fastas.should_not be_empty
     end
 
-    it 'can make BLAST+ database from a FASTA file' do
-      Database._make_blast_database(*data_for_makeblastdb).should be_truthy
-      system "rm #{makeblastdb_result_pattern}"
-    end
+    # it 'can make BLAST+ database from a FASTA file' do
+    #   Database._make_blast_database(*data_for_makeblastdb).should be_truthy
+    #   system "rm #{makeblastdb_result_pattern}"
+    # end
 
     it 'can make intelligent database name suggestions' do
       db_name_pairs = [['Si_gnf.fasta', 'Si gnf'],
