@@ -56,6 +56,7 @@ module SequenceServer
 
     # Run SequenceServer as a self-hosted server using Thin webserver.
     def run
+      check_host
       url = "http://#{config[:host]}:#{config[:port]}"
       server = Thin::Server.new(config[:host],
                                 config[:port],
@@ -146,7 +147,7 @@ module SequenceServer
       @config = {
         :num_threads  => 1,
         :port         => 4567,
-        :host         => 'localhost'
+        :host         => '0.0.0.0'
       }.update(parse_config_file.update(@config))
     end
 
@@ -194,6 +195,16 @@ module SequenceServer
       end
     rescue
       raise NUM_THREADS_INCORRECT
+    end
+
+    # Check and warn user if host is 0.0.0.0 (default).
+    def check_host
+      # rubocop:disable Style/GuardClause
+      if config[:host] == '0.0.0.0'
+        logger.warn 'Will listen on all interfaces (0.0.0.0).' \
+                    ' Consider using 127.0.0.1 (--host option).'
+      end
+      # rubocop:enable Style/GuardClause
     end
 
     def load_extension
