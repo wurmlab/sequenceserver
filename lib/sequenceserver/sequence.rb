@@ -1,5 +1,6 @@
 require 'forwardable'
 
+# Define Sequence class.
 module SequenceServer
   # Provides simple sequence processing utilities via class methods. Instance
   # of the class serves as a simple data object to captures sequences fetched
@@ -34,7 +35,43 @@ module SequenceServer
   #   original FASTA file:
   #
   #     SI2.2.0_06267 -> self.id == self.seqid == self.accession.
-  class Sequence < Struct.new(:gi, :seqid, :accession, :title, :value)
+  Sequence = Struct.new(:gi, :seqid, :accession, :title, :value) do
+    def initialize(*args)
+      args[0] = nil if args[0] == 'N/A'
+      super
+    end
+
+    # Returns FASTA sequence id.
+    def id
+      (gi ? ['gi', gi, seqid] : [seqid]).join('|')
+    end
+
+    # Returns length of the sequence.
+    def length
+      value.length
+    end
+
+    # Returns sequence value.
+    def to_s
+      value
+    end
+
+    def info
+      { :value => value, :id => id, :title => title }
+    end
+
+    # Returns FASTA formatted sequence.
+    def fasta
+      chars = 60
+      lines = (length / chars.to_f).ceil
+      defline  = ">#{id} #{title}"
+      seqlines = (1..lines).map { |i| to_s[chars * (i - 1), chars] }
+      [defline].concat(seqlines).join("\n")
+    end
+  end
+
+  # Factory and utility methods.
+  class Sequence
     class << self
       extend Forwardable
 
@@ -96,39 +133,6 @@ module SequenceServer
         end
         count
       end
-    end
-
-    def initialize(*args)
-      args[0] = nil if args[0] == 'N/A'
-      super
-    end
-
-    # Returns FASTA sequence id.
-    def id
-      (gi ? ['gi', gi, seqid] : [seqid]).join('|')
-    end
-
-    # Returns length of the sequence.
-    def length
-      value.length
-    end
-
-    # Returns sequence value.
-    def to_s
-      value
-    end
-
-    def info
-      { :value => value, :id => id, :title => title }
-    end
-
-    # Returns FASTA formatted sequence.
-    def fasta
-      chars = 60
-      lines = (length / chars.to_f).ceil
-      defline  = ">#{id} #{title}"
-      seqlines = (1..lines).map { |i| to_s[chars * (i - 1), chars] }
-      [defline].concat(seqlines).join("\n")
     end
   end
 end

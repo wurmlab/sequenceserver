@@ -4,6 +4,7 @@ require 'forwardable'
 
 require 'sequenceserver/sequence'
 
+# Define Database class.
 module SequenceServer
   # Captures a directory containing FASTA files and BLAST databases.
   #
@@ -17,8 +18,30 @@ module SequenceServer
   #
   # SequenceServer will always place BLAST database files alongside input FASTA,
   # and use `parse_seqids` option of `makeblastdb` to format databases.
-  class Database < Struct.new(:name, :title, :type, :nsequences, :ncharacters,
-                              :updated_on)
+  Database = Struct.new(:name, :title, :type, :nsequences, :ncharacters,
+                        :updated_on) do
+    def initialize(*args)
+      args[2].downcase!   # database type
+      args.each(&:freeze)
+      super
+
+      @id = Digest::MD5.hexdigest args.first
+    end
+
+    attr_reader :id
+
+    def include?(accession)
+      out = `blastdbcmd -entry '#{accession}' -db #{name} 2> /dev/null`
+      !out.empty?
+    end
+
+    def to_s
+      "#{type}: #{title} #{name}"
+    end
+  end
+
+  # Model Database's eigenclass as a collection of Database objects.
+  class Database
     class << self
       include Enumerable
 
@@ -174,25 +197,6 @@ module SequenceServer
         sequence_types = sequence_types.uniq.compact
         (sequence_types.length == 1) && sequence_types.first
       end
-    end
-
-    def initialize(*args)
-      args[2].downcase!   # database type
-      args.each(&:freeze)
-      super
-
-      @id = Digest::MD5.hexdigest args.first
-    end
-
-    attr_reader :id
-
-    def include?(accession)
-      out = `blastdbcmd -entry '#{accession}' -db #{name} 2> /dev/null`
-      !out.empty?
-    end
-
-    def to_s
-      "#{type}: #{title} #{name}"
     end
   end
 end
