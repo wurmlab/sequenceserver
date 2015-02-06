@@ -242,6 +242,21 @@ if (!SS) {
         });
     };
 
+    SS.setupReportDownloadLink = function () {
+        $('.report-download').on('click', function (event) {
+            event.preventDefault();
+            url = this.href;
+
+            $.get(url)
+            .done(function (data) {
+                window.location.href = url;
+            })
+            .fail(function (jqXHR, status, error) {
+                SS.showErrorModal(jqXHR, function () {});
+            });
+        });
+    };
+
     SS.generateURI = function (sequence_ids, database_ids) {
         // Encode URIs against strange characters in sequence ids.
         sequence_ids = encodeURIComponent(sequence_ids.join(' '));
@@ -671,7 +686,6 @@ $(document).ready(function(){
         SS.selectHit(this);
     });
 
-
     $('#blast').submit(function(){
         //parse AJAX URL
         var action = $(this).attr('action');
@@ -714,6 +728,7 @@ $(document).ready(function(){
             SS.updateDownloadFastaOfSelectedLink();
             SS.updateSequenceViewerLinks();
             SS.setupTooltipsForPosLabels();
+            SS.setupReportDownloadLink();
 
             $('body').scrollspy({target: '.sidebar'});
 
