@@ -137,6 +137,11 @@ BANNER
       # error scenarios either when creating a new SequenceServer (first
       # time or later), or updating config values using -s CLI option.
 
+      rescue SequenceServer::CONFIG_FILE_ERROR => e
+
+        puts e
+        exit!
+
       rescue SequenceServer::BIN_DIR_NOT_FOUND => e
 
         puts e
@@ -356,11 +361,11 @@ MSG
       end
 
       if set?
-        SequenceServer.send :write_config_file
+        SequenceServer.config.write_config_file
         exit
       end
 
-      SequenceServer.send :write_config_file if fetch_option(:set).value
+      SequenceServer.config.write_config_file if fetch_option(:set).value
 
       SequenceServer.run
     end

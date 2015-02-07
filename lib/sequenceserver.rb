@@ -6,6 +6,7 @@ require 'thin'
 require 'json'
 
 require 'sequenceserver/exceptions'
+require 'sequenceserver/config'
 require 'sequenceserver/logger'
 require 'sequenceserver/sequence'
 require 'sequenceserver/database'
@@ -34,9 +35,8 @@ module SequenceServer
     end
 
     def init(config = {})
-      @config = config
+      @config = Config.new(config)
 
-      init_config
       init_binaries
       init_database
       load_extension
@@ -48,11 +48,7 @@ module SequenceServer
       # is run via Apache+Passenger, we don't need to worry.
     end
 
-    attr_reader :config_file, :config
-
-    def [](key)
-      config[key]
-    end
+    attr_reader :config
 
     # Run SequenceServer as a self-hosted server using Thin webserver.
     def run
@@ -108,48 +104,6 @@ module SequenceServer
     end
 
     private
-
-    # Parse config file if present. Returns a Hash.
-    def parse_config_file
-      return {} unless @config_file && File.exist?(@config_file)
-
-      logger.debug("Reading configuration file: #{config_file}.")
-      config = YAML.load_file(config_file) || {}
-
-      # Symbolize hash keys
-      config = config.inject({}) do |a, e|
-        a[e.first.to_sym] = e.last
-        a
-      end
-
-      # The newer config file version replaces the older database key with
-      # database_dir. If an older version is found, we auto-migrate it to
-      # newer one.
-      config[:database_dir] ||= config.delete(:database)
-      config
-    rescue ArgumentError => error
-      puts "Error in config file: #{error}."
-      puts 'YAML is white space sensitive. Is your config file properly'\
-           'indented?'
-      exit 1
-    end
-
-    def write_config_file
-      File.open(SequenceServer.config_file, 'w') do |f|
-        f.puts(config.delete_if { |_, v| v.nil? }.to_yaml)
-      end
-    end
-
-    def init_config
-      @config_file = @config.delete(:config_file) || '~/.sequenceserver.conf'
-      @config_file = File.expand_path(config_file)
-
-      @config = {
-        :num_threads  => 1,
-        :port         => 4567,
-        :host         => '0.0.0.0'
-      }.update(parse_config_file.update(@config))
-    end
 
     def init_binaries
       if config[:bin]

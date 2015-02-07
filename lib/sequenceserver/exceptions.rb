@@ -12,6 +12,23 @@
 # on them.
 
 module SequenceServer
+  # Error in config file.
+  class CONFIG_FILE_ERROR < StandardError
+    def initialize(ent, err)
+      @ent = ent
+      @err = err
+    end
+
+    attr_reader :ent, :err
+
+    def to_s
+      <<MSG
+Error in config file: #{ent}.
+#{err}
+MSG
+    end
+  end
+
   ## ENOENT ##
 
   # Name borrowed from standard Errno::ENOENT, this class serves as a template
