@@ -50,9 +50,9 @@ $.webshims.polyfill('forms');
 (function( $ ){
     //(pre-)check the only active database checkbox
     $.onedb = function(selector) {
-        active_dbs = $(".databases input[type=checkbox]").not(":disabled")
+        active_dbs = $(".databases input[type=checkbox]").not(":disabled");
         if (active_dbs.length == 1){
-            active_dbs.check()
+            active_dbs.check();
         }
         return active_dbs;
     };
@@ -143,7 +143,7 @@ if (!SS) {
             return;
         }
 
-        if (num_hits == 0) {
+        if (num_hits === 0) {
             $a
             .tooltip('destroy')
             .tooltip({
@@ -191,7 +191,7 @@ if (!SS) {
             return;
         }
 
-        if (num_checked == 0) {
+        if (num_checked === 0) {
             $n.empty();
             $a
             .tooltip('destroy')
@@ -266,7 +266,7 @@ if (!SS) {
             "&database_ids=" + database_ids + '&download=fasta';
 
         return url;
-    },
+    };
 
     SS.showErrorModal = function (jqXHR, beforeShow) {
         setTimeout(function () {
@@ -278,7 +278,7 @@ if (!SS) {
                 $("#error-no-response").modal();
             }
         }, 500);
-    },
+    };
 
     SS.init = function () {
         this.$sequence = $('#sequence');
@@ -287,7 +287,6 @@ if (!SS) {
 
         SS.blast.init();
     };
-
 }()); //end SS module
 
 /**
@@ -518,7 +517,7 @@ $(document).ready(function(){
         reader.onerror = function (e) {
             // Couldn't read. Means dropped stuff wasn't FASTA file.
             dndError('dnd-format');
-        }
+        };
         reader.readAsText(file);
     });
     // end drag-and-drop
@@ -542,7 +541,7 @@ $(document).ready(function(){
     // Handle clearing query sequences(s) when x button is pressed.
     $('#btn-sequence-clear').click(function (e) {
         $('#sequence').val("").focus();
-    })
+    });
 
     // pre-select if only on db
     $.onedb();

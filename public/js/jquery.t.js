@@ -22,7 +22,7 @@
         var totalHits, shownHits, lessButton, moreButton;
 
         var countHits = function () {
-            totalHits = $queryDiv.data().hitCount,
+            totalHits = $queryDiv.data().hitCount;
             shownHits = $queryDiv.find('.ghit > g').length;
         };
 
@@ -49,7 +49,7 @@
                 )
             );
 
-            lessButton = $('.less', $graphDiv),
+            lessButton = $('.less', $graphDiv);
             moreButton = $('.more', $graphDiv);
         };
 
@@ -202,8 +202,8 @@
             var q_i = $queryDiv.attr('id');
 
             var width = $graphDiv.width();
-            var height = hits.length * (options.barHeight + options.barPadding)
-                + 5 * options.margin + options.legend * 3;
+            var height = hits.length * (options.barHeight + options.barPadding) +
+                5 * options.margin + options.legend * 3;
 
             var svg = d3.select($graphDiv[0])
                 .selectAll('svg')
