@@ -47,6 +47,20 @@ $.webshims.polyfill('forms');
 
 
     /**
+     * Initialise Bootstrap tooltip on an element with presets. Takes title.
+     */
+    $.fn._tooltip = $.fn.tooltip;
+    $.fn.tooltip  = function (options) {
+        this
+        ._tooltip('destroy')
+        ._tooltip($.extend({
+            container: 'body',
+            placement: 'left'
+        }, options));
+    };
+
+
+    /**
      * Wiggle an element.
      *
      * Used for wiggling BLAST button.
@@ -151,28 +165,20 @@ if (!SS) {
             $a
             .enable()
             .attr('href', SS.generateURI(sequence_ids, $a.data().databases))
-            .tooltip('destroy')
             .tooltip({
-                placement: 'left',
                 title: num_hits + " hit(s)."
             });
             return;
         }
 
         if (num_hits === 0) {
-            $a
-            .tooltip('destroy')
-            .tooltip({
-                placement: 'left',
+            $a.tooltip({
                 title: "No hit to download."
             });
         }
 
         if (num_hits > 30) {
-            $a
-            .tooltip('destroy')
-            .tooltip({
-                placement: 'left',
+            $a.tooltip({
                 title: "Can't download more than 30 hits."
             });
         }
@@ -198,9 +204,7 @@ if (!SS) {
             $a
             .enable()
             .attr('href', SS.generateURI(sequence_ids, $a.data().databases))
-            .tooltip('destroy')
             .tooltip({
-                placement: 'left',
                 title: num_checked + " hit(s) selected."
             })
             .find('span').html(num_checked);
@@ -209,19 +213,13 @@ if (!SS) {
 
         if (num_checked === 0) {
             $n.empty();
-            $a
-            .tooltip('destroy')
-            .tooltip({
-                placement: 'left',
+            $a.tooltip({
                 title: "No hit selected."
             });
         }
 
         if (num_checked > 30) {
-            $a
-            .tooltip('destroy')
-            .tooltip({
-                placement: 'left',
+            $a.tooltip({
                 title: "Can't download more than 30 hits."
             });
         }
@@ -252,7 +250,6 @@ if (!SS) {
     SS.setupTooltipsForPosLabels = function () {
         $('.pos-label').each(function () {
             $(this).tooltip({
-                container: 'body',
                 placement: 'right',
             });
         });
