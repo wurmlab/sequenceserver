@@ -9,25 +9,25 @@ $.webshims.polyfill('forms');
  */
 (function ($) {
     //disable an element
-    $.fn.disable = function() {
+    $.fn.disable = function () {
         return this.prop('disabled', true).addClass('disabled');
     };
 })(jQuery);
 (function ($) {
     //enable an element
-    $.fn.enable = function() {
+    $.fn.enable = function () {
         return this.prop('disabled', false).removeClass('disabled');
     };
 })(jQuery);
 (function ($) {
     //uncheck an element
-    $.fn.uncheck = function() {
+    $.fn.uncheck = function () {
         return this.prop('checked', false);
     };
 })(jQuery);
 (function ($) {
     //check an element
-    $.fn.check = function() {
+    $.fn.check = function () {
         return this.prop('checked', true);
     };
 })(jQuery);
@@ -38,7 +38,7 @@ $.webshims.polyfill('forms');
  * Used for wiggling BLAST button.
  */
 (function ($) {
-    $.fn.wiggle = function() {
+    $.fn.wiggle = function () {
         this.finish().effect("bounce", {
             direction: 'left',
             distance: 24,
@@ -47,7 +47,7 @@ $.webshims.polyfill('forms');
     };
 }(jQuery));
 
-(function( $ ){
+(function ($) {
     //(pre-)check the only active database checkbox
     $.onedb = function(selector) {
         active_dbs = $(".databases input[type=checkbox]").not(":disabled");
@@ -56,7 +56,7 @@ $.webshims.polyfill('forms');
         }
         return active_dbs;
     };
-})( jQuery );
+})(jQuery);
 
 (function ($) {
     $.fn.poll = function () {
