@@ -61,21 +61,6 @@ $.webshims.polyfill('forms');
 
 
     /**
-     * Pre-check the only active database checkbox.
-     *
-     * TODO:
-     *   This method doesn't truly belong here.
-     */
-    $.onedb = function(selector) {
-        active_dbs = $(".databases input[type=checkbox]").not(":disabled");
-        if (active_dbs.length == 1){
-            active_dbs.check();
-        }
-        return active_dbs;
-    };
-
-
-    /**
      * Check's every 100 ms if an element's value has changed. Triggers
      * `change` event on the element if it has.
      */
@@ -133,6 +118,17 @@ if (!SS) {
         }
       }).join('');
     };
+
+    /**
+     * Pre-check the only active database checkbox.
+     */
+    SS.onedb = function () {
+        var database_checkboxes = $(".databases input:checkbox");
+        if (database_checkboxes.length === 1) {
+            database_checkboxes.check();
+        }
+    };
+
 
     SS.generateGraphicalOverview = function () {
         $("[data-graphit='overview']").each(function () {
@@ -563,8 +559,8 @@ $(document).ready(function(){
         $('#sequence').val("").focus();
     });
 
-    // pre-select if only on db
-    $.onedb();
+    // Pre-select if only one database available.
+    SS.onedb();
 
     // Handles the form submission when Ctrl+Enter is pressed anywhere on page
     $(document).bind("keydown", function (e) {
