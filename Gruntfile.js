@@ -10,10 +10,25 @@ module.exports = function (grunt) {
         //},
         bootlint: {
             options: {
-                stoponerror: false,
-                relaxerror: []
+                stoponerror: false
             },
-            files: 'views/*'
+            main: {
+                src: 'views/search.erb'
+            },
+            partials: {
+                options: {
+                    relaxerror: [
+                        'E001', 'W001', 'W002', 'W003', 'W005',
+                        'E013', 'E014' // for result.erb only
+                    ]
+                },
+                src: [
+                    'views/_options.erb',
+                    'views/result.erb',
+                    'views/400.erb',
+                    'views/500.erb'
+                ]
+            }
         },
         csslint: {
             files: 'public/css/custom.css'
