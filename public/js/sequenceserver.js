@@ -594,11 +594,11 @@ $(document).ready(function(){
     $('.databases').on('database_type_changed', function (event, type) {
         switch (type) {
             case 'protein':
-                $('.databases.nucleotide input:checkbox').uncheck().disable();
+                $('.databases.nucleotide input:checkbox').disable();
                 $('.databases.nucleotide .checkbox').addClass('disabled');
                 break;
             case 'nucleotide':
-                $('.databases.protein input:checkbox').uncheck().disable();
+                $('.databases.protein input:checkbox').disable();
                 $('.databases.protein .checkbox').addClass('disabled');
                 break;
             default:
