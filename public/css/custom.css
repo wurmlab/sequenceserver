@@ -23,7 +23,7 @@ a:hover, .btn-link:hover {
  */
 label {
   cursor: pointer;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   font-weight: normal;
 }
 
@@ -50,7 +50,7 @@ a.disabled:hover {
  * Increase font size, add border, make place for subtext to app name.
  */
 .navbar {
-  border-radius: 0px;
+  border-radius: 0;
   border-bottom: 1px solid #eee;
   margin-bottom: 35px;
 }
@@ -74,7 +74,7 @@ a.disabled:hover {
  */
 .page-header {
   display: table;
-  margin: 0px;
+  margin: 0;
   width: 100%;
   border-color: #ddd;
   padding-bottom: 5px;
@@ -87,13 +87,14 @@ a.disabled:hover {
 }
 
 .page-content {
-  padding: 5px 0px 0px 5px;
+  padding: 5px 0 0 5px;
 }
 
 .panel {
   border: none;
-  box-shadow: none;
   -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 .panel .panel-heading {
   color: #428BCE;
@@ -123,7 +124,7 @@ a.disabled:hover {
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
 .table>tbody>tr>td, .table>tfoot>tr>td {
   border-top: none;
-  padding-left: 0px;
+  padding-left: 0;
   font-weight: normal;
 }
 .table>thead>tr>th {
@@ -172,7 +173,7 @@ a.disabled:hover {
 .nav.hover-reset>li>a:hover {
   background-color: inherit;
 }
-.nav.active-bold>li.active>a {
+.nav.active-bold>.active>a {
   font-weight: bold;
 }
 
@@ -233,12 +234,12 @@ a.disabled:hover {
 }
 
 .notification .alert-info, .notification .alert-danger {
-  border-radius: 6px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
   -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   font-size: 14px;
   font-weight: bold;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -260,7 +261,7 @@ a.disabled:hover {
 }
 
 .databases label {
-  padding-left: 0px;
+  padding-left: 0;
 }
 
 #blast > .form-group:last-child {
@@ -297,7 +298,7 @@ label[for="advanced"] {
 }
 
 .dropdown-menu li:last-child {
-  border-bottom: 0px;
+  border-bottom: 0;
 }
 
 #result {
@@ -309,17 +310,13 @@ h1,h2,h3,h4,h5,h6,.page-header {
   color: rgb(51, 51, 51);
 }
 
-.main {
-  /*border-right: 1px solid #ddd;*/
-}
-
 .sidebar > .page-header > h4 {
-  padding: 10px 0px 0px 0px;
+  padding: 10px 0 0 0;
   font-size: 14px;
 }
 
 .sidebar.affix {
-  top: 0px;
+  top: 0;
 }
 
 .index {
@@ -365,8 +362,8 @@ svg:not(:root) {
   cursor: text;
 }
 .hitn > p {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .hsps {
@@ -374,10 +371,10 @@ svg:not(:root) {
 }
 .hsp-stats>thead>tr>th {
   border-bottom: none;
-  padding: 0px;
+  padding: 0;
 }
 .hsp-stats>tbody>tr>td {
-  padding: 0px;
+  padding: 0;
   padding-bottom: 5px;
   border-bottom: 1px solid #ddd;
 }
@@ -410,9 +407,9 @@ svg:not(:root) {
 .dnd-overlay {
   position: absolute;
   top: 51px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0.75);
 }
@@ -431,16 +428,16 @@ svg:not(:root) {
 
 /* input form */
 .col-md-6 .panel-heading h4 {
-  margin: 0px;
+  margin: 0;
 }
 
 .list-group.databases {
-  padding: 0px;
+  padding: 0;
 }
 
 .list-group.databases .list-group-item {
   border: none;
-  padding: 1px 0px;
+  padding: 1px 0;
 }
 
 .list-group.databases .list-group-item input {
