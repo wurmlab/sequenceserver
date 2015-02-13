@@ -3,41 +3,54 @@
  */
 $.webshims.polyfill('forms');
 
+
 /**
- * Helpers methods to disable, enable, and uncheck radio buttons and
- * checkboxes.
+ * Simple, small jQuery extensions for convenience.
  */
 (function ($) {
-    //disable an element
+    /**
+     * Disable an element.
+     *
+     * Sets `disabled` property to `true` and adds `disabled` class.
+     */
     $.fn.disable = function () {
         return this.prop('disabled', true).addClass('disabled');
     };
-})(jQuery);
-(function ($) {
-    //enable an element
+
+    /**
+     * Enable an element.
+     *
+     * Sets `disabled` property to `false` and removes `disabled` class
+     * if present.
+     */
     $.fn.enable = function () {
         return this.prop('disabled', false).removeClass('disabled');
     };
-})(jQuery);
-(function ($) {
-    //uncheck an element
-    $.fn.uncheck = function () {
-        return this.prop('checked', false);
-    };
-})(jQuery);
-(function ($) {
-    //check an element
+
+    /**
+     * Check an element.
+     *
+     * Sets `checked` property to `true`.
+     */
     $.fn.check = function () {
         return this.prop('checked', true);
     };
-})(jQuery);
 
-/**
- * Wiggle an element.
- *
- * Used for wiggling BLAST button.
- */
-(function ($) {
+    /**
+     * Un-check an element.
+     *
+     * Sets `checked` property to `false`.
+     */
+    $.fn.uncheck = function () {
+        return this.prop('checked', false);
+    };
+
+
+    /**
+     * Wiggle an element.
+     *
+     * Used for wiggling BLAST button.
+     */
     $.fn.wiggle = function () {
         this.finish().effect("bounce", {
             direction: 'left',
@@ -45,10 +58,14 @@ $.webshims.polyfill('forms');
             times: 4,
         }, 250);
     };
-}(jQuery));
 
-(function ($) {
-    //(pre-)check the only active database checkbox
+
+    /**
+     * Pre-check the only active database checkbox.
+     *
+     * TODO:
+     *   This method doesn't truly belong here.
+     */
     $.onedb = function(selector) {
         active_dbs = $(".databases input[type=checkbox]").not(":disabled");
         if (active_dbs.length == 1){
@@ -56,9 +73,12 @@ $.webshims.polyfill('forms');
         }
         return active_dbs;
     };
-})(jQuery);
 
-(function ($) {
+
+    /**
+     * Check's every 100 ms if an element's value has changed. Triggers
+     * `change` event on the element if it has.
+     */
     $.fn.poll = function () {
         var that = this;
         var val  = null;
