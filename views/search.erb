@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>SequenceServer: Custom BLAST Server</title>
-  <meta name="author" content="Anurag Priyam" />
-  <meta name="author" content="Ben J. Woodcroft" />
-  <meta name="author" content="Vivek Rai" />
-  <meta name="author" content="Yannick Wurm" />
-  <meta name="author" content="Cedric Wurm" />
+  <meta name="author" content="Anurag Priyam">
+  <meta name="author" content="Ben J. Woodcroft">
+  <meta name="author" content="Vivek Rai">
+  <meta name="author" content="Cedric Wurm">
+  <meta name="author" content="Yannick Wurm">
   <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)"/>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 
   <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
@@ -219,15 +222,18 @@
               Advanced Parameters:
             </label>
             <div
-              class="col-md-9 input-group">
-              <input
-                type="text"
-                class="form-control" name="advanced" id="advanced"
-                title="View, and enter advanced parameters."
-                placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
-                <div class="input-group-addon cursor-pointer" data-toggle="modal" data-toggle="modal" data-target="#help">
-                  <i class="fa fa-question"></i>
-                </div>
+              class="col-md-9">
+              <div
+                class="input-group">
+                <input
+                  type="text"
+                  class="form-control" name="advanced" id="advanced"
+                  title="View, and enter advanced parameters."
+                  placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
+                  <div class="input-group-addon cursor-pointer" data-toggle="modal" data-toggle="modal" data-target="#help">
+                    <i class="fa fa-question"></i>
+                  </div>
+              </div>
             </div>
           </div>
         </div>
@@ -320,7 +326,12 @@
 
         <div
           class="modal-footer">
-          <button class="btn btn-danger" data-dismiss="modal">Okay</button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-dismiss="modal">
+            Okay
+          </button>
         </div>
       </div>
     </div>
@@ -344,6 +355,7 @@
         <div
           class="modal-footer">
           <button
+            type="button"
             class="btn btn-default btn-primary"
             data-dismiss="modal">
             Got it!
