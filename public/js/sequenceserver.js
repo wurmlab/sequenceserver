@@ -182,7 +182,10 @@ if (!SS) {
                 title: "Can't download more than 30 hits."
             });
         }
-        $a.disable();
+
+        $a
+        .disable()
+        .removeAttr('href');
     };
 
     /* Update the FASTA downloader button's state appropriately.
@@ -247,19 +250,26 @@ if (!SS) {
         });
     };
 
-    SS.setupTooltipsForPosLabels = function () {
+    SS.setupTooltips = function () {
         $('.pos-label').each(function () {
             $(this).tooltip({
-                placement: 'right',
+                placement: 'right'
             });
+        });
+
+        $('.downloads a').each(function () {
+            $(this).tooltip();
         });
     };
 
-    SS.setupReportDownloadLink = function () {
-        $('.report-download').on('click', function (event) {
+    SS.setupDownloadLinks = function () {
+        $('.download').on('click', function (event) {
             event.preventDefault();
-            url = this.href;
+            event.stopPropagation();
 
+            if (event.target.disabled) return;
+
+            var url = this.href;
             $.get(url)
             .done(function (data) {
                 window.location.href = url;
@@ -739,8 +749,8 @@ $(document).ready(function(){
             SS.updateDownloadFastaOfAllLink();
             SS.updateDownloadFastaOfSelectedLink();
             SS.updateSequenceViewerLinks();
-            SS.setupTooltipsForPosLabels();
-            SS.setupReportDownloadLink();
+            SS.setupTooltips();
+            SS.setupDownloadLinks();
 
             $('body').scrollspy({target: '.sidebar'});
 

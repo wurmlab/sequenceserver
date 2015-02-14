@@ -16,8 +16,9 @@
             </small>
           </h3>
           <span
-            class="label label-reset cursor-pointer pos-label"
-            title="<%= "Query #{query.number}." %>">
+            class="label label-reset pos-label"
+            title="<%= "Query #{query.number}." %>"
+            data-toggle="tooltip">
             <%= "#{query.number} / #{report.queries.length}"%>
           </span>
         </div>
@@ -71,8 +72,9 @@
                     </span>
                   </h4>
                   <span
-                    class="label label-reset cursor-pointer pos-label"
-                    title="<%= "Query #{query.number}. Hit #{hit.number}/#{query.hits.length}." %>">
+                    class="label label-reset pos-label"
+                    title="<%= "Query #{query.number}. Hit #{hit.number} of #{query.hits.length}." %>"
+                    data-toggle="tooltip">
                     <%= "#{hit.number} / #{query.hits.length}"%>
                   </span>
                 </div>
@@ -177,51 +179,50 @@ Total letters in queried databases: <%= report.stats[1] %>
           </h4>
         </div>
         <ul
-          class="list-unstyled list-padded">
+          class="downloads list-unstyled list-padded">
           <li>
             <a
-              href="#"
-              class="download-fasta-of-all"
+              class="download download-fasta-of-all disabled"
               data-databases="<%= report.querydb.map(&:id).join(' ') %>">
               FASTA of all hits
             </a>
           </li>
           <li>
             <a
-              class="download-fasta-of-selected disabled"
+              class="download download-fasta-of-selected disabled"
               data-databases="<%= report.querydb.map(&:id).join(' ') %>">
               FASTA of <span class="text-bold"></span> selected hit(s)
             </a>
           </li>
           <li>
             <a
-              class="report-download"
-              target="_blank"
+              class="download"
+              title="12 columns: query and subject ID; alignment length,
+              mismatches, gaps, identity, start and end coordinates,
+              e value and bitscore."
               data-toggle="tooltip"
-              data-title="Full XML report file"
-              href="get_report/?report=<%= File.basename(report.archive_file) %>&format=xml&type=full">
-              XML report
+              href="get_report/?report=<%= File.basename(report.archive_file) %>&format=tsv_commented&type=std">
+              Standard tabular report
             </a>
           </li>
           <li>
-              Tab delimited table:&nbsp;
             <a
-              class="report-download"
-              target="_blank"
+              class="download"
+              title="44 columns: query and subject ID, GI, accessions,
+              and length; alignment details; taxonomy details of subject
+              sequence(s) and query coverage per subject and per HSP."
               data-toggle="tooltip"
-              data-title="Query ID, Subject ID, Percentage identity, Alignment length, Mismatches, Gap opens,
-              Query start, Query end, Subject start, Subject end, E value, Bitscore"
-              href="get_report/?report=<%= File.basename(report.archive_file) %>&format=tsv_commented&type=std">
-              Standard
-            </a>
-            |
-            <a
-              class="report-download"
-              target="_blank"
-              data-toggle="tooltip"
-              data-title="Please see NCBI BLAST+ Manual"
               href="get_report/?report=<%= File.basename(report.archive_file) %>&format=tsv_commented&download=true&specifiers=qseqid qgi qacc sseqid sallseqid sgi sallgi sacc sallacc qstart qend sstart send qseq sseq evalue bitscore score length length pident nident mismatch positive gapopen gaps ppos frames qframe hframe btop staxids sscinames scomnames sblastnames sskingdoms stitle salltitles sstrand qcovs qcovhsp&type=full">
-              Full
+              Full tabular report
+            </a>
+          </li>
+          <li>
+            <a
+              class="download"
+              title="Results in XML format."
+              data-toggle="tooltip"
+              href="get_report/?report=<%= File.basename(report.archive_file) %>&format=xml&type=full">
+              Full XML report
             </a>
           </li>
         </ul>
