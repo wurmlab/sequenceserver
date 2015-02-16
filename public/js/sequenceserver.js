@@ -569,6 +569,31 @@ $(document).ready(function(){
     // Pre-select if only one database available.
     SS.onedb();
 
+    // Show tooltip on BLAST button.
+    $('#methods').tooltip({
+        title: function () {
+            var selected_databases = $(".databases input:checkbox:checked");
+            if (selected_databases.length === 0) {
+                return "You must select one or more databases above before" +
+                       " you can run a search!";
+            }
+        }
+    });
+    $('#method').tooltip({
+        title: function () {
+            var title = "Click to BLAST or press Ctrl+Enter.";
+            if ($(this).siblings().length !== 0) {
+                title += " Click dropdown button on the right for other" +
+                         " BLAST algorithms that can be used."
+            }
+            return title;
+        },
+        delay: {
+            show: 1000,
+            hide: 0
+        }
+    })
+
     // Handles the form submission when Ctrl+Enter is pressed anywhere on page
     $(document).bind("keydown", function (e) {
         if (e.ctrlKey && e.keyCode === 13 && !$('#method').is(':disabled')) {
