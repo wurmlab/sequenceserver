@@ -10,6 +10,7 @@ require 'sequenceserver/database'
 require 'sequenceserver/blast'
 require 'sequenceserver/routes'
 require 'sequenceserver/job_remover'
+require 'sequenceserver/doctor'
 
 # Top level module / namespace.
 module SequenceServer

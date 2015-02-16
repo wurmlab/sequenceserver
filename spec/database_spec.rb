@@ -16,8 +16,12 @@ module SequenceServer
       File.join(database_dir, 'sample')
     end
 
+    let 'database_dir_test' do
+      File.join(database_dir, 'test')
+    end
+
     let 'database_dir_unformatted' do
-      File.join(database_dir, 'unformatted')
+      File.join(database_dir_test, 'unformatted')
     end
 
     let 'fasta_file_prot_seqs' do
