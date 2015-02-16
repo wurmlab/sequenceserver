@@ -65,6 +65,12 @@ a.disabled:hover {
   font-size: 50%;
 }
 
+.navbar-nav > li > a {
+  padding: 24px 15px;
+  font-size: 14px;
+  color: rgb(51, 51, 51);
+}
+
 /**
  * Take out margin from .page-header and use table layout with first cell
  * taking up all available space left by its siblings.
@@ -171,6 +177,9 @@ a.disabled:hover {
  * Helpers to override :hover and .active on .nav elements.
  */
 .nav.hover-reset>li>a:hover {
+  background-color: inherit;
+}
+.nav.focus-reset>li>a:focus {
   background-color: inherit;
 }
 .nav.active-bold>.active>a {
