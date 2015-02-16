@@ -51,7 +51,7 @@ $.webshims.polyfill('forms');
      */
     $.fn._tooltip = $.fn.tooltip;
     $.fn.tooltip  = function (options) {
-        this
+        return this
         ._tooltip('destroy')
         ._tooltip($.extend({
             container: 'body',
