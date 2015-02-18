@@ -61,7 +61,8 @@ module SequenceServer
     end
 
     it 'should be able to retrieve sequences from database' do
-      sequences = Sequence.from_blastdb('SI2.2.0_06267', a_normal_database_id)
+      sequences = Sequence::Retriever.new('SI2.2.0_06267',
+                                          a_normal_database_id).sequences
 
       sequences.length.should eq 1
       sequences.first.gi.should be_nil
@@ -76,8 +77,8 @@ PLYMVLALSQFITYLLILIVGEKENKIKEGMKMMGLNDSVF"
     end
 
     it 'should be able to retrieve more than one sequence from a database' do
-      sequences = Sequence.from_blastdb(['SI2.2.0_06267', 'SI2.2.0_13722'],
-                                        a_normal_database_id)
+      sequences = Sequence::Retriever.new(['SI2.2.0_06267', 'SI2.2.0_13722'],
+                                          a_normal_database_id).sequences
       sequences.length.should == 2
     end
 
@@ -91,8 +92,8 @@ PLYMVLALSQFITYLLILIVGEKENKIKEGMKMMGLNDSVF"
     it 'should be able to retrieve sequences from database for all kinds of'\
        'funky accessions' do
       funky_accessions = ['abcdef#', 'abc#def', '123#456'] # , '123456#']
-      sequences = Sequence.from_blastdb(funky_accessions,
-                                        funky_ids_database_id)
+      sequences = Sequence::Retriever.new(funky_accessions,
+                                          funky_ids_database_id).sequences
       sequences.length.should == 3
     end
   end

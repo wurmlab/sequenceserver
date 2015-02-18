@@ -70,38 +70,9 @@ module SequenceServer
     end
   end
 
-  # Factory and utility methods.
+  # Utility methods.
   class Sequence
     class << self
-      extend Forwardable
-
-      # Derive `logger` from SequenceServer module.
-      def_delegators SequenceServer, :logger
-
-      # Disable using `Sequence.new`. Should use `Sequence.from_blastdb`
-      # instead.
-      private :new
-
-      # Returns an Array of `Sequence` objects each capturing a sequence
-      # fetched from BLAST database.
-      def from_blastdb(accessions, database_ids)
-        accessions = Array accessions
-        database_ids = Array database_ids
-
-        accessions = accessions.join(',')
-        database_names = Database[database_ids].map(&:name).join(' ')
-
-        # Output of the command will be five columns TSV.
-        command = "blastdbcmd -outfmt '%g	%i	%a	%t	%s'" \
-                  " -db '#{database_names}' -entry '#{accessions}'"
-
-        logger.debug("Executing: #{command}")
-
-        # Not interested in stderr.
-        `#{command} 2> /dev/null`
-          .each_line.map { |line| new(*line.chomp.split('	')) }
-      end
-
       # Strips all non-letter characters. If less than 10 useable characters
       # return `nil`. If at least 90% is ACGTU, returns `:nucleotide`, else
       # `:protein`.
@@ -132,6 +103,102 @@ module SequenceServer
           count[x] += 1
         end
         count
+      end
+    end
+
+    # Retrieve sequences from BLAST databases.
+    class Retriever
+      extend Forwardable
+
+      def_delegators SequenceServer, :logger
+
+      # Provides IO for Retriever similar to BLAST::Formatter. We dynamically
+      # extend Retriever object with this module if file download has been
+      # requested (here it must be remembered that Retriever is used by
+      # sequence viewer and FASTA download links).
+      module IO
+        # Returns handle to a temporary file to which data should be written to
+        # or read from.
+        def file
+          @file ||= Tempfile.new filename
+        end
+
+        # Returns a file name to use for the temporary file.
+        def filename
+          return @filename if @filename
+          name = sequence_ids.first            if sequence_ids.length == 1
+          name = "#{sequence_ids.length}_hits" if sequence_ids.length >= 2
+          @filename = "sequenceserver-#{Time.now.strftime('%Y_%m_%d_%H_%M')}" \
+                      "-#{name}.fa"
+        end
+
+        # Returns mime type to use if this file were to be transferred over
+        # Internet.
+        def mime
+          :fasta
+        end
+
+        private
+
+        # Write sequence data to file. Called by Retriever#run if required.
+        def write
+          file.open do
+            sequences.each do |sequence|
+              file.puts sequence.fasta
+            end
+          end
+        end
+      end
+
+      def initialize(sequence_ids, database_ids, in_file = false)
+        @sequence_ids = Array sequence_ids
+        @database_ids = Array database_ids
+        @in_file = in_file
+
+        validate && run
+      end
+
+      attr_reader :sequence_ids, :database_ids, :in_file
+
+      attr_reader :sequences
+
+      def to_json
+        {
+          :sequence_ids => sequence_ids,
+          :databases    => database_titles,
+          :sequences    => sequences.map(&:info)
+        }.to_json
+      end
+
+      private
+
+      def run
+        command = "blastdbcmd -outfmt '%g	%i	%a	%t	%s'" \
+                  " -db '#{database_names.join(' ')}'" \
+                  " -entry '#{sequence_ids.join(',')}'"
+
+        logger.debug("Executing: #{command}")
+
+        @sequences = `#{command} 2> /dev/null`.each_line
+                     .map { |line| Sequence.new(*line.chomp.split('	')) }
+
+        extend(IO) && write if in_file
+      end
+
+      def database_names
+        Database[database_ids].map(&:name)
+      end
+
+      def database_titles
+        Database[database_ids].map(&:title)
+      end
+
+      def validate
+        ids = Database.ids
+        return true if database_ids.is_a?(Array) && !database_ids.empty? &&
+                       (ids & database_ids).length == database_ids.length
+        fail ArgumentError, 'Database id should be one of:' \
+                            " #{ids.join("\n")}."
       end
     end
   end

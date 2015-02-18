@@ -326,23 +326,14 @@ module SequenceServer
       sequence_ids = params[:sequence_ids].split(/\s/)
       database_ids = params[:database_ids].split(/\s/)
 
-      sequences = Sequence.from_blastdb(sequence_ids, database_ids)
+      sequences = Sequence::Retriever.new(sequence_ids, database_ids,
+                                          params[:download])
 
-      if params[:download]
-        file_name = "sequenceserver_#{sequence_ids.first}.fasta"
-        file = Tempfile.new file_name
-        sequences.each do |sequence|
-          file.puts sequence.fasta
-        end
-        file.close
-        send_file file.path, :type => :fasta, :filename => file_name
-      else
-        {
-          :sequence_ids => sequence_ids,
-          :databases    => Database[database_ids].map(&:title),
-          :sequences    => sequences.map(&:info)
-        }.to_json
-      end
+      send_file(sequences.file.path,
+                :type     => sequences.mime,
+                :filename => sequences.filename) if params[:download]
+
+      sequences.to_json
     end
 
     # Download BLAST report in various formats.
