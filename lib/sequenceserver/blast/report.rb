@@ -1,80 +1,35 @@
 module SequenceServer
   module BLAST
-    # Captures BLAST results from BLAST+'s XML output.
+    # Captures results of a BLAST search.
+    #
+    # A report is constructed from a search id. Search id is simply the
+    # basename of the temporary file that holds BLAST results in binary
+    # BLAST archive format.
+    #
+    # For a given search id, result is obtained in XML format using the
+    # Formatter class, parsed into a simple intermediate representation
+    # (Array of values and Arrays) and information extracted from the
+    # intermediate representation (ir).
     class Report
       include Links
 
-      # Expects a File object and Database objects used to BLAST against.
-      #
-      # Parses the XML file into an intermediate representation (ir) and
-      # constructs an object model from that.
-      #
-      # NOTE:
-      #   Databases param is optional for test suite.
-      #
-      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-      def initialize(rfile, databases = nil)
-        @archive_file = rfile
-
-        xml_file = BLAST.format('report' => @archive_file,
-                                'type'   => 'full',
-                                'format' => 'xml')
-
-        ir = File.open(xml_file[:filepath]) do |f|
-          node_to_array Ox.parse(f.read).root
-        end
-
-        @program = ir[0]
-        @program_version = ir[1]
+      # Expects a BLAST search id and an Array of Database objects that were
+      # used to BLAST. The second argument being optional to aid test suite.
+      def initialize(search_id, databases = nil)
+        @search_id = search_id
         @querydb = Array databases
-        @parameters = {
-          :matrix    => ir[7][0],
-          :evalue    => ir[7][1],
-          :gapopen   => ir[7][2],
-          :gapextend => ir[7][3],
-          :filters   => ir[7][4]
-        }
+        @queries = []
 
-        ir[8].each_with_index do |n, i|
-          @stats ||= n[5][0]
-          @queries ||= []
-          @queries.push(Query.new(n[0], n[2], n[3], []))
-
-          # Ensure a hit object is received. No hits, returns a newline. Note
-          # that checking to "\n" doesn't work since n[4] = ["\n"]
-          if n[4] == ["\n"]
-            @queries[i][:hits] = []
-          else
-            n[4].each_with_index do |hits, j|
-              @queries[i][:hits].push(Hit.new(hits[0], hits[1], hits[2],
-                                              hits[3], hits[4], []))
-              hits[5].each do |hsp|
-                hsp_klass = HSP.const_get program.upcase
-                @queries[i][:hits][j][:hsps].push(hsp_klass.new(*hsp))
-              end
-            end
-            @queries[i].sort_hits_by_evalue!
-          end
-        end
+        generate
       end
-      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-      attr_reader :archive_file
-      attr_reader :program, :program_version
+      attr_reader :search_id, :querydb
 
       # :nodoc:
-      # params are defaults provided by BLAST or user input to tweak the
-      # result. stats are computed metrics provided by BLAST.
-      #
-      # BLAST+ doesn't list all input params (like word_size) in the XML
-      # output. Only matrix, evalue, gapopen, gapextend, and filters.
+      # Attributes parsed out from XML output.
+      attr_reader :program, :program_version
       attr_reader :params, :stats
-
-      attr_reader :querydb
-
       attr_reader :queries
-
-      # Helper methods for pretty printing results
 
       def link_per_hit(sequence_id)
         links = Links.instance_methods.map { |m| send(m, sequence_id) }
@@ -83,10 +38,12 @@ module SequenceServer
         links.compact!.sort_by! { |link| link[:order] }
       end
 
-      # Returns an array of database objects which contain the queried
-      # sequence id.
-      # NOTE: This function may return more than one database object for
-      # a single sequence id.
+      # Returns an array of database objects which contain the queried sequence
+      # id.
+      #
+      # NOTE:
+      #   This function may return more than one database object for a single
+      #   sequence id.
       #
       # e.g., which_blastdb('SI_2.2.23') => [<Database: ...>, ...]
       def which_blastdb(sequence_id)
@@ -94,6 +51,85 @@ module SequenceServer
       end
 
       private
+
+      # Generate report.
+      def generate
+        xml = Formatter.run(search_id, 'xml').file
+        ir  = node_to_array(Ox.parse(xml.open.read).root)
+        extract_program_info ir
+        extract_params ir
+        extract_stats ir
+        extract_query ir
+      end
+
+      # Make program name and program name + version available via `program`
+      # and `program_version` attributes.
+      def extract_program_info(ir)
+        @program         = ir[0]
+        @program_version = ir[1]
+      end
+
+      # Make search params available via `params` attribute.
+      #
+      # Search params tweak the results. Like evalue cutoff or penalty to open
+      # a gap. BLAST+ doesn't list all input params in the XML output. Only
+      # matrix, evalue, gapopen, gapextend, and filters are available from XML
+      # output.
+      def extract_params(ir)
+        params  = ir[7]
+        @params = {
+          :matrix    => params[0],
+          :evalue    => params[1],
+          :gapopen   => params[2],
+          :gapextend => params[3],
+          :filters   => params[4]
+        }
+      end
+
+      # Make search stats available via `stats` attribute.
+      #
+      # Search stats are computed metrics. Like total number of sequences or
+      # effective search space.
+      def extract_stats(ir)
+        stats  = ir[8].first[5][0]
+        @stats = {
+          :nsequences   => stats[0],
+          :ncharacters  => stats[1],
+          :hsp_length   => stats[2],
+          :search_space => stats[3],
+          :kappa        => stats[4],
+          :labmda       => stats[5],
+          :entropy      => stats[6]
+        }
+      end
+
+      # Make results for each input query available via `queries` atribute.
+      def extract_query(ir)
+        ir[8].each_with_index do |n, i|
+          queries.push(Query.new(n[0], n[2], n[3], []))
+          extract_hits(n[4], i)
+          queries[i].sort_hits_by_evalue!
+        end
+      end
+
+      # Create Hit objects from given ir and associate them to query i.
+      def extract_hits(hits_ir, i)
+        return if hits_ir == ["\n"] # => No hits.
+        hits_ir.each_with_index do |hit, j|
+          queries[i].hits.push(Hit.new(hit[0], hit[1], hit[2],
+                                       hit[3], hit[4], []))
+          extract_hsps(hit[5], j, i)
+        end
+      end
+
+      # Create HSP objects from the given ir and associate them with hit j of
+      # query i.
+      def extract_hsps(hsp_ir, j, i)
+        hsp_ir.each do |hsp|
+          hsp_klass = HSP.const_get program.upcase
+          queries[i].hits[j].hsps.push(hsp_klass.new(*hsp))
+        end
+      end
 
       PARSEABLE_AS_ARRAY = %w(Parameters BlastOutput_param Iteration_stat
                               Statistics Iteration_hits BlastOutput_iterations

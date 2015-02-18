@@ -16,9 +16,9 @@ module SequenceServer
       no_hits_report.queries.should be_a Array
     end
 
-    it 'will return an Array of stats' do
-      hits_report.stats.should be_a Array
-      no_hits_report.stats.should be_a Array
+    it 'will return a Hash of stats' do
+      hits_report.stats.should be_a Hash
+      no_hits_report.stats.should be_a Hash
     end
 
     it 'contains all the necessary stats' do

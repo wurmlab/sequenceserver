@@ -201,7 +201,7 @@ Total letters in queried databases: <%= report.stats[1] %>
               mismatches, gaps, identity, start and end coordinates,
               e value and bitscore."
               data-toggle="tooltip"
-              href="get_report/?report=<%= File.basename(report.archive_file) %>&format=tsv_commented&type=std">
+              href="download/<%= report.search_id %>.std_tsv">
               Standard tabular report
             </a>
           </li>
@@ -212,7 +212,7 @@ Total letters in queried databases: <%= report.stats[1] %>
               and length; alignment details; taxonomy details of subject
               sequence(s) and query coverage per subject and per HSP."
               data-toggle="tooltip"
-              href="get_report/?report=<%= File.basename(report.archive_file) %>&format=tsv_commented&download=true&specifiers=qseqid qgi qacc sseqid sallseqid sgi sallgi sacc sallacc qstart qend sstart send qseq sseq evalue bitscore score length length pident nident mismatch positive gapopen gaps ppos frames qframe hframe btop staxids sscinames scomnames sblastnames sskingdoms stitle salltitles sstrand qcovs qcovhsp&type=full">
+              href="download/<%= report.search_id %>.full_tsv">
               Full tabular report
             </a>
           </li>
@@ -221,7 +221,7 @@ Total letters in queried databases: <%= report.stats[1] %>
               class="download"
               title="Results in XML format."
               data-toggle="tooltip"
-              href="get_report/?report=<%= File.basename(report.archive_file) %>&format=xml&type=full">
+              href="download/<%= report.search_id %>.xml">
               Full XML report
             </a>
           </li>

@@ -345,12 +345,10 @@ module SequenceServer
       end
     end
 
-    get '/get_report/' do
-      ofile = BLAST.format(params)
-
-      send_file ofile[:filepath],
-                :filename => ofile[:filename],
-                :type => ofile[:type].to_sym
+    # Download BLAST report in various formats.
+    get '/download/:search_id.:type' do
+      out = BLAST::Formatter.new(params[:search_id], params[:type])
+      send_file out.file.path, :filename => out.filename, :type => out.mime
     end
 
     # This error block will only ever be hit if the user gives us a funny
