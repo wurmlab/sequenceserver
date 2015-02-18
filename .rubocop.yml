@@ -1,7 +1,5 @@
 AllCops:
   Exclude:
-    # Because we don't use this test suite at the moment.
-    - 'spec/ui_test.rb'
     # Because these are vendor files.
     - 'node_modules/**/*'
 
@@ -9,7 +7,6 @@ Metrics/AbcSize:
   Exclude:
     # TODO
     - 'lib/sequenceserver.rb'
-    - 'lib/sequenceserver/database.rb'
 Metrics/MethodLength:
   # Because 15 lines in a method is just about as good as 10 (default). And we
   # have a couple that can't be helped.
