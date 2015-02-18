@@ -30,8 +30,7 @@ module SequenceServer
 
       def filename
         @filename ||=
-          "sequenceserver-#{Time.now.strftime('%Y_%m_%d_%H_%M')}" \
-          "-#{type}_report.#{mime}"
+          "sequenceserver-#{type}_report.#{mime}"
       end
 
       private

@@ -128,8 +128,7 @@ module SequenceServer
           return @filename if @filename
           name = sequence_ids.first            if sequence_ids.length == 1
           name = "#{sequence_ids.length}_hits" if sequence_ids.length >= 2
-          @filename = "sequenceserver-#{Time.now.strftime('%Y_%m_%d_%H_%M')}" \
-                      "-#{name}.fa"
+          @filename = "sequenceserver-#{name}.fa"
         end
 
         # Returns mime type to use if this file were to be transferred over
