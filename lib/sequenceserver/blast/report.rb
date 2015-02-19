@@ -11,8 +11,6 @@ module SequenceServer
     # (Array of values and Arrays) and information extracted from the
     # intermediate representation (ir).
     class Report
-      include Links
-
       # Expects a BLAST search id and an Array of Database objects that were
       # used to BLAST. The second argument being optional to aid test suite.
       def initialize(search_id, databases = nil)
@@ -30,25 +28,6 @@ module SequenceServer
       attr_reader :program, :program_version
       attr_reader :params, :stats
       attr_reader :queries
-
-      def link_per_hit(sequence_id)
-        links = Links.instance_methods.map { |m| send(m, sequence_id) }
-
-        # Sort links based on :order key (ascending)
-        links.compact!.sort_by! { |link| link[:order] }
-      end
-
-      # Returns an array of database objects which contain the queried sequence
-      # id.
-      #
-      # NOTE:
-      #   This function may return more than one database object for a single
-      #   sequence id.
-      #
-      # e.g., which_blastdb('SI_2.2.23') => [<Database: ...>, ...]
-      def which_blastdb(sequence_id)
-        querydb.select { |db| db.include? sequence_id }
-      end
 
       private
 
@@ -105,29 +84,31 @@ module SequenceServer
 
       # Make results for each input query available via `queries` atribute.
       def extract_query(ir)
-        ir[8].each_with_index do |n, i|
-          queries.push(Query.new(n[0], n[2], n[3], []))
-          extract_hits(n[4], i)
-          queries[i].sort_hits_by_evalue!
+        ir[8].each do |n|
+          query = Query.new(self, n[0], n[2], n[3], [])
+          extract_hits(n[4], query)
+          query.sort_hits_by_evalue!
+          queries << query
         end
       end
 
       # Create Hit objects from given ir and associate them to query i.
-      def extract_hits(hits_ir, i)
+      def extract_hits(hits_ir, query)
         return if hits_ir == ["\n"] # => No hits.
-        hits_ir.each_with_index do |hit, j|
-          queries[i].hits.push(Hit.new(hit[0], hit[1], hit[2],
-                                       hit[3], hit[4], []))
-          extract_hsps(hit[5], j, i)
+        hits_ir.each do |n|
+          hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4], [])
+          extract_hsps(n[5], hit)
+          query.hits << hit
         end
       end
 
       # Create HSP objects from the given ir and associate them with hit j of
       # query i.
-      def extract_hsps(hsp_ir, j, i)
-        hsp_ir.each do |hsp|
+      def extract_hsps(hsp_ir, hit)
+        hsp_ir.each do |n|
           hsp_klass = HSP.const_get program.upcase
-          queries[i].hits[j].hsps.push(hsp_klass.new(*hsp))
+          hsp = hsp_klass.new(*[hit, *n])
+          hit.hsps << hsp
         end
       end
 

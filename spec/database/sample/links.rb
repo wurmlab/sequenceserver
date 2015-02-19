@@ -5,16 +5,13 @@ module SequenceServer
     SI_UNIPROT_IDMAP = YAML.load_file(File.expand_path('si_uniprot_idmap.yml',
                                                        File.dirname(__FILE__)))
 
-    def uniprot(sequence_id)
-      return nil unless sequence_id.match(SI_UNIPROT_IDPAT)
+    def uniprot
+      return unless accession.match(SI_UNIPROT_IDPAT)
+      uniprot_id  = SI_UNIPROT_IDMAP["SINV_#{Regexp.last_match[1]}"]
+      return unless uniprot_id
 
-      # construct uniprot link
-      ukey = sequence_id.match(/SI2.2.0_(\d*)/)[1]
-      uid  = SI_UNIPROT_IDMAP["SINV_#{ukey}"]
-      return unless uid
-
-      uid = encode uid
-      url = "http://www.uniprot.org/uniprot/#{uid}"
+      uniprot_id = encode uniprot_id
+      url = "http://www.uniprot.org/uniprot/#{uniprot_id}"
       {
         :order => 2,
         :title => 'UniProt',

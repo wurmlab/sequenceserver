@@ -6,11 +6,11 @@ module SequenceServer
     # HSP class is not used directly.  Relevant HSP stats and formatting the
     # alignment changes with BLAST algorithm. We subclass HSP for each BLAST
     # algorithm.
-    HSP = Struct.new(:number, :bit_score, :score, :evalue, :qstart, :qend,
+    HSP = Struct.new(:hit, :number, :bit_score, :score, :evalue, :qstart, :qend,
                      :sstart, :send, :qframe, :sframe, :identity, :positives,
-                     :gaps, :len, :qseq, :sseq, :midline) do
-      INTEGER_ARGS = [0, 2].concat((4..13).to_a)
-      FLOAT_ARGS   = [1, 3]
+                     :gaps, :length, :qseq, :sseq, :midline) do
+      INTEGER_ARGS = [1, 3].concat((5..14).to_a)
+      FLOAT_ARGS   = [2, 4]
 
       def initialize(*args)
         INTEGER_ARGS.each do |i|
@@ -23,8 +23,6 @@ module SequenceServer
 
         super
       end
-
-      alias_method :length, :len
 
       # Returns a Hash of stats common to all BLAST algorithms. Subclasses must
       # update the returned Hash to add relevant stats of their own.

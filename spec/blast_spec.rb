@@ -32,10 +32,10 @@ module SequenceServer
     no_hits_report = BLAST::Report.new(no_hits)
 
     it 'will return queries with valid length' do
-      hits_report.queries.first.len.should be_a Fixnum
-      hits_report.queries.first.len.should satisfy { |n| n > 0 }
-      no_hits_report.queries.first.len.should be_a Fixnum
-      no_hits_report.queries.first.len.should satisfy { |n| n > 0 }
+      hits_report.queries.first.length.should be_a Fixnum
+      hits_report.queries.first.length.should satisfy { |n| n > 0 }
+      no_hits_report.queries.first.length.should be_a Fixnum
+      no_hits_report.queries.first.length.should satisfy { |n| n > 0 }
     end
 
     it 'will return an Array of hits' do
@@ -49,7 +49,7 @@ module SequenceServer
     no_hits_report = BLAST::Report.new(no_hits)
 
     it 'will have non zero length' do
-      hits_report.queries.last.hits.first.len.should satisfy { |n| n > 0 }
+      hits_report.queries.last.hits.first.length.should satisfy { |n| n > 0 }
     end
 
     it 'will return an Array of HSPs' do
@@ -70,9 +70,10 @@ module SequenceServer
   describe 'HSPs' do
     hits_report = BLAST::Report.new(with_hits)
 
-    # Currently using all 17 HSP parameters in BLAST Report.
+    # Currently using all 17 HSP parameters in BLAST Report + 1 to refer to the
+    # hit object it belongs to.
     it 'have all the necessary values' do
-      hits_report.queries.last.hits.first.hsps.last.count.should eql(17)
+      hits_report.queries.last.hits.first.hsps.last.count.should eql(18)
     end
 
     # Test Random HSPs to ensure that all the values from HSP struct are valid.
@@ -116,8 +117,8 @@ module SequenceServer
       hits_report.queries.first.hits.first.hsps.last.positives
         .should_not satisfy { |n| n < 0 }
 
-      hits_report.queries.first.hits.first.hsps.last.len.should be_a Fixnum
-      hits_report.queries.first.hits.first.hsps.last.len
+      hits_report.queries.first.hits.first.hsps.last.length.should be_a Fixnum
+      hits_report.queries.first.hits.first.hsps.last.length
         .should satisfy { |n| n > 0 }
 
       hits_report.queries.last.hits.last.hsps.first.qseq.should be_a String

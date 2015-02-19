@@ -4,14 +4,14 @@ module SequenceServer
     # Capture results per query of a BLAST search.
     # @member [String]     number
     # @member [String]     def
-    # @member [Fixnum]     len
+    # @member [Fixnum]     length
     # @member [Array(Hit)] hits
-    Query = Struct.new(:number, :def, :len, :hits) do
+    Query = Struct.new(:report, :number, :def, :length, :hits) do
       def initialize(*args)
-        args[0] = args[0].to_i
-        args[1] = "Query_#{args[0]}" if args[1] == 'No definition line'
-        args[2] = args[2].to_i
-        @id, *rest = args[1].split
+        args[1] = args[1].to_i
+        args[2] = "Query_#{args[1]}" if args[2] == 'No definition line'
+        args[3] = args[3].to_i
+        @id, *rest = args[2].split
         @title = rest.join(' ')
         super
       end
@@ -21,8 +21,6 @@ module SequenceServer
       end
 
       attr_reader :id, :title
-
-      alias_method :length, :len
     end
   end
 end

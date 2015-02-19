@@ -5,7 +5,7 @@
     <% report.queries.each_with_index do |query, q| %>
       <div
         class="resultn" id="<%="Query_#{query.number}"%>"
-        data-query-len="<%= query.len %>" data-graphit-target="hsps"
+        data-query-len="<%= query.length %>" data-graphit-target="hsps"
         data-graphit="overview" data-hit-count="<%= query.hits.count %>">
         <div
           class="page-header">
@@ -27,7 +27,7 @@
           class="page-content">
           <% if query.hits.empty? %>
             <p>
-              Query length: <%= query.len %>
+              Query length: <%= query.length %>
             </p>
             <br>
             <br>
@@ -114,7 +114,7 @@
                       type="checkbox" value="<%= hit.accession %>" data-target="<%= "#Query_#{query.number}_hit_#{hit.number}" %>">
                       Select
                     </label>
-                    <% report.link_per_hit(hit.accession).each do |link| %>
+                    <% hit.links.each do |link| %>
                       | <%= a link %>
                     <% end %>
                   </div>

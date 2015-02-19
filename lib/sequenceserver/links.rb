@@ -10,15 +10,7 @@ module SequenceServer
 
     NCBI_ID_PATTERN = /gi\|(\d+)\|/
 
-    # Your custom method should have following pattern:
-    #
-    # Input
-    # -----
-    # sequence_id: Array of sequence ids
-    #
-    # Return
-    # ------
-    # The return value should be a Hash:
+    # Link generators return a Hash like below.
     #
     # {
     #   # Required. Display title.
@@ -56,21 +48,21 @@ module SequenceServer
     #   querydb:
     #     Returns an array of databases that were used for BLASTing.
     #
-    #   which_blastdb:
+    #   whichdb:
     #     Returns the database from which the given hit came from.
     #
     #     e.g:
     #
-    #         hit_database = which_blastdb sequence_id
+    #         hit_database = whichdb
     #
     # Examples:
     # ---------
     # See methods provided by default for an example implementation.
 
-    def sequence_viewer(sequence_id)
-      sequence_id  = encode sequence_id
+    def sequence_viewer
+      accession  = encode self.accession
       database_ids = encode querydb.map(&:id).join(' ')
-      url = "get_sequence/?sequence_ids=#{sequence_id}" \
+      url = "get_sequence/?sequence_ids=#{accession}" \
             "&database_ids=#{database_ids}"
 
       {
@@ -82,10 +74,10 @@ module SequenceServer
       }
     end
 
-    def fasta_download(sequence_id)
-      sequence_id  = encode sequence_id
+    def fasta_download
+      accession  = encode self.accession
       database_ids = encode querydb.map(&:id).join(' ')
-      url = "get_sequence/?sequence_ids=#{sequence_id}" \
+      url = "get_sequence/?sequence_ids=#{accession}" \
             "&database_ids=#{database_ids}&download=fasta"
 
       {
@@ -97,14 +89,14 @@ module SequenceServer
       }
     end
 
-    def ncbi(sequence_id)
-      return nil unless sequence_id.match(NCBI_ID_PATTERN)
+    def ncbi
+      return nil unless id.match(NCBI_ID_PATTERN)
       ncbi_id = Regexp.last_match[1]
       ncbi_id = encode ncbi_id
-      url = "http://www.ncbi.nlm.nih.gov/#{querydb.first.typ}/#{ncbi_id}"
+      url = "http://www.ncbi.nlm.nih.gov/#{querydb.first.type}/#{ncbi_id}"
       {
         :order => 2,
-        :title => 'View on NCBI',
+        :title => 'NCBI',
         :url   => url,
         :icon  => 'fa-external-link'
       }
