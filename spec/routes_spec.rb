@@ -2,7 +2,7 @@ require 'spec_helper'
 
 # Basic unit tests for HTTP / Rack interface.
 module SequenceServer
-  describe 'App' do
+  describe 'Routes' do
     ENV['RACK_ENV'] = 'test'
     include Rack::Test::Methods
 

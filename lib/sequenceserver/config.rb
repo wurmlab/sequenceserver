@@ -1,3 +1,4 @@
+require 'yaml'
 require 'forwardable'
 
 # Define Config class.
