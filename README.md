@@ -1,7 +1,10 @@
 [![build status](https://secure.travis-ci.org/yannickwurm/sequenceserver.png?branch=master)](https://travis-ci.org/yannickwurm/sequenceserver)
-[![Code Climate](https://codeclimate.com/github/yannickwurm/sequenceserver/badges/gpa.svg)](https://codeclimate.com/github/yannickwurm/sequenceserver)
-[![Test Coverage](https://codeclimate.com/github/yannickwurm/sequenceserver/badges/coverage.svg)](https://codeclimate.com/github/yannickwurm/sequenceserver)
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/yannickwurm/sequenceserver)
+[![code climate](https://codeclimate.com/github/yannickwurm/sequenceserver/badges/gpa.svg)](https://codeclimate.com/github/yannickwurm/sequenceserver)
+[![coverage](https://codeclimate.com/github/yannickwurm/sequenceserver/badges/coverage.svg)](https://codeclimate.com/github/yannickwurm/sequenceserver)
+[![gem version](https://badge.fury.io/rb/sequenceserver.svg)](http://rubygems.org/gems/sequenceserver)
+[![total downloads](http://ruby-gem-downloads-badge.herokuapp.com/sequenceserver?type=total&color=brightgreen)](http://rubygems.org/gems/sequenceserver)
+
+[![gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/yannickwurm/sequenceserver)
 
 # SequenceServer - BLAST searching made easy!
 
