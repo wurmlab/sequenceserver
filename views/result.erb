@@ -137,8 +137,8 @@ Databases queried:
   <%= "#{db.title}\n    #{db.nsequences} sequences, #{db.ncharacters} letters\n    created/updated on - #{db.updated_on}" %>
 <% end %>
 
-Total sequences in queried databases: <%= report.stats[0] %>
-Total letters in queried databases: <%= report.stats[1] %>
+Total sequences in queried databases: <%= report.stats[:nsequences] %>
+Total letters in queried databases: <%= report.stats[:ncharacters] %>
     </div>
   </div>
 
