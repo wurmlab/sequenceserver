@@ -28,14 +28,6 @@ label {
 }
 
 /**
- * Most of the times we want code to wrap to next line.
- */
-code {
-  white-space: normal;
-  word-wrap: break-word;
-}
-
-/**
  * Without this .disable'd elements hardly look disabled.
  */
 .disabled {
@@ -477,4 +469,12 @@ svg:not(:root) {
 
 .tooltip-inner {
     max-width: 350px;
+}
+
+.pre-reset {
+  margin: 0 0;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  background-color: inherit;
 }

@@ -363,17 +363,12 @@ SS.showSequenceViewer = (function () {
         $viewerFooter.empty().append(links);
     };
 
-    var showSequences = function (sequence_ids, sequences, databases) {
-        // Inform user if number of sequences retrieved is more or less than requested for.
-        if (sequence_ids.length != sequences.length) {
-            showLessOrMoreSequencesRetrievedMessage(sequence_ids, sequences, databases);
-        }
-
-        // Render sequence.
-        sequences.forEach(showSequence);
+    var showSequences = function (error_msgs, sequences) {
+        error_msgs.forEach(renderErrorMsg);
+        sequences.forEach(renderSequence);
     };
 
-    var showSequence = function (sequence) {
+    var renderSequence = function (sequence) {
         // generate html template
         var header = sequence.id + "<small>&nbsp;" + sequence.title + "</small>";
         var widgetId = widgetClass + (new Date().getUTCMilliseconds());
@@ -386,10 +381,10 @@ SS.showSequenceViewer = (function () {
                 $('<div/>')
                 .addClass('page-header')
                 .append(
-                    $('<h4>')
+                    $('<h4/>')
                     .html(header)
                 ),
-                $('<div>')
+                $('<div/>')
                 .attr('id', widgetId)
                 .addClass(widgetClass)
                 .addClass('page-content')
@@ -413,27 +408,23 @@ SS.showSequenceViewer = (function () {
         widget.hideFormatSelector();
     };
 
-    var showLessOrMoreSequencesRetrievedMessage = function (sequence_ids, sequences, databases) {
+    var renderErrorMsg = function (error_msg) {
         $viewerBody
         .append(
-            $('<h4/>')
-            .html("ERROR: incorrect number of sequences found."),
-            $('<p/>')
-            .html('You requested ' + sequence_ids.length +
-                  ' sequence(s) with the following identifiers: <br>' +
-                  '<code>' + sequence_ids.join(', ') + '</code> <br>' +
-                  'from the following databases: <br>' +
-                  '<code>' + databases.join(', ') + '</code> <br>' +
-                  'but we found ' + sequences.length + ' sequence(s).'),
-            $('<p/>')
-            .html('This is likley due to a problem with how databases ' +
-                  'are formatted.<strong> Please share this text with ' +
-                  'the person managing this website so that the issue ' +
-                  'can be resolved.'),
-            $('<p/>')
-            .html('If any sequences were retrieved, you ' +
-                  'can find them below (but some may be incorrect, so ' +
-                  'be careful!)')
+            $('<div/>')
+            .addClass('page-header')
+            .append(
+                $('<h4/>')
+                .html(error_msg[0])
+            ),
+            $('<div/>')
+            .addClass('page-content')
+            .append(
+                $('<pre/>')
+                .addClass('pre-reset')
+                .html(error_msg[1])
+            ),
+            $('<br>')
         );
     };
 
@@ -444,7 +435,7 @@ SS.showSequenceViewer = (function () {
         var url = $clicked.attr('href');
         $.getJSON(url)
         .done(function (response) {
-            showSequences(response.sequence_ids, response.sequences, response.databases);
+            showSequences(response.error_msgs, response.sequences);
             $spinner.hide();
         })
         .fail(function (jqXHR, status, error) {

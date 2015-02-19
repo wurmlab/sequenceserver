@@ -139,12 +139,27 @@ module SequenceServer
 
         private
 
-        # Write sequence data to file. Called by Retriever#run if required.
         def write
-          file.open do
-            sequences.each do |sequence|
-              file.puts sequence.fasta
+          file.open
+          write_error_msgs
+          write_sequences
+          file.close
+        end
+
+        # Write error messages to file. Expects file to be open.
+        def write_error_msgs
+          error_msgs.each do |heading, message|
+            file.puts "# #{heading}"
+            message.each_line do |line|
+              file.puts "# #{line}"
             end
+          end
+        end
+
+        # Write sequence data to file. Expects file to be open.
+        def write_sequences
+          sequences.each do |sequence|
+            file.puts sequence.fasta
           end
         end
       end
@@ -163,9 +178,8 @@ module SequenceServer
 
       def to_json
         {
-          :sequence_ids => sequence_ids,
-          :databases    => database_titles,
-          :sequences    => sequences.map(&:info)
+          :error_msgs => error_msgs,
+          :sequences  => sequences.map(&:info)
         }.to_json
       end
 
@@ -198,6 +212,28 @@ module SequenceServer
                        (ids & database_ids).length == database_ids.length
         fail ArgumentError, 'Database id should be one of:' \
                             " #{ids.join("\n")}."
+      end
+
+      def error_msgs
+        [
+          ['ERROR: incorrect number of sequences found.',
+           <<MSG
+You requested #{sequence_ids.length} sequence(s) with the following identifiers:
+  #{sequence_ids.join(', ')}
+from the following databases:
+  #{database_titles.join(', ')}
+but we found #{sequences.length} sequence(s).
+
+This is likley due to a problem with how databases are formatted.
+Please share this text with the person managing this website (or
+https://groups.google.com/forum/?fromgroups#!forum/sequenceserver
+if you are the admin) so that the issue can be resolved.
+
+If any sequences were retrieved, you can find them below
+(but some may be incorrect, so be careful!)
+MSG
+          ]
+        ]
       end
     end
   end
