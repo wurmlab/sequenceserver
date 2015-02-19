@@ -92,6 +92,7 @@ module SequenceServer
         :order => 1,
         :title => 'FASTA',
         :url   => url,
+        :class => 'download',
         :icon  => 'fa-download'
       }
     end
