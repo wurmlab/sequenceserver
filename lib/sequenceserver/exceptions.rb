@@ -23,7 +23,7 @@ module SequenceServer
 
     def to_s
       <<MSG
-Error in config file: #{ent}.
+Error reading config file: #{ent}.
 #{err}
 MSG
     end
