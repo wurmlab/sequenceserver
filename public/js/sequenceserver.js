@@ -59,6 +59,21 @@ $.webshims.polyfill('forms');
         }, options));
     };
 
+    /**
+     * Returns true / false if any modal is active.
+     */
+    $.modalActive = function () {
+        var active = false;
+        $('.modal').each(function () {
+            var modal = $(this).data('bs.modal');
+            if (modal) {
+                active = modal.isShown;
+                return !active
+            }
+        });
+        return active;
+    };
+
 
     /**
      * Wiggle an element.
@@ -463,6 +478,9 @@ $(document).ready(function(){
 
     $(document)
     .on('dragenter', function (evt) {
+        // Do not activate DnD if a modal is active.
+        if ($.modalActive) return;
+
         // Based on http://stackoverflow.com/a/8494918/1205465.
         // Contrary to what the above link says, the snippet below can't
         // distinguish directories from files. We handle that on drop.
