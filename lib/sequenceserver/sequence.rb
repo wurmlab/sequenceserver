@@ -192,9 +192,10 @@ module SequenceServer
 
         logger.debug("Executing: #{command}")
 
-        @sequences = `#{command} 2> /dev/null`.each_line
-                     .map { |line| Sequence.new(*line.chomp.split('	')) }
-
+        out = `#{command} 2> /dev/null`
+        @sequences = out.each_line.map do |line|
+          Sequence.new(*line.chomp.split('	'))
+        end
         extend(IO) && write if in_file
       end
 
