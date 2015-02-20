@@ -92,6 +92,7 @@ module SequenceServer
           fail RuntimeError.new(status, error)
         end
 
+        Search << rfile
         Report.new(File.basename(rfile.path), databases)
       end
       # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
