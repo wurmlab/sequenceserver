@@ -214,7 +214,9 @@ module SequenceServer
                             " #{ids.join("\n")}."
       end
 
+      # rubocop:disable Metrics/MethodLength
       def error_msgs
+        return [] if sequences.length == sequence_ids.length
         [
           ['ERROR: incorrect number of sequences found.',
            <<MSG
@@ -235,6 +237,7 @@ MSG
           ]
         ]
       end
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end
