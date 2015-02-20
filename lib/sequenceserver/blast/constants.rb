@@ -11,7 +11,7 @@ module SequenceServer
                            mismatch positive gapopen gaps ppos frames
                            qframe hframe btop staxids sscinames scomnames
                            sblastnames sskingdoms stitle salltitles sstrand
-                           qcovs qcovhsp)
+                           qcovs qcovhsp).join(' ')
     OUTFMT = {
       'pairwise'        => [0, :txt],
       'qa'              => [1, :txt],
