@@ -305,7 +305,7 @@ MSG
           puts e
 
           # Offer user to format the FASTA files.
-          database_dir = SequenceServer[:database_dir]
+          database_dir = SequenceServer.config[:database_dir]
           puts
           puts <<MSG
 Search for FASTA files (.fa, .fasta, .fna) in '#{database_dir}' and try
@@ -344,8 +344,8 @@ MSG
       if list_unformatted_fastas? || make_blast_databases?
         unformatted_fastas = SequenceServer::Database.unformatted_fastas
         if unformatted_fastas.empty?
-          puts "All FASTA files in #{SequenceServer[:database_dir]} are "\
-               'formatted.'
+          puts "All FASTA files in #{SequenceServer.config[:database_dir]} " \
+               'are formatted.'
           exit
         end
       end
