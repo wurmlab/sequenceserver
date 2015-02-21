@@ -203,7 +203,7 @@ module SequenceServer
         # replaces _ with ' ',
         db_name.gsub!(/(_)/, ' ')
         # replaces '.' with ' ' when no numbers are on either side,
-        db_name.gsub!(/(?<![0-9])\.(?![0-9])/, ' ')
+        db_name.gsub!(/(\D)\.(?=\D)/, '\1 ')
         # preserves version numbers
         db_name.gsub!(/\W*(\d+([.-]\d+)+)\W*/, ' \1 ')
         db_name
