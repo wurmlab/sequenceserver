@@ -1,20 +1,27 @@
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Sequencesever</title>
     <meta name="author" content="Anurag Priyam">
     <meta name="author" content="Vivek Rai">
     <meta name="author" content="Yannick Wurm">
-    <meta name="keywords" content="ant genome blast, download ant genome, fire ant">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, viroblast">
 
     <!-- Support HTML5 elements and media queries on IE8 and less. -->
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
 
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
     <!-- Bootstrap and FontAwesome -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"   rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"   rel="stylesheet" type="text/css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="css/seqserv.css">
   </head>
 
@@ -44,8 +51,7 @@
             </span>
           </button>
           <a
-            class="navbar-brand"
-            href="#" style="font-size:20px">
+            class="navbar-brand" href="#">
             SequenceServer
           </a>
         </div>
@@ -110,7 +116,7 @@
       class="container">
       <div class="row">
         <div class="sidebar col-md-3">
-          <div style=" float:left;">
+          <div style="float:left;">
             <a href="http://flattr.com/thing/397966/Simple-custom-local-BLAST-server" target="_blank">
               <img src="http://api.flattr.com/button/flattr-badge-large.png"
               alt="Flattr this" title="Flattr this" border="0" /></a>
@@ -124,7 +130,7 @@
               <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" />
             </form>
           </div>
-          <div class="news small" style="text-align:justify;">
+          <div class="news">
             <h4>News</h4>
             <p><strong>2014-12</strong> SequenceServer 0.9.0 entirely new user interface and tons of new
               features. Please see RELEASE NOTES for details.</p>
@@ -145,7 +151,7 @@
           </div>
         </div>
         <div
-          class="col-md-9">
+          class="main col-md-9">
           <div
             class="content">
             <section
@@ -154,10 +160,10 @@
                 class="page-header" style="margin-top:0px">
                 <h1>
                   SequenceServer
+                  <small>
+                    BLAST search made easy!
+                  </small>
                 </h1>
-                <h2>
-                  BLAST search made easy!
-                </h2>
               </div>
               <div class="row">
                 <div class="col-md-6">
@@ -212,12 +218,9 @@
                 </div>
               </div>
 
-              <h2>
-                But how?
-              </h2>
-              <h3>
+              <h4>
                 Easy for biologists
-              </h3>
+              </h4>
               <ul>
                 <li>
                   Minimalistic, clutter-free design, so you can focus on the biology
@@ -227,7 +230,8 @@
                   BLAST method to use based on your input and selected databases
                 </li>
                 <li>
-                  Common mistakes prevented. E.g., SequenceServer warns if you mix nucleotide and protein sequences
+                  Common mistakes prevented. For example, SequenceServer warns
+                  if you mix nucleotide and protein sequences
                 </li>
                 <li>
                   <strong>Advanced users:</strong> use advanced parameters (e.g. <code>-task blastn-short -evalue 1.0e-20</code>) like you would in the command line.
@@ -240,7 +244,9 @@
                 </li>
               </ul>
 
-              <h3>Rapidly deployed by admins</h3>
+              <h4>
+                Rapidly deployed by admins
+              </h4>
               <ul>
                 <li>
                   very little configuration required: only a directory
@@ -258,11 +264,11 @@
                 </li>
               </ul>
 
-              <h3>
+              <h4>
                 Demo server
-              </h3>
+              </h4>
               <p>
-                Sure, check
+                Check
                 <a
                   href="http://www.antgenomes.org/sequenceserver">
                   Ant genome BLAST
@@ -279,10 +285,10 @@
               id="requirements">
               <div
                 class="page-header">
-                <h1
+                <h2
                   id="requirements">
                   Requirements
-                </h1>
+                </h2>
               </div>
               <ul>
                 <li>
@@ -316,15 +322,15 @@
               id="installation">
               <div
                 class="page-header">
-                <h1
+                <h2
                   id="Installation">
                   Quick Setup
-                </h1>
+                </h2>
               </div>
 
-              <h2>
+              <h3>
                 Installation
-              </h2>
+              </h3>
               <p>
                 Run the following from a command line to get the latest release of SequenceServer.
               </p>
@@ -333,10 +339,10 @@
                 If that doesn't work, try <kbd>sudo gem</kbd> instead of <kbd>gem</kbd>.
               </p>
 
-              <h2
+              <h3
                 id='launch'>
                 Launch SequenceServer
-              </h2>
+              </h3>
               <p>Simply execute:</p>
               <pre>$ sequenceserver </pre>
               <p>
@@ -352,16 +358,16 @@
 
               <div
                 class="page-header">
-                <h1
+                <h2
                   id="advanced-setup">
                   Advanced Setup
-                </h1>
+                </h2>
               </div>
 
-              <h2
+              <h3
                 id="cli">
                 Command Line Interface
-              </h2>
+              </h3>
               <p>
                 SequenceServer has an advanced command line interface through which you can not
                 only customize the startup of program but also use specific utilities provided
@@ -372,76 +378,144 @@
                 Below we give a complete list of commands with brief description of each one.
               </p>
 
-              <table class="table table-hover">
+              <table
+                class="table table-condensed table-hover">
                 <thead>
                   <tr>
-                    <th> Commands/Switches </th>
-                    <th> Description </th>
+                    <th>
+                      Commands/Switches
+                    </th>
+                    <th>
+                      Description
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td> -c=config_file </td>
-                    <td> Provide path location of your custom configuration file </td>
+                    <td>
+                      -c=config_file
+                    </td>
+                    <td>
+                      Provide path location of your custom configuration file
+                    </td>
                   </tr>
                   <tr>
-                    <td> -b=bin </td>
-                    <td> Provide path to your BLAST+ binaries<sup>#</sup> </td>
+                    <td>
+                      -b=bin
+                    </td>
+                    <td>
+                      Provide path to your BLAST+ binaries<sup>#</sup>
+                    </td>
                   </tr>
                   <tr>
-                    <td> -d=database_dir </td>
-                    <td> Provide path to your BLAST+ databases<sup>#</sup> </td>
+                    <td>
+                      -d=database_dir
+                    </td>
+                    <td>
+                      Provide path to your BLAST+ databases<sup>#</sup>
+                    </td>
                   </tr>
                   <tr>
-                    <td> -n=num_threads </td>
-                    <td> Number of threads to run BLAST search<sup>#</sup> </td>
+                    <td>
+                      -n=num_threads
+                    </td>
+                    <td>
+                      Number of threads to run BLAST search<sup>#</sup>
+                    </td>
                   </tr>
                   <tr>
-                    <td> -h=host </td>
-                    <td> Host to run SequenceServer on<sup>#</sup> </td>
+                    <td>
+                      -h=host
+                    </td>
+                    <td>
+                      Host to run SequenceServer on<sup>#</sup>
+                    </td>
                   </tr>
                   <tr>
-                    <td> -p=port </td>
-                    <td> Port to run SequenceServer on<sup>#</sup> </td>
+                    <td>
+                      -p=port
+                    </td>
+                    <td>
+                      Port to run SequenceServer on<sup>#</sup>
+                    </td>
                   </tr>
                   <tr>
-                    <td> -r=require_file </td>
-                    <td> Load extension from this file</td>
+                    <td>
+                      -r=require_file
+                    </td>
+                    <td>
+                      Load extension from this file
+                    </td>
                   </tr>
                   <tr>
-                    <td> -s </td>
-                    <td> Set configuration value in default or given config file </td>
+                    <td>
+                      -s
+                    </td>
+                    <td>
+                      Set configuration value in default or given config file
+                    </td>
                   </tr>
                   <tr>
-                    <td> -m </td>
-                    <td> Create BLAST databases</td>
+                    <td>
+                      -m
+                    </td>
+                    <td>
+                      Create BLAST databases
+                    </td>
                   </tr>
                   <tr>
-                    <td> -l </td>
-                    <td> List found BLAST databases</td>
+                    <td>
+                      -l
+                    </td>
+                    <td>
+                      List found BLAST databases
+                    </td>
                   </tr>
                   <tr>
-                    <td> -u </td>
-                    <td> List unformatted FASTA files</td>
+                    <td>
+                      -u
+                    </td>
+                    <td>
+                      List unformatted FASTA files
+                    </td>
                   </tr>
                   <tr>
-                    <td> -i </td>
-                    <td> Run SequenceServer in interactive mode</td>
+                    <td>
+                      -i
+                    </td>
+                    <td>
+                      Run SequenceServer in interactive mode
+                    </td>
                   </tr>
                   <tr>
-                    <td> -D </td>
-                    <td> Run SequenceServer in development (debug) mode</td>
+                    <td>
+                      -D
+                    </td>
+                    <td>
+                      Run SequenceServer in development (debug) mode
+                    </td>
                   </tr>
                   <tr>
-                    <td> -v or --version </td>
-                    <td> Print version number of SequenceServer that will be loaded</td>
+                    <td>
+                      -v or --version
+                    </td>
+                    <td>
+                      Print version number of SequenceServer that will be loaded
+                    </td>
                   </tr>
                   <tr>
-                    <td> -h or --help </td>
-                    <td> Display this help message</td>
+                    <td>
+                      -h or --help
+                    </td>
+                    <td>
+                      Display this help message
+                    </td>
                   </tr>
                   <tr>
-                    <td colspan=2> <small> <sup>#</sup>: Command line values take precendence over configuration file </small> </td>
+                    <td
+                      colspan=2>
+                      <small><sup>#</sup>: Command line values take precendence over configuration file</small>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -451,10 +525,10 @@
               </p>
               <pre>$ sequenceserver -d ~/home/biodb -n 4 -p 7777</pre>
 
-              <h2
+              <h3
                 id="plugin-sytem">
                 Plugin System
-              </h2>
+              </h3>
               <p>
                 SequenceServer now uses new and powerful version of custom link generators. The easy to use approach
                 not only allows you to generate more than one link for a hit but also control their order, add custom classes
@@ -475,10 +549,10 @@
                 how to write link generators.
               </p>
 
-              <h2
+              <h3
                 id="create-databases">
                 Creating BLAST Databases
-              </h2>
+              </h3>
               SequenceServer provides a couple of commands to find unformatted FASTA files and guide you through a
               formatting process. The program intelligently detects the type of databases and suggests appropriate
               names.
@@ -536,20 +610,20 @@
 
             <section
               id="Optional">
-              <h2
+              <h3
                 id='passenger'>
                 Setup on Apache or Nginx with Phusion Passenger
                 <small>(Optional)</small>
-              </h2>
+              </h3>
               <p>
                 For most people, simply running the SequenceServer as above is more than enough. But if you need to deploy
                 SequenceServer BLAST as part of a standard website, and have it show up as a normal webdirectory, SequenceServer
                 can be deployed on Apache or Nginx with Phusion Passenger™ (a.k.a mod_rails or mod_rack).
               </p>
 
-              <h3>
+              <h4>
                 Set up Phusion Passenger™
-              </h3>
+              </h4>
               <p>
                 Install <kbd>passenger</kbd> gem:
               </p>
@@ -559,11 +633,11 @@
                 Install passenger module for Apache/Nginx module
               </p>
               <pre>
-  # for apache2
-  passenger-install-apache2-module
+# for apache2
+$ passenger-install-apache2-module
 
-  # for nginx
-  passenger-install-nginx-module</pre>
+# for nginx
+$ passenger-install-nginx-module</pre>
 
               <p>
                 Follow instructions on screen. The installer will let you know of
@@ -593,47 +667,42 @@
                 </li>
               </ol>
 
-              <h3>Deploying Sequence Server</h3>
-
+              <h4>
+                Deploying Sequence Server
+              </h4>
               <p>
                 Apache <strong>Root URI</strong> (eg:antgenomes.org or localhost).
               </p>
-
-              <p></p>
-
               <div
                 class="highlight">
                 <pre>
-  <span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
-  <span class="nb">ServerName</span> localhost
-  <span class="nb">DocumentRoot</span> <span class="sx">/home/yeban/src/sequenceserver/public</span>
-  <span class="nt">&lt;Directory</span> <span class="s">/home/yeban/src/sequenceserver/public</span><span class="nt">&gt;</span>
-  <span class="nb">Allow</span> from <span class="k">all</span>
-  <span class="nb">Options</span> -MultiViews
-  <span class="nt">&lt;/Directory&gt;</span>
-  <span class="nt">&lt;/VirtualHost&gt;</span></pre>
+<span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
+<span class="nb">ServerName</span> localhost
+<span class="nb">DocumentRoot</span> <span class="sx">/home/yeban/src/sequenceserver/public</span>
+<span class="nt">&lt;Directory</span> <span class="s">/home/yeban/src/sequenceserver/public</span><span class="nt">&gt;</span>
+<span class="nb">Allow</span> from <span class="k">all</span>
+<span class="nb">Options</span> -MultiViews
+<span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span></pre>
               </div>
 
               <p>
                 Apache <strong>Sub URI</strong> (e.g.: antgenomes.org/blast or
                 localhost/sequenceserver).
               </p>
-
-              <p></p>
-
               <div class="highlight">
                 <pre>
-  <span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
-  <span class="nb">ServerName</span> localhost
-  <span class="nb">DocumentRoot</span> <span class="sx">/var/www/</span>
-  <span class="nt">&lt;Directory</span> <span class="s">/var/www</span><span class="nt">&gt;</span>
-  <span class="nb">Allow</span> from <span class="k">all</span>
-  <span class="nt">&lt;/Directory&gt;</span>
-  <span class="nb">RackBaseURI</span> <span class="sx">/sequenceserver</span>
-  <span class="nt">&lt;Directory</span> <span class="s">/var/www/sequenceserver</span><span class="nt">&gt;</span>
-  <span class="nb">Options</span> -MultiViews
-  <span class="nt">&lt;/Directory&gt;</span>
-  <span class="nt">&lt;/VirtualHost&gt;</span></pre>
+<span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
+<span class="nb">ServerName</span> localhost
+<span class="nb">DocumentRoot</span> <span class="sx">/var/www/</span>
+<span class="nt">&lt;Directory</span> <span class="s">/var/www</span><span class="nt">&gt;</span>
+<span class="nb">Allow</span> from <span class="k">all</span>
+<span class="nt">&lt;/Directory&gt;</span>
+<span class="nb">RackBaseURI</span> <span class="sx">/sequenceserver</span>
+<span class="nt">&lt;Directory</span> <span class="s">/var/www/sequenceserver</span><span class="nt">&gt;</span>
+<span class="nb">Options</span> -MultiViews
+<span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span></pre>
               </div>
             </section>
 
@@ -642,11 +711,12 @@
               class="section">
               <div
                 class="page-header">
-                <h1>
+                <h2>
                   Support
-                  <small>Mailing List
+                  <small>
+                    Mailing List
                   </small>
-                </h1>
+                </h2>
               </div>
 
               <p>
@@ -671,14 +741,14 @@
               id="License" class="section">
               <div
                 class="page-header">
-                <h1>
+                <h2>
                   License
-                </h1>
+                </h2>
               </div>
 
-              <h2>
+              <h3>
                 For academics and non-for-profit organizations
-              </h2>
+              </h3>
               SequenceServer is free &amp; you can do most things you want with
               it. Our
               <a
@@ -689,9 +759,9 @@
               (e.g. that instances you install retain links to this website).
               Please remember to cite the software.
 
-              <h2>
+              <h3>
                 For Commercial &amp; for-profit organizations
-              </h2>
+              </h3>
               <a
                 href="forprofit.html">
                 If you're a for-profit you can try
@@ -708,11 +778,12 @@
               id="FAQ" class="section">
               <div
                 class="page-header">
-                <h1>
+                <h2>
                   FAQ
-                  <small>Frequently Asked Questions
+                  <small>
+                    Frequently Asked Questions
                   </small>
-                </h1>
+                </h2>
               </div>
 
               <dl>
@@ -1051,9 +1122,9 @@
               id="Contributors" class="section">
               <div
                 class="page-header">
-                <h1>
+                <h2>
                   Contributors
-                </h1>
+                </h2>
               </div>
               <dl>
                 <dt>
@@ -1133,10 +1204,12 @@
               id="Users" class="section">
               <div
                 class="page-header">
-                <h1>
+                <h2>
                   Users
-                  <small>include:</small>
-                </h1>
+                  <small>
+                    include:
+                  </small>
+                </h2>
               </div>
               <img src='img/logos/composition_of_logos.png' width="800" height="197" alt="SequenceServer has satisfied users at U Melbourne, Centre for Organismal Studies Heidelberg, Swiss Institute of Bioinformatics, IIT Karagpur, Natural History Museum London, Queen Mary University London, Benaroya Research Institute, University of Lausanne" style="max-width:100%; height:auto; align:center;"/>
               <br/><br/>
@@ -1222,7 +1295,9 @@
 
               <p>and many additional private installations we don't know about...</p>
 
-              <h1>Citations include:</h1>
+              <h2>
+                Citations include:
+              </h2>
               <ul>
                 <li>
                   Mondav R et al (2014)
