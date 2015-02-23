@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
                    'Vivek Rai', 'Yannick Wurm']
   s.email       = ['anurag08priyam@gmail.com', 'b.woodcroft@uq.edu.au']
   s.homepage    = 'http://sequenceserver.com'
-  s.license     = 'SequenceServer (custom)'
+  s.license     = 'GNU AGPL v3'
 
   s.summary     = 'BLAST search made easy!'
   s.description = <<DESC
@@ -30,10 +30,7 @@ DESC
   s.add_development_dependency('codeclimate-test-reporter')
 
   # gem
-  s.files         = Dir['lib/**/*'] + Dir['views/**/*'] + Dir['public/**/*']
-  s.files         = s.files + ['config.ru'] + Dir['tests/**/*']
-  s.files         = s.files + ['Gemfile', 'sequenceserver.gemspec']
-  s.files         = s.files + ['LICENSE.txt', 'LICENSE.Apache.txt', 'README.md']
+  s.files         = `git ls-files`
   s.executables   = ['sequenceserver']
   s.require_paths = ['lib']
 

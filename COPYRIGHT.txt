@@ -1,0 +1,13 @@
+SequenceServer is copyright Anurag Priyam, Ben J Woodcroft and Yannick Wurm,
+2015, and files herein are licensed under the Affero General Public License
+version 3, the text of which can be found in LICENSE.txt.
+
+Components of SequenceServer, including Sinatra, Ox, Slop, html5shiv,
+Underscore, jQuery, jQuery UI, Bootstrap and Webshim, are licensed under
+the MIT license. D3.js is licensed under BSD license. biojs-vis-sequence
+is licensed under Apache license. Thin and JSON are licensed under Ruby
+license. All unmodified files from these and other sources retain their
+original copyright and license notices, except D3.js whose license can be
+found in LICENSE/d3.txt. We modify biojs-vis-sequence. The modified file
+can be found in public/js/sequence.js. A copy of Apache license can be
+found in LICESNSE/Apache.txt.

@@ -2,7 +2,10 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 // legacy!!
 $.browser = require("jquery-browser-plugin");
 
-/** 
+/**
+ * THIS FILE HAS BEEN MODIFIED FROM THE ORIGINAL
+ * (https://github.com/ljgarcia/biojs-vis-sequence/blob/master/lib/index.js).
+ *
  * Sequence component 
  * 
  * @class
