@@ -27,6 +27,9 @@ h1,h2,h3,h4,h5,h6,.navbar,thead,dt {
   font-family: "Roboto";
   color: rgb(51, 51, 51);
 }
+h5 {
+  font-weight: bold;
+}
 
 table,blockquote {
   font-size: 13px;

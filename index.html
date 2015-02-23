@@ -98,14 +98,16 @@
             </li>
             <li>
               <a
-                href="http://www.antgenomes.org/blast" title="Will open new window" target="_">
+                href="http://www.antgenomes.org/sequenceserver"
+                title="Will open in new window" target="_blank">
                 <i class="fa fa-external-link" aria-hidden="true"></i>
                 Demo Server
               </a>
             </li>
             <li>
               <a
-                href="https://github.com/yannickwurm/sequenceserver" title="Will open GitHub in new window" target="_">
+                href="https://github.com/yannickwurm/sequenceserver"
+                title="Will open GitHub in new window" target="_blank">
                 <i class="fa fa-external-link" aria-hidden="true"></i>
                 Source Code
               </a>
@@ -282,7 +284,7 @@
                 </h1>
               </div>
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <p>
                     SequenceServer lets you rapidly set up a BLAST+ server with an
                     intuitive user interface for use locally or over the web.
@@ -326,75 +328,70 @@
                       source code is available on GitHub
                     </a>.
                   </p>
+
+                  <h5>
+                    Easy to use
+                  </h5>
+                  <ul>
+                    <li>
+                      Minimalistic, clutter-free design, so you can focus on the biology.
+                    </li>
+                    <li>
+                       The smart user interface automagically figures out the
+                      appropriate BLAST method to use based on your input and
+                      selected databases.
+                    </li>
+                    <li>
+                      Common mistakes prevented. For example, SequenceServer warns
+                      if you mix nucleotide and protein sequences
+                    </li>
+                    <li>
+                      <strong>Advanced users:</strong> use advanced parameters
+                      (e.g. <code>-task blastn-short -evalue 1.0e-20</code>)
+                      like you would in the command line.
+                    </li>
+                    <li>
+                      Simple and intuitive graphical overview of results.
+                    </li>
+                    <li>
+                      View sequence and download FASTA of a single hit,
+                      selected hits, or all hits (upto 30 hits).
+                    </li>
+                    <li>
+                      Download XML and Tabular report (standard 12 column or
+                      all 44 columns).
+                    </li>
+                  </ul>
+
+                  <h5>
+                    Rapidly deployed
+                  </h5>
+                  <ul>
+                    <li>
+                      Very little configuration required: only a directory
+                      containing formatted or un-formatted sequence databases.
+                    </li>
+                    <li>
+                      SequenceServer scans the database directory during
+                      startup. And will interactively help you create BLAST
+                      databases from FASTA files.
+                    </li>
+                    <li>
+                      Comes with a built-in web server. No need to deal with
+                      Apache or Nginx to run SequenceServer.
+                    </li>
+                    <li>
+                      Easily customizable hyperlinks to search hits (e.g. to
+                      your local genome browser or custom database)
+                    </li>
+                  </ul>
                 </div>
-                <div class="col-md-8" >
+                <div class="col-md-6" >
                   <a href="http://www.antgenomes.org/sequenceserver/">
                     <img class="thumbnail" src="img/overview.png" style="width:100%; height: auto" alt="Ant genome BLAST server."/>
                   </a>
                 </div>
               </div>
-
-              <h4>
-                Easy for biologists
-              </h4>
-              <ul>
-                <li>
-                  Minimalistic, clutter-free design, so you can focus on the biology
-                </li>
-                <li>
-                  The smart user interface automagically figures out the appropriate
-                  BLAST method to use based on your input and selected databases
-                </li>
-                <li>
-                  Common mistakes prevented. For example, SequenceServer warns
-                  if you mix nucleotide and protein sequences
-                </li>
-                <li>
-                  <strong>Advanced users:</strong> use advanced parameters (e.g. <code>-task blastn-short -evalue 1.0e-20</code>) like you would in the command line.
-                </li>
-                <li>
-                  Simple and intuitive graphical overview of results
-                </li>
-                <li>
-                  Download links for hits
-                </li>
-              </ul>
-
-              <h4>
-                Rapidly deployed by admins
-              </h4>
-              <ul>
-                <li>
-                  very little configuration required: only a directory
-                  containing formatted or un-formatted sequence databases
-                </li>
-                <li>
-                  SequenceServer scans the database directory during startup. And will interactively help you
-                  create BLAST databases from FASTA files
-                </li>
-                <li>
-                  Comes with a built-in web server. No need to deal with Apache or Nginx to run SequenceServer.
-                </li>
-                <li>
-                  Easily customizable hyperlinks to search hits (e.g. to your local genome browser or custom database)
-                </li>
-              </ul>
-
-              <h4>
-                Demo server
-              </h4>
-              <p>
-                Check
-                <a
-                  href="http://www.antgenomes.org/sequenceserver">
-                  Ant genome BLAST
-                </a>
-                or the sites of
-                <a
-                  href="#users">
-                  some of our users
-                </a>.
-              </p>
             </section>
 
             <section
