@@ -54,4 +54,3 @@ pkg
 Gemfile.lock
 .gems/*
 node_modules
-public/dist
