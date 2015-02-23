@@ -22,7 +22,6 @@ body {
   padding-top: 50px;
   text-align: justify;
 }
-
 h1,h2,h3,h4,h5,h6,.navbar,thead,dt {
   font-family: "Roboto";
   color: rgb(51, 51, 51);
@@ -30,9 +29,15 @@ h1,h2,h3,h4,h5,h6,.navbar,thead,dt {
 h5 {
   font-weight: bold;
 }
-
 table,blockquote {
   font-size: 13px;
+}
+.navbar-brand {
+  font-size: 24px;
+  line-height: 14px;
+}
+.navbar-brand small {
+  font-size: 50%;
 }
 
 kbd {
