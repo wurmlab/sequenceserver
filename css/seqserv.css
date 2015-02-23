@@ -2,89 +2,82 @@
 
 /* zocial */
 [class*="zocial-"]:before {
-    font-family: 'zocial', sans-serif;
-}
-* {
-    font-family: Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'zocial', sans-serif;
 }
 
-body{
-    background-color:lightgray;
-    padding-top: 50px;
+body {
+  background-color:lightgray;
+  padding-top: 50px;
 }
 
-/* See https://so.com/questions/11124777/twitter-bootstrap-navbar-fixed-top-overlapping-site */
+/**
+ * See
+ * https://so.com/questions/11124777/twitter-bootstrap-navbar-fixed-top-overlapping-site
+ */
 @media screen and (max-width: 768px) {
-    body { padding-top: 0px; }
+  body {
+    padding-top: 0px;
+  }
 }
 
-div{
-    text-align:justify;
+div {
+  text-align:justify;
 }
 
-.navbar > .container {
-    margin-left:0px;
+.col-md-3 {
+  padding-top:10px;
+  padding-left:30px;
 }
 
-.col-md-2{
-    padding-top:10px;
-    padding-left:30px;
+.col-md-9 {
+  background-color:white;
+  padding: 0 20 0 20px;
 }
-
-.col-md-7{
-    background-color:white;
-    padding: 0 20 0 20px;
-}
-
-/*.content {*/
-    /*padding-left: 10px;*/
-    /*padding-right: 20px;*/
-/*}*/
 
 kbd {
-    font-family: monospace,serif;
-    font-size: 1em;
-    background-color: #757575;
-    padding: 1px 4px;
-    color: white;
-    border-radius: 5px;
+  font-family: monospace,serif;
+  font-size: 1em;
+  background-color: #757575;
+  padding: 1px 4px;
+  color: white;
+  border-radius: 5px;
 }
 
 code{
-    color:black;
-    background:#eee8d5;
+  color:black;
+  background:#eee8d5;
 }
 
 h1 small{
-    font-size:18px;
-    color:#bfbfbf;
+  font-size:18px;
+  color:#bfbfbf;
 }
 
 h1{
-    font-size:30px;
-    font-weight:bold;
+  font-size:30px;
+  font-weight:bold;
 }
 
 h2 {
-    margin-bottom: 10px;
-    font-size:24px;
-    font-weight:bold;
+  margin-bottom: 10px;
+  font-size:24px;
+  font-weight:bold;
 }
 
 #about h2 {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 h3{
-    font-size:18px;
-    font-weight:bold;
+  font-size:18px;
+  font-weight:bold;
 }
 
 pre {
-    border: none;
-    margin: 10 0 10 0px;
+  border: none;
+  margin: 10 0 10 0px;
 }
 
 .page-header {
-    margin-top: 30px;
+  margin-top: 30px;
 }
