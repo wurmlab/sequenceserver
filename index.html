@@ -23,6 +23,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"   rel="stylesheet" type="text/css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="css/seqserv.css">
+    <link rel="stylesheet" type="text/css" href="css/pygments-github.css">
   </head>
 
   <body>
@@ -677,12 +678,12 @@ $ passenger-install-nginx-module</pre>
                 class="highlight">
                 <pre>
 <span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
-<span class="nb">ServerName</span> localhost
-<span class="nb">DocumentRoot</span> <span class="sx">/home/yeban/src/sequenceserver/public</span>
-<span class="nt">&lt;Directory</span> <span class="s">/home/yeban/src/sequenceserver/public</span><span class="nt">&gt;</span>
-<span class="nb">Allow</span> from <span class="k">all</span>
-<span class="nb">Options</span> -MultiViews
-<span class="nt">&lt;/Directory&gt;</span>
+  <span class="nb">ServerName</span> localhost
+  <span class="nb">DocumentRoot</span> <span class="sx">/home/yeban/src/sequenceserver/public</span>
+  <span class="nt">&lt;Directory</span> <span class="s">/home/yeban/src/sequenceserver/public</span><span class="nt">&gt;</span>
+    <span class="nb">Allow</span> from <span class="k">all</span>
+    <span class="nb">Options</span> -MultiViews
+  <span class="nt">&lt;/Directory&gt;</span>
 <span class="nt">&lt;/VirtualHost&gt;</span></pre>
               </div>
 
@@ -693,15 +694,15 @@ $ passenger-install-nginx-module</pre>
               <div class="highlight">
                 <pre>
 <span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
-<span class="nb">ServerName</span> localhost
-<span class="nb">DocumentRoot</span> <span class="sx">/var/www/</span>
-<span class="nt">&lt;Directory</span> <span class="s">/var/www</span><span class="nt">&gt;</span>
-<span class="nb">Allow</span> from <span class="k">all</span>
-<span class="nt">&lt;/Directory&gt;</span>
-<span class="nb">RackBaseURI</span> <span class="sx">/sequenceserver</span>
-<span class="nt">&lt;Directory</span> <span class="s">/var/www/sequenceserver</span><span class="nt">&gt;</span>
-<span class="nb">Options</span> -MultiViews
-<span class="nt">&lt;/Directory&gt;</span>
+  <span class="nb">ServerName</span> localhost
+  <span class="nb">DocumentRoot</span> <span class="sx">/var/www/</span>
+  <span class="nt">&lt;Directory</span> <span class="s">/var/www</span><span class="nt">&gt;</span>
+    <span class="nb">Allow</span> from <span class="k">all</span>
+  <span class="nt">&lt;/Directory&gt;</span>
+  <span class="nb">RackBaseURI</span> <span class="sx">/sequenceserver</span>
+  <span class="nt">&lt;Directory</span> <span class="s">/var/www/sequenceserver</span><span class="nt">&gt;</span>
+    <span class="nb">Options</span> -MultiViews
+  <span class="nt">&lt;/Directory&gt;</span>
 <span class="nt">&lt;/VirtualHost&gt;</span></pre>
               </div>
             </section>
