@@ -50,6 +50,10 @@ pre {
   border: none;
 }
 
+dl dd {
+  padding-bottom: 10px;
+}
+
 .sidebar {
   padding-top: 10px;
   padding-left: 30px;
