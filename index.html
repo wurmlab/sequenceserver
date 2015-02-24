@@ -413,7 +413,7 @@
                     class="page-header"
                     style="margin-top: 0px;">
                     <h4>
-                      Quick Setup
+                      Quick setup
                     </h4>
                   </div>
                   <h5>
@@ -511,16 +511,15 @@
 
               <div
                 class="page-header">
-                <h2
+                <h3
                   id="advanced-setup">
-                  Advanced Setup
-                </h2>
+                  Advanced
+                </h3>
               </div>
-
-              <h3
+              <h4
                 id="cli">
-                Command Line Interface
-              </h3>
+                Command line interface
+              </h4>
               <p>
                 SequenceServer has an advanced command line interface through which you can not
                 only customize the startup of program but also use specific utilities provided
@@ -678,10 +677,10 @@
               </p>
               <pre>$ sequenceserver -d ~/home/biodb -n 4 -p 7777</pre>
 
-              <h3
+              <h4
                 id="plugin-sytem">
-                Plugin System
-              </h3>
+                Plugin system
+              </h4>
               <p>
                 SequenceServer now uses new and powerful version of custom link generators. The easy to use approach
                 not only allows you to generate more than one link for a hit but also control their order, add custom classes
@@ -702,10 +701,10 @@
                 how to write link generators.
               </p>
 
-              <h3
+              <h4
                 id="create-databases">
-                Creating BLAST Databases
-              </h3>
+                Creating BLAST+ databases
+              </h4>
               SequenceServer provides a couple of commands to find unformatted FASTA files and guide you through a
               formatting process. The program intelligently detects the type of databases and suggests appropriate
               names.
@@ -762,20 +761,20 @@
 
             <section
               id="Optional">
-              <h3
+              <h4
                 id='passenger'>
                 Setup on Apache or Nginx with Phusion Passenger
                 <small>(Optional)</small>
-              </h3>
+              </h4>
               <p>
                 For most people, simply running the SequenceServer as above is more than enough. But if you need to deploy
                 SequenceServer BLAST as part of a standard website, and have it show up as a normal webdirectory, SequenceServer
                 can be deployed on Apache or Nginx with Phusion Passenger™ (a.k.a mod_rails or mod_rack).
               </p>
 
-              <h4>
+              <h5>
                 Set up Phusion Passenger™
-              </h4>
+              </h5>
               <p>
                 Install <kbd>passenger</kbd> gem:
               </p>
@@ -823,9 +822,9 @@ $ passenger-install-nginx-module</pre>
                 </li>
               </ol>
 
-              <h4>
-                Deploying Sequence Server
-              </h4>
+              <h5>
+                Deploying SequenceServer
+              </h5>
               <p>
                 Apache <strong>Root URI</strong> (eg:antgenomes.org or localhost).
               </p>
