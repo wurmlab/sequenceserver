@@ -404,7 +404,6 @@
                   Installation
                 </h2>
               </div>
-
               <div
                 class="row">
                 <div
@@ -510,12 +509,112 @@
               </div>
 
               <div
-                class="page-header">
+                class="page-header"
+                style="margin-bottom: 10px;">
                 <h3
                   id="advanced-setup">
                   Advanced
                 </h3>
               </div>
+              <div
+                class="row">
+                <div
+                  class="col-md-6">
+                  <div
+                    class="page-header"
+                    style="margin-top: 0px;">
+                    <h4
+                      id="create-databases">
+                      Creating BLAST+ databases
+                    </h4>
+                  </div>
+                  SequenceServer provides a couple of commands to find unformatted FASTA files and guide you through a
+                  formatting process. The program intelligently detects the type of databases and suggests appropriate
+                  names.
+
+                  <p>
+                    To set up BLAST databases from a directory of FASTA sequence
+                    files, use:
+                  </p>
+
+                  <pre>$ sequenceserver -m</pre>
+
+                  <p>
+                    It will automatically pick up the database directory from the
+                    configuration file, else pass the database directory from command
+                    line:
+                  </p>
+
+                  <pre>$ sequenceserver -m -d=directory_with_fasta_files</pre>
+
+                  <p>
+                    Alternatively, manually set up BLAST databases from single FASTA
+                    sequence files. In the directory containing the FASTA file, run:
+                  </p>
+
+                  <pre>$ makeblastdb -dbtype &lt;db type&gt; -title &lt;db title&gt; -in &lt;db&gt; -parse_seqids</pre>
+
+                  <p>
+                    Where,
+                  </p>
+
+                  <ul>
+                    <li>
+                      <code>&lt;db type&gt;</code> is either <code>prot</code>, or <code>nucl</code> depending on the type of sequence
+                    </li>
+                    <li>
+                      <code>&lt;db title&gt;</code> is what users will see
+                    </li>
+                    <li>
+                      <code>&lt;db&gt;</code> is the path to the FASTA file
+                    </li>
+                    <li>
+                      <code>-parse_seqids</code> is required to generate links for downloading search
+                      hits (yes, it's a bit slow on large files).
+                    </li>
+                    <li>
+                      Additional options at <code>makeblastdb -help</code>.
+                    </li>
+                  </ul>
+
+                  <p>
+                    In order to see the current list of BLAST databases found by SequenceServer, run
+                  </p>
+                  <pre>$ sequenceserver -l </pre>
+                </div>
+                <div
+                  class="col-md-6">
+                  <div
+                    class="page-header"
+                    style="margin-top: 0px;">
+                    <h4
+                      id="plugin-sytem">
+                      Plugin system
+                    </h4>
+                  </div>
+                  <p>
+                    SequenceServer now uses new and powerful version of custom link generators. The easy to use approach
+                    not only allows you to generate more than one link for a hit but also control their order, add custom classes
+                    or icons, enable or disable them, and much more.
+
+                    You can write your own link generators based on our
+                    example
+                    <a
+                      href=https://github.com/yannickwurm/sequenceserver/blob/master/lib/sequenceserver/links.rb>
+                      source file
+                    </a>
+                    and load it dynamically like an extension using <code>-r=require_file</code> command described before.
+                  </p>
+
+                  <p>
+                    Your methods will automatically loaded and used to generate appropriate links for each
+                    hit. Please go through the extensive inline documentation within the source file to know
+                    how to write link generators.
+                  </p>
+                </div>
+
+              </div>
+
               <h4
                 id="cli">
                 Command line interface
@@ -677,86 +776,6 @@
               </p>
               <pre>$ sequenceserver -d ~/home/biodb -n 4 -p 7777</pre>
 
-              <h4
-                id="plugin-sytem">
-                Plugin system
-              </h4>
-              <p>
-                SequenceServer now uses new and powerful version of custom link generators. The easy to use approach
-                not only allows you to generate more than one link for a hit but also control their order, add custom classes
-                or icons, enable or disable them, and much more.
-
-                You can write your own link generators based on our
-                example
-                <a
-                  href=https://github.com/yannickwurm/sequenceserver/blob/master/lib/sequenceserver/links.rb>
-                  source file
-                </a>
-                and load it dynamically like an extension using <code>-r=require_file</code> command described before.
-              </p>
-
-              <p>
-                Your methods will automatically loaded and used to generate appropriate links for each
-                hit. Please go through the extensive inline documentation within the source file to know
-                how to write link generators.
-              </p>
-
-              <h4
-                id="create-databases">
-                Creating BLAST+ databases
-              </h4>
-              SequenceServer provides a couple of commands to find unformatted FASTA files and guide you through a
-              formatting process. The program intelligently detects the type of databases and suggests appropriate
-              names.
-
-              <p>
-                To set up BLAST databases from a directory of FASTA sequence
-                files, use:
-
-                <pre>$ sequenceserver -m</pre>
-
-                <p>
-                  It will automatically pick up the database directory from the
-                  configuration file, else pass the database directory from command
-                  line:
-                </p>
-
-                <pre>$ sequenceserver -m -d=directory_with_fasta_files</pre>
-
-                <p>
-                  Alternatively, manually set up BLAST databases from single FASTA
-                  sequence files. In the directory containing the FASTA file, run:
-                </p>
-
-                <pre>$ makeblastdb -dbtype &lt;db type&gt; -title &lt;db title&gt; -in &lt;db&gt; -parse_seqids</pre>
-
-                <p>
-                  Where,
-                </p>
-
-                <ul>
-                  <li>
-                    <code>&lt;db type&gt;</code> is either <code>prot</code>, or <code>nucl</code> depending on the type of sequence
-                  </li>
-                  <li>
-                    <code>&lt;db title&gt;</code> is what users will see
-                  </li>
-                  <li>
-                    <code>&lt;db&gt;</code> is the path to the FASTA file
-                  </li>
-                  <li>
-                    <code>-parse_seqids</code> is required to generate links for downloading search
-                    hits (yes, it's a bit slow on large files).
-                  </li>
-                  <li>
-                    Additional options at <code>makeblastdb -help</code>.
-                  </li>
-                </ul>
-
-                <p>
-                  In order to see the current list of BLAST databases found by SequenceServer, run
-                </p>
-                <pre>$ sequenceserver -l </pre>
             </section>
 
             <section
