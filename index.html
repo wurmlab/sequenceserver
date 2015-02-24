@@ -66,7 +66,7 @@
             <li>
               <a
                 href="#Installation">
-                Quick Setup
+                Installation
               </a>
             </li>
             <li>
@@ -395,99 +395,116 @@
             </section>
 
             <section
-              id="requirements">
-              <div
-                class="page-header">
-                <h2
-                  id="requirements">
-                  Requirements
-                </h2>
-              </div>
-              <ul>
-                <li>
-                  <p>
-                    <a href="http://ruby-lang.org">Ruby</a> (&gt;= 1.8.7), <a href="https://rubygems.org/">RubyGems</a> (&gt;= 1.3.6), and <a
-                      href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">NCBI
-                      BLAST+</a> (&gt;= 2.2.30+).
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>
-                      Linux and Mac OSX are officially supported.
-                    </strong>
-                    While we would like to also support Windows, our resources
-                    are limited and we prefer to first concentrate on making
-                    SequenceServer great on fewer platforms. It should be
-                    possible to run SequenceServer on Windows using
-                    <a
-                      href="http://cygwin.com/">
-                      Cygwin</a>.
-                    Note that you can connect to SequenceServer running on
-                    other machines from your browser in Windows.
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>
-                      Following browsers are officially supported:
-                    </strong>
-                    <img
-                    src="https://raw.githubusercontent.com/alrra/browser-logos/master/chrome/chrome_16x16.png"
-                    alt="Google Chrome">,
-                    <img
-                    src="https://raw.githubusercontent.com/alrra/browser-logos/master/firefox/firefox_16x16.png"
-                    alt="Mozilla Firefox">,
-                    <img
-                    src="https://raw.githubusercontent.com/alrra/browser-logos/master/safari/safari_16x16.png"
-                    alt="Safari"> 7+,
-                    <img
-                    src="https://raw.githubusercontent.com/alrra/browser-logos/master/internet-explorer/internet-explorer_16x16.png"
-                    alt="Internet Explorer"> 9+
-                  </p>
-                </li>
-              </ul>
-            </section>
-
-            <section
               id="installation">
               <div
-                class="page-header">
+                class="page-header"
+                style="margin-bottom: 10px;">
                 <h2
-                  id="Installation">
-                  Quick Setup
+                  id="requirements">
+                  Installation
                 </h2>
               </div>
 
-              <h3>
-                Installation
-              </h3>
-              <p>
-                Run the following from a command line to get the latest release
-                of SequenceServer.
-              </p>
-              <pre> $ gem install --pre sequenceserver</pre>
-              <p>
-                If that doesn't work, try <kbd>sudo gem</kbd> instead of
-                <kbd>gem</kbd>.
-              </p>
-
-              <h3
-                id='launch'>
-                Launch SequenceServer
-              </h3>
-              <p>Simply execute:</p>
-              <pre>$ sequenceserver</pre>
-              <p>
-                SequenceServer will automatically guide you through an
-                interactive setup process to help locate BLAST+ binaries
-                (install if not present) and databases.
-              </p>
-              <p>
-                That's all! You're done. If everything goes right, open <a
-                  href="http://localhost:4567/">http://localhost:4567/</a>
-                and BLAST right away!
-              </p>
+              <div
+                class="row">
+                <div
+                  class="col-md-6">
+                  <div
+                    class="page-header"
+                    style="margin-top: 0px;">
+                    <h4>
+                      Quick Setup
+                    </h4>
+                  </div>
+                  <h5>
+                    Download
+                  </h5>
+                  <p>
+                    To get the latest release of SequenceServer, run the
+                    following from a command line.
+                  </p>
+                  <pre> $ gem install --pre sequenceserver</pre>
+                  <p>
+                    If that doesn't work, try <kbd>sudo gem</kbd> instead of
+                    <kbd>gem</kbd>.
+                  </p>
+                  <h5
+                    style="margin-top:20px">
+                    And launch
+                  </h5>
+                  <p>
+                    To configure and launch SequenceServer, run the following
+                    from a command line.
+                  </p>
+                  <pre>$ sequenceserver</pre>
+                  <p>
+                    SequenceServer will automatically guide you through an
+                    interactive setup process to help locate or download
+                    BLAST+ binaries, ask for the location of FASTA files
+                    (or BLAST+ databases), and offer to create BLAST+
+                    databases from FASTA files.
+                  </p>
+                  <p>
+                    That's all! You're done. If everything goes right, open <a
+                      href="http://localhost:4567/">http://localhost:4567/</a>
+                    and BLAST right away!
+                  </p>
+                </div>
+                <div
+                  class="col-md-6">
+                  <div
+                    class="page-header"
+                    style="margin-top: 0px;">
+                    <h4>
+                      Requirements
+                    </h4>
+                  </div>
+                  <ul>
+                    <li>
+                      <p>
+                        <a href="http://ruby-lang.org">Ruby</a> (&gt;= 1.8.7), <a href="https://rubygems.org/">RubyGems</a> (&gt;= 1.3.6), and <a
+                          href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">NCBI
+                          BLAST+</a> (&gt;= 2.2.30+).
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        <strong>
+                          Linux and Mac OSX are officially supported.
+                        </strong>
+                        While we would like to also support Windows, our resources
+                        are limited and we prefer to first concentrate on making
+                        SequenceServer great on fewer platforms. It should be
+                        possible to run SequenceServer on Windows using
+                        <a
+                          href="http://cygwin.com/">
+                          Cygwin</a>.
+                        Note that you can connect to SequenceServer running on
+                        other machines from your browser in Windows.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        <strong>
+                          Following browsers are officially supported:
+                        </strong>
+                        <img
+                        src="https://raw.githubusercontent.com/alrra/browser-logos/master/chrome/chrome_16x16.png"
+                        alt="Google Chrome">,
+                        <img
+                        src="https://raw.githubusercontent.com/alrra/browser-logos/master/firefox/firefox_16x16.png"
+                        alt="Mozilla Firefox">,
+                        <img
+                        src="https://raw.githubusercontent.com/alrra/browser-logos/master/safari/safari_16x16.png"
+                        alt="Safari"> 7+,
+                        <img
+                        src="https://raw.githubusercontent.com/alrra/browser-logos/master/internet-explorer/internet-explorer_16x16.png"
+                        alt="Internet Explorer"> 9+
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
               <div
                 class="page-header">
