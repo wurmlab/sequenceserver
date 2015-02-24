@@ -1,13 +1,3 @@
-/**
- * See
- * https://so.com/questions/11124777/twitter-bootstrap-navbar-fixed-top-overlapping-site
- */
-@media screen and (max-width: 768px) {
-  body {
-    padding-top: 0px;
-  }
-}
-
 body {
   font-size: 13px;
   font-family: "Open sans", "Helvetica Neue",Helvetica,Arial,sans-serif;
