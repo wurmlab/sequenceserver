@@ -758,7 +758,6 @@
                   In order to see the current list of BLAST databases found by SequenceServer, run
                 </p>
                 <pre>$ sequenceserver -l </pre>
-              </p>
             </section>
 
             <section
@@ -811,12 +810,16 @@ $ passenger-install-nginx-module</pre>
                   Create a new file called <kbd>passenger.load</kbd> in <kbd>/etc/apache2/mods-available</kbd>, and add the lines there.
                 </li>
                 <li>
-                  Run <kbd>a2enmod passenger</kbd>. This will ask you to restart apache2 with instructions on how to do the same.
-                  <br>
-                  On my machine, I had to run <kbd>/etc/init.d/apache2 restart</kbd>
-                  <li>
-                    Running <kbd>touch tmp/restart.txt</kbd> may required when changing configuration.
-                  </li>
+                  Run <kbd>a2enmod passenger</kbd>. This will ask you to
+                  restart apache2 with instructions on how to do the same.
+                  On my machine, I had to run
+                  <kbd>
+                    /etc/init.d/apache2 restart</kbd>.
+                  Running
+                  <kbd>
+                    touch tmp/restart.txt
+                  </kbd>
+                  may required when changing configuration.
                 </li>
               </ol>
 
@@ -1538,12 +1541,19 @@ $ passenger-install-nginx-module</pre>
             </section>
 
             <section>
-              <p>Parts of this software are &copy; 2011 University of Lausanne. </p>
-              <p>Please cite:
-                <blockquote>"Priyam, Woodcroft , Rai &amp; Wurm<br>
-                  <strong>SequenceServer (<em>in prep</em>)</strong> <code>http://sequenceserver.com</code>"
-                </blockquote>
+              <p>
+                Parts of this software are &copy; 2011 University of Lausanne.
+                Please cite:
               </p>
+              <blockquote>
+                "Priyam, Woodcroft , Rai &amp; Wurm
+                <strong>
+                  SequenceServer (<em>in prep</em>)
+                </strong>
+                <code>
+                  http://sequenceserver.com
+                </code>"
+              </blockquote>
             </section>
           </div>
         </div>
