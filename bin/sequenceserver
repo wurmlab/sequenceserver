@@ -252,8 +252,9 @@ ERR
           archive = File.join('/tmp', File.basename(url))
           # -ip4 is required  to avoid this curl bug http://sourceforge.net/p/curl/bugs/1424/?limit=25
           # see also https://github.com/yannickwurm/sequenceserver/issues/139
-          system "curl -ip4 -C - #{url} -o #{archive} && mkdir -p ~/.sequenceserver" \
-            "&& tar xvf #{archive} -C ~/.sequenceserver"
+          system "curl -ip4 -C - #{url} -o #{archive} && "    \
+                 'mkdir -p ~/.sequenceserver && '             \
+                 "tar xvf #{archive} -C ~/.sequenceserver"
           unless $CHILD_STATUS.success?
             puts 'Failed to install BLAST+.'
             puts '  You may need to download BLAST+ from - '
