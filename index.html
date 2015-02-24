@@ -798,16 +798,16 @@
                 class="page-header">
                 <h4
                   id='passenger'>
-                  Setup on Apache or Nginx with Phusion Passenger
+                  Setup on Apache with Phusion Passenger
                   <small>(Optional)</small>
                 </h4>
               </div>
               <p>
-                For most people, simply running the SequenceServer as above is more than enough. But if you need to deploy
-                SequenceServer BLAST as part of a standard website, and have it show up as a normal webdirectory, SequenceServer
-                can be deployed on Apache or Nginx with Phusion Passenger™ (a.k.a mod_rails or mod_rack).
+                For most people,  simply running the SequenceServer as above is
+                more than enough. But if you need to use SequenceServer as part
+                of a standard website, SequenceServer can be deployed on Apache
+                with Phusion Passenger™ (a.k.a mod_rails or mod_rack).
               </p>
-
               <div
                 class="page-header">
                 <h5>
@@ -818,16 +818,12 @@
                 Install <kbd>passenger</kbd> gem:
               </p>
               <pre>gem install passenger</pre>
-
               <p>
-                Install passenger module for Apache/Nginx module
+                Install passenger module for Apache
               </p>
               <pre>
-# for apache2
 $ passenger-install-apache2-module
-
-# for nginx
-$ passenger-install-nginx-module</pre>
+</pre>
 
               <p>
                 Follow instructions on screen. The installer will let you know of
@@ -1084,7 +1080,7 @@ $ passenger-install-nginx-module</pre>
                       for the same.
                     </dd>
                     <dt>
-                      Q. Can I integrate SequenceServer into an Apache or Nginx server?
+                      Q. Can I integrate SequenceServer into Apache?
                     </dt>
                     <dd>
                       Yes.
