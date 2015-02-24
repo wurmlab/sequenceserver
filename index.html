@@ -7,8 +7,9 @@
     <title>Sequencesever</title>
     <meta name="author" content="Anurag Priyam">
     <meta name="author" content="Vivek Rai">
+    <meta name="author" content="Ben Woodcroft">
     <meta name="author" content="Yannick Wurm">
-    <meta name="keywords" content="custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, viroblast">
+    <meta name="keywords" content="custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
 
     <!-- Support HTML5 elements and media queries on IE8 and less. -->
     <!--[if lt IE 9]>
@@ -182,7 +183,7 @@
                 href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">
                 mailing list
               </a>);
-              contributors &amp; contributions always welcome!</p>
+              contributors, contributions  &amp; <a href="#Citations">citations</a> always welcome!</p>
             <p>
               <strong>
                 2012-12
@@ -290,111 +291,118 @@
                 </h1>
               </div>
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-7">
                   <p>
                     SequenceServer lets you rapidly set up a BLAST+ server with an
-                    intuitive user interface for use locally or over the web.
-                  </p>
-
-                  <p>
-                    Sequence data is generated at increasing rates. However it is
-                    challenging to effectively share and query such data.
-                    Deploying complex solutions such as
+                    intuitive user interface for use on your local
+                    machine and for sharing with colleagues locally or
+                    over the web. We designed SequenceServer to do
+                    this more elegantly and efficiently than other solutions (e.g., 
                     <a
                       href="http://www.gmod.org">
-                      GMOD
-                    </a>
-                    is often overkill and
+                      GMOD</a>,
+                  Galaxy) or 
                     <a
-                      href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html">
-                      publicly available front ends for BLAST
-                    </a>
-                    are difficult to use or install.
+                      href="http://www.ncbi.nlm.nih.gov/staff/tao/URLAPI/wwwblast/">
+                      traditional publicly available BLAST front ends</a>.
                   </p>
 
                   <p>
-                    SequenceServer is an efficient and elegant alternative.
-                    Sequenceserver is still being developed yet is fully functional and has
-                    already been deployed for
+                    Sequenceserver is still young but has already been deployed in
                     <a
                       href="#users">
-                      multiple databases</a>.
-                  </p>
-
-                  <p>
+                      many institutions</a>.
                     SequenceServer is
                     <a
                       href="#license">
-                      free to use under GNU AGPL v3</a>.
-                    Its
+                      free to use under GNU AGPL v3</a>;
+                    its
                     <a
                       href="http://github.com/yannickwurm/sequenceserver">
-                      source code is available on GitHub
-                    </a>.
+                      source code is freely available on GitHub</a>.
                   </p>
 
                   <h5>
-                    Easy to use
+                    Easy to use:
                   </h5>
                   <ul>
                     <li>
-                      Minimalistic, clutter-free design, so you can focus on the biology.
+                      Minimalistic, clutter-free design so you can focus on the biology.
                     </li>
                     <li>
-                       The smart user interface automagically figures out the
+                      Smart user interface automagically figures out the
                       appropriate BLAST method to use based on your input and
                       selected databases.
                     </li>
                     <li>
                       Common mistakes prevented. For example, SequenceServer warns
-                      if you mix nucleotide and protein sequences
+                      if you mix nucleotide and protein sequences.
+                    </li>
+                    <li> Use 
+                      <strong>advanced parameters</strong> 
+                      (e.g. <kbd>-task blastn-short <span class="nowrap">-evalue</span> 1.0e-20</kbd>)
+                      as you would in the command line.
                     </li>
                     <li>
-                      <strong>Advanced users:</strong> use advanced parameters
-                      (e.g. <code>-task blastn-short -evalue 1.0e-20</code>)
-                      like you would in the command line.
+                      Simple and intuitive overview of results.
                     </li>
                     <li>
-                      Simple and intuitive graphical overview of results.
+                      Elegant, streamlined BLAST report.
                     </li>
                     <li>
-                      View sequence and download FASTA of a single hit,
-                      selected hits, or all hits (upto 30 hits).
+                      View sequence and download FASTA of up to 30 hits.
                     </li>
                     <li>
-                      Download XML and Tabular report (standard 12 column or
-                      all 44 columns).
+                      Download tab-delimited reports (standard 12 column or
+                      all 44 possible columns) or XML BLAST report.
                     </li>
+                    <li>
+                      Input query sequences by pasting FASTA sequence or
+                      drag-and-dropping a FASTA file.
                   </ul>
 
                   <h5>
-                    Rapidly deployed
+                    Rapidly deployed:
                   </h5>
                   <ul>
                     <li>
-                      Very little configuration required: only a directory
-                      containing formatted or un-formatted sequence databases.
+                      Guided interactive setup in very few steps &mdash;
+                      only requires your sequence files. 
                     </li>
                     <li>
-                      SequenceServer scans the database directory during
-                      startup. And will interactively help you create BLAST
-                      databases from FASTA files.
+                      Automatic detection of BLAST software; if absent
+                      the correct version is automatically downloaded. 
+                    </li>
+                   <li>
+                      Automatical detection of existing BLAST
+                      databases.
                     </li>
                     <li>
-                      Comes with a built-in web server. No need to deal with
-                      Apache or Nginx to run SequenceServer.
+                      Automatic detection of FASTA files not yet
+                      BLAST-formatted. SequenceServer detects sequence
+                      type helps and interactively helps to create BLAST
+                      databases.
+                    </li>
+                    <li>
+                      Web server is built in. Apache or Nginx are unnecessary (but can be used for specifc uses).
+                    </li>
+                    <li>
+                      Use on your personal computer; share with colleagues locally or
+                    worldwide. 
                     </li>
                     <li>
                       Easily customizable hyperlinks to search hits (e.g. to
-                      your local genome browser or custom database)
+                      your a genome browser or custom database).
                     </li>
                   </ul>
                 </div>
-                <div class="col-md-6" >
+                <div class="col-md-5" >
+                  <h5>Screenshot: Search interface</h5>
                   <a
                     href="img/overview/search.png">
                     <img class="thumbnail" src="img/overview/search.png" style="width:100%; height: auto" alt="Search interface."/>
                   </a>
+                  <h5>Screenshot: Results interface</h5>
                   <a
                     href="img/overview/result.png">
                     <img class="thumbnail" src="img/overview/result.png" style="width:100%; height: auto" alt="Results overview."/>
@@ -490,9 +498,12 @@
                     </li>
                     <li>
                       <p>
-                        <a href="http://ruby-lang.org">Ruby</a> (&gt;= 1.8.7), <a href="https://rubygems.org/">RubyGems</a> (&gt;= 1.3.6), and <a
-                          href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">NCBI
-                          BLAST+</a> (&gt;= 2.2.30+).
+                        <a href="http://ruby-lang.org">Ruby</a> (&ge;
+              1.8.7) with <a href="https://rubygems.org/">RubyGems</a>
+                    (&ge; 1.3.6). <br/>
+                        <a href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">NCBI
+                          BLAST+</a> (&ge; 2.2.30+) is interactively
+                          downloaded if absent.
                       </p>
                     </li>
                     <li>
@@ -521,9 +532,9 @@
                       Please cite
                     </h5>
                     <blockquote>
-                      Priyam, Woodcroft , Rai &amp; Wurm
+                      Priyam A, Woodcroft BJ, Rai V &amp; Wurm Y (<em>in prep</em>)
                       <strong>
-                        SequenceServer (<em>in prep</em>)
+                        SequenceServer: BLAST search made easy 
                       </strong>
                       <code>
                         http://sequenceserver.com
@@ -553,9 +564,11 @@
                       Creating BLAST+ databases
                     </h4>
                   </div>
-                  SequenceServer provides a couple of commands to find unformatted FASTA files and guide you through a
-                  formatting process. The program intelligently detects the type of databases and suggests appropriate
-                  names.
+                  <p>
+                    SequenceServer provides commands to find unformatted FASTA files and guide you through a
+                    formatting process. The program detects whether they are protien or nucleotide and suggests appropriate
+                    names.
+                  </p>
 
                   <p>
                     To set up BLAST databases from a directory of FASTA sequence
@@ -565,16 +578,16 @@
                   <pre>$ sequenceserver -m</pre>
 
                   <p>
-                    It will automatically pick up the database directory from the
-                    configuration file, else pass the database directory from command
-                    line:
+                    By default this will use the database directory from the
+                    configuration file. An alternative directory can be explictly provided: 
                   </p>
 
-                  <pre>$ sequenceserver -m -d=directory_with_fasta_files</pre>
+                  <pre>$ sequenceserver -m -d=path/to/directory_with_fasta_files</pre>
 
                   <p>
-                    Alternatively, manually set up BLAST databases from single FASTA
-                    sequence files. In the directory containing the FASTA file, run:
+                    Alternatively, use BLAST's
+                    <code>makeblastdb</code> on a single FASTA
+                    sequence files. For example:
                   </p>
 
                   <pre>$ makeblastdb -dbtype &lt;db type&gt; -title &lt;db title&gt; -in &lt;db&gt; -parse_seqids</pre>
@@ -603,7 +616,7 @@
                   </ul>
 
                   <p>
-                    In order to see the current list of BLAST databases found by SequenceServer, run
+                    To see the current list of BLAST databases found by SequenceServer, run
                   </p>
                   <pre>$ sequenceserver -l </pre>
                 </div>
@@ -618,9 +631,10 @@
                     </h4>
                   </div>
                   <p>
-                    SequenceServer now uses new and powerful version of custom link generators. The easy to use approach
-                    not only allows you to generate more than one link for a hit but also control their order, add custom classes
-                    or icons, enable or disable them, and much more.
+                    SequenceServer now uses a powerful plugin system
+                    for custom link generation. It allows you to
+                    generate multiple links for each hit, to control
+                    link order, add custom CSS classes or icons, enable or disable them, and much more.
 
                     You can write your own link generators based on our
                     example
@@ -628,13 +642,13 @@
                       href=https://github.com/yannickwurm/sequenceserver/blob/master/lib/sequenceserver/links.rb>
                       source file
                     </a>
-                    and load it dynamically like an extension using <code>-r=require_file</code> command described before.
+                    and load it dynamically like an extension using <code>-r=require_file</code>.
                   </p>
 
                   <p>
                     Your methods will automatically loaded and used to generate appropriate links for each
-                    hit. Please go through the extensive inline documentation within the source file to know
-                    how to write link generators.
+                    hit. The source file includes extensive inline
+                    documentation which explains how to do this. 
                   </p>
                 </div>
               </div>
@@ -647,7 +661,11 @@
                 </h4>
               </div>
               <p>
-                SequenceServer has an advanced command line interface through which you can not
+                In most cases, it is sufficient to run SequenceServer
+                using parameters specified in its single configuration
+                file.
+              </p>
+               <p>For other scenarios, SequenceServer provides an advanced command line interface through which you can not
                 only customize the startup of program but also use specific utilities provided
                 by it.
               </p>
@@ -792,7 +810,7 @@
                   <tr>
                     <td
                       colspan=2>
-                      <small><sup>*</sup> Command line values take precendence over configuration file</small>
+                      <small><sup>*</sup> Command line values take precedence over configuration file</small>
                     </td>
                   </tr>
                 </tbody>
@@ -812,7 +830,7 @@
                 </h4>
               </div>
               <p>
-                For most people,  simply running the SequenceServer as above is
+                Most of the time running the SequenceServer as above is
                 more than enough. But if you need to use SequenceServer as part
                 of a standard website, SequenceServer can be deployed on Apache
                 with Phusion Passenger™ (a.k.a mod_rails or mod_rack).
@@ -835,13 +853,12 @@ $ passenger-install-apache2-module
 </pre>
 
               <p>
-                Follow instructions on screen. The installer will let you know of
-                any missing software that is required to setup passenger, and also
-                how to install them. Towards the end of installation, after the
+                Follow instructions on screen. The installer will let you know if
+                any software that is still required to setup
+                passenger, and how to install it. After the
                 installer has finished building modules corresponding to your
                 webserver, it will ask you to edit your webserver configuration files
-                and some lines, so that your webserver knows how to load
-                passenger.
+                so that your webserver knows how to load passenger.
               </p>
 
               <p>
@@ -971,10 +988,11 @@ $ passenger-install-apache2-module
                       Q. How do I cite SequenceServer?
                     </dt>
                     <dd>
-                      A manuscript describing SequenceServer is already <em> in preparation </em>. In the mean time,
-                      please cite the following reference:
-                      <blockquote>"Priyam, Woodcroft , Rai &amp; Wurm<br>
-                        <strong>SequenceServer (<em>in prep</em>)</strong> <code>http://sequenceserver.com</code>"
+                      A manuscript describing SequenceServer is <em> in preparation</em>. In the mean time,
+                      please cite:
+                      <blockquote>Priyam A, Woodcroft BJ, Rai V &amp;
+                         Wurm Y (<em>in prep</em>)<br>
+                        <strong>SequenceServer: BLAST searching made easy</strong> <code>http://sequenceserver.com</code>
                       </blockquote>
                       This has already been done
                       <a
@@ -986,12 +1004,12 @@ $ passenger-install-apache2-module
                       Q. What are the alternatives to SequenceServer?
                     </dt>
                     <dd>
-                      There are several. Besides the fact that they are suboptimal and look like
-                      they're from the last millenium, installation and configuration is also challenging.
+                      There are several. They can look and behave
+                      a bit too vintage, and their installation and configuration is challenging.
                       <ul>
                         <li>
                           <a
-                            href="http://www.ncbi.nlm.nih.gov/BLAST/docs/wwwblast.html">
+                            href="http://www.ncbi.nlm.nih.gov/staff/tao/URLAPI/wwwblast/">
                             NCBI's wwwblast
                           </a>
                           hasn't been maintained in years
@@ -1015,6 +1033,12 @@ $ passenger-install-apache2-module
                           hasn't been maintained in years.
                         </li>
                         <li>
+                          <a href="https://github.com/peterjc/galaxy_blast">
+                            Peter J Cock's GalaxyBlast
+                          </a>
+                          requires a Galaxy installation.
+                        </li>
+                        <li>
                           <a
                             href="http://www.blaststation.com">
                             BLASTstation
@@ -1027,9 +1051,13 @@ $ passenger-install-apache2-module
                       Q. I swear I installed BLAST but SequenceServer can't find it!
                     </dt>
                     <dd>
-                      Make sure you downloaded NCBI's BLAST+ (BLAST plus!) and not legacy BLAST. The old legacy BLAST had programs such as <kbd>blastall</kbd> and <kbd>formatdb</kbd>. The programs in BLAST+ have names like <kbd>makeblastdb</kbd>, <kbd>blastn</kbd>, <kbd>tblastx</kbd> etc.,
+                      Make sure you downloaded NCBI's BLAST+ (BLAST
+            plus!) and not legacy BLAST. The old legacy BLAST had
+            programs such as <kbd>blastall</kbd> and
+            <kbd>formatdb</kbd>. The programs in BLAST+ have names
+            such as <kbd>makeblastdb</kbd>, <kbd>blastn</kbd>, <kbd>tblastx</kbd> etc.,
                       <br>
-                      Also, check that your SequenceServer configuration file points at the <code>bin</code> directory,
+                      Also, check that your SequenceServer configuration file points at the <kbd>bin</kbd> directory,
                       e.g.: <code>/Users/stevejobs/software/ncbi-blast-2.2.30+/bin/</code>
                     </dd>
                     <dt>
@@ -1044,10 +1072,11 @@ $ passenger-install-apache2-module
                       Q. What is an interactive mode? How do I use it?
                     </dt>
                     <dd>
-                      SequenceServer can be run in interactive mode using <kbd> sequenceserver -i</kbd> command.
-                      It is very handy when you are debugging SequenceServer or adding a custom written module based
-                      on the provided API (for example, custom link generator). You can access all methods, call them,
-                      and inspect their output.
+                      SequenceServer's interactive mode (<kbd>
+                      sequenceserver -i</kbd>) is handy when you are debugging
+                      SequenceServer or writing a custom module such
+                      as a custom link generator. Interactive mode
+                      lets you access all methods, call them and inspect their output.
                     </dd>
                     <dt>
                       Q. How do I tell SequenceServer to read a different
@@ -1066,8 +1095,7 @@ $ passenger-install-apache2-module
                       at
                       <a
                         href="http://localhost:4567/">
-                        http://localhost:4567/
-                      </a>.
+                        http://localhost:4567/</a>.
                       Change the port by editing <code>~/.sequenceserver.conf</code>.
                       Also, have a look at our CLI.
                     </dd>
@@ -1082,24 +1110,24 @@ $ passenger-install-apache2-module
                       address (find it in the Network or Sharing section of System
                       Preferences) and the port. The complete URL they will have to
                       use might be http://192.168.134.13:4567/  or
-                      http://myblastserver.local:4567/
+                      http://myblastserver.local:4567/. It will be
+                      easier for everyone if you can get a fixed IP.
                     </dd>
                     <dt>
-                      Q. Do I need to install Apache?
+                      Q. Do I need to install Apache or Nginx?
                     </dt>
                     <dd>
-                      SequenceServer automatically provides a decent web server using
+                      SequenceServer includes the
                       <a
                         href="http://code.macournoyer.com/thin/">
                         Thin
-                      </a>.
-                      There is no need of installing Apache. Nevertheless, if you
-                      still wish to run SequenceServer on Apache, please see our
+                      </a> web server.
+                      There is no need of installing Apache or
+                      Nginx. Nevertheless, we
+                      provide Apache instructions as part of 
                       <a
                         href="#passenger">
-                        advanced setup guideline
-                      </a>
-                      for the same.
+                        advanced setup guidelines</a>.
                     </dd>
                     <dt>
                       Q. Can I integrate SequenceServer into Apache?
@@ -1110,6 +1138,13 @@ $ passenger-install-apache2-module
                         href="passenger">
                         We provide instructions above
                       </a>.
+                    </dd>
+                     <dt>
+                      Q. Can I use multiple cores/threads?
+                    </dt>
+                    <dd>
+                      Yes either in the configuration file or via the
+                      CLI. You should. Everything will go much faster if you do. 
                     </dd>
                     <dt>
                       Q. Should I activate hyper-threading to give BLAST more virtual cores?
@@ -1124,8 +1159,7 @@ $ passenger-install-apache2-module
                       SequenceServer's
                       <a
                         href="http://github.com/yannickwurm/sequenceserver">
-                        source code is on GitHub
-                      </a>.
+                        source code is on GitHub</a>.
                       Downloading, forking, pulling, filing issues and contributing
                       is most welcome!
                     </dd>
@@ -1138,19 +1172,19 @@ $ passenger-install-apache2-module
                       Q. What is a BLAST database? Can I make a custom BLAST database?
                     </dt>
                     <dd>
-                      The BLAST program doesn't understand FASTA files. But BLAST
+                      The BLAST search algorithms don't directly understand FASTA files. But BLAST
                       includes the <kbd>makeblastdb</kbd> tool that reformats FASTA
-                      into the optimized BLAST-friendly format. However, SequenceServer provides
-                      <kbd>sequenceserver -m</kbd> command to easily create a
-                      custom BLAST database through an interactive guided
-                      process.
+                      into the optimized BLAST-friendly format. <br/>
+                      SequenceServer additionally provides the
+                      <kbd>sequenceserver -m</kbd> command to
+                      facilitate the conversion from FASTA to BLAST database. 
                     </dd>
                     <dt>
                       Q. Can I use a preformatted BLAST database? Can I use alias?
                     </dt>
                     <dd>
                       Preformatted BLAST databases can also be used with
-                      SequenceServer. Most preformatted database ar split between
+                      SequenceServer (e.g., nr...). Most preformatted database ar split between
                       multiple files (like .00,  .01, ..). Thanks to
                       <a
                         href="http://acgt.tumblr.com/">
@@ -1159,10 +1193,12 @@ $ passenger-install-apache2-module
                       contributions, SequenceServer can correctly understand these.
                       <br>
                       <br>
-                      If you use a custom  <code>.nal</code> or <code>.pal</code> BLAST database alias file, and copy
-                      this alias file as well as the linked databases into SequenceServer's <code>db</code> directory,
-                      SequenceServer will display both the alias and the linked databases. If you want to display only the
-                      alias, remove the linked databases from <code>db</code>, then edit the <code>DBLIST</code> line
+                      If a custom  <code>.nal</code> or
+                      <code>.pal</code> BLAST database alias file as well as the
+                      linked databases are in SequenceServer's <code>db</code> directory,
+                      SequenceServer will display both the alias and the linked databases. To display only the
+                      alias, move the linked databases from
+                      <code>db</code> to a different place, then edit the <code>DBLIST</code> line
                       in the <code>.pal</code> or <code>.nal</code> file so that it contains the complete path of each of the
                       database files. For example,
                       <br>
@@ -1185,18 +1221,21 @@ $ passenger-install-apache2-module
                         at NCBI
                       </a>
                       and in the original BLAST articles. Here's our executive
-                      summary.
+                      summary:
                       <blockquote>
-                        BLAST is a heuristic, ie. it is fast and approximate instead
+                        BLAST is a heuristic, i.e., it is fast and approximate instead
                         of being slow and perfect.  It starts by looking for a
-                        minimal 100% match (e.g. 11 consecutive nucleotides with 100%
-                        identity between your query and the database sequence). It is
-                        done if it finds none (thus if exactly every 10th base is
+                        minimal 100% match (e.g., 11 consecutive nucleotides with 100%
+                        identity between your query and the database
+                        sequence). If it finds none its over
+                        (thus if exactly every 10th base is
                         different, BLAST finds no results). If it does find a match,
                         it extends that in both directions: identical (or similar)
                         bases add points; differences are negative points.  If too
-                        many points are lost, it stops aligning. It might not stop at
-                        the exact best place, thus ends might not match. The
+                        many points are lost, it stops aligning. BLAST might not stop at
+                        the exact best place, alignment ends might be
+                        wrong.<br/>
+                        The
                         <a
                           href="http://www.ncbi.nlm.nih.gov/books/NBK21106/def-item/app8/">
                           bitscore
@@ -1204,12 +1243,12 @@ $ passenger-install-apache2-module
                         is the total number of points for the aligning region. The
                         bigger it is, the stronger the alignment. But the bitscore
                         doesn't take into account sequence length nor database size.
-                        The E-value does. It is better to look at E-values than
-                        bitscores. The E-value represents the number of times the
+                        The E-value does take these into account. It is better to look at E-values than
+                        bitscores. The <strong>E-value</strong> represents the number of times the
                         observed alignment would be expected to occur by chance (it
-                        is not a p-value!); depends on the bitscore, the length of
+                        is not a p-value!); <strong>depends on the bitscore, the length of
                         the query sequence, and the cumulative length of all
-                        sequences in the database. Its easier to talk about
+                        sequences in the database</strong>. It is easier to talk about
                         <em>strong</em> E-values (e.g. 1e-100 = 10<sup>-100</sup> =
                         almost zero; impossible to obtain by chance) vs <em>weak</em>
                         E-evalues (e.g 0.1;  for similarity that may be due to
@@ -1222,9 +1261,9 @@ $ passenger-install-apache2-module
                     <dd>
                       <a
                         href="publications/ncbiBlast.pdf">
-                        The initial BLAST
+                        BLAST
                       </a>
-                      has been rewritten several times - most recently by NCBI as
+                      was rewritten several times - most recently by NCBI as
                       BLAST+. NCBI now use and recommend using BLAST+.
                       <a
                         href="publications/blastplus.pdf">
@@ -1234,9 +1273,8 @@ $ passenger-install-apache2-module
                       <em>legacy</em> BLAST. WU-BLAST is now commerical and called
                       <a
                         href="http://blast.advbiocomp.com/">
-                        AB-BLAST
-                      </a>.
-                      There is probably no good reason to use either. Note that the
+                        AB-BLAST</a>.
+                      There is probably no good reason to use either alternative. Note that the
                       output formats change slightly from one BLAST implementation
                       to the next.
                     </dd>
@@ -1315,8 +1353,7 @@ $ passenger-install-apache2-module
                   is researching microbial responses to permafrost thaw (climate change induced), and the bioinformatics of metagenomics. He is a post-doctoral fellow at the
                   <a
                     href="http://ecogenomic.org">
-                    Australia Centre for Ecogenomics
-                  </a>.
+                    Australia Centre for Ecogenomics</a>.
                 </dd>
                 <dt>
                   <a
@@ -1328,8 +1365,7 @@ $ passenger-install-apache2-module
                   is an undergraduate student in Department of Biotechnology at
                   <a
                     href="http://www.iitkgp.ac.in">
-                    Indian Institute Of Technology, Kharagpur
-                  </a>.
+                    Indian Institute Of Technology, Kharagpur</a>.
                   Besides programming, he is fascinated by Proteins, Computational Biology, and Bioinformatics.
                 </dd>
                 <dt>
@@ -1340,24 +1376,20 @@ $ passenger-install-apache2-module
                 </dt>
                 <dd>
                   is an evolutionary biologist using genomics
-                  tools to study the evolution of ant societies (eg:
+                  tools to study the evolution of social insect societies (eg:
                   <a
                     href="http://yannick.poulet.org/publications/wurm2009antDatabase.pdf">
-                    antgenomes.org
-                  </a>,
+                    antgenomes.org</a>,
                   <a
                     href="http://yannick.poulet.org/publications/wurm2011fireAntGenome.pdf">
-                    fire ant genome
-                  </a>,
+                    fire ant genome</a>,
                   <a
                     href="http://www.antgenomes.org/publications/wurm2010fireAntQueenDealationExpression.pdf">
-                    competing fire ant queens
-                  </a>).
-                  He is a lecturer at
+                    competing fire ant queens</a>).
+                  He is a Senior Lecturer in Bioinformatics at
                   <a
                     href="http://www.sbcs.qmul.ac.uk/">
-                    Queen Mary University London
-                  </a>.
+                    Queen Mary University London</a>.
                 </dd>
                 <dt>
                   Maybe you?
