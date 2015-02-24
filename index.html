@@ -1003,12 +1003,6 @@ $ passenger-install-nginx-module</pre>
                   </ul>
                 </dd>
                 <dt>
-                  Q. Is there a demo server?
-                </dt>
-                <dd>
-                  SequenceServer provides <a href="http://www.antgenomes.org/blast">BLAST for ant genomes</a>. Some of our users also <a href="#users">provide publicly accessible servers</a>.
-                </dd>
-                <dt>
                   Q. What is a BLAST database? Can I make a custom BLAST database?
                 </dt>
                 <dd>
@@ -1121,7 +1115,7 @@ $ passenger-install-nginx-module</pre>
                   Q. I swear I installed BLAST but SequenceServer can't find it!
                 </dt>
                 <dd>
-                  Make sure you downloaded NCBI's Blast+ (Blast Plus!) and not legacy BLAST. The old legacy BLAST had programs such as <kbd>blastall</kbd> and <kbd>formatdb</kbd>. The programs in BLAST+ have names like <kbd>makeblastdb</kbd>, <kbd>blastn</kbd>, <kbd>tblastx</kbd> etc.,
+                  Make sure you downloaded NCBI's BLAST+ (BLAST plus!) and not legacy BLAST. The old legacy BLAST had programs such as <kbd>blastall</kbd> and <kbd>formatdb</kbd>. The programs in BLAST+ have names like <kbd>makeblastdb</kbd>, <kbd>blastn</kbd>, <kbd>tblastx</kbd> etc.,
                   <br>
                   Also, check that your SequenceServer configuration file points at the <code>bin</code> directory,
                   e.g.: <code>/Users/stevejobs/software/ncbi-blast-2.2.30+/bin/</code>
@@ -1212,25 +1206,6 @@ $ passenger-install-nginx-module</pre>
                   Yes.
                 </dd>
                 <dt>
-                  Q. Which technologies does SequenceServer use?
-                </dt>
-                <dd>
-                  SequenceServer uses
-                  <a
-                    href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&amp;PAGE_TYPE=BlastDocs&amp;DOC_TYPE=Download">
-                    NCBI BLAST+
-                  </a>,
-                  <a
-                    href="http://www.sinatrarb.com/">
-                    Sinatra
-                  </a>,
-                  and
-                  <a
-                    href="http://jquery.com/">
-                    jQuery
-                  </a>.
-                </dd>
-                <dt>
                   Q. Can I have the source code? Can I contribute?
                 </dt>
                 <dd>
@@ -1241,43 +1216,6 @@ $ passenger-install-nginx-module</pre>
                   </a>.
                   Downloading, forking, pulling, filing issues and contributing
                   is most welcome!
-                </dd>
-                <dt>
-                  Q. You say SequenceServer is easy to set up. But I'm not a
-                  computer person and I don't understand a thing. This is too
-                  hard!
-                </dt>
-                <dd>
-                  We are considering offering hosted (password-protected) servers
-                  for a fee (ie you upload the data; we set things up as you need
-                  them). Please get in touch by email if you are interested or
-                  need other consulting advice.
-                </dd>
-                <dt>
-                  Q. Can I get a support contract which guarantees rapid
-                  response?
-                </dt>
-                <dd>
-                  Yes. Get in touch by email.
-                </dd>
-                <dt>
-                  Q. Can SequenceServer do XXX? Why doesn't YYYY work? It's ugly,
-                  it crashes!?!?
-                </dt>
-                <dd>
-                  First, run <kbd>gem update</kbd> or <kbd>sudo gem update</kbd>.
-                  <br>
-                  Feel free to add comments, vote, report bugs, request features
-                  and contribute code. All contributions, patches and pulls are
-                  welcome. Our
-                  <a
-                    href="https://github.com/yannickwurm/sequenceserver/issues">
-                    issues tracker
-                  </a>
-                  logs development activities. If you're not a coder, please
-                  consider supporting development by a donation. Donations can
-                  dramatically increase the speed at which new features are
-                  added!
                 </dd>
               </dl>
             </section>
