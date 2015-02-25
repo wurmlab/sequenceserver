@@ -582,29 +582,32 @@
                 class="page-header"
                 style="margin-top: 20px;">
                 <h4
-                  id="plugin-sytem">
+                  id="plugin-system">
                   Plugin system
                 </h4>
               </div>
               <p>
-                SequenceServer now uses a powerful plugin system
-                for custom link generation. It allows you to
-                generate multiple links for each hit, to control
-                link order, add custom CSS classes or icons, enable or disable them, and much more.
+                Sequenceserver provides a powerful yet flexible plugin system
+                to create custom hyperlinks for your BLAST hits. You can leverage the
+                comprehensive information, for example, database details, which database a hit came
+                from, to generate more complex and highly specific links. Not only that, but you
+                can also personalize your interface by controlling the order or appearance of links.
 
-                You can write your own link generators based on our
-                example
+                Please have a look at our
                 <a
                   href=https://github.com/yannickwurm/sequenceserver/blob/master/lib/sequenceserver/links.rb>
                   source file
                 </a>
-                and load it dynamically like an extension using <code>-r=require_file</code>.
+                to understand how to write your own plugin.
+
+                Once you are done writing the code, load your plugin using the
+                <code>-r=require_file</code> command line switch.
               </p>
 
               <p>
-                Your methods will automatically loaded and used to generate appropriate links for each
-                hit. The source file includes extensive inline
-                documentation which explains how to do this. 
+                Your methods will be loaded automatically and used to generate
+                appropriate links for each hit. The source file includes
+                extensive inline documentation which explains how to do this.
               </p>
               <div
                 class="page-header"
@@ -1015,9 +1018,7 @@ $ passenger-install-apache2-module
                       Q. How can I add custom links to hits?
                     </dt>
                     <dd>
-                      Easy. Edit the <code>lib/../links.rb</code> file
-                      and go through the inline comments and example methods it provides. To add a single link,
-                      uncomment and edit the <code>construct_custom_sequence_hyperlink</code> method.
+                      Easily. See the details in <a href="#plugin-system">plugin system</a>.
                     </dd>
                     <dt>
                       Q. What is an interactive mode? How do I use it?
@@ -1102,6 +1103,12 @@ $ passenger-install-apache2-module
                     </dt>
                     <dd>
                       Yes.
+                    </dd>
+                    <dt>
+                      Q. I miss the old site. Where can I find it?
+                    </dt>
+                    <dd>
+                      <a href="http://www.sequenceserver.com/old/">Here</a> you go.
                     </dd>
                     <dt>
                       Q. Can I have the source code? Can I contribute?
