@@ -79,7 +79,7 @@
           <div
             class="dnd-errors">
             <div
-              class="dnd-error"
+              class="dnd-error row"
               id="dnd-multi-notification"
               style="display: none;">
               <div
@@ -89,7 +89,7 @@
             </div>
 
             <div
-              class="dnd-error"
+              class="dnd-error row"
               id="dnd-large-file-notification"
               style="display: none;">
               <div
@@ -99,7 +99,7 @@
             </div>
 
             <div
-              class="dnd-error"
+              class="dnd-error row"
               id="dnd-format-notification"
               style="display: none;">
               <div
@@ -148,7 +148,7 @@
             <textarea
               class="form-control text-monospace" name="sequence" id="sequence"
               rows="10"
-              autofocus="true"
+              autofocus
               spellcheck="false"
               placeholder="Paste query sequence(s) or drag file containing query sequence(s) in FASTA format here ..." ></textarea>
           </div>
@@ -158,7 +158,7 @@
       <div
         class="notifications">
         <div
-          class="notification"
+          class="notification row"
           id="nucleotide-sequence-notification"
           style="display: none;">
           <div
@@ -168,7 +168,7 @@
         </div>
 
         <div
-          class="notification"
+          class="notification row"
           id="protein-sequence-notification"
           style="display: none;">
           <div
@@ -178,7 +178,7 @@
         </div>
 
         <div
-          class="notification"
+          class="notification row"
           id="mixed-sequence-notification"
           style="display: none;">
           <div
@@ -240,18 +240,17 @@
                   class="form-control" name="advanced" id="advanced"
                   title="View, and enter advanced parameters."
                   placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
-                  <div class="input-group-addon cursor-pointer" data-toggle="modal" data-toggle="modal" data-target="#help">
+                  <div class="input-group-addon cursor-pointer" data-toggle="modal" data-target="#help">
                     <i class="fa fa-question"></i>
                   </div>
               </div>
             </div>
           </div>
         </div>
-
         <div
           class="col-md-4">
           <div
-            class="btn-group btn-block" id="methods">
+            class="btn-group btn-block row" id="methods">
             <button
               type="submit"
               id="method" class="btn btn-primary col-md-12">
@@ -295,7 +294,7 @@
       <br>
       Please Cite:
       <a href='http://www.sequenceserver.com'>
-        Priyam, Woodcroft, Rai & Wurm, <strong>SequenceServer</strong> (<em>in prep</em>)</a>
+        Priyam, Woodcroft, Rai & Wurm, <strong>SequenceServer</strong> (<em>in prep</em>)
       </a>
       &amp; relevant data sources.
     </p>
