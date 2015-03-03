@@ -30,7 +30,7 @@ DESC
   s.add_development_dependency('codeclimate-test-reporter')
 
   # gem
-  s.files         = `git ls-files`
+  s.files         = `git ls-files`.split
   s.executables   = ['sequenceserver']
   s.require_paths = ['lib']
 
