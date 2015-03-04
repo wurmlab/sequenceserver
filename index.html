@@ -395,126 +395,116 @@
                 </h2>
               </div>
               <div
-                class="row">
-                <div
-                  class="col-md-6">
-                  <div
-                    class="page-header"
-                    style="margin-top: 0px;">
-                    <h4>
-                      Quick setup
-                    </h4>
-                  </div>
-                  <h5>
-                    Download
-                  </h5>
-                  <p>
-                    To get the latest release of SequenceServer, run the
-                    following from a command line.
-                  </p>
+                class="page-header"
+                style="margin-top: 20px;">
+                <h4>
+                  Quick setup
+                </h4>
+              </div>
+              <h5>
+                Download
+              </h5>
+              <p>
+                To get the latest release of SequenceServer, run the
+                following from a command line.
+              </p>
                   <pre> $ gem install --pre sequenceserver</pre>
-                  <p>
-                    If that doesn't work, try <kbd>sudo gem</kbd> instead of
-                    <kbd>gem</kbd>.
-                  </p>
-                  <h5
-                    style="margin-top:20px">
-                    And launch
-                  </h5>
-                  <p>
-                    To configure and launch SequenceServer, run the following
-                    from a command line.
-                  </p>
+              <p>
+                If that doesn't work, try <kbd>sudo gem</kbd> instead of
+                <kbd>gem</kbd>.
+              </p>
+              <h5
+                style="margin-top:20px">
+                And launch
+              </h5>
+              <p>
+                To configure and launch SequenceServer, run the following
+                from a command line.
+              </p>
                   <pre>$ sequenceserver</pre>
+              <p>
+                SequenceServer will automatically guide you through an
+                interactive setup process to help locate or download
+                BLAST+ binaries, ask for the location of FASTA files
+                (or BLAST+ databases), and offer to create BLAST+
+                databases from FASTA files.
+              </p>
+              <p>
+                That's it! Open
+                <a
+                  href="http://localhost:4567/">
+                  http://localhost:4567/
+                </a>
+                and start BLAST-ing!
+              </p>
+              <div
+                class="page-header"
+                style="margin-top: 20px;">
+                <h4>
+                  Requirements
+                </h4>
+              </div>
+              <ul
+                style="padding-left: 20px;">
+                <li>
                   <p>
-                    SequenceServer will automatically guide you through an
-                    interactive setup process to help locate or download
-                    BLAST+ binaries, ask for the location of FASTA files
-                    (or BLAST+ databases), and offer to create BLAST+
-                    databases from FASTA files.
-                  </p>
-                  <p>
-                    That's it! Open
+                    <strong>
+                      Linux or Mac OSX.
+                    </strong>
+                    While we would like to also support Windows, our resources
+                    are limited and we prefer to first concentrate on making
+                    SequenceServer great on fewer platforms. It should be
+                    possible to run SequenceServer on Windows using
                     <a
-                      href="http://localhost:4567/">
-                      http://localhost:4567/
-                    </a>
-                    and start BLAST-ing!
+                      href="http://cygwin.com/">
+                      Cygwin</a>.
+                    Note that you can connect to SequenceServer running on
+                    other machines from your browser in Windows.
                   </p>
-                </div>
-                <div
-                  class="col-md-6">
-                  <div
-                    class="page-header"
-                    style="margin-top: 0px;">
-                    <h4>
-                      Requirements
-                    </h4>
-                  </div>
-                  <ul
-                    style="padding-left: 20px;">
-                    <li>
-                      <p>
-                        <strong>
-                          Linux or Mac OSX.
-                        </strong>
-                        While we would like to also support Windows, our resources
-                        are limited and we prefer to first concentrate on making
-                        SequenceServer great on fewer platforms. It should be
-                        possible to run SequenceServer on Windows using
-                        <a
-                          href="http://cygwin.com/">
-                          Cygwin</a>.
-                        Note that you can connect to SequenceServer running on
-                        other machines from your browser in Windows.
-                      </p>
-                    </li>
-                    <li>
-                      <p>
-                        <a href="http://ruby-lang.org">Ruby</a> (&ge;
-              1.8.7) with <a href="https://rubygems.org/">RubyGems</a>
+                </li>
+                <li>
+                  <p>
+                    <a href="http://ruby-lang.org">Ruby</a> (&ge;
+                    1.8.7) with <a href="https://rubygems.org/">RubyGems</a>
                     (&ge; 1.3.6). <br/>
-                        <a href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">NCBI
-                          BLAST+</a> (&ge; 2.2.30+) is interactively
-                          downloaded if absent.
-                      </p>
-                    </li>
-                    <li>
-                      <p>
-                        <img
-                        src="https://raw.githubusercontent.com/alrra/browser-logos/master/chrome/chrome_16x16.png"
-                        alt="Google Chrome"> or
-                        <img
-                        src="https://raw.githubusercontent.com/alrra/browser-logos/master/firefox/firefox_16x16.png"
-                        alt="Mozilla Firefox"> or
-                        <img
-                        src="https://raw.githubusercontent.com/alrra/browser-logos/master/safari/safari_16x16.png"
-                        alt="Safari"> 7+ or
-                        <img
-                        src="https://raw.githubusercontent.com/alrra/browser-logos/master/internet-explorer/internet-explorer_16x16.png"
-                        alt="Internet Explorer"> 9+
-                      </p>
-                    </li>
-                  </ul>
-                  <br>
-                  <br>
-                  <div
-                    id="cite"
-                    style="margin-left: 20px;">
-                    <h5>
-                      Please cite
-                    </h5>
-                    <blockquote>
-                      Priyam A, Woodcroft BJ, Rai V &amp; Wurm Y (<em>in prep</em>)
-                      <strong>
-                        SequenceServer: BLAST search made easy 
-                      </strong>
-                      <code>
-                        http://sequenceserver.com
-                      </code>
-                    </blockquote>
-                  </div>
-                </div>
+                    <a href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">NCBI
+                      BLAST+</a> (&ge; 2.2.30+) is interactively
+                    downloaded if absent.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <img
+                    src="https://raw.githubusercontent.com/alrra/browser-logos/master/chrome/chrome_16x16.png"
+                    alt="Google Chrome"> or
+                    <img
+                    src="https://raw.githubusercontent.com/alrra/browser-logos/master/firefox/firefox_16x16.png"
+                    alt="Mozilla Firefox"> or
+                    <img
+                    src="https://raw.githubusercontent.com/alrra/browser-logos/master/safari/safari_16x16.png"
+                    alt="Safari"> 7+ or
+                    <img
+                    src="https://raw.githubusercontent.com/alrra/browser-logos/master/internet-explorer/internet-explorer_16x16.png"
+                    alt="Internet Explorer"> 9+
+                  </p>
+                </li>
+              </ul>
+              <br>
+              <div
+                id="cite"
+                style="margin-left: 20px;">
+                <h5>
+                  Please cite
+                </h5>
+                <blockquote>
+                  Priyam A, Woodcroft BJ, Rai V &amp; Wurm Y (<em>in prep</em>)
+                  <strong>
+                    SequenceServer: BLAST search made easy 
+                  </strong>
+                  <code>
+                    http://sequenceserver.com
+                  </code>
+                </blockquote>
               </div>
 
               <div
@@ -526,108 +516,102 @@
                 </h3>
               </div>
               <div
-                class="row">
-                <div
-                  class="col-md-6">
-                  <div
-                    class="page-header"
-                    style="margin-top: 0px;">
-                    <h4
-                      id="create-databases">
-                      Creating BLAST+ databases
-                    </h4>
-                  </div>
-                  <p>
-                    SequenceServer provides commands to find unformatted FASTA files and guide you through a
-                    formatting process. The program detects whether they are protien or nucleotide and suggests appropriate
-                    names.
-                  </p>
+                class="page-header"
+                style="margin-top: 20px;">
+                <h4
+                  id="create-databases">
+                  Creating BLAST+ databases
+                </h4>
+              </div>
+              <p>
+                SequenceServer provides commands to find unformatted FASTA files and guide you through a
+                formatting process. The program detects whether they are protien or nucleotide and suggests appropriate
+                names.
+              </p>
 
-                  <p>
-                    To set up BLAST databases from a directory of FASTA sequence
-                    files, use:
-                  </p>
+              <p>
+                To set up BLAST databases from a directory of FASTA sequence
+                files, use:
+              </p>
 
                   <pre>$ sequenceserver -m</pre>
 
-                  <p>
-                    By default this will use the database directory from the
-                    configuration file. An alternative directory can be explictly provided: 
-                  </p>
+              <p>
+                By default this will use the database directory from the
+                configuration file. An alternative directory can be explictly provided: 
+              </p>
 
                   <pre>$ sequenceserver -m -d=path/to/directory_with_fasta_files</pre>
 
-                  <p>
-                    Alternatively, use BLAST's
-                    <code>makeblastdb</code> on a single FASTA
-                    sequence files. For example:
-                  </p>
+              <p>
+                Alternatively, use BLAST's
+                <code>makeblastdb</code> on a single FASTA
+                sequence files. For example:
+              </p>
 
                   <pre>$ makeblastdb -dbtype &lt;db type&gt; -title &lt;db title&gt; -in &lt;db&gt; -parse_seqids</pre>
 
-                  <p>
-                    Where,
-                  </p>
+              <p>
+                Where,
+              </p>
 
-                  <ul>
-                    <li>
-                      <code>&lt;db type&gt;</code> is either <code>prot</code>, or <code>nucl</code> depending on the type of sequence
-                    </li>
-                    <li>
-                      <code>&lt;db title&gt;</code> is what users will see
-                    </li>
-                    <li>
-                      <code>&lt;db&gt;</code> is the path to the FASTA file
-                    </li>
-                    <li>
-                      <code>-parse_seqids</code> is required to generate links for downloading search
-                      hits (yes, it's a bit slow on large files).
-                    </li>
-                    <li>
-                      Additional options at <code>makeblastdb -help</code>.
-                    </li>
-                  </ul>
+              <ul>
+                <li>
+                  <code>&lt;db type&gt;</code> is either <code>prot</code>, or <code>nucl</code> depending on the type of sequence
+                </li>
+                <li>
+                  <code>&lt;db title&gt;</code> is what users will see
+                </li>
+                <li>
+                  <code>&lt;db&gt;</code> is the path to the FASTA file
+                </li>
+                <li>
+                  <code>-parse_seqids</code> is required to generate links for downloading search
+                  hits (yes, it's a bit slow on large files).
+                </li>
+                <li>
+                  Additional options at <code>makeblastdb -help</code>.
+                </li>
+              </ul>
 
-                  <p>
-                    To see the current list of BLAST databases found by SequenceServer, run
-                  </p>
+              <p>
+                To see the current list of BLAST databases found by SequenceServer, run
+              </p>
                   <pre>$ sequenceserver -l </pre>
-                </div>
-                <div
-                  class="col-md-6">
-                  <div
-                    class="page-header"
-                    style="margin-top: 0px;">
-                    <h4
-                      id="plugin-sytem">
-                      Plugin system
-                    </h4>
-                  </div>
-                  <p>
-                    SequenceServer now uses a powerful plugin system
-                    for custom link generation. It allows you to
-                    generate multiple links for each hit, to control
-                    link order, add custom CSS classes or icons, enable or disable them, and much more.
-
-                    You can write your own link generators based on our
-                    example
-                    <a
-                      href=https://github.com/yannickwurm/sequenceserver/blob/master/lib/sequenceserver/links.rb>
-                      source file
-                    </a>
-                    and load it dynamically like an extension using <code>-r=require_file</code>.
-                  </p>
-
-                  <p>
-                    Your methods will automatically loaded and used to generate appropriate links for each
-                    hit. The source file includes extensive inline
-                    documentation which explains how to do this. 
-                  </p>
-                </div>
-              </div>
-
               <div
-                class="page-header">
+                class="page-header"
+                style="margin-top: 20px;">
+                <h4
+                  id="plugin-system">
+                  Plugin system
+                </h4>
+              </div>
+              <p>
+                Sequenceserver provides a powerful yet flexible plugin system
+                to create custom hyperlinks for your BLAST hits. You can leverage the
+                comprehensive information, for example, database details, which database a hit came
+                from, to generate more complex and highly specific links. Not only that, but you
+                can also personalize your interface by controlling the order or appearance of links.
+
+                Please have a look at our
+                <a
+                  href=https://github.com/yannickwurm/sequenceserver/blob/master/lib/sequenceserver/links.rb>
+                  source file
+                </a>
+                to understand how to write your own plugin.
+
+                Once you are done writing the code, load your plugin using the
+                <code>-r=require_file</code> command line switch.
+              </p>
+
+              <p>
+                Your methods will be loaded automatically and used to generate
+                appropriate links for each hit. The source file includes
+                extensive inline documentation which explains how to do this.
+              </p>
+              <div
+                class="page-header"
+                style="margin-top: 20px;">
                 <h4
                   id="cli">
                   Command line interface
@@ -795,7 +779,8 @@
               <pre>$ sequenceserver -d ~/home/biodb -n 4 -p 7777</pre>
 
               <div
-                class="page-header">
+                class="page-header"
+                style="margin-top: 20px;">
                 <h4
                   id='passenger'>
                   Setup on Apache with Phusion Passenger
@@ -808,12 +793,10 @@
                 of a standard website, SequenceServer can be deployed on Apache
                 with Phusion Passenger™ (a.k.a mod_rails or mod_rack).
               </p>
-              <div
-                class="page-header">
-                <h5>
-                  Set up Phusion Passenger™
-                </h5>
-              </div>
+              <h5
+                style="margin-top: 20px;">
+                Set up Phusion Passenger™
+              </h5>
               <p>
                 Install <kbd>passenger</kbd> gem:
               </p>
@@ -856,12 +839,10 @@ $ passenger-install-apache2-module
                 </li>
               </ol>
 
-              <div
-                class="page-header">
-                <h5>
-                  Deploying SequenceServer
-                </h5>
-              </div>
+              <h5
+                style="margin-top: 20px;">
+                Deploying SequenceServer
+              </h5>
               <p>
                 Apache <strong>Root URI</strong> (eg:antgenomes.org or localhost).
               </p>
@@ -1037,9 +1018,7 @@ $ passenger-install-apache2-module
                       Q. How can I add custom links to hits?
                     </dt>
                     <dd>
-                      Easy. Edit the <code>lib/../links.rb</code> file
-                      and go through the inline comments and example methods it provides. To add a single link,
-                      uncomment and edit the <code>construct_custom_sequence_hyperlink</code> method.
+                      Easily. See the details in <a href="#plugin-system">plugin system</a>.
                     </dd>
                     <dt>
                       Q. What is an interactive mode? How do I use it?
@@ -1124,6 +1103,12 @@ $ passenger-install-apache2-module
                     </dt>
                     <dd>
                       Yes.
+                    </dd>
+                    <dt>
+                      Q. I miss the old site. Where can I find it?
+                    </dt>
+                    <dd>
+                      <a href="http://www.sequenceserver.com/old/">Here</a> you go.
                     </dd>
                     <dt>
                       Q. Can I have the source code? Can I contribute?
