@@ -63,6 +63,7 @@ module SequenceServer
         puts '** SequenceServer is ready.'
         puts "   Go to #{url} in your browser and start BLASTing!"
         puts '   Press CTRL+C to quit.'
+        open_default_browser(url)
         [:INT, :TERM].each do |sig|
           trap sig do
             server.stop!
@@ -192,6 +193,19 @@ module SequenceServer
       fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
       fail BLAST_DATABASE_ERROR, cmd, out if out.match(errpat) ||
                                              !$CHILD_STATUS.success?
+    end
+
+    def open_default_browser(url)
+      return if using_ssh?
+      if RUBY_PLATFORM =~ /linux/
+        `xdg-open #{url}` unless command?('xdg-open') || ENV['DISPLAY']
+      elsif RUBY_PLATFORM =~ /darwin/
+        `open #{url}`
+      end
+    end
+
+    def using_ssh?
+      true if ENV['SSH_CLIENT'] || ENV['SSH_TTY'] || ENV['SSH_CONNECTION']
     end
 
     # Return `true` if the given command exists and is executable.
