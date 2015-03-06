@@ -45,7 +45,7 @@
               </thead>
               <tbody>
               <% query.hits.each_with_index do |hit, h| %>
-                <tr>
+                <tr onclick="location.href='<%="#Query_#{query.number}_hit_#{hit.number}"%>'">
                   <td class="text-left"><%= h + 1 %>.</td>
                   <td> <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>"><%= "#{hit.id}" %></a> </td>
                   <td class="text-right"><%= prettify_float hit.score  %></td>

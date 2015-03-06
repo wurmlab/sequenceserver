@@ -380,6 +380,10 @@ svg:not(:root) {
   border-bottom: 1px solid #ddd;
 }
 
+.tabular-view>tbody>tr {
+  cursor:pointer;
+}
+
 .alignment {
   margin-top: 8px;
   white-space: pre;
