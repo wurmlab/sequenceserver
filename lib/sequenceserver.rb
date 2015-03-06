@@ -55,7 +55,7 @@ module SequenceServer
       server = Thin::Server.new(config[:host],
                                 config[:port],
                                 :signals => false) do
-        use Rack::CommonLogger
+        use Rack::CommonLogger if SequenceServer.environment == 'development'
         run SequenceServer
       end
       server.silent = true
