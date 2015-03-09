@@ -196,7 +196,7 @@ module SequenceServer
     end
 
     def open_default_browser(url)
-      return if using_ssh?
+      return if using_ssh? || verbose?
       if RUBY_PLATFORM =~ /linux/
         `xdg-open #{url}` unless command?('xdg-open') || ENV['DISPLAY']
       elsif RUBY_PLATFORM =~ /darwin/
