@@ -69,7 +69,7 @@ BANNER
        'Load extension from this file',
        :argument => true
 
-    on 'H', host=',
+    on 'H', 'host=',
        'Host to run SequenceServer on',
        :argument => true
 
