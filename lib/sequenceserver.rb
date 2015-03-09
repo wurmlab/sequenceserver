@@ -150,7 +150,7 @@ module SequenceServer
       raise NUM_THREADS_INCORRECT
     end
 
-    # Check and warn user if host is 0.0.0.0 (default).
+    # Check and warn user if host is 0.0.0.0.
     def check_host
       # rubocop:disable Style/GuardClause
       if config[:host] == '0.0.0.0'
