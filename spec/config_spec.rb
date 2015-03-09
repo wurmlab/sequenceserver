@@ -23,7 +23,7 @@ module SequenceServer
     it 'has reasonable defaults' do
       config = Config.new
       config[:num_threads].should eq 1
-      config[:host].should eq '0.0.0.0'
+      config[:host].should eq 'localhost'
       config[:port].should eq 4567
       config.config_file.should eq File.expand_path('~/.sequenceserver.conf')
     end
