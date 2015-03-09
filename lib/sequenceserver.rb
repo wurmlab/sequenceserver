@@ -198,7 +198,7 @@ module SequenceServer
     def open_default_browser(url)
       return if using_ssh? || verbose?
       if RUBY_PLATFORM =~ /linux/
-        `xdg-open #{url}` unless command?('xdg-open') || ENV['DISPLAY']
+        `xdg-open #{url}` unless compatible_linux_with_GUI?
       elsif RUBY_PLATFORM =~ /darwin/
         `open #{url}`
       end
@@ -206,6 +206,10 @@ module SequenceServer
 
     def using_ssh?
       true if ENV['SSH_CLIENT'] || ENV['SSH_TTY'] || ENV['SSH_CONNECTION']
+    end
+
+    def compatible_linux_with_gui?
+      true if command?('xdg-open') || ENV['DISPLAY']
     end
 
     # Return `true` if the given command exists and is executable.
