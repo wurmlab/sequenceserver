@@ -195,6 +195,7 @@ BANNER
         exit!
 
       rescue SequenceServer::BLAST_NOT_INSTALLED,
+             SequenceServer::BLAST_NOT_EXECUTABLE,
              SequenceServer::BLAST_NOT_COMPATIBLE => e
 
         # Show original error message first.
