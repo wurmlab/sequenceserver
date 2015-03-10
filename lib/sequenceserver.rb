@@ -128,9 +128,7 @@ module SequenceServer
         fail DATABASE_DIR_NOT_FOUND, config[:database_dir]
       end
 
-      assert_blast_databases_present_in_database_dir
       logger.debug("Will use BLAST+ databases at: #{config[:database_dir]}")
-
       Database.scan_databases_dir
       Database.each do |database|
         logger.debug("Found #{database.type} database '#{database.title}'" \
@@ -185,15 +183,6 @@ module SequenceServer
       version = `blastdbcmd -version`.split[1]
       fail BLAST_NOT_EXECUTABLE if !$CHILD_STATUS.success? || version.empty?
       fail BLAST_NOT_COMPATIBLE, version unless version >= MINIMUM_BLAST_VERSION
-    end
-
-    def assert_blast_databases_present_in_database_dir
-      cmd = "blastdbcmd -recursive -list #{config[:database_dir]}"
-      out = `#{cmd}`
-      errpat = /BLAST Database error/
-      fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
-      fail BLAST_DATABASE_ERROR, cmd, out if out.match(errpat) ||
-                                             !$CHILD_STATUS.success?
     end
 
     def open_default_browser(url)

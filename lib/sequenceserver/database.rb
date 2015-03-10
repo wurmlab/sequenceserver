@@ -1,4 +1,5 @@
 require 'find'
+require 'open3'
 require 'digest/md5'
 require 'forwardable'
 
@@ -96,15 +97,25 @@ module SequenceServer
 
       # Recurisvely scan `database_dir` for blast databases.
       def scan_databases_dir
-        database_dir = config[:database_dir]
-        cmd = "blastdbcmd -recursive -list #{database_dir}" \
-              ' -list_outfmt "%f	%t	%p	%n	%l	%d" 2>&1'
-        list = `#{cmd}`
-        list.each_line do |line|
-          name = line.split('	')[0]
-          next if multipart_database_name?(name)
-          self << Database.new(*line.split('	'))
+        cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
+              ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
+        Open3.popen3(cmd) do |_, out, err|
+          out = out.read
+          err = err.read
+          throw_scan_error(cmd, out, err, $CHILD_STATUS)
+          out.each_line do |line|
+            name = line.split('	')[0]
+            next if multipart_database_name?(name)
+            self << Database.new(*line.split('	'))
+          end
         end
+      end
+
+      def throw_scan_error(cmd, out, err, child_status)
+        errpat = /BLAST Database error/
+        fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
+        fail BLAST_DATABASE_ERROR.new(cmd, err) if !child_status.success? ||
+                                                   err.match(errpat)
       end
 
       # Recursively scan `database_dir` for un-formatted FASTA and format them

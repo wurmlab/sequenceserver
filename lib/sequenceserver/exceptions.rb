@@ -140,7 +140,7 @@ MSG
   end
 
   # Raised if there was an error determining BLAST+ databases in database_dir.
-  class BLAST_DATABASE_ERROR
+  class BLAST_DATABASE_ERROR < StandardError
     def initialize(cmd, out)
       @cmd = cmd
       @out = out

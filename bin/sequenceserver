@@ -137,7 +137,8 @@ BANNER
       # error scenarios either when creating a new SequenceServer (first
       # time or later), or updating config values using -s CLI option.
 
-      rescue SequenceServer::CONFIG_FILE_ERROR => e
+      rescue SequenceServer::CONFIG_FILE_ERROR,
+             SequenceServer::BLAST_DATABASE_ERROR => e
 
         puts e
         exit!

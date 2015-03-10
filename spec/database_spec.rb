@@ -91,7 +91,9 @@ module SequenceServer
 
     it 'can tell FASTA files that are yet to be made into a BLAST+ database' do
       SequenceServer.config[:database_dir] = database_dir_unformatted
-      Database.scan_databases_dir
+      # rubocop:disable Style/RescueModifier
+      Database.scan_databases_dir rescue NO_BLAST_DATABASE_FOUND
+      # rubocop:enable Style/RescueModifier
       Database.unformatted_fastas.should_not be_empty
     end
 
