@@ -652,10 +652,10 @@ $(document).ready(function(){
     $('form').on('blast_method_changed', function (event, methods) {
         // reset
         $('#method')
-        .disable().val('').html('blast')
-        .removeClass('col-md-11').addClass('col-md-12');
+        .disable().val('').html('blast');
 
         $('#methods')
+        .removeClass('input-group')
         .children().not('#method').remove();
 
         // set
@@ -667,29 +667,32 @@ $(document).ready(function(){
 
             if (methods.length >=1) {
                 $('#methods')
+                .addClass('input-group')
                 .append
                 (
-                    $('<button/>')
-                    .attr('type', 'button')
-                    .addClass("btn btn-primary dropdown-toggle col-md-1")
-                    .attr('data-toggle', 'dropdown')
+                    $('<div/>')
+                    .addClass('input-group-btn')
                     .append
                     (
-                        $('<span/>')
-                        .addClass('caret')
-                    ),
-                    $('<ul/>')
-                    .addClass('dropdown-menu')
-                    .append
-                    (
-                        $.map(methods, function (method) {
-                            return $('<li/>').html(SS.decorate(method));
-                        })
+                        $('<button/>')
+                        .attr('type', 'button')
+                        .addClass("btn btn-primary dropdown-toggle")
+                        .attr('data-toggle', 'dropdown')
+                        .append
+                        (
+                            $('<span/>')
+                            .addClass('caret')
+                        ),
+                        $('<ul/>')
+                        .addClass('dropdown-menu dropdown-menu-right')
+                        .append
+                        (
+                            $.map(methods, function (method) {
+                                return $('<li/>').html(SS.decorate(method));
+                            })
+                        )
                     )
                 );
-
-                $('#method')
-                .removeClass('col-md-12').addClass('col-md-11');
             }
 
             // jiggle
