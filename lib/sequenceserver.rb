@@ -62,7 +62,7 @@ module SequenceServer
         puts '** SequenceServer is ready.'
         puts "   Go to #{server_url} in your browser and start BLASTing!"
         puts '   Press CTRL+C to quit.'
-        open_default_browser(server_url)
+        open_in_browser(server_url)
         [:INT, :TERM].each do |sig|
           trap sig do
             server.stop!
@@ -190,12 +190,12 @@ module SequenceServer
       "http://#{host}:#{config[:port]}"
     end
 
-    def open_default_browser(url)
+    def open_in_browser(server_url)
       return if using_ssh? || verbose?
       if RUBY_PLATFORM =~ /linux/ && xdg?
-        `xdg-open #{url}`
+        `xdg-open #{server_url}`
       elsif RUBY_PLATFORM =~ /darwin/
-        `open #{url}`
+        `open #{server_url}`
       end
     end
 
