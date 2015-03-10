@@ -51,7 +51,6 @@ module SequenceServer
     # Run SequenceServer as a self-hosted server using Thin webserver.
     def run
       check_host
-      url = "http://#{config[:host]}:#{config[:port]}"
       server = Thin::Server.new(config[:host],
                                 config[:port],
                                 :signals => false) do
@@ -61,9 +60,9 @@ module SequenceServer
       server.silent = true
       server.backend.start do
         puts '** SequenceServer is ready.'
-        puts "   Go to #{url} in your browser and start BLASTing!"
+        puts "   Go to #{server_url} in your browser and start BLASTing!"
         puts '   Press CTRL+C to quit.'
-        open_default_browser(url)
+        open_default_browser(server_url)
         [:INT, :TERM].each do |sig|
           trap sig do
             server.stop!
@@ -77,7 +76,7 @@ module SequenceServer
       end
     rescue
       puts '** Oops! There was an error.'
-      puts "   Is SequenceServer already accessible at #{url}?"
+      puts "   Is SequenceServer already accessible at #{server_url}?"
       puts '   Try running SequenceServer on another port, like so:'
       puts
       puts '       sequenceserver -p 4570.'
@@ -183,6 +182,14 @@ module SequenceServer
       version = `blastdbcmd -version`.split[1]
       fail BLAST_NOT_EXECUTABLE if !$CHILD_STATUS.success? || version.empty?
       fail BLAST_NOT_COMPATIBLE, version unless version >= MINIMUM_BLAST_VERSION
+    end
+
+    def server_url
+      if config[:host] == '127.0.0.1' || config[:host] == '0.0.0.0'
+        "http://localhost:#{config[:port]}"
+      else
+        "http://#{config[:host]}:#{config[:port]}"
+      end
     end
 
     def open_default_browser(url)
