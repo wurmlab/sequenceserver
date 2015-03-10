@@ -368,7 +368,7 @@ svg:not(:root) {
 }
 
 .hsps {
-  margin-top: 14px;
+  padding-bottom: 14px;
 }
 .hsp-stats>thead>tr>th {
   border-bottom: none;
@@ -389,7 +389,6 @@ svg:not(:root) {
 }
 
 .hit-links {
-  padding: 14px 0;
   letter-spacing: 1px;
 }
 
