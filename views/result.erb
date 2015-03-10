@@ -82,9 +82,24 @@
                 <div
                   class="page-content collapse in"
                   id="<%="Query_#{query.number}_hit_#{hit.number}_alignment"%>">
-                  <p>
-                    Hit length: <%= hit.length %>, Number of HSP(s): <%= hit.hsps.length %>
-                  </p>
+                  <div
+                    class="row">
+                    <div
+                      class="col-md-4">
+                      Hit length: <%= hit.length %>, Number of HSP(s): <%= hit.hsps.length %>
+                    </div>
+                    <div
+                      class="hit-links text-right col-md-8">
+                      <label>
+                        <input
+                        type="checkbox" value="<%= hit.accession %>" data-target="<%= "#Query_#{query.number}_hit_#{hit.number}" %>">
+                        Select
+                      </label>
+                      <% hit.links.each do |link| %>
+                        | <%= a link %>
+                      <% end %>
+                    </div>
+                  </div>
                   <% hit.hsps.each do |hsp| %>
                     <div
                       class="hsps" id="<%="Query_#{query.number}_hit_#{hit.number}_#{hsp.number}"%>"
@@ -94,13 +109,17 @@
                         class="table table-condensed hsp-stats">
                         <thead>
                           <% hsp.stats.keys.each do |key| %>
-                            <th> <%= key %> </th>
+                            <th>
+                              <%= key %>
+                            </th>
                           <% end %>
                         </thead>
                         <tbody>
                           <tr>
                             <% hsp.stats.values.each do |value| %>
-                              <td> <%= prettify value %> </th>
+                              <td>
+                                <%= prettify value %>
+                              </th>
                             <% end %>
                           </tr>
                         </tbody>
@@ -108,16 +127,6 @@
                       <div class="alignment"><%= hsp.pp %></div>
                     </div>
                   <% end %>
-                  <div class="hit-links text-right">
-                    <label>
-                      <input
-                      type="checkbox" value="<%= hit.accession %>" data-target="<%= "#Query_#{query.number}_hit_#{hit.number}" %>">
-                      Select
-                    </label>
-                    <% hit.links.each do |link| %>
-                      | <%= a link %>
-                    <% end %>
-                  </div>
                 </div>
               </div>
             <% end %>

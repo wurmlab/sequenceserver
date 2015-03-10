@@ -737,7 +737,7 @@ $(document).ready(function(){
             SS.showSequenceViewer(event.target);
     });
 
-    $(document).on('change', '.hit-links :checkbox', function (event) {
+    $(document).on('change', '.hitn :checkbox', function (event) {
         event.stopPropagation();
         SS.selectHit(this);
     });
