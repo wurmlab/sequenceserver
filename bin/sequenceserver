@@ -334,6 +334,24 @@ MSG
             exit! unless set?
           end
         end
+
+      rescue => e
+        # This will catch any unhandled error and some very special errors.
+        # Ideally we will never hit this block. If we do, there's a bug in
+        # SequenceServer or something really weird going on. If we hit this
+        # error block we show the stacktrace to the user requesting them to
+        # post the same to our Google Group.
+        puts <<MSG
+Something went wonky
+
+Looks like you have encountered a bug in SequenceServer. Please could you
+report this incident to our Google Group -
+https://groups.google.com/forum/?fromgroups#!forum/sequenceserver
+
+Error:
+#{e.backtrace.unshift(e.message).join("\n")}
+MSG
+        exit
       end
 
       if interactive?
