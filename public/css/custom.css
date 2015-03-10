@@ -367,13 +367,7 @@ svg:not(:root) {
   margin-bottom: 0;
 }
 
-.hsps {
-  margin-top: 14px;
-}
-.hsps:first-child {
-  margin-top: 24px;
-}
-.hsps:last-child {
+.hsps-table {
   padding-bottom: 14px;
 }
 .hsp-stats>thead>tr>th {

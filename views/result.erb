@@ -86,7 +86,7 @@
                     class="row">
                     <div
                       class="col-md-4">
-                      Hit length: <%= hit.length %>, Number of HSP(s): <%= hit.hsps.length %>
+                      Hit length: <%= hit.length %>
                     </div>
                     <div
                       class="hit-links text-right col-md-8">
@@ -100,33 +100,45 @@
                       <% end %>
                     </div>
                   </div>
-                  <% hit.hsps.each do |hsp| %>
-                    <div
-                      class="hsps" id="<%="Query_#{query.number}_hit_#{hit.number}_#{hsp.number}"%>"
-                      data-hsp-evalue="<%= hsp.evalue %>" data-hsp-start="<%= hsp.qstart %>"
-                      data-hsp-end="<%= hsp.qend %>" data-hsp-frame="<%= hsp.sframe %>">
-                      <table
-                        class="table table-condensed hsp-stats">
-                        <thead>
-                          <% hsp.stats.keys.each do |key| %>
-                            <th>
-                              <%= key %>
-                            </th>
-                          <% end %>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <% hsp.stats.values.each do |value| %>
-                              <td>
-                                <%= prettify value %>
-                              </th>
-                            <% end %>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div class="alignment"><%= hsp.pp %></div>
-                    </div>
-                  <% end %>
+                  <table
+                    class="table hsps-table">
+                    <tbody>
+                      <% hit.hsps.each do |hsp| %>
+                        <tr>
+                          <td>
+                            <%= hsp.number %>.
+                          </td>
+                          <td>
+                            <div
+                              class="hsps" id="<%="Query_#{query.number}_hit_#{hit.number}_#{hsp.number}"%>"
+                              data-hsp-evalue="<%= hsp.evalue %>" data-hsp-start="<%= hsp.qstart %>"
+                              data-hsp-end="<%= hsp.qend %>" data-hsp-frame="<%= hsp.sframe %>">
+                              <table
+                                class="table table-condensed hsp-stats">
+                                <thead>
+                                  <% hsp.stats.keys.each do |key| %>
+                                    <th>
+                                      <%= key %>
+                                    </th>
+                                  <% end %>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <% hsp.stats.values.each do |value| %>
+                                      <td>
+                                        <%= prettify value %>
+                                      </th>
+                                    <% end %>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <div class="alignment"><%= hsp.pp %></div>
+                            </div>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             <% end %>
