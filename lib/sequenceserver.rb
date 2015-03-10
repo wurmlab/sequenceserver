@@ -185,11 +185,9 @@ module SequenceServer
     end
 
     def server_url
-      if config[:host] == '127.0.0.1' || config[:host] == '0.0.0.0'
-        "http://localhost:#{config[:port]}"
-      else
-        "http://#{config[:host]}:#{config[:port]}"
-      end
+      host = config[:host]
+      host = 'localhost' if host == '127.0.0.1' || host == '0.0.0.0'
+      "http://#{host}:#{config[:port]}"
     end
 
     def open_default_browser(url)
