@@ -116,7 +116,7 @@
         hitPanels.map(function () {
             var $this = $(this);
             var _hsps = [];
-            $this.find('.hsps').each(function () {
+            $this.find('.hsp').each(function () {
                 var __hsps = [];
                 __hsps = $(this).data();
                 __hsps.hspId = this.id;
@@ -286,7 +286,7 @@
                         var p_count = d.length;
 
                         d3.select(this)
-                        .selectAll('.hsps')
+                        .selectAll('.hsp')
                         .data(d).enter()
                         .append('a')
                         .each(function (_, j) {
