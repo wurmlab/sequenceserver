@@ -68,7 +68,7 @@ $.webshims.polyfill('forms');
             var modal = $(this).data('bs.modal');
             if (modal) {
                 active = modal.isShown;
-                return !active
+                return !active;
             }
         });
         return active;
@@ -593,7 +593,7 @@ $(document).ready(function(){
             var title = "Click to BLAST or press Ctrl+Enter.";
             if ($(this).siblings().length !== 0) {
                 title += " Click dropdown button on the right for other" +
-                         " BLAST algorithms that can be used."
+                         " BLAST algorithms that can be used.";
             }
             return title;
         },
@@ -601,7 +601,7 @@ $(document).ready(function(){
             show: 1000,
             hide: 0
         }
-    })
+    });
 
     // Handles the form submission when Ctrl+Enter is pressed anywhere on page
     $(document).bind("keydown", function (e) {
