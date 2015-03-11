@@ -1,3 +1,4 @@
+/** Override Bootstrap. **/
 body {
   font-size: 13px;
   font-family: "Open sans", "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -15,14 +16,6 @@ h5 {
 table,blockquote {
   font-size: 13px;
 }
-.navbar-brand {
-  font-size: 24px;
-  line-height: 14px;
-}
-.navbar-brand small {
-  font-size: 50%;
-}
-
 kbd {
   padding: 2px 4px;
   font-size: 90%;
@@ -32,32 +25,40 @@ kbd {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-
 kbd, code {
   color: inherit;
 }
-
 pre {
   border: none;
 }
-
 dl dd {
   padding-bottom: 10px;
 }
+.navbar-brand {
+  font-size: 24px;
+  line-height: 14px;
+}
+.navbar-brand small {
+  font-size: 50%;
+}
+.thumbnail {
+  margin-bottom: 5px;
+}
 
+/** Extend Bootstrap. **/
+.nowrap {
+  white-space: nowrap;
+}
+
+/** Site specific. **/
 .sidebar {
   padding-top: 10px;
 }
-
 .main {
   background-color:white;
   padding: 0 20 0 20px;
 }
-
 section {
   padding-top: 50px;
   margin-top: -50px;
-}
-.nowrap {
-  white-space: nowrap;
 }
