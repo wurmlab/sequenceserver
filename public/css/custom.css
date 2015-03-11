@@ -276,6 +276,15 @@ a.disabled:hover {
 label[for="advanced"] {
   font-family: "Roboto";
   font-size: 16px;
+  display: table-cell;
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 5px 12px 5px 0;
+}
+input[name="advanced"] {
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
 }
 
 #methods{
