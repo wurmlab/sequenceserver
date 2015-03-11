@@ -109,10 +109,8 @@ BANNER
 
     run do
       if version?
-        gemspec_file = File.join(File.dirname(__FILE__), '..',
-                                 'sequenceserver.gemspec')
-        gemspec = eval File.read gemspec_file
-        puts gemspec.version
+        require 'sequenceserver/version'
+        puts SequenceServer::VERSION
         exit
       end
 

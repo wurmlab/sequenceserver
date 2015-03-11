@@ -1,6 +1,7 @@
 require 'English'
 require 'thin'
 
+require 'sequenceserver/version'
 require 'sequenceserver/exceptions'
 require 'sequenceserver/config'
 require 'sequenceserver/logger'

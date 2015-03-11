@@ -1,7 +1,9 @@
+require File.expand_path('lib/sequenceserver/version.rb',
+                         File.dirname(__FILE__))
 Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
-  s.version     = '1.0.0'
+  s.version     = SequenceServer::VERSION
   s.authors     = ['Anurag Priyam', 'Ben J Woodcroft',
                    'Vivek Rai', 'Yannick Wurm']
   s.email       = ['anurag08priyam@gmail.com', 'b.woodcroft@uq.edu.au']

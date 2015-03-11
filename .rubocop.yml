@@ -25,10 +25,6 @@ Metrics/BlockNesting:
     #   Fix in bin/sequenceserver and re-enable.
     - 'bin/sequenceserver'
 
-Lint/Eval:
-  # Used only once. Is rather safe.
-  Enabled: false
-
 Style/UnlessElse:
   # TODO:
   #   Fix in bin/sequenceserver and re-enable.
