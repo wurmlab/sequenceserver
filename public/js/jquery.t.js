@@ -16,16 +16,21 @@
         });
     };
 
-    var setupResponsiveness = function ($graphDiv) {
-        var chart = $graphDiv.find('svg'),
-            aspect = chart.width() / chart.height(),
-            container = chart.parent();
-
-        $(window).on("resize", function() {
-            var targetWidth = container.width();
-            chart.attr("width", targetWidth);
-            chart.attr("height", Math.round(targetWidth / aspect));
-        }).trigger("resize");
+    var debounce = function(fn, timeout) {
+      var timeoutID = -1;
+      return function() {
+        if (timeoutID > -1) {
+          window.clearTimeout(timeoutID);
+        }
+        timeoutID = window.setTimeout(fn, timeout);
+      }
+    };
+   
+    var setupResponsiveness = function ($queryDiv, $graphDiv, index, howMany, opts)  {
+        var debounced_draw = debounce(function() {
+            $.graphIt($queryDiv, $graphDiv, index, howMany, opts, 1);
+        }, 125);
+        $(window).resize(debounced_draw);
     };
 
     var graphControls = function ($queryDiv, $graphDiv, isInit) {
@@ -186,7 +191,7 @@
      * are provided by the calling function.
      */
     $.extend({
-        graphIt: function ($queryDiv, $graphDiv, index, howMany, opts) {
+        graphIt: function ($queryDiv, $graphDiv, index, howMany, opts, resize) {
             /* barHeight: Height of each hit track.
              * barPadding: Padding around each hit track.
              * legend: Height reserved for the overview legend.
@@ -204,7 +209,7 @@
             // Don't draw anything when no hits are obtained.
             if (hits.length < 1) return false;
 
-            if (index !== 0) {
+            if (index !== 0 || resize === 1) {
                 // Currently, we have no good way to extend pre-existing graph
                 // and hence, are removing the old one and redrawing.
                 $graphDiv.find('svg').remove();
@@ -217,8 +222,6 @@
             var height = hits.length * (options.barHeight + options.barPadding) +
                 5 * options.margin + options.legend * 3;
 
-            var viewBox = '0 0 ' + width.toString() + ' ' + height.toString();
-
             var svg = d3.select($graphDiv[0])
                 .selectAll('svg')
                 .data([hits])
@@ -226,8 +229,6 @@
                 .insert('svg', ':first-child')
                     .attr('width', width)
                     .attr('height', height)
-                    .attr('viewBox', viewBox)
-                    .attr('preserveAspectRatio', 'xMidYMid')
                 .append('g')
                     .attr('transform', 'translate(' + options.margin / 4 + ', ' + options.margin / 4 + ')');
 
@@ -356,7 +357,7 @@
             }
             // Bind listener events once all the graphical elements have
             // been drawn for first time.
-            if (index === 0) {
+            if (index === 0 && resize !== 1 ) {
                 graphControls($queryDiv, $graphDiv, true);
             }
             // Refresh tooltip each time graph is redrawn.
@@ -364,8 +365,8 @@
             // Ensure clicking on 'rect' takes user to the relevant hit on all
             // browsers.
             setupClick($graphDiv);
-            // Make the SVG responsive...
-            setupResponsiveness($graphDiv);
+            // Redraw the graph on a browser resize...
+            setupResponsiveness($queryDiv, $graphDiv, index, howMany, opts, resize);
         }
     });
 }(jQuery));
