@@ -16,6 +16,18 @@
         });
     };
 
+    var setupResponsiveness = function ($graphDiv) {
+        var chart = $graphDiv.find('svg'),
+            aspect = chart.width() / chart.height(),
+            container = chart.parent();
+
+        $(window).on("resize", function() {
+            var targetWidth = container.width();
+            chart.attr("width", targetWidth);
+            chart.attr("height", Math.round(targetWidth / aspect));
+        }).trigger("resize");
+    };
+
     var graphControls = function ($queryDiv, $graphDiv, isInit) {
         var MIN_HITS_TO_SHOW = 20;
 
@@ -205,6 +217,8 @@
             var height = hits.length * (options.barHeight + options.barPadding) +
                 5 * options.margin + options.legend * 3;
 
+            var viewBox = '0 0 ' + width.toString() + ' ' + height.toString();
+
             var svg = d3.select($graphDiv[0])
                 .selectAll('svg')
                 .data([hits])
@@ -212,6 +226,8 @@
                 .insert('svg', ':first-child')
                     .attr('width', width)
                     .attr('height', height)
+                    .attr('viewBox', viewBox)
+                    .attr('preserveAspectRatio', 'xMidYMid')
                 .append('g')
                     .attr('transform', 'translate(' + options.margin / 4 + ', ' + options.margin / 4 + ')');
 
@@ -348,6 +364,8 @@
             // Ensure clicking on 'rect' takes user to the relevant hit on all
             // browsers.
             setupClick($graphDiv);
+            // Make the SVG responsive...
+            setupResponsiveness($graphDiv);
         }
     });
 }(jQuery));
