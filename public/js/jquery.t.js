@@ -16,12 +16,15 @@
         });
     };
 
-    var setupResponsiveness = function ($queryDiv, $graphDiv, opts)  {
+    var setupResponsiveness = function ($queryDiv, $graphDiv, index, opts)  {
         var debounced_draw = _.debounce(function () {
             var shownHits = $queryDiv.find('.ghit > g').length;
             $.graphIt($queryDiv, $graphDiv, shownHits, 0, opts);
         }, 125);
-        $(window).resize(debounced_draw);
+        // Bind resize event only when the SVG is created for the first time.
+        if (index === 0) {
+            $(window).resize(debounced_draw);
+        }
     };
 
     var graphControls = function ($queryDiv, $graphDiv, isInit) {
@@ -357,7 +360,7 @@
             // browsers.
             setupClick($graphDiv);
             // Redraw the graph on a browser resize...
-            setupResponsiveness($queryDiv, $graphDiv, opts);
+            setupResponsiveness($queryDiv, $graphDiv, index, opts);
         }
     });
 }(jQuery));
