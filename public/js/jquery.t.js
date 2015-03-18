@@ -16,6 +16,24 @@
         });
     };
 
+    var setupResponsiveness = function ($queryDiv, $graphDiv, opts)  {
+        var debounce = function (fn, timeout) {
+          var timeoutID = -1;
+          return function () {
+            if (timeoutID > -1) {
+              window.clearTimeout(timeoutID);
+            }
+            timeoutID = window.setTimeout(fn, timeout);
+          };
+        };
+
+        var debounced_draw = debounce(function () {
+            var shownHits = $queryDiv.find('.ghit > g').length;
+            $.graphIt($queryDiv, $graphDiv, shownHits, 0, opts);
+        }, 125);
+        $(window).resize(debounced_draw);
+    };
+
     var graphControls = function ($queryDiv, $graphDiv, isInit) {
         var MIN_HITS_TO_SHOW = 20;
 
@@ -348,6 +366,8 @@
             // Ensure clicking on 'rect' takes user to the relevant hit on all
             // browsers.
             setupClick($graphDiv);
+            // Redraw the graph on a browser resize...
+            setupResponsiveness($queryDiv, $graphDiv, opts);
         }
     });
 }(jQuery));
