@@ -17,17 +17,7 @@
     };
 
     var setupResponsiveness = function ($queryDiv, $graphDiv, opts)  {
-        var debounce = function (fn, timeout) {
-          var timeoutID = -1;
-          return function () {
-            if (timeoutID > -1) {
-              window.clearTimeout(timeoutID);
-            }
-            timeoutID = window.setTimeout(fn, timeout);
-          };
-        };
-
-        var debounced_draw = debounce(function () {
+        var debounced_draw = _.debounce(function () {
             var shownHits = $queryDiv.find('.ghit > g').length;
             $.graphIt($queryDiv, $graphDiv, shownHits, 0, opts);
         }, 125);
