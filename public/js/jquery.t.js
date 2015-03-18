@@ -16,19 +16,20 @@
         });
     };
 
-    var debounce = function(fn, timeout) {
-      var timeoutID = -1;
-      return function() {
-        if (timeoutID > -1) {
-          window.clearTimeout(timeoutID);
-        }
-        timeoutID = window.setTimeout(fn, timeout);
-      }
-    };
-   
-    var setupResponsiveness = function ($queryDiv, $graphDiv, index, howMany, opts)  {
-        var debounced_draw = debounce(function() {
-            $.graphIt($queryDiv, $graphDiv, index, howMany, opts, 1);
+    var setupResponsiveness = function ($queryDiv, $graphDiv, opts)  {
+        var debounce = function (fn, timeout) {
+          var timeoutID = -1;
+          return function () {
+            if (timeoutID > -1) {
+              window.clearTimeout(timeoutID);
+            }
+            timeoutID = window.setTimeout(fn, timeout);
+          };
+        };
+
+        var debounced_draw = debounce(function () {
+            var shownHits = $queryDiv.find('.ghit > g').length;
+            $.graphIt($queryDiv, $graphDiv, shownHits, 0, opts);
         }, 125);
         $(window).resize(debounced_draw);
     };
@@ -191,7 +192,7 @@
      * are provided by the calling function.
      */
     $.extend({
-        graphIt: function ($queryDiv, $graphDiv, index, howMany, opts, resize) {
+        graphIt: function ($queryDiv, $graphDiv, index, howMany, opts) {
             /* barHeight: Height of each hit track.
              * barPadding: Padding around each hit track.
              * legend: Height reserved for the overview legend.
@@ -209,7 +210,7 @@
             // Don't draw anything when no hits are obtained.
             if (hits.length < 1) return false;
 
-            if (index !== 0 || resize === 1) {
+            if (index !== 0) {
                 // Currently, we have no good way to extend pre-existing graph
                 // and hence, are removing the old one and redrawing.
                 $graphDiv.find('svg').remove();
@@ -357,7 +358,7 @@
             }
             // Bind listener events once all the graphical elements have
             // been drawn for first time.
-            if (index === 0 && resize !== 1 ) {
+            if (index === 0) {
                 graphControls($queryDiv, $graphDiv, true);
             }
             // Refresh tooltip each time graph is redrawn.
@@ -366,7 +367,7 @@
             // browsers.
             setupClick($graphDiv);
             // Redraw the graph on a browser resize...
-            setupResponsiveness($queryDiv, $graphDiv, index, howMany, opts, resize);
+            setupResponsiveness($queryDiv, $graphDiv, opts);
         }
     });
 }(jQuery));
