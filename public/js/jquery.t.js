@@ -19,12 +19,9 @@
     var setupResponsiveness = function ($queryDiv, $graphDiv, index, opts)  {
         var debounced_draw = _.debounce(function () {
             var shownHits = $queryDiv.find('.ghit > g').length;
-            $.graphIt($queryDiv, $graphDiv, shownHits, 0, opts);
+            $.graphIt($queryDiv, $graphDiv, shownHits, index, opts);
         }, 125);
-        // Bind resize event only when the SVG is created for the first time.
-        if (index === 0) {
-            $(window).resize(debounced_draw);
-        }
+        $(window).resize(debounced_draw);
     };
 
     var graphControls = function ($queryDiv, $graphDiv, isInit) {
@@ -353,14 +350,14 @@
             // been drawn for first time.
             if (index === 0) {
                 graphControls($queryDiv, $graphDiv, true);
+                // Redraw the SVG on a browser resize...
+                setupResponsiveness($queryDiv, $graphDiv, index, opts);
             }
             // Refresh tooltip each time graph is redrawn.
             setupTooltip();
             // Ensure clicking on 'rect' takes user to the relevant hit on all
             // browsers.
             setupClick($graphDiv);
-            // Redraw the graph on a browser resize...
-            setupResponsiveness($queryDiv, $graphDiv, index, opts);
         }
     });
 }(jQuery));
