@@ -17,9 +17,13 @@
     };
 
     var setupResponsiveness = function ($queryDiv, $graphDiv, index, opts)  {
+        var currentWidth = $(window).width();
         var debounced_draw = _.debounce(function () {
-            var shownHits = $queryDiv.find('.ghit > g').length;
-            $.graphIt($queryDiv, $graphDiv, shownHits, index, opts);
+            if (currentWidth !== $(window).width()) {
+                var shownHits = $queryDiv.find('.ghit > g').length;
+                $.graphIt($queryDiv, $graphDiv, shownHits, index, opts);
+                currentWidth = $(window).width();
+            }
         }, 125);
         $(window).resize(debounced_draw);
     };
