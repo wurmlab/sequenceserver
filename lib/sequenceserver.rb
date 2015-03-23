@@ -1,10 +1,10 @@
 require 'English'
-require 'thin'
 
 require 'sequenceserver/version'
 require 'sequenceserver/exceptions'
 require 'sequenceserver/config'
 require 'sequenceserver/logger'
+require 'sequenceserver/server'
 require 'sequenceserver/search'
 require 'sequenceserver/sequence'
 require 'sequenceserver/database'
@@ -14,7 +14,7 @@ require 'sequenceserver/routes'
 # Top level module / namespace.
 module SequenceServer
   # Use a fixed minimum version of BLAST+
-  MINIMUM_BLAST_VERSION           = '2.2.30+'
+  MINIMUM_BLAST_VERSION = '2.2.30+'
 
   class << self
     def environment
@@ -52,35 +52,33 @@ module SequenceServer
     # Run SequenceServer as a self-hosted server using Thin webserver.
     def run
       check_host
-      server = Thin::Server.new(config[:host],
-                                config[:port],
-                                :signals => false) do
-        use Rack::CommonLogger if SequenceServer.verbose?
-        run SequenceServer
-      end
-      server.silent = true
-      server.backend.start do
-        puts '** SequenceServer is ready.'
-        puts "   Go to #{server_url} in your browser and start BLASTing!"
-        puts '   Press CTRL+C to quit.'
-        open_in_browser(server_url)
-        [:INT, :TERM].each do |sig|
-          trap sig do
-            server.stop!
-            puts
-            puts '** Thank you for using SequenceServer :).'
-            puts '   Please cite: '
-            puts '             Priyam, Woodcroft, Rai & Wurm,'
-            puts '             SequenceServer (in prep).'
-          end
-        end
-      end
-    rescue
-      puts '** Oops! There was an error.'
+      Server.run(self)
+    rescue Errno::EADDRINUSE
+      puts "** Could not bind to port #{config[:port]}."
       puts "   Is SequenceServer already accessible at #{server_url}?"
-      puts '   Try running SequenceServer on another port, like so:'
+      puts '   No? Try running SequenceServer on another port, like so:'
       puts
       puts '       sequenceserver -p 4570.'
+    rescue Errno::EACCES
+      puts "** Need root privilege to bind to port #{config[:port]}."
+      puts '   It is not advisable to run SequenceServer as root.'
+      puts '   Please use Apache/Nginx to bind to a privileged port.'
+      puts '   Instructions available on http://sequenceserver.com.'
+    end
+
+    def on_start
+      puts '** SequenceServer is ready.'
+      puts "   Go to #{server_url} in your browser and start BLASTing!"
+      puts '   Press CTRL+C to quit.'
+      open_in_browser(server_url)
+    end
+
+    def on_stop
+      puts
+      puts '** Thank you for using SequenceServer :).'
+      puts '   Please cite: '
+      puts '             Priyam, Woodcroft, Rai & Wurm,'
+      puts '             SequenceServer (in prep).'
     end
 
     # Rack-interface.
