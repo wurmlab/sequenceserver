@@ -32,6 +32,14 @@ cd sequenceserver
 gem install bundler && bundle
 ```
 
+We use Capybara with WebKit driver for functional testing. If the above step
+fails, install `qt` (On Mac: `brew install qt`) and run `bundle` again.
+
+If you are deploying SequenceServer from git (not advised) you can skip
+installing development dependencies (and `qt`) by running
+
+    bundle install --without=development
+
 ###### Node
 ```
 npm install
