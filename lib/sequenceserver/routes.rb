@@ -19,16 +19,12 @@ module SequenceServer
       # Make it a policy to dump to 'rack.errors' any exception raised by the
       # app so that error handlers don't have to do it themselves. But for it
       # to always work, Exceptions defined by us should not respond to `code`
-      # or http_status` methods. Error blocks errors must explicitly set http
+      # or `http_status` methods. Error blocks must explicitly set http
       # status, if needed, by calling `status` method.
-      # method.
       enable :dump_errors
 
       # We don't want Sinatra do setup any loggers for us. We will use our own.
       set :logging, nil
-
-      # Public, and views directory will be found here.
-      set :root,    lambda { SequenceServer.root }
     end
 
     # See
@@ -37,6 +33,21 @@ module SequenceServer
       mime_type :fasta, 'text/fasta'
       mime_type :xml,   'text/xml'
       mime_type :tsv,   'text/tsv'
+    end
+
+    configure do
+      # Public, and views directory will be found here.
+      set :root, lambda { SequenceServer.root }
+
+      # Allow :frame_options to be configured for Rack::Protection.
+      #
+      # By default _any website_ can embed SequenceServer in an iframe. To
+      # change this, set `:frame_options` config to :deny, :sameorigin, or
+      # 'ALLOW-FROM uri'.
+      set :protection, lambda {
+        frame_options = SequenceServer.config[:frame_options]
+        frame_options && {:frame_options => frame_options}
+      }
     end
 
     configure :production do
