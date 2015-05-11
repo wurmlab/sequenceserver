@@ -113,9 +113,10 @@ module SequenceServer
 
       def throw_scan_error(cmd, out, err, child_status)
         errpat = /BLAST Database error/
+        if !child_status.success? || err.match(errpat)
+          fail BLAST_DATABASE_ERROR.new(cmd, err)
+        end
         fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
-        fail BLAST_DATABASE_ERROR.new(cmd, err) if !child_status.success? ||
-                                                   err.match(errpat)
       end
 
       # Recursively scan `database_dir` for un-formatted FASTA and format them
