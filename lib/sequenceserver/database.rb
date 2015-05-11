@@ -106,8 +106,13 @@ module SequenceServer
           out.each_line do |line|
             name = line.split('	')[0]
             next if multipart_database_name?(name)
-            self << Database.new(*line.split('	'))
+            begin
+              self << Database.new(*line.split('	'))
+            rescue NoMethodError => e
+              err << "BLAST Database error:\n#{e}\n#{line}"
+            end
           end
+          throw_scan_error(cmd, out, err, $CHILD_STATUS)
         end
       end
 
