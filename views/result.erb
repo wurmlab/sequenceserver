@@ -40,6 +40,7 @@
               <thead>
                 <th class="text-left"> Number </th>
                 <th>Sequences producing significant alignments</th>
+                <th class="text-right"> Length </th>
                 <th class="text-right"> Total score </th>
                 <th class="text-right"> E value </th>
               </thead>
@@ -50,6 +51,7 @@
                   <td> <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>"><%= "#{hit.id}" %></a> </td>
                   <td class="text-right"><%= prettify hit.score  %></td>
                   <td class="text-right"><%= prettify hit.evalue %></td>
+                  <td class="text-right"><%= prettify hit.length %></td>
                 </tr>
               <% end %>
               </tbody>
