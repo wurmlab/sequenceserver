@@ -26,7 +26,7 @@ module SequenceServer
       def links
         links = Links.instance_methods.map { |m| send m }
         links.compact!
-        links.sort_by { |link| link[:order] }
+        links.sort_by { |link| [link[:order], link[:title]] }
       end
 
       # Returns an array of database objects which contain the queried sequence
