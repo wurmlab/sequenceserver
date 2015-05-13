@@ -8,7 +8,8 @@ module SequenceServer
     #
     alias_method :encode, :url_encode
 
-    NCBI_ID_PATTERN = /gi\|(\d+)\|/
+    NCBI_ID_PATTERN    = /gi\|(\d+)\|/
+    UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
 
     # Link generators return a Hash like below.
     #
@@ -97,6 +98,19 @@ module SequenceServer
       {
         :order => 2,
         :title => 'NCBI',
+        :url   => url,
+        :icon  => 'fa-external-link'
+      }
+    end
+
+    def uniprot
+      return nil unless id.match(UNIPROT_ID_PATTERN)
+      uniprot_id = Regexp.last_match[1]
+      uniprot_id = encode uniprot_id
+      url = "http://www.uniprot.org/uniprot/#{uniprot_id}"
+      {
+        :order => 2,
+        :title => 'Uniprot',
         :url   => url,
         :icon  => 'fa-external-link'
       }
