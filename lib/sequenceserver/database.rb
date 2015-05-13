@@ -188,8 +188,8 @@ module SequenceServer
       def get_database_title(path)
         default = make_db_title(File.basename(path))
         print "Enter a database title or will use '#{default}': "
-        from_user = STDIN.gets.to_s
-        from_user.strip.empty? && default || from_user
+        from_user = STDIN.gets.to_s.strip
+        from_user.empty? && default || from_user
       end
 
       # Returns true if the database name appears to be a multi-part database
