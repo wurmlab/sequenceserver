@@ -11,7 +11,7 @@ module SequenceServer
     # RuntimeError is raised when BLAST+'s exits status is one of 2, 3, 4, or
     # 255; see [1].  These are rare, infrastructure errors, used internally,
     # and of concern only to the admins/developers.
-    class RuntimeError  < RuntimeError
+    class RuntimeError < RuntimeError
       def initialize(status, message)
         @status  = status
         @message = message
