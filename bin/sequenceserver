@@ -385,16 +385,15 @@ MSG
       end
 
       if download_taxdb?
-         url = 'ftp://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz'
-         archive = File.join('/tmp', File.basename(url))
-         cmd = "curl -ip4 -C - #{url} -o #{archive} && "    \
+        url = 'ftp://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz'
+        archive = File.join('/tmp', File.basename(url))
+        cmd = "curl -ip4 -C - #{url} -o #{archive} && "    \
                  'mkdir -p ~/.sequenceserver && '             \
                  "tar xvf #{archive} -C ~/.sequenceserver"
-         puts cmd
-         system cmd
-          puts
-          puts "taxdb downloaded!"
-          exit
+        system cmd
+        puts
+        puts 'taxdb downloaded!'
+        exit
       end
 
       if set?

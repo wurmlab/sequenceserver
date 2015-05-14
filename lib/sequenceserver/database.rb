@@ -159,16 +159,17 @@ module SequenceServer
       def make_blast_database(file, type)
         return unless make_blast_database? file, type
         title = get_database_title(file)
-        taxid = get_tax_id
-        #If user chooses not to enter Tax ID , zero is taken as the default value
+        taxid = fetch_tax_id
+        # If user chooses not to enter Tax ID , zero is taken
+        # as the default value
         taxid = 0 if taxid.match(/n/i)
-        # puts "Tax ID is: #{taxid}"
         _make_blast_database(file, type, title, taxid)
-       end
+      end
 
       def _make_blast_database(file, type, title, taxid, quiet = false)
         cmd = 'makeblastdb -parse_seqids -hash_index ' \
-              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}' -taxid #{taxid}"
+              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
+              "-taxid #{taxid}"
         cmd << ' &> /dev/null' if quiet
         system cmd
       end
@@ -193,15 +194,17 @@ module SequenceServer
       # Returns user input if any. Auto-generated title otherwise.
       def get_database_title(path)
         default = make_db_title(File.basename(path))
-        print "Enter a database title or will use '#{default}': "
+        print 'Enter a database title or will use #{default}: '
         from_user = STDIN.gets.to_s.strip
         from_user.empty? && default || from_user
       end
 
       # Getting Tax ID from the user
-      def get_tax_id
-          print "Enter the Tax ID(If taxonomy classification is not required: n)"
-          response_user = STDIN.gets.to_s
+      def fetch_tax_id
+        print 'Enter the Tax ID(If taxonomy classification' \
+              'is not required: n): '
+        response_user = STDIN.gets.to_s
+        response_user.strip
       end
 
       # Returns true if the database name appears to be a multi-part database
