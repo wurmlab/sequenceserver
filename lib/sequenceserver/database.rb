@@ -159,12 +159,14 @@ module SequenceServer
       def make_blast_database(file, type)
         return unless make_blast_database? file, type
         title = get_database_title(file)
-        _make_blast_database(file, type, title)
+        taxid = fetch_tax_id
+        _make_blast_database(file, type, title, taxid)
       end
 
-      def _make_blast_database(file, type, title, quiet = false)
+      def _make_blast_database(file, type, title, taxid, quiet = false)
         cmd = 'makeblastdb -parse_seqids -hash_index ' \
-              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'"
+              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
+              " -taxid #{taxid}"
         cmd << ' &> /dev/null' if quiet
         system cmd
       end
@@ -179,7 +181,6 @@ module SequenceServer
         puts "FASTA file: #{file}"
         puts "FASTA type: #{type}"
         print 'Proceed? [y/n] (Default: y): '
-
         response = STDIN.gets.to_s.strip
         !response.match(/n/i)
       end
@@ -193,6 +194,17 @@ module SequenceServer
         print "Enter a database title or will use '#{default}': "
         from_user = STDIN.gets.to_s.strip
         from_user.empty? && default || from_user
+      end
+
+      # Get taxid from the user. Returns user input or 0.
+      #
+      # Using 0 as taxid is equivalent to not setting taxid for the database
+      # that will be created.
+      def fetch_tax_id
+        default = 0
+        print 'Enter taxid (optional): '
+        response_user = STDIN.gets.to_s.strip
+        response_user.empty? && default || response_user
       end
 
       # Returns true if the database name appears to be a multi-part database
