@@ -96,6 +96,8 @@ module SequenceServer
       end
 
       # Recurisvely scan `database_dir` for blast databases.
+      #
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def scan_databases_dir
         cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
               ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
@@ -115,6 +117,7 @@ module SequenceServer
           throw_scan_error(cmd, out, err, $CHILD_STATUS)
         end
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
       def throw_scan_error(cmd, out, err, child_status)
         errpat = /BLAST Database error/

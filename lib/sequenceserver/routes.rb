@@ -46,7 +46,7 @@ module SequenceServer
       # 'ALLOW-FROM uri'.
       set :protection, lambda {
         frame_options = SequenceServer.config[:frame_options]
-        frame_options && {:frame_options => frame_options}
+        frame_options && { :frame_options => frame_options }
       }
     end
 

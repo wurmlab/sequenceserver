@@ -18,7 +18,7 @@ module SequenceServer
 
       def sort_hits_by_evalue!
         # change made here
-        @hits = hits.sort_by{|h| [h.evalue, h.score]}
+        @hits = hits.sort_by { |h| [h.evalue, h.score] }
       end
 
       attr_reader :id, :title

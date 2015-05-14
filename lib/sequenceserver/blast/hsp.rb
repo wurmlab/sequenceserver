@@ -27,6 +27,7 @@ module SequenceServer
       # Returns a Hash of stats common to all BLAST algorithms. Subclasses must
       # update the returned Hash to add relevant stats of their own.
       #
+      # rubocop:disable Metrics/AbcSize
       def stats
         {
           'Score'      => [in_twodecimal(bit_score), score],
@@ -37,6 +38,7 @@ module SequenceServer
                            in_percentage(gaps, length)]
         }
       end
+      # rubocop:enable Metrics/AbcSize
 
       # Returns pretty formatted alignment String.
       #
