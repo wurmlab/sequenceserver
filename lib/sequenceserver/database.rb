@@ -19,7 +19,7 @@ module SequenceServer
   #
   # SequenceServer will always place BLAST database files alongside input FASTA,
   # and use `parse_seqids` option of `makeblastdb` to format databases.
-  Database = Struct.new(:name, :title, :type, :nsequences, :ncharacters,
+  Database = Struct.new(:name, :title, :type, :nsequences, :ncharacters, :taxid,
                         :updated_on) do
     def initialize(*args)
       args[2].downcase!   # database type
@@ -159,12 +159,16 @@ module SequenceServer
       def make_blast_database(file, type)
         return unless make_blast_database? file, type
         title = get_database_title(file)
-        _make_blast_database(file, type, title)
-      end
+        taxid = get_tax_id
+        #If user chooses not to enter Tax ID , zero is taken as the default value
+        taxid = 0 if taxid.match(/n/i)
+        # puts "Tax ID is: #{taxid}"
+        _make_blast_database(file, type, title, taxid)
+       end
 
-      def _make_blast_database(file, type, title, quiet = false)
+      def _make_blast_database(file, type, title, taxid, quiet = false)
         cmd = 'makeblastdb -parse_seqids -hash_index ' \
-              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'"
+              "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}' -taxid #{taxid}"
         cmd << ' &> /dev/null' if quiet
         system cmd
       end
@@ -179,7 +183,6 @@ module SequenceServer
         puts "FASTA file: #{file}"
         puts "FASTA type: #{type}"
         print 'Proceed? [y/n] (Default: y): '
-
         response = STDIN.gets.to_s.strip
         !response.match(/n/i)
       end
@@ -193,6 +196,12 @@ module SequenceServer
         print "Enter a database title or will use '#{default}': "
         from_user = STDIN.gets.to_s.strip
         from_user.empty? && default || from_user
+      end
+
+      # Getting Tax ID from the user
+      def get_tax_id
+          print "Enter the Tax ID(If taxonomy classification is not required: n)"
+          response_user = STDIN.gets.to_s
       end
 
       # Returns true if the database name appears to be a multi-part database
