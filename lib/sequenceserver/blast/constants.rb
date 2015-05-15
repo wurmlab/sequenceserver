@@ -1,4 +1,7 @@
+# Define constants used by SequenceServer module
 module SequenceServer
+  # Constant for denoting the path ~/.sequenceserver
+  DIR = '~/.sequenceserver'
   # Define constanst used by BLAST module.
   module BLAST
     ERROR_LINE = /\(CArgException.*\)\s(.*)/
