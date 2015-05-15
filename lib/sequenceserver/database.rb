@@ -19,7 +19,7 @@ module SequenceServer
   #
   # SequenceServer will always place BLAST database files alongside input FASTA,
   # and use `parse_seqids` option of `makeblastdb` to format databases.
-  Database = Struct.new(:name, :title, :type, :nsequences, :ncharacters, :taxid,
+  Database = Struct.new(:name, :title, :type, :nsequences, :ncharacters,
                         :updated_on) do
     def initialize(*args)
       args[2].downcase!   # database type
@@ -160,16 +160,14 @@ module SequenceServer
         return unless make_blast_database? file, type
         title = get_database_title(file)
         taxid = fetch_tax_id
-        # If user chooses not to enter Tax ID , zero is taken
-        # as the default value
-        taxid = 0 if taxid.match(/n/i)
+        puts "tax ID is: #{taxid}"
         _make_blast_database(file, type, title, taxid)
       end
 
       def _make_blast_database(file, type, title, taxid, quiet = false)
         cmd = 'makeblastdb -parse_seqids -hash_index ' \
               "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
-              "-taxid #{taxid}"
+              " -taxid #{taxid}"
         cmd << ' &> /dev/null' if quiet
         system cmd
       end
@@ -194,17 +192,20 @@ module SequenceServer
       # Returns user input if any. Auto-generated title otherwise.
       def get_database_title(path)
         default = make_db_title(File.basename(path))
-        print 'Enter a database title or will use #{default}: '
+        print "Enter a database title or will use #{default}: "
         from_user = STDIN.gets.to_s.strip
         from_user.empty? && default || from_user
       end
 
       # Getting Tax ID from the user
       def fetch_tax_id
-        print 'Enter the Tax ID(If taxonomy classification' \
-              'is not required: n): '
-        response_user = STDIN.gets.to_s
-        response_user.strip
+        # If user chooses not to enter Tax ID , zero is taken
+        # as the default value
+        default = '0'
+        print 'Enter the Tax ID(Only if taxonomy classification' \
+              ' is required): '
+        response_user = STDIN.gets.to_s.strip
+        response_user.empty? && default || response_user
       end
 
       # Returns true if the database name appears to be a multi-part database
