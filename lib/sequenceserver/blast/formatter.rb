@@ -41,7 +41,7 @@ module SequenceServer
           " -outfmt '#{format} #{specifiers}'" \
           " -out '#{file.path}' 2> /dev/null"
         logger.debug("Executing: #{command}")
-        system(command, :chdir => File.expand_path(DIR))
+        system(command, :chdir => DOTDIR)
       end
 
       def validate
