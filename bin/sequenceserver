@@ -3,10 +3,24 @@ require 'readline'
 require 'English'
 require 'slop'
 
+require 'sequenceserver/blast/constants'
+
 ENV['RACK_ENV'] ||= 'production'
 
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
+
+# Given a url downloads the archive into a temporary file
+# and and extratcs it into ~/.sequenceserver
+def download_from_url(url)
+  archive = File.join('/tmp', File.basename(url))
+  # -ip4 is required  to avoid this curl bug http://sourceforge.net/p/curl/bugs/1424/?limit=25
+  # see also https://github.com/yannickwurm/sequenceserver/issues/139
+  cmd = "curl -ip4 -C - #{url} -o #{archive} && " \
+        'mkdir -p ~/.sequenceserver && '          \
+        "tar xvf #{archive} -C ~/.sequenceserver"
+  system cmd
+end
 
 begin
   Slop.parse!(:strict => true, :help => true) do
@@ -82,6 +96,9 @@ BANNER
 
     on 'm', 'make-blast-databases',
        'Create BLAST databases'
+
+    on 'download-taxdb',
+       'Download the taxdb files'
 
     on 'l', 'list_databases',
        'List BLAST databases'
@@ -248,13 +265,7 @@ https://github.com/yannickwurm/sequenceserver/issues
 
 ERR
                 end
-
-          archive = File.join('/tmp', File.basename(url))
-          # -ip4 is required  to avoid this curl bug http://sourceforge.net/p/curl/bugs/1424/?limit=25
-          # see also https://github.com/yannickwurm/sequenceserver/issues/139
-          system "curl -ip4 -C - #{url} -o #{archive} && "    \
-                 'mkdir -p ~/.sequenceserver && '             \
-                 "tar xvf #{archive} -C ~/.sequenceserver"
+          download_from_url(url)
           unless $CHILD_STATUS.success?
             puts 'Failed to install BLAST+.'
             puts '  You may need to download BLAST+ from - '
@@ -378,6 +389,14 @@ MSG
 
       if make_blast_databases?
         SequenceServer::Database.make_blast_databases
+        exit
+      end
+
+      if download_taxdb?
+        download_from_url('ftp://ftp.ncbi.nlm.nih.gov/blast/db/'\
+                           'taxdb.tar.gz')
+        puts
+        puts 'taxdb downloaded!'
         exit
       end
 
