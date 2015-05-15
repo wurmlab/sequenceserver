@@ -192,7 +192,7 @@ module SequenceServer
       # Returns user input if any. Auto-generated title otherwise.
       def get_database_title(path)
         default = make_db_title(File.basename(path))
-        print "Enter a database title or will use #{default}: "
+        print "Enter a database title or will use '#{default}': "
         from_user = STDIN.gets.to_s.strip
         from_user.empty? && default || from_user
       end
