@@ -31,31 +31,40 @@ USAGE
 
 sequenceserver [options]
 
-Example:
+EXAMPLE
 
-  # launch SequenceServer with the given config file
+  # Launch SequenceServer. This will read configuration from
+  # ~/.sequenceserver.conf, if present.
+  $ sequenceserver
+
+  # Use a different config file.
   $ sequenceserver -c ~/.sequenceserver.ants.conf
 
-  # use the bundled database formatter utility to prepare databases for use
-  # with SequenceServer
+  # Set number of threads to use. This will save the number
+  # of threads to use in config file.
+  $ sequenceserver -s -n 16
+
+  # See if you have FASTA files in database dir that haven't
+  # been converted into BLAST database.
+  $ sequenceserver -u
+
+  # Search for FASTA files in database dir that haven't been
+  # converted into BLAST database yet, and convert them.
   $ sequenceserver -m
 
 DESCRIPTION
 
 SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
-interface for use locally or over the web.
-
-If BLAST+ is not installed on your system, SequenceServer will offer to install
-BLAST+ for you.
-
-You should only ever have to point it to a directory of FASTA files.
+interface for use locally or over the web. If BLAST+ is not installed on your
+system, SequenceServer will offer to install BLAST+ for you.  You should only
+ever have to point it to a directory of FASTA files / BLAST+ databases.
 
 In a given directory, SequenceServer is able to tell FASTA files that are yet
 to be formatted for use with BLAST+ and format them, and FASTA files that are
 already formatted for use with BLAST+, heuristically skipping all other files
 in the directory. Directories are scanned recursively. Type of sequences in a
-FASTA file is detected automagically. `parse_seqids` option of `makeblastdb` is
-used to create BLAST+ databases.
+FASTA file is detected automagically. `parse_seqids` and `hash_index` options
+of `makeblastdb` are used to create BLAST+ databases.
 BANNER
 
     on 'c', 'config_file=',
