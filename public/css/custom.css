@@ -311,10 +311,6 @@ input[name="advanced"] {
   border-bottom: 0;
 }
 
-#result {
-  margin-top: 45px;
-}
-
 h1,h2,h3,h4,h5,h6,.page-header {
   font-family: "Roboto";
   color: rgb(51, 51, 51);

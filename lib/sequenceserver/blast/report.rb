@@ -1,3 +1,13 @@
+require 'ox'
+
+require 'sequenceserver/report'
+require 'sequenceserver/links'
+
+require_relative 'formatter'
+require_relative 'query'
+require_relative 'hit'
+require_relative 'hsp'
+
 module SequenceServer
   module BLAST
     # Captures results of a BLAST search.
@@ -10,30 +20,25 @@ module SequenceServer
     # Formatter class, parsed into a simple intermediate representation
     # (Array of values and Arrays) and information extracted from the
     # intermediate representation (ir).
-    class Report
-      # Expects a BLAST search id and an Array of Database objects that were
-      # used to BLAST. The second argument being optional to aid test suite.
-      def initialize(search_id, databases = nil)
-        @search_id = search_id
-        @querydb = Array databases
-        @queries = []
-
-        generate
+    class Report < Report
+      def initialize(job)
+        super do
+          @querydb = job.databases
+          @queries = []
+        end
       end
-
-      attr_reader :search_id, :querydb
 
       # :nodoc:
       # Attributes parsed out from XML output.
       attr_reader :program, :program_version
+      attr_reader :queries, :querydb
       attr_reader :params, :stats
-      attr_reader :queries
 
       private
 
       # Generate report.
       def generate
-        xml = Formatter.run(search_id, 'xml').file
+        xml = Formatter.run(job.rfile, 'xml').file
         ir  = node_to_array(Ox.parse(xml.open.read).root)
         extract_program_info ir
         extract_params ir

@@ -9,11 +9,10 @@ module SequenceServer
       end
 
       extend Forwardable
-
       def_delegators SequenceServer, :logger
 
-      def initialize(search_id, type)
-        @archive_file = get_archive_file search_id
+      def initialize(archive_file, type)
+        @archive_file = archive_file
         @format, @mime, @specifiers = OUTFMT[type]
         @type = type
 
@@ -53,14 +52,6 @@ module SequenceServer
 Incorrect request parameters. Please ensure that requested file name is
 correct and the file type is either xml or tsv.
 MSG
-      end
-
-      # Returns filename if path exists otherwise returns a path to tmp dir.
-      def get_archive_file(file)
-        return unless file
-        return file.path if file.respond_to? :path
-        return file if File.exist? file
-        File.join Dir.tmpdir, file
       end
     end
   end

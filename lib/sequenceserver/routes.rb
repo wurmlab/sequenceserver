@@ -115,14 +115,29 @@ target="#{target}">)
       logger.debug params
     end
 
-    # Render the search form.
+    # Renders search form.
     get '/' do
       erb :search, :locals => { :databases => Database.group_by(&:type) }
     end
 
-    # BLAST search!
+    # Queues a search job and redirects to a page that will poll for and render
+    # the results when available.
     post '/' do
-      erb :result, :locals => { :report => BLAST.run(params) }
+      job = Job.create(params)
+      redirect "/#{job.id}"
+    end
+
+    get '/:jid.html' do |jid|
+      job = Job.fetch(jid)
+      halt 202 unless job.done?
+      erb(:_result,
+          :layout => nil,
+          :locals => { :report => BLAST::Report.new(job) })
+    end
+
+    # Retrieve data for the given search id.
+    get '/:jid' do |jid|
+      erb :result
     end
 
     # @params sequence_ids: whitespace separated list of sequence ids to
@@ -150,8 +165,9 @@ target="#{target}">)
     end
 
     # Download BLAST report in various formats.
-    get '/download/:search_id.:type' do
-      out = BLAST::Formatter.new(params[:search_id], params[:type])
+    get '/download/:jid.:type' do |jid, type|
+      job = Job.fetch(jid)
+      out = BLAST::Formatter.new(job.rfile, type)
       send_file out.file.path, :filename => out.filename, :type => out.mime
     end
 
@@ -161,7 +177,7 @@ target="#{target}">)
     error BLAST::ArgumentError do
       status 400
       error = env['sinatra.error']
-      erb :'400', :locals => { :error => error }
+      erb :'400', :layout => nil, :locals => { :error => error }
     end
 
     # This will catch any unhandled error and some very special errors. Ideally
@@ -172,7 +188,7 @@ target="#{target}">)
     error Exception, BLAST::RuntimeError do
       status 500
       error = env['sinatra.error']
-      erb :'500', :locals => { :error => error }
+      erb :'500', :layout => nil, :locals => { :error => error }
     end
   end
 end

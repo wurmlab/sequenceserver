@@ -5,7 +5,6 @@ require 'sequenceserver/exceptions'
 require 'sequenceserver/config'
 require 'sequenceserver/logger'
 require 'sequenceserver/server'
-require 'sequenceserver/search'
 require 'sequenceserver/sequence'
 require 'sequenceserver/database'
 require 'sequenceserver/blast'
@@ -31,6 +30,10 @@ module SequenceServer
 
     def logger
       @logger ||= Logger.new(STDERR, verbose?)
+    end
+
+    def pool
+      @pool ||= Pool.new(config[:num_threads])
     end
 
     def init(config = {})

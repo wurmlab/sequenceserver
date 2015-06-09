@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>SequenceServer: Custom BLAST Server</title>
+  <meta name="author" content="Anurag Priyam">
+  <meta name="author" content="Ben J. Woodcroft">
+  <meta name="author" content="Vivek Rai">
+  <meta name="author" content="Cedric Wurm">
+  <meta name="author" content="Yannick Wurm">
+  <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)"/>
+
+  <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+  <![endif]-->
+
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <% if settings.production? %>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css"/>
+  <% else %>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/custom.css"/>
+  <% end %>
+</head>
+
+<body>
+  <div
+    class="navbar">
+    <div
+      class="container">
+      <a
+        class="navbar-brand"
+        href="http://sequenceserver.com" target="_blank">
+        SequenceServer
+        <small>
+          <%= SequenceServer::VERSION %>
+        </small>
+      </a>
+      <ul class="nav navbar-nav navbar-right hover-reset focus-reset">
+        <li>
+          <a
+            target="_blank"
+            href="http://www.sequenceserver.com/#support">
+            <i class="fa fa-comment-o"></i>
+            &nbsp;Help &amp; Support
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <%= yield %>
+
+  <div
+    class="footer" id="footer">
+    <hr>
+    <p
+      class="text-center">
+      <a
+        href='http://www.sequenceserver.com'>
+        <%=
+          quote = [
+            "Custom BLAST web interface by SequenceServer.",
+            "SequenceServer: Local BLAST with bespoke html interface.",
+            "Set up custom BLAST interface with SequenceServer.",
+            "Easy BLASTing with SequenceServer.",
+            "Run BLAST locally with Sequenceserver.",
+            "BLAST against a custom, local database with SequenceServer.",
+            "Run BLAST locally on Mac OSX with SequenceServer.",
+            "Run BLAST locally on Ubuntu with SequenceServer.",
+            "Run BLAST locally on Linux with SequenceServer."
+          ][rand(9)]
+        %>
+      </a>
+      <a
+        class="twitter-share-button"
+        href="https://twitter.com/share"
+        data-url="http://www.sequenceserver.com" data-text="<%= quote %>" data-via="yeban" data-hashtags="bioinformatics">
+        Tweet
+      </a>
+      <%#<div class="g-plusone" data-annotation="none" data-href="http://www.sequenceserver.com"></div>%>
+
+      <br>
+      Please Cite:
+      <a href='http://www.sequenceserver.com'>
+        Priyam, Woodcroft, Rai & Wurm, <strong>SequenceServer</strong> (<em>in prep</em>)
+      </a>
+      &amp; relevant data sources.
+    </p>
+  </div>
+
+  <div
+    id="error"
+    class="modal fade"
+    tabindex="-1">
+  </div> <!-- error -->
+
+  <div
+    class="modal fade" id="error-no-response">
+    <div
+      class="modal-dialog">
+      <div
+        class="modal-content">
+        <div
+          class="modal-header">
+          <h3>Server didn't respond</h3>
+        </div>
+
+        <div
+          class="modal-body">
+          <p>
+            Could be a temporary network issue, or the service might be
+            configured to "time out" long requests.
+          </p>
+
+          <p>
+            Please try again
+            later, or report to the admin or <a
+              href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">SequenceServer
+              Google Group</a> (if you are the admin) if problem persists.
+          </p>
+        </div>
+
+        <div
+          class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-dismiss="modal">
+            Okay
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> <!-- error-no-response -->
+
+  <div
+    class="modal fade" id="help"
+    tabindex="-1">
+    <div
+      class="modal-dialog modal-lg">
+      <div
+        class="modal-content">
+        <div
+          class="modal-header">
+          <h3>Advanced Options</h3>
+        </div>
+        <div
+          class="modal-body">
+          <%= erb :_options %>
+        </div>
+        <div
+          class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-default btn-primary"
+            data-dismiss="modal">
+            Got it!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> <!-- advanced options -->
+
+  <div
+    class="modal" id="spinner"
+    tabindex="-1"
+    data-backdrop="static" data-keyboard="false">
+    <div
+      class="modal-dialog">
+      <div
+        class="modal-content">
+        <div
+          class="modal-body text-center">
+          <h2>
+            BLAST-ing ...
+          </h2>
+          <i class="fa fa-spinner fa-5x fa-spin"></i>
+          <p>
+            <br>
+            This could take some time depending on the size of your query and
+            database(s).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div> <!-- spinner -->
+
+  <div
+    id="sequence-viewer" class="modal"
+    tabindex=-1>
+    <div
+      class="modal-dialog">
+      <div
+        class="modal-content">
+        <div
+          class="modal-header">
+          <h3>View and download sequence</h3>
+        </div>
+
+        <div
+          class="modal-body">
+        </div>
+
+        <div
+          class="spinner">
+          <i class="fa fa-spinner fa-3x fa-spin"></i>
+        </div>
+
+        <div
+          class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div> <!-- sequence viewing -->
+
+  <!-- twitter -->
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</body>
+</html>

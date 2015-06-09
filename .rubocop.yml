@@ -49,5 +49,8 @@ Style/EachWithObject:
     # Because we support 1.8.7.
     - '**/*.rb'
 Style/HashSyntax:
-    # Because we support 1.8.7.
+  # Because we support 1.8.7.
   EnforcedStyle: hash_rockets
+Style/AsciiComments:
+  # Nothing wrong with non-ascii chars, like © in comments.
+  Enabled: false
