@@ -41,7 +41,9 @@ module SequenceServer
           " -outfmt '#{format} #{specifiers}'" \
           " -out '#{file.path}' 2> /dev/null"
         logger.debug("Executing: #{command}")
-        system(command, :chdir => (File.exist?(DOTDIR) && DOTDIR || Dir.pwd))
+        Dir.chdir(File.exist?(DOTDIR) && DOTDIR || Dir.pwd) do
+          system(command)
+        end
       end
 
       def validate
