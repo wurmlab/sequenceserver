@@ -117,7 +117,11 @@ target="#{target}">)
 
     # Renders search form.
     get '/' do
-      erb :search, :locals => { :databases => Database.group_by(&:type) }
+      erb :search
+    end
+
+    get '/databases.json' do
+      Database.to_json
     end
 
     # Queues a search job and redirects to a page that will poll for and render

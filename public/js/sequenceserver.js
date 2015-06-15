@@ -81,30 +81,6 @@
             times: 4,
         }, 250);
     };
-
-
-    /**
-     * Check's every 100 ms if an element's value has changed. Triggers
-     * `change` event on the element if it has.
-     */
-    $.fn.poll = function () {
-        var that = this;
-        var val  = null;
-        var newval;
-
-        (function ping () {
-            newval = that.val();
-
-            if (newval != val){
-                val = newval;
-                that.change();
-            }
-
-            setTimeout(ping, 100);
-        }());
-
-        return this;
-    };
 }(jQuery));
 
 /**

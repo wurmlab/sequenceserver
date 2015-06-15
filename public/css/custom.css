@@ -28,7 +28,7 @@ label {
 }
 
 /**
- * Without this .disable'd elements hardly look disabled.
+ * Without this .disabled elements hardly look disabled.
  */
 .disabled {
   color: #ccc;
@@ -135,6 +135,20 @@ a.disabled:hover {
  ********************/
 
 /**
+ * Capitalize text.
+ */
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+/**
+ * Uppercase text.
+ */
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+/**
  * Use monospace font.
  */
 .text-monospace {
@@ -210,12 +224,6 @@ a.disabled:hover {
   font-size: 18px;
 }
 
-.sequence-controls {
-  position: absolute;
-  top: 4px;
-  right: 19px;
-}
-
 .biojs-vis-sequence pre {
   margin: 0 0;
   border: none;
@@ -257,12 +265,20 @@ a.disabled:hover {
   white-space: normal;
 }
 
-.databases .checkbox {
-  padding-left: 5px;
+.database {
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+}
+.database:first-child {
+  border-top: 0;
 }
 
-.databases label {
-  padding-left: 0;
+.databaseholder {
+  max-height: 220px;
+  overflow: auto;
+  border: 1px solid lightgray;
+  border-radius: 4px;
 }
 
 #blast > .form-group:last-child {
@@ -287,12 +303,8 @@ input[name="advanced"] {
   border-bottom-left-radius: 4px !important;
 }
 
-#methods{
+#methods {
   font-family: "Roboto";
-}
-
-#method, #methods li {
-  text-transform: uppercase;
 }
 
 #methods li {

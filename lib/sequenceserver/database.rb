@@ -39,6 +39,10 @@ module SequenceServer
     def to_s
       "#{type}: #{title} #{name}"
     end
+
+    def to_json(*args)
+      to_h.update(id: id).to_json(*args)
+    end
   end
 
   # Model Database's eigenclass as a collection of Database objects.
@@ -83,6 +87,10 @@ module SequenceServer
 
       def group_by(&block)
         all.group_by(&block)
+      end
+
+      def to_json
+        collection.values.to_json
       end
 
       # Intended to be used only for testing.

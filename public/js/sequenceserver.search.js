@@ -3,62 +3,122 @@
  */
 $.webshims.polyfill('forms');
 
-/*
-    SequenceServer's BLAST module/method
+/**
+ * Query widget.
+ */
+var Query = React.createClass({
 
-    Adds `blast` method to `SS`.
+    // Kind of public API. //
 
-    blast():
-        not implemented
-
-    `blast` defines the following methods:
-        init():
-           initialize `blast` object
-
-    This module defines the following events:
-
-        sequence_type_changed:
-            When the type (nucleotide or protein) of the input sequence changes.
-
-        database_type_changed:
-            When a user selects one type of database (nucleotide or protein) over the other.
-
-        blast_method_changed:
-            When the change in input parameters lead to a change in the preferred blast method.
-
-    TODO: should (probably) access UI objects through some sort of interface
-*/
-(function (SS) {
-    // TODO: embedding magic numbers in the code is bad
-    // TODO: magic numbers in JS and Ruby should be in sync
-    var guess_sequence_type = function (sequence) {
-        // remove 'noisy' characters
-        sequence = sequence.replace(/[^A-Z]/gi, ''); // non-letter characters
-        sequence = sequence.replace(/[NX]/gi,   ''); // ambiguous  characters
-
-        // can't determine the type of ultrashort queries
-        if (sequence.length < 10) { return undefined; }
-
-        var putative_NA_count, threshold, i;
-        putative_NA_count = 0;
-        threshold = 0.9 * sequence.length;
-
-        // count the number of putative NA
-        for (i = 0; i < sequence.length; i++) {
-            if (sequence[i].match(/[ACGTU]/i)) {
-                putative_NA_count += 1;
-            }
+    /**
+     * Sets query to given value or returns current value. Returns `this` when
+     * used as a setter.
+     */
+    value: function (val) {
+        if (val !== undefined) {
+            this.setState({
+                value: val
+            })
+            return this;
         }
+        return this.state.value;
+    },
 
-        return putative_NA_count > threshold ? 'nucleotide' : 'protein';
-    };
+    /**
+     * Clears textarea. Returns `this`.
+     *
+     * Clearing textarea also causes it to be focussed.
+     */
+    clear: function () {
+        return this.value('').focus();
+    },
 
-    var type_of_sequences = function () {
-        var sequences = $('#sequence').val().split(/>.*/);
-        var type, tmp, i;
+    /**
+     * Focuses textarea. Returns `this`.
+     */
+    focus: function () {
+        this.textarea().focus();
+        return this;
+    },
 
-        for (i = 0; i < sequences.length; i++) {
-            tmp = guess_sequence_type(sequences[i]);
+    /**
+     * Returns true if query is absent ('', undefined, null), false otherwise.
+     */
+    isEmpty: function () {
+        return !this.value();
+    },
+
+
+    // Internal helpers. //
+
+    textarea: function () {
+        return $(this.refs.textarea.getDOMNode());
+    },
+
+    controls: function () {
+        return $(this.refs.controls.getDOMNode());
+    },
+
+    handleInput: function (evt) {
+        this.value(evt.target.value);
+    },
+
+    /**
+     * Hides or shows 'clear sequence' button.
+     *
+     * Rendering the 'clear sequence' button takes into account presence or
+     * absence of a scrollbar.
+     *
+     * Called by `componentDidUpdate`.
+     */
+    hideShowButton: function () {
+        if (!this.isEmpty()) {
+            // Calculation below is based on -
+            // http://chris-spittles.co.uk/jquery-calculate-scrollbar-width/
+            // FIXME: can reflow be avoided here?
+            var textareaNode = this.textarea()[0];
+            var sequenceControlsRight = textareaNode.offsetWidth - textareaNode.clientWidth;
+            this.controls().css('right', sequenceControlsRight + 17);
+            this.controls().removeClass('hidden');
+        }
+        else {
+            // FIXME: what are lines 1, 2, & 3 doing here?
+            this.textarea().parent().removeClass('has-error');
+            this.$sequenceFile = $('#sequence-file');
+            this.$sequenceFile.empty();
+
+            this.controls().addClass('hidden');
+        }
+    },
+
+    /**
+     * Put red border around textarea.
+     */
+    indicateError: function () {
+        this.textarea().parent().addClass('has-error');
+    },
+
+    /**
+     * Put normal blue border around textarea.
+     */
+    indicateNormal: function () {
+        this.textarea().parent().removeClass('has-error');
+    },
+
+    /**
+     * Returns type of the query sequence (nucleotide, protein, mixed).
+     *
+     * Query widget supports executing a callback when the query type changes.
+     * Components interested in query type should register a callback instead
+     * of directly calling this method.
+     */
+    type: function () {
+        var sequences = this.value().split(/>.*/);
+
+        var type, tmp;
+
+        for (var i = 0; i < sequences.length; i++) {
+            tmp = this.guessSequenceType(sequences[i]);
 
             // could not guess the sequence type; try the next sequence
             if (!tmp) { continue; }
@@ -74,100 +134,792 @@ $.webshims.polyfill('forms');
         }
 
         return type;
-    };
-
-    /* */
-    var type_of_databases = function () {
-        return $('.databases input:checked').data('type');
-    };
-
-    /*
-        check if blast is valid (sufficient input to blast or not)
-    */
-    var required_params_present = function () {
-        // must enter a query
-        if (!$('#sequence').val()) {
-            return false;
-        }
-
-        // must select atleast one database
-        if (!$('.databases input:checked').val()) {
-            return false;
-        }
-
-        // everything good
-        return true;
-    };
+    },
 
     /**
-     * Determine input sequence type, and trigger 'sequence_type_changed' event
-     * if the input sequence type has changed, or cannot be determined.
+     * Guesses and returns the type of the given sequence (nucleotide,
+     * protein).
      */
-    var signal_sequence_type_changed = function () {
-        var type, _type;
+    guessSequenceType: function (sequence) {
+        // remove 'noisy' characters
+        sequence = sequence.replace(/[^A-Z]/gi, ''); // non-letter characters
+        sequence = sequence.replace(/[NX]/gi,   ''); // ambiguous  characters
 
-        $('#sequence').change(function () {
-            _type = type_of_sequences();
+        // can't determine the type of ultrashort queries
+        if (sequence.length < 10) {
+            return undefined;
+        }
 
-            if (!_type || _type !== type) {
-                type = _type;
-
-                //notify listeners
-                $(this).trigger('sequence_type_changed', type);
+        // count the number of putative NA
+        var putative_NA_count = 0;
+        for (var i = 0; i < sequence.length; i++) {
+            if (sequence[i].match(/[ACGTU]/i)) {
+                putative_NA_count += 1;
             }
-        });
-    };
+        }
 
-    /* determine */
-    var signal_database_type_changed = function () {
-        var type = type_of_databases(), tmp;
+        var threshold = 0.9 * sequence.length;
+        return putative_NA_count > threshold ? 'nucleotide' : 'protein';
+    },
 
-        $('.databases input').change(function () {
-            tmp = type_of_databases();
+    notify: function (type) {
+        clearTimeout(this.notification_timeout);
+        this.indicateNormal();
+        $('.notifications .active').hide().removeClass('active');
 
-            if (tmp != type) {
-                type = tmp;
+        if (type) {
+            $('#' + type + '-sequence-notification').show('drop', {direction: 'up'}).addClass('active');
 
-                //notify listeners
-                $(this).trigger('database_type_changed', type);
+            this.notification_timeout = setTimeout(function () {
+                $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
+            }, 5000);
+
+            if (type === 'mixed') {
+                this.indicateError();
             }
+        }
+    },
+
+
+    // Lifecycle methods. //
+
+    getInitialState: function () {
+        return {
+            value: ''
+        };
+    },
+
+    render: function ()
+    {
+        return (
+            <div
+                className="col-md-12">
+                <div
+                    className="sequence">
+                    <textarea
+                        className="form-control text-monospace" id="sequence"
+                        rows="10" spellCheck="false" autoFocus="true"
+                        name="sequence"   value={this.state.value}
+                        ref="textarea" onChange={this.handleInput}
+                        placeholder="Paste query sequence(s) or drag file containing query sequence(s) in FASTA format here ..." >
+                    </textarea>
+                </div>
+                <div
+                    className="hidden"
+                    style={{ position: 'absolute', top: '4px', right: '19px' }}
+                    ref="controls">
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-default" id="btn-sequence-clear"
+                        title="Clear query sequence(s)."
+                        onClick={this.clear}>
+                        <span id="sequence-file"></span>
+                        <i className="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        );
+    },
+
+    componentDidMount: function () {
+        $('body').click(function () {
+            $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
         });
-    };
+    },
 
-    /**
-     * Triggers 'blast_method_changed' event if BLAST algorithms that can be
-     * used for the user input have changed.
-     */
-    var signal_blast_method_changed = function () {
-        var method, _method;
+    componentDidUpdate: function () {
+        this.hideShowButton();
+        var type = this.type();
+        if (!type || type !== this._type) {
+            this._type = type;
+            this.notify(type);
+            this.props.onSequenceTypeChanged(type);
+        }
+    }
+});
 
-        $('#blast').on('sequence_type_changed database_type_changed',
-            function (event) {
-                  _method = determine_blast_method();
+var ProteinNotification = React.createClass({
+    render: function () {
+        return (
+            <div
+                className="notification row"
+                id="protein-sequence-notification"
+                style={{ display: 'none' }}>
+                <div
+                    className="alert-info col-md-6 col-md-offset-3">
+                    Detected: protein sequence(s).
+                </div>
+            </div>
+        );
+    }
+});
 
-                  if (!_.isEqual(_method, method)) {
-                      method = _method;
+var NucleotideNotification = React.createClass({
+    render: function () {
+        return (
+            <div
+                className="notification row"
+                id="nucleotide-sequence-notification"
+                style={{ display: 'none' }}>
+                <div
+                    className="alert-info col-md-6 col-md-offset-3">
+                    Detected: nucleotide sequence(s).
+                </div>
+            </div>
+        );
+    }
+});
 
-                      //notify listeners
-                      $(this).trigger('blast_method_changed', [method.slice()]);
-                  }
+var MixedNotification = React.createClass({
+    render: function () {
+        return (
+            <div
+                className="notification row"
+                id="mixed-sequence-notification"
+                style={{ display: 'none' }}>
+                <div
+                    className="alert-danger col-md-10 col-md-offset-1">
+                    Detected: mixed nucleotide and protein sequences. We can't handle that'. Please try one sequence at a time.
+                </div>
+            </div>
+        );
+    }
+});
+
+var DatabaseList = React.createClass({
+    getInitialState: function () {
+        return {
+            type:      '',
+            databases: []
+        }
+    },
+
+    databases: function (category) {
+        if (!category) {
+            return this.state.databases.slice();
+        }
+
+        return _.select(this.state.databases,
+                        function (database) {
+                            return database.type === category;
+                        });
+    },
+
+    nselected: function () {
+        return $('input[name="databases[]"]:checked').length;
+    },
+
+    categories: function () {
+        return _.uniq(_.map(this.state.databases,
+                            _.iteratee('type'))).sort();
+    },
+
+    handleClick: function (database) {
+        var type = this.nselected() ? database.type : ''
+        this.setState({type: type});
+    },
+
+    render: function () {
+        return (
+            <div
+              className="form-group databases-container">
+                {
+                    _.map(this.categories(), _.bind(function (category) {
+                        return (
+                            <div
+                                className={this.categories().length === 1 ? 'col-md-12' : 'col-md-6'}>
+                                <div
+                                    className="panel panel-default">
+                                    <div
+                                        className="panel-heading">
+                                        <h4>{category[0].toUpperCase() + category.substring(1).toLowerCase() + " databases"}</h4>
+                                    </div>
+                                    <ul
+                                        className={"list-group databases " + category}>
+                                        {
+                                            _.map(this.databases(category), _.bind(function (database) {
+                                                return (
+                                                    <li className="list-group-item">
+                                                        <div
+                                                            className="checkbox"
+                                                            className={(this.state.type && this.state.type !== database.type) && "disabled"}>
+                                                            <label>
+                                                                <input
+                                                                    type="checkbox" name="databases[]" value={database.id} data-type={database.type}
+                                                                    disabled={this.state.type && this.state.type !== database.type}
+                                                                    onChange=
+                                                                    {
+                                                                        _.bind(function () {
+                                                                            this.handleClick(database)
+                                                                        }, this)
+                                                                    }/>
+                                                                {" " + (database.title || database.name)}
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                );
+                                            }, this))
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        )
+                    }, this))
+                }
+            </div>
+        );
+    },
+
+    componentDidMount: function () {
+        $.getJSON('databases.json', _.bind(function (data) {
+            this.setState({
+                databases: _.sortBy(data, 'title')
             });
-    };
+        }, this));
+    },
+
+    shouldComponentUpdate: function (props, state) {
+        return !(state.type && state.type === this.state.type);
+        //return (!(state.type && state.type === this.state.type) ||
+                //!(state.filter && state.filter === this.state.filter));
+    },
+
+    componentDidUpdate: function () {
+        if (this.databases() && this.databases().length === 1) {
+            $('.databases').find('input').prop('checked',true);
+            //$('.database').not('.active').click();
+            this.handleClick(this.databases()[0]);
+        }
+
+        this.props.onDatabaseTypeChanged(this.state.type);
+    }
+});
+
+/**
+ * Database widget.
+ *
+ * Comprises four components: category selector, search bar, database listing,
+ * and a root components to hold, manage, and facilitate communication between
+ * them.
+ *
+ * The root components fetches a list of database from the server and updates
+ * its state which in turn causes all its child components to be re-rendered.
+ * At this stage the list of databases is passed down to `DatabasesList` via
+ * props.
+ *
+ * Category selector and search bar change `DatabasesList`'s state based on
+ * user input. Accordingly `DatabasesList` filters the list of databases it
+ * has and re-renders.
+ */
+var Databases = (function () {
 
     /**
-     * Returns name of BLAST algorithms that can be used for the input query
-     * and selected database combination.
-     *
-     * Returns empty array if no BLAST algorithm is appropriate for the user
-     * input.
+     * Search field for the database widget.
      */
-    var determine_blast_method = function () {
-        if (!required_params_present()) {
+    var Search = React.createClass({
+
+        // Kind of public API. //
+
+        /**
+         * Sets search text to given value or returns current value. Returns
+         * `this` when used as a setter.
+         */
+        text: function (text) {
+            if (text !== undefined) {
+                this.setState({
+                    text: text
+                })
+                return this;
+            }
+            return this.state.text;
+        },
+
+        /**
+         * Clears search text. Returns `this`.
+         *
+         * Clearing search text also causes the input field to be focussed.
+         */
+        clear: function () {
+            return this.text('').focus();
+        },
+
+        /**
+         * Focuses input field. Returns `this`.
+         */
+        focus: function () {
+            this.input().focus();
+            return this;
+        },
+
+        /**
+         * Returns true if search text is absent ('', undefined, nil), false
+         * otherwise.
+         */
+        isEmpty: function () {
+            return !this.text();
+        },
+
+
+        // Internal helpers. //
+
+        input: function () {
+            return $(React.findDOMNode(this.refs.input));
+        },
+
+        handleInput: function (evt) {
+            this.text(evt.target.value);
+        },
+
+
+        // Life cycle methods. //
+
+        getInitialState: function () {
+            return {
+                text: ''
+            }
+        },
+
+        componentDidUpdate: function () {
+            this.props.onUserInput(this.text());
+        },
+
+        render: function () {
+            return (
+                <div>
+                    <input
+                        type="text" className="form-control"
+                        value={this.state.text}
+                        ref="input" onChange={this.handleInput}
+                        placeholder="Enter species name, common name, or lineage ..."/>
+                    <div
+                        className={
+                            !!this.text() ? '' : 'hidden'
+                        }
+                        style={{
+                            position: 'absolute',
+                            right: '21px',
+                            top: '8px',
+                        }}>
+                        <a
+                            href="#"
+                            className="fa fa-lg fa-times"
+                            style={{color: 'inherit'}}
+                            title="Clear search text."
+                            onClick={this.clear}>
+                        </a>
+                    </div>
+                </div>
+            );
+        }
+    });
+
+    /**
+     * Category selector for the database widget.
+     */
+    var CategoryList = React.createClass({
+
+        handleChange: function (evt) {
+            var button = $(evt.target).closest('.btn');
+            var input  = button.children('input');
+
+            if (input.attr('value') === this.selected) {
+                button.removeClass('active');
+                input.prop('checked', false);
+                this.selected = '';
+            }
+            else {
+                this.selected = input.attr('value');
+            }
+
+            this.props.handleChange(this.selected);
+        },
+
+        render: function () {
+            return (
+                <div className="btn-group-vertical btn-block" data-toggle="buttons">
+                    {
+                        _.map(this.props.categories, _.bind(function (category) {
+                            return (
+                                <div
+                                    className="btn btn-default list-group-item"
+                                    key={category} onClick={this.handleChange}>
+                                    <input
+                                        type="radio" name="category" value={category}/>
+                                    <span
+                                        className="text-capitalize">
+                                        {category}
+                                    </span>
+                                </div>
+                            );
+                        }, this))
+                    }
+                </div>
+            );
+        }
+    });
+
+    var DatabaseList = React.createClass({
+        getInitialState: function () {
+            return {
+                category: '',
+                filter:   '',
+                type:     ''
+            }
+        },
+
+        databases: function () {
+            return this.props.data;
+        },
+
+        filtered: function () {
+            var category = this.state.category;
+            var handleChange = this.handleChange;
+            var filterText = this.state.filter;
+            var type = this.state.type;
+            return _.filter(this.databases(), function (database) {
+                if (((database.title.toLowerCase().indexOf(filterText.toLowerCase()) != -1) ||
+                    ((database.tags) && (database.tags.join("").toLowerCase().indexOf(filterText.toLowerCase())) != -1) ||
+                    ((database.type) && (database.type.toLowerCase().indexOf(filterText.toLowerCase())) != -1)) &&
+                    ((category == database.type) || (category == ''))) {
+                    return true;
+                }
+            });
+        },
+
+        nselected: function () {
+            return $('input[name="databases[]"]:checked').length;
+        },
+
+        handleClick: function (database) {
+            var type = this.nselected() ? database.type : ''
+            this.setState({type: type});
+        },
+
+        render: function () {
+            return (
+                <div
+                    className="databaseholder btn-group-vertical btn-block"
+                    data-toggle="buttons">
+                    {
+                        _.map(this.filtered(), _.bind(function (database) {
+                            return (
+                                <div
+                                    key={database.id} className="btn btn-default database"
+                                    onClick={
+                                        _.bind(function () {
+                                            this.handleClick(database);
+                                        }, this)
+                                    }
+                                    disabled={this.state.type && this.state.type !== database.type}>
+                                    <input
+                                        type="checkbox"
+                                        name="databases[]" value={database.id} />
+                                    {database.title}
+                                    <br/>
+                                    <small>
+                                        {database.type},
+                                        sequences:   {database.nsequences},
+                                        residues:   {database.ncharacters},
+                                        updated: {database.updated_on}
+                                    </small>
+                                </div>
+                            );
+                        }, this))
+                    }
+                </div>
+            );
+        },
+
+        shouldComponentUpdate: function (props, state) {
+            return !(state.type && state.type === this.state.type);
+            //return (!(state.type && state.type === this.state.type) ||
+                    //!(state.filter && state.filter === this.state.filter));
+        },
+
+        componentDidUpdate: function () {
+            if (this.databases() && this.databases().length === 1) {
+                $('.database').not('.active').click();
+                this.handleClick(this.databases()[0]);
+            }
+
+            this.props.onDatabaseTypeChanged(this.state.type);
+        }
+    });
+
+    return React.createClass({
+        getInitialState: function () {
+            return {
+                databases: []
+            }
+        },
+
+        categories: function () {
+            return _.compact(_.uniq(_.map(this.state.databases ,
+                                          _.iteratee('type'))));
+        },
+
+        handleSearchInput: function (filterText) {
+            this.refs.listing.setState({
+                filter: filterText
+            });
+        },
+
+        handleCategoryChange: function (category) {
+            this.refs.listing.setState({
+                category: category
+            });
+        },
+
+        selectedType: function () {
+            return this.refs.listing.state.type;
+        },
+
+        render: function () {
+            return (
+                <div
+                    className="form-group databases-container">
+                    <div className="col-md-3">
+                        <CategoryList
+                            handleChange={this.handleCategoryChange}
+                            categories={this.categories()}/>
+                    </div>
+                    <div className="col-md-9">
+                        <div>
+                            <Search
+                                onUserInput={this.handleSearchInput}/>
+                            <br/>
+                            <DatabaseList
+                                ref="listing" data={this.state.databases}
+                                onDatabaseTypeChanged={this.props.onDatabaseTypeChanged}/>
+                        </div>
+                    </div>
+                </div>
+            );
+        },
+
+        componentDidMount: function () {
+            $.getJSON('databases.json', _.bind(function (data) {
+                this.setState({
+                    databases: _.sortBy(data, 'title')
+                });
+            }, this));
+        }
+    });
+})();
+
+var Options = React.createClass({
+    render: function () {
+        return (
+            <div
+                className="col-md-8">
+                <div
+                    className="form-group">
+                    <div
+                        className="col-md-12">
+                        <div
+                            className="input-group">
+                            <label
+                                className="control-label cursor-pointer"
+                                htmlFor="advanced">
+                                Advanced Parameters:
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control" name="advanced" id="advanced"
+                                title="View, and enter advanced parameters."
+                                placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
+                            <div
+                                className="input-group-addon cursor-pointer"
+                                data-toggle="modal" data-target="#help">
+                                <i className="fa fa-question"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+});
+
+/**
+ * SearchButton widget.
+ */
+var SearchButton = React.createClass({
+    getInitialState: function () {
+        return {
+            methods: []
+        }
+    },
+
+    decorate: function(name) {
+        return name.match(/(.?)(blast)(.?)/).slice(1).map(function (token, _) {
+            if (token) {
+                if (token !== 'blast'){
+                    return (<strong key={token}>{token}</strong>);
+                }
+                else {
+                    return token;
+                }
+            }
+        });
+    },
+
+    orderMethodsArray: function (method) {
+      var methods = this.state.methods.slice();
+      methods.splice(methods.indexOf(method), 1);
+      methods.unshift(method);
+      return methods;
+    },
+
+    changeAlgorithm: function (method) {
+        this.setState({
+            methods: this.orderMethodsArray(method)
+        });
+    },
+
+    render: function () {
+        var methods = this.state.methods;
+        var method = methods[0];
+        var multi = methods.length > 1;
+        // data-toggle="tooltip" data-placement="left"
+        //     title="Click dropdown button on the right for other BLAST algorithms that can be used."
+
+        return (
+            <div className="col-md-4">
+                <div className="form-group">
+                    <div className="col-md-12">
+                        <div
+                            className={multi && 'input-group'} id="methods"
+                            ref="buttons">
+                            <button
+                                type="submit" className="btn btn-primary form-control text-uppercase"
+                                id="method" name="method" value={method} disabled={!method}>
+                                {this.decorate(method || 'blast')}
+                            </button>
+                            {
+                                multi && <div
+                                    className="input-group-btn">
+                                    <button
+                                        className="btn btn-primary dropdown-toggle"
+                                        data-toggle="dropdown">
+                                        <span className="caret"></span>
+                                    </button>
+                                    <ul
+                                        className="dropdown-menu dropdown-menu-right">
+                                        {
+                                            _.map(methods.slice(1), _.bind(function (method) {
+                                                return (
+                                                    <li key={method} className="text-uppercase"
+                                                        onClick={
+                                                            _.bind(function () {
+                                                                this.changeAlgorithm(method);
+                                                            }, this)
+                                                        }>
+                                                        {method}
+                                                    </li>
+                                                );
+                                            }, this))
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    },
+
+    componentDidMount: function () {
+        //title="Click dropdown button on the right for other BLAST algorithms that can be used.">
+        // Show tooltip on BLAST button.
+        // $(this.refs.buttons.getDOMNode()).tooltip({
+        //     title: function () {
+        //         var selected_databases = $(".databases input:checkbox:checked");
+        //         if (selected_databases.length === 0) {
+        //             return "You must select one or more databases above before" +
+        //                 " you can run a search!";
+        //         }
+        //         else {
+        //             return "Click dropdown button on the right for other BLAST algorithms that can be used."
+        //         }
+        //     }
+        // });
+    },
+
+    shouldComponentUpdate: function (props , state) {
+        return !(_.isEqual(state.methods,this.state.methods));
+    },
+
+    componentDidUpdate: function () {
+        if (this.state.methods.length > 0) {
+            $(this.refs.buttons.getDOMNode()).wiggle();
+        }
+    }
+});
+
+/**
+ * Search form.
+ *
+ * Top level component that initialises and holds all other components, and
+ * facilitates communication between them.
+ */
+var Form = React.createClass({
+
+    tooltips: function () {
+        return(
+            {
+                noInputAndDatabase: "Input a query sequence and select database to BLAST.",
+                noInputEntered: "Please input a query sequence to enable BLAST.",
+                noDatabaseSelected: "You must select one or more databases above before you can run a search!",
+                manyAlgorithms: "Click dropdown button on right for other BLAST algorithms that can be used.",
+                allSet: "Click to BLAST or press Ctrl+Enter."
+            }
+        );
+    },
+
+    setTooltips: function () {
+        var selected_databases = $(".databases input:checkbox:checked");
+        if (selected_databases.length === 0 && !(this.refs.query.value())) {
+            return this.tooltips().noInputAndDatabase;
+        }
+        else if (selected_databases.length === 0 && this.refs.query.value()) {
+            return this.tooltips().noDatabaseSelected;
+        }
+        else if (selected_databases.length !== 0 && !(this.refs.query.value())){
+            return this.tooltips().noInputEntered;
+        }
+        else if (this.refs.button.state.methods.length > 1) {
+            return this.tooltips().manyAlgorithms;
+        }
+        else {
+            return this.tooltips().allSet;
+        }
+    },
+
+    componentDidMount: function () {
+        // Submit form when Ctrl+Enter is pressed anywhere on page.
+        $(document).bind("keydown", _.bind(function (e) {
+            if (e.ctrlKey && e.keyCode === 13 &&
+                !$('#method').is(':disabled')) {
+                $(this.getDOMNode()).trigger('submit');
+            }
+        }, this));
+
+        $(React.findDOMNode((this.refs.button).refs.buttons)).tooltip({
+            title: _.bind(function () {
+                return this.setTooltips();
+            }, this)
+        });
+    },
+
+    determineBlastMethod: function () {
+        var database_type = this.databaseType;
+        var sequence_type = this.sequenceType;
+
+        if (this.refs.query.isEmpty()) {
             return [];
         }
-
-        var database_type = type_of_databases();
-        var sequence_type = type_of_sequences();
 
         //database type is always known
         switch (database_type) {
@@ -194,54 +946,55 @@ $.webshims.polyfill('forms');
         }
 
         return [];
-    };
+    },
 
-    var blast = function () {
-        return undefined;
-    };
+    handleSequenceTypeChanged: function (type) {
+        this.sequenceType = type;
+        this.refs.button.setState({
+            methods: this.determineBlastMethod()
+        });
+    },
 
-    SS.init_search_form = function () {
-        this.$sequence = $('#sequence');
-        this.$sequenceFile = $('#sequence-file');
-        this.$sequenceControls = $('.sequence-controls');
+    handleDatabaseTypeChanaged: function (type) {
+        this.databaseType = type;
+        this.refs.button.setState({
+            methods: this.determineBlastMethod()
+        });
+    },
+    // <Databases ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged}/>
 
-        signal_sequence_type_changed();
-        signal_database_type_changed();
-        signal_blast_method_changed();
-    };
+    render: function () {
+        return (
+            <form
+                className="form-horizontal" id="blast"
+                method="post" target="_blank">
+                <div
+                    className="form-group query-container">
+                    <Query ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged}/>
+                </div>
+                <div
+                    className="notifications" id="notifications">
+                    <NucleotideNotification/>
+                    <ProteinNotification/>
+                    <MixedNotification/>
+                </div>
+                <DatabaseList ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged}/>
+                <br/>
+                <div
+                    className="form-group">
+                    <Options/>
+                    <SearchButton ref="button"/>
+                </div>
+            </form>
+        );
+    }
+});
 
-    SS.decorate = function (name) {
-        return name.match(/(.?)(blast)(.?)/).slice(1).map(function (token, _) {
-            if (token) {
-                if (token !== 'blast'){
-                    return '<strong>' + token + '</strong>';
-                }
-                else {
-                    return token;
-                }
-            }
-        }).join('');
-    };
-
-    /**
-     * Pre-check the only active database checkbox.
-     */
-    SS.onedb = function () {
-        var database_checkboxes = $(".databases input:checkbox");
-        if (database_checkboxes.length === 1) {
-            database_checkboxes.check();
-        }
-    };
-}(SS));
+var form  = React.render(<Form/>, document.getElementById("form-container"));
+var query = form.refs.query;
 
 $(document).ready(function(){
-    SS.init_search_form();
-
-    var notification_timeout;
-
-    // drag-and-drop code
     var tgtMarker = $('.dnd-overlay');
-    var $sequence = $('#sequence');
 
     var dndError = function (id) {
         $('.dnd-error').hide();
@@ -269,7 +1022,7 @@ $(document).ready(function(){
         tgtMarker.stop(true, true);
         tgtMarker.show();
         dt.effectAllowed = 'copy';
-        if ($sequence.val() === '') {
+        if (query.isEmpty()) {
             $('.dnd-overlay-overwrite').hide();
             $('.dnd-overlay-drop').show('drop', {direction: 'down'}, 'fast');
         }
@@ -291,9 +1044,8 @@ $(document).ready(function(){
         evt.preventDefault();
         evt.stopPropagation();
 
-        var textarea  = $('#sequence');
         var indicator = $('#sequence-file');
-        textarea.focus();
+        query.focus();
 
         var files = evt.originalEvent.dataTransfer.files;
         if (files.length > 1) {
@@ -311,7 +1063,7 @@ $(document).ready(function(){
         reader.onload = function (e) {
             var content = e.target.result;
             if (SS.FASTA_FORMAT.test(content)) {
-                textarea.val(content);
+                query.value(content);
                 indicator.text(file.name);
                 tgtMarker.hide();
             } else {
@@ -325,170 +1077,4 @@ $(document).ready(function(){
         };
         reader.readAsText(file);
     });
-    // end drag-and-drop
-
-    SS.$sequence.change(function () {
-        if (SS.$sequence.val()) {
-            // Calculation below is based on -
-            // http://chris-spittles.co.uk/jquery-calculate-scrollbar-width/
-            var sequenceControlsRight = SS.$sequence[0].offsetWidth -
-                SS.$sequence[0].clientWidth;
-            SS.$sequenceControls.css('right', sequenceControlsRight + 17);
-            SS.$sequenceControls.removeClass('hidden');
-        }
-        else {
-            SS.$sequenceFile.empty();
-            SS.$sequenceControls.addClass('hidden');
-            SS.$sequence.parent().removeClass('has-error');
-        }
-    });
-
-    // Handle clearing query sequences(s) when x button is pressed.
-    $('#btn-sequence-clear').click(function (e) {
-        $('#sequence').val("").focus();
-    });
-
-    // Pre-select if only one database available.
-    SS.onedb();
-
-    // Show tooltip on BLAST button.
-    $('#methods').tooltip({
-        title: function () {
-            var selected_databases = $(".databases input:checkbox:checked");
-            if (selected_databases.length === 0) {
-                return "You must select one or more databases above before" +
-                       " you can run a search!";
-            }
-        }
-    });
-    $('#method').tooltip({
-        title: function () {
-            var title = "Click to BLAST or press Ctrl+Enter.";
-            if ($(this).siblings().length !== 0) {
-                title += " Click dropdown button on the right for other" +
-                         " BLAST algorithms that can be used.";
-            }
-            return title;
-        },
-        delay: {
-            show: 1000,
-            hide: 0
-        }
-    });
-
-    // Handles the form submission when Ctrl+Enter is pressed anywhere on page
-    $(document).bind("keydown", function (e) {
-        if (e.ctrlKey && e.keyCode === 13 && !$('#method').is(':disabled')) {
-            $('#method').trigger('submit');
-        }
-    });
-
-    $('#sequence').on('sequence_type_changed', function (event, type) {
-        clearTimeout(notification_timeout);
-        $(this).parent().removeClass('has-error');
-        $('.notifications .active').hide().removeClass('active');
-
-        if (type) {
-            $('#' + type + '-sequence-notification').show('drop', {direction: 'up'}).addClass('active');
-
-            notification_timeout = setTimeout(function () {
-                $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
-            }, 5000);
-
-            if (type === 'mixed') {
-                $(this).parent().addClass('has-error');
-            }
-        }
-    });
-
-    $('body').click(function () {
-        $('.notifications .active').hide('drop', {direction: 'up'}).removeClass('active');
-    });
-
-    $('.databases').on('database_type_changed', function (event, type) {
-        switch (type) {
-            case 'protein':
-                $('.databases.nucleotide input:checkbox').disable();
-                $('.databases.nucleotide .checkbox').addClass('disabled');
-                break;
-            case 'nucleotide':
-                $('.databases.protein input:checkbox').disable();
-                $('.databases.protein .checkbox').addClass('disabled');
-                break;
-            default:
-                $('.databases input:checkbox').enable();
-                $('.databases .checkbox').removeClass('disabled');
-                break;
-        }
-    });
-
-    $('form').on('blast_method_changed', function (event, methods) {
-        // reset
-        $('#method')
-        .disable().val('').html('blast');
-
-        $('#methods')
-        .removeClass('input-group')
-        .children().not('#method').remove();
-
-        // set
-        if (methods.length > 0) {
-            var method = methods.shift();
-
-            $('#method')
-            .enable().val(method).html(SS.decorate(method));
-
-            if (methods.length >=1) {
-                $('#methods')
-                .addClass('input-group')
-                .append
-                (
-                    $('<div/>')
-                    .addClass('input-group-btn')
-                    .append
-                    (
-                        $('<button/>')
-                        .attr('type', 'button')
-                        .addClass("btn btn-primary dropdown-toggle")
-                        .attr('data-toggle', 'dropdown')
-                        .append
-                        (
-                            $('<span/>')
-                            .addClass('caret')
-                        ),
-                        $('<ul/>')
-                        .addClass('dropdown-menu dropdown-menu-right')
-                        .append
-                        (
-                            $.map(methods, function (method) {
-                                return $('<li/>').html(SS.decorate(method));
-                            })
-                        )
-                    )
-                );
-            }
-
-            // jiggle
-            $("#methods").wiggle();
-        }
-    });
-
-    // The list of possible blast methods is dynamically generated.  So we
-    // leverage event bubbling and delegation to trap 'click' event on the list items.
-    // Please see : http://api.jquery.com/on/#direct-and-delegated-events
-    $(document).on("click", "#methods .dropdown-menu li", function(event) {
-        var clicked = $(this);
-        var mbutton = $('#method');
-        var old_method = mbutton.text();
-        var new_method = clicked.text();
-
-        // swap
-        clicked.html(SS.decorate(old_method));
-        mbutton.val(new_method).html(SS.decorate(new_method));
-
-        // jiggle
-        $("#methods").wiggle();
-    });
-
-    SS.$sequence.poll();
 });
