@@ -55,60 +55,6 @@ module SequenceServer
           lambda { File.join SequenceServer.root, 'public', 'dist' }
     end
 
-    helpers do
-      # Render an anchor element from the given Hash.
-      #
-      # See links.rb for example of a Hash object that will be rendered.
-      def a(link)
-        return unless link[:title] && link[:url]
-        target = absolute?(link[:url]) && '_blank' || '_self'
-        a =  %(<a href="#{link[:url]}" class="#{link[:class]}" \
-target="#{target}">)
-        a << %(<i class="fa #{link[:icon]}"></i> ) if link[:icon]
-        a << "#{link[:title]}</a>"
-      end
-
-      # Is the given URI absolute? (or relative?)
-      #
-      # Returns false if nil is passed.
-      def absolute?(uri)
-        uri && URI.parse(uri).absolute?
-      end
-
-      # Prettify given data.
-      def prettify(data)
-        return prettify_tuple(data) if tuple? data
-        return prettify_float(data) if float? data
-        data
-      end
-
-      # Formats float as "a.bc" or "a x b^c". The latter if float is in
-      # scientific notation. Former otherwise.
-      def prettify_float(data)
-        data.to_s.match(/(\d+\.\d+)e?([+-]\d+)?/)
-        base  = Regexp.last_match[1]
-        power = Regexp.last_match[2]
-        s = format '%.2f', base
-        s << " &times; 10<sup>#{power}</sup>" if power
-        s
-      end
-
-      # Formats an array of two elements as "first (last)".
-      def prettify_tuple(tuple)
-        "#{tuple.first} (#{tuple.last})"
-      end
-
-      # Is the given value a tuple? (array of length two).
-      def tuple?(data)
-        data.is_a?(Array) && data.length == 2
-      end
-
-      def float?(data)
-        data.is_a?(Float) ||
-          (data.is_a?(String) && data =~ /(\d+\.\d+)e?([+-]\d+)?/)
-      end
-    end
-
     # For any request that hits the app in development mode, log incoming
     # params.
     before do
@@ -131,17 +77,16 @@ target="#{target}">)
       redirect "/#{job.id}"
     end
 
-    get '/:jid.html' do |jid|
+    get '/:jid.json' do |jid|
       job = Job.fetch(jid)
       halt 202 unless job.done?
-      erb(:_result,
-          :layout => nil,
-          :locals => { :report => BLAST::Report.new(job) })
+      rep = Report.generate job
+      rep.to_json
     end
 
     # Retrieve data for the given search id.
     get '/:jid' do |jid|
-      erb :result
+      erb :report
     end
 
     # @params sequence_ids: whitespace separated list of sequence ids to

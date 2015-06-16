@@ -494,3 +494,24 @@ svg:not(:root) {
   border-radius: 0;
   background-color: inherit;
 }
+
+.subject-info {
+  margin-right: 0;
+  margin-top: 60px;
+}
+
+.kablammo-links {
+  text-align: right;
+}
+
+.hit {
+  stroke: rgba(255, 255, 255, 0.7);
+  stroke-width: 1px;
+  cursor: pointer;
+}
+
+.hit.selected {
+  stroke: rgba(0, 0, 0, 0.4);
+  stroke-width: 2px;
+  stroke-dasharray: 5,5;
+}

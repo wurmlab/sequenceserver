@@ -34,6 +34,11 @@ module SequenceServer
       attr_reader :queries, :querydb
       attr_reader :params, :stats
 
+      def to_json
+        [:querydb, :program, :program_version, :params, :stats,
+         :queries].inject({}) { |h, k| h[k] = send(k); h }.update(search_id: job.id).to_json
+      end
+
       private
 
       # Generate report.

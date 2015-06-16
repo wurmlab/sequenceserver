@@ -115,6 +115,36 @@ module SequenceServer
         :icon  => 'fa-external-link'
       }
     end
+
+    def svg_download
+      {
+        :order => 2,
+        :title => 'SVG',
+        :url   => '#',
+        :class => 'export-to-svg',
+        :icon  => 'fa-download'
+      }
+    end
+
+    def png_download
+      {
+        :order => 2,
+        :title => 'PNG',
+        :url   => '#',
+        :class => 'export-to-png',
+        :icon  => 'fa-download'
+      }
+    end
+
+    def alignment_download
+      {
+        :order => 2,
+        :title => 'Alignment',
+        :url   => '#',
+        :class => 'export-alignment',
+        :icon  => 'fa-download'
+      }
+    end
   end
 end
 

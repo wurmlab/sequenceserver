@@ -48,6 +48,11 @@ module SequenceServer
       def querydb
         report.querydb
       end
+
+      def to_json(*args)
+        [:number, :id, :accession, :title, :length, :evalue, :score, :hsps,
+         :links].inject({}) { |h, k| h[k] = send(k); h }.to_json(*args)
+      end
     end
   end
 end

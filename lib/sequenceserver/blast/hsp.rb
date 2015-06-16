@@ -24,21 +24,12 @@ module SequenceServer
         super
       end
 
-      # Returns a Hash of stats common to all BLAST algorithms. Subclasses must
-      # update the returned Hash to add relevant stats of their own.
-      #
-      # rubocop:disable Metrics/AbcSize
-      def stats
-        {
-          'Score'      => [in_twodecimal(bit_score), score],
-          'E value'    => in_scientific_or_twodecimal(evalue),
-          'Identities' => [in_fraction(identity,   length),
-                           in_percentage(identity, length)],
-          'Gaps'       => [in_fraction(gaps,   length),
-                           in_percentage(gaps, length)]
-        }
+      def to_json(*args)
+
+        [:number, :bit_score, :score, :evalue, :qstart, :qend,
+         :sstart, :send, :qframe, :sframe, :identity, :positives,
+         :gaps, :length, :qseq, :sseq, :midline].inject({}) { |h, k| h[k] = self[k]; h }.update(pp: pp).to_json(*args)
       end
-      # rubocop:enable Metrics/AbcSize
 
       # Returns pretty formatted alignment String.
       #
@@ -147,42 +138,11 @@ module SequenceServer
       def sframe_sign
         sframe >= 0 ? 1 : -1
       end
-
-      ## We define stats in terms of the following functions. ##
-
-      # Returns fractional representation as String.
-      #
-      # NOTE:
-      #   Rational class reduces the fraction so we can't use that.
-      def in_fraction(num, den)
-        "#{num}/#{den}"
-      end
-
-      # Returns percentage as Float-String formatted to two decimal places.
-      def in_percentage(num, den)
-        format '%.2f', (num * 100.0 / den)
-      end
-
-      # Returns given Float as String formatted to two decimal places.
-      def in_twodecimal(num)
-        format '%.2f', num
-      end
-
-      # Formats the given number as "1e-3" if the number is less than 1 or
-      # greater than 10.
-      def in_scientific_or_twodecimal(num)
-        return in_twodecimal(num) if num >= 1 && num < 10
-        format '%.2e', num.to_f
-      end
     end
 
     class HSP
       # HSP subclass for BLASTX algorithm.
       class BLASTX < self
-        def stats
-          super.update 'Query frame' => qframe
-        end
-
         # Translated nucleotide query against protein database, hence 3.
         def qframe_unit
           3
@@ -191,24 +151,10 @@ module SequenceServer
 
       # HSP subclass for BLASTP algorithm.
       class BLASTP < self
-        def stats
-          super.update(
-            'Positives' =>
-            [
-              in_fraction(positives,   length),
-              in_percentage(positives, length)
-            ]
-          )
-        end
       end
 
       # HSP subclass for BLASTN algorithm.
       class BLASTN < self
-        def stats
-          super.update('Strand' =>
-                       "#{qframe > 0 ? '+' : '-'}/#{sframe > 0 ? '+' : '-'}")
-        end
-
         # BLASTN is a bit weird in that, no matter which direction the query
         # sequence aligned in, qstart is taken as alignment start coordinate
         # for query.
@@ -232,17 +178,6 @@ module SequenceServer
 
       # HSP subclass for TBLASTX algorithm.
       class TBLASTX < self
-        def stats
-          super.update(
-            'Frame'     => in_fraction(qframe, sframe),
-            'Positives' =>
-            [
-              in_fraction(positives, length),
-              in_percentage(positives, length)
-            ]
-          )
-        end
-
         # Translated nucleotide query against translated nucleotide database,
         # hence 3.
         def qframe_unit
@@ -258,10 +193,6 @@ module SequenceServer
 
       # HSP subclass for TBLASTN algorithm.
       class TBLASTN < self
-        def stats
-          super.update 'Hit frame' => sframe
-        end
-
         # Protein query against translated nucleotide database, hence 3.
         def sframe_unit
           3
