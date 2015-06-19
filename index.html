@@ -1135,6 +1135,31 @@ $ passenger-install-apache2-module
                       Yes.
                     </dd>
                     <dt>
+                      Q. View sequence link is disable for some hits.
+                    </dt>
+                    <dd>
+                      A. SequenceServer disables view sequence link if the length
+                      of the hit exceeds 10,000 residues - ok if target sequences
+                      are proteins or contigs. We feel this mode of analysing
+                      sequences is not optimal for very long sequences  (e.g:
+                      scaffolds).
+                    </dd>
+                    <dt>
+                      Q. Download FASTA of all hits is disabled.
+                    </dt>
+                    <dd>
+                      A. Download FASTA of all hits or bulk FASTA download of
+                      selected hits works only for 30 or less hits at a time.
+                      This is due to a technical limitation that length of URLs
+                      should not exceed 2083 characters. We are trying to remove
+                      this limitation.
+                    </dd>
+                  </dl>
+                </div>
+                <div
+                  class="col-md-6">
+                  <dl>
+                    <dt>
                       Q. Where is the documentation for the old and
                          "stable" sequenceserver accessible via `gem install sequenceserver`?
                     </dt>
@@ -1152,11 +1177,6 @@ $ passenger-install-apache2-module
                       Downloading, forking, pulling, filing issues and contributing
                       is most welcome!
                     </dd>
-                  </dl>
-                </div>
-                <div
-                  class="col-md-6">
-                  <dl>
                     <dt>
                       Q. What is a BLAST database? Can I make a custom BLAST database?
                     </dt>
