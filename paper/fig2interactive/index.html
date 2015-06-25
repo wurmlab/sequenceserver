@@ -2579,27 +2579,27 @@ Subject 1589  SFVESVKIPTACVA  1602
   <script>
     var steps = [
       {
-        content: '<p>Index overview summarises the query and database information and provides clickable links to query-sepecific results.</p>',
+        content: '<p>Index summarises the query and database information and provides clickable links to query-sepecific results.</p>',
         highlightTarget: true,
         nextButton: true,
         target: $('.index'),
-        my: 'right center',
+        my: 'right top',
         at: 'left center'
       },
       {
         content: '<p>Results for the third query.</p>',
         highlightTarget: true,
         nextButton: true,
-        target: $('.resultn .page-header'),
-        my: 'left center',
-        at: 'right center'
+        target: $('.resultn'),
+        my: 'left top',
+        at: 'top right'
       },
       {
         content: '<p>Graphical overview indicating which parts of the query sequence align to the database.</p>',
         highlightTarget: true,
         nextButton: true,
         target: $('.graphical-overview'),
-        my: 'left center',
+        my: 'left top',
         at: 'right center'
       },
       {
@@ -2607,15 +2607,23 @@ Subject 1589  SFVESVKIPTACVA  1602
         highlightTarget: true,
         nextButton: true,
         target: $('.tabular-view'),
-        my: 'left center',
+        my: 'left top',
         at: 'right center'
+      },
+      {
+        content: '<p>Hit details</p>',
+        highlightTarget: true,
+        nextButton: true,
+        target: $('.hitn'),
+        my: 'left top',
+        at: 'top right'
       },
       {
         content: '<p>Alignment details for a hit</p>',
         highlightTarget: true,
         nextButton: true,
         target: $('.hsp'),
-        my: 'left center',
+        my: 'left top',
         at: 'top right'
       }
     ]
