@@ -5,7 +5,7 @@ function Graph(grapher, results, query_def, query_id, subject_def, subject_id, q
   this._zoom_scale_by = 1.4;
   this._padding_x = 20;
   this._padding_y = 60;
-  this._canvas_width = 500;
+  //this._canvas_width = 500;
   this._canvas_height = 330;
 
   this._grapher = grapher;
@@ -49,8 +49,8 @@ function Graph(grapher, results, query_def, query_id, subject_def, subject_id, q
   this._axis_ticks = 10;
 
   this._render_graph();
-  this._configure_panning();
-  this._configure_zooming();
+  // this._configure_panning();
+  // this._configure_zooming();
 }
 
 Graph.prototype._display_selected_hsp_count = function() {
@@ -304,7 +304,7 @@ Graph.prototype._render_polygons = function() {
         return point[0] + ',' + point[1];
        }).join(' ');
      });
-  
+
   this._polygons.on('mouseenter', function(hovered_hsp, hovered_index) {
        if(self._count_selected_hsps() > 0) {
          return;
@@ -580,6 +580,7 @@ Graph.prototype._configure_zooming = function() {
     );
     self._render_graph();
   }
+
   this._svg.d3.on('mousewheel', handle_mouse_wheel); // Chrome
   this._svg.d3.on('wheel',      handle_mouse_wheel); // Firefox, IE
 }
