@@ -281,12 +281,14 @@
                     .attr('data-toggle', 'tooltip')
                     .attr('title', function(d) {
                         // Pretty print evalue in tooltip.
-                        var regex = /(\d*\.\d*)e?([+-]\d*)?/;
-                        var parsedVal = regex.exec(d.hitEvalue);
-                        var prettyEvalue = parseFloat(parsedVal[1]).toFixed(3);
+                        var regex = /(\d+)\.?(\d+)?e?([+-]\d+)?/;
+                        var match = regex.exec(d.hitEvalue);
+                        var base  = match[1] + '.' + match[2];
+                        var power = match[3];
+                        var prettyEvalue = parseFloat(base).toFixed(2);
                         var returnString = d.hitDef + '<br><strong>E value:</strong> ' + prettyEvalue;
-                        if (parsedVal[2] !== undefined) {
-                            returnString +=  ' &times; 10<sup>' + parsedVal[2] + '</sup>';
+                        if (power !== undefined) {
+                            returnString +=  ' &times; 10<sup>' + power + '</sup>';
                         }
                         return returnString;
                     })

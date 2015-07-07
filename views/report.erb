@@ -1,18 +1,15 @@
 <div
-  class="container">
-  <div
-    id="report">
-  </div>
+  class="container" id="report">
 </div>
-
-<canvas
-  id="png-exporter">
-</canvas> <!-- image exporting -->
 
 <div
   id="sequence-viewer" class="modal"
   tabindex=-1>
 </div> <!-- sequence viewing -->
+
+<canvas
+  id="png-exporter">
+</canvas> <!-- png exporting -->
 
 <% if settings.production? %>
   <script src="js/sequenceserver.min.js"></script>
