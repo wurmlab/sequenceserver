@@ -785,6 +785,7 @@ var Query = React.createClass({
                 data-graphit={"overview" + this.props.query.number}
                 data-hit-count={this.props.query.hits.count}
                 data-query-len={this.props.query.length}
+                data-algorithm={this.props.data.program}
                 data-graphit-target="hsps">
 
                 <div

@@ -145,7 +145,7 @@
     var drawLegend = function (svg, options, width, height) {
         var svg_legend = svg.append('g')
             .attr('transform',
-                'translate(0,' + (height - options.margin - options.legend * 1.25) + ')');
+                'translate(0,' + (height - 2.2 * options.margin) + ')');
 
         svg_legend.append('rect')
             .attr('x', 7 * (width - 2 * options.margin) / 10)
@@ -215,7 +215,15 @@
 
             var width = $graphDiv.width();
             var height = hits.length * (options.barHeight + options.barPadding) +
-                5 * options.margin + options.legend * 3;
+                2 * options.legend + 5 * options.margin;
+
+            var SEQ_TYPES = {
+                blastn: 'nucleic_acid',
+                blastp: 'amino_acid',
+                blastx: 'nucleic_acid',
+                tblastx: 'nucleic_acid',
+                tblastn: 'amino_acid'
+            };
 
             var svg = d3.select($graphDiv[0])
                 .selectAll('svg')
@@ -225,13 +233,16 @@
                     .attr('width', width)
                     .attr('height', height)
                 .append('g')
-                    .attr('transform', 'translate(' + options.margin / 4 + ', ' + options.margin / 4 + ')');
+                    .attr('transform', 'translate(' + options.margin / 4 + ', ' + (1.5 * options.margin) + ')');
 
             var x = d3.scale
                 .linear()
                 .range([0, width - options.margin]);
 
             x.domain([1, queryLen]);
+
+            var algorithm = $queryDiv.data().algorithm;
+            var formatter = Graph.prototype._create_formatter(x, SEQ_TYPES[algorithm]);
 
             var _tValues = x.ticks(11);
             _tValues.pop();
@@ -240,14 +251,21 @@
                 .axis()
                 .scale(x)
                 .orient('top')
-                .tickValues(_tValues.concat([1, queryLen]));
+                .tickValues(_tValues.concat([1, queryLen]))
+                .tickFormat(formatter);
 
             // Attach the axis to DOM (<svg> element)
-            svg.append('g')
+            var container = svg.append('g')
                 .attr('transform', 'translate(0, ' + options.margin + ')')
                 .append('g')
                     .attr('class', 'x axis')
                     .call(xAxis);
+
+            // Vertical alignment of ticks
+            container.selectAll('text')
+                    .attr('x','25px')
+                    .attr('y','2px')
+                    .attr('transform','rotate(-90)');
 
             var y = d3.scale
                 .ordinal()
