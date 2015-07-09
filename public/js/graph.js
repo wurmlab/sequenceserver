@@ -4,7 +4,7 @@ function Graph(grapher, results, query_def, query_id, subject_def, subject_id, q
   this._show_hsp_outlines = true;
   this._zoom_scale_by = 1.4;
   this._padding_x = 20;
-  this._padding_y = 60;
+  this._padding_y = 70;
   //this._canvas_width = 500;
   this._canvas_height = 330;
 
@@ -183,35 +183,49 @@ Graph.prototype._uniq = function(arr) {
   return uniq;
 }
 
-Graph.prototype._create_formatter = function(scale) {
-  var digits = 2;
-  var formatter;
-  while(true) {
-    formatter = d3.format('.' + digits + 's');
-    var ticks = scale.ticks().map(function(t) {
-      return formatter(t);
-    });
-    if(ticks.length === this._uniq(ticks).length) {
-      break;
+/**
+ * Defines how ticks will be formatted.
+ *
+ * Modified by Priyam based on https://github.com/mbostock/d3/issues/1722.
+ */
+Graph.prototype._create_formatter = function (scale, seq_type) {
+    var ticks = scale.ticks();
+    var prefix = d3.formatPrefix(ticks[ticks.length - 1]);
+    var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
+
+    var digits = 0;
+    var format;
+    var _ticks;
+    while (true) {
+        format = d3.format('.' + digits + 'f');
+        _ticks = scale.ticks().map(function (d) {
+            return format(prefix.scale(d));
+        });
+        if (_ticks.length === this._uniq(_ticks).length) {
+            break;
+        }
+        digits++;
     }
-    digits++;
-  }
-  return formatter;
+
+    return function (d) {
+        if (!prefix.symbol || d === scale.domain()[0]) {
+            return (d + ' ' + suffixes[seq_type]);
+        }
+        else {
+            return (format(prefix.scale(d)) +
+                    ' ' + prefix.symbol + suffixes[seq_type]);
+        }
+    };
 }
 
 Graph.prototype._create_axis = function(scale, orientation, height, text_anchor, dx, dy, seq_type) {
-  var scinotation_formatter = this._create_formatter(scale);
-  var formatter = function(val) {
-    var suffixes = {
-      amino_acid:   'aa',
-      nucleic_acid: 'b'
-    };
-    return scinotation_formatter(val) + suffixes[seq_type];
-  }
-
+  var formatter = this._create_formatter(scale, seq_type);
+  var tvalues = scale.ticks();
+  tvalues.pop();
   var axis = d3.svg.axis()
                .ticks(this._axis_ticks)
                .scale(scale)
+               .tickValues(tvalues.concat(scale.domain()))
                .tickFormat(formatter)
                .orient(orientation);
 
@@ -441,8 +455,8 @@ Graph.prototype._label_axis = function(type, axis) {
     }, false);
 
     if(does_label_overlap_ticks) {
-      self._axis_label_visibility[type] = 'hidden';
-      label.style('visibility', 'hidden');
+      //self._axis_label_visibility[type] = 'hidden';
+      //label.style('visibility', 'hidden');
     } else {
       self._axis_label_visibility[type] = 'visible';
     }
@@ -512,10 +526,10 @@ Graph.prototype._create_scales = function() {
   }
 
   var query_scale = d3.scale.linear()
-                         .domain([0, this._query_length])
+                         .domain([1, this._query_length])
                          .range(query_range);
   var subject_scale = d3.scale.linear()
-                         .domain([0, this._subject_length])
+                         .domain([1, this._subject_length])
                          .range(subject_range);
   query_scale.original_domain = query_scale.domain();
   subject_scale.original_domain = subject_scale.domain();
