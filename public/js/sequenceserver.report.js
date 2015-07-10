@@ -301,12 +301,17 @@ var Kablammo = (function () {
                 if(!this.isHspSelected(clicked_index , selected)) {
                     selected[clicked_index] = hsps[clicked_index];
                     var polygon = polygons[0][clicked_index];
+                    polygon.parentNode.appendChild(polygon);
                     d3.select(polygon).classed('selected', true);
                     $("#Alignment_Query_" + this.props.query.number + "_hit_" + this.props.hit.number + "_" + (clicked_index + 1)).show();
                 }
                 else {
                     delete selected[clicked_index];
                     var polygon = polygons[0][clicked_index];
+                    var firstChild = polygon.parentNode.firstChild;
+                    if (firstChild) {
+                        polygon.parentNode.insertBefore(polygon, firstChild);
+                    }
                     d3.select(polygon).classed('selected', false);
                     $("#Alignment_Query_" + this.props.query.number + "_hit_" + this.props.hit.number + "_" + (clicked_index + 1)).hide();
                 }
