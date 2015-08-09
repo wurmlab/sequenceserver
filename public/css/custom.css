@@ -464,12 +464,6 @@ svg:not(:root) {
   font-family: monospace;
 }
 
-.spinner {
-  width: 100%;
-  text-align: center;
-  padding-bottom: 30px;
-}
-
 .glow {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   border-left: 2px solid #f0ad4e;

@@ -1339,10 +1339,8 @@ $(function () {
                 return;
             }
             React.render(<Report data={data}/>, document.getElementById('report'));
-            $('#spinner').modal('hide');
         });
     }
 
-    $('#spinner').modal();
     fetch_and_show_results();
 });
