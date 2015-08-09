@@ -355,9 +355,6 @@ h1,h2,h3,h4,h5,h6,.page-header {
   font-size: 12px;
   text-align: center;
 }
-svg:not(:root) {
-  overflow: visible;
-}
 
 .tabular-view {
   margin-bottom: 14px;
@@ -481,25 +478,4 @@ svg:not(:root) {
   padding: 0;
   border-radius: 0;
   background-color: inherit;
-}
-
-.subject-info {
-  margin-right: 0;
-  margin-top: 60px;
-}
-
-.kablammo-links {
-  text-align: right;
-}
-
-.hit {
-  stroke: rgba(255, 255, 255, 0.7);
-  stroke-width: 1px;
-  cursor: pointer;
-}
-
-.hit.selected {
-  stroke: rgba(0, 0, 0, 0.4);
-  stroke-width: 2px;
-  stroke-dasharray: 5,5;
 }
