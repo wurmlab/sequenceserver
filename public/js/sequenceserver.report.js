@@ -644,39 +644,29 @@ var Hit = React.createClass({
                 <div
                     className="page-content collapse in"
                     id={"Query_" + this.props.query.number + "_hit_"
-                         + this.props.hit.number + "_alignment"}>
+                        + this.props.hit.number + "_alignment"}>
                     <div
-                      className="row">
-                        <div
-                          className="col-md-4">
-                            Hit length: {this.props.hit.length}
-                        </div>
-                        <div
-                          className="hit-links text-right col-md-8">
-                            <label>
-                                <input
-                                  type="checkbox"
-                                  value={this.props.hit.id}
-                                  id={this.domID() + "_checkbox"}
-                                  data-target=
-                                    {
-                                        "#Query_" + this.props.query.number + "_hit_" + this.props.hit.number
-                                    }
-                                  onChange=
-                                    {
-                                        _.bind(function () {
-                                            this.props.selectHit(this.domID() + "_checkbox");
-                                        }, this)
-                                    }
-                                />
-                                <span>{" Select "}</span>
+                        className="hit-links">
+                        <label>
+                            <input
+                                type="checkbox" id={this.domID() + "_checkbox"}
+                                value={this.props.hit.id}
+                                data-target={"#Query_" + this.props.query.number
+                                             + "_hit_" + this.props.hit.number}
+                                onChange=
                                 {
-                                    _.map(this.props.hit.links, _.bind(function (link) {
-                                        return [<span> | </span>, this.a(link)];
-                                    }, this))
+                                    _.bind(function () {
+                                        this.props.selectHit(this.domID() + "_checkbox");
+                                    }, this)
                                 }
-                            </label>
-                        </div>
+                            />
+                            <span>{" Select "}</span>
+                            {
+                                _.map(this.props.hit.links, _.bind(function (link) {
+                                    return [<span> | </span>, this.a(link)];
+                                }, this))
+                            }
+                        </label>
                     </div>
                     <br/>
                     <Kablammo query={this.props.query} hit={this.props.hit} algorithm={this.props.algorithm}/>
