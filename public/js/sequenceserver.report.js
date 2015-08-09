@@ -624,12 +624,14 @@ var Hit = React.createClass({
                       data-toggle="collapse"
                       data-target={ "#Query_" + this.props.query.number + "_hit_"
                                      + this.props.hit.number + "_alignment"} >
-                        <i className="fa fa-chevron-down"> </i>
+                        <i className="fa fa-chevron-down"></i>
+                        &nbsp;
                         <span>
-                          {this.props.hit.id}
-                          <small>
-                            {this.props.hit.title}
-                          </small>
+                            {this.props.hit.id}
+                            &nbsp;
+                            <small>
+                                {this.props.hit.title}
+                            </small>
                         </span>
                     </h4>
                     <span
@@ -809,6 +811,7 @@ var Query = React.createClass({
                     className="page-header">
                     <h3>
                         Query= {this.props.query.id}
+                        &nbsp;
                         <small>
                             {this.props.query.title}
                         </small>
