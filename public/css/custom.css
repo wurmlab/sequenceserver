@@ -358,16 +358,6 @@ h1,h2,h3,h4,h5,h6,.page-header {
 svg:not(:root) {
   overflow: visible;
 }
-.axis path,
-.axis line {
-    fill: none;
-    stroke: #f00;
-    stroke-width: 2px;
-    shape-rendering: crispEdges;
-}
-.axis path {
-  stroke-width: 3px;
-}
 
 .tabular-view {
   margin-bottom: 14px;
