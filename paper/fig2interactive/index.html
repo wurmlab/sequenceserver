@@ -1,37 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en" class="">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>SequenceServer: Custom BLAST Server</title>
-  <meta name="author" content="Anurag Priyam">
-  <meta name="author" content="Ben J. Woodcroft">
-  <meta name="author" content="Vivek Rai">
-  <meta name="author" content="Cedric Wurm">
-  <meta name="author" content="Yannick Wurm">
-  <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)">
+    <title>SequenceServer: Custom BLAST Server</title>
+    <meta name="author" content="Anurag Priyam">
+    <meta name="author" content="Ben J. Woodcroft">
+    <meta name="author" content="Vivek Rai">
+    <meta name="author" content="Cedric Wurm">
+    <meta name="author" content="Yannick Wurm">
+    <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)">
 
-  <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-  <![endif]-->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <![endif]-->
 
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
 
-  <link href='http://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-
-  <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css">
-  <link rel="stylesheet" media="screen,print" type="text/css" href="css/jquery.qtip.min.css">
-  <link rel="stylesheet" media="screen,print" type="text/css" href="css/tourist.css">
-
-  <style>
-    body, .popover, .tooltip {
-      font-family: 'Open sans'
-    }
-  </style>
-</head>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css">
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/shepherd.css">
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/tour.css">
+  </head>
 
 <body>
+  <div class="backdrop"></div>
   <div class="container">
     <div class="result" id="result" style="">
       <div class="row">
@@ -52,8 +48,7 @@
         </div>
 
         <div class="page-content">
-          
-            <div class="graphical-overview"><svg width="843" height="220"><g transform="translate(5, 5)"><g transform="translate(0, 20)"><g class="x axis"><g class="tick" transform="translate(90.63475373547315,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">200</text></g><g class="tick" transform="translate(181.72495849474268,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">400</text></g><g class="tick" transform="translate(272.8151632540122,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">600</text></g><g class="tick" transform="translate(363.9053680132817,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">800</text></g><g class="tick" transform="translate(454.9955727725512,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">1,000</text></g><g class="tick" transform="translate(546.0857775318207,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">1,200</text></g><g class="tick" transform="translate(637.1759822910902,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">1,400</text></g><g class="tick" transform="translate(728.2661870503597,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">1,600</text></g><g class="tick" transform="translate(0,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">1</text></g><g class="tick" transform="translate(822.9999999999999,0)" style="opacity: 1;"><line y2="-6" x2="0"></line><text y="-9" x="0" dy="0em" style="text-anchor: middle;">1,808</text></g><path class="domain" d="M0,-6V0H823V-6"></path></g></g><g class="ghit" transform="translate(0, 30)"><g data-toggle="tooltip" title="" data-original-title="sp|Q2VQM6|VIT2_SOLIN&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 0.000"><a href="#Query_3_hit_1"><rect x="0" y="4.077669902912621" width="822.9999999999999" height="4" fill="#000000"></rect></a></g><g data-toggle="tooltip" title="" data-original-title="sp|Q2VQM5|VIT3_SOLIN&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 0.000"><a href="#Query_3_hit_2"><rect x="0" y="17.66990291262136" width="822.9999999999999" height="4" fill="#000000"></rect></a></g><g data-toggle="tooltip" title="" data-original-title="sp|Q868N5|VIT_APIME&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 0.000"><a href="#Query_3_hit_3"><rect x="4.099059214167127" y="31.2621359223301" width="818.4454897620365" height="4" fill="#000000"></rect></a></g><g data-toggle="tooltip" title="" data-original-title="sp|Q7Z1M0|VIT1_SOLIN&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 0.000"><a href="#Query_3_hit_4"><rect x="0" y="44.85436893203884" width="765.6131710016601" height="4" fill="#000000"></rect></a></g><g data-toggle="tooltip" title="" data-original-title="sp|Q05808|VIT_ANTGR&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 7.255 &amp;times; 10&lt;sup&gt;-164&lt;/sup&gt;"><a href="#Query_3_hit_5"><rect x="0" y="58.44660194174757" width="821.6336469286109" height="4" fill="#282828"></rect></a></g><g data-toggle="tooltip" title="" data-original-title="sp|Q9U8M0|VIT1_PERAM&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 1.267 &amp;times; 10&lt;sup&gt;-133&lt;/sup&gt;"><a href="#Query_3_hit_6"><rect x="3.64360819037078" y="72.03883495145631" width="738.7415605976756" height="4" fill="#3e3e3e"></rect></a></g><g data-toggle="tooltip" title="" data-original-title="sp|Q9BPS0|VIT2_PERAM&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 1.946 &amp;times; 10&lt;sup&gt;-104&lt;/sup&gt;"><a href="#Query_3_hit_7"><rect x="0" y="85.63106796116506" width="488.69894853348086" height="4" fill="#535353"></rect></a><a href="#Query_3_hit_7"><rect x="569.7692307692307" y="85.63106796116506" width="251.86441615938014" height="4" fill="#535353"></rect></a><line x1="488.69894853348086" y1="87.63106796116506" x2="569.7692307692307" y2="87.63106796116506" stroke="#535353"></line></g><g data-toggle="tooltip" title="" data-original-title="sp|Q27309|VIT_BOMMO&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 3.770 &amp;times; 10&lt;sup&gt;-94&lt;/sup&gt;"><a href="#Query_3_hit_8"><rect x="199.94299944659656" y="99.2233009708738" width="621.6906474820144" height="4" fill="#5b5b5b"></rect></a></g><g data-toggle="tooltip" title="" data-original-title="sp|Q16927|VIT1_AEDAE&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 1.177 &amp;times; 10&lt;sup&gt;-58&lt;/sup&gt;"><a href="#Query_3_hit_9"><rect x="188.1012728278915" y="112.81553398058253" width="153.94244604316546" height="4" fill="#757575"></rect></a><a href="#Query_3_hit_9"><rect x="384.4006640841173" y="112.81553398058253" width="437.23298284449356" height="4" fill="#757575"></rect></a><a href="#Query_3_hit_9"><rect x="10.019922523519645" y="112.81553398058253" width="158.49695628112892" height="4" fill="#757575"></rect></a><line x1="342.04371887105697" y1="114.81553398058253" x2="384.4006640841173" y2="114.81553398058253" stroke="#757575"></line><line x1="168.51687880464857" y1="114.81553398058253" x2="384.4006640841173" y2="114.81553398058253" stroke="#757575"></line></g><g data-toggle="tooltip" title="" data-original-title="sp|P18947|VIT4_CAEEL&lt;br&gt;&lt;strong&gt;E value:&lt;/strong&gt; 2.264 &amp;times; 10&lt;sup&gt;-14&lt;/sup&gt;"><a href="#Query_3_hit_10"><rect x="654.4831211953514" y="126.40776699029126" width="168.06142778085223" height="4" fill="#969696"></rect></a></g></g><g transform="translate(0,187.5)"><rect x="562.1" width="152.6" height="10" fill="url(#legend-grad)"></rect><text transform="translate(0, 10)" x="471.8">Weaker hits</text><text transform="translate(0, 10)" x="732.7">Stronger hits</text></g><lineargradient id="legend-grad"><stop offset="0%" stop-color="#ccc"></stop><stop offset="50%" stop-color="#888"></stop><stop offset="100%" stop-color="#000"></stop></lineargradient></g></svg><button class="btn btn-link more" type="button" data-parent-query="Query_3" style="display: none;">View More&nbsp;<i class="fa fa-angle-double-down"></i></button><button class="btn btn-link less" type="button" data-parent-query="Query_3" style="display: none;">View Less&nbsp;<i class="fa fa-angle-double-up"></i></button></div><table class="table table-hover table-condensed tabular-view">
+          <table class="table table-hover table-condensed tabular-view">
               <thead>
                 <tr><th class="text-left"> Number </th>
                 <th>Sequences producing significant alignments</th>
@@ -173,9 +168,9 @@
                         Select
                       </label>
                       
-                        | <a href="get_sequence/?sequence_ids=Q2VQM6&database_ids=ece359829e711c694dce70c10eb28bb1" class="view-sequence" target="_self"><i class="fa fa-eye"></i> Sequence</a>
+                        | <a href="get_sequence/sequenceserver-Q2VQM6.json" class="view-sequence" target="_self"><i class="fa fa-eye"></i> Sequence</a>
                       
-                        | <a href="get_sequence/?sequence_ids=Q2VQM6&database_ids=ece359829e711c694dce70c10eb28bb1&download=fasta" class="download" target="_self"><i class="fa fa-download"></i> FASTA</a>
+                        | <a href="get_sequence/sequenceserver-Q2VQM6.fa" class="download" target="_self"><i class="fa fa-download"></i> FASTA</a>
                       
                         | <a href="http://www.uniprot.org/uniprot/Q2VQM6" class="" target="_blank"><i class="fa fa-external-link"></i> Uniprot</a>
                       
@@ -2467,37 +2462,40 @@ Subject 1589  SFVESVKIPTACVA  1602
       </div>
 
     <div class="side col-md-3 hidden-xs hidden-sm">
-      <div class="sidebar affix-top" style="width: 263px;">
-        <div class="page-header">
-          <h4>
-            BLASTP:
-            3 queries,
-            1 database
-          </h4>
-        </div>
-        <ul class="nav hover-reset active-bold index">
-            <li class="">
+      <div class="sidebar">
+        <div class="index-container">
+          <div class="page-header">
+            <h4>
+              BLASTP:
+              3 queries,
+              1 database
+            </h4>
+          </div>
+          <ul class="nav hover-reset active-bold index">
+            <li>
               <a class="nowrap-ellipsis hover-bold" href="#Query_1" title="Query= SI2.2.0_02651">
                 Query= SI2.2.0_02651
               </a>
             </li>
 
-            <li class="">
+            <li>
               <a class="nowrap-ellipsis hover-bold" href="#Query_2" title="Query= SI2.2.0_80227">
                 Query= SI2.2.0_80227
               </a>
             </li>
 
-            <li>
+            <li class="active">
               <a class="nowrap-ellipsis hover-bold" href="#Query_3" title="Query= SI2.2.0_02806">
                 Query= SI2.2.0_02806
               </a>
             </li>
-        </ul>
+          </ul>
+        </div>
 
         <br>
         <br>
 
+        <div class="downloads-container">
         <div class="page-header">
           <h4>
             Download FASTA, XML, TSV
@@ -2505,7 +2503,7 @@ Subject 1589  SFVESVKIPTACVA  1602
         </div>
         <ul class="downloads list-unstyled list-padded">
           <li>
-            <a class="download download-fasta-of-all" data-databases="ece359829e711c694dce70c10eb28bb1" href="get_sequence/?sequence_ids=Q5SPL2%20Q96QT6%20Q09698%20Q04779%20O15164%20Q14839%20Q6PDQ2%20Q64127%20Q924W6%20A2A8L1%20P42860%20P30106%20P67804%20P30108%20P67805%20P30107%20P30104%20P20432%20Q9VG93%20Q9VG94%20Q2VQM6%20Q2VQM5%20Q868N5%20Q7Z1M0%20Q05808%20Q9U8M0%20Q9BPS0%20Q27309%20Q16927%20P18947&database_ids=ece359829e711c694dce70c10eb28bb1&download=fasta" data-original-title="" title="">
+            <a class="download download-fasta-of-all" data-databases="ece359829e711c694dce70c10eb28bb1" href="get_sequence/sequenceserver-30_hits.fa" data-original-title="" title="">
               FASTA of all hits
             </a>
           </li>
@@ -2515,25 +2513,26 @@ Subject 1589  SFVESVKIPTACVA  1602
             </a>
           </li>
           <li>
-            <a class="download" title="" data-toggle="tooltip" href="download/sequenceserver_blast_result20150625-968-bgv8fd.std_tsv" data-original-title="12 columns: query and subject ID; alignment length,
+            <a class="download" title="" data-toggle="tooltip" href="downloads/sequenceserver-std_tsv_report.tsv" data-original-title="12 columns: query and subject ID; alignment length,
               mismatches, gaps, identity, start and end coordinates,
               e value and bitscore.">
               Standard tabular report
             </a>
           </li>
           <li>
-            <a class="download" title="" data-toggle="tooltip" href="download/sequenceserver_blast_result20150625-968-bgv8fd.full_tsv" data-original-title="44 columns: query and subject ID, GI, accessions,
+            <a class="download" title="" data-toggle="tooltip" href="downloads/sequenceserver-full_tsv_report.tsv" data-original-title="44 columns: query and subject ID, GI, accessions,
               and length; alignment details; taxonomy details of subject
               sequence(s) and query coverage per subject and per HSP.">
               Full tabular report
             </a>
           </li>
           <li>
-            <a class="download" title="" data-toggle="tooltip" href="download/sequenceserver_blast_result20150625-968-bgv8fd.xml" data-original-title="Results in XML format.">
+            <a class="download" title="" data-toggle="tooltip" href="downloads/sequenceserver-xml_report.xml" data-original-title="Results in XML format.">
               Full XML report
             </a>
           </li>
         </ul>
+      </div>
       </div>
     </div>
     </div>
@@ -2551,7 +2550,8 @@ Subject 1589  SFVESVKIPTACVA  1602
     </p>
   </div>
 
-  <div id="sequence-viewer" class="modal" tabindex="-1">
+  <div id="sequence-viewer" class="modal" tabindex="-1"
+    data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -2571,69 +2571,61 @@ Subject 1589  SFVESVKIPTACVA  1602
     </div>
   </div> <!-- sequence viewing -->
 
+  <div id="tour-welcome" class="modal fade" tabindex="-1"
+    data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Welcome</h3>
+        </div>
+
+        <div class="modal-body">
+          <p>
+            The following is an interactive tour of various aspects of
+            SequenceServer's HTML report.
+          </p>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button" class="btn btn-primary"
+            data-dismiss="modal">
+            Start
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> <!-- tour welcome -->
+
+  <div id="tour-complete" class="modal fade" tabindex="-1"
+    data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Thank you!</h3>
+        </div>
+
+        <div class="modal-body">
+          This interactive guide was generated using
+          <a
+            href="http://github.hubspot.com/shepherd/docs/welcome/">
+            Shepherd</a>.
+          <br>
+          The BLAST report used here was obtained by BLAST-ing
+          <a
+            href="downloads/query.fa">
+            query.fa
+          </a>
+          against SwissProt downloaded on 25th March, 2015 using SequenceServer
+          1.0.4.
+        </div>
+      </div>
+    </div>
+  </div> <!-- tour completion -->
+
   <!-- JS -->
   <script type="text/javascript" src="js/sequenceserver.min.js"></script>
-  <script type="text/javascript" src="js/jquery.qtip.min.js"></script>
-  <script type="text/javascript" src="js/backbone.min.js"></script>
-  <script type="text/javascript" src="js/tourist.min.js"></script>
-  <script>
-    var steps = [
-      {
-        content: '<p>Index summarises the query and database information and provides clickable links to query-sepecific results.</p>',
-        highlightTarget: true,
-        nextButton: true,
-        target: $('.index'),
-        my: 'right top',
-        at: 'left center'
-      },
-      {
-        content: '<p>Results for the third query.</p>',
-        highlightTarget: true,
-        nextButton: true,
-        target: $('.resultn'),
-        my: 'left top',
-        at: 'top right'
-      },
-      {
-        content: '<p>Graphical overview indicating which parts of the query sequence align to the database.</p>',
-        highlightTarget: true,
-        nextButton: true,
-        target: $('.graphical-overview'),
-        my: 'left top',
-        at: 'right center'
-      },
-      {
-        content: '<p>Tabular summary of all hits</p>',
-        highlightTarget: true,
-        nextButton: true,
-        target: $('.tabular-view'),
-        my: 'left top',
-        at: 'right center'
-      },
-      {
-        content: '<p>Hit details</p>',
-        highlightTarget: true,
-        nextButton: true,
-        target: $('.hitn'),
-        my: 'left top',
-        at: 'top right'
-      },
-      {
-        content: '<p>Alignment details for a hit</p>',
-        highlightTarget: true,
-        nextButton: true,
-        target: $('.hsp'),
-        my: 'left top',
-        at: 'top right'
-      }
-    ]
-
-    var tour = new Tourist.Tour({
-      steps: steps,
-      tipClass: 'Bootstrap',
-      tipOptions:{ showEffect: 'slidein' }
-    });
-    tour.start();
-  </script>
+  <script type="text/javascript" src="js/shepherd.min.js"></script>
+  <script type="text/javascript" src="js/tour.js"></script>
 </body>
 </html>
