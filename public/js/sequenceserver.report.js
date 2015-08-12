@@ -1333,14 +1333,22 @@ var Report = React.createClass({
 
 $(function () {
     var fetch_and_show_results = function () {
-        $.getJSON(location.href + '.json', function (data, _, jqXHR) {
-            if (jqXHR.status === 202) {
+        $.getJSON(location.href + '.json')
+        .complete(function (jqXHR) {
+            switch (jqXHR.status) {
+            case 202:
                 setTimeout(fetch_and_show_results, 5000);
-                return;
+                break;
+            case 200:
+                React.render(<Report data={jqXHR.responseJSON}/>,
+                             document.getElementById('report'));
+                break;
+            case 500:
+                SS.showErrorModal(jqXHR, function () {});
+                break;
             }
-            React.render(<Report data={data}/>, document.getElementById('report'));
         });
-    }
+    };
 
     fetch_and_show_results();
 });
