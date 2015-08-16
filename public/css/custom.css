@@ -355,8 +355,13 @@ h1,h2,h3,h4,h5,h6,.page-header {
   font-size: 12px;
   text-align: center;
 }
+.graphical-overview .btn {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 
 .tabular-view {
+  margin-top: 21px;
   margin-bottom: 14px;
 }
 
