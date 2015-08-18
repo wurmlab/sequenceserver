@@ -97,7 +97,7 @@ $(function () {
             attachment: 'top right'
         },
         text:
-            '<p>Index summarises the query and database information, and provides clickable links to query-sepecific results.</p>',
+            '<p>Index summarises the query and database information, and provides links to results for each query.</p>',
         buttons: [
             {
                 text: 'Okay',
@@ -111,7 +111,7 @@ $(function () {
             on: 'left'
         },
         text:
-            '<p>The query sequence for which result is being viewed is highlight in the index.</p>',
+            '<p>The query sequence for which results are being viewed is highlighted in bold.</p>',
         buttons: [
             {
                 text: 'Okay',
@@ -128,7 +128,7 @@ $(function () {
             attachment: 'top left'
         },
         text:
-            '<p>Results for the query SI2.2.0_02806.</p>',
+            '<p>Results for the query <code>SI2.2.0_02806</code>.</p>',
         buttons: [
             {
                 text: 'Okay',
@@ -146,7 +146,7 @@ $(function () {
             attachment: 'top left'
         },
         text:
-            '<p>For each query, the results include a graphical overview indicating which parts of the query sequence align to the database. Hovering over a hit will show its id and evalue in a tooltip. Clicking on the hit will jump to the alignment details for the corresponding hit.</p>',
+            '<p>For each query, the results include a graphical overview indicating how each database hit sequence aligns to the query sequence. Hovering over a hit will show its identifier and the alignment evalue in a tooltip. Clicking on the hit will jump to the corresponding alignment details.</p>',
         buttons: [
             {
                 text: 'Show me',
@@ -203,7 +203,7 @@ $(function () {
             targetAttachment: 'top right',
             attachment: 'top left'
         },
-        text: '<p>Additionally, details like alignment score, evalue, and length of the hit are summarised in a tabular form. Hits are numbered. Hit id links to the alignment detail for that hit.</p>',
+        text: '<p>Additionally, details including alignment bitscore and e-value, as well as hit length are summarised in a table. Hits are numbered. Clicking on the hit will jump to the corresponding alignment details.</p>',
         buttons: [
             {
                 text: 'Show me',
@@ -318,7 +318,7 @@ $(function () {
             element: $('#Query_3_hit_1_alignment .hit-links .view-sequence')[0],
             on: 'bottom',
         },
-        text: '<p>Link to view hit sequence. Click on it to.</p>',
+        text: '<p>Link to view hit sequence. Try clicking on it.</p>',
         buttons: [],
         when: $.extend({
             'before-show': function () {
@@ -362,16 +362,18 @@ $(function () {
             element: $('#Query_3_hit_1_alignment .hit-links label')[0],
             on: 'bottom',
         },
-        text: '<p>Select a sequence for bulk download. Click on it.</p>',
+        text: '<p>Select a sequence for bulk download. Try clicking on it.</p>',
         buttons: [],
         when: $.extend({
-            'before-show': enableClick,
-            'before-hide': disableClick
-        }, tour.options.defaults.when),
-        advanceOn: {
-            selector: '#Query_3_hit_1_alignment .hit-links label',
-            event: 'click'
-        }
+            'before-show': function () {
+                enableClick();
+                $(document).on('change', '#Query_3_hit_1_alignment .hit-links :checkbox', tour.next);
+            },
+            'before-hide': function () {
+                disableClick();
+                $(document).off('change', '#Query_3_hit_1_alignment .hit-links :checkbox', tour.next);
+            }
+        }, tour.options.defaults.when)
     })
     .addStep({
         attachTo: {
@@ -382,12 +384,12 @@ $(function () {
         buttons: [],
         when: {
             'before-show': function () {
-                $(this.options.attachTo.element).on('click', tour.next);
+                $('#Query_3_hit_1 .page-content').on('hidden.bs.collapse', tour.next);
                 enableClick();
             },
             'before-hide': function () {
                 disableClick();
-                $(this.options.attachTo.element).off('click', tour.next);
+                $('#Query_3_hit_1 .page-content').off('hidden.bs.collapse', tour.next);
             }
         }
     })
@@ -399,13 +401,15 @@ $(function () {
         text: '<p>Let\'s select one more hit.</p>',
         buttons: [],
         when: $.extend({
-            'before-show': enableClick,
-            'before-hide': disableClick
-        }, tour.options.defaults.when),
-        advanceOn: {
-            selector: '#Query_3_hit_2_alignment .hit-links label',
-            event: 'click'
-        }
+            'before-show': function () {
+                enableClick();
+                $(document).on('change', '#Query_3_hit_2_alignment .hit-links :checkbox', tour.next);
+            },
+            'before-hide': function () {
+                disableClick();
+                $(document).off('change', '#Query_3_hit_2_alignment .hit-links :checkbox', tour.next);
+            }
+        }, tour.options.defaults.when)
     })
     .addStep({
         attachTo: {
@@ -416,12 +420,12 @@ $(function () {
         buttons: [],
         when: {
             'before-show': function () {
-                $(this.options.attachTo.element).on('click', tour.next);
+                $('#Query_3_hit_2 .page-content').on('hidden.bs.collapse', tour.next);
                 enableClick();
             },
             'before-hide': function () {
                 disableClick();
-                $(this.options.attachTo.element).off('click', tour.next);
+                $('#Query_3_hit_2 .page-content').off('hidden.bs.collapse', tour.next);
             }
         }
     })
