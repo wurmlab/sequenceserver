@@ -772,6 +772,65 @@ var HitsTable = React.createClass({
 });
 
 /**
+ * Component for graphical-overview per query.
+ */
+
+var GraphicalOverview = React.createClass({
+
+    // Internal helpers. //
+
+    /**
+     * Converts data into form accepted by graphical overview.
+     */
+    toGraph : function (query_hits,number) {
+        var hits = [];
+        query_hits.map(function (hit) {
+            var _hsps = [];
+            var hsps = hit.hsps;
+            _.each(hsps, function (hsp) {
+                var _hsp = {};
+                _hsp.hspEvalue = hsp.evalue;
+                _hsp.hspStart = hsp.qstart;
+                _hsp.hspEnd = hsp.qend;
+                _hsp.hspFrame = hsp.sframe;
+                _hsp.hspId = "Query_"+number+"_hit_"+hit.number+"_hsp_"+hsp.number;
+                _hsps.push(_hsp);
+            });
+            _hsps.hitId = hit.id;
+            _hsps.hitDef = "Query_"+number+"_hit_"+hit.number;
+            _hsps.hitEvalue = hit.evalue;
+            hits.push(_hsps);
+        });
+        return hits;
+    },
+
+    /**
+     * Returns jQuery wrapped element that should hold graphical overview's
+     * svg.
+     */
+    svgContainer: function () {
+        return $(React.findDOMNode(this.refs.svgContainer));
+    },
+
+
+    // Life-cycle methods //
+
+    render: function () {
+        return (
+            <div
+                class="graphical-overview"
+                ref="svgContainer">
+            </div>
+        );
+    },
+
+    componentDidMount: function () {
+        var hits = this.toGraph(this.props.query.hits, this.props.query.number);
+        $.graphIt(this.svgContainer().parent().parent(), this.svgContainer(), 0, 20, null, hits);
+    }
+});
+
+/**
  * Renders report for each query sequence.
  *
  * Composed of graphical overview, tabular summary (HitsTable),
@@ -798,15 +857,14 @@ var Query = React.createClass({
     // Life cycle methods //
 
     render: function () {
+        // NOTE:
+        //   Adding 'subject' class to query container is required by
+        //   ImageExporter.
         return (
             <div
-                className="resultn" id={this.domID()}
-                data-graphit={"overview" + this.props.query.number}
-                data-hit-count={this.props.query.hits.count}
+                className="resultn subject" id={this.domID()}
                 data-query-len={this.props.query.length}
-                data-algorithm={this.props.data.program}
-                data-graphit-target="hsps">
-
+                data-algorithm={this.props.data.program}>
                 <div
                     className="page-header">
                     <h3>
@@ -823,11 +881,23 @@ var Query = React.createClass({
                         {this.props.query.number + "/" + this.props.data.queries.length}
                     </span>
                 </div>
-
                 {this.numhits() &&
                     (
                         <div
                             className="page-content">
+                            <div
+                                className="hit-links">
+                                <a href = "#" className="export-to-svg">
+                                    <i className="fa fa-download"/>
+                                    <span>{"  SVG  "}</span>
+                                </a>
+                                <span>{" | "}</span>
+                                <a href = "#" className="export-to-png">
+                                    <i className="fa fa-download"/>
+                                    <span>{"  PNG  "}</span>
+                                </a>
+                            </div>
+                            <GraphicalOverview query={this.props.query} program={this.props.data.program}/>
                             <HitsTable query={this.props.query}/>
                             <div
                                 id="hits">
@@ -860,18 +930,6 @@ var Query = React.createClass({
                 }
             </div>
         )
-    },
-
-    /**
-     * Integrates graphical-overview per query.
-     */
-    componentDidMount: function () {
-        $("[data-graphit=overview" + this.props.query.number + "]").each(function () {
-            var $this = $(this);
-            var $graphDiv = $('<div/>').addClass('graphical-overview');
-            $this.children().eq(1).children().eq(0).before($graphDiv);
-            $.graphIt($this, $graphDiv, 0, 20);
-        });
     },
 });
 

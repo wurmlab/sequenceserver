@@ -16,25 +16,25 @@
         });
     };
 
-    var setupResponsiveness = function ($queryDiv, $graphDiv, index, opts)  {
+    var setupResponsiveness = function ($queryDiv, $graphDiv, index, opts, hits)  {
         var currentWidth = $(window).width();
         var debounced_draw = _.debounce(function () {
             if (currentWidth !== $(window).width()) {
                 var shownHits = $queryDiv.find('.ghit > g').length;
-                $.graphIt($queryDiv, $graphDiv, shownHits, index, opts);
+                $.graphIt($queryDiv, $graphDiv, shownHits, index, opts, hits);
                 currentWidth = $(window).width();
             }
         }, 125);
         $(window).resize(debounced_draw);
     };
 
-    var graphControls = function ($queryDiv, $graphDiv, isInit) {
+    var graphControls = function ($queryDiv, $graphDiv, isInit, opts, hits) {
         var MIN_HITS_TO_SHOW = 20;
 
         var totalHits, shownHits, lessButton, moreButton;
 
         var countHits = function () {
-            totalHits = $queryDiv.data().hitCount;
+            totalHits = hits.length;
             shownHits = $queryDiv.find('.ghit > g').length;
         };
 
@@ -94,7 +94,7 @@
 
         moreButton.on('click', function (e) {
             countHits();
-            $.graphIt($queryDiv, $graphDiv, shownHits, MIN_HITS_TO_SHOW);
+            $.graphIt($queryDiv, $graphDiv, shownHits, MIN_HITS_TO_SHOW, opts, hits);
             initButtons();
             setupTooltip();
             e.stopPropagation();
@@ -106,12 +106,12 @@
 
             // Decrease number of shown hits by defined constant.
             if (diff >= MIN_HITS_TO_SHOW) {
-                $.graphIt($queryDiv, $graphDiv, shownHits, -MIN_HITS_TO_SHOW);
+                $.graphIt($queryDiv, $graphDiv, shownHits, -MIN_HITS_TO_SHOW, opts, hits);
                 initButtons();
             }
             else if (diff !== 0) {
                 // Ensure a certain number of hits always stay in graph.
-                $.graphIt($queryDiv, $graphDiv, shownHits, MIN_HITS_TO_SHOW - shownHits);
+                $.graphIt($queryDiv, $graphDiv, shownHits, MIN_HITS_TO_SHOW - shownHits, opts, hits);
                 initButtons();
             }
             setupTooltip();
@@ -154,11 +154,13 @@
             .attr('fill', 'url(#legend-grad)');
 
         svg_legend.append('text')
+            .attr('class',' legend-text')
             .attr('transform', 'translate(0, ' +options.legend +')')
             .attr('x', 6 * (width - 2 * options.margin) / 10 - options.margin / 2)
             .text("Weaker hits");
 
         svg_legend.append('text')
+            .attr('class',' legend-text')
             .attr('transform', 'translate(0, ' + options.legend + ')')
             .attr('x', 9 * (width - 2 * options.margin) / 10 + options.margin / 2)
             .text("Stronger hits");
@@ -186,7 +188,7 @@
      * are provided by the calling function.
      */
     $.extend({
-        graphIt: function ($queryDiv, $graphDiv, index, howMany, opts) {
+        graphIt: function ($queryDiv, $graphDiv, index, howMany, opts, inhits) {
             /* barHeight: Height of each hit track.
              * barPadding: Padding around each hit track.
              * legend: Height reserved for the overview legend.
@@ -198,8 +200,8 @@
                 legend: 10,
                 margin: 20
             },
-                options = $.extend(defaults, opts),
-                hits = extractData($queryDiv, index, howMany);
+                options = $.extend(defaults, opts);
+                var hits = inhits.slice(0 , index + howMany);
 
             // Don't draw anything when no hits are obtained.
             if (hits.length < 1) return false;
@@ -373,9 +375,9 @@
             // Bind listener events once all the graphical elements have
             // been drawn for first time.
             if (index === 0) {
-                graphControls($queryDiv, $graphDiv, true);
+                graphControls($queryDiv, $graphDiv, true, opts, inhits);
                 // Redraw the SVG on a browser resize...
-                setupResponsiveness($queryDiv, $graphDiv, index, opts);
+                setupResponsiveness($queryDiv, $graphDiv, index, opts, inhits);
             }
             // Refresh tooltip each time graph is redrawn.
             setupTooltip();
