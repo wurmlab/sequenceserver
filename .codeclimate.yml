@@ -1,0 +1,23 @@
+---
+engines:
+  rubocop:
+    enabled: true
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+ratings:
+  paths:
+  - "**.rb"
+  - "**.js"
+  - "**.css"
+exclude_paths:
+- public/js/sequenceserver/sequence.js
+- public/sequenceserver.min.css
+- public/sequenceserver.min.js
+- public/js/kablammo/*
+- public/vendor/**/*
+- node_modules/**/*
+- public/shims/**/*
+- public/vendor/*
+- spec/**/*

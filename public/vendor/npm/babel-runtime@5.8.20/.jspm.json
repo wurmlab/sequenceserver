@@ -1,0 +1,55 @@
+{
+  "name": "babel-runtime",
+  "version": "5.8.20",
+  "description": "babel selfContained runtime",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/babel/babel.git"
+  },
+  "author": {
+    "name": "Sebastian McKenzie",
+    "email": "sebmck@gmail.com"
+  },
+  "devDependencies": {
+    "babel-plugin-runtime": "^1.0.7",
+    "regenerator": "^0.8.34"
+  },
+  "bugs": {
+    "url": "https://github.com/babel/babel/issues"
+  },
+  "homepage": "https://github.com/babel/babel#readme",
+  "_id": "babel-runtime@5.8.20",
+  "scripts": {},
+  "_shasum": "4e38a2a96330c51c0a80ee0a180b853553fa5574",
+  "_from": ".",
+  "_npmVersion": "2.11.3",
+  "_nodeVersion": "0.12.7",
+  "_npmUser": {
+    "name": "sebmck",
+    "email": "sebmck@gmail.com"
+  },
+  "dist": {
+    "shasum": "4e38a2a96330c51c0a80ee0a180b853553fa5574",
+    "tarball": "http://registry.npmjs.org/babel-runtime/-/babel-runtime-5.8.20.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "sebmck",
+      "email": "sebmck@gmail.com"
+    }
+  ],
+  "jspm": {
+    "main": false,
+    "dependencies": {}
+  },
+  "main": false,
+  "format": "cjs",
+  "ignore": [
+    "node_modules"
+  ],
+  "registry": "npm",
+  "dependencies": {
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  }
+}

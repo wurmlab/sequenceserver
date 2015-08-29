@@ -1,0 +1,1 @@
+module.exports = require("npm:object-assign@2.1.1/index");

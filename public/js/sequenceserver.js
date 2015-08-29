@@ -1,3 +1,18 @@
+import 'jquery';
+import 'jquery-ui';
+import 'bootstrap';
+import 'webshim';
+
+import React from 'react';
+import Router from 'react-router';
+
+import {Page as Search} from './search';
+import {Page as Report} from './report';
+
+var Route = Router.Route;
+var DefaultRoute = Router.DefaultRoute;
+var RouteHandler = Router.RouteHandler;
+
 /**
  * Simple, small jQuery extensions for convenience.
  */
@@ -83,34 +98,59 @@
     };
 }(jQuery));
 
-/**
- * Define global SS object.
- */
-var SS = {}
+SequenceServer = React.createClass({
 
-// Starts with >.
-SS.FASTA_FORMAT = /^>/;
+    // Class methods. //
 
-SS.setupTooltips = function () {
-    $('.pos-label').each(function () {
-        $(this).tooltip({
-            placement: 'right'
-        });
-    });
+    statics: {
+        FASTA_FORMAT: /^>/,
 
-    $('.downloads a').each(function () {
-        $(this).tooltip();
-    });
-};
+        setupTooltips: function () {
+            $('.pos-label').each(function () {
+                $(this).tooltip({
+                    placement: 'right'
+                });
+            });
 
-SS.showErrorModal = function (jqXHR, beforeShow) {
-    setTimeout(function () {
-        beforeShow();
-        if (jqXHR.responseText) {
-            $("#error").html(jqXHR.responseText).modal();
+            $('.downloads a').each(function () {
+                $(this).tooltip();
+            });
+        },
+
+        showErrorModal: function (jqXHR, beforeShow) {
+            setTimeout(function () {
+                beforeShow();
+                if (jqXHR.responseText) {
+                    $("#error").html(jqXHR.responseText).modal();
+                }
+                else {
+                    $("#error-no-response").modal();
+                }
+            }, 500);
+        },
+
+        routes: function () {
+            return (
+                <Route handler={SequenceServer}>
+                    <Route path="/"     handler={Search}/>
+                    <Route path="/:jid" handler={Report}/>
+                </Route>
+            );
+        },
+
+        run: function () {
+            Router.run(this.routes(), Router.HistoryLocation, function (Root) {
+                React.render(<Root/>, document.getElementById("view"));
+            });
         }
-        else {
-            $("#error-no-response").modal();
-        }
-    }, 500);
-};
+    },
+
+
+    // Lifecycle methods. //
+
+    render: function () {
+        return (<RouteHandler/>);
+    }
+});
+
+SequenceServer.run();

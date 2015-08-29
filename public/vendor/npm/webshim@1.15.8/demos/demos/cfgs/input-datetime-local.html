@@ -1,0 +1,429 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width">
+		<title>Webshim - datetimepicker widget configurator</title>
+
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+		<link rel="stylesheet" href="assets/config.css">
+		<link rel="stylesheet" href="../../css/prism.css" />
+		<link rel="alternate stylesheet" href="../themes/rounded-shadow/rounded-shadow.css" title="rounded shadow" data-defaultstyle />
+		<link rel="alternate stylesheet" href="../themes/metro/metro.css" title="metro" />
+
+
+		<script src="../../../js-webshim/minified/polyfiller.js"></script>
+
+		<script>
+			webshim.setOptions('forms', {
+				lazyCustomMessages: true,
+				replaceValidationUI: true,
+				addValidators: true,
+				customDatalist: true
+			});
+			
+			webshim.setOptions('forms-ext', {
+				replaceUI: true
+			});
+			
+			// load the forms polyfill
+			webshim.polyfill('forms forms-ext');
+			
+		</script>
+		<script>
+			webshim.ready('jquery', function(){
+				webshim.loader.loadScript("../../demo-js/demo.js", false, false, true);
+				webshim.loader.loadScript("assets/cfg.js", false, false, true);
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class="page-wrap container">
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">datetimepicker Configurator</div>
+					<div class="panel-body">
+						<div class="col-md-12">
+							<p>Configure your input widget to your needs. Tip 1: set check inlinePicker option and watch changes. Tip 2:You can also combine input[type="date"] + input[type="time"].</p>
+						</div>
+						<div class="col-md-6">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Rendered output</div>
+								<div class="panel-body" id="output"></div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">Code input</div>
+								<div class="panel-body" id="code">
+									<label for="config-type" class="control-label">Config type</label>
+									<select size="6" class="form-control" id="config-type">
+										<optgroup label="general JS config">
+											<option value="js-widgets" selected="">all input types</option>
+											<option value="js-type">only datetime-local</option>
+										</optgroup>
+										<optgroup label="descriptive markup">
+											<option value="markup-flat">dashed/expanded</option>
+											<option value="markup-json">JSON/compressed</option>
+										</optgroup>
+									</select>
+									<label for="markup-format" class="control-label">Markup format</label>
+									<select size="2" class="form-control" id="markup-format">
+										<option value="verbose" selected="">verbose</option>
+										<option value="compact">one line</option>
+									</select>
+<pre><code class="language-markup"></code></pre>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">HTML5 datetimepicker widget cookbook</div>
+								<div class="panel-body">
+									<div class="list-group">
+										<a href="http://jsfiddle.net/trixta/sy2sM/embedded/result,html,js,css/" class="list-group-item">Using date + time input to create a split datetime-local input</a>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">webshim's github repository, downloads and links</div>
+								<div class="panel-body">
+									<div class="list-group">
+										<a href="../../index.html" class="list-group-item">documentation / readme</a>
+										<a href="https://github.com/aFarkas/webshim/releases/latest" class="list-group-item">download</a>
+										<a href="https://github.com/aFarkas/webshim/" class="list-group-item">repository</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="panel panel-default">
+								<div class="panel-heading">live configuration options</div>
+								<div class="panel-body">
+									<form class="input-widget form-inline ws-validate" data-type="datetime-local">
+								
+										<fieldset data-method="attr">
+											<legend>$.prop/$.attr</legend>
+											
+											<div class="form-group">
+												<div class="col-sm-6">
+													<label for="min" class="control-label">min</label>
+													<input type="datetime-local" class="form-control" name="min" id="min" data-dependent-validation='{"from": "max", "prop": "max"}' />
+												</div>
+												<div class="col-sm-6">
+													<label for="max" class="control-label">max</label>
+													<input type="datetime-local" class="form-control" name="max" id="max" data-dependent-validation='{"from": "min", "prop": "min"}' />
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-6">
+													<label class="form-label" for="list">
+														list
+													</label>
+													<select name="list" id="list" class="form-control">
+														<option></option>
+														<option value="datetime-local-list">datetime-local-list (predefined datalist)</option>
+													</select>
+
+												</div>
+												<div class="col-sm-6">
+													<label class="form-label" for="step">
+														step
+													</label>
+													<input type="number" min="0" step="any" id="step" name="step" class="form-control" />
+
+												</div>
+												<!-- ToDO
+												<div class="col-sm-6">
+													<label class="form-label" for="placeholder">
+														placeholder
+													</label>
+													<input class="form-control" name="placeholder" id="placeholder" list="placeholder-list" data-list-filter="!" data-list-focus="true" />
+													<datalist id="placeholder-list">
+														<select>
+															<option value="yyyy-mm-ddT20:00" />
+															<option value="year-month-dayThours:minutes" />
+														</select>
+													</datalist>
+												</div>
+												-->
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12">
+													<label for="defaultValue" class="control-label">defaultValue</label>
+													<input type="datetime-local" class="form-control" name="value" id="defaultValue" />
+												</div>
+											</div>
+
+											
+											<div class="form-group col-sm-12">
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="disabled" />
+														disabled
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="readonly" />
+														readonly
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="required" />
+														required
+													</label>
+												</div>
+										</div>
+										</fieldset>
+											
+										<fieldset data-method="data" data-name="datetime-local">
+											<legend>Config properties / data-datetime-local attribute</legend>
+											
+											<div class="form-group">
+												<div class="col-sm-4">
+													<label for="startView" class="form-label">startView</label>
+													<input type="number" min="0" max="3" value="0" id="startView" name="startView" class="form-control" />
+												</div>
+												<div class="col-sm-4">
+													<label for="minView" class="form-label">minView</label>
+													<input type="number" min="0" max="3" value="0" id="minView" name="minView" class="form-control" />
+												</div>
+												<div class="col-sm-4">
+													<label for="stepfactor" class="form-label">stepfactor</label>
+													<input type="number" min="1" id="stepfactor" name="stepfactor" class="form-control" />
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-4">
+													<label for="useDecadeBase" class="form-label">useDecadeBase</label>
+													<select class="form-control" id="useDecadeBase" name="useDecadeBase">
+														<option value="0" selected="">0</option>
+														<option value="max">max (only with max option)</option>
+														<option value="min">min (only with min option)</option>
+													</select>
+												</div>
+												<div class="col-sm-8">
+													<label for="startValue" class="form-label">startValue (only used if value is empty)</label>
+													<input type="datetime-locale" id="startValue" name="startValue" class="form-control" />
+												</div>
+											</div>
+											<div class="form-group col-sm-12">
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="inlinePicker" />
+														inlinePicker
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="noChangeDismiss" />
+														noChangeDismiss
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="openOnFocus" />
+														openOnFocus
+													</label>
+												</div>
+												
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="buttonOnly" />
+														buttonOnly
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="nopicker" data-excludes="noChangeDismiss buttonOnly openOnFocus inlinePicker a11yhide-inputbtns hide-dropdownbtn" />
+														nopicker
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="calculateWidth" checked="checked" />
+														calculateWidth
+													</label>
+												</div>
+											</div>
+											
+											<fieldset>
+												<legend>popover</legend>
+												<div class="form-group">
+													<div class="col-sm-4">
+														<label for="position" class="form-label">popover.position</label>
+														<select name="popover" id="position" class="form-control">
+															<option value=''>"my": "left top", "at": "left bottom"</option>
+															<option value='{"position": {"at": "right bottom"}}'>"at": "right bottom"</option>
+															<option value='{"position": {"my": "left middle", "at": "right middle"}}'>"my": "left middle", "at": "right middle"</option>
+														</select>
+													</div>
+													<div class="col-sm-4">
+														<label for="appendTo" class="form-label">popover.appendTo</label>
+														<select name="popover" id="appendTo" class="form-control">
+															<option value=''>auto (mostly = element)</option>
+															<option value='{"appendTo": "element"}'>element</option>
+															<option value='{"appendTo": "body"}'>body</option>
+														</select>
+													</div>
+													<div class="col-sm-4">
+														<label for="inline" class="form-label">popover.inline</label>
+														<select name="popover" id="inline" class="form-control">
+															<option value=''>false</option>
+															<option value='{"inline": true}'>true (same as "slide")</option>
+															<option value='{"inline": "fade"}'>"fade"</option>
+															<option value='{"inline": "no"}'>"no"</option>
+														</select>
+													</div>
+												</div>
+											</fieldset>
+										</fieldset>
+										<fieldset data-classes="">
+											<legend>Classes/SASS extends</legend>
+											<div class="form-group">
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="show-week" />
+														show-week
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="show-yearbtns" />
+														show-yearbtns
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="hide-btnrow" />
+														hide-btnrow
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="show-uparrow" />
+														show-uparrow
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="show-selectnav" />
+														show-selectnav
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="hide-spinbtns" />
+														hide-spinbtns
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="hide-dropdownbtn" />
+														hide-dropdownbtn
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input data-excludes="inputbtns-outside a11yhide-inputbtns hide-dropdownbtn hide-spinbtns" type="checkbox" name="hide-inputbtns" />
+														hide-inputbtns
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="inputbtns-outside" />
+														inputbtns-outside
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input data-excludes="inputbtns-outside hide-inputbtns hide-dropdownbtn hide-spinbtns" type="checkbox" name="a11yhide-inputbtns" />
+														a11yhide-inputbtns
+													</label>
+												</div>
+													
+											</div>
+										</fieldset>
+									</form>
+							
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">Style/Theme</div>
+								<div class="panel-body">
+									<div class="row form-group">
+										<div class="col-md-12">
+											<label class="form-label" for="theme">
+												Style-/Themeswitcher
+											</label>
+											<select class="theme-switcher form-control" id="theme"></select>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">general document/browser enviroment</div>
+								<div class="panel-body">
+									<div class="row form-group">
+										<div class="col-md-6">
+											
+											<label class="form-label" for="dir">
+												direction of the document
+											</label>
+											<select class="form-control" id="dir">
+												<option>ltr</option>
+												<option>rtl</option>
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label class="form-label" for="lang">
+												webshim.activeLang();
+											</label>
+											<select class="active-lang form-control" id="lang"></select>
+										</div>
+									</div>
+									<div class="row form-group">
+										<div class="col-md-12 show-activelabeltooltip show-tickvalues">
+											<label class="form-label" for="widget-scale">
+												widget scale
+											</label>
+											<input type="range" class="form-control" min="13" value="13" max="19" id="widget-scale" list="save-scales" />
+											<datalist id="save-scales">
+												<select>
+													<option value="13" label="default"></option>
+													<option value="19" label="touch friendly"></option>
+												</select>
+											</datalist>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<datalist id="datetime-local-list">
+	<select>
+		<option value="2009-10-11T20:00"></option>
+		<option value="2012-11-11T00:00"></option>
+		<option value="2013-11-11T08:00" label="labeled Option (2013-11-11T08:00)"></option>
+	</select>
+</datalist>
+
+		<script type="text/javascript">
+			//http://blog.jsdelivr.com/2013/06/jsdelivr-weekly-news.html
+			if(location.hostname == 'afarkas.github.io'){
+				(function(w, d) { var a = function() { var a = d.createElement('script'); a.type = 'text/javascript';
+					a.async = 'async'; a.src = '//' + ((w.location.protocol === 'https:') ? 's3.amazonaws.com/cdx-radar/' :
+							'radar.cedexis.com/') + '01-11475-radar10.min.js'; d.body.appendChild(a); };
+					if (w.addEventListener) { w.addEventListener('load', a, false); }
+					else if (w.attachEvent) { w.attachEvent('onload', a); }
+				}(window, document));
+			}
+		</script>
+	</body>
+</html>

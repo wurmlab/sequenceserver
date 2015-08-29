@@ -13,17 +13,14 @@
   <meta name="author" content="Yannick Wurm">
   <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)"/>
 
-  <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-  <![endif]-->
-
-  <link href='http://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' media="screen,print" type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:400,700'>
+  <link rel='stylesheet' media="screen,print" type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400'>
+  <link rel="stylesheet" media="screen,print" type="text/css" href="css/svg.css" class="svg-css"/>
   <% if settings.production? %>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="sequenceserver.min.css"/>
   <% else %>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="vendor/github/twbs/bootstrap@3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" media="screen,print" type="text/css" href="vendor/npm/font-awesome@4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" media="screen,print" type="text/css" href="css/custom.css"/>
   <% end %>
 </head>
@@ -54,7 +51,21 @@
     </div>
   </div>
 
-  <%= yield %>
+  <div
+    class="container">
+    <noscript>
+      <div
+        class="nojs-error">
+        <h3>SequenceServer can't work without JavaScript.</h3>
+        <ul>
+          <li>Please see if you can enable JavaScript in your browser's preferences.</li>
+          <li>If your browser doesn't support JavaScript, please consider upgrading to the latest version or using Firefox or Chrome.</li>
+        </ul>
+      </div>
+    </noscript>
+  </div>
+
+  <div id="view"></div>
 
   <div
     class="footer" id="footer">
@@ -166,6 +177,17 @@
       </div>
     </div>
   </div> <!-- advanced options -->
+
+  <!-- JS -->
+  <% if settings.production? %>
+    <script src="sequenceserver.min.js"></script>
+  <% else %>
+    <script src="vendor/system.js"></script>
+    <script src="config.js"></script>
+    <script>
+      System.import('js/sequenceserver.js')
+    </script>
+  <% end %>
 
   <!-- twitter -->
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>

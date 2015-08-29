@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Themeviewer for webshim</title>
+	<link rel="alternate stylesheet" href="metro/metro.css" title="metro" data-defaultstyle />
+	<link rel="alternate stylesheet" href="rounded-shadow/rounded-shadow.css" title="rounded shadow" />
+	<style>
+
+		* {
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: sans-serif;
+			margin-top: 60px;
+		}
+
+		.wrapper {
+			margin: 10px auto;
+			max-width: 600px;
+			min-width: 220px;
+		}
+		.form-row {
+			padding: 5px 10px;
+		}
+		label {
+			display: block;
+			margin: 3px 0;
+		}
+		.form-row progress,
+		.form-row .ws-input {
+			width: 100%;
+		}
+		.form-row input {
+			width: 100%;
+			padding: 6px 4px;
+			border: 1px solid #ccc;
+			box-shadow: none;
+		}
+
+		div.ws-invalid input {
+			border-color: #c88;
+		}
+		.ws-invalid label {
+			color: #933;
+		}
+		div.ws-success input {
+			border-color: #8c8;
+		}
+
+		.theme-wrapper {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+		}
+
+		.polyfill-type {
+			position: absolute;
+			top: 5px;
+			left: 5px;
+		}
+
+		.polyfill-type select,
+		.theme-wrapper select {
+			display: block;
+		}
+
+		.mediaplayer {
+			position: relative;
+			height: 0;
+			width: 100%;
+			padding-bottom: 56.25%;
+		}
+
+
+		.mediaplayer video,
+		.mediaplayer .polyfill-video {
+			position: absolute !important;
+			top: 0;
+			left: 0;
+			width: 100% !important;
+			height: 100% !important;
+		}
+	</style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="../../../js-webshim/minified/polyfiller.js"></script>
+
+	<script>
+		webshim.setOptions('forms', {
+			lazyCustomMessages: true,
+			replaceValidationUI: true
+		});
+
+		webshim.setOptions('forms-ext', {
+			types: 'date range datetime-local',
+			widgets: {
+				calculateWidth: false
+			}
+		});
+
+		(function(){
+			var stateMatches = {
+				'true': true,
+				'false': false,
+				'auto': 'auto'
+			};
+			var enhanceState = (location.search.match(/enhancelist\=([true|auto|false|nopolyfill]+)/) || ['', 'auto'])[1];
+
+			webshim.ready('jquery', function(){
+				$(function () {
+					$('.polyfill-type select')
+							.val(enhanceState)
+							.on('change', function () {
+								location.search = 'enhancelist=' + $(this).val();
+							})
+					;
+				});
+			});
+			webshim.setOptions('forms', {
+				customDatalist: stateMatches[enhanceState]
+			});
+			webshim.setOptions('forms-ext', {
+				replaceUI: stateMatches[enhanceState]
+			});
+
+			webshim.setOptions('mediaelement', {
+				replaceUI: stateMatches[enhanceState]
+			});
+		})();
+
+		webshim.polyfill('forms forms-ext mediaelement');
+	</script>
+</head>
+<body>
+<div class="wrapper">
+	<form action="#">
+		<div class="form-row">
+			<label for="email">email with datalist*</label>
+			<input required="" type="email" id="email" list="contacts" />
+			<datalist id="contacts">
+				<select>
+					<option value="art@example.net" label="Arthur Dent"></option>
+					<option value="adamjosh@example.net" label="Adam Josh"></option>
+					<option value="hedral@damowmow.com"></option>
+					<option value="pillar@example.com"></option>
+					<option value="astrophy@cute.example"></option>
+					<option value="astronomy@science.example.org"></option>
+				</select>
+			</datalist>
+		</div>
+		<div class="form-row show-week show-yearbtns">
+			<label for="date">date as inline-calendar*</label>
+			<input required="" type="date" id="date" data-date-inline-picker="true" data-date-start-view="2" />
+		</div>
+
+		<div class="form-row show-selectnav">
+			<label for="datetime-local">datetime-local*</label>
+			<input required="" type="datetime-local" id="datetime-local" />
+		</div>
+		<div class="form-row">
+			<label for="progress">progress element</label>
+			<progress id="progress" class="ws-style"></progress>
+		</div>
+
+		<div class="form-row">
+			<label for="progress2">progress element</label>
+			<progress id="progress2" value="0.26" class="ws-style"></progress>
+		</div>
+		<div class="form-row show-activevaluetooltip">
+			<label for="range">range</label>
+			<input type="range" id="range" />
+		</div>
+		<div class="form-row show-activevaluetooltip">
+			<label for="file">file* (TBD)</label>
+			<div class="ws-custom-file">
+				<input type="file" required="" id="file" />
+				<button type="button" tabindex="-1">browse</button>
+				<span class="ws-file-value">&#160;</span>
+			</div>
+		</div>
+
+		<div class="form-row">
+			<input type="submit" />
+		</div>
+	</form>
+	<div class="mediaplayer videoplayer">
+		<video controls preload="none" poster="http://corrupt-system.de/assets/media/caminandes/caminandes.jpg">
+			<source src="http://corrupt-system.de/assets/media/caminandes/caminandes.m4v" type="video/mp4" />
+			<source src="http://corrupt-system.de/assets/media/caminandes/caminandes.webm" />
+			<p>You need a modern Browser or install the Flash Plugin or simply download the video (<a href="http://corrupt-system.de/assets/media/sintel/sintel-trailer.m4v">mp4</a>, <a href="http://corrupt-system.de/assets/media/sintel/sintel-trailer.webm">webm</a>)</p>
+		</video>
+	</div>
+	<ul>
+		<li><a href="../cfgs/input-date.html">HTML5 Datepicker configurator</a></li>
+		<li><a href="../cfgs/input-datetime-local.html">HTML5 datetime-local configurator</a></li>
+		<li><a href="../cfgs/list-datalist.html">HTML5 autosuggest configurator</a></li>
+		<li><a href="../cfgs/input-range.html">HTML5 slider/range configurator</a></li>
+	</ul>
+	<label class="theme-wrapper" for="theme">
+		Style-/Themeswitcher
+
+		<select class="theme-switcher" id="theme"></select>
+	</label>
+	<label class="polyfill-type">
+		Polyfill/enhance strategy
+		<select>
+			<option value="auto" selected="">"auto" enhance non-mobile</option>
+			<option value="false">false: only polyfill</option>
+			<option value="true">true: enhance all</option>
+		</select>
+	</label>
+</div>
+<script>
+	webshim.loader.loadScript("../cfgs/assets/cfg.js", false, false, true);
+</script>
+</body>
+</html>

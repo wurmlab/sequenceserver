@@ -25,7 +25,6 @@ DESC
   s.add_development_dependency('rack-test',       '~> 0.6',  '>= 0.6.2')
   s.add_development_dependency('rspec',           '~> 2.8',  '>= 2.8.0')
   s.add_development_dependency('rake',            '~> 10.3', '>= 10.3.2')
-  s.add_development_dependency('rubocop',         '~> 0.31', '>= 0.31.0')
   s.add_development_dependency('capybara',        '~> 2.4',  '>= 2.4.4')
   s.add_development_dependency('capybara-webkit', '~> 1.3',  '>= 1.3.0')
   s.add_development_dependency('codeclimate-test-reporter',

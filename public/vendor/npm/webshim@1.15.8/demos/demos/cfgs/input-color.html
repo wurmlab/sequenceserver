@@ -1,0 +1,300 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width">
+		<title>Webshim - type=color / colorpicker widget configurator</title>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<link rel="stylesheet" href="assets/config.css">
+
+		<link rel="stylesheet" href="../../css/prism.css" />
+		<link rel="alternate stylesheet" href="../themes/rounded-shadow/rounded-shadow.css" title="rounded shadow" data-defaultstyle />
+		<link rel="alternate stylesheet" href="../themes/metro/metro.css" title="metro" />
+
+
+		<script src="../../../js-webshim/minified/polyfiller.js"></script>
+
+		<script>
+			webshim.setOptions('forms', {
+				lazyCustomMessages: true,
+				replaceValidationUI: true,
+				addValidators: true
+			});
+
+			(function(){
+				var stateMatches = {
+					'true': true,
+					'false': false,
+					'auto': 'auto'
+				};
+				var enhanceState = (location.search.match(/enhancelist\=([true|auto|false|nopolyfill]+)/) || ['', 'auto'])[1];
+
+				webshim.ready('jquery', function(){
+					$(function () {
+						$('.polyfill-type select')
+								.val(enhanceState)
+								.on('change', function () {
+									location.search = 'enhancelist=' + $(this).val();
+								})
+						;
+					});
+				});
+				webshim.setOptions('forms', {
+					customDatalist: stateMatches[enhanceState]
+				});
+				webshim.setOptions('forms-ext', {
+					replaceUI: stateMatches[enhanceState]
+				});
+			})();
+			
+			webshim.setOptions('forms-ext', {
+				"types": "color number range"
+			});
+			
+			// load the forms polyfill
+			webshim.polyfill('forms forms-ext');
+			
+		</script>
+		<script>
+			webshim.ready('jquery', function(){
+				webshim.loader.loadScript("../../demo-js/demo.js", false, false, true);
+				webshim.loader.loadScript("assets/cfg.js", false, false, true);
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class="page-wrap container">
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">colorpicker Configurator</div>
+					<div class="panel-body">
+						<div class="col-md-12">
+							<p>Configure your input widget to your needs. Tip set check inlinePicker option and watch changes.</p>
+						</div>
+						<div class="col-md-6">
+							<div class="panel panel-primary">
+								<div class="panel-heading">Rendered output</div>
+								<div class="panel-body" id="output"></div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">Code input</div>
+								<div class="panel-body" id="code">
+									<label for="config-type" class="control-label">Config type</label>
+									<select size="6" class="form-control" id="config-type">
+										<optgroup label="general JS config">
+											<option value="js-widgets" selected="">all input types</option>
+											<option value="js-type">only color</option>
+										</optgroup>
+										<optgroup label="descriptive markup">
+											<option value="markup-flat">dashed/expanded</option>
+											<option value="markup-json">JSON/compressed</option>
+										</optgroup>
+									</select>
+									<label for="markup-format" class="control-label">Markup format</label>
+									<select size="2" class="form-control" id="markup-format">
+										<option value="verbose" selected="">verbose</option>
+										<option value="compact">one line</option>
+									</select>
+<pre><code class="language-markup"></code></pre>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">colorpicker widget cookbook</div>
+								<div class="panel-body">
+									<div class="list-group">
+										<a href="http://jsfiddle.net/trixta/x7gKg/embedded/result,html,js,css/" class="list-group-item">Dealing with rgba values</a>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">webshim's github repository, downloads and links</div>
+								<div class="panel-body">
+									<div class="list-group">
+										<a href="../../index.html" class="list-group-item">documentation / readme</a>
+										<a href="https://github.com/aFarkas/webshim/releases/latest" class="list-group-item">download</a>
+										<a href="https://github.com/aFarkas/webshim/" class="list-group-item">repository</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="panel panel-default">
+								<div class="panel-heading">live configuration options</div>
+								<div class="panel-body">
+									<form class="input-widget form-inline ws-validate" data-type="color">
+								
+										<fieldset data-method="attr">
+											<legend>$.prop/$.attr</legend>
+											<div class="form-group">
+												<div class="col-sm-12">
+													<label for="defaultValue" class="control-label">defaultValue</label>
+													<input type="color" class="form-control" value="#000000" name="value" id="defaultValue" />
+												</div>
+											</div>
+											
+											
+											<div class="form-group col-sm-12">
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="disabled" />
+														disabled
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="readonly" />
+														readonly
+													</label>
+												</div>
+										</div>
+										</fieldset>
+											
+										<fieldset data-method="data" data-name="color">
+											<legend>Config properties / data-color attribute</legend>
+											
+											<div class="form-group col-sm-12">
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="inlinePicker" />
+														inlinePicker
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="noChangeDismiss" />
+														noChangeDismiss
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="openOnFocus" />
+														openOnFocus
+													</label>
+												</div>
+												
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="buttonOnly" />
+														buttonOnly
+													</label>
+												</div>
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="calculateWidth" checked="checked" />
+														calculateWidth
+													</label>
+												</div>
+											</div>
+											
+											<fieldset>
+												<legend>popover</legend>
+												<div class="form-group">
+													<div class="col-sm-4">
+														<label for="position" class="form-label">popover.position</label>
+														<select name="popover" id="position" class="form-control">
+															<option value=''>"my": "left top", "at": "left bottom"</option>
+															<option value='{"position": {"at": "right bottom"}}'>"at": "right bottom"</option>
+															<option value='{"position": {"my": "left middle", "at": "right middle"}}'>"my": "left middle", "at": "right middle"</option>
+														</select>
+													</div>
+													<div class="col-sm-4">
+														<label for="appendTo" class="form-label">popover.appendTo</label>
+														<select name="popover" id="appendTo" class="form-control">
+															<option value=''>auto (mostly = element)</option>
+															<option value='{"appendTo": "element"}'>element</option>
+															<option value='{"appendTo": "body"}'>body</option>
+														</select>
+													</div>
+													<div class="col-sm-4">
+														<label for="inline" class="form-label">popover.inline</label>
+														<select name="popover" id="inline" class="form-control">
+															<option value=''>false</option>
+															<option value='{"inline": true}'>true (same as "slide")</option>
+															<option value='{"inline": "fade"}'>"fade"</option>
+															<option value='{"inline": "no"}'>"no"</option>
+														</select>
+													</div>
+												</div>
+											</fieldset>
+										</fieldset>
+										<fieldset data-classes="">
+											<legend>Classes/SASS extends</legend>
+											<div class="form-group">
+												<div class="checkbox">
+													<label>
+														<input type="checkbox" name="hide-inputbtns" />
+														hide-inputbtns
+													</label>
+												</div>
+											</div>
+										</fieldset>
+									</form>
+							
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">Style/Theme</div>
+								<div class="panel-body">
+									<div class="row form-group">
+										<div class="col-md-12">
+											<label class="form-label" for="theme">
+												Style-/Themeswitcher
+											</label>
+											<select class="theme-switcher form-control" id="theme"></select>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">general document/browser enviroment</div>
+								<div class="panel-body">
+									<div class="row form-group">
+										<div class="col-md-6">
+											
+											<label class="form-label" for="dir">
+												direction of the document
+											</label>
+											<select class="form-control" id="dir">
+												<option>ltr</option>
+												<option>rtl</option>
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label class="form-label" for="lang">
+												webshim.activeLang();
+											</label>
+											<select class="active-lang form-control" id="lang"></select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<label class="polyfill-type">
+			Polyfill/enhance strategy
+			<select>
+				<option value="auto" selected="">"auto" enhance non-mobile</option>
+				<option value="false">false: only polyfill</option>
+				<option value="true">true: enhance all</option>
+			</select>
+		</label>
+		<script type="text/javascript">
+			//http://blog.jsdelivr.com/2013/06/jsdelivr-weekly-news.html
+			if(location.hostname == 'afarkas.github.io'){
+				(function(w, d) { var a = function() { var a = d.createElement('script'); a.type = 'text/javascript';
+					a.async = 'async'; a.src = '//' + ((w.location.protocol === 'https:') ? 's3.amazonaws.com/cdx-radar/' :
+							'radar.cedexis.com/') + '01-11475-radar10.min.js'; d.body.appendChild(a); };
+					if (w.addEventListener) { w.addEventListener('load', a, false); }
+					else if (w.attachEvent) { w.attachEvent('onload', a); }
+				}(window, document));
+			}
+		</script>
+	</body>
+</html>

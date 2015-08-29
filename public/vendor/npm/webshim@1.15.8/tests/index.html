@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<title>Webshims Lib Test Suite</title>
+	<link rel="stylesheet" href="qunit/qunit.css" media="screen">
+	<script>
+		(function(){
+			var hash = location.hash.replace('#', '');
+			
+			if(hash.indexOf('legacyjquery') != -1){
+				document.write('<script src="http:\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/1.8\/jquery.js"><\/script>');
+			} else if(Object.defineProperties && hash.indexOf('modernjquery') != -1) {
+				document.write('<script src="http:\/\/code.jquery.com\/jquery-2.1.1.js"><\/script>');
+			} else if(hash.indexOf('customjquery') != -1) {
+				document.write('<script src="test-ext\/yepnope.js"><\/script>');
+				
+				if(Object.defineProperties){
+					document.write('<script src="test-ext\/jquery-2-custom.js"><\/script>');
+				} else {
+					document.write('<script src="test-ext\/jquery-1-custom.js"><\/script>');
+				}
+			} else {
+				//code.jquery.com/jquery-2.0.3.js
+				document.write('<script src="http:\/\/code.jquery.com\/jquery-1.11.1.min.js"><\/script>');
+			}
+		})();
+	</script>
+	
+	<script>
+	(function(){
+		var oldbind = jQuery.fn.on;
+		jQuery.fn.on = function(type){
+			if(typeof type == 'string' && /\s{2,9}/.test(type)){
+				alert(type);
+			}
+			return oldbind.apply(this, arguments);
+		};
+	}());
+	</script>
+	
+	<script src="qunit/qunit.js"></script>
+	
+	<script src="../js-webshim/minified/polyfiller.js"></script>
+	<script>
+		(function($){
+
+			window.omitTests = window.omitTests || {};
+
+			var hash = location.hash.replace('#', '');
+
+			if(hash.indexOf('customValidationMessage') !== -1){
+				webshims.cfg.forms.customMessages = true; 
+				webshims.setOptions({
+					forms: {
+						fixRangeChange: true
+					}
+				});
+			}
+			if(hash.indexOf('nativeMethods') !== -1){
+				webshims.cfg.extendNative = true; 
+			}
+			if(hash.indexOf('useCustomUI') !== -1){
+				webshims.setOptions('forms', { customDatalist: true });
+				webshims.setOptions('forms-ext', { replaceUI: true });
+				webshims.setOptions('forms', { addValidators: true });
+			}
+			if(hash.indexOf('bustedValidity') !== -1){
+				webshims.bugs.bustedValidity = true;
+			}
+			
+			
+						
+			$(function(){
+				$('#customValidationMessage').prop('checked', !!$.webshims.cfg.forms.customMessages);
+				$('#nativeMethods').prop('checked', $.webshims.cfg.extendNative);
+				$('#useCustomUI').prop('checked', $.webshims.cfg['forms-ext'].replaceUI);
+				$('#legacyjquery').prop('checked', (hash.indexOf('legacyjquery') != -1));
+				$('#bustedValidity').prop('checked', webshims.bugs.bustedValidity);
+				$('#jq-version option').each(function(){
+					var val = $.prop(this, 'value');
+					if(val && hash.indexOf(val) != -1){
+						$.prop(this, 'selected', true);
+						return false;
+					}
+				});
+				
+				$('#noConflictExtreme').prop('checked', (hash.indexOf('noConflictExtreme') != -1));
+				$('#ws-config')
+					.on('change', '.webshim-config', function(){
+						var addHash = '';
+						$('#ws-config .webshim-config').each(function(){
+							if($(this).is('select') || this.checked){
+								addHash += $.prop(this, 'value');
+							}
+						});
+						location.hash = addHash;
+						location.reload();
+					})
+				;
+			});
+		})(jQuery);
+	</script>
+	<script>
+		(function($){
+			$.webshims.ready('dom-support', function(){
+				QUnit.reset = function(){
+					$("#main, #qunit-fixture").htmlPolyfill( QUnit.config.fixture );
+				};
+			});
+			
+			
+			module("init");
+			asyncTest("init", function(){
+				$.webshims.ready('DOM forms-ext forms canvas', start);
+			});
+			$.webshims.ready('forms-ext', function(){
+				omitTests.validity = webshim.support.formvalidation;
+				omitTests.output = true;
+				omitTests.numericDateProps = webshim.support.inputtypes.number;
+				omitTests.requiredSelect = webshim.support.formvalidation;
+			});
+		})(jQuery);
+	</script>
+	
+	<script>
+		//polute unknown elements prototype with some used props currently output[value]
+		webshims.ready('dom-extend', function($){
+			webshims.defineNodeNameProperty('foobar', 'value', {
+				prop: {
+					get: function(){
+						return 'jo da foobar';
+					},
+					set: function(){
+						return 'baz';
+					}
+				}
+			});
+		});
+	</script>
+	
+
+	<script src="test-ext/test-helper.js"></script>
+
+	<script src="unit/updatepolyfill.js"></script>
+	<script src="unit/placeholder.js"></script>
+	<script src="unit/validity.js"></script>
+	<script src="unit/canvas.js"></script>
+	<script src="unit/number-date.js"></script>
+	<script src="unit/dynamic-webshim.js"></script>
+	<script src="unit/stepup-down.js"></script>
+	<script src="unit/progress.js"></script>
+	<script src="unit/input-ui.js"></script>
+	<script src="unit/es5.js"></script>
+	<script src="unit/boolean-attr.js"></script>
+	<script src="unit/interactive-validation.js"></script>
+	<script src="unit/form-features.js"></script>
+	<script src="unit/loading.js"></script>
+	<script src="unit/form-submitters.js"></script>
+	<script src="unit/datalist.js"></script>
+	
+	<script>
+		jQuery.noConflict();
+		(function($){
+			var getRandom = function( max ) {
+				return parseInt( Math.random() * ( max + 1 ), 10 );
+			};
+			var hash = location.hash.replace('#', '');
+			var langs = webshims.validationMessages.availableLangs;
+			
+//			webshims.cfg.debug = "noCombo";
+			$(window).on('load', function(){
+				webshims.activeLang('de');
+				webshims.activeLang(webshims.validationMessages);
+				webshims.activeLang(langs[ getRandom(langs.length) ]);
+				$.webshims.polyfill();
+			});
+			if(hash.indexOf('noConflictExtreme') != -1){
+				webshims.cfg.no$Switch = true;
+				jQuery.noConflict(true);
+			}
+		})(jQuery);
+	</script>
+	<style type="text/css">
+		html { border: 0; }
+		#qunit-fixture {
+			position: static;
+			left: auto;
+			top: auto;
+		}
+		.htc-test {
+			width: 100px;
+			height: 100px;
+			border: 1px solid #f0f;
+			behavior: url(test-ext/crash.htc);
+			border-radius: 10px;
+		}
+	</style>
+</head>
+<body class="flora">
+	<foobar></foobar>
+	<foobarbaz></foobarbaz>
+<div id="ws-config">
+	<input type="checkbox" id="customValidationMessage" value="customValidationMessage" class="webshim-config" /> <label for="customValidationMessage">customValidationMessage</label>
+	<input type="checkbox" id="nativeMethods" value="nativeMethods" class="webshim-config" /> <label for="nativeMethods">nativeMethods</label>
+	<input type="checkbox" id="useCustomUI" value="useCustomUI" class="webshim-config" /> <label for="useCustomUI">use custom input widgets</label>
+	<input type="checkbox" id="noConflictExtreme" value="noConflictExtreme" class="webshim-config" /> <label for="noConflictExtreme">jQuery.noConflict(true)</label>
+	<input type="checkbox" id="bustedValidity" value="bustedValidity" class="webshim-config" /> <label for="bustedValidity">bustedValidity</label>
+	<select class="webshim-config" id="jq-version">
+		<option value="">jQuery 1.11.x</option>
+		<option value="legacyjquery">jQuery 1.8.3</option>
+		<option value="modernjquery">jQuery 2.x</option>
+		<option value="customjquery">custom builds of jQuery 2.x/1.x</option>
+	</select>
+	
+</div>
+<small>Note: These tests are made to test webshims lib implementation. If there are some failing tests in native implementations, fill a browser bug. We currently only fix heavy/easy to fix errors in native implementations.</small>
+<h1 id="qunit-header">Webshims Lib Test Suite</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="outside-test">
+	<canvas></canvas>
+</div>
+<div id="qunit-fixture">
+	<div class="htc-test"></div>
+	<div class="form-wrapper">
+		<input type="email" id="email-outside" name="email-outside" value="ddd" />
+		
+		<div class="radio-group-outside">
+			<input type="radio" name="radio-outside" required />
+			<input type="radio" name="radio-outside" required />
+			<input type="checkbox" name="radio-outside" />
+		</div>
+		<form id="form-1" action="" method="post">
+			<progress></progress>
+			<!-- hidden fields should not be visible -->
+			<div class="form-item-hidden">
+				<input type="hidden" name="test1" />
+				<input type="hidden" name="test2" />
+				<input type="hidden" name="test3" />
+				<input type="hidden" name="test4" />
+				<input type="hidden" />
+			</div>
+			<fieldset class="check">
+				<div>
+					<label for="name">
+						Name: <dfn title="required">*</dfn>
+					</label>
+					<input name="name" required="" type="text" id="name" />
+				</div>
+				<div>
+					<label for="number">
+						number: 
+					</label>
+					<input name="number" type="number" id="number" />
+				</div>
+				<div>
+					<label for="date">
+						date: 
+					</label>
+					<input name="date" type="date" value="2011-11-11" id="date" />
+				</div>
+				<div>
+					<label for="datetime-local">
+						datetime-local: 
+					</label>
+					<input name="datetime-local" type="datetime-local" id="datetime-local" />
+				</div>
+				<div>
+					<label for="time">
+						time: 
+					</label>
+					<input name="time" type="time" id="time" />
+				</div>
+				<div>
+					<label for="range">
+						range: 
+					</label>
+					<input name="range" type="range" id="range" />
+				</div>
+				<div>
+					<label for="email">
+						E-Mail: <dfn title="required">*</dfn>
+					</label>
+					<input list="dlist" name="email" required="required" class="email" type="email" id="email" />
+					<datalist id="dlist">
+						<select>
+							<option value="yes aßäöâ" />
+							<option value='yes "2"'></option>
+							<option value="yes '3'"></option>
+						</select>
+					</datalist>
+					<datalist id="dlist2">
+						<select>
+							<option value="secondlist" />
+						</select>
+					</datalist>
+					<span>Lorem ipsum dolor sit amet adipiscing elit.</span>
+				</div>
+				<div>
+					<label for="maxlength">
+						textarea: <dfn title="required">*</dfn>
+					</label>
+					<textarea maxlength="100" id="maxlength" name="maxlength"></textarea>
+				</div>
+				<div>
+					<label for="url">
+						E-Mail: <dfn title="required">*</dfn>
+					</label>
+					<input name="url" type="url" id="url" />
+				</div>
+				<div>
+					
+					<output>jo</output>
+					<label for="labeled-output">output-label</label>
+					<output id="labeled-output" name="outputtest"></output>
+				</div>
+				<div>
+					<div class="form-item-l">
+						<label for="pattern">
+							pattern:
+						</label>
+						<input type="text" PATTERN="[0-9][A-Z]{3}" name="pattern" id="pattern" />
+					</div>
+				</div>
+				<div  class="multiple-labels">
+					<fieldset>
+						<div class="form-item-m">
+							<label class="m" for="placeholder">
+								placeholder:
+							</label>
+							<input placeholder="hello" name="placeholder" type="password" id="placeholder" />
+						</div>
+						<div class="form-item-m">
+							<label class="m" for="placeholder-empty">
+								placeholder-empty:
+							</label>
+							<input class="oninput-test" name="placeholder-empty" type="password" id="placeholder-empty" />
+						</div>
+					</fieldset>
+				</div>
+				<div  class="multiple-labels">
+					<fieldset>
+						<div class="form-item-m">
+							<label class="m" for="placeholder-text">
+								placeholder-text:
+							</label>
+							<input placeholder="hello" name="placeholder-text" id="placeholder-text" />
+						</div>
+						<div class="form-item-m">
+							<label class="m" for="placeholder-empty-text">
+								placeholder-empty-text:
+							</label>
+							<input name="placeholder-empty-text" id="placeholder-empty-text" />
+						</div>
+				   	</fieldset>
+				</div>
+				<div>
+					<h4>Radio-Group Headline Short Labels  <dfn title="required">*</dfn></h4>
+					<fieldset class="mod">
+						<legend>Legend Short Labels  <dfn title="required">*</dfn></legend>
+						<div class="form-item">
+							<input required="required" type="radio" id="field6-1" name="radio-grp1-1" />
+							<label for="field6-1">
+								Radiooption 2
+							</label>
+						</div>
+						<div class="form-item">
+							<input required="" type="radio" id="field7-1" name="radio-grp1-1" />
+						   	<label for="field7-1"> 
+								Radiooption 2
+							</label>
+						</div>
+						<div class="form-item">
+							<input required type="radio" id="field8-1" name="radio-grp1-1" />
+							<label for="field8-1">
+								Radiooption 3
+							</label>
+						</div>
+					</fieldset>
+				</div>
+				<div>
+					<label for="select">
+						Lorem ipsum
+					</label>
+					<select name="select" id="select">
+						<option value="">Please Choose</option>
+						<optgroup label="group1">
+							<option value="">Option 1</option>
+							<option>Option 2</option>
+							<option>Option 3</option>
+						</optgroup>
+						<optgroup label="group2">
+							<option>Option 4</option>
+							<option>Option 5</option>
+							<option>Option 6</option>
+						</optgroup>
+					</select>
+				</div>
+				<div>
+					<label for="select2">
+						Lorem ipsum  <dfn title="required">*</dfn>
+					</label>
+					<select name="select2" required="" id="select2">
+						<optgroup label="group1">
+							<option value="">Option 1</option>
+							<option>Option 2</option>
+							<option>Option 3</option>
+						</optgroup>
+						<optgroup label="group2">
+							<option>Option 4</option>
+							<option>Option 5</option>
+							<option>Option 6</option>
+						</optgroup>
+					</select>
+				</div>
+				<div>
+					<label for="select3">
+						Lorem ipsum  <dfn title="required">*</dfn>
+					</label>
+					<select name="select3" required="" id="select3" size="3">
+							<option value="">Option 1</option>
+							<option>Option 2</option>
+							<option>Option 3</option>
+							<option>Option 4</option>
+							<option>Option 5</option>
+							<option>Option 6</option>
+					</select>
+				</div>
+				<div>
+					<label for="select4">
+						Lorem ipsum  <dfn title="required">*</dfn>
+					</label>
+					<select name="select4" required="" id="select4" multiple size="1">
+							<option value="">Option 1</option>
+							<option>Option 2</option>
+							<option>Option 3</option>
+							<option>Option 4</option>
+							<option>Option 5</option>
+							<option>Option 6</option>
+					</select>
+				</div>
+				<div>
+					<label for="rangeId">
+						Lorem ipsum  <dfn title="required">*</dfn>
+					</label>
+					<input type="range" name="rangeName" id="rangeId" />
+				</div>
+				
+				<div class="button-wrapper">
+					<input type="submit" value="Send" />
+				</div>
+			</fieldset>
+		</form>
+	</div><!-- end form --> 
+	
+	
+	
+	<form id="form-2" action="#" novalidate>
+		<div>
+			<input type="text" required="" name="test-2" />
+		</div>
+	</form> 
+	
+	<input type="text" name="outside-1" form="form-buttons" />
+	<input type="hidden" name="multiple-outsides" form="form-buttons" />
+	<input type="hidden" name="multiple-outsides" id="outside-id" form="form-buttons" />
+	<button type="submit" class="outside-button" formmethod="get" form="form-buttons">
+		<span>fdsf</span>
+	</button>
+	<input type="submit" name="outside-submit" value="outside-submitvalue" formmethod="get" form="form-buttons" />
+	<form id="form-buttons" action="test-ext/form-tester-1.html" target="originaltarget" method="post">
+		<input type="hidden" name="test" value="bla" />
+		<input type="image" class="target-image-test" formtarget="image-target" value="fds"/>
+		
+		<button type="submit" class="action-test" formaction="test-ext/form-tester-1.html">
+			<span>fdsf</span>
+		</button>
+		
+		<button type="submit" class="method-test" formmethod="test-ext/form-tester-2.html">
+			<span>fdsf</span>
+		</button>
+		<input type="submit"  class="method-submit-test" formmethod="Post" value="fds" />
+		
+		<button type="submit" class="enctype-test" formenctype="test-ext/form-tester-2.html">
+			<span>fdsf</span>
+		</button>
+		<input type="submit"  class="enctype-submit-test"  formenctype="text/plain" formaction="test-ext/form-tester-2.html" value="fds" />
+		
+		
+		<button class="empty-test" type="submit">
+			<span>fdsf</span>
+		</button>
+		
+	</form>
+	<form action="#" id="click-test-form">
+		<fieldset>
+			<input type="text" name="texta" required />
+			<input type="text" name="textb" required />
+		</fieldset>
+		<input type="date" name="datea" required />
+		<input type="submit" />
+	</form>
+	
+	<form action="#" class="no-id">
+		<input type="text" name="texta2" />
+		<input type="text" name="textb2" />
+		<input name="datea2" />
+		<input type="submit" />
+	</form>
+	<iframe name="originaltarget" id="originaltarget"></iframe>
+	<iframe name="image-target" id="image-target"></iframe>
+</div>
+
+
+</body>
+</html>

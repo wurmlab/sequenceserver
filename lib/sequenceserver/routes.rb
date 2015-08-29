@@ -50,11 +50,6 @@ module SequenceServer
       }
     end
 
-    configure :production do
-      set :public_folder,
-          lambda { File.join SequenceServer.root, 'public', 'dist' }
-    end
-
     # For any request that hits the app in development mode, log incoming
     # params.
     before do
@@ -63,7 +58,7 @@ module SequenceServer
 
     # Renders search form.
     get '/' do
-      erb :search
+      erb :layout
     end
 
     get '/databases.json' do
@@ -86,7 +81,7 @@ module SequenceServer
 
     # Retrieve data for the given search id.
     get '/:jid' do |jid|
-      erb :report
+      erb :layout
     end
 
     # @params sequence_ids: whitespace separated list of sequence ids to

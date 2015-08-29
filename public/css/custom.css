@@ -6,6 +6,7 @@
  * For scrollspy, etc.
  */
 body {
+  font-family: "Open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 13px;
   position: relative;
 }

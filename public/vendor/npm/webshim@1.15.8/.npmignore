@@ -1,0 +1,16 @@
+*.swp
+*.un~
+*.tmp_*~
+todo.txt
+_extends.css
+tests/performance.html
+dev-playground/*
+node_modules/*
+demos/demo-js/node_modules/*
+
+/tests/form-implementation.html
+/build/yuicompressor.jar
+/tests/tmp_tests.html
+.DS_Store
+.sass-cache
+.idea

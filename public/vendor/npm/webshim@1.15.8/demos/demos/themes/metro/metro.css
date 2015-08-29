@@ -1,0 +1,361 @@
+/* style picker api */
+/* how to use: 
+*
+Markup (good to style one input different than other):
+<!-- simply use a placeholder as class on your input elment -->
+	<input type="date" class="show-week" />
+CSS:
+//replace the placeholder with .input-picker or (.input-date-picker)
+	.input-picker .ws-week {
+		display: table-cell;
+	}
+SASS:
+//use the placeholder(s) and go crazy
+	.input-picker {
+		@extend %show-week;
+		//@extend show-selectnav;
+	}
+*
+*/
+/* btn api */
+.ws-po-arrow {
+  display: none;
+}
+
+.ws-po-outerbox {
+  padding-top: 0.15385em;
+}
+
+.ws-po-box {
+  border: 0.23077em solid #d4d4d4;
+}
+
+progress.ws-style {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
+  border: none;
+  background: #d4d4d4;
+}
+progress.ws-style::-webkit-progress-bar {
+  border: none;
+  background: #d4d4d4;
+  border: 0 none;
+}
+progress.ws-style::-moz-progress-bar {
+  border: none;
+  background: #d4d4d4;
+}
+progress.ws-style::-ms-fill {
+  animation-name: none;
+  border: none;
+  background: #d4d4d4;
+}
+progress.ws-style::-webkit-progress-value {
+  background: #39f;
+}
+progress.ws-style::-moz-progress-bar {
+  background: #39f;
+}
+progress.ws-style::-ms-fill {
+  animation-name: none;
+  background: #39f;
+}
+progress.ws-style > span.progress-value {
+  display: block !important;
+  background: #39f;
+}
+
+.input-picker .ws-picker-header {
+  top: -2.30769em;
+}
+
+.input-picker .ws-picker-body {
+  padding-top: 2.46154em;
+  margin: 0;
+}
+
+.input-picker .picker-list {
+  margin: 0;
+}
+
+.input-picker .ws-po-box {
+  border-width: 0.15385em;
+  border-color: #39f;
+  background: #39f;
+  padding: 0.38462em 0 0;
+}
+
+.input-picker .ws-picker-header > button {
+  color: #fff;
+}
+.input-picker .ws-picker-header > button:after {
+  border-color: transparent transparent #fff;
+}
+
+.input-picker .ws-picker-controls {
+  margin: 0 0.23077em;
+  top: 0.38462em;
+}
+
+.input-picker .ws-picker-controls > button {
+  background: none;
+  border-color: #fff;
+  border-radius: 50%;
+}
+.input-picker .ws-picker-controls > button.ws-year-btn:after, .input-picker .ws-picker-controls > button:before {
+  margin-top: 0;
+}
+.input-picker .ws-picker-controls > button:hover {
+  outline: none;
+  border-color: #fff;
+  background-color: #fff;
+}
+
+.input-picker .prev-controls, .input-picker .ws-po-box[dir="rtl"] .next-controls {
+  left: 0;
+}
+.input-picker .prev-controls > .ws-year-btn:after,
+.input-picker .prev-controls > button:before, .input-picker .ws-po-box[dir="rtl"] .next-controls > .ws-year-btn:after,
+.input-picker .ws-po-box[dir="rtl"] .next-controls > button:before {
+  border-color: transparent #fff transparent transparent;
+}
+.input-picker .prev-controls > button:hover.ws-year-btn:after, .input-picker .prev-controls > button:hover:before, .input-picker .ws-po-box[dir="rtl"] .next-controls > button:hover.ws-year-btn:after, .input-picker .ws-po-box[dir="rtl"] .next-controls > button:hover:before {
+  border-color: transparent #39f transparent transparent;
+}
+
+.input-picker .next-controls, .input-picker .ws-po-box[dir="rtl"] .prev-controls {
+  right: 0;
+}
+.input-picker .next-controls > .ws-year-btn:after,
+.input-picker .next-controls > button:before, .input-picker .ws-po-box[dir="rtl"] .prev-controls > .ws-year-btn:after,
+.input-picker .ws-po-box[dir="rtl"] .prev-controls > button:before {
+  border-color: transparent transparent transparent #fff;
+}
+.input-picker .next-controls > button:hover.ws-year-btn:after, .input-picker .next-controls > button:hover:before, .input-picker .ws-po-box[dir="rtl"] .prev-controls > button:hover.ws-year-btn:after, .input-picker .ws-po-box[dir="rtl"] .prev-controls > button:hover:before {
+  border-color: transparent transparent transparent #39f;
+}
+
+.input-picker .picker-grid {
+  margin: 0;
+  background: #fefefe;
+}
+
+.input-picker .ws-picker-body .picker-list th,
+.input-picker .ws-picker-body .picker-list td {
+  padding: 0.07769em;
+}
+.input-picker .ws-picker-body .picker-list th > abbr,
+.input-picker .ws-picker-body .picker-list td > abbr {
+  display: inline-block;
+  border: none;
+  padding: 0.61538em 0.30769em;
+}
+.input-picker .ws-picker-body .picker-list th > button,
+.input-picker .ws-picker-body .picker-list td > button {
+  color: #000;
+  background: #f9f9f9;
+}
+.input-picker .ws-picker-body .picker-list th > button.this-value,
+.input-picker .ws-picker-body .picker-list td > button.this-value {
+  color: #fff;
+  background: #66b3ff;
+}
+.input-picker .ws-picker-body .picker-list th > button.othermonth,
+.input-picker .ws-picker-body .picker-list td > button.othermonth {
+  color: #999;
+  background: #f9f9f9;
+}
+.input-picker .ws-picker-body .picker-list th > button:hover,
+.input-picker .ws-picker-body .picker-list td > button:hover {
+  color: #fff;
+  background: #39f;
+}
+.input-picker .ws-picker-body .picker-list th > button.checked-value,
+.input-picker .ws-picker-body .picker-list td > button.checked-value {
+  color: #fff;
+  background: #39f;
+}
+.input-picker .ws-picker-body .picker-list th > button[disabled],
+.input-picker .ws-picker-body .picker-list td > button[disabled] {
+  color: #ccc;
+  background: #f9f9f9;
+}
+
+.input-picker .picker-list.day-list td > button {
+  padding: 0.61538em 0.61538em 0.61538em 0;
+  text-align: right;
+}
+
+.input-picker .ws-options,
+.input-picker .ws-button-row {
+  margin: 0;
+  padding: 0.76923em;
+  background: #fefefe;
+  border-top-color: #39f;
+  border-top-width: 0.15385em;
+}
+
+.input-picker .ws-options button.ws-focus, .input-picker .ws-options button:focus, .input-picker .ws-options button:hover {
+  color: #fff;
+  background: #39f;
+}
+
+.input-picker.ws-size-2 {
+  width: 46.92308em;
+  min-width: 39.07692em;
+}
+.input-picker.ws-size-2 .ws-index-1 {
+  float: right;
+}
+
+.input-picker.ws-size-3 {
+  width: 69.38462em;
+  min-width: 69.23077em;
+}
+.input-picker.ws-size-3 .ws-index-1 {
+  margin: 0 0 0 0.15385em;
+}
+.input-picker.ws-size-3 .ws-index-2 {
+  float: right;
+}
+
+.input-picker .ws-button-row > button {
+  background-image: none;
+  border-color: none;
+}
+.input-picker .ws-button-row > button.ws-empty {
+  margin: 0 0.30769em;
+  float: left;
+}
+
+.ws-range {
+  background: #d4d4d4;
+  height: 0.92308em;
+}
+.ws-range .ws-range-thumb {
+  border: none;
+  height: 100%;
+  width: 0.92308em;
+  margin: 0 0 0 -0.46154em;
+  background: #000;
+}
+.ws-range.ws-focus .ws-range-thumb {
+  background: #333;
+}
+.ws-range.ws-active .ws-range-thumb {
+  background: #666;
+}
+.ws-range .ws-range-progress {
+  background: #39f;
+}
+
+.datalist-polyfill .ws-po-box {
+  padding: 0;
+}
+.datalist-polyfill .ws-po-box li {
+  padding: 0.38462em 0.76923em;
+  background: #fefefe;
+}
+.datalist-polyfill .ws-po-box .active-item {
+  background: #39f;
+}
+.datalist-polyfill .ws-po-box .active-item .option-label,
+.datalist-polyfill .ws-po-box .active-item .option-value {
+  color: #fff;
+}
+
+.mediaplayer > .jme-controlbar {
+  background: rgba(0, 0, 0, 0.5);
+}
+.mediaplayer > .jme-controlbar [class*="-container"] > button,
+.mediaplayer > .jme-controlbar .subtitle-controls > button,
+.mediaplayer > .jme-controlbar .mediamenu-wrapper > button {
+  border: 1px solid #eee;
+  border-radius: 50%;
+  height: 2em;
+  width: 2em;
+}
+.mediaplayer > .jme-controlbar [class*="-container"] > button:hover,
+.mediaplayer > .jme-controlbar .subtitle-controls > button:hover,
+.mediaplayer > .jme-controlbar .mediamenu-wrapper > button:hover {
+  outline: none;
+  background: rgba(255, 255, 255, 0.6);
+}
+.mediaplayer > .jme-controlbar [class*="-container"] > button.state-paused,
+.mediaplayer > .jme-controlbar .subtitle-controls > button.state-paused,
+.mediaplayer > .jme-controlbar .mediamenu-wrapper > button.state-paused {
+  text-indent: 0.2em;
+}
+
+.mediaplayer .media-range {
+  height: 0.92308em;
+  border: none;
+  background: rgba(255, 255, 255, 0.4);
+}
+.mediaplayer .media-range .ws-range-progress {
+  background: #a700ae;
+}
+.mediaplayer .media-range .ws-range-thumb {
+  background: #fff;
+  height: 0.92308em;
+  width: 0.92308em;
+}
+.mediaplayer .media-range .buffer-progress-indicator {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-playersizes~="s"].mediaplayer .media-range {
+  display: none;
+}
+[data-playersizes~="s"].mediaplayer .progress-container {
+  width: auto;
+}
+[data-playersizes~="s"].mediaplayer .progress-container:before {
+  content: "/";
+}
+[data-playersizes~="s"].mediaplayer .duration-container {
+  width: 100%;
+}
+
+[data-playersizes~="xs"] .currenttime-container,
+[data-playersizes~="xs"] .progress-container,
+[data-playersizes~="xs"] .duration-container {
+  display: none;
+}
+[data-playersizes~="xs"] .play-pause-container {
+  width: 100%;
+}
+
+.mediaplayer .time-select {
+  background: rgba(0, 0, 0, 0.5);
+}
+.mediaplayer .time-select.show-time-select {
+  bottom: 2.15385em;
+}
+
+.mediaplayer .currenttime-display, .mediaplayer .duration-display {
+  font-size: 1em;
+}
+
+.mediaplayer .mediamenu {
+  bottom: 2.46154em;
+  right: -0.38462em;
+}
+.mediaplayer .mediamenu > div {
+  background: rgba(0, 0, 0, 0.5);
+}
+.mediaplayer .mediamenu > div:after {
+  display: none;
+}
+
+.jme-cb-box > div {
+  padding: 0.38462em 0.61538em;
+}
+.jme-cb-box > div.mute-container {
+  padding-right: 0.23077em;
+}
+.jme-cb-box > div.volume-container {
+  padding-left: 0.23077em;
+}

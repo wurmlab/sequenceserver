@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Webshims Lib Test Suite</title>
+		<script src="require.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.js"></script>
+		<script src="../../src/extras/modernizr-custom.js"></script>
+		<script>
+			require.config({
+				baseUrl: "../../src/"
+			});
+			window.asyncWebshims = {
+				cfg: {
+					testData: 'test4',
+					waitReady: false,
+					forms: {
+						customMessages: true
+					}
+				},
+				polyfill: "forms forms-ext"
+			};
+			(function(){
+				var requireCallback = false;
+				require( ["polyfiller"], function(e){
+					requireCallback = true;
+					webshims.ready('forms-ext', function(){
+						(window.opener || window.parent).loadingTest($.webshims.cfg.testData);
+					});
+				});
+				
+			})();
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

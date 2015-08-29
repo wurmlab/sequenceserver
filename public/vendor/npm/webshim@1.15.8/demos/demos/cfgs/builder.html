@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width">
+		<title>Webshim - builder alpha</title>
+		
+		
+		<link href="../../css/styles.css" rel="stylesheet" />
+		
+		<script>
+			(function(){
+				var src = (Object.defineProperty && window.addEventListener) ?
+					'//code.jquery.com/jquery-2.0.3.min.js' :
+					'//code.jquery.com/jquery-1.10.1.min.js'
+				;
+				
+				document.write('<script src="'+ src +'"><\/script>');
+			})();
+		</script>
+
+		<script src="../../../js-webshim/minified/polyfiller.js"></script>
+		<style>
+			textarea {
+				display: block;
+				width: 80%;
+				height: 300px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		<form action="http://marijnhaverbeke.nl/uglifyjs" method="post" data-polyfillpath="../../../js-webshim/dev/">
+			<div>
+				<label><input type="checkbox" class="include-initial" checked="" /> include initial fiels</label> 
+			</div>
+<textarea class="config">
+//webshim.setOptions
+//for forms.customMessages and form-ext.replaceUI detection
+webshim.setOptions('waitReady', false);
+webshim.setOptions('forms', {
+	lazyCustomMessages: true
+});
+
+webshim.setOptions('forms-ext', {
+	replaceUI: true
+});
+
+//webshim.activeLang
+webshim.activeLang('ar');
+
+webshim.polyfill('forms forms-ext mediaelement');
+</textarea>
+			<button type="button" class="generate">generate</button>
+			<textarea class="output" name="js_code" readonly="">
+				
+			</textarea>
+			<input type="hidden" name="download" value="polyfiller-custom.js" />
+			<input type="submit" value="compress and download" />
+		</form>
+		<p><a href="../../../grunt-tasks/optimize-polyfiller.js">better you use the grunt task!</a></p>
+		<script src="../../demo-js/src/builder.js"></script>
+	</body>
+</html>

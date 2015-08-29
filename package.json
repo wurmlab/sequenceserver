@@ -1,29 +1,46 @@
 {
-    "name": "SequenceServer",
-    "description": "BLAST searching made easy!",
-    "version": "1.0.0-2",
-    "homepage": "http://www.sequenceserver.com",
-    "repository": "https://github.com/yannickwurm/sequenceserver",
-    "author": {
-        "name": "Anurag Priyam",
-        "email": "anurag08priyam@gmail.com"
+  "name": "SequenceServer",
+  "description": "BLAST searching made easy!",
+  "version": "1.1.0",
+  "homepage": "http://www.sequenceserver.com",
+  "repository": "https://github.com/yannickwurm/sequenceserver",
+  "author": {
+    "name": "Anurag Priyam",
+    "email": "anurag08priyam@gmail.com"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "clean-css": "^3.4.1",
+    "jspm": "^0.16.2"
+  },
+  "scripts": {
+    "build": "jspm bundle-sfx --minify --skip-source-maps js/sequenceserver.js public/sequenceserver.min.js && cat public/vendor/github/twbs/bootstrap@3.3.5/css/bootstrap.min.css public/vendor/npm/font-awesome@4.4.0/css/font-awesome.min.css public/css/custom.css | cleancss -o public/sequenceserver.min.css && gzip -kf public/sequenceserver.min.js && gzip -kf public/sequenceserver.min.css"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "public",
+      "packages": "public/vendor"
     },
     "dependencies": {
+      "bootstrap": "github:twbs/bootstrap@^3.3.5",
+      "d3": "github:mbostock/d3@^3.5.6",
+      "font-awesome": "npm:font-awesome@^4.4.0",
+      "jquery": "github:components/jquery@^2.1.4",
+      "jquery-ui": "github:components/jqueryui@^1.11.4",
+      "react": "npm:react@^0.13.3",
+      "react-router": "npm:react-router@^0.13.3",
+      "underscore": "npm:underscore@^1.8.3",
+      "webshim": "npm:webshim@^1.15.8"
     },
     "devDependencies": {
-        "grunt":                  "0.4.5",
-        "grunt-cli":              "0.1.13",
-        "grunt-html":             "2.0.0",
-        "grunt-bootlint":         "0.7.0",
-        "grunt-contrib-csslint":  "0.4.0",
-        "grunt-contrib-jshint":   "0.11.0",
-        "grunt-contrib-cssmin":   "0.11.0",
-        "grunt-contrib-uglify":   "0.4.0",
-        "grunt-contrib-copy":     "0.7.0",
-        "grunt-contrib-compress": "0.13.0"
+      "babel": "npm:babel-core@^5.8.22",
+      "babel-runtime": "npm:babel-runtime@^5.8.20",
+      "core-js": "npm:core-js@^1.1.0"
     },
-    "scripts": {
-        "cop":    "grunt cop",
-        "build":         "grunt build"
+    "overrides": {
+      "npm:webshim@1.15.8": {
+        "main": "js-webshim/minified/polyfiller"
+      }
     }
+  }
 }
