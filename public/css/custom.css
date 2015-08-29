@@ -119,7 +119,7 @@ a.disabled:hover {
 }
 
 /**
- * Take our border from each row and apply only to table header.
+ * Take out border from each row and apply only to table header.
  */
 .table {
   margin-bottom: 0;
@@ -460,11 +460,6 @@ h1,h2,h3,h4,h5,h6,.page-header {
     vertical-align: middle;
     position: relative;
     top: -1px;
-}
-
-.report-statistics {
-  white-space: pre;
-  font-family: monospace;
 }
 
 .glow {

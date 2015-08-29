@@ -1287,25 +1287,100 @@ var Report = React.createClass({
     overview: function () {
         return (
             <div
-                className="report-statistics">
-                {this.state.program_version}
-                <br/>
-                <br/>
-                Databases queried:
-                {
-                    _.map(this.state.querydb, function (db) {
-                        return (
-                            "\n  " + db.title + "\n    " + db.nsequences
-                            + ", " + db.ncharacters + "  letter\n    created/updated on - "
-                            + db.updated_on + "\n"
-                        );
-                    })
-                }
-                <br/>
-                Total sequences in queried databases: {this.state.stats.nsequences}<br/>
-                Total letters in queried databases: {this.state.stats.ncharacters}
-                <br/>
-                <br/>
+                className="overview">
+                <h4>
+                    {this.state.program_version}
+                </h4>
+                <table
+                    className="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>
+                                Database
+                            </th>
+                            <th
+                                className="text-right">
+                                Number of sequences
+                            </th>
+                            <th
+                                className="text-right">
+                                Number of characters
+                            </th>
+                            <th
+                                className="text-right">
+                                Created or updated on
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            _.map(this.state.querydb, function (db) {
+                                return (
+                                    <tr>
+                                        <td>
+                                            { db.title }
+                                        </td>
+                                        <td
+                                            className="text-right">
+                                            { db.nsequences }
+                                        </td>
+                                        <td
+                                            className="text-right">
+                                            { db.ncharacters }
+                                        </td>
+                                        <td
+                                            className="text-right">
+                                            { db.updated_on }
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        }
+                        <tr>
+                            <td
+                                className="text-right">
+                                Total
+                            </td>
+                            <td
+                                className="text-right">
+                                {this.state.stats.nsequences}
+                            </td>
+                            <td
+                                className="text-right">
+                                {this.state.stats.ncharacters}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table
+                    className="table table-condensed">
+                    <thead>
+                        <tr>
+                            {
+                                _.map(_.keys(this.state.params), function (param) {
+                                    return (
+                                        <th>
+                                            { param }
+                                        </th>
+                                    );
+                                })
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {
+                                _.map(this.state.params, function (param) {
+                                    return (
+                                        <td>
+                                            { param }
+                                        </td>
+                                    );
+                                })
+                            }
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         );
     },

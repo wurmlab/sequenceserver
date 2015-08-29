@@ -65,14 +65,9 @@ module SequenceServer
       # matrix, evalue, gapopen, gapextend, and filters are available from XML
       # output.
       def extract_params(ir)
-        params  = ir[7]
-        @params = {
-          :matrix    => params[0],
-          :evalue    => params[1],
-          :gapopen   => params[2],
-          :gapextend => params[3],
-          :filters   => params[4]
-        }
+        @params = Hash[
+          *ir[7].first.map { |k, v| [k.gsub('Parameters_', ''), v] }.flatten
+        ]
       end
 
       # Make search stats available via `stats` attribute.
@@ -122,9 +117,14 @@ module SequenceServer
         end
       end
 
-      PARSEABLE_AS_ARRAY = %w(Parameters BlastOutput_param Iteration_stat
-                              Statistics Iteration_hits BlastOutput_iterations
+      PARSEABLE_AS_HASH  = %w(Parameters)
+      PARSEABLE_AS_ARRAY = %w(BlastOutput_param Iteration_stat Statistics
+                              Iteration_hits BlastOutput_iterations
                               Iteration Hit Hit_hsps Hsp)
+
+      def node_to_hash(element)
+        Hash[*element.nodes.map { |n| [n.name, node_to_value(n)] }.flatten]
+      end
 
       def node_to_array(element)
         element.nodes.map { |n| node_to_value n }
@@ -134,12 +134,13 @@ module SequenceServer
         # Ensure that the recursion doesn't fails when String value is received.
         return node if node.is_a?(String)
 
-        if PARSEABLE_AS_ARRAY.include? node.name
-          value = node_to_array(node)
+        if PARSEABLE_AS_HASH.include? node.name
+          node_to_hash(node)
+        elsif PARSEABLE_AS_ARRAY.include? node.name
+          node_to_array(node)
         else
-          value = first_text(node)
+          first_text(node)
         end
-        value
       end
 
       def first_text(node)
