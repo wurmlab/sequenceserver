@@ -104,7 +104,7 @@ MSG
   # system but not meeting SequenceServer's minimum version requirement.
   class BLAST_NOT_COMPATIBLE < StandardError
     def initialize(version)
-      @version  = version
+      @version = version
     end
 
     attr_reader :version

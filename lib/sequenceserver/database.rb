@@ -22,7 +22,7 @@ module SequenceServer
   Database = Struct.new(:name, :title, :type, :nsequences, :ncharacters,
                         :updated_on) do
     def initialize(*args)
-      args[2].downcase!   # database type
+      args[2].downcase! # database type
       args.each(&:freeze)
       super
 
@@ -229,7 +229,7 @@ module SequenceServer
       # Cobs1.4.proteins.fasta -> Cobs 1.4 proteins
       # S_invicta.xx.2.5.small.nucl.fa -> S invicta xx 2.5 small nucl
       def make_db_title(db_name)
-        db_name.gsub!('"', "'")
+        db_name.tr!('"', "'")
         # removes .fasta like extension names
         db_name.gsub!(File.extname(db_name), '')
         # replaces _ with ' ',

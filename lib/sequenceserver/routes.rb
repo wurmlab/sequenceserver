@@ -62,7 +62,7 @@ module SequenceServer
       def a(link)
         return unless link[:title] && link[:url]
         target = absolute?(link[:url]) && '_blank' || '_self'
-        a =  %(<a href="#{link[:url]}" class="#{link[:class]}" \
+        a = %(<a href="#{link[:url]}" class="#{link[:class]}" \
 target="#{target}">)
         a << %(<i class="fa #{link[:icon]}"></i> ) if link[:icon]
         a << "#{link[:title]}</a>"

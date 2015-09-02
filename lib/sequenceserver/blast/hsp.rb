@@ -34,8 +34,8 @@ module SequenceServer
           'E value'    => in_scientific_or_twodecimal(evalue),
           'Identities' => [in_fraction(identity,   length),
                            in_percentage(identity, length)],
-          'Gaps'       => [in_fraction(gaps,   length),
-                           in_percentage(gaps, length)]
+          'Gaps' => [in_fraction(gaps,   length),
+                     in_percentage(gaps, length)]
         }
       end
       # rubocop:enable Metrics/AbcSize
