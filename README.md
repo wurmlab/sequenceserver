@@ -1,10 +1,10 @@
-[![build status](https://secure.travis-ci.org/yannickwurm/sequenceserver.png?branch=master)](https://travis-ci.org/yannickwurm/sequenceserver)
-[![code climate](https://codeclimate.com/github/yannickwurm/sequenceserver/badges/gpa.svg)](https://codeclimate.com/github/yannickwurm/sequenceserver)
-[![coverage](https://codeclimate.com/github/yannickwurm/sequenceserver/badges/coverage.svg)](https://codeclimate.com/github/yannickwurm/sequenceserver)
+[![build status](https://secure.travis-ci.org/wurmlab/sequenceserver.png?branch=master)](https://travis-ci.org/wurmlab/sequenceserver)
+[![code climate](https://codeclimate.com/github/wurmlab/sequenceserver/badges/gpa.svg)](https://codeclimate.com/github/wurmlab/sequenceserver)
+[![coverage](https://codeclimate.com/github/wurmlab/sequenceserver/badges/coverage.svg)](https://codeclimate.com/github/wurmlab/sequenceserver)
 [![gem version](https://badge.fury.io/rb/sequenceserver.svg)](http://rubygems.org/gems/sequenceserver)
 [![total downloads](http://ruby-gem-downloads-badge.herokuapp.com/sequenceserver?type=total&color=brightgreen)](http://rubygems.org/gems/sequenceserver)
 
-[![gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/yannickwurm/sequenceserver)
+[![gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/wurmlab/sequenceserver)
 
 # SequenceServer - BLAST searching made easy!
 
@@ -22,7 +22,7 @@ CodeClimate for development.
 
 ##### Get source code.
 ```
-git clone https://github.com/yannickwurm/sequenceserver
+git clone https://github.com/wurmlab/sequenceserver
 cd sequenceserver
 ```
 
