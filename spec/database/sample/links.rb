@@ -7,7 +7,7 @@ module SequenceServer
 
     def uniprot
       return unless accession.match(SI_UNIPROT_IDPAT)
-      uniprot_id  = SI_UNIPROT_IDMAP["SINV_#{Regexp.last_match[1]}"]
+      uniprot_id = SI_UNIPROT_IDMAP["SINV_#{Regexp.last_match[1]}"]
       return unless uniprot_id
 
       uniprot_id = encode uniprot_id

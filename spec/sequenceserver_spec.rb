@@ -24,7 +24,7 @@ module SequenceServer
     end
 
     let 'config' do
-      { :config_file  => empty_config }
+      { :config_file => empty_config }
     end
 
     # bin, if set, should be a _directory_ that exists

@@ -45,6 +45,15 @@ module SequenceServer
         query.report
       end
 
+      def coordinates
+        qstart_min = hsps.map(&:qstart).min
+        qend_max = hsps.map(&:qend).max
+        sstart_min = hsps.map(&:sstart).min
+        send_max = hsps.map(&:send).max
+
+        [[qstart_min, qend_max], [sstart_min, send_max]]
+      end
+
       def querydb
         report.querydb
       end
