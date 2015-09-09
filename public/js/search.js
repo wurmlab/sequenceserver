@@ -415,7 +415,7 @@ var ProteinNotification = React.createClass({
                 style={{ display: 'none' }}>
                 <div
                     className="alert-info col-md-6 col-md-offset-3">
-                    Detected: protein sequence(s).
+                    Detected: amino-acid sequence(s).
                 </div>
             </div>
         );
