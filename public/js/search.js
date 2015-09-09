@@ -507,23 +507,21 @@ var DatabaseList = React.createClass({
                                         {
                                             _.map(this.databases(category), _.bind(function (database) {
                                                 return (
-                                                    <li className="list-group-item">
-                                                        <div
-                                                            className="checkbox"
+                                                    <li
+                                                        className="list-group-item">
+                                                        <label
                                                             className={(this.state.type && this.state.type !== database.type) && "disabled"}>
-                                                            <label>
-                                                                <input
-                                                                    type="checkbox" name="databases[]" value={database.id} data-type={database.type}
-                                                                    disabled={this.state.type && this.state.type !== database.type}
-                                                                    onChange=
-                                                                    {
-                                                                        _.bind(function () {
-                                                                            this.handleClick(database)
-                                                                        }, this)
-                                                                    }/>
-                                                                {" " + (database.title || database.name)}
-                                                            </label>
-                                                        </div>
+                                                            <input
+                                                                type="checkbox" name="databases[]" value={database.id} data-type={database.type}
+                                                                disabled={this.state.type && this.state.type !== database.type}
+                                                                onChange=
+                                                                {
+                                                                    _.bind(function () {
+                                                                        this.handleClick(database)
+                                                                    }, this)
+                                                                }/>
+                                                            {" " + (database.title || database.name)}
+                                                        </label>
                                                     </li>
                                                 );
                                             }, this))
@@ -887,7 +885,7 @@ var Options = React.createClass({
                         <div
                             className="input-group">
                             <label
-                                className="control-label cursor-pointer"
+                                className="control-label"
                                 htmlFor="advanced">
                                 Advanced Parameters:
                             </label>

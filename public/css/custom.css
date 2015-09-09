@@ -6,9 +6,9 @@
  * For scrollspy, etc.
  */
 body {
-  font-family: "Open sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 13px;
+  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
   position: relative;
+  color: black;
 }
 
 /**
@@ -16,6 +16,13 @@ body {
  */
 a:hover, .btn-link:hover {
   text-decoration: none;
+}
+
+/**
+ * Disable resize grabber on textarea.
+ */
+textarea {
+  resize: none;
 }
 
 /**
@@ -55,7 +62,6 @@ a.disabled:hover {
   height: auto;
   padding: 20px 15px;
   font-size: 32px;
-  font-family: "Roboto";
   color: rgb(51, 51, 51);
 }
 .navbar-brand > small {
@@ -93,6 +99,10 @@ a.disabled:hover {
   padding: 5px 0 0 5px;
 }
 
+/**
+ * Take out border, cut down margin and padding, and remove background color
+ * from panel.
+ */
 .panel {
   border: none;
   -webkit-box-shadow: none;
@@ -100,10 +110,11 @@ a.disabled:hover {
   box-shadow: none;
 }
 .panel .panel-heading {
-  color: #428BCE;
-  padding: 10px 1px;
-  font-family: "Roboto";
+  padding: 4px 1px;
   background-color: inherit;
+}
+.panel .panel-heading h4 {
+  margin: 0;
 }
 
 /**
@@ -134,6 +145,13 @@ a.disabled:hover {
   border-bottom: 1px solid #ddd;
 }
 
+/**
+ * Set max-width and font-family on tooltips.
+ */
+.tooltip-inner {
+  max-width: 350px;
+  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
 
 /********************
  * Extend Bootstrap *
@@ -213,6 +231,16 @@ a.disabled:hover {
   padding: 10px 15px;
 }
 
+/**
+ * Reset Bootstrap's CSS for pre tags.
+ */
+.pre-reset {
+  margin: 0 0;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  background-color: inherit;
+}
 
 /***************************
  * SequenceServer specific *
@@ -254,7 +282,6 @@ a.disabled:hover {
   -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  font-size: 14px;
   font-weight: bold;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   text-align: center;
@@ -262,29 +289,41 @@ a.disabled:hover {
 }
 
 .databases-container {
-  margin-top: -15px;
+  margin-top: -10px;
 }
 
-.databases-container .btn {
-  text-align: left;
-  white-space: normal;
+.databases .list-group-item {
+  border: none;
+  padding: 3px 0 0;
 }
 
-.database {
-  border-bottom: 0;
-  border-left: 0;
-  border-right: 0;
-}
-.database:first-child {
-  border-top: 0;
+.databases .list-group-item:first-child {
+  padding: 5px 0 0;
 }
 
-.databaseholder {
-  max-height: 220px;
-  overflow: auto;
-  border: 1px solid lightgray;
-  border-radius: 4px;
-}
+/* DON'T REMOVE - used for experimental database widget ... commenting out to
+ * exclude from minified build */
+
+/*.databases-container .btn {*/
+  /*text-align: left;*/
+  /*white-space: normal;*/
+/*}*/
+
+/*.database {*/
+  /*border-bottom: 0;*/
+  /*border-left: 0;*/
+  /*border-right: 0;*/
+/*}*/
+/*.database:first-child {*/
+  /*border-top: 0;*/
+/*}*/
+
+/*.databaseholder {*/
+  /*max-height: 220px;*/
+  /*overflow: auto;*/
+  /*border: 1px solid lightgray;*/
+  /*border-radius: 4px;*/
+/*}*/
 
 #blast > .form-group:last-child {
   margin-top: -5px;
@@ -295,7 +334,6 @@ a.disabled:hover {
 }
 
 label[for="advanced"] {
-  font-family: "Roboto";
   font-size: 16px;
   display: table-cell;
   width: 1%;
@@ -308,16 +346,16 @@ input[name="advanced"] {
   border-bottom-left-radius: 4px !important;
 }
 
-#methods {
-  font-family: "Roboto";
+#method {
+  letter-spacing: 1px;
 }
 
 #methods li {
-  font-size: 15px;
+  cursor: pointer;
   text-align: center;
   padding-top: 4px;
   padding-bottom: 4px;
-  cursor: pointer;
+  letter-spacing: 1px;
 }
 
 .dropdown-menu li {
@@ -326,11 +364,6 @@ input[name="advanced"] {
 
 .dropdown-menu li:last-child {
   border-bottom: 0;
-}
-
-h1,h2,h3,h4,h5,h6,.page-header {
-  font-family: "Roboto";
-  color: rgb(51, 51, 51);
 }
 
 .sidebar > .page-header > h4 {
@@ -440,43 +473,9 @@ h1,h2,h3,h4,h5,h6,.page-header {
   font-size: 48px;
 }
 
-/* input form */
-.col-md-6 .panel-heading h4 {
-  margin: 0;
-}
-
-.list-group.databases {
-  padding: 0;
-}
-
-.list-group.databases .list-group-item {
-  border: none;
-  padding: 1px 0;
-}
-
-.list-group.databases .list-group-item input {
-    margin: 0;
-    padding: 0;
-    vertical-align: middle;
-    position: relative;
-    top: -1px;
-}
-
 .glow {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   border-left: 2px solid #f0ad4e;
   padding-left: 16px;
   padding-right: 16px;
-}
-
-.tooltip-inner {
-    max-width: 350px;
-}
-
-.pre-reset {
-  margin: 0 0;
-  border: none;
-  padding: 0;
-  border-radius: 0;
-  background-color: inherit;
 }
