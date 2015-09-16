@@ -141,7 +141,7 @@ module SequenceServer
       end
 
       def disallowed_options
-        /-out|-html|-outfmt|-db|-query/i
+        /-out|-html|-outfmt|-db|-query|-num_threads/i
       end
     end
   end
