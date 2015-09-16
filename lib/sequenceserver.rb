@@ -114,7 +114,8 @@ module SequenceServer
         logger.debug("Will use NCBI BLAST+ at: #{config[:bin]}")
         export_bin_dir
       else
-        logger.debug('Will use NCBI BLAST+ at: $PATH')
+        logger.debug('Location of NCBI BLAST+ not provided. Assuming NCBI' \
+                     ' BLAST+ to be present in: $PATH')
       end
 
       assert_blast_installed_and_compatible
