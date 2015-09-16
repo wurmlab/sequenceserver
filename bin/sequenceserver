@@ -248,9 +248,6 @@ MSG
 
           version = SequenceServer::MINIMUM_BLAST_VERSION
           url = case RUBY_PLATFORM
-                when /i686-linux/   # 32 bit Linux
-                  'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/' \
-                  "#{version.chop}/ncbi-blast-#{version}-ia32-linux.tar.gz"
                 when /x86_64-linux/ # 64 bit Linux
                   'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/' \
                   "#{version.chop}/ncbi-blast-#{version}-x64-linux.tar.gz"
@@ -263,7 +260,7 @@ MSG
 ------------------------------------------------------------------------
 FAILED!! to install NCBI BLAST+.
 
-We currently support Linux and Mac only (both 32 and 64 bit). If you
+We currently support Linux and Mac only (64 bit). If you
 believe you are running a supported platform, please open a support
 ticket titled "#{RUBY_PLATFORM}" at:
 
