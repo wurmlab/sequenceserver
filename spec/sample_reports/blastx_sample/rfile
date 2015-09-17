@@ -35,7 +35,7 @@ CF01D30EFD70225B316787A39E97D22FBCF59FC4EB7E9DDD90FCD1F37DE35C32FA62'H
           }
         }
       },
-      subject database "spec/database/sample/proteins/Solenopsis_invicta/Sinvi
+      subject database "../database/sample/proteins/Solenopsis_invicta/Sinvi
 cta2-2-3.prot.subset.fasta",
       algorithm-options {
         {
