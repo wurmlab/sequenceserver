@@ -33,7 +33,7 @@ A79AC4AAD060E0B6108A80C5808E76AF0888D09A23F480E7630350B60D6863D2403C822D821E65
           }
         }
       },
-      subject database "spec/database/sample/transcripts/Solenopsis_invicta/Si
+      subject database "../database/sample/transcripts/Solenopsis_invicta/Si
 nvicta2-2-3.cdna.subset.fasta",
       algorithm-options {
         {

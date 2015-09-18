@@ -62,7 +62,7 @@ ADYPLAYDISPYLPPFLSRARARGMLDGRFAGRRYRRESRGIHEECCINGCTINELTSYCGP"
           }
         }
       },
-      subject database "spec/database/sample/transcripts/Solenopsis_invicta/Si
+      subject database "../database/sample/transcripts/Solenopsis_invicta/Si
 nvicta2-2-3.cdna.subset.fasta",
       algorithm-options {
         {

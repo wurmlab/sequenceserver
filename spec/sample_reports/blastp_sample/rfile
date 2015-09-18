@@ -62,7 +62,7 @@ ADYPLAYDISPYLPPFLSRARARGMLDGRFAGRRYRRESRGIHEECCINGCTINELTSYCGP"
           }
         }
       },
-      subject database "spec/database/sample/proteins/Solenopsis_invicta/Sinvi
+      subject database "../database/sample/proteins/Solenopsis_invicta/Sinvi
 cta2-2-3.prot.subset.fasta",
       algorithm-options {
         {

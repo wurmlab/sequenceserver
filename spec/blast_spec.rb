@@ -4,8 +4,15 @@ require 'spec_helper'
 module SequenceServer
   sample_reports = File.join(SequenceServer.root, 'spec', 'sample_reports')
 
-  with_hits      = File.join(sample_reports, 'with_hits_sample.asn')
-  no_hits        = File.join(sample_reports, 'no_hits_sample.asn')
+  load_job = lambda do |jid|
+    YAML.load_file File.join(sample_reports, jid, 'job.yaml')
+  end
+
+  with_hits = load_job.call('with_hits_sample')
+  no_hits = load_job.call('no_hits_sample')
+
+  Job::DOTDIR =  File.join File.dirname(__FILE__), 'sample_reports'
+  SequenceServer::DOTDIR = Job::DOTDIR
 
   describe 'Report' do
     hits_report = BLAST::Report.new(with_hits)
@@ -145,25 +152,13 @@ module SequenceServer
       pp.should match(/Subject/)
     end
 
-    it 'have relevant stats' do
-      hsp   = hits_report.queries.last.hits.last.hsps.last
-      stats = hsp.stats
-
-      stats.size.should be >= 4
-      stats.should include('Score', 'E value', 'Identities', 'Gaps')
-
-      stats['Score'].should be_a Array
-      stats['Identities'].should be_a Array
-      stats['Gaps'].should be_a Array
-    end
   end
 
   # Individually test different BLAST+ algorithms
   #
   describe 'BLASTN' do
     let 'hsp' do
-      report = BLAST::Report.new(File.join(sample_reports,
-                                           'blastn_sample.asn'))
+      report = BLAST::Report.new(load_job.call('blastn_sample'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -182,17 +177,11 @@ module SequenceServer
         hsp.sstart.should be >= hsp.send
       end
     end
-
-    it 'have relevant stats' do
-      hsp.stats.size.should eq(5)
-      hsp.stats.should include('Strand')
-    end
   end
 
   describe 'BLASTP' do
     let 'hsp' do
-      report = BLAST::Report.new(File.join(sample_reports,
-                                           'blastp_sample.asn'))
+      report = BLAST::Report.new(load_job.call('blastp_sample'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -209,16 +198,11 @@ module SequenceServer
       hsp.sstart.should be <= hsp.send
     end
 
-    it 'have relevant stats' do
-      hsp.stats.size.should eq(5)
-      hsp.stats.should include('Positives')
-    end
   end
 
   describe 'BLASTX' do
     let 'hsp' do
-      report = BLAST::Report.new(File.join(sample_reports,
-                                           'blastx_sample.asn'))
+      report = BLAST::Report.new(load_job.call('blastx_sample'))
 
       report.queries.first.hits.last.hsps.first
     end
@@ -235,17 +219,11 @@ module SequenceServer
       hsp.qstart.should be <= hsp.qend
       hsp.sstart.should be <= hsp.send
     end
-
-    it 'have relevant stats' do
-      hsp.stats.size.should eq(5)
-      hsp.stats.should include('Query frame')
-    end
   end
 
   describe 'TBLASTX' do
     let 'hsp' do
-      report = BLAST::Report.new(File.join(sample_reports,
-                                           'tblastx_sample.asn'))
+      report = BLAST::Report.new(load_job.call('tblastx_sample'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -261,18 +239,11 @@ module SequenceServer
       hsp.qstart.should be <= hsp.qend
       hsp.sstart.should be <= hsp.send
     end
-
-    it 'have relevant stats' do
-      hsp.stats.size.should eq(6)
-      hsp.stats.should include('Frame')
-      hsp.stats.should include('Positives')
-    end
   end
 
   describe 'TBLASTN' do
     let 'hsp' do
-      report = BLAST::Report.new(File.join(sample_reports,
-                                           'tblastn_sample.asn'))
+      report = BLAST::Report.new(load_job.call('tblastn_sample'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -289,9 +260,5 @@ module SequenceServer
       hsp.sstart.should be <= hsp.send
     end
 
-    it 'have relevant stats' do
-      hsp.stats.size.should eq(5)
-      hsp.stats.should include('Hit frame')
-    end
   end
 end
