@@ -3,13 +3,14 @@ module SequenceServer
   module BLAST
     # Hit Object to store all the hits per Query.
     Hit = Struct.new(:query, :number, :id, :accession, :title,
-                     :length, :hsps) do
+                     :length, :qcovs, :hsps) do
       include Links
 
       def initialize(*args)
         args[1] = args[1].to_i
         args[4] = '' if args[4] == 'No definition line'
         args[5] = args[5].to_i
+        args[6] = args[6].to_i
         super
       end
 
@@ -59,8 +60,8 @@ module SequenceServer
       end
 
       def to_json(*args)
-        [:number, :id, :accession, :title, :length, :evalue, :score, :hsps,
-         :links].inject({}) { |h, k| h[k] = send(k); h }.to_json(*args)
+        [:number, :id, :accession, :title, :length, :evalue, :score, :qcovs,
+         :hsps, :links].inject({}) { |h, k| h[k] = send(k); h }.to_json(*args)
       end
     end
   end

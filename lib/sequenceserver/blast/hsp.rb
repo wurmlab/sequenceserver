@@ -8,8 +8,8 @@ module SequenceServer
     # algorithm.
     HSP = Struct.new(:hit, :number, :bit_score, :score, :evalue, :qstart, :qend,
                      :sstart, :send, :qframe, :sframe, :identity, :positives,
-                     :gaps, :length, :qseq, :sseq, :midline) do
-      INTEGER_ARGS = [1, 3].concat((5..14).to_a)
+                     :gaps, :length, :qcovhsp, :qseq, :sseq, :midline) do
+      INTEGER_ARGS = [1, 3].concat((5..15).to_a)
       FLOAT_ARGS   = [2, 4]
 
       def initialize(*args)
@@ -28,7 +28,7 @@ module SequenceServer
 
         [:number, :bit_score, :score, :evalue, :qstart, :qend,
          :sstart, :send, :qframe, :sframe, :identity, :positives,
-         :gaps, :length, :qseq, :sseq, :midline].inject({}) { |h, k| h[k] = self[k]; h }.update(pp: pp).to_json(*args)
+         :gaps, :length, :qcovhsp, :qseq, :sseq, :midline].inject({}) { |h, k| h[k] = self[k]; h }.update(pp: pp).to_json(*args)
       end
 
       # Returns pretty formatted alignment String.

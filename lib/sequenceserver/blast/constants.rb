@@ -15,6 +15,9 @@ module SequenceServer
                            qframe hframe btop staxids sscinames scomnames
                            sblastnames sskingdoms stitle salltitles sstrand
                            qcovs qcovhsp).join(' ')
+
+    STDREP = %w(qseqid sseqid pident length mismatch gapopen qstart qend
+                sstart send evalue bitscore qcovs qcovhsp).join(' ')
     OUTFMT = {
       'pairwise'        => [0, :txt],
       'qa'              => [1, :txt],
@@ -22,8 +25,9 @@ module SequenceServer
       'fqa'             => [3, :txt],
       'fqa_no_identity' => [4, :txt],
       'xml'             => [5, :xml],
-      'std_tsv'         => [7, :tsv],
+      'std_tsv'         => [7, :tsv, STDREP],
       'full_tsv'        => [7, :tsv, OUTFMT_SPECIFIERS],
+      '__ssparse'       => [7, :tsv, 'qseqid sseqid qcovs qcovhsp'],
       'asn_text'        => [8, :asn],
       'asn_binary'      => [9, :asn],
       'csv'             => [10, :csv],
