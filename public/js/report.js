@@ -758,7 +758,7 @@ var HitsTable = React.createClass({
                 <thead>
                     <th className="text-left"> Number </th>
                     <th>Sequences producing significant alignments</th>
-                     {hasName && <th className="text-left"> Scientific Name </th>}
+                     {hasName && <th className="text-left"> Scientific name </th>}
                     <th className="text-right"> Total score </th>
                     <th className="text-right"> E value </th>
                     <th className="text-right"> Coverage </th>
