@@ -447,14 +447,15 @@ var MixedNotification = React.createClass({
                 style={{ display: 'none' }}>
                 <div
                     className="alert-danger col-md-10 col-md-offset-1">
-                    Detected: mixed nucleotide and protein sequences. We can't handle that'. Please try one sequence at a time.
+                    Detected: mixed nucleotide and amino-acid sequences. We
+                    can't handle that. Please try one sequence at a time.
                 </div>
             </div>
         );
     }
 });
 
-var DatabaseList = React.createClass({
+var Databases = React.createClass({
     getInitialState: function () {
         return {
             type:      '',
@@ -546,332 +547,17 @@ var DatabaseList = React.createClass({
 
     shouldComponentUpdate: function (props, state) {
         return !(state.type && state.type === this.state.type);
-        //return (!(state.type && state.type === this.state.type) ||
-                //!(state.filter && state.filter === this.state.filter));
     },
 
     componentDidUpdate: function () {
         if (this.databases() && this.databases().length === 1) {
             $('.databases').find('input').prop('checked',true);
-            //$('.database').not('.active').click();
             this.handleClick(this.databases()[0]);
         }
 
         this.props.onDatabaseTypeChanged(this.state.type);
     }
 });
-
-/**
- * Database widget.
- *
- * Comprises four components: category selector, search bar, database listing,
- * and a root components to hold, manage, and facilitate communication between
- * them.
- *
- * The root components fetches a list of database from the server and updates
- * its state which in turn causes all its child components to be re-rendered.
- * At this stage the list of databases is passed down to `DatabasesList` via
- * props.
- *
- * Category selector and search bar change `DatabasesList`'s state based on
- * user input. Accordingly `DatabasesList` filters the list of databases it
- * has and re-renders.
- */
-var Databases = (function () {
-
-    /**
-     * Search field for the database widget.
-     */
-    var Search = React.createClass({
-
-        // Kind of public API. //
-
-        /**
-         * Sets search text to given value or returns current value. Returns
-         * `this` when used as a setter.
-         */
-        text: function (text) {
-            if (text !== undefined) {
-                this.setState({
-                    text: text
-                })
-                return this;
-            }
-            return this.state.text;
-        },
-
-        /**
-         * Clears search text. Returns `this`.
-         *
-         * Clearing search text also causes the input field to be focussed.
-         */
-        clear: function () {
-            return this.text('').focus();
-        },
-
-        /**
-         * Focuses input field. Returns `this`.
-         */
-        focus: function () {
-            this.input().focus();
-            return this;
-        },
-
-        /**
-         * Returns true if search text is absent ('', undefined, nil), false
-         * otherwise.
-         */
-        isEmpty: function () {
-            return !this.text();
-        },
-
-
-        // Internal helpers. //
-
-        input: function () {
-            return $(React.findDOMNode(this.refs.input));
-        },
-
-        handleInput: function (evt) {
-            this.text(evt.target.value);
-        },
-
-
-        // Life cycle methods. //
-
-        getInitialState: function () {
-            return {
-                text: ''
-            }
-        },
-
-        componentDidUpdate: function () {
-            this.props.onUserInput(this.text());
-        },
-
-        render: function () {
-            return (
-                <div>
-                    <input
-                        type="text" className="form-control"
-                        value={this.state.text}
-                        ref="input" onChange={this.handleInput}
-                        placeholder="Enter species name, common name, or lineage ..."/>
-                    <div
-                        className={
-                            !!this.text() ? '' : 'hidden'
-                        }
-                        style={{
-                            position: 'absolute',
-                            right: '21px',
-                            top: '8px',
-                        }}>
-                        <a
-                            href="#"
-                            className="fa fa-lg fa-times"
-                            style={{color: 'inherit'}}
-                            title="Clear search text."
-                            onClick={this.clear}>
-                        </a>
-                    </div>
-                </div>
-            );
-        }
-    });
-
-    /**
-     * Category selector for the database widget.
-     */
-    var CategoryList = React.createClass({
-
-        handleChange: function (evt) {
-            var button = $(evt.target).closest('.btn');
-            var input  = button.children('input');
-
-            if (input.attr('value') === this.selected) {
-                button.removeClass('active');
-                input.prop('checked', false);
-                this.selected = '';
-            }
-            else {
-                this.selected = input.attr('value');
-            }
-
-            this.props.handleChange(this.selected);
-        },
-
-        render: function () {
-            return (
-                <div className="btn-group-vertical btn-block" data-toggle="buttons">
-                    {
-                        _.map(this.props.categories, _.bind(function (category) {
-                            return (
-                                <div
-                                    className="btn btn-default list-group-item"
-                                    key={category} onClick={this.handleChange}>
-                                    <input
-                                        type="radio" name="category" value={category}/>
-                                    <span
-                                        className="text-capitalize">
-                                        {category}
-                                    </span>
-                                </div>
-                            );
-                        }, this))
-                    }
-                </div>
-            );
-        }
-    });
-
-    var DatabaseList = React.createClass({
-        getInitialState: function () {
-            return {
-                category: '',
-                filter:   '',
-                type:     ''
-            }
-        },
-
-        databases: function () {
-            return this.props.data;
-        },
-
-        filtered: function () {
-            var category = this.state.category;
-            var handleChange = this.handleChange;
-            var filterText = this.state.filter;
-            var type = this.state.type;
-            return _.filter(this.databases(), function (database) {
-                if (((database.title.toLowerCase().indexOf(filterText.toLowerCase()) != -1) ||
-                    ((database.tags) && (database.tags.join("").toLowerCase().indexOf(filterText.toLowerCase())) != -1) ||
-                    ((database.type) && (database.type.toLowerCase().indexOf(filterText.toLowerCase())) != -1)) &&
-                    ((category == database.type) || (category == ''))) {
-                    return true;
-                }
-            });
-        },
-
-        nselected: function () {
-            return $('input[name="databases[]"]:checked').length;
-        },
-
-        handleClick: function (database) {
-            var type = this.nselected() ? database.type : ''
-            this.setState({type: type});
-        },
-
-        render: function () {
-            return (
-                <div
-                    className="databaseholder btn-group-vertical btn-block"
-                    data-toggle="buttons">
-                    {
-                        _.map(this.filtered(), _.bind(function (database) {
-                            return (
-                                <div
-                                    key={database.id} className="btn btn-default database"
-                                    onClick={
-                                        _.bind(function () {
-                                            this.handleClick(database);
-                                        }, this)
-                                    }
-                                    disabled={this.state.type && this.state.type !== database.type}>
-                                    <input
-                                        type="checkbox"
-                                        name="databases[]" value={database.id} />
-                                    {database.title}
-                                    <br/>
-                                    <small>
-                                        {database.type},
-                                        sequences:   {database.nsequences},
-                                        residues:   {database.ncharacters},
-                                        updated: {database.updated_on}
-                                    </small>
-                                </div>
-                            );
-                        }, this))
-                    }
-                </div>
-            );
-        },
-
-        shouldComponentUpdate: function (props, state) {
-            return !(state.type && state.type === this.state.type);
-            //return (!(state.type && state.type === this.state.type) ||
-                    //!(state.filter && state.filter === this.state.filter));
-        },
-
-        componentDidUpdate: function () {
-            if (this.databases() && this.databases().length === 1) {
-                $('.database').not('.active').click();
-                this.handleClick(this.databases()[0]);
-            }
-
-            this.props.onDatabaseTypeChanged(this.state.type);
-        }
-    });
-
-    return React.createClass({
-        getInitialState: function () {
-            return {
-                databases: []
-            }
-        },
-
-        categories: function () {
-            return _.compact(_.uniq(_.map(this.state.databases ,
-                                          _.iteratee('type'))));
-        },
-
-        handleSearchInput: function (filterText) {
-            this.refs.listing.setState({
-                filter: filterText
-            });
-        },
-
-        handleCategoryChange: function (category) {
-            this.refs.listing.setState({
-                category: category
-            });
-        },
-
-        selectedType: function () {
-            return this.refs.listing.state.type;
-        },
-
-        render: function () {
-            return (
-                <div
-                    className="form-group databases-container">
-                    <div className="col-md-3">
-                        <CategoryList
-                            handleChange={this.handleCategoryChange}
-                            categories={this.categories()}/>
-                    </div>
-                    <div className="col-md-9">
-                        <div>
-                            <Search
-                                onUserInput={this.handleSearchInput}/>
-                            <br/>
-                            <DatabaseList
-                                ref="listing" data={this.state.databases}
-                                onDatabaseTypeChanged={this.props.onDatabaseTypeChanged}/>
-                        </div>
-                    </div>
-                </div>
-            );
-        },
-
-        componentDidMount: function () {
-            $.getJSON('databases.json', _.bind(function (data) {
-                this.setState({
-                    databases: _.sortBy(data, 'title')
-                });
-            }, this));
-        }
-    });
-})();
 
 var Options = React.createClass({
     render: function () {
@@ -911,12 +597,85 @@ var Options = React.createClass({
  * SearchButton widget.
  */
 var SearchButton = React.createClass({
-    getInitialState: function () {
-        return {
-            methods: []
-        }
+
+    // Internal helpers. //
+
+    /**
+     * Returns jquery wrapped input group.
+     */
+    inputGroup: function () {
+        return $(React.findDOMNode(this.refs.inputGroup));
     },
 
+    /**
+     * Returns jquery wrapped submit button.
+     */
+    submitButton: function () {
+        return $(React.findDOMNode(this.refs.submitButton));
+    },
+
+    /**
+     * Initialise tooltip on input group and submit button.
+     */
+    initTooltip: function () {
+        this.inputGroup().tooltip({
+            trigger: 'manual',
+            title: _.bind(function () {
+                if (!this.state.hasQuery && !this.state.hasDatabases) {
+                    return "You must enter a query sequence and select one or more databases above before you can run a search!";
+                }
+                else if (this.state.hasQuery && !this.state.hasDatabases) {
+                    return "You must select one or more databases above before you can run a search!";
+                }
+                else if (!this.state.hasQuery && this.state.hasDatabases) {
+                    return "You must enter a query sequence above before you can run a search!";
+                }
+            }, this)
+        });
+
+        this.submitButton().tooltip({
+            title: _.bind(function () {
+                var title = "Click to BLAST or press Ctrl+Enter.";
+                if (this.state.methods.length > 1) {
+                    title += " Click dropdown button on the right for other" +
+                        " BLAST algorithms that can be used.";
+                }
+                return title;
+            }, this)
+        });
+    },
+
+    /**
+     * Show tooltip on input group.
+     */
+    showTooltip: function () {
+        this.inputGroup()._tooltip('show');
+    },
+
+    /**
+     * Hide tooltip on input group.
+     */
+    hideTooltip: function () {
+        this.inputGroup()._tooltip('hide');
+    },
+
+    /**
+     * Change selected algorithm.
+     *
+     * NOTE: Called on click on dropdown menu items.
+     */
+    changeAlgorithm: function (method) {
+        var methods = this.state.methods.slice();
+        methods.splice(methods.indexOf(method), 1);
+        methods.unshift(method);
+        this.setState({
+            methods: methods
+        });
+    },
+
+    /**
+     * Given, for example 'blastp', returns blast<strong>p</strong>.
+     */
     decorate: function(name) {
         return name.match(/(.?)(blast)(.?)/).slice(1).map(function (token, _) {
             if (token) {
@@ -930,36 +689,32 @@ var SearchButton = React.createClass({
         });
     },
 
-    orderMethodsArray: function (method) {
-      var methods = this.state.methods.slice();
-      methods.splice(methods.indexOf(method), 1);
-      methods.unshift(method);
-      return methods;
-    },
 
-    changeAlgorithm: function (method) {
-        this.setState({
-            methods: this.orderMethodsArray(method)
-        });
+    // Lifecycle methods. //
+
+    getInitialState: function () {
+        return {
+            methods: [],
+            hasQuery: false,
+            hasDatabases: false
+        }
     },
 
     render: function () {
         var methods = this.state.methods;
         var method = methods[0];
         var multi = methods.length > 1;
-        // data-toggle="tooltip" data-placement="left"
-        //     title="Click dropdown button on the right for other BLAST algorithms that can be used."
 
         return (
             <div className="col-md-4">
                 <div className="form-group">
                     <div className="col-md-12">
                         <div
-                            className={multi && 'input-group'} id="methods"
-                            ref="buttons">
+                            className={multi && 'input-group'} id="methods" ref="inputGroup"
+                            onMouseOver={this.showTooltip} onMouseOut={this.hideTooltip}>
                             <button
                                 type="submit" className="btn btn-primary form-control text-uppercase"
-                                id="method" name="method" value={method} disabled={!method}>
+                                id="method" ref="submitButton" name="method" value={method} disabled={!method}>
                                 {this.decorate(method || 'blast')}
                             </button>
                             {
@@ -997,29 +752,16 @@ var SearchButton = React.createClass({
     },
 
     componentDidMount: function () {
-        //title="Click dropdown button on the right for other BLAST algorithms that can be used.">
-        // Show tooltip on BLAST button.
-        // $(this.refs.buttons.getDOMNode()).tooltip({
-        //     title: function () {
-        //         var selected_databases = $(".databases input:checkbox:checked");
-        //         if (selected_databases.length === 0) {
-        //             return "You must select one or more databases above before" +
-        //                 " you can run a search!";
-        //         }
-        //         else {
-        //             return "Click dropdown button on the right for other BLAST algorithms that can be used."
-        //         }
-        //     }
-        // });
+        this.initTooltip();
     },
 
     shouldComponentUpdate: function (props , state) {
-        return !(_.isEqual(state.methods,this.state.methods));
+        return !(_.isEqual(state.methods, this.state.methods));
     },
 
     componentDidUpdate: function () {
         if (this.state.methods.length > 0) {
-            $(this.refs.buttons.getDOMNode()).wiggle();
+            this.inputGroup().wiggle();
         }
     }
 });
@@ -1032,37 +774,6 @@ var SearchButton = React.createClass({
  */
 var Form = React.createClass({
 
-    tooltips: function () {
-        return(
-            {
-                noInputAndDatabase: "Input a query sequence and select database to BLAST.",
-                noInputEntered: "Please input a query sequence to enable BLAST.",
-                noDatabaseSelected: "You must select one or more databases above before you can run a search!",
-                manyAlgorithms: "Click dropdown button on right for other BLAST algorithms that can be used.",
-                allSet: "Click to BLAST or press Ctrl+Enter."
-            }
-        );
-    },
-
-    setTooltips: function () {
-        var selected_databases = $(".databases input:checkbox:checked");
-        if (selected_databases.length === 0 && !(this.refs.query.value())) {
-            return this.tooltips().noInputAndDatabase;
-        }
-        else if (selected_databases.length === 0 && this.refs.query.value()) {
-            return this.tooltips().noDatabaseSelected;
-        }
-        else if (selected_databases.length !== 0 && !(this.refs.query.value())){
-            return this.tooltips().noInputEntered;
-        }
-        else if (this.refs.button.state.methods.length > 1) {
-            return this.tooltips().manyAlgorithms;
-        }
-        else {
-            return this.tooltips().allSet;
-        }
-    },
-
     componentDidMount: function () {
         // Submit form when Ctrl+Enter is pressed anywhere on page.
         $(document).bind("keydown", _.bind(function (e) {
@@ -1071,12 +782,6 @@ var Form = React.createClass({
                 $(this.getDOMNode()).trigger('submit');
             }
         }, this));
-
-        $(React.findDOMNode((this.refs.button).refs.buttons)).tooltip({
-            title: _.bind(function () {
-                return this.setTooltips();
-            }, this)
-        });
     },
 
     determineBlastMethod: function () {
@@ -1117,6 +822,8 @@ var Form = React.createClass({
     handleSequenceTypeChanged: function (type) {
         this.sequenceType = type;
         this.refs.button.setState({
+            hasQuery: !this.refs.query.isEmpty(),
+            hasDatabases: !!this.databaseType,
             methods: this.determineBlastMethod()
         });
     },
@@ -1124,6 +831,8 @@ var Form = React.createClass({
     handleDatabaseTypeChanaged: function (type) {
         this.databaseType = type;
         this.refs.button.setState({
+            hasQuery: !this.refs.query.isEmpty(),
+            hasDatabases: !!this.databaseType,
             methods: this.determineBlastMethod()
         });
     },
@@ -1132,27 +841,26 @@ var Form = React.createClass({
         return (
             <div
                 className="container">
-            <form
-                className="form-horizontal" id="blast"
-                method="post" target="_blank">
-                <div
-                    className="form-group query-container">
-                    <Query ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged}/>
-                </div>
-                <div
-                    className="notifications" id="notifications">
-                    <NucleotideNotification/>
-                    <ProteinNotification/>
-                    <MixedNotification/>
-                </div>
-                <DatabaseList ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged}/>
-                <br/>
-                <div
-                    className="form-group">
-                    <Options/>
-                    <SearchButton ref="button"/>
-                </div>
-            </form>
+                <form
+                    className="form-horizontal" id="blast"
+                    method="post" target="_blank">
+                    <div
+                        className="form-group query-container">
+                        <Query ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged}/>
+                    </div>
+                    <div
+                        className="notifications" id="notifications">
+                        <NucleotideNotification/>
+                        <ProteinNotification/>
+                        <MixedNotification/>
+                    </div>
+                    <Databases ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged}/>
+                    <div
+                        className="form-group">
+                        <Options/>
+                        <SearchButton ref="button"/>
+                    </div>
+                </form>
             </div>
         );
     }

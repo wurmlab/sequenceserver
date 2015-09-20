@@ -110,7 +110,7 @@ a.disabled:hover {
   box-shadow: none;
 }
 .panel .panel-heading {
-  padding: 4px 1px;
+  padding: 4px 0 5px 0;
   background-color: inherit;
 }
 .panel .panel-heading h4 {
@@ -265,16 +265,18 @@ a.disabled:hover {
   background-color: inherit;
 }
 
-.notifications {
-  height: 32px;
-  position: relative;
-  top: -32px;
+.query-container {
+  margin-bottom: 0;
 }
 
+.notifications {
+  position: relative;
+  height: 32px;
+  top: -16px;
+}
 .notification {
   height: 32px !important;
 }
-
 .notification .alert-info, .notification .alert-danger {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
@@ -288,45 +290,9 @@ a.disabled:hover {
   padding: 6px 12px 6px 12px;
 }
 
-.databases-container {
-  margin-top: -10px;
-}
-
 .databases .list-group-item {
   border: none;
   padding: 3px 0 0;
-}
-
-.databases .list-group-item:first-child {
-  padding: 5px 0 0;
-}
-
-/* DON'T REMOVE - used for experimental database widget ... commenting out to
- * exclude from minified build */
-
-/*.databases-container .btn {*/
-  /*text-align: left;*/
-  /*white-space: normal;*/
-/*}*/
-
-/*.database {*/
-  /*border-bottom: 0;*/
-  /*border-left: 0;*/
-  /*border-right: 0;*/
-/*}*/
-/*.database:first-child {*/
-  /*border-top: 0;*/
-/*}*/
-
-/*.databaseholder {*/
-  /*max-height: 220px;*/
-  /*overflow: auto;*/
-  /*border: 1px solid lightgray;*/
-  /*border-radius: 4px;*/
-/*}*/
-
-#blast > .form-group:last-child {
-  margin-top: -5px;
 }
 
 #help pre:hover {

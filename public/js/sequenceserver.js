@@ -64,7 +64,10 @@ var RouteHandler = Router.RouteHandler;
         ._tooltip('destroy')
         ._tooltip($.extend({
             container: 'body',
-            placement: 'left'
+            placement: 'left',
+            delay: {
+                show: 1000
+            }
         }, options));
     };
 
