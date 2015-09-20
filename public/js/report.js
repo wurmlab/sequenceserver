@@ -754,6 +754,7 @@ var HitsTable = React.createClass({
                 <thead>
                     <th className="text-left"> Number </th>
                     <th>Sequences producing significant alignments</th>
+                    <th className="text-right"> Scientific Name </th>
                     <th className="text-right"> Total score </th>
                     <th className="text-right"> E value </th>
                     <th className="text-right"> Coverage </th>
@@ -770,6 +771,7 @@ var HitsTable = React.createClass({
                                             {hit.id}
                                         </a>
                                     </td>
+                                    <td className="text-right">{this.prettify(hit.sciname)}</td>
                                     <td className="text-right">{this.prettify(hit.score)}</td>
                                     <td className="text-right">{this.prettify(hit.evalue)}</td>
                                     <td className="text-right">{this.prettify(hit.qcovs)}</td>
@@ -1128,7 +1130,7 @@ var SideBar = React.createClass({
                     <li>
                         <a
                           className="download"
-                          title="14 columns: query and subject ID; alignment length,
+                          title="15 columns: query and subject ID; scientific name, alignment length,
                           mismatches, gaps, identity, start and end coordinates,
                           e value, bitscore, query coverage per subject and per HSP."
                           data-toggle="tooltip"

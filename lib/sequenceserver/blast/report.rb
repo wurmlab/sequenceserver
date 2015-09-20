@@ -60,11 +60,11 @@ module SequenceServer
           unless line.start_with? '#'
             row = line.chomp.split("\t")
             if !info.has_key? row[0]
-              info[row[0]] = {row[1] => [row[2], [row[3]]] }
+              info[row[0]] = {row[1] => [row[2], row[3], [row[4]]] }
             elsif !info[row[0]].has_key? row[1]
-              info[row[0]][row[1]] = [row[2], [row[3]]]
+              info[row[0]][row[1]] = [row[2], row[3], [row[4]]]
             else
-              info[row[0]][row[1]][1].push(row[3])
+              info[row[0]][row[1]][2].push(row[4])
             end
           end
         end
@@ -121,9 +121,10 @@ module SequenceServer
       def extract_hits(hits_ir, query, cov_info)
         return if hits_ir == ["\n"] # => No hits.
         hits_ir.each do |n|
-          hit_cov = cov_info[query.id][n[1]]
-          hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4], hit_cov[0], [])
-          extract_hsps(n[5], hit, hit_cov[1])
+          hit_info = cov_info[query.id][n[1]]
+          hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4],
+                        hit_info[1], hit_info[0], [])
+          extract_hsps(n[5], hit, hit_info[2])
           query.hits << hit
         end
       end
