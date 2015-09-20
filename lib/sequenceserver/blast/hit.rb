@@ -11,6 +11,7 @@ module SequenceServer
         args[4] = '' if args[4] == 'No definition line'
         args[5] = args[5].to_i
         args[6] = args[6].to_i
+        args[7] = "-" if args[7] == "N/A"
         super
       end
 

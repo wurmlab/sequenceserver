@@ -747,14 +747,18 @@ var Hit = React.createClass({
 var HitsTable = React.createClass({
     mixins: [Utils],
     render: function () {
-        var count = 0;
+        var count = 0,
+          hasName = _.every(this.props.query.hits, function(hit) {
+            return hit.sciname !== "-";
+          });
+
         return(
             <table
               className="table table-hover table-condensed tabular-view">
                 <thead>
                     <th className="text-left"> Number </th>
                     <th>Sequences producing significant alignments</th>
-                    <th className="text-right"> Scientific Name </th>
+                     {hasName && <th className="text-left"> Scientific Name </th>}
                     <th className="text-right"> Total score </th>
                     <th className="text-right"> E value </th>
                     <th className="text-right"> Coverage </th>
@@ -771,7 +775,8 @@ var HitsTable = React.createClass({
                                             {hit.id}
                                         </a>
                                     </td>
-                                    <td className="text-right">{this.prettify(hit.sciname)}</td>
+
+                                    {hasName && <td className="text-left">{this.prettify(hit.sciname)}</td>}
                                     <td className="text-right">{this.prettify(hit.score)}</td>
                                     <td className="text-right">{this.prettify(hit.evalue)}</td>
                                     <td className="text-right">{this.prettify(hit.qcovs)}</td>
