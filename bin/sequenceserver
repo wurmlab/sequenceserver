@@ -8,8 +8,8 @@ ENV['RACK_ENV'] ||= 'production'
 # display name for tools like `ps`
 $PROGRAM_NAME = 'sequenceserver'
 
-# Given a url downloads the archive into a temporary file
-# and and extratcs it into ~/.sequenceserver
+# Given a url, downloads the archive into a temporary file
+# and and extracts it into ~/.sequenceserver.
 def download_from_url(url)
   archive = File.join('/tmp', File.basename(url))
   # -ip4 is required  to avoid this curl bug http://sourceforge.net/p/curl/bugs/1424/?limit=25
@@ -245,6 +245,8 @@ MSG
           puts
           puts 'Installing NCBI BLAST+.'
           puts "RUBY_PLATFORM #{RUBY_PLATFORM}"
+          puts 'Archive will be extracted in ~/.sequenceserver directory.'
+          puts
 
           version = SequenceServer::MINIMUM_BLAST_VERSION
           url = case RUBY_PLATFORM
