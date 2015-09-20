@@ -44,11 +44,31 @@ module SequenceServer
       # Generate report.
       def generate
         xml = Formatter.run(job.rfile, 'xml').file
-        ir  = node_to_array(Ox.parse(xml.open.read).root)
+        tsv = parse_tsv Formatter.run(job.rfile, '__ssparse').file
+        ir = node_to_array(Ox.parse(xml.open.read).root)
         extract_program_info ir
         extract_params ir
         extract_stats ir
-        extract_query ir
+        extract_query ir, tsv
+      end
+
+      def parse_tsv(tsv)
+        # HASH => qseqids => sseqids => [qcovs, [qcovhsp]]
+        info = {}
+
+        tsv.each_line do |line|
+          unless line.start_with? '#'
+            row = line.chomp.split("\t")
+            if !info.has_key? row[0]
+              info[row[0]] = {row[1] => [row[2], row[3], [row[4]]] }
+            elsif !info[row[0]].has_key? row[1]
+              info[row[0]][row[1]] = [row[2], row[3], [row[4]]]
+            else
+              info[row[0]][row[1]][2].push(row[4])
+            end
+          end
+        end
+        info
       end
 
       # Make program name and program name + version available via `program`
@@ -88,30 +108,33 @@ module SequenceServer
       end
 
       # Make results for each input query available via `queries` atribute.
-      def extract_query(ir)
+      def extract_query(ir, cov_info)
         ir[8].each do |n|
           query = Query.new(self, n[0], n[2], n[3], [])
-          extract_hits(n[4], query)
+          extract_hits(n[4], query, cov_info)
           query.sort_hits_by_evalue!
           queries << query
         end
       end
 
       # Create Hit objects from given ir and associate them to query i.
-      def extract_hits(hits_ir, query)
+      def extract_hits(hits_ir, query, cov_info)
         return if hits_ir == ["\n"] # => No hits.
         hits_ir.each do |n|
-          hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4], [])
-          extract_hsps(n[5], hit)
+          hit_info = cov_info[query.id][n[1]]
+          hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4],
+                        hit_info[1], hit_info[0], [])
+          extract_hsps(n[5], hit, hit_info[2])
           query.hits << hit
         end
       end
 
       # Create HSP objects from the given ir and associate them with hit j of
       # query i.
-      def extract_hsps(hsp_ir, hit)
-        hsp_ir.each do |n|
+      def extract_hsps(hsp_ir, hit, hsp_covs)
+        hsp_ir.each_with_index do |n, i|
           hsp_klass = HSP.const_get program.upcase
+          n.insert(14, hsp_covs[i])
           hsp = hsp_klass.new(*[hit, *n])
           hit.hsps << hsp
         end

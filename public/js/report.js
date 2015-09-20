@@ -548,7 +548,9 @@ var Hit = React.createClass({
             'Gaps': [
                 this.inFraction(hsp.gaps, hsp.length),
                 this.inPercentage(hsp.gaps, hsp.length)
-            ]
+            ],
+
+            'Coverage': hsp.qcovhsp
         };
 
         switch (this.props.algorithm) {
@@ -752,8 +754,10 @@ var HitsTable = React.createClass({
                 <thead>
                     <th className="text-left"> Number </th>
                     <th>Sequences producing significant alignments</th>
+                    <th className="text-right"> Scientific Name </th>
                     <th className="text-right"> Total score </th>
                     <th className="text-right"> E value </th>
+                    <th className="text-right"> Coverage </th>
                     <th className="text-right"> Length </th>
                 </thead>
                 <tbody>
@@ -767,8 +771,10 @@ var HitsTable = React.createClass({
                                             {hit.id}
                                         </a>
                                     </td>
+                                    <td className="text-right">{this.prettify(hit.sciname)}</td>
                                     <td className="text-right">{this.prettify(hit.score)}</td>
                                     <td className="text-right">{this.prettify(hit.evalue)}</td>
+                                    <td className="text-right">{this.prettify(hit.qcovs)}</td>
                                     <td className="text-right">{this.prettify(hit.length)}</td>
                                 </tr>
                             )
@@ -1124,9 +1130,9 @@ var SideBar = React.createClass({
                     <li>
                         <a
                           className="download"
-                          title="12 columns: query and subject ID; alignment length,
+                          title="15 columns: query and subject ID; scientific name, alignment length,
                           mismatches, gaps, identity, start and end coordinates,
-                          e value and bitscore."
+                          e value, bitscore, query coverage per subject and per HSP."
                           data-toggle="tooltip"
                           href={"download/" + this.props.data.search_id + ".std_tsv"}
                           onClick={this.setupDownloadLinks}>

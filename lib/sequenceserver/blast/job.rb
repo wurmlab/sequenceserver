@@ -94,7 +94,7 @@ module SequenceServer
       end
 
       def defaults
-        " -outfmt 11 -num_threads #{config[:num_threads]}"
+        " -outfmt '11 qcovs qcovhsp' -num_threads #{config[:num_threads]}"
       end
 
       def validate_method(method)
