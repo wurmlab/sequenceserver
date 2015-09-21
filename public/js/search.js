@@ -465,10 +465,10 @@ var Databases = React.createClass({
 
     databases: function (category) {
         if (!category) {
-            return this.state.databases.slice();
+            return this.props.databases.slice();
         }
 
-        return _.select(this.state.databases,
+        return _.select(this.props.databases,
                         function (database) {
                             return database.type === category;
                         });
@@ -479,7 +479,7 @@ var Databases = React.createClass({
     },
 
     categories: function () {
-        return _.uniq(_.map(this.state.databases,
+        return _.uniq(_.map(this.props.databases,
                             _.iteratee('type'))).sort();
     },
 
@@ -537,14 +537,6 @@ var Databases = React.createClass({
         );
     },
 
-    componentDidMount: function () {
-        $.getJSON('databases.json', _.bind(function (data) {
-            this.setState({
-                databases: _.sortBy(data, 'title')
-            });
-        }, this));
-    },
-
     shouldComponentUpdate: function (props, state) {
         return !(state.type && state.type === this.state.type);
     },
@@ -560,6 +552,19 @@ var Databases = React.createClass({
 });
 
 var Options = React.createClass({
+
+    updateBox: function (evt) {
+      this.setState({
+        preOpts: evt.target.value
+      });
+    },
+
+    getInitialState: function () {
+      return {
+        preOpts: ""
+      }
+    },
+
     render: function () {
         return (
             <div
@@ -579,7 +584,10 @@ var Options = React.createClass({
                                 type="text"
                                 className="form-control" name="advanced" id="advanced"
                                 title="View, and enter advanced parameters."
-                                placeholder="eg: -evalue 1.0e-5 -num_alignments 100"/>
+                                placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
+                                value={this.state.preOpts}
+                                onChange={this.updateBox}
+                                />
                             <div
                                 className="input-group-addon cursor-pointer"
                                 data-toggle="modal" data-target="#help">
@@ -762,6 +770,10 @@ var SearchButton = React.createClass({
     componentDidUpdate: function () {
         if (this.state.methods.length > 0) {
             this.inputGroup().wiggle();
+            this.props.onAlgoChanged(this.state.methods[0]);
+        }
+        else {
+            this.props.onAlgoChanged("");
         }
     }
 });
@@ -774,14 +786,26 @@ var SearchButton = React.createClass({
  */
 var Form = React.createClass({
 
+    getInitialState: function () {
+     return {
+       curOpts: {}
+     };
+    },
+
     componentDidMount: function () {
-        // Submit form when Ctrl+Enter is pressed anywhere on page.
-        $(document).bind("keydown", _.bind(function (e) {
-            if (e.ctrlKey && e.keyCode === 13 &&
-                !$('#method').is(':disabled')) {
-                $(this.getDOMNode()).trigger('submit');
-            }
-        }, this));
+       $.getJSON("searchdata.json", _.bind(function(data) {
+         this.setState({
+            preDefinedOpts: data["options"],
+            databases: data["database"]
+         });
+       }, this));
+
+       $(document).bind("keydown", _.bind(function (e) {
+           if (e.ctrlKey && e.keyCode === 13 &&
+               !$('#method').is(':disabled')) {
+               $(this.getDOMNode()).trigger('submit');
+           }
+       }, this));
     },
 
     determineBlastMethod: function () {
@@ -837,6 +861,17 @@ var Form = React.createClass({
         });
     },
 
+    handleAlgoChanged: function (algo) {
+      if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
+        this.refs.opts.setState({
+          preOpts: this.state.preDefinedOpts[algo].join(" ")
+        });
+      }
+      else {
+        this.refs.opts.setState({preOpts: ""});
+      }
+    },
+
     render: function () {
         return (
             <div
@@ -854,11 +889,11 @@ var Form = React.createClass({
                         <ProteinNotification/>
                         <MixedNotification/>
                     </div>
-                    <Databases ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged}/>
+                    <Databases ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} databases={this.state.databases}/>
                     <div
                         className="form-group">
-                        <Options/>
-                        <SearchButton ref="button"/>
+                        <Options ref="opts"/>
+                        <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged}/>
                     </div>
                 </form>
             </div>
