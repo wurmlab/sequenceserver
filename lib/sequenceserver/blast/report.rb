@@ -87,7 +87,7 @@ module SequenceServer
       def extract_params(ir)
         @params = Hash[
           *ir[7].first.map { |k, v| [k.gsub('Parameters_', ''), v] }.flatten
-        ]
+        ].merge(job.advanced_params)
       end
 
       # Make search stats available via `stats` attribute.
