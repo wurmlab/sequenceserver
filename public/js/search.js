@@ -578,7 +578,7 @@ var Options = React.createClass({
                             <label
                                 className="control-label"
                                 htmlFor="advanced">
-                                Advanced Parameters:
+                                Advanced parameters:
                             </label>
                             <input
                                 type="text"
