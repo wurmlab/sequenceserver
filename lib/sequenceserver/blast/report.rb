@@ -85,9 +85,10 @@ module SequenceServer
       # matrix, evalue, gapopen, gapextend, and filters are available from XML
       # output.
       def extract_params(ir)
-        @params = Hash[
+        params = Hash[
           *ir[7].first.map { |k, v| [k.gsub('Parameters_', ''), v] }.flatten
         ].merge(job.advanced_params)
+        @params = Hash['e value', params.delete('expect')].merge!(params)
       end
 
       # Make search stats available via `stats` attribute.

@@ -91,20 +91,21 @@ module SequenceServer
       private
 
       def parse_advanced param_line
-        param_list = param_line.split(" ")
+        param_list = param_line.split(' ')
         res = {}
 
         param_list.each_with_index do |word, i|
           nxt = param_list[i + 1]
-          if word.start_with? "-"
-            word.sub!("-", "")
-            unless nxt.nil? || nxt.start_with?("-")
+          if word.start_with? '-'
+            word.sub!('-', '')
+            unless nxt.nil? || nxt.start_with?('-')
               res[word] = nxt
             else
-              res[word] = "True"
+              res[word] = 'True'
             end
           end
         end
+        res.delete 'evalue'
         res
       end
 
