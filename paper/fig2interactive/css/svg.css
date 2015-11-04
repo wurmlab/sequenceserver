@@ -1,0 +1,31 @@
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 12px;
+}
+
+.hit {
+  stroke: rgba(255, 255, 255, 0.7);
+  stroke-width: 1px;
+  cursor: pointer;
+}
+
+.hit.selected {
+  stroke: rgba(0, 0, 0, 0.4);
+  stroke-width: 2px;
+  stroke-dasharray: 5,5;
+}
+
+.axis-label {
+  font-size: 11px;
+}
+
+.legend-text {
+  font-size: 12px;
+}

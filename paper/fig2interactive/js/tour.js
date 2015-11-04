@@ -90,7 +90,7 @@ $(function () {
     tour
     .addStep({
         attachTo: {
-            element: $('.index-container')[0],
+            element: $('.index-container')[0]
         },
         tetherOptions: {
             targetAttachment: 'top left',
@@ -107,8 +107,11 @@ $(function () {
     })
     .addStep({
         attachTo: {
-            element: $('.index .active a')[0],
-            on: 'left'
+            element: $('.index .active a')[0]
+        },
+        tetherOptions: {
+            targetAttachment: 'top left',
+            attachment: 'top right'
         },
         text:
             '<p>The query sequence for which results are being viewed is highlighted in bold.</p>',
@@ -128,7 +131,7 @@ $(function () {
             attachment: 'top left'
         },
         text:
-            '<p>Results for the query <code>SI2.2.0_02806</code>.</p>',
+            '<p>Results for the query <code>SI2.2.0_02651</code>.</p>',
         buttons: [
             {
                 text: 'Okay',
@@ -156,35 +159,35 @@ $(function () {
     })
     .addStep({
         attachTo: {
-            element: $('.graphical-overview a')[2],
+            element: $('.graphical-overview g g.ghit g')[0],
             on: 'right',
         },
         text: '<p>Try clicking me.</p>',
         buttons: [],
         when: $.extend({
             'before-show': function () {
-                $(this.options.attachTo.element).on('click', tour.next);
+                $(this.options.attachTo.element).children('a').on('click', tour.next);
                 enableClick();
             },
             'before-hide': function () {
                 disableClick();
-                $(this.options.attachTo.element).off('click', tour.next);
+                $(this.options.attachTo.element).children('a').off('click', tour.next);
             }
         }, tour.options.defaults.when)
     })
     .addStep({
         attachTo: {
-            element: $('#Query_3_hit_3')[0]
+            element: $('#Query_1_hit_1')[0]
         },
         tetherOptions: {
             targetAttachment: 'top right',
             attachment: 'top left'
         },
         text:
-            '<p>Alignment details for the hit sequence <code>sp|Q868N5|VIT_APIME</code>.</p>',
+            '<p>Alignment details for the hit sequence <code>sp|Q5SPL2|PHF12_MOUSE</code>.</p>',
         buttons: [
             {
-                text: 'Continue',
+                text: 'Okay',
                 action: tour.next
             }
         ],
@@ -231,17 +234,17 @@ $(function () {
     })
     .addStep({
         attachTo: {
-            element: $('#Query_3_hit_1')[0]
+            element: $('#Query_1_hit_1')[0]
         },
         tetherOptions: {
             targetAttachment: 'top right',
             attachment: 'top left'
         },
         text:
-            '<p>Details for the hit sequence <code>sp|Q2VQM6|VIT2_SOLIN</code>.</p>',
+            '<p>Details for the hit sequence <code>sp|Q5SPL2|PHF12_MOUSE</code>.</p>',
         buttons: [
             {
-                text: 'Continue',
+                text: 'Okay',
                 action: tour.next
             }
         ]
@@ -273,15 +276,11 @@ $(function () {
                 text: 'Okay',
                 action: tour.next
             }
-        ],
-        when: $.extend({
-            'before-show': enableClick,
-            'before-hide': disableClick
-        }, tour.options.defaults.when)
+        ]
     })
     .addStep({
         attachTo: {
-            element: $('#Query_3_hit_1_alignment .hit-links a:last-child')[0],
+            element: $('#Query_1_hit_1_alignment .hit-links a:last-child')[0],
             on: 'bottom',
         },
         text: '<p>UniProt page for the hit. SequenceServer generates these by default for hit sequences with a UniProt identifier. You can click on the link and check it out.</p>',
@@ -298,7 +297,7 @@ $(function () {
     })
     .addStep({
         attachTo: {
-            element: $('#Query_3_hit_1_alignment .hit-links .download')[0],
+            element: $('#Query_1_hit_1_alignment .hit-links .download')[0],
             on: 'bottom',
         },
         text: '<p>Link to download the hit sequence in FASTA format. You can click on the link and check it out.</p>',
@@ -315,7 +314,7 @@ $(function () {
     })
     .addStep({
         attachTo: {
-            element: $('#Query_3_hit_1_alignment .hit-links .view-sequence')[0],
+            element: $('#Query_1_hit_1_alignment .hit-links .view-sequence')[0],
             on: 'bottom',
         },
         text: '<p>Link to view hit sequence. Try clicking on it.</p>',
@@ -359,7 +358,7 @@ $(function () {
     })
     .addStep({
         attachTo: {
-            element: $('#Query_3_hit_1_alignment .hit-links label')[0],
+            element: $('#Query_1_hit_1_alignment .hit-links label')[0],
             on: 'bottom',
         },
         text: '<p>Select a sequence for bulk download. Try clicking on it.</p>',
@@ -367,35 +366,35 @@ $(function () {
         when: $.extend({
             'before-show': function () {
                 enableClick();
-                $(document).on('change', '#Query_3_hit_1_alignment .hit-links :checkbox', tour.next);
+                $(document).on('change', '#Query_1_hit_1_alignment .hit-links :checkbox', tour.next);
             },
             'before-hide': function () {
                 disableClick();
-                $(document).off('change', '#Query_3_hit_1_alignment .hit-links :checkbox', tour.next);
+                $(document).off('change', '#Query_1_hit_1_alignment .hit-links :checkbox', tour.next);
             }
         }, tour.options.defaults.when)
     })
     .addStep({
         attachTo: {
-            element: $('#Query_3_hit_1 .page-header')[0],
+            element: $('#Query_1_hit_1 .page-header')[0],
             on: 'bottom',
         },
         text: '<p>Hits can be folded/un-folded by clicking on the header.</p>',
         buttons: [],
         when: {
             'before-show': function () {
-                $('#Query_3_hit_1 .page-content').on('hidden.bs.collapse', tour.next);
+                $('#Query_1_hit_1 .page-content').on('hidden.bs.collapse', tour.next);
                 enableClick();
             },
             'before-hide': function () {
                 disableClick();
-                $('#Query_3_hit_1 .page-content').off('hidden.bs.collapse', tour.next);
+                $('#Query_1_hit_1 .page-content').off('hidden.bs.collapse', tour.next);
             }
         }
     })
     .addStep({
         attachTo: {
-            element: $('#Query_3_hit_2_alignment .hit-links label')[0],
+            element: $('#Query_1_hit_2_alignment .hit-links label')[0],
             on: 'bottom',
         },
         text: '<p>Let\'s select one more hit.</p>',
@@ -403,29 +402,29 @@ $(function () {
         when: $.extend({
             'before-show': function () {
                 enableClick();
-                $(document).on('change', '#Query_3_hit_2_alignment .hit-links :checkbox', tour.next);
+                $(document).on('change', '#Query_1_hit_2_alignment .hit-links :checkbox', tour.next);
             },
             'before-hide': function () {
                 disableClick();
-                $(document).off('change', '#Query_3_hit_2_alignment .hit-links :checkbox', tour.next);
+                $(document).off('change', '#Query_1_hit_2_alignment .hit-links :checkbox', tour.next);
             }
         }, tour.options.defaults.when)
     })
     .addStep({
         attachTo: {
-            element: $('#Query_3_hit_2 .page-header')[0],
+            element: $('#Query_1_hit_2 .page-header')[0],
             on: 'bottom',
         },
         text: '<p>... and fold it away.</p>',
         buttons: [],
         when: {
             'before-show': function () {
-                $('#Query_3_hit_2 .page-content').on('hidden.bs.collapse', tour.next);
+                $('#Query_1_hit_2 .page-content').on('hidden.bs.collapse', tour.next);
                 enableClick();
             },
             'before-hide': function () {
                 disableClick();
-                $('#Query_3_hit_2 .page-content').off('hidden.bs.collapse', tour.next);
+                $('#Query_1_hit_2 .page-content').off('hidden.bs.collapse', tour.next);
             }
         }
     })
