@@ -3,16 +3,27 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.5
-  - 2.2.0
+  - 2.2.3
 
 addons:
+  apt:
+    packages:
+    - libqtwebkit-dev
+    - xvfb
+
   code_climate:
     repo_token:
       secure: "cT2wvWS2Uk2trYGwZ38Qo9XWCeL+OOXH0lVmLfNb1Xy/tWAXycDdZsc9CN8igjhD+/cKvvh529/qdDm2PJnb1Hux1bxHSTuMuE2xQWlfJqaOR/IX0z96MbP1eITKjhGv9vccmIPdV3Rh/OQLeHkyqyHvXio9NXiARMJUZDTpRuA="
 
 before_install:
-  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.30/ncbi-blast-2.2.30+-x64-linux.tar.gz" && tar xvf ncbi-blast-2.2.30+-x64-linux.tar.gz && export PATH="./ncbi-blast-2.2.30+/bin:$PATH"
-  - sudo apt-get install libqtwebkit-dev xvfb
+  - git describe --abbrev=0 --tags | xargs git checkout -b
+
+install:
   - gem install bundler
+
+before_script:
+  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.30/ncbi-blast-2.2.30+-x64-linux.tar.gz"
+  - tar xvf ncbi-blast-2.2.30+-x64-linux.tar.gz
+  - export PATH="./ncbi-blast-2.2.30+/bin:$PATH"
 
 script: xvfb-run bundle exec rake
