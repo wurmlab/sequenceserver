@@ -137,6 +137,9 @@
             _hsps.hitId = $this.attr('id');
             _hsps.hitDef = $this.data().hitDef;
             _hsps.hitEvalue = $this.data().hitEvalue;
+            _hsps.hitLen = $this.data().hitLen;
+            _hsps.seqStart = 0;
+            _hsps.seqEnd = $this.data().hitLen;
             hits.push(_hsps);
         });
         return hits;
@@ -167,9 +170,16 @@
             .attr('id', 'legend-grad')
         .selectAll('stop')
         .data([
-            {offset: "0%", color: "#ccc"},
-            {offset: '50%', color: '#888'},
-            {offset: "100%", color: "#000"}
+            {offset: "0%", color: "#2415bf"},
+            {offset: "19%", color: "#2415bf"},
+            {offset: '20%', color: '#00bebb'},
+            {offset: '39%', color: '#00bebb'},
+            {offset: "40%", color: "#00c200"},
+            {offset: "59%", color: "#00c200"},
+            {offset: '60%', color: '#de00bf'},
+            {offset: '79%', color: '#de00bf'},
+            {offset: "80%", color: "#de0007"},
+            {offset: "100%", color: "#de0007"}
         ])
         .enter()
         .append('stop')
@@ -211,6 +221,57 @@
             }
 
             var queryLen = $queryDiv.data().queryLen;
+
+            // Calculate the Global Coordination for the given subject sequence
+            var maxLeft = 0, maxRight = 0;
+
+            for(var i = 0; i < hits.length; i++)
+            {
+                var id = hits[i].hitId;
+
+                var qryStart = hits[i][0].hspStart;
+                var qryEnd = hits[i][hits[i].length - 1].hspEnd;
+
+                var subStart = hits[i][0].subStart;
+                var subEnd = hits[i][hits[i].length - 1].subEnd;
+                var subLen = hits[i].hitLen;
+
+                if(hits[i][0].hspFrame > 0) {
+                    maxLeft = Math.max(maxLeft, subStart - qryStart);
+                    hits[i].seqViewStart = subStart - qryStart;
+                    maxRight = Math.max(maxRight, subLen - (subEnd + queryLen - qryEnd));
+                    hits[i].seqViewEnd = subLen - (subEnd + queryLen - qryEnd);
+                }
+                else
+                {
+                    maxLeft = Math.max(maxLeft, subLen - (subStart + qryStart));
+                    hits[i].seqViewStart = subLen - (subStart + qryStart);
+                    maxRight = Math.max(maxRight, subEnd - (queryLen - qryEnd));
+                    hits[i].seqViewEnd = subEnd - (queryLen - qryEnd);
+                }
+            }
+
+            var qryLeft = maxLeft;
+
+            // Add query hit here
+            for(var i = 0; i < hits.length; i++)
+            {
+                var seqStart = hits[i].seqViewStart;
+                hits[i].seqViewStart = qryLeft - seqStart;
+                hits[i].seqViewEnd = hits[i].seqViewStart + hits[i].hitLen;
+
+                for(var j = 0; j < hits[i].length; j++)
+                {
+                    var qryStart = hits[i][j].hspStart;
+                    var qryEnd = hits[i][j].hspEnd;
+
+                    hits[i][j].hspViewStart = qryLeft + qryStart;
+                    hits[i][j].hspViewEnd = qryLeft + qryEnd;
+                }
+            }
+
+            queryLen = maxLeft + maxRight + queryLen;
+
             var q_i = $queryDiv.attr('id');
 
             var width = $graphDiv.width();
@@ -271,6 +332,18 @@
                 ])
                 .range([40,150]);
 
+            // ColorScale
+            var colorScale = function(evalue)
+            {
+                if(evalue > 1e-10) return '#2415bf';
+                else if(evalue > 1e-50) return '#00bebb';
+                else if(evalue > 1e-100) return '#00c200';
+                else if(evalue > 1e-200) return '#de00bf';
+                else if(evalue <= 1e-200) return '#de0007';
+            };
+
+            var seqLen = $queryDiv.data().queryLen;
+
             svg.append('g')
                 .attr('class', 'ghit')
                 .attr('transform', 'translate(0, ' + (2 * options.margin - options.legend) + ')')
@@ -297,6 +370,17 @@
                         var p_id = d.hitId;
                         var p_count = d.length;
 
+                        var yHeight = y(p_id) + options.barHeight / 4;
+
+                        // draw sequence
+                        d3.select(this)
+                        .append('line')
+                        .attr('x1', x(d.seqViewStart))
+                        .attr('y1', yHeight + 1)
+                        .attr('x2', x(d.seqViewEnd))
+                        .attr('y2', yHeight + 1)
+                        .attr('stroke', 'black');
+
                         d3.select(this)
                         .selectAll('.hsp')
                         .data(d).enter()
@@ -305,29 +389,52 @@
                             // Drawing the HSPs connector line using the same
                             // color as that of the hit track (using lookahead).
                             var yHspline = y(p_id) + options.barHeight / 2;
-                            var hsplineColor = d3.rgb(gradScale(p_hsp.hitEvalue),
-                                                      gradScale(p_hsp.hitEvalue),
-                                                      gradScale(p_hsp.hitEvalue));
+                            var hsplineColor = d3.rgb(colorScale(p_hsp.hitEvalue));
 
                             if (j+1 < p_count) {
                                 if (p_hsp[j].hspEnd <= p_hsp[j+1].hspStart) {
                                     d3.select(this.parentNode)
                                     .append('line')
-                                        .attr('x1', x(p_hsp[j].hspEnd))
+                                        .attr('x1', x(p_hsp[j].hspViewEnd))
                                         .attr('y1', yHspline)
-                                        .attr('x2', x(p_hsp[j+1].hspStart))
+                                        .attr('x2', x(p_hsp[j+1].hspViewStart))
                                         .attr('y2', yHspline)
                                         .attr('stroke', hsplineColor);
                                 }
                                 else if (p_hsp[j].hspStart > p_hsp[j+1].hspEnd) {
                                     d3.select(this.parentNode)
                                     .append('line')
-                                        .attr('x1', x(p_hsp[j+1].hspEnd))
+                                        .attr('x1', x(p_hsp[j+1].hspViewEnd))
                                         .attr('y1', yHspline)
-                                        .attr('x2', x(p_hsp[j].hspStart))
+                                        .attr('x2', x(p_hsp[j].hspViewStart))
                                         .attr('y2', yHspline)
                                         .attr('stroke', hsplineColor);
                                 }
+                            }
+
+                            if(p_hsp[j].hspFrame > 0)
+                            {
+                                d3.select(this.parentNode)
+                                    .append('text')
+                                    .attr("class", "title")
+                                    .attr('x', x(p_hsp[j].hspViewEnd) - 10)
+                                    .attr('y', yHspline + 6)
+                                    .style("stroke", hsplineColor)
+                                    .style("fill", hsplineColor)
+                                    .style("font-size", "24px")
+                                    .text("\u2192");
+                            }
+                            else
+                            {
+                                d3.select(this.parentNode)
+                                    .append('text')
+                                    .attr("class", "title")
+                                    .attr('x', x(p_hsp[j].hspViewStart) - 15)
+                                    .attr('y', yHspline + 6)
+                                    .style("stroke", hsplineColor)
+                                    .style("fill", hsplineColor)
+                                    .style("font-size", "24px")
+                                    .text("\u2190");
                             }
 
                             // Draw the rectangular hit tracks itself.
@@ -335,16 +442,25 @@
                                 .attr('xlink:href', '#' + q_i + '_hit_' + h_i)
                                 .append('rect')
                                     .attr('x', function (d) {
-                                        return x(d.hspStart);
+                                        return x(d.hspViewStart);
                                     })
                                     .attr('y', y(p_id))
                                     .attr('width', function (d) {
-                                        return x(d.hspEnd - d.hspStart + 1);
+                                        return x(d.hspViewEnd - d.hspViewStart + 1);
                                     })
                                     .attr('height', options.barHeight)
                                     .attr('fill', d3.rgb(hsplineColor));
                         });
                     });
+
+            svg.select('g > .ghit')
+                .append('g')
+                .append('rect')
+                .attr('x', x(qryLeft))
+                .attr('y', -12)
+                .attr('width', x(seqLen))
+                .attr('height', options.barHeight)
+                .attr('fill', 'red');
 
             // Draw legend only when more than one hit present
             if (hits.length > 1) {
