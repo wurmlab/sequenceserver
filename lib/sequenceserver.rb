@@ -196,9 +196,9 @@ module SequenceServer
     def open_in_browser(server_url)
       return if using_ssh? || verbose?
       if RUBY_PLATFORM =~ /linux/ && xdg?
-        `xdg-open #{server_url}`
+        system "xdg-open #{server_url}"
       elsif RUBY_PLATFORM =~ /darwin/
-        `open #{server_url}`
+        system "open #{server_url}"
       end
     end
 
