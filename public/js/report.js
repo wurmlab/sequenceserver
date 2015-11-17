@@ -975,40 +975,47 @@ var SideBar = React.createClass({
     },
 
     /**
+     * Dynamically create form and submit.
+     */
+    postForm: function (database_ids, sequence_ids) {
+      var form = $("<form/>").attr('action', '/get_sequence').attr('method', 'post');
+
+      addField("sequence_ids", sequence_ids);
+      addField("database_ids", database_ids);
+
+      form.appendTo('body').submit().remove();
+
+      function addField(name, val) {
+        var input = $("<input>").attr("type", "hidden")
+                                .attr("name", name)
+                                .val(val);
+        form.append(input);
+      }
+    },
+
+    /**
      * Event-handler for downloading fasta of all hits.
      */
     downloadFastaOfAll: function () {
         var num_hits = $('.hitn').length;
 
         var $a = $('.download-fasta-of-all');
-        if (num_hits >= 1 && num_hits <= 30) {
+        if (num_hits > 0) {
             var sequence_ids = $('.hit-links :checkbox').map(function () {
                 return this.value;
             }).get();
-            $a
-            .enable()
-            .attr('href', this.generateURI(sequence_ids, $a.data().databases))
-            .tooltip({
+            this.postForm($a.data().databases, sequence_ids);
+            $a.tooltip({
                 title: num_hits + " hit(s)."
             });
-            return;
         }
-
-        if (num_hits === 0) {
-            $a.tooltip({
+        else {
+            $a
+              .disable()
+              .tooltip({
                 title: "No hit to download."
             });
         }
-
-        if (num_hits > 30) {
-            $a.tooltip({
-                title: "Can't download more than 30 hits."
-            });
-        }
-
-        $a
-        .disable()
-        .removeAttr('href');
     },
 
     /**
@@ -1021,36 +1028,25 @@ var SideBar = React.createClass({
         var $n = $a.find('.text-bold');
         $n.html(num_checked);
 
-        if (num_checked >= 1 && num_checked <= 30) {
+        if (num_checked > 0) {
             var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
                 return this.value;
             }).get();
-
+            this.postForm($a.data().databases, sequence_ids);
             $a
-            .enable()
-            .attr('href', this.generateURI(sequence_ids, $a.data().databases))
             .tooltip({
                 title: num_checked + " hit(s) selected."
             });
             return;
         }
-
-        if (num_checked === 0) {
+        else {
             $n.empty();
-            $a.tooltip({
+            $a
+              .disable()
+              .tooltip({
                 title: "No hit selected."
             });
         }
-
-        if (num_checked > 30) {
-            $a.tooltip({
-                title: "Can't download more than 30 hits."
-            });
-        }
-
-        $a
-        .disable()
-        .removeAttr('href');
     },
 
     summary: function () {
@@ -1066,7 +1062,6 @@ var SideBar = React.createClass({
     },
 
     // Life-cycle method. //
-
     render: function () {
         return (
             <div
@@ -1109,19 +1104,21 @@ var SideBar = React.createClass({
                     <li>
                         <a
                           className="download download-fasta-of-all"
+                          href="#"
                           data-databases=
                           {
                             this.props.data.querydb.map(function (query) {
                                 return(query.id)
                             }).join(' ')
                           }
-                          onClick={this.downloadFastaOfAll} >
+                          onClick={this.downloadFastaOfAll}>
                             FASTA of all hits
                         </a>
                     </li>
                     <li>
                         <a
                           className="download download-fasta-of-selected disabled"
+                          href="#"
                           data-databases=
                           {
                             this.props.data.querydb.map(function (query) {
@@ -1214,7 +1211,7 @@ var Report = React.createClass({
             .find(":checkbox").not(checkbox).uncheck();
         }
 
-        if (num_checked >= 1 && num_checked <= 30)
+        if (num_checked >= 1)
         {
             var $a = $('.download-fasta-of-selected');
             $a.find('.text-bold').html(num_checked);

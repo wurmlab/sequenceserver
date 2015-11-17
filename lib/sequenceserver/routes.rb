@@ -98,14 +98,18 @@ module SequenceServer
       sequence_ids = params[:sequence_ids].split(/\s/)
       database_ids = params[:database_ids].split(/\s/)
 
-      sequences = Sequence::Retriever.new(sequence_ids, database_ids,
-                                          params[:download])
+      sequences = Sequence::Retriever.new(sequence_ids, database_ids)
+      sequences.to_json
+    end
+
+    post '/get_sequence' do
+      sequences = Sequence::Retriever.new(params["sequence_ids"].split(","),
+                                          params["database_ids"].split(","),
+                                          true)
 
       send_file(sequences.file.path,
                 :type     => sequences.mime,
-                :filename => sequences.filename) if params[:download]
-
-      sequences.to_json
+                :filename => sequences.filename)
     end
 
     # Download BLAST report in various formats.
