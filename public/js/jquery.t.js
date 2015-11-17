@@ -332,6 +332,34 @@
                 ])
                 .range([40,150]);
 
+
+            var defs = svg.append('defs');
+
+            var markerData = [
+                { id: 0, name: 'Arrow0', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#de0007' },
+                { id: 1, name: 'Arrow1', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#de00bf' },
+                { id: 2, name: 'Arrow2', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#00c200' },
+                { id: 3, name: 'Arrow3', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#00bebb' },
+                { id: 4, name: 'Arrow4', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#2415bf' }
+            ];
+
+
+            var marker = defs.selectAll('marker')
+                .data(markerData)
+                .enter()
+                .append('svg:marker')
+                .attr('id', function(d){ return d.name})
+                .attr('markerHeight', 2)
+                .attr('markerWidth', 2)
+                .attr('markerUnits', 'strokeWidth')
+                .attr('orient', 'auto')
+                .attr('refX', 3) // For the adjustment of matched length
+                .attr('refY', 3) // The height is adjusted
+                .attr('viewBox', function(d){ return d.viewbox })
+                    .append('svg:path')
+                    .attr('d', function(d){ return d.path })
+                    .attr('fill', function(d) { return d.fill });
+
             // ColorScale
             var colorScale = function(evalue)
             {
@@ -341,6 +369,16 @@
                 else if(evalue > 1e-200) return '#de00bf';
                 else if(evalue <= 1e-200) return '#de0007';
             };
+
+            // Marker chooser function
+            var getMarker = function(evalue)
+            {
+                if(evalue > 1e-10) return 'url(#Arrow4)';
+                else if(evalue > 1e-50) return 'url(#Arrow3)';
+                else if(evalue > 1e-100) return 'url(#Arrow2)';
+                else if(evalue > 1e-200) return 'url(#Arrow1)';
+                else if(evalue <= 1e-200) return 'url(#Arrow0)';
+            }
 
             var seqLen = $queryDiv.data().queryLen;
 
@@ -376,9 +414,9 @@
                         d3.select(this)
                         .append('line')
                         .attr('x1', x(d.seqViewStart))
-                        .attr('y1', yHeight + 1)
+                        .attr('y1', yHeight)
                         .attr('x2', x(d.seqViewEnd))
-                        .attr('y2', yHeight + 1)
+                        .attr('y2', yHeight)
                         .attr('stroke', 'black');
 
                         d3.select(this)
@@ -414,42 +452,42 @@
 
                             if(p_hsp[j].hspFrame > 0)
                             {
-                                d3.select(this.parentNode)
-                                    .append('text')
-                                    .attr("class", "title")
-                                    .attr('x', x(p_hsp[j].hspViewEnd) - 10)
-                                    .attr('y', yHspline + 6)
-                                    .style("stroke", hsplineColor)
-                                    .style("fill", hsplineColor)
-                                    .style("font-size", "24px")
-                                    .text("\u2192");
+                                d3.select(this)
+                                    .attr('xlink:href', '#' + q_i + '_hit_' + h_i)
+                                    .append('path')
+                                    .attr('d', function (d) {
+                                        // Use -6 for hspViewEnd to adjust the total matched length
+                                        return 'M ' + x(d.hspViewStart) + ',' + yHeight + ' L ' + x(d.hspViewEnd - 6) + ',' + yHeight;
+                                    })
+                                    .attr('stroke-width', options.barHeight)
+                                    .attr('stroke-linecap', 'round')
+                                    .attr('stroke', d3.rgb(hsplineColor))
+                                    .attr('marker-mid', function() {
+                                        return getMarker( p_hsp.hitEvalue )
+                                    })
+                                    .attr('marker-end', function() {
+                                        return getMarker( p_hsp.hitEvalue )
+                                    });
                             }
                             else
                             {
-                                d3.select(this.parentNode)
-                                    .append('text')
-                                    .attr("class", "title")
-                                    .attr('x', x(p_hsp[j].hspViewStart) - 15)
-                                    .attr('y', yHspline + 6)
-                                    .style("stroke", hsplineColor)
-                                    .style("fill", hsplineColor)
-                                    .style("font-size", "24px")
-                                    .text("\u2190");
+                                d3.select(this)
+                                    .attr('xlink:href', '#' + q_i + '_hit_' + h_i)
+                                    .append('path')
+                                    .attr('d', function (d) {
+                                        // Use +6 for hspViewStart to adjust the total matched length
+                                        return 'M ' + x(d.hspViewEnd) + ',' + yHeight + ' L ' + x(d.hspViewStart + 6) + ',' + yHeight;
+                                    })
+                                    .attr('stroke-width', options.barHeight)
+                                    .attr('stroke-linecap', 'round')
+                                    .attr('stroke', d3.rgb(hsplineColor))
+                                    .attr('marker-mid', function() {
+                                        return getMarker( p_hsp.hitEvalue )
+                                    })
+                                    .attr('marker-end', function() {
+                                        return getMarker( p_hsp.hitEvalue )
+                                    });
                             }
-
-                            // Draw the rectangular hit tracks itself.
-                            d3.select(this)
-                                .attr('xlink:href', '#' + q_i + '_hit_' + h_i)
-                                .append('rect')
-                                    .attr('x', function (d) {
-                                        return x(d.hspViewStart);
-                                    })
-                                    .attr('y', y(p_id))
-                                    .attr('width', function (d) {
-                                        return x(d.hspViewEnd - d.hspViewStart + 1);
-                                    })
-                                    .attr('height', options.barHeight)
-                                    .attr('fill', d3.rgb(hsplineColor));
                         });
                     });
 
