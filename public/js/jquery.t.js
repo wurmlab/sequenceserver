@@ -336,11 +336,11 @@
             var defs = svg.append('defs');
 
             var markerData = [
-                { id: 0, name: 'Arrow0', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#de0007' },
-                { id: 1, name: 'Arrow1', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#de00bf' },
-                { id: 2, name: 'Arrow2', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#00c200' },
-                { id: 3, name: 'Arrow3', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#00bebb' },
-                { id: 4, name: 'Arrow4', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#2415bf' }
+                { id: 0, name: 'Arrow0', path: 'M 1,3 l-1,-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#de0007' },
+                { id: 1, name: 'Arrow1', path: 'M 1,3 l-1,-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#de00bf' },
+                { id: 2, name: 'Arrow2', path: 'M 1,3 l-1,-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#00c200' },
+                { id: 3, name: 'Arrow3', path: 'M 1,3 l-1,-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#00bebb' },
+                { id: 4, name: 'Arrow4', path: 'M 1,3 l-1,-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#2415bf' }
             ];
 
 
@@ -353,7 +353,7 @@
                 .attr('markerWidth', 2)
                 .attr('markerUnits', 'strokeWidth')
                 .attr('orient', 'auto')
-                .attr('refX', 3) // For the adjustment of matched length
+                .attr('refX', 2) // For the adjustment of matched length
                 .attr('refY', 3) // The height is adjusted
                 .attr('viewBox', function(d){ return d.viewbox })
                     .append('svg:path')
@@ -457,10 +457,10 @@
                                     .append('path')
                                     .attr('d', function (d) {
                                         // Use -6 for hspViewEnd to adjust the total matched length
-                                        return 'M ' + x(d.hspViewStart) + ',' + yHeight + ' L ' + x(d.hspViewEnd - 6) + ',' + yHeight;
+                                        return 'M ' + x(d.hspViewStart) + ',' + yHeight + ' L ' + (x(d.hspViewEnd) - 4) + ',' + yHeight;
                                     })
                                     .attr('stroke-width', options.barHeight)
-                                    .attr('stroke-linecap', 'round')
+                                    .attr('stroke-linecap', 'butt')
                                     .attr('stroke', d3.rgb(hsplineColor))
                                     .attr('marker-mid', function() {
                                         return getMarker( p_hsp.hitEvalue )
@@ -476,10 +476,10 @@
                                     .append('path')
                                     .attr('d', function (d) {
                                         // Use +6 for hspViewStart to adjust the total matched length
-                                        return 'M ' + x(d.hspViewEnd) + ',' + yHeight + ' L ' + x(d.hspViewStart + 6) + ',' + yHeight;
+                                        return 'M ' + x(d.hspViewEnd) + ',' + yHeight + ' L ' + (x(d.hspViewStart) + 4) + ',' + yHeight;
                                     })
                                     .attr('stroke-width', options.barHeight)
-                                    .attr('stroke-linecap', 'round')
+                                    .attr('stroke-linecap', 'butt')
                                     .attr('stroke', d3.rgb(hsplineColor))
                                     .attr('marker-mid', function() {
                                         return getMarker( p_hsp.hitEvalue )
