@@ -12,6 +12,7 @@ module SequenceServer
   # Sub-classes must at least define `run` instance method.
   class Job
     DOTDIR = File.expand_path('~/.sequenceserver')
+    UUID_PATTERN = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/
 
     class << self
       # Creates and queues a job. Returns created job object.
@@ -26,6 +27,15 @@ module SequenceServer
       # TODO: What if the given job id does not exist?
       def fetch(id)
         YAML.load_file(File.join(DOTDIR, id, 'job.yaml'))
+      end
+
+      def all
+        jobdirs = Dir["#{DOTDIR}/*"].select{ |f| f =~ UUID_PATTERN }
+        jobdirs.map{ |fname| fetch File.basename(fname) }
+      end
+
+      def delete(id)
+        FileUtils.rm_r File.join(DOTDIR, id)
       end
 
       private
@@ -57,7 +67,7 @@ module SequenceServer
       raise e
     end
 
-    attr_reader :id
+    attr_reader :id, :completed_at
 
     # How to execute the job.
     #
@@ -101,6 +111,7 @@ module SequenceServer
 
     # Marks the job as done.
     def done!
+      @completed_at = Time.now
       @done = true
       save
     end

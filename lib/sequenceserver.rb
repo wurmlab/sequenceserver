@@ -9,6 +9,7 @@ require 'sequenceserver/sequence'
 require 'sequenceserver/database'
 require 'sequenceserver/blast'
 require 'sequenceserver/routes'
+require 'sequenceserver/job_remover'
 
 # Top level module / namespace.
 module SequenceServer
@@ -38,11 +39,14 @@ module SequenceServer
 
     def init(config = {})
       @config = Config.new(config)
+      Thread.abort_on_exception = true if ENV['RACK_ENV'] == 'development'
 
       init_binaries
       init_database
       load_extension
       check_num_threads
+      @job_remover = JobRemover.new(@config[:job_lifetime])
+
       self
 
       # We don't validate port and host settings. If SequenceServer is run
