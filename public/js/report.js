@@ -961,96 +961,41 @@ var Query = React.createClass({
 var SideBar = React.createClass({
 
     /**
-     * generates URI for downloading fasta of hits.
+     * Dynamically create form and submit.
      */
-    generateURI: function (sequence_ids, database_ids) {
-         // Encode URIs against strange characters in sequence ids.
-        sequence_ids = encodeURIComponent(sequence_ids.join(' '));
-        database_ids = encodeURIComponent(database_ids);
+    postForm: function (sequence_ids, database_ids) {
+        var form = $('<form/>').attr('method', 'post').attr('action', '/get_sequence');
+        addField("sequence_ids", sequence_ids);
+        addField("database_ids", database_ids);
+        form.appendTo('body').submit().remove();
 
-        var url = "get_sequence/?sequence_ids=" + sequence_ids +
-            "&database_ids=" + database_ids + '&download=fasta';
-
-        return url;
+        function addField(name, val) {
+            form.append(
+                $('<input>').attr('type', 'hidden').attr('name', name).val(val)
+            );
+        }
     },
 
     /**
      * Event-handler for downloading fasta of all hits.
      */
     downloadFastaOfAll: function () {
-        var num_hits = $('.hitn').length;
-
-        var $a = $('.download-fasta-of-all');
-        if (num_hits >= 1 && num_hits <= 30) {
-            var sequence_ids = $('.hit-links :checkbox').map(function () {
-                return this.value;
-            }).get();
-            $a
-            .enable()
-            .attr('href', this.generateURI(sequence_ids, $a.data().databases))
-            .tooltip({
-                title: num_hits + " hit(s)."
-            });
-            return;
-        }
-
-        if (num_hits === 0) {
-            $a.tooltip({
-                title: "No hit to download."
-            });
-        }
-
-        if (num_hits > 30) {
-            $a.tooltip({
-                title: "Can't download more than 30 hits."
-            });
-        }
-
-        $a
-        .disable()
-        .removeAttr('href');
+        var sequence_ids = $('.hit-links :checkbox').map(function () {
+            return this.value;
+        }).get();
+        var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
+        this.postForm(sequence_ids, database_ids);
     },
 
     /**
      * Handles downloading fasta of selected hits.
      */
     downloadFastaOfSelected: function () {
-        var num_checked  = $('.hit-links :checkbox:checked').length;
-
-        var $a = $('.download-fasta-of-selected');
-        var $n = $a.find('.text-bold');
-        $n.html(num_checked);
-
-        if (num_checked >= 1 && num_checked <= 30) {
-            var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
-                return this.value;
-            }).get();
-
-            $a
-            .enable()
-            .attr('href', this.generateURI(sequence_ids, $a.data().databases))
-            .tooltip({
-                title: num_checked + " hit(s) selected."
-            });
-            return;
-        }
-
-        if (num_checked === 0) {
-            $n.empty();
-            $a.tooltip({
-                title: "No hit selected."
-            });
-        }
-
-        if (num_checked > 30) {
-            $a.tooltip({
-                title: "Can't download more than 30 hits."
-            });
-        }
-
-        $a
-        .disable()
-        .removeAttr('href');
+        var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+        var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
+        this.postForm(sequence_ids, database_ids);
     },
 
     summary: function () {
@@ -1066,7 +1011,6 @@ var SideBar = React.createClass({
     },
 
     // Life-cycle method. //
-
     render: function () {
         return (
             <div
@@ -1108,61 +1052,45 @@ var SideBar = React.createClass({
                   className="downloads list-unstyled list-padded">
                     <li>
                         <a
-                          className="download download-fasta-of-all"
-                          data-databases=
-                          {
-                            this.props.data.querydb.map(function (query) {
-                                return(query.id)
-                            }).join(' ')
-                          }
-                          onClick={this.downloadFastaOfAll} >
+                          className="download-fasta-of-all"
+                          onClick={this.downloadFastaOfAll}>
                             FASTA of all hits
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download download-fasta-of-selected disabled"
-                          data-databases=
-                          {
-                            this.props.data.querydb.map(function (query) {
-                                return(query.id)
-                            }).join(' ')
-                          }
+                          className="download-fasta-of-selected disabled"
                           onClick={this.downloadFastaOfSelected}>
                             FASTA of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download"
-                          title="15 columns: query and subject ID; scientific name, alignment length,
-                          mismatches, gaps, identity, start and end coordinates,
-                          e value, bitscore, query coverage per subject and per HSP."
-                          data-toggle="tooltip"
-                          href={"download/" + this.props.data.search_id + ".std_tsv"}
-                          onClick={this.setupDownloadLinks}>
+                          className="download" data-toggle="tooltip"
+                          title="15 columns: query and subject ID; scientific
+                          name, alignment length, mismatches, gaps, identity,
+                          start and end coordinates, e value, bitscore, query
+                          coverage per subject and per HSP."
+                          href={"download/" + this.props.data.search_id + ".std_tsv"}>
                             Standard tabular report
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download"
-                          title="44 columns: query and subject ID, GI, accessions,
-                          and length; alignment details; taxonomy details of subject
-                          sequence(s) and query coverage per subject and per HSP."
-                          data-toggle="tooltip"
-                          href={"download/" + this.props.data.search_id + ".full_tsv"}
-                          onClick={this.setupDownloadLinks}>
+                          className="download" data-toggle="tooltip"
+                          title="44 columns: query and subject ID, GI,
+                          accessions, and length; alignment details;
+                          taxonomy details of subject sequence(s) and
+                          query coverage per subject and per HSP."
+                          href={"download/" + this.props.data.search_id + ".full_tsv"}>
                             Full tabular report
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download"
+                          className="download" data-toggle="tooltip"
                           title="Results in XML format."
-                          data-toggle="tooltip"
-                          href={"download/" + this.props.data.search_id + ".xml"}
-                          onClick={this.setupDownloadLinks}>
+                          href={"download/" + this.props.data.search_id + ".xml"}>
                             Full XML report
                         </a>
                     </li>
@@ -1214,7 +1142,7 @@ var Report = React.createClass({
             .find(":checkbox").not(checkbox).uncheck();
         }
 
-        if (num_checked >= 1 && num_checked <= 30)
+        if (num_checked >= 1)
         {
             var $a = $('.download-fasta-of-selected');
             $a.find('.text-bold').html(num_checked);
