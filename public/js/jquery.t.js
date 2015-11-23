@@ -389,18 +389,6 @@
                 .data(hits)
                 .enter()
                 .append('g')
-                    .attr('data-toggle', 'tooltip')
-                    .attr('title', function(d) {
-                        // Pretty print evalue in tooltip.
-                        var regex = /(\d*\.\d*)e?([+-]\d*)?/;
-                        var parsedVal = regex.exec(d.hitEvalue);
-                        var prettyEvalue = parseFloat(parsedVal[1]).toFixed(3);
-                        var returnString = d.hitDef + '<br><strong>E value:</strong> ' + prettyEvalue;
-                        if (parsedVal[2] !== undefined) {
-                            returnString +=  ' &times; 10<sup>' + parsedVal[2] + '</sup>';
-                        }
-                        return returnString;
-                    })
                     .each(function (d,i) {
                         // TODO: Avoid too many variables and improve naming.
                         var h_i = i+1;
@@ -450,10 +438,24 @@
                                 }
                             }
 
+                            d3.select(this)
+                                .attr('data-toggle', 'tooltip')
+                                .attr('title', function(d) {
+                                        // Pretty print evalue in tooltip.
+                                        var regex = /(\d*\.\d*)e?([+-]\d*)?/;
+                                        var parsedVal = regex.exec(p_hsp[j].hspEvalue);
+                                        var prettyEvalue = parseFloat(parsedVal[1]).toFixed(3);
+                                        var returnString = p_hsp.hitDef + ' (' + (j + 1) + ')<br><strong>E value:</strong> ' + prettyEvalue;
+                                        if (parsedVal[2] !== undefined) {
+                                            returnString +=  ' &times; 10<sup>' + parsedVal[2] + '</sup>';
+                                        }
+                                        return returnString;
+                                    })
+
                             if(p_hsp[j].hspFrame > 0)
                             {
                                 d3.select(this)
-                                    .attr('xlink:href', '#' + q_i + '_hit_' + h_i)
+                                    .attr('xlink:href', '#' + q_i + '_hit_' + h_i + '_' + (j + 1))
                                     .append('path')
                                     .attr('d', function (d) {
                                         // Use -6 for hspViewEnd to adjust the total matched length
@@ -469,7 +471,7 @@
                             else
                             {
                                 d3.select(this)
-                                    .attr('xlink:href', '#' + q_i + '_hit_' + h_i)
+                                    .attr('xlink:href', '#' + q_i + '_hit_' + h_i+ '_' + (j + 1))
                                     .append('path')
                                     .attr('d', function (d) {
                                         // Use +6 for hspViewStart to adjust the total matched length
