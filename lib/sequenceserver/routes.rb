@@ -50,28 +50,33 @@ module SequenceServer
       }
     end
 
-    # For any request that hits the app in development mode, log incoming
-    # params.
+    # For any request that hits the app,  log incoming params at debug level.
     before do
       logger.debug params
     end
 
-    # Renders search form.
+    # Returns base HTML. Rest happens client-side: rendering the search form.
     get '/' do
       erb :layout
     end
 
+    # Returns data that is used to render the search form client side. These
+    # include available databases and user-defined search options.
     get '/searchdata.json' do
-      {database: Database.all, options: SequenceServer.config[:options]}.to_json
+      {
+        database: Database.all,
+        options:  SequenceServer.config[:options]
+      }.to_json
     end
 
-    # Queues a search job and redirects to a page that will poll for and render
-    # the results when available.
+    # Queues a search job and redirects to `/:jid`.
     post '/' do
       job = Job.create(params)
       redirect "/#{job.id}"
     end
 
+    # Returns results for the given job id in JSON format.  Returns 202 with
+    # an empty body if the job hasn't finished yet.
     get '/:jid.json' do |jid|
       job = Job.fetch(jid)
       halt 202 unless job.done?
@@ -79,7 +84,8 @@ module SequenceServer
       rep.to_json
     end
 
-    # Retrieve data for the given search id.
+    # Returns base HTML. Rest happens client-side: polling for and rendering
+    # the results.
     get '/:jid' do |jid|
       erb :layout
     end
@@ -97,16 +103,14 @@ module SequenceServer
     get '/get_sequence/' do
       sequence_ids = params[:sequence_ids].split(/\s/)
       database_ids = params[:database_ids].split(/\s/)
-
       sequences = Sequence::Retriever.new(sequence_ids, database_ids)
       sequences.to_json
     end
 
     post '/get_sequence' do
-      sequences = Sequence::Retriever.new(params["sequence_ids"].split(","),
-                                          params["database_ids"].split(","),
-                                          true)
-
+      sequence_ids = params["sequence_ids"].split(",")
+      database_ids = params["database_ids"].split(",")
+      sequences = Sequence::Retriever.new(sequence_ids, database_ids, true)
       send_file(sequences.file.path,
                 :type     => sequences.mime,
                 :filename => sequences.filename)

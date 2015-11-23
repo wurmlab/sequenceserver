@@ -961,92 +961,41 @@ var Query = React.createClass({
 var SideBar = React.createClass({
 
     /**
-     * generates URI for downloading fasta of hits.
-     */
-    generateURI: function (sequence_ids, database_ids) {
-         // Encode URIs against strange characters in sequence ids.
-        sequence_ids = encodeURIComponent(sequence_ids.join(' '));
-        database_ids = encodeURIComponent(database_ids);
-
-        var url = "get_sequence/?sequence_ids=" + sequence_ids +
-            "&database_ids=" + database_ids + '&download=fasta';
-
-        return url;
-    },
-
-    /**
      * Dynamically create form and submit.
      */
-    postForm: function (database_ids, sequence_ids) {
-      var form = $("<form/>").attr('action', '/get_sequence').attr('method', 'post');
+    postForm: function (sequence_ids, database_ids) {
+        var form = $('<form/>').attr('method', 'post').attr('action', '/get_sequence');
+        addField("sequence_ids", sequence_ids);
+        addField("database_ids", database_ids);
+        form.appendTo('body').submit().remove();
 
-      addField("sequence_ids", sequence_ids);
-      addField("database_ids", database_ids);
-
-      form.appendTo('body').submit().remove();
-
-      function addField(name, val) {
-        var input = $("<input>").attr("type", "hidden")
-                                .attr("name", name)
-                                .val(val);
-        form.append(input);
-      }
+        function addField(name, val) {
+            form.append(
+                $('<input>').attr('type', 'hidden').attr('name', name).val(val)
+            );
+        }
     },
 
     /**
      * Event-handler for downloading fasta of all hits.
      */
     downloadFastaOfAll: function () {
-        var num_hits = $('.hitn').length;
-
-        var $a = $('.download-fasta-of-all');
-        if (num_hits > 0) {
-            var sequence_ids = $('.hit-links :checkbox').map(function () {
-                return this.value;
-            }).get();
-            this.postForm($a.data().databases, sequence_ids);
-            $a.tooltip({
-                title: num_hits + " hit(s)."
-            });
-        }
-        else {
-            $a
-              .disable()
-              .tooltip({
-                title: "No hit to download."
-            });
-        }
+        var sequence_ids = $('.hit-links :checkbox').map(function () {
+            return this.value;
+        }).get();
+        var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
+        this.postForm(sequence_ids, database_ids);
     },
 
     /**
      * Handles downloading fasta of selected hits.
      */
     downloadFastaOfSelected: function () {
-        var num_checked  = $('.hit-links :checkbox:checked').length;
-
-        var $a = $('.download-fasta-of-selected');
-        var $n = $a.find('.text-bold');
-        $n.html(num_checked);
-
-        if (num_checked > 0) {
-            var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
-                return this.value;
-            }).get();
-            this.postForm($a.data().databases, sequence_ids);
-            $a
-            .tooltip({
-                title: num_checked + " hit(s) selected."
-            });
-            return;
-        }
-        else {
-            $n.empty();
-            $a
-              .disable()
-              .tooltip({
-                title: "No hit selected."
-            });
-        }
+        var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+        var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
+        this.postForm(sequence_ids, database_ids);
     },
 
     summary: function () {
@@ -1103,63 +1052,45 @@ var SideBar = React.createClass({
                   className="downloads list-unstyled list-padded">
                     <li>
                         <a
-                          className="download download-fasta-of-all"
-                          href="#"
-                          data-databases=
-                          {
-                            this.props.data.querydb.map(function (query) {
-                                return(query.id)
-                            }).join(' ')
-                          }
+                          className="download-fasta-of-all"
                           onClick={this.downloadFastaOfAll}>
                             FASTA of all hits
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download download-fasta-of-selected disabled"
-                          href="#"
-                          data-databases=
-                          {
-                            this.props.data.querydb.map(function (query) {
-                                return(query.id)
-                            }).join(' ')
-                          }
+                          className="download-fasta-of-selected disabled"
                           onClick={this.downloadFastaOfSelected}>
                             FASTA of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download"
-                          title="15 columns: query and subject ID; scientific name, alignment length,
-                          mismatches, gaps, identity, start and end coordinates,
-                          e value, bitscore, query coverage per subject and per HSP."
-                          data-toggle="tooltip"
-                          href={"download/" + this.props.data.search_id + ".std_tsv"}
-                          onClick={this.setupDownloadLinks}>
+                          className="download" data-toggle="tooltip"
+                          title="15 columns: query and subject ID; scientific
+                          name, alignment length, mismatches, gaps, identity,
+                          start and end coordinates, e value, bitscore, query
+                          coverage per subject and per HSP."
+                          href={"download/" + this.props.data.search_id + ".std_tsv"}>
                             Standard tabular report
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download"
-                          title="44 columns: query and subject ID, GI, accessions,
-                          and length; alignment details; taxonomy details of subject
-                          sequence(s) and query coverage per subject and per HSP."
-                          data-toggle="tooltip"
-                          href={"download/" + this.props.data.search_id + ".full_tsv"}
-                          onClick={this.setupDownloadLinks}>
+                          className="download" data-toggle="tooltip"
+                          title="44 columns: query and subject ID, GI,
+                          accessions, and length; alignment details;
+                          taxonomy details of subject sequence(s) and
+                          query coverage per subject and per HSP."
+                          href={"download/" + this.props.data.search_id + ".full_tsv"}>
                             Full tabular report
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download"
+                          className="download" data-toggle="tooltip"
                           title="Results in XML format."
-                          data-toggle="tooltip"
-                          href={"download/" + this.props.data.search_id + ".xml"}
-                          onClick={this.setupDownloadLinks}>
+                          href={"download/" + this.props.data.search_id + ".xml"}>
                             Full XML report
                         </a>
                     </li>
