@@ -427,7 +427,7 @@
                             // Drawing the HSPs connector line using the same
                             // color as that of the hit track (using lookahead).
                             var yHspline = y(p_id) + options.barHeight / 2;
-                            var hsplineColor = d3.rgb(colorScale(p_hsp.hitEvalue));
+                            var hsplineColor = d3.rgb( colorScale( p_hsp[j].hspEvalue ) );
 
                             if (j+1 < p_count) {
                                 if (p_hsp[j].hspEnd <= p_hsp[j+1].hspStart) {
@@ -462,11 +462,8 @@
                                     .attr('stroke-width', options.barHeight)
                                     .attr('stroke-linecap', 'butt')
                                     .attr('stroke', d3.rgb(hsplineColor))
-                                    .attr('marker-mid', function() {
-                                        return getMarker( p_hsp.hitEvalue )
-                                    })
                                     .attr('marker-end', function() {
-                                        return getMarker( p_hsp.hitEvalue )
+                                        return getMarker( p_hsp[j].hspEvalue )
                                     });
                             }
                             else
@@ -481,11 +478,8 @@
                                     .attr('stroke-width', options.barHeight)
                                     .attr('stroke-linecap', 'butt')
                                     .attr('stroke', d3.rgb(hsplineColor))
-                                    .attr('marker-mid', function() {
-                                        return getMarker( p_hsp.hitEvalue )
-                                    })
                                     .attr('marker-end', function() {
-                                        return getMarker( p_hsp.hitEvalue )
+                                        return getMarker( p_hsp[j].hspEvalue )
                                     });
                             }
                         });
