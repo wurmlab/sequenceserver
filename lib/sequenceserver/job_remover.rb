@@ -1,65 +1,65 @@
-require 'sequenceserver/job.rb'
+require 'sequenceserver/job'
 
-module SequenceServer 
+module SequenceServer
+
+  # Removes expired jobs in a background thread.
+  #
+  # Job lifetime is provided in minutes. It can be zero in which case jobs will
+  # be deleted as soon as they are done, or it can be Infinity in which case
+  # jobs will never be deleted. Default is to delete finished jobs after 7 days.
   class JobRemover
+    DEFAULT_JOB_LIFETIME = 10080 # minutes (24 hrs = 7 days)
 
-    DEFAULT_LIFETIME = 86400
-
-    def initialize(lifetime)
-      parse lifetime
-      spawn_cleanup if @clean_needed
+    def initialize(job_lifetime)
+      @job_lifetime = job_lifetime || DEFAULT_JOB_LIFETIME
+      return if @job_lifetime == Float::INFINITY
+      @job_lifetime = Integer(@job_lifetime) * 60
+      spawn_cleanup
     end
 
     extend Forwardable
     def_delegators SequenceServer, :logger
 
-    def spawn_cleanup
+    private
 
-      Thread.new do 
+    def spawn_cleanup
+      Thread.new do
         loop do
           begin
-            #leave incomplete jobs
-            finished_jobs = Job.all.select{ |f| f.done? }
             now = Time.now
+            finished_jobs = Job.all.select { |f| f.done? }
 
-            unless finished_jobs.empty?
-              exp_jobs = finished_jobs.select do |job|
-                (job.completed_at + @lifetime) < now
-              end
-
-              exp_jobs.each{ |job| Job.delete job.id }
+            # Cleanup finished jobs that have lived a lifetime.
+            expired_jobs = finished_jobs.select do |job|
+              (job.completed_at + @job_lifetime) <= now
+            end
+            expired_jobs.each { |job| Job.delete job.id }
+            unless expired_jobs.empty?
+              logger.info "#{logid}: deleted #{expired_jobs.count} old jobs."
             end
 
-            remaining_jobs = (exp_jobs.nil?) ? finished_jobs : finished_jobs - exp_jobs
+            # Decide when to cleanup next.
+            remaining_jobs = finished_jobs - expired_jobs
             oldest_time = remaining_jobs.map(&:completed_at).min
-
-            @next_cleanup = @lifetime
-            if  !!oldest_time && now < (oldest_time + @lifetime)
-              @next_cleanup = (oldest_time + @lifetime) - now
+            if oldest_time && now < (oldest_time + @job_lifetime)
+              @next_cleanup = (oldest_time + @job_lifetime) - now
+            else
+              @next_cleanup = @job_lifetime
             end
 
-            sleep(@next_cleanup.to_i)
-          rescue => e #StandardError
-            logger.debug("Cleanup thread shutting down due to Error:")
-            logger.debug(e.inspect)
-            logger.debug(e.backtrace.join("\n"))
-
+            # Sleep till next cleanup.
+            sleep @next_cleanup.ceil
+          rescue => e
+            logger.fatal("#{logid}: #{e.inspect}\n#{e.backtrace.join("\n")}")
             Thread.exit
           end
         end
       end
     end
 
-    def parse(job_lifetime)
-      @clean_needed = true
-      if job_lifetime.nil?
-        @lifetime = DEFAULT_LIFETIME
-      elsif job_lifetime == "INF"
-        @clean_needed = false
-      else
-        @lifetime = job_lifetime.to_i * 60
-      end
+    # Identifier for logs emitted by JobRemover.
+    def logid
+      @logid ||= self.class.name.split('::').last
     end
-
   end
 end
