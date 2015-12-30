@@ -1,7 +1,7 @@
 {
     "name": "SequenceServer",
     "description": "BLAST searching made easy!",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "homepage": "http://www.sequenceserver.com",
     "repository": "https://github.com/yannickwurm/sequenceserver",
     "author": {
@@ -23,7 +23,7 @@
         "grunt-contrib-compress": "0.13.0"
     },
     "scripts": {
-        "cop":    "grunt cop",
-        "build":         "grunt build"
+        "cop":   "grunt cop",
+        "build": "grunt build"
     }
 }
