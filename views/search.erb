@@ -276,39 +276,40 @@
   <div
     class="footer" id="footer">
     <hr>
-    <p
-      class="text-center">
-      <a
-        href='http://www.sequenceserver.com'>
-        <%=
-          quote = [
-            "Custom BLAST web interface by SequenceServer.",
-            "SequenceServer: Local BLAST with bespoke html interface.",
-            "Set up custom BLAST interface with SequenceServer.",
-            "Easy BLASTing with SequenceServer.",
-            "Run BLAST locally with Sequenceserver.",
-            "BLAST against a custom, local database with SequenceServer.",
-            "Run BLAST locally on Mac OSX with SequenceServer.",
-            "Run BLAST locally on Ubuntu with SequenceServer.",
-            "Run BLAST locally on Linux with SequenceServer."
-          ][rand(9)]
-        %>
-      </a>
-      <a
-        class="twitter-share-button"
-        href="https://twitter.com/share"
-        data-url="http://www.sequenceserver.com" data-text="<%= quote %>" data-via="yeban" data-hashtags="bioinformatics">
-        Tweet
-      </a>
-      <%#<div class="g-plusone" data-annotation="none" data-href="http://www.sequenceserver.com"></div>%>
-
-      <br>
-      Please Cite:
-      <a href='http://www.sequenceserver.com'>
-        Priyam, Woodcroft, Rai & Wurm, <strong>SequenceServer</strong> (<em>in prep</em>)
-      </a>
-      &amp; relevant data sources.
-    </p>
+    <div
+      class="container">
+      <p
+        class="text-center">
+        <a
+          href='http://www.sequenceserver.com'>
+          <%=
+            quote = [
+              "Custom BLAST web interface by SequenceServer.",
+              "SequenceServer: Local BLAST with bespoke html interface.",
+              "Set up custom BLAST interface with SequenceServer.",
+              "Easy BLASTing with SequenceServer.",
+              "Run BLAST locally with Sequenceserver.",
+              "BLAST against a custom, local database with SequenceServer.",
+              "Run BLAST locally on Mac OSX with SequenceServer.",
+              "Run BLAST locally on Ubuntu with SequenceServer.",
+              "Run BLAST locally on Linux with SequenceServer."
+            ][rand(9)]
+          %>
+        </a>
+        <a
+          class="twitter-share-button"
+          href="https://twitter.com/share"
+          data-url="http://www.sequenceserver.com" data-text="<%= quote %>" data-via="yeban" data-hashtags="bioinformatics">
+          Tweet
+        </a>
+        <br>
+        Please cite:
+        <a href="http://www.biorxiv.org/content/early/2015/11/27/033142">
+          Priyam et al. (2015) Sequenceserver: a modern graphical user interface for custom BLAST databases
+        </a>
+        &amp; relevant data sources.
+      </p>
+    </div> <!-- /container -->
   </div>
 
   <div
