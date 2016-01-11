@@ -11,55 +11,60 @@
 SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
 interface for use locally or over the web.
 
-## Installation
+## Install and configure
 
-Please see http://www.sequenceserver.com.
+Please see http://sequenceserver.com
 
-## Contribute
+## Develop and contribute
 
-You will need Ruby, NodeJS, respective package managers (RubyGems and npm), and
-CodeClimate for development.
+You will need Ruby and RubyGems, Node and npm, and CodeClimate. Further, please
+note that **`1.0.x` branch contains the stable releases, while the `master`
+branch is a work in progress towards next release and may be buggy**.
 
-##### Get source code.
+### Setup
+Get source code and install dependencies.
+
 ```
 git clone https://github.com/wurmlab/sequenceserver
+gem install bundler
 cd sequenceserver
+npm install
+bundle
 ```
 
-##### Install dependencies.
-###### Ruby
-```
-gem install bundler && bundle
-```
+We use Capybara with WebKit driver for functional testing, which requires `qt`
+to be installed. If `bundle` fails, install `qt` (On Mac: `brew install qt`)
+and run `bundle` again.
 
-We use Capybara with WebKit driver for functional testing. If the above step
-fails, install `qt` (On Mac: `brew install qt`) and run `bundle` again.
+We use JSPM (via Node) for front-end package management and building JavaScript
+and CSS files.
 
-If you are deploying SequenceServer from git (not advised) you can skip
-installing development dependencies (and `qt`) by running
+If you are deploying SequenceServer from git you can skip `npm install` step
+and skip installing gems used for testing (and `qt`), etc. by running:
 
     bundle install --without=development
 
-###### Node
-```
-npm install
-```
+### Run, test, build
 
-We use jspm for front-end package management.
-
-#### Run, test, lint, build
+Launch SequenceServer in development mode. In development mode SequenceServer
+logs verbosely and uses raw front-end files.
 ```
-# Launch SequenceServer in development mode.
 bundle exec bin/sequenceserver -D
+```
 
-# Run tests, code linters, and build.
+Run the specs, lint the code, build front-end and package everything as a gem.
+```
 rake
 ```
 
-## Contributors
+Sometimes you may just want to run the specs or lint the code:
+```
+rake spec
+rake lint
+```
 
-* Anurag Priyam - [email](mailto:anurag08priyam@gmail.com) | [@yeban](//twitter.com/yeban)
-* [Vivek Rai](http://vivekiitkgp.github.io/)
-* Ben Woodcroft
-* Yannick Wurm  - [http://wurmlab.github.io](http://wurmlab.github.io) |
-  [@yannick__](//twitter.com/yannick__)
+## Contact
+
+* Anurag Priyam (architect) - [email](mailto:anurag08priyam@gmail.com) | [@yeban](//twitter.com/yeban)
+* Yannick Wurm  (PI) - [email](mailto:yannickwurm@gmail.com) | [@yannick\_\_](//twitter.com/yannick__)
+* [Mailing list / forum](https://groups.google.com/forum/#!forum/sequenceserver)
