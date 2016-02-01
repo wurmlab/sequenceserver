@@ -1303,6 +1303,21 @@ $ passenger-install-apache2-module
                     <dd>
                       NCBI's BLAST+ is most actively developed, just use it. SequenceServer only supports BLAST+.
                     </dd>
+                    <dt>
+                      Q. Why is an extra space character inserted when
+                      auto-completing during SequenceServer setup on OSX?
+                    </dt>
+                    <dd>
+                      During SequenceServer setup on some versions of OSX, an
+                      extra space is added to the end of autocompletions when
+                      SequenceServer is asking for paths to the BLAST+
+                      executables. Ths appears to be due to the base Ruby
+                      readline library. Unfortunately it is beyond our scope to
+                      fix this slightly inconvenient
+                      <a href="https://github.com/wurmlab/sequenceserver/issues/136">
+                      bug</a>, especially since working around it is
+                      straightforward (i.e. you just need to backspace it).
+                    </dd>
                   </dl>
                 </div>
               </div>
