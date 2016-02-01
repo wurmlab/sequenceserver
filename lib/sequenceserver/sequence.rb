@@ -194,6 +194,7 @@ module SequenceServer
 
         out = `#{command} 2> /dev/null`
         @sequences = out.each_line.map do |line|
+          line = line.chars.select(&:valid_encoding?).join.encode('UTF-8', :invalid => :replace)
           Sequence.new(*line.chomp.split('	'))
         end
         extend(IO) && write if in_file
