@@ -11,9 +11,11 @@
 SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
 interface for use locally or over the web.
 
+> Please cite: [Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W & Wurm Y. 2015. Sequenceserver: A modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142](http://www.biorxiv.org/content/early/2015/11/27/033142).
+
 ## Install and configure
 
-Please see http://sequenceserver.com
+Please see http://sequenceserver.com.
 
 ## Develop and contribute
 
