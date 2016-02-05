@@ -84,8 +84,10 @@ module SequenceServer
       puts
       puts '** Thank you for using SequenceServer :).'
       puts '   Please cite: '
-      puts '             Priyam, Woodcroft, Rai & Wurm,'
-      puts '             SequenceServer (in prep).'
+      puts '       Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F,'
+      puts '       Gibbins MA, Moon H, Leonard G, Rumpf W & Wurm Y. 2015.'
+      puts '       Sequenceserver: a modern graphical user interface for'
+      puts '       custom BLAST databases. biorxiv doi: 10.1101/033142.'
     end
 
     # Rack-interface.
