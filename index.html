@@ -165,7 +165,7 @@
                 2015-12/2016-02
               </strong>
               SequenceServer - <a
-                href="https://github.com/wurmlab/sequenceserver/releases">1.0.6 & 1.0.7</a>
+                href="https://github.com/wurmlab/sequenceserver/releases">1.0.6 &amp; 1.0.7</a>
               - link to bioRxiv preprint.
             </p>
             <p>
@@ -357,109 +357,129 @@
               <div class="row">
                 <div class="col-md-7">
                   <p>
-                    SequenceServer lets you rapidly set up a BLAST+ server with an
-                    intuitive user interface for use on your local
-                    machine and for sharing with colleagues locally or
-                    over the web. We designed SequenceServer to do
-                    this more elegantly and efficiently than other solutions (e.g., 
-                    <a
-                      href="http://www.gmod.org">
-                      GMOD</a>,
-                  Galaxy) or 
-                    <a
-                      href="http://www.ncbi.nlm.nih.gov/staff/tao/URLAPI/wwwblast/">
-                      traditional publicly available BLAST front ends</a>.
+                    SequenceServer lets you rapidly set up a BLAST+ server for
+                    individual use or for sharing datasets with colleagues and
+                    community. Its minimalist, modern and thoughtful design
+                    lets you focus on the Biology and getting things done.
+                    SequenceServer is
+                    <a href="#license">free</a> and
+                    <a href="http://github.com/wurmlab/sequenceserver">open source</a>.
                   </p>
 
                   <p>
-                    SequenceServer is still young but has already been deployed in
+                    SequenceServer has been used for research on emerging model
+                    organisms (e.g., sea cucumber, starfish, falcons, Hessian
+                    fly, sugar-apple tree, <em>Streptocarpus rexii</em>), for
+                    research in bioadhesion and environmental microbiology, and
+                    is a main querying mechanism for several community
+                    databases (e.g.,
                     <a
-                      href="#users">
-                      many institutions</a>.
-                    SequenceServer is
+                      href="http://spottedwingflybase.oregonstate.edu/blast">
+                      <em>Drosophila suzukii</em></a>,
                     <a
-                      href="#license">
-                      free to use and modify under GNU AGPL v3</a>;
-                    its
+                      href="http://planmine.mpi-cbg.de/planmine/blast.do">
+                      planarians</a>,
                     <a
-                      href="http://github.com/yannickwurm/sequenceserver">
-                      source code is freely available on GitHub</a>.
+                      href="http://birchgenome.org/sequenceserver">
+                      birch
+                    </a> and
+                    <a
+                      href="http://ashgenome.org/sequenceserver">
+                      ash
+                    </a> tree,
+                    <a
+                      href="http://amborella.uga.edu/blast/">
+                      Amborella</a>,
+                    <a
+                      href="http://echinodb.uncc.edu/blast/">
+                      echinoderms</a>,
+                    <a
+                      href="http://www.fusariumnrpspks.dk/">
+                      Fusarium</a>,
+                    <a
+                      href="http://antgenomes.org/blast">
+                      ants</a>,
+                    <a
+                      href="http://blast.lepbase.org">
+                      butterfly</a>).
+                  </p>
+
+                  <p>
+                    Read about SequenceServer's user-centric design and
+                    sustainable software development philosophy:
+                    <blockquote>
+                      <a
+                        href="http://www.biorxiv.org/content/early/2015/11/27/033142">
+                        Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W &amp; Wurm Y. 2015. Sequenceserver: a modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142.
+                      </a>
+                    </blockquote>
                   </p>
 
                   <h5>
-                    Easy to use:
+                    Rapidly deployed
                   </h5>
                   <ul>
                     <li>
-                      Minimalistic, clutter-free design so you can focus on the biology.
+                      Automatic detection of BLAST software - if absent the
+                      correct version is automatically downloaded.
+                    </li>
+                   <li>
+                      Detects existing BLAST databases and automatically lists
+                      them in the search interface.
                     </li>
                     <li>
-                      Smart user interface automagically figures out the
-                      appropriate BLAST method to use based on your input and
-                      selected databases.
+                      Detects sequence type of FASTA files and prompts to turn
+                      them into BLAST databases.
                     </li>
                     <li>
-                      Common mistakes prevented. For example, SequenceServer warns
-                      if you mix nucleotide and protein sequences.
-                    </li>
-                    <li> Use 
-                      <strong>advanced parameters</strong> 
-                      (e.g. <kbd>-task blastn-short <span class="nowrap">-evalue</span> 1.0e-20</kbd>)
-                      as you would in the command line.
+                      Built-in web server for light to medium usage. Can be
+                      integrated with Apache / Nginx if required.
                     </li>
                     <li>
-                      Simple and intuitive overview of results.
+                      Easily add custom links to search hits (e.g. to a genome
+                      browser or a page describing the sequence).
                     </li>
-                    <li>
-                      Elegant, streamlined BLAST report.
-                    </li>
-                    <li>
-                      View sequence and download FASTA of up to 30 hits.
-                    </li>
-                    <li>
-                      Download tab-delimited reports (standard 12 column or
-                      all 44 possible columns) or XML BLAST report.
-                    </li>
-                    <li>
-                      Input query sequences by pasting FASTA sequence or
-                      drag-and-dropping a FASTA file.
                   </ul>
 
                   <h5>
-                    Rapidly deployed:
+                    Easy to use
                   </h5>
                   <ul>
                     <li>
-                      Guided interactive setup in very few steps &mdash;
-                      only requires your sequence files. 
+                      Type or paste query sequences, or drag-and-drop a FASTA
+                      file to search.
                     </li>
                     <li>
-                      Automatic detection of BLAST software; if absent
-                      the correct version is automatically downloaded. 
-                    </li>
-                   <li>
-                      Automatical detection of existing BLAST
-                      databases.
+                      Smart user interface automagically figures out the
+                      appropriate BLAST method for the given query and
+                      selected databases.
                     </li>
                     <li>
-                      Automatic detection of FASTA files not yet
-                      BLAST-formatted. SequenceServer detects sequence
-                      type helps and interactively helps to create BLAST
-                      databases.
+                      Use advanced parameters as you would in the command line:
+                      <kbd>
+                        -evalue 1.0e-10 -max_target_seqs 10
+                      </kbd>
                     </li>
                     <li>
-                      Web server is built in. Apache or Nginx are unnecessary (but can be used for specifc uses).
+                      Graphical overview of results naturally separates strong
+                      from weak hits (by evalue).
                     </li>
                     <li>
-                      Use on your personal computer; share with colleagues locally or
-                    worldwide. 
+                      GenBank style visualisation of hit sequences - residues
+                      grouped in multiples of five.
                     </li>
                     <li>
-                      Easily customizable hyperlinks to search hits (e.g. to
-                      your a genome browser or custom database).
+                      Download hit sequences in FASTA format, and alignment
+                      data in tab-delimited and XML format for further
+                      analysis.
+                    </li>
+                    <li>
+                      Step-by-step discovery of workflow and options through
+                      interactive, visual feedback.
                     </li>
                   </ul>
                 </div>
+
                 <div
                   class="col-md-5" >
                   <a
@@ -1406,7 +1426,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="http://wurmlab.github.io/team/priyam">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Anurag priyam's pic"
                     src="https://avatars0.githubusercontent.com/u/90373?v=3">
                   </a>
                 </div>
@@ -1434,7 +1454,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="http://ecogenomic.org/users/ben-woodcroft">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Ben Woodcroft's pic"
                     src="https://avatars2.githubusercontent.com/u/15348?v=3">
                   </a>
                 </div>
@@ -1455,7 +1475,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="https://vivekiitkgp.github.io">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Vivek Rai's pic"
                     src="https://avatars1.githubusercontent.com/u/3218617">
                   </a>
                 </div>
@@ -1475,7 +1495,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="https://github.com/alekhyam94">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Alekhya Munagala's pic"
                     src="https://avatars0.githubusercontent.com/u/11483707?v=3">
                   </a>
                 </div>
@@ -1494,7 +1514,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="https://github.com/IsmailM">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Ismail Moghul's pic"
                     src="https://avatars0.githubusercontent.com/u/5578375?v=3">
                   </a>
                 </div>
@@ -1512,7 +1532,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="https://github.com/terfn">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Filip Ter's pic"
                     src="https://avatars2.githubusercontent.com/u/6852065?v=3">
                   </a>
                 </div>
@@ -1530,7 +1550,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="https://github.com/xiy">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Mark Gibbin's pic"
                     src="https://avatars3.githubusercontent.com/u/19256?v=3">
                   </a>
                 </div>
@@ -1552,7 +1572,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="https://github.com/hkmoon">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="HongKee Moon's pic"
                     src="https://avatars2.githubusercontent.com/u/3864647?v=3">
                   </a>
                 </div>
@@ -1572,7 +1592,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="http://richardslab.exeter.ac.uk/person/guy-leonard/">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Guy Leonard's pic"
                     src="http://richardslab.exeter.ac.uk/wp-content/uploads/2014/06/cropped-2105117552435711941.jpeg">
                   </a>
                 </div>
@@ -1591,7 +1611,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="https://github.com/wolfgangrumpf">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Wolfgang Rumpf's pic"
                     src="https://avatars1.githubusercontent.com/u/1257828?v=3">
                   </a>
                 </div>
@@ -1611,7 +1631,7 @@ $ passenger-install-apache2-module
                   class="media-left">
                   <a
                     href="https://github.com/yannickwurm">
-                    <img width="60px" class="media-object"
+                    <img width="60" class="media-object" alt="Yannick Wurm's pic"
                     src="https://avatars1.githubusercontent.com/u/150113?v=3">
                   </a>
                 </div>
@@ -1639,11 +1659,7 @@ $ passenger-install-apache2-module
                 class="media">
                 <div
                   class="media-left">
-                  <a
-                    href="https://github.com/wolfgangrumpf">
-                    <img width="60px" class="media-object"
-                    src="">
-                  </a>
+                  <img width="60" class="media-object" src="">
                 </div>
                 <div
                   class="media-body">
