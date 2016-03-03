@@ -65,6 +65,12 @@ rake spec
 rake lint
 ```
 
+## Using Docker
+```bash
+# With database fasta files inside a folder named db
+docker run --rm -ti -p 4567:4567 -v $(pwd)/db:/db wurmlab/sequenceserver
+```
+
 ## Contact
 
 * Anurag Priyam (architect) - [email](mailto:anurag08priyam@gmail.com) | [@yeban](//twitter.com/yeban)
