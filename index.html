@@ -468,13 +468,24 @@ layout: page
         </h4>
       </div>
       <p>
-        Run <code>sudo gem install sequenceserver &amp;&amp; sequenceserver</code> in a
-        terminal to get and run the latest release of SequenceServer. It will
-        automatically guide you through an interactive setup process to locate
-        or download BLAST+ binaries, ask for the location of FASTA files (or
-        BLAST+ databases), and offer to create BLAST+ databases from FASTA
-        files.
+        Run the following in a terminal to install, configure and run the
+        latest release of SequenceServer. It will automatically guide you
+        through an interactive setup process to locate or download BLAST+
+        binaries, ask for the location of FASTA files (or BLAST+ databases),
+        and offer to create BLAST+ databases from FASTA files.
       </p>
+{% highlight shell %}
+# Install or update.
+sudo gem install sequenceserver
+
+# Configure and run.
+sequenceserver
+{% endhighlight %}
+      <p>
+        Alternatively, you can use SequenceServer with Docker by simply
+        specifying the location of your database directory.
+      </p>
+<pre>docker run --rm -itp 4567:4567 -v /path-to-database-dir:/db wurmlab/sequenceserver</pre>
       <p>
         That's it! Open
         <a
