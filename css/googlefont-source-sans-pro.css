@@ -1,0 +1,36 @@
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Source Sans Pro'),
+		local('SourceSansPro-Regular'),
+		/* from http://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlN0tugusXa58UbOrParLRF0.eot */
+		url('/fonts/Source_Sans_Pro_400.eot?#iefix') format('embedded-opentype'),
+		/* from http://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff */
+		url('/fonts/Source_Sans_Pro_400.woff') format('woff'),
+		/* from http://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlNV_2ngZ8dMf8fLgjYEouxg.woff2 */
+		url('/fonts/Source_Sans_Pro_400.woff2') format('woff2'),
+		/* from http://fonts.gstatic.com/l/font?kit=ODelI1aHBYDBqgeIAH2zlADX0QHsyBtvFGhCuXSMYhM&skey=1e026b1c27170b9b#SourceSansPro */
+		url('/fonts/Source_Sans_Pro_400.svg#SourceSansPro') format('svg'),
+		/* from http://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlNzbP97U9sKh0jjxbPbfOKg.ttf */
+		url('/fonts/Source_Sans_Pro_400.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 700;
+	src:
+		local('Source Sans Pro Bold'),
+		local('SourceSansPro-Bold'),
+		/* from http://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGFV89XnfCtb1fhQGOlhyqi8.eot */
+		url('/fonts/Source_Sans_Pro_700.eot?#iefix') format('embedded-opentype'),
+		/* from http://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff */
+		url('/fonts/Source_Sans_Pro_700.woff') format('woff'),
+		/* from http://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGEo0As1BFRXtCDhS66znb_k.woff2 */
+		url('/fonts/Source_Sans_Pro_700.woff2') format('woff2'),
+		/* from http://fonts.gstatic.com/l/font?kit=toadOcfmlt9b38dHJxOBGDoOxVUo1xdF11_PvoexWN4&skey=84e1cdfb74260b1d#SourceSansPro */
+		url('/fonts/Source_Sans_Pro_700.svg#SourceSansPro') format('svg'),
+		/* from http://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGLsbIrGiHa6JIepkyt5c0A0.ttf */
+		url('/fonts/Source_Sans_Pro_700.ttf') format('truetype');
+}

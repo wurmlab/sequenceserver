@@ -5,3 +5,4 @@ Gemfile.lock
 .rbx
 config.yml
 tmp
+_site
