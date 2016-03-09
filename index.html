@@ -10,6 +10,15 @@ layout: page
       <strong>
         2016-03
       </strong>
+      <a
+        href="/#quick-setup">
+      One-line setup with Docker
+      </a> - only need path to database sequences.
+    </p>
+    <p>
+      <strong>
+        2016-03
+      </strong>
       Expanded, updated, and improved
       <a
         href="http://www.sequenceserver.com/doc">
@@ -402,15 +411,15 @@ layout: page
       <div
         class="page-header"
         style="margin-bottom: 10px;">
-        <h2
-          id="requirements">
+        <h2>
           Installation &amp; configuration
         </h2>
       </div>
       <div
         class="page-header"
         style="margin-top: 20px;">
-        <h4>
+        <h4
+          id="requirements">
           Requirements
         </h4>
       </div>
@@ -463,7 +472,8 @@ layout: page
       <div
         class="page-header"
         style="padding-top: 10px; border-top: 1px solid #eee">
-        <h4>
+        <h4
+          id="quick-setup">
           Quick setup
         </h4>
       </div>
@@ -482,8 +492,11 @@ sudo gem install sequenceserver
 sequenceserver
 {% endhighlight %}
       <p>
-        Alternatively, you can use SequenceServer with Docker by simply
-        specifying the location of your database directory.
+        Alternatively, you can use SequenceServer with
+        <a
+          href="http://www.sequenceserver.com/doc">
+          Docker
+      </a> - only need to specify the location of your database directory.
       </p>
 <pre>docker run --rm -itp 4567:4567 -v /path-to-database-dir:/db wurmlab/sequenceserver</pre>
       <p>
