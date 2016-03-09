@@ -3,7 +3,7 @@ body {
   font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
   position: relative;
   text-align: justify;
-  padding-top: 50px;
+  padding-top: 70px;
 }
 section {
   padding-top: 50px;
@@ -24,16 +24,31 @@ pre {
 dl dd {
   padding-bottom: 10px;
 }
-.navbar-fixed-top {
+
+/**
+ * Top navigation bar: increase font size, add border, make place for subtext
+ * to app name.
+ */
+.navbar {
+  border-radius: 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 35px;
   background-color: white;
 }
 .navbar-brand {
-  font-size: 24px;
-  line-height: 14px;
+  height: auto;
+  padding: 20px 15px;
+  font-size: 32px;
+  color: rgb(51, 51, 51);
 }
-.navbar-brand small {
+.navbar-brand > small {
   font-size: 50%;
 }
+.navbar-nav > li > a {
+  padding: 24px 15px;
+  color: rgb(51, 51, 51);
+}
+
 .sidebar {
   padding-top: 10px;
 }
