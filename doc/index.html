@@ -542,7 +542,7 @@ Enter a database title or will use 'SI 2.2.3 ':
 
       <p>
         You can access methods defined in the <a
-          href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/BLAST/Hit"><code>Hit</code></a> calls within a link generator. Alignment coordinates are not defined on a hit, but on hsps. Calling <code>hsps</code> method (in link generator) will return an Array of <a href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/BLAST/HSP">HSP</a> objects for that Hit.
+          href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/BLAST/Hit"><code>Hit</code></a> class within a link generator. Alignment coordinates are not defined on a hit, but on hsps. Calling <code>hsps</code> method (in link generator) will return an Array of <a href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/BLAST/HSP">HSP</a> objects for that Hit.
       </p>
 
       <p>
@@ -679,7 +679,7 @@ SequenceServer.init :config_file => "/home/foo/.sequenceserver.conf"
 {% highlight shell %}
 #!/usr/bin/env sh
 
-ssh <host name> /path/to/blastn "$@"
+ssh "hostname" /path/to/blastn "$@"
 {% endhighlight %}
 
       <p>
@@ -691,7 +691,7 @@ ssh <host name> /path/to/blastn "$@"
 {% highlight shell %}
 #!/usr/bin/env sh
 
-job_id=<auto generate somehow>
+job_id="auto generate somehow"
 qsub -N $job_id /path/to/blastn "$@"
 qusb -hold_jid $job_id
 {% endhighlight %}
