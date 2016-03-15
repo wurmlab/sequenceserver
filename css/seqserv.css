@@ -62,11 +62,11 @@ dl dd {
 
 .sidebar {
   padding-top: 10px;
+  border-right: 1px solid #eee;
 }
 
 .main {
   padding: 0 20px 20px 20px;
-  border-left: 1px solid #eee;
 }
 
 .thumbnail {
