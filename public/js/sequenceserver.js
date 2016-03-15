@@ -768,14 +768,28 @@ $(document).ready(function(){
             $('.result').html(data).show();
 
             // affix sidebar
-            var $sidebar = $('.sidebar');
-            if ($sidebar.length !== 0) {
-                $sidebar.affix({
-                    offset: {
-                        top: $sidebar.offset().top
-                    }
-                })
-                .width($sidebar.width());
+            var affixSidebar = function () {
+              var $sidebar = $('.sidebar');
+              $sidebar.affix({
+                  offset: {
+                      top: $sidebar.offset().top
+                  }
+              });
+            };
+
+            if ($('.sidebar').length !== 0) {
+              if ($(window).width() > 992) {
+                affixSidebar();
+              } else {
+                var affixed = false;
+                var debounced_affix = _.debounce(function () {
+                  if ($(window).width() > 992 && affixed === false) {
+                    affixSidebar();
+                    affixed = true;
+                  }
+                }, 125);
+                $(window).resize(debounced_affix);
+              }
             }
 
             //jump to the results

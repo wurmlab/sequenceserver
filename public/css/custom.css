@@ -487,3 +487,17 @@ svg:not(:root) {
   border-radius: 0;
   background-color: inherit;
 }
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+  .sidebar.affix {
+    width: 243.5px;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .sidebar.affix {
+    width: 292.5px;
+  }
+}
