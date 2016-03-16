@@ -1362,14 +1362,11 @@ var Report = React.createClass({
      */
     affixSidebar: function () {
         var $sidebar = $('.sidebar');
-        if ($sidebar.length !== 0) {
-            $sidebar.affix({
-                offset: {
-                    top: $sidebar.offset().top
-                }
-            })
-            .width($sidebar.width());
-        }
+        $sidebar.affix({
+            offset: {
+                top: $sidebar.offset().top
+            }
+        });
     },
 
     /**

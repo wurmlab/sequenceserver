@@ -332,6 +332,9 @@ input[name="advanced"] {
   border-bottom: 0;
 }
 
+/**********************
+        Sidebar
+ **********************/
 .sidebar > .page-header > h4 {
   padding: 10px 0 0 0;
   font-size: 14px;
@@ -339,6 +342,18 @@ input[name="advanced"] {
 
 .sidebar.affix {
   top: 0;
+}
+@media (min-width: 992px) {
+  /* MacBook Pro etc. */
+  .sidebar.affix {
+    width: 243.5px;
+  }
+}
+@media (min-width: 1200px) {
+  /* iMac etc. */
+  .sidebar.affix {
+    width: 292.5px;
+  }
 }
 
 .index {
