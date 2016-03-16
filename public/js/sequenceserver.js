@@ -768,15 +768,19 @@ $(document).ready(function(){
             $('.result').html(data).show();
 
             // affix sidebar
-            var $sidebar = $('.sidebar');
-            if ($sidebar.length !== 0) {
-                $sidebar.affix({
-                    offset: {
-                        top: $sidebar.offset().top
-                    }
-                })
-                .width($sidebar.width());
+            var $sidebar = $('.sidebar'), affixed = false;
+            var affixSidebar = function () {
+                if ($sidebar.is(':visible') && !affixed) {
+                    $sidebar.affix({
+                        offset: {
+                            top: $sidebar.offset().top
+                        }
+                    });
+                    affixed = true;
+                }
             }
+            affixSidebar();
+            $(window).resize(_.debounce(affixSidebar, 125));
 
             //jump to the results
             location.hash = hash;
