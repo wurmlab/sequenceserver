@@ -4,7 +4,7 @@ require 'capybara-webkit'
 
 describe 'a browser', :js => true do
   sequence = 'ATCGATCAGCTACGATCAGCATCGACTAGCATCGACTACGA'
-  sample_nucl_db = 'Sinvicta2-2-3.cdna.subset.fasta'
+  sample_nucl_db = 'Sinvicta 2-2-3 cdna subset'
   # sample_prot_db = 'Sinvicta2-2-3.prot'
 
   before(:all) do
