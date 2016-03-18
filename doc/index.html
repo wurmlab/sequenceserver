@@ -626,7 +626,7 @@ Enter a database title or will use 'SI 2.2.3 ':
         available when server restarts.
       </p>
       <p>
-        To setup SequenceServer with Apache, first install Phusion Passenger™ by following the <a href="https://www.phusionpassenger.com/library/install/apache/install/oss/">instructions at their website</a>. Then configure Apache to load SequenceServer by following their guide on <a href="https://www.phusionpassenger.com/library/deploy/apache/deploy/ruby/">deploying a Ruby applicaion</a>, replacing <code>/path-to-your-app</code> with SequenceServer's installation directory. Go to the directory where SequenceServer is installed and delete <code>Gemfile</code> and edit <code>config.ru</code> to indicate absolute path to SequenceServer's config file and <code>DOTDIR</code> which are respectively <code>~/.sequenceserver.conf</code> and <code>~/.sequenceserver</code> by default:
+        To setup SequenceServer with Apache, first install Phusion Passenger™ by following the <a href="https://www.phusionpassenger.com/library/install/apache/install/oss/">instructions at their website</a>. Then configure Apache to load SequenceServer by following their guide on <a href="https://www.phusionpassenger.com/library/deploy/apache/deploy/ruby/">deploying a Ruby applicaion</a>, replacing <code>/path-to-your-app</code> with SequenceServer's installation directory. Finally, go to the directory where SequenceServer is installed and edit <code>config.ru</code> to indicate absolute path to SequenceServer's config file and <code>DOTDIR</code> which are respectively <code>~/.sequenceserver.conf</code> and <code>~/.sequenceserver</code> by default:
       </p>
 {% highlight ruby %}
 # Remove this line.
@@ -636,6 +636,10 @@ SequenceServer.init
 SequenceServer::DOTDIR = "/home/foo/.sequenceserver"
 SequenceServer.init :config_file => "/home/foo/.sequenceserver.conf"
 {% endhighlight %}
+
+      <p>
+        For SequenceServer 1.0.7 and earlier, you will additionally need to delete <code>Gemfile</code> from SequenceServer's installation directory.
+      </p>
 
       <p>
         If JS, CSS, and icons don't load, it is not SequenceServer's fault. See <a href="https://groups.google.com/forum/#!topic/sequenceserver/NIfKTNm1om4">this thread</a> for a fix. Further, because BLAST searches can take time, you may additionally want to configure <a href="https://httpd.apache.org/docs/2.4/mod/core.html#timeout"><code>Timeout</code></a> in your Apache config to a suitable value (e.g., 5 minutes) so that the Apache doesn't close the connection before a BLAST search has been performed.
