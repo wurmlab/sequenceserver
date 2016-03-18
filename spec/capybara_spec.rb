@@ -20,6 +20,8 @@ describe 'a browser', :js => true do
     fill_in('sequence', :with => sequence)
     check(sample_nucl_db)
     click_button('method')
+    # switch to new window because link opens in new window
+    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
     page.should have_content('Query')
   end
 
