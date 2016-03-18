@@ -102,7 +102,7 @@ module SequenceServer
     it 'has a list of databases after startup' do
       SequenceServer.init(config.update :database_dir => database_dir)
       Database.all.should_not be_empty
-      Database.all.length.should == 4
+      Database.all.length.should == 6
     end
   end
 end
