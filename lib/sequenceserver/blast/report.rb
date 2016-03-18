@@ -87,7 +87,8 @@ module SequenceServer
       def extract_params(ir)
         params = Hash[
           *ir[7].first.map { |k, v| [k.gsub('Parameters_', ''), v] }.flatten
-        ].merge(job.advanced_params)
+        ]
+        params = params.merge(job.advanced_params) unless job.advanced_params.nil?
         @params = Hash['e value', params.delete('expect')].merge!(params)
       end
 
