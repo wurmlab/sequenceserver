@@ -20,7 +20,7 @@ table, blockquote {
 hr {
   margin-top: 0;
 }
-j
+
 code {
   color: inherit;
 }
@@ -33,9 +33,14 @@ dl dd {
   padding-bottom: 10px;
 }
 
+.thumbnail {
+  margin-bottom: 5px;
+}
+
 /**
- * Top navigation bar: increase font size, add border, make place for subtext
- * to app name.
+ * Top navigation bar.
+ *
+ * Increase font size, add border, make place for subtext.
  */
 .navbar {
   border-radius: 0;
@@ -60,19 +65,29 @@ dl dd {
   color: rgb(51, 51, 51);
 }
 
+/**
+ * Sidebar.
+ */
 .sidebar {
   padding-top: 10px;
   border-right: 1px solid #eee;
 }
+@media (min-width: 992px) {
+  /* MacBook Pro etc. */
+  .sidebar nav.affix {
+    width: 211.5px; /* 0.25 * 970 - 30 - 1 */
+  }
+}
+@media (min-width: 1200px) {
+  /* iMac etc. */
+  .sidebar nav.affix {
+    width: 261.5px; /* 0.25 * 1170 - 30 - 1 */
+  }
+}
+.sidebar nav.affix-bottom {
+  position: relative;
+}
 
 .main {
   padding: 0 20px 20px 20px;
-}
-
-.thumbnail {
-  margin-bottom: 5px;
-}
-
-.sidebar nav.affix-bottom {
-  position: relative;
 }
