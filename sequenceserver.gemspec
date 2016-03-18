@@ -31,7 +31,7 @@ DESC
                                '~> 0.4', '>= 0.4.7')
 
   # gem
-  s.files         = `git ls-files`.split("\n")
+  s.files         = `git ls-files`.split("\n") - ['Gemfile', 'Gemfile.lock']
   s.executables   = ['sequenceserver']
   s.require_paths = ['lib']
 
