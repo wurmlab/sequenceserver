@@ -33,6 +33,11 @@ dl dd {
   padding-bottom: 10px;
 }
 
+a {
+/*  color: #1a0dab;*/
+  color: #0D47A1
+}
+
 .thumbnail {
   margin-bottom: 5px;
 }
