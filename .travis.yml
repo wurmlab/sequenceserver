@@ -18,8 +18,8 @@ addons:
 
 branches:
   only:
-    - 1.0.x   # stable
-    #- master (temporarily disabled)
+    - 1.0.x  # stable
+    - master
 
 install:
   - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.30/ncbi-blast-2.2.30+-x64-linux.tar.gz"
