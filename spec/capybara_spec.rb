@@ -11,7 +11,7 @@ describe 'a browser', :js => true do
     Capybara.javascript_driver = :webkit
     Capybara.default_wait_time = 5
 
-    options = { :database_dir => SequenceServer.root }
+    options = { :database_dir => File.join(SequenceServer.root, 'spec/database/sample/transcripts/Solenopsis_invicta') }
     Capybara.app = SequenceServer.init(options)
   end
 
