@@ -80,7 +80,7 @@ module SequenceServer
     # Currently using all 17 HSP parameters in BLAST Report + 1 to refer to the
     # hit object it belongs to.
     it 'have all the necessary values' do
-      hits_report.queries.last.hits.first.hsps.last.count.should eql(18)
+      hits_report.queries.last.hits.first.hsps.last.count.should eql(19)
     end
 
     # Test Random HSPs to ensure that all the values from HSP struct are valid.

@@ -83,21 +83,24 @@ module SequenceServer
       last_response.status.should == 400
     end
 
-    it 'returns OK (200) when correct method, sequence, and database ids are'\
+    it 'redirects to /:jobid (302) when correct method, sequence, and database ids are'\
        'provided but no advanced params' do
       post '/', @params
-      last_response.status.should eq 200
+      last_response.should be_redirect
+      last_response.status.should eq 302
 
       @params['advanced'] = '  '
       post '/', @params
-      last_response.status.should == 200
+      last_response.should be_redirect
+      last_response.status.should == 302
     end
 
-    it 'returns OK (200) when correct method, sequence, and database ids and'\
+    it 'redirects to /jobid (302) when correct method, sequence, and database ids and'\
        'advanced params are provided' do
       @params['advanced'] = '-evalue 1'
       post '/', @params
-      last_response.status.should == 200
+      last_response.should be_redirect
+      last_response.status.should == 302
     end
   end
 end

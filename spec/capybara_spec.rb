@@ -4,14 +4,14 @@ require 'capybara-webkit'
 
 describe 'a browser', :js => true do
   sequence = 'ATCGATCAGCTACGATCAGCATCGACTAGCATCGACTACGA'
-  sample_nucl_db = 'Sinvicta2-2-3.cdna.subset.fasta'
+  sample_nucl_db = 'Sinvicta 2-2-3 cdna subset'
   # sample_prot_db = 'Sinvicta2-2-3.prot'
 
   before(:all) do
     Capybara.javascript_driver = :webkit
     Capybara.default_wait_time = 5
 
-    options = { :database_dir => SequenceServer.root }
+    options = { :database_dir => File.join(SequenceServer.root, 'spec/database/sample/') }
     Capybara.app = SequenceServer.init(options)
   end
 
@@ -20,6 +20,8 @@ describe 'a browser', :js => true do
     fill_in('sequence', :with => sequence)
     check(sample_nucl_db)
     click_button('method')
+    # switch to new window because link opens in new window
+    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
     page.should have_content('Query')
   end
 
