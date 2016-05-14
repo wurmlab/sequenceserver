@@ -45,7 +45,6 @@ module SequenceServer
       def generate
         xml = Formatter.run(job.rfile, 'xml').file
         tsv = parse_tsv File.read(Formatter.run(job.rfile, '__ssparse').file)
-        # ir = node_to_array(Ox.parse(xml.open.read).root)
         ir = node_to_array(Ox.parse(File.read(xml)).root)
         extract_program_info ir
         extract_params ir
