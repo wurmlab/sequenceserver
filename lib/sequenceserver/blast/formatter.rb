@@ -24,7 +24,8 @@ module SequenceServer
       attr_reader :format, :mime, :specifiers
 
       def file
-        @file ||= Tempfile.new filename
+        # @file ||= Tempfile.new filename
+        @file = File.join(File.dirname(archive_file), filename)
       end
 
       def filename
@@ -38,11 +39,15 @@ module SequenceServer
         command =
           "blast_formatter -archive '#{archive_file}'" \
           " -outfmt '#{format} #{specifiers}'" \
-          " -out '#{file.path}' 2> /dev/null"
-        logger.debug("Executing: #{command}")
-        Dir.chdir(File.exist?(DOTDIR) && DOTDIR || Dir.pwd) do
-          system(command)
-        end
+          " -out '#{file}' 2> /dev/null"
+          if File.exist?(file)
+            logger.debug("File exist: #{file}")
+          else
+            logger.debug("Executing: #{command}")
+            Dir.chdir(File.exist?(DOTDIR) && DOTDIR || Dir.pwd) do
+              system(command)
+            end
+          end
       end
 
       def validate

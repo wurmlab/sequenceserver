@@ -120,7 +120,7 @@ module SequenceServer
     get '/download/:jid.:type' do |jid, type|
       job = Job.fetch(jid)
       out = BLAST::Formatter.new(job.rfile, type)
-      send_file out.file.path, :filename => out.filename, :type => out.mime
+      send_file out.file, :filename => out.filename, :type => out.mime
     end
 
     # This error block will only ever be hit if the user gives us a funny
