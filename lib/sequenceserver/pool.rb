@@ -38,7 +38,7 @@ class Pool
     end
   end
 
-  def schedule(*args, &block)
+  def queue(*args, &block)
     @jobs << [block, args]
   end
 
