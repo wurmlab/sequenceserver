@@ -42,7 +42,7 @@ module SequenceServer
 
       # Queues given job on the thread pool. Returns job.
       def queue(job)
-        SequenceServer.pool.schedule { job.run }
+        SequenceServer.pool.queue { job.run }
         job
       end
     end
