@@ -35,18 +35,15 @@ module SequenceServer
       private
 
       def run
-          if File.exist?(file)
-            logger.debug("File exist: #{file}")
-          else
-            command =
-              "blast_formatter -archive '#{archive_file}'" \
-              " -outfmt '#{format} #{specifiers}'" \
-              " -out '#{file}' 2> /dev/null"
-            logger.debug("Executing: #{command}")
-            Dir.chdir(File.exist?(DOTDIR) && DOTDIR || Dir.pwd) do
-              system(command)
-            end
-          end
+        return if File.exist?(file)
+        command =
+          "blast_formatter -archive '#{archive_file}'" \
+          " -outfmt '#{format} #{specifiers}'" \
+          " -out '#{file}' 2> /dev/null"
+        logger.debug("Executing: #{command}")
+        Dir.chdir(File.exist?(DOTDIR) && DOTDIR || Dir.pwd) do
+          system(command)
+        end
       end
 
       def validate
