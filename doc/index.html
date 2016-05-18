@@ -19,6 +19,13 @@ layout: page
         <li
           role="presentation">
           <a
+            href="#installation-directory">
+            Where is SequenceServer installed?
+          </a>
+        </li>
+        <li
+          role="presentation">
+          <a
             href="#basics">
             Basics of configuring SequenceServer
           </a>
@@ -32,7 +39,7 @@ layout: page
         <li
           role="presentation">
           <a href="#ncbi-databases">
-            NCBI BLAST databases
+            Using BLAST databases from NCBI
           </a>
         </li>
         <li
@@ -166,6 +173,31 @@ layout: page
 
         NCBI's BLAST+ is actively developed and is the only one supported
         by SequenceServer.
+      </p>
+    </section>
+
+    <!-- Installation directory -->
+    <section
+      id="installation-directory">
+      <div
+        class="page-header"
+        style="margin-top: 20px;">
+        <h2>
+          Where is SequenceServer installed?
+        </h2>
+      </div>
+      <p>
+        This varies from computer to computer. Run the following command in a
+        terminal to find out:
+      </p>
+
+{% highlight shell %}
+echo "$(ruby -e 'puts Gem.path[0]')/gems/sequenceserver-1.0.8"
+{%  endhighlight  %}
+
+      <p>
+        You may need to change <code>1.0.8</code> in the above command to
+        reflect the version of SequenceServer you are running.
       </p>
     </section>
 
@@ -425,16 +457,23 @@ sequenceserver -s -b /path/to/latest/blast/binaries
 
 <pre>sequenceserver -m -d /path/to/directory_with_fasta_files
 sequenceserver -m -c /path/to/config_file_containing_database_dir</pre>
+
+      <p>
+        <a href="https://github.com/ar0ch">Aroon Chande</a> has put together a
+        <a href="https://gist.github.com/ar0ch/2efb5d86ed3b7165443326cec52f2637">
+          script</a> to automatically create BLASTDBs and restart
+        SequenceServer when a FASTA file is added to database directory.
+      </p>
     </section>
 
-    <!-- NCBI BLAST databases -->
+    <!-- Using BLAST databases from NCBI -->
     <section
       id="ncbi-databases">
       <div
         class="page-header"
         style="margin-top: 20px;">
         <h2>
-          NCBI BLAST databases
+          Using BLAST databases from NCBI
         </h2>
       </div>
       <p>
