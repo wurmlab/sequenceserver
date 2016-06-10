@@ -63,6 +63,13 @@ layout: page
         </li>
         <li
           role="presentation">
+          <a
+            href="#launchd">
+            Autostart on Mac OSX
+          </a>
+        </li>
+        <li
+          role="presentation">
           <a href="#apache">
             Integrating with Apache
           </a>
@@ -604,6 +611,51 @@ sudo initctl start sequenceserver
         Check <code>/var/log/sequenceserver.log</code> or
         <code>/var/log/system.log</code> if it failed.
       </p>
+    </section>
+
+    <!-- Autostart on Mac OSX ============================================== -->
+    <section
+      id="launchd">
+      <div
+        class="page-header"
+        style="margin-top: 20px;">
+        <h2>
+          Autostart on Mac OSX
+        </h2>
+      </div>
+      <p>
+        To start SequenceServer at login create a file
+        <code>~/Library/LaunchAgents/sequenceserver.plist</code> with the
+        following contents.
+      </p>
+
+{% highlight xml %}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>KeepAlive</key>
+  <true/>
+  <key>Label</key>
+  <string>sequenceserver</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/sequenceserver</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+</dict>
+</plist>
+{%  endhighlight  %}
+
+      <p>
+        Stop any SequenceServer instance you might be running and check the
+        above works by running the following command:
+      </p>
+{% highlight shell %}
+launchctl load ~/Library/LaunchAgents/sequenceserver
+{%  endhighlight  %}
     </section>
 
     <!-- Apache -->
