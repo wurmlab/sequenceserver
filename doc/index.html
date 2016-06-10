@@ -57,14 +57,14 @@ layout: page
         <li
           role="presentation">
           <a
-            href="#upstart">
-            Autostart with Upstart
+            href="#ubuntu">
+            Autostart on Ubuntu / Bio Linux
           </a>
         </li>
         <li
           role="presentation">
           <a
-            href="#launchd">
+            href="#macosx">
             Autostart on Mac OSX
           </a>
         </li>
@@ -566,56 +566,51 @@ Enter a database title or will use 'SI 2.2.3 ':
         </p>
     </section>
 
-    <!-- Autostart with Upstart ============================================ -->
+    <!-- Autostart on Ubuntu / Bio Linux =================================== -->
     <section
-      id="upstart">
+      id="ubuntu">
       <div
         class="page-header"
         style="margin-top: 20px;">
         <h2>
-          Autostart with Upstart
+          Autostart on Ubuntu / Bio Linux
         </h2>
       </div>
       <p>
-        To autostart SequenceServer on system startup on Ubuntu or Bio Linux.
-      </p>
-      <p>
-        Create a file <code>/etc/init/sequenceserver.conf</code> with the
-        following contents, changing <code>author</code> and
+        Create file <code>/etc/init/sequenceserver.conf</code> with the
+        following content, changing <code>author</code> and
         <code>setuid</code> lines to your name and username:
       </p>
 
 {% highlight shell %}
-description "Upstart script for SequenceServer"
-author "Anurag Priyam"
+description "Upstart config for SequenceServer"
+author "<full name>"
 
 start on filesystem
 stop on shutdown
 
-setuid priyam
+setuid <username>
 
-script
-  exec sequenceserver >> /var/log/sequenceserver.log 2>&1
-end script
-{%  endhighlight  %}
+exec sequenceserver
+{% endhighlight %}
 
       <p>
         Stop any SequenceServer instance you might be running and check the
-        above Upstart config works by running the following command:
+        above works by running the following command:
       </p>
 {% highlight shell %}
-sudo initctl start sequenceserver
-{%  endhighlight  %}
+sudo start sequenceserver
+{% endhighlight %}
 
       <p>
-        Check <code>/var/log/sequenceserver.log</code> or
-        <code>/var/log/system.log</code> if it failed.
+        See <a href="http://upstart.ubuntu.com/cookbook/">Upstart Cookbook</a>
+        for more options and debugging if it fails.
       </p>
     </section>
 
     <!-- Autostart on Mac OSX ============================================== -->
     <section
-      id="launchd">
+      id="macosx">
       <div
         class="page-header"
         style="margin-top: 20px;">
@@ -624,13 +619,11 @@ sudo initctl start sequenceserver
         </h2>
       </div>
       <p>
-        To start SequenceServer at login create a file
-        <code>~/Library/LaunchAgents/sequenceserver.plist</code> with the
-        following contents.
+        Create file <code>~/Library/LaunchAgents/sequenceserver.plist</code>
+        with the following content:
       </p>
 
 {% highlight xml %}
-
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -647,7 +640,7 @@ sudo initctl start sequenceserver
   <true/>
 </dict>
 </plist>
-{%  endhighlight  %}
+{% endhighlight %}
 
       <p>
         Stop any SequenceServer instance you might be running and check the
