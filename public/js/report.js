@@ -1161,7 +1161,7 @@ var Report = React.createClass({
      * Fetch results.
      */
     fetch_results: function () {
-        $.getJSON(location.href + '.json')
+        $.getJSON(location.pathname + '.json')
         .complete(_.bind(function (jqXHR) {
             switch (jqXHR.status) {
             case 202:
