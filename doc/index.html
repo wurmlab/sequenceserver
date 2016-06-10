@@ -56,15 +56,16 @@ layout: page
         </li>
         <li
           role="presentation">
-          <a href="#debugging">
-            Debugging SequenceServer
+          <a
+            href="#sharing">
+            Sharing with colleagues
           </a>
         </li>
         <li
           role="presentation">
           <a
-            href="#sharing">
-            Sharing with colleagues
+            href="#upstart">
+            Integrating with Upstart
           </a>
         </li>
         <li
@@ -83,6 +84,12 @@ layout: page
           role="presentation">
           <a href="#hpc">
             HPC integration
+          </a>
+        </li>
+        <li
+          role="presentation">
+          <a href="#debugging">
+            Debugging SequenceServer
           </a>
         </li>
         <li
@@ -599,29 +606,6 @@ Enter a database title or will use 'SI 2.2.3 ':
       </p>
     </section>
 
-    <!-- Debugging ====================================================== -->
-    <section
-      id="debugging">
-      <div
-        class="page-header">
-        <h2>
-          Debugging SequenceServer
-        </h2>
-      </div>
-      <p>
-        If you are making custom modifications to SequenceServer, following
-        tips may come handy:
-      </p>
-
-      <p>
-        SequenceServer's development mode, activated as <code> sequenceserver
-          -D</code> enables verbose logging and loads unbuilt assets (JS and
-        CSS). SequenceServer's interactive command-line mode, activated as
-        <code> sequenceserver -i</code> lets you access all server-side objects
-        and methods, call them and inspect their output in Ruby.
-      </p>
-    </section>
-
     <!-- Sharing -->
     <section
       id="sharing">
@@ -651,6 +635,53 @@ Enter a database title or will use 'SI 2.2.3 ':
           by setting <code>:host:</code> key in config file to
           <code>127.0.0.1</code>: <code>sequenceserver -s -H 127.0.0.1</code>
         </p>
+    </section>
+
+    <!-- Integrating with upstart ========================================== -->
+    <section
+      id="upstart">
+      <div
+        class="page-header"
+        style="margin-top: 20px;">
+        <h2>
+          Integrating with Upstart
+        </h2>
+      </div>
+      <p>
+        To autostart SequenceServer on system startup on Ubuntu or Bio Linux.
+      </p>
+      <p>
+        Create a file <code>/etc/init/sequenceserver.conf</code> with the
+        following contents, changing <code>author</code> and
+        <code>setuid</code> lines to your name and username:
+      </p>
+
+{% highlight shell %}
+description "Upstart script for SequenceServer"
+author "Anurag Priyam"
+
+start on filesystem
+stop on shutdown
+
+setuid priyam
+
+script
+  exec sequenceserver >> /var/log/sequenceserver.log 2>&1
+end script
+{%  endhighlight  %}
+
+      <p>
+        Stop any SequenceServer instance you might be running and check the
+        above Upstart config works by running the following command:
+      </p>
+{% highlight shell %}
+sudo initctl start sequenceserver
+{%  endhighlight  %}
+
+      <p>
+        Check <code>/var/log/sequenceserver.log</code> or
+        <code>/var/log/system.log</code> if it failed.
+      </p>
     </section>
 
     <!-- Apache -->
@@ -786,6 +817,30 @@ qusb -hold_jid $job_id
       </p>
     </section>
 
+    <!-- Debugging ========================================================= -->
+    <section
+      id="debugging">
+      <div
+        class="page-header">
+        <h2>
+          Debugging SequenceServer
+        </h2>
+      </div>
+      <p>
+        If you are making custom modifications to SequenceServer, following
+        tips may come handy:
+      </p>
+
+      <p>
+        SequenceServer's development mode, activated as <code> sequenceserver
+          -D</code> enables verbose logging and loads unbuilt assets (JS and
+        CSS). SequenceServer's interactive command-line mode, activated as
+        <code> sequenceserver -i</code> lets you access all server-side objects
+        and methods, call them and inspect their output in Ruby.
+      </p>
+    </section>
+
+    <!-- Known issues and limitations ====================================== -->
     <section
       id="issues">
       <div
