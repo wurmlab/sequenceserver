@@ -12,13 +12,6 @@ layout: page
         <li
           role="presentation">
           <a
-            href="#blast">
-            Understanding BLAST
-          </a>
-        </li>
-        <li
-          role="presentation">
-          <a
             href="#installation-directory">
             Where is SequenceServer installed?
           </a>
@@ -98,90 +91,19 @@ layout: page
             Known issues and limitations
           </a>
         </li>
+        <li
+          role="presentation">
+          <a
+            href="#blast">
+            Understanding BLAST
+          </a>
+        </li>
       </ul>
     </nav> <!-- index -->
   </div> <!-- sidebar -->
 
   <div
     class="main col-md-9">
-
-    <!-- Understanding BLAST -->
-    <section
-      id="blast">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
-        <h2>
-          Understanding BLAST
-        </h2>
-      </div>
-      <!--<dt>-->
-        <!--Q. How does BLAST identify similar regions? Why don't the-->
-        <!--ends match? What is the bitscore? What is the e-value that BLAST-->
-        <!--returns? What do these numbers mean?-->
-        <!--</dt>-->
-      <!--<dd>-->
-        <!--Many detailed explanations exist egarding such questions, including-->
-        <!--<a-->
-          <!--href="http://www.ncbi.nlm.nih.gov/books/NBK21097/">-->
-          <!--at NCBI-->
-          <!--</a>-->
-        <!--and in the original BLAST articles. Here's our executive-->
-        <!--summary:-->
-        <!--<blockquote>-->
-      <p>
-        BLAST is a heuristic, i.e., it is fast and approximate instead of
-        being slow and perfect. It starts by looking for a minimal 100%
-        match (e.g., 11 consecutive nucleotides with 100% identity between
-        your query and the database sequence). If it finds none its over.
-        If it does find a match, it extends that in both directions:
-        identical (or similar) bases add points; differences are negative
-        points. If too many points are lost, it stops aligning. BLAST
-        might not stop at the exact best place, alignment ends might be
-        wrong.
-        <a
-          href="http://www.ncbi.nlm.nih.gov/books/NBK21106/def-item/app8/">
-          bitscore
-        </a>
-        is the total number of points for the aligning region. The bigger
-        it is, the stronger the alignment. But the bitscore doesn't take
-        into account sequence length nor database size. The E-value does
-        take these into account. It is better to look at E-values than
-        bitscores. The <strong>E-value</strong> represents the number of
-        times the observed alignment would be expected to occur by chance
-        (it is not a p-value!); <strong>depends on the bitscore, the length
-          of the query sequence, and the cumulative length of all sequences
-          in the database</strong>. It is easier to talk about
-        <em>strong</em> E-values (e.g. 1e-100 = 10<sup>-100</sup> = almost
-        zero; impossible to obtain by chance) vs <em>weak</em> E-values
-        (e.g 0.1;  for similarity that may be due to chance) than small vs
-        large (which is always a bit confusing).
-      </p>
-
-      <p>
-        <a
-          href="publications/ncbiBlast.pdf">
-          BLAST
-        </a>
-        has been rewritten several times - most recently by NCBI as BLAST+.
-        NCBI now use and recommend using BLAST+.
-        <a
-          href="publications/blastplus.pdf">
-          The BLAST+ publication
-        </a>
-        explains why BLAST+ is easier to use and faster than the old
-        <em>legacy</em> BLAST. WU-BLAST is now commerical and called
-        <a
-          href="http://blast.advbiocomp.com/">
-          AB-BLAST</a>.
-        There is probably no good reason to use either alternative. Note
-        that the output formats change slightly from one BLAST
-        implementation to the next.
-
-        NCBI's BLAST+ is actively developed and is the only one supported
-        by SequenceServer.
-      </p>
-    </section>
 
     <!-- Installation directory -->
     <section
@@ -873,6 +795,84 @@ qusb -hold_jid $job_id
           (i.e. you just need to backspace it).
         </li>
       </ol>
+    </section>
+
+    <!-- Understanding BLAST =============================================== -->
+    <section
+      id="blast">
+      <div
+        class="page-header"
+        style="margin-top: 20px;">
+        <h2>
+          Understanding BLAST
+        </h2>
+      </div>
+      <!--<dt>-->
+        <!--Q. How does BLAST identify similar regions? Why don't the-->
+        <!--ends match? What is the bitscore? What is the e-value that BLAST-->
+        <!--returns? What do these numbers mean?-->
+        <!--</dt>-->
+      <!--<dd>-->
+        <!--Many detailed explanations exist egarding such questions, including-->
+        <!--<a-->
+          <!--href="http://www.ncbi.nlm.nih.gov/books/NBK21097/">-->
+          <!--at NCBI-->
+          <!--</a>-->
+        <!--and in the original BLAST articles. Here's our executive-->
+        <!--summary:-->
+        <!--<blockquote>-->
+      <p>
+        BLAST is a heuristic, i.e., it is fast and approximate instead of
+        being slow and perfect. It starts by looking for a minimal 100%
+        match (e.g., 11 consecutive nucleotides with 100% identity between
+        your query and the database sequence). If it finds none its over.
+        If it does find a match, it extends that in both directions:
+        identical (or similar) bases add points; differences are negative
+        points. If too many points are lost, it stops aligning. BLAST
+        might not stop at the exact best place, alignment ends might be
+        wrong.
+        <a
+          href="http://www.ncbi.nlm.nih.gov/books/NBK21106/def-item/app8/">
+          bitscore
+        </a>
+        is the total number of points for the aligning region. The bigger
+        it is, the stronger the alignment. But the bitscore doesn't take
+        into account sequence length nor database size. The E-value does
+        take these into account. It is better to look at E-values than
+        bitscores. The <strong>E-value</strong> represents the number of
+        times the observed alignment would be expected to occur by chance
+        (it is not a p-value!); <strong>depends on the bitscore, the length
+          of the query sequence, and the cumulative length of all sequences
+          in the database</strong>. It is easier to talk about
+        <em>strong</em> E-values (e.g. 1e-100 = 10<sup>-100</sup> = almost
+        zero; impossible to obtain by chance) vs <em>weak</em> E-values
+        (e.g 0.1;  for similarity that may be due to chance) than small vs
+        large (which is always a bit confusing).
+      </p>
+
+      <p>
+        <a
+          href="publications/ncbiBlast.pdf">
+          BLAST
+        </a>
+        has been rewritten several times - most recently by NCBI as BLAST+.
+        NCBI now use and recommend using BLAST+.
+        <a
+          href="publications/blastplus.pdf">
+          The BLAST+ publication
+        </a>
+        explains why BLAST+ is easier to use and faster than the old
+        <em>legacy</em> BLAST. WU-BLAST is now commerical and called
+        <a
+          href="http://blast.advbiocomp.com/">
+          AB-BLAST</a>.
+        There is probably no good reason to use either alternative. Note
+        that the output formats change slightly from one BLAST
+        implementation to the next.
+
+        NCBI's BLAST+ is actively developed and is the only one supported
+        by SequenceServer.
+      </p>
     </section>
 
   </div> <!-- main -->
