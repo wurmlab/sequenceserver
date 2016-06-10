@@ -24,7 +24,11 @@ module SequenceServer
       attr_reader :format, :mime, :specifiers
 
       def file
-        @file ||= Tempfile.new filename
+        @file ||= File.join(File.dirname(archive_file), filename)
+      end
+
+      def efile
+        @efile ||= Tempfile.new('efile')
       end
 
       def filename
@@ -35,14 +39,25 @@ module SequenceServer
       private
 
       def run
+        return if File.exist?(file)
         command =
           "blast_formatter -archive '#{archive_file}'" \
           " -outfmt '#{format} #{specifiers}'" \
-          " -out '#{file.path}' 2> /dev/null"
+          " -out '#{file}' 2> '#{efile.path}'"
         logger.debug("Executing: #{command}")
         Dir.chdir(File.exist?(DOTDIR) && DOTDIR || Dir.pwd) do
           system(command)
+          error_check($CHILD_STATUS.exitstatus)
         end
+      end
+
+      def error_check(status)
+        err = "
+        Error in report generation. Maybe it's because sequence_ids are
+        not unique across the database. See -
+        https://groups.google.com/d/msg/sequenceserver/QbE11EMQoEo/nAcCOmlsSjwJ
+        Also the STDERR file: #{File.read(efile.path)}"
+        fail ArgumentError, err unless status == 0 || File.exist?(efile) && !File.zero?(efile)
       end
 
       def validate

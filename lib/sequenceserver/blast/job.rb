@@ -1,9 +1,6 @@
 require 'sequenceserver/pool'
 require 'sequenceserver/job'
 
-require_relative 'exceptions'
-require_relative 'constants'
-
 module SequenceServer
 
   # BLAST module.
@@ -47,38 +44,9 @@ module SequenceServer
         logger.debug("Executing: #{command}")
 
         system("#{command} > #{rfile} 2> #{efile}")
-        done!
-
-        # Capture error.
         status = $CHILD_STATUS.exitstatus
-        case status
-        when 1 # error in query sequence or options; see [1]
-          efile.open
-
-          # Most of the time BLAST+ generates a verbose error message with
-          # details we don't require.  So we parse out the relevant lines.
-          error = efile.each_line do |l|
-            break Regexp.last_match[1] if l.match(ERROR_LINE)
-          end
-
-          # But sometimes BLAST+ returns the exact/ relevant error message.
-          # Trying to parse such messages returns nil, and we use the error
-          # message from BLAST+ as it is.
-          error = efile.rewind && efile.read unless error.is_a? String
-
-          efile.close
-          fail ArgumentError, error
-        when 2, 3, 4, 255 # see [1]
-          efile.open
-          error = efile.read
-          efile.close
-          fail RuntimeError.new(status, error)
-        end
-
-        success!
+        done!(status)
       end
-      # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/MethodLength
 
       def rfile
         File.join(dir, 'rfile')
@@ -86,6 +54,10 @@ module SequenceServer
 
       def efile
         File.join(dir, 'efile')
+      end
+
+      def success?
+        exitstatus == 0 && File.exist?(rfile) && !File.zero?(rfile)
       end
 
       private

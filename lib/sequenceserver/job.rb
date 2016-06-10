@@ -11,7 +11,6 @@ module SequenceServer
   # Provides access to global `config` and `logger` object as instance methods.
   # Sub-classes must at least define `run` instance method.
   class Job
-    DOTDIR = File.expand_path('~/.sequenceserver')
     UUID_PATTERN = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/
 
     class << self
@@ -26,7 +25,9 @@ module SequenceServer
       #
       # TODO: What if the given job id does not exist?
       def fetch(id)
-        YAML.load_file(File.join(DOTDIR, id, 'job.yaml'))
+        job_file = File.join(DOTDIR, id, 'job.yaml')
+        fail KeyError, 'Requested job was not found' unless File.exist?(job_file)
+        YAML.load_file(job_file)
       end
 
       def all
@@ -67,7 +68,7 @@ module SequenceServer
       raise e
     end
 
-    attr_reader :id, :completed_at
+    attr_reader :id, :completed_at, :exitstatus
 
     # How to execute the job.
     #
@@ -80,12 +81,12 @@ module SequenceServer
 
     # Is the job done?
     def done?
-      !!@done
+      !!@exitstatus
     end
 
     # Was the job success?
     def success?
-      !!@success
+      exitstatus == 0
     end
 
     private
@@ -109,16 +110,10 @@ module SequenceServer
       filename
     end
 
-    # Marks the job as done.
-    def done!
+    # Marks the job as done and save its exitstatus.
+    def done!(status)
       @completed_at = Time.now
-      @done = true
-      save
-    end
-
-    # Marks the job as success.
-    def success!
-      @success = true
+      @exitstatus = status
       save
     end
 

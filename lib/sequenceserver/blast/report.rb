@@ -4,6 +4,7 @@ require 'sequenceserver/report'
 require 'sequenceserver/links'
 
 require_relative 'formatter'
+require_relative 'error'
 require_relative 'query'
 require_relative 'hit'
 require_relative 'hsp'
@@ -23,6 +24,7 @@ module SequenceServer
     class Report < Report
       def initialize(job)
         super do
+          Error.check(job) unless job.success?
           @querydb = job.databases
           @queries = []
         end
@@ -44,8 +46,8 @@ module SequenceServer
       # Generate report.
       def generate
         xml = Formatter.run(job.rfile, 'xml').file
-        tsv = parse_tsv Formatter.run(job.rfile, '__ssparse').file
-        ir = node_to_array(Ox.parse(xml.open.read).root)
+        tsv = parse_tsv File.read(Formatter.run(job.rfile, '__ssparse').file)
+        ir = node_to_array(Ox.parse(File.read(xml)).root)
         extract_program_info ir
         extract_params ir
         extract_stats ir
