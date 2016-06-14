@@ -2,10 +2,11 @@ import _ from 'underscore';
 import React from 'react';
 import d3 from 'd3';
 
+import './visualisation_helpers';
 import './graphicaloverview';
 import './kablammo';
 import './sequence';
-
+import './length_visualisation';
 
 /**
  * Pretty formats number
@@ -742,6 +743,25 @@ var Hit = React.createClass({
 });
 
 /**
+ * Renders Length Visualisation of all hits per query
+ */
+var LengthVis = React.createClass({
+  mixins: [Utils],
+  plot_svg: function () {
+    return $(React.findDOMNode(this.refs.plot_test));
+  },
+  componentDidMount: function () {
+    this.plot_test = new LengthVisualisation(this.props.query, this.plot_svg());
+  },
+  render: function () {
+    return(
+      <div ref="plot_test">
+      </div>
+    );
+  }
+});
+
+/**
  * Renders summary of all hits per query in a tabular form.
  */
 var HitsTable = React.createClass({
@@ -918,6 +938,7 @@ var Query = React.createClass({
                                 </a>
                             </div>
                             <GraphicalOverview query={this.props.query} program={this.props.data.program}/>
+                            <LengthVis query={this.props.query}/>
                             <HitsTable query={this.props.query}/>
                             <div
                                 id="hits">

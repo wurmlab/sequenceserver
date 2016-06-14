@@ -18,6 +18,8 @@ import _ from 'underscore';
         });
     };
 
+    var visualisation_helpers = new VisualisationHelpers();
+
     var setupResponsiveness = function ($queryDiv, $graphDiv, index, opts, hits)  {
         var currentWidth = $(window).width();
         var debounced_draw = _.debounce(function () {
@@ -246,7 +248,7 @@ import _ from 'underscore';
             x.domain([1, queryLen]);
 
             var algorithm = $queryDiv.data().algorithm;
-            var formatter = Graph.prototype._create_formatter(x, SEQ_TYPES[algorithm]);
+            var formatter = visualisation_helpers._create_formatter(x, SEQ_TYPES[algorithm]);
 
             var _tValues = x.ticks(11);
             _tValues.pop();
