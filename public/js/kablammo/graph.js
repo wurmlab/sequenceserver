@@ -341,6 +341,20 @@ Graph.prototype._render_polygons = function() {
        }
      });
 
+ this._labels = this._svg.d3.selectAll('text')
+     .data(this._hsps)
+     .enter()
+     .append('text')
+     .attr('x', function(hsp) {
+       var query_x_points = [self._scales.query.scale(hsp.query_start), self._scales.query.scale(hsp.query_end)];
+       return (query_x_points[0] + query_x_points[1]) * 0.5;
+     })
+     .attr('y', self._scales.query.height + 15)
+     .attr('class', 'hsp_numbering')
+     .text(function(hsp) {
+       return hsp.number;
+     });
+
   this._fade_unselected();
   this._add_outline_to_selected();
 }

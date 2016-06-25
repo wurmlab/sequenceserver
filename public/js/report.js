@@ -303,27 +303,16 @@ var Kablammo = (function () {
             // Disable hover handlers and show alignment on selecting hsp.
             var selected = {}
             var polygons = d3.select(svgContainer[0]).selectAll('polygon');
+            var labels = d3.select(svgContainer[0]).selectAll('text');
             polygons
             .on('mouseenter', null)
             .on('mouseleave', null)
             .on('click', _.bind(function (clicked_hsp , clicked_index) {
-                if(!this.isHspSelected(clicked_index , selected)) {
-                    selected[clicked_index] = hsps[clicked_index];
-                    var polygon = polygons[0][clicked_index];
-                    polygon.parentNode.appendChild(polygon);
-                    d3.select(polygon).classed('selected', true);
-                    $("#Alignment_Query_" + this.props.query.number + "_hit_" + this.props.hit.number + "_" + (clicked_index + 1)).show();
-                }
-                else {
-                    delete selected[clicked_index];
-                    var polygon = polygons[0][clicked_index];
-                    var firstChild = polygon.parentNode.firstChild;
-                    if (firstChild) {
-                        polygon.parentNode.insertBefore(polygon, firstChild);
-                    }
-                    d3.select(polygon).classed('selected', false);
-                    $("#Alignment_Query_" + this.props.query.number + "_hit_" + this.props.hit.number + "_" + (clicked_index + 1)).hide();
-                }
+              var polygon = polygons[0][clicked_index];
+              polygon.parentNode.appendChild(polygon);
+              d3.select(polygon).classed('selected', true);
+              var label = labels[0][clicked_index];
+              label.parentNode.appendChild(label);
             }, this))
         },
     });
@@ -692,8 +681,7 @@ var Hit = React.createClass({
                                     return (
                                         <tr
                                           id={"Alignment_Query_" + this.props.query.number + "_hit_"
-                                                  + this.props.hit.number + "_" + hsp.number}
-                                          style={{display:'none'}}>
+                                                  + this.props.hit.number + "_" + hsp.number}>
                                             <td>
                                                 {hsp.number + "."}
                                             </td>
