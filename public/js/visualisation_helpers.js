@@ -1,7 +1,6 @@
-function VisualisationHelpers() {
-}
+import _ from 'underscore';
 
-VisualisationHelpers.prototype._get_colors_for_evalue = function (evalue,hits) {
+export function get_colors_for_evalue(evalue, hits) {
   var colors = d3.scale
       .log()
       .domain([
@@ -15,26 +14,17 @@ VisualisationHelpers.prototype._get_colors_for_evalue = function (evalue,hits) {
       ])
       .range([40,150]);
   var rgb = colors(evalue);
-  return d3.rgb(rgb,rgb,rgb);
-}
-
-// Returns copy of `arr` containing only unique values. Assumes duplicate
-// values always occur consecutively (which they will if `arr` is sorted).
-VisualisationHelpers.prototype._uniq = function (arr) {
-  var uniq = [];
-  for(var i = 0; i < arr.length; i++) {
-    while(i < (arr.length - 1) && arr[i] === arr[i + 1]) { i++; }
-    uniq.push(arr[i]);
-  }
-  return uniq;
+  return d3.rgb(rgb, rgb , rgb);
 }
 
 /**
  * Defines how ticks will be formatted.
  *
- * Modified by Priyam based on https://github.com/mbostock/d3/issues/1722.
+ * Examples: 200 aa, 2.4 kbp, 7.6 Mbp.
+ *
+ * Borrowed from Kablammo. Modified by Priyam based on https://github.com/mbostock/d3/issues/1722.
  */
-VisualisationHelpers.prototype._create_formatter  = function (scale, seq_type) {
+export function tick_formatter(scale, seq_type) {
   var ticks = scale.ticks();
   var prefix = d3.formatPrefix(ticks[ticks.length - 1]);
   var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
@@ -47,7 +37,7 @@ VisualisationHelpers.prototype._create_formatter  = function (scale, seq_type) {
       _ticks = scale.ticks().map(function (d) {
           return format(prefix.scale(d));
       });
-      if (_ticks.length === this._uniq(_ticks).length) {
+      if (_ticks.length === _.uniq(_ticks).length) {
           break;
       }
       digits++;
@@ -62,4 +52,30 @@ VisualisationHelpers.prototype._create_formatter  = function (scale, seq_type) {
                   ' ' + prefix.symbol + suffixes[seq_type]);
       }
   };
+}
+
+export function get_seq_type(algorithm) {
+  var SEQ_TYPES = {
+      blastn: {
+          query_seq_type:   'nucleic_acid',
+          subject_seq_type: 'nucleic_acid'
+      },
+      blastp: {
+          query_seq_type:   'amino_acid',
+          subject_seq_type: 'amino_acid'
+      },
+      blastx: {
+          query_seq_type:   'nucleic_acid',
+          subject_seq_type: 'amino_acid'
+      },
+      tblastx: {
+          query_seq_type:   'nucleic_acid',
+          subject_seq_type: 'nucleic_acid'
+      },
+      tblastn: {
+          query_seq_type:   'amino_acid',
+          subject_seq_type: 'nucleic_acid'
+      }
+  };
+  return SEQ_TYPES[algorithm];
 }

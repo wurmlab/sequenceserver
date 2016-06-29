@@ -1,6 +1,6 @@
 "use strict";
 
-function Graph(grapher, results, query_def, query_id, subject_def, subject_id, query_length, subject_length, hsps, svg_container) {
+function Graph(grapher, results, query_def, query_id, subject_def, subject_id, query_length, subject_length, hsps, svg_container, visualisation_helpers) {
   this._show_hsp_outlines = true;
   this._zoom_scale_by = 1.4;
   this._padding_x = 20;
@@ -18,7 +18,7 @@ function Graph(grapher, results, query_def, query_id, subject_def, subject_id, q
   this._subject_length = subject_length;
   this._hsps = hsps;
 
-  this.visualisation_helpers = new VisualisationHelpers();
+  this._helpers = visualisation_helpers;
 
   // Use parents() instead of parent() to (if needed) traverse multiple levels
   // up DOM tree.
@@ -175,7 +175,7 @@ Graph.prototype._rotate_axis_labels = function(text, text_anchor, dx, dy) {
 }
 
 Graph.prototype._create_axis = function(scale, orientation, height, text_anchor, dx, dy, seq_type) {
-  var formatter = this.visualisation_helpers._create_formatter(scale, seq_type);
+  var formatter = this._helpers.tick_formatter(scale, seq_type);
   var tvalues = scale.ticks();
   tvalues.pop();
   var axis = d3.svg.axis()

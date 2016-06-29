@@ -29,3 +29,7 @@
 .legend-text {
   font-size: 12px;
 }
+
+.bar:hover {
+  fill: orangered;
+}
