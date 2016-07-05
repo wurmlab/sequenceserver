@@ -6,7 +6,7 @@ import * as Helpers from './visualisation_helpers';
 import './graphicaloverview';
 import './kablammo';
 import './sequence';
-import LengthVisualisation from './length_visualisation';
+import LengthDistribution from './lengthdistribution';
 
 /**
  * Pretty formats number
@@ -721,24 +721,6 @@ var Hit = React.createClass({
 });
 
 /**
- * Renders Length Distribution of all hits per query
- */
-var LengthVis = React.createClass({
-  svgContainer: function () {
-    return $(React.findDOMNode(this.refs.svgContainer));
-  },
-  componentDidMount: function () {
-    this.graph = new LengthVisualisation(this.props.query, this.svgContainer(), this.props.algorithm);
-  },
-  render: function () {
-    return(
-      <div ref="svgContainer" class='length-distribution'>
-      </div>
-    );
-  }
-});
-
-/**
  * Renders summary of all hits per query in a tabular form.
  */
 var HitsTable = React.createClass({
@@ -915,7 +897,7 @@ var Query = React.createClass({
                                 </a>
                             </div>
                             <GraphicalOverview query={this.props.query} program={this.props.data.program}/>
-                            <LengthVis query={this.props.query} algorithm={this.props.data.program}/>
+                            <LengthDistribution query={this.props.query} algorithm={this.props.data.program}/>
                             <HitsTable query={this.props.query}/>
                             <div
                                 id="hits">

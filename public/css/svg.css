@@ -30,6 +30,10 @@
   font-size: 12px;
 }
 
+.length-distribution-title {
+  text-align: center;
+}
+
 .bar:hover {
   fill: orangered;
 }

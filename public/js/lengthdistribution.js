@@ -1,45 +1,81 @@
+import React from 'react';
 import _ from 'underscore';
 import * as Helpers from './visualisation_helpers';
 
-export default class LengthVisualisation {
+/**
+ * Renders Length Distribution of all hits per query
+ */
+export default class LengthDistribution extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  svgContainer() {
+    return $(React.findDOMNode(this.refs.svgContainer));
+  }
+
+  componentDidMount() {
+    this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm)
+  }
+
+  render() {
+    return(
+      <div>
+        <div className='length-distribution-title'>
+          <h4>Frequency of Hits length</h4>
+        </div>
+        <div ref="svgContainer" className='length-distribution'>
+        </div>
+      </div>
+    );
+  }
+}
+
+export class Graph {
   constructor(query, $svg_container, algorithm) {
-    this._svg_container_d3 =  d3.select($svg_container[0]);
     this.query = query;
     this._seq_type = Helpers.get_seq_type(algorithm);
 
-    this._margin = {top: 30, right: 60, bottom: 70, left: 25};
+    this._margin = {top: 30, right: 40, bottom: 55, left: 15};
     this._width = $svg_container.width() - this._margin.left - this._margin.right;
-    this._height = 400 - this._margin.top - this._margin.bottom;
+    this._height = 350 - this._margin.top - this._margin.bottom;
 
-    this._data = this.fill_data();
-    this._x_scale = d3.scale.linear()
+    this.svg = d3.select($svg_container[0]).insert('svg', ':first-child')
+        .attr('width', this._width + this._margin.right + this._margin.left)
+        .attr('height', this._height + this._margin.top + this._margin.bottom)
+        .append('g')
+        .attr('transform','translate('+this._margin.left+','+this._margin.top+')');
+    this.draw();
+  }
+
+  draw() {
+    this.fill_data();
+    this.define_scale_and_bins();
+    this.update_data();
+    this.draw_rectangles();
+    this.draw_query_line();
+    this.draw_axes();
+    this.setupTooltip();
+  }
+
+  define_scale_and_bins() {
+    this._scale_x = d3.scale.linear()
         .domain([
           0,
           (d3.max([this.query.length,d3.max(this._data)]) * 1.05)
         ])
         .range([0, this._width]);
-    this._bins = this.create_bins();
-    this._update_data = this.update_data();
-    this._y_scale = d3.scale.linear()
+    this._bins = d3.layout.histogram()
+        .range(this._scale_x.domain())
+        .bins(this._scale_x.ticks(50))
+        (this._data);
+    this._scale_y = d3.scale.linear()
         .domain([0, d3.max(this._bins, function(d) { return d.length })])
         .range([this._height, 0]);
-    this._axis = this.create_axes();
-    this.svg = this._svg_container_d3.insert('svg', ':first-child')
-        .attr('width', this._width + this._margin.right + this._margin.left)
-        .attr('height', this._height + this._margin.top + this._margin.bottom)
-        .append('g')
-        .attr('transform','translate('+this._margin.left+','+this._margin.top+')');
-    this.setupTooltip();
-    this.draw_visualisation();
   }
 
   fill_data() {
-    // var data = [];
-    // this.query.hits.map(function (d) {
-    //   data.push(d.length)
-    // })
-    // return data;
-    return _.map(this.query.hits, _.iteratee('length'))
+    this._data = _.map(this.query.hits, _.iteratee('length'))
   }
 
   setupTooltip() {
@@ -53,7 +89,7 @@ export default class LengthVisualisation {
   }
 
   tick_formatter(seq_type) {
-    var ticks = this._x_scale.ticks();
+    var ticks = this._scale_x.ticks();
     var format = d3.format('.1f');
     var prefix = d3.formatPrefix(ticks[ticks.length - 1]);
     var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
@@ -69,14 +105,6 @@ export default class LengthVisualisation {
         return ;
       }
     };
-  }
-
-  create_bins() {
-    var bins = d3.layout.histogram()
-        .range(this._x_scale.domain())
-        .bins(this._x_scale.ticks(50))
-        (this._data);
-    return bins;
   }
 
   prettify_evalue(evalue) {
@@ -95,21 +123,15 @@ export default class LengthVisualisation {
   update_data() {
     var self = this;
     var data2 = [];
-    var set_index = function(length) {
-      for (var i in self.query.hits) {
-        if (self.query.hits[i].length === length)
-          return i;
-      };
-    }
-    this._bins.map(function (d) {
+    this._bins.map(function (bin) {
       var inner_data = [];
-      d.reverse();
-      var y0 = d.length;
-      d.map(function (e,i) {
-        var y1 = d.length - (i+1);
-        var len_index = set_index(e);
+      bin.reverse();
+      var y0 = bin.length;
+      bin.map(function (d,i) {
+        var y1 = bin.length - (i+1);
+        var len_index = _.findIndex(self.query.hits, {length: d});
         var item = {
-          value: e,
+          value: d,
           id: self.query.hits[len_index].id,
           evalue: self.query.hits[len_index].evalue,
           y0: y0,
@@ -118,10 +140,30 @@ export default class LengthVisualisation {
         };
         inner_data.push(item);
       })
-      var item = {data: inner_data, x: d.x, dx: d.dx, length: d.length};
+      var item = {data: inner_data, x: bin.x, dx: bin.dx, length: bin.length};
       data2.push(item);
     })
-    return data2;
+    this._update_data = data2;
+    // var data2 = _.map(this._bins, _.bind(function (bin) {
+    //   bin.reverse();
+    //   var y0 = bin.length;
+    //   var inner_data = _.map(bin, _.bind(function(d) {
+    //     var i = _.indexOf(bin, d);
+    //     var y1 = d.length - (i+1);
+    //     len_index = _.findIndex(this.query.hits, {length: d});
+    //     console.log('test '+len_index+' i val '+i);
+    //     return {
+    //       value: d,
+    //       id: this.query.hits[len_index].id,
+    //       evalue: this.query.hits[len_index].evalue,
+    //       y0: y0,
+    //       y1: y0 += (y1 - y0),
+    //       color: Helpers.get_colors_for_evalue(this.query.hits[len_index].evalue,this.query.hits)
+    //     }
+    //   }, this));
+    //   return {data: inner_data, x: bin.x, dx: bin.dx, length: bin.length};
+    // }, this));
+    // return data2;
   }
 
   draw_rectangles() {
@@ -131,7 +173,7 @@ export default class LengthVisualisation {
         .enter().append('g')
         .attr('class', 'g')
         .attr('transform', function(d) {
-          return 'translate('+(self._x_scale(d.x)+self._margin.left)+',0)';
+          return 'translate('+(self._scale_x(d.x)+self._margin.left)+',0)';
         });
 
     bar.selectAll('rect')
@@ -140,27 +182,26 @@ export default class LengthVisualisation {
         .attr('class','bar')
         .attr('data-toggle','tooltip')
         .attr('title', function(i) {
-          return i.id+' '+self.prettify_evalue(i.evalue)+'<br>Length: '+i.value;
+          return i.id+' '+'<br>E Value: '+Helpers.prettify_evalue(i.evalue)+'<br>Length: '+i.value;
         })
         .attr('x', 1)
-        .attr('y', function(i) { return (self._y_scale(i.y0)); })
-        .attr('width', self._x_scale(this._bins[1].x) - self._x_scale(this._bins[0].x) - 1)
-        .attr('height', function (i) { return self._y_scale(i.y1) - self._y_scale(i.y0); })
+        .attr('y', function(i) { return (self._scale_y(i.y0)); })
+        .attr('width', self._scale_x(this._bins[1].x) - self._scale_x(this._bins[0].x) - 1)
+        .attr('height', function (i) { return self._scale_y(i.y1) - self._scale_y(i.y0); })
         .attr('fill', function(i) {
           return i.color;
         });
   }
 
   draw_query_line() {
-    var self = this;
     var query_line = this.svg.append('g')
         .attr('class','query_line')
-        .attr('transform','translate('+(this._margin.left+this._x_scale(this.query.length))+',0)');
+        .attr('transform','translate('+(this._margin.left+this._scale_x(this.query.length))+',0)');
 
     query_line.append('rect')
         .attr('x',1)
         .attr('width',4)
-        .attr('height',self._height)
+        .attr('height',this._height)
         .style('fill','rgb(55,0,232)');
 
     query_line.append('text')
@@ -173,17 +214,16 @@ export default class LengthVisualisation {
         .attr('transform','rotate(-45)');
   }
 
-  create_axes() {
+  draw_axes() {
     var formatter = this.tick_formatter(this._seq_type.subject_seq_type);
-    // var formatter = this.visualisation_helpers.tick_formatter(this._x_scale,this._seq_type.subject_seq_type);
+    // var formatter = this.visualisation_helpers.tick_formatter(this._scale_x,this._seq_type.subject_seq_type);
     var x_axis = d3.svg.axis()
-        .scale(this._x_scale)
+        .scale(this._scale_x)
         .orient('bottom')
         .ticks(50)
         .tickFormat(formatter);
-
     var y_axis = d3.svg.axis()
-        .scale(this._y_scale)
+        .scale(this._scale_y)
         .orient('left')
         .tickFormat(function (e) {
           if (Math.floor(e) != e) {
@@ -191,24 +231,27 @@ export default class LengthVisualisation {
           }
           return e;
         });
-
-    var ticks = this._y_scale.ticks();
+    var ticks = this._scale_y.ticks();
     for (var i in ticks) {
       if (ticks[i] % 1 != 0) {
         y_axis.tickValues(d3.range(0, d3.max(this._bins, function(d) { return d.length })+1));
         break;
       }
     }
-
-    return {x: x_axis, y: y_axis};
-  }
-
-  draw_scales() {
     var self = this;
     var xContainer = this.svg.append('g')
         .attr('class', 'axis axis--x')
-        .attr('transform', 'translate('+self._margin.left+','+self._height+')')
-        .call(this._axis.x);
+        .attr('transform', 'translate('+this._margin.left+','+this._height+')')
+        .call(x_axis);
+
+    xContainer.selectAll('line').attr('y2',function (d) {
+      var ticks = self._scale_x.ticks();
+      if (_.indexOf(ticks, d) >= 0) {
+        return 7;
+      } else {
+        return 4;
+      }
+    });
 
     xContainer.selectAll('text').style('text-anchor','end')
         .attr('x', '-8px')
@@ -218,16 +261,13 @@ export default class LengthVisualisation {
 
     var yContainer = this.svg.append('g')
         .attr('class','axis axis--y')
-        .attr('transform','translate('+self._margin.left+',0)')
-        .call(this._axis.y);
-  }
+        .attr('transform','translate('+this._margin.left+',0)')
+        .call(y_axis);
 
-  create_labels() {
-    var self = this;
     this.svg.append('text')
         .attr('class','xaxis-label')
-        .attr('x',0.35 * self._width)
-        .attr('y',self._height + 65)
+        .attr('x',0.35 * this._width)
+        .attr('y',this._height + 65)
         .text('Sequence Length');
 
     this.svg.append('text')
@@ -236,12 +276,5 @@ export default class LengthVisualisation {
         .attr('y',-15)
         .attr('transform','rotate(-90)')
         .text('Number of Sequences');
-  }
-
-  draw_visualisation() {
-    this.draw_rectangles();
-    this.draw_query_line();
-    this.draw_scales();
-    this.create_labels();
   }
 }
