@@ -304,16 +304,8 @@ import * as Helpers from './visualisation_helpers';
                     .attr('data-toggle', 'tooltip')
                     .attr('title', function(d) {
                         // Pretty print evalue in tooltip.
-                        var regex = /(\d+)\.?(\d+)?e?([+-]\d+)?/;
-                        var match = regex.exec(d.hitEvalue);
-                        var base  = match[1] + '.' + match[2];
-                        var power = match[3];
-                        var prettyEvalue = parseFloat(base).toFixed(2);
-                        var returnString = d.hitDef + '<br><strong>E value:</strong> ' + prettyEvalue;
-                        if (power !== undefined) {
-                            returnString +=  ' &times; 10<sup>' + power + '</sup>';
-                        }
-                        return returnString;
+                        return d.hitDef + '<br><strong>E value:</strong> ' + Helpers.prettify_evalue(d.hitEvalue);
+
                     })
                     .each(function (d,i) {
                         // TODO: Avoid too many variables and improve naming.

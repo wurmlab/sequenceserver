@@ -49,7 +49,7 @@ export class Graph {
   }
 
   draw() {
-    this.fill_data();
+    this.hit_lengths();
     this.define_scale_and_bins();
     this.update_data();
     this.draw_rectangles();
@@ -74,7 +74,7 @@ export class Graph {
         .range([this._height, 0]);
   }
 
-  fill_data() {
+  hit_lengths() {
     this._data = _.map(this.query.hits, _.iteratee('length'))
   }
 
@@ -105,19 +105,6 @@ export class Graph {
         return ;
       }
     };
-  }
-
-  prettify_evalue(evalue) {
-    var regex = /(\d+)\.?(\d+)?e?([+-]\d+)?/;
-    var match = regex.exec(evalue);
-    var base  = match[1] + '.' + match[2];
-    var power = match[3];
-    var prettyEvalue = parseFloat(base).toFixed(2);
-    var returnString = '<br>E value: ' + prettyEvalue;
-    if (power !== undefined) {
-        returnString +=  ' &times; 10<sup>' + power + '</sup>';
-    }
-    return returnString;
   }
 
   update_data() {
@@ -264,17 +251,17 @@ export class Graph {
         .attr('transform','translate('+this._margin.left+',0)')
         .call(y_axis);
 
-    this.svg.append('text')
-        .attr('class','xaxis-label')
-        .attr('x',0.35 * this._width)
-        .attr('y',this._height + 65)
-        .text('Sequence Length');
-
-    this.svg.append('text')
-        .attr('class', 'yaxis-label')
-        .attr('x',-255)
-        .attr('y',-15)
-        .attr('transform','rotate(-90)')
-        .text('Number of Sequences');
+    // this.svg.append('text')
+    //     .attr('class','xaxis-label')
+    //     .attr('x',0.35 * this._width)
+    //     .attr('y',this._height + 65)
+    //     .text('Sequence Length');
+    //
+    // this.svg.append('text')
+    //     .attr('class', 'yaxis-label')
+    //     .attr('x',-255)
+    //     .attr('y',-15)
+    //     .attr('transform','rotate(-90)')
+    //     .text('Number of Sequences');
   }
 }
