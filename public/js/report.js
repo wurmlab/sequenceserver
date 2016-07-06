@@ -2,10 +2,11 @@ import _ from 'underscore';
 import React from 'react';
 import d3 from 'd3';
 
+import * as Helpers from './visualisation_helpers';
 import './graphicaloverview';
 import './kablammo';
 import './sequence';
-
+import LengthDistribution from './lengthdistribution';
 
 /**
  * Pretty formats number
@@ -129,29 +130,6 @@ var Utils = {
  * here.
  */
 var Kablammo = (function () {
-
-    var SEQ_TYPES = {
-        blastn: {
-            query_seq_type:   'nucleic_acid',
-            subject_seq_type: 'nucleic_acid'
-        },
-        blastp: {
-            query_seq_type:   'amino_acid',
-            subject_seq_type: 'amino_acid'
-        },
-        blastx: {
-            query_seq_type:   'nucleic_acid',
-            subject_seq_type: 'amino_acid'
-        },
-        tblastx: {
-            query_seq_type:   'nucleic_acid',
-            subject_seq_type: 'nucleic_acid'
-        },
-        tblastn: {
-            query_seq_type:   'amino_acid',
-            subject_seq_type: 'nucleic_acid'
-        }
-    };
 
     /**
      * Mock Kablammo's grapher.js.
@@ -289,7 +267,7 @@ var Kablammo = (function () {
 
             this._graph = new Graph(
                 grapher,
-                SEQ_TYPES[this.props.algorithm],
+                Helpers.get_seq_type(this.props.algorithm),
                 this.props.query.id + ' ' + this.props.query.title,
                 this.props.query.id,
                 this.props.hit.id + ' ' + this.props.hit.title,
@@ -297,7 +275,8 @@ var Kablammo = (function () {
                 this.props.query.length,
                 this.props.hit.length,
                 hsps,
-                svgContainer
+                svgContainer,
+                Helpers
             );
 
             // Disable hover handlers and show alignment on selecting hsp.
@@ -906,6 +885,7 @@ var Query = React.createClass({
                                 </a>
                             </div>
                             <GraphicalOverview query={this.props.query} program={this.props.data.program}/>
+                            <LengthDistribution query={this.props.query} algorithm={this.props.data.program}/>
                             <HitsTable query={this.props.query}/>
                             <div
                                 id="hits">

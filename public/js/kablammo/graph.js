@@ -1,6 +1,6 @@
 "use strict";
 
-function Graph(grapher, results, query_def, query_id, subject_def, subject_id, query_length, subject_length, hsps, svg_container) {
+function Graph(grapher, results, query_def, query_id, subject_def, subject_id, query_length, subject_length, hsps, svg_container, visualisation_helpers) {
   this._show_hsp_outlines = true;
   this._zoom_scale_by = 1.4;
   this._padding_x = 20;
@@ -17,6 +17,8 @@ function Graph(grapher, results, query_def, query_id, subject_def, subject_id, q
   this._query_length = query_length;
   this._subject_length = subject_length;
   this._hsps = hsps;
+
+  this._helpers = visualisation_helpers;
 
   // Use parents() instead of parent() to (if needed) traverse multiple levels
   // up DOM tree.
@@ -172,54 +174,8 @@ Graph.prototype._rotate_axis_labels = function(text, text_anchor, dx, dy) {
 
 }
 
-// Returns copy of `arr` containing only unique values. Assumes duplicate
-// values always occur consecutively (which they will if `arr` is sorted).
-Graph.prototype._uniq = function(arr) {
-  var uniq = [];
-  for(var i = 0; i < arr.length; i++) {
-    while(i < (arr.length - 1) && arr[i] === arr[i + 1]) { i++; }
-    uniq.push(arr[i]);
-  }
-  return uniq;
-}
-
-/**
- * Defines how ticks will be formatted.
- *
- * Modified by Priyam based on https://github.com/mbostock/d3/issues/1722.
- */
-Graph.prototype._create_formatter = function (scale, seq_type) {
-    var ticks = scale.ticks();
-    var prefix = d3.formatPrefix(ticks[ticks.length - 1]);
-    var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
-
-    var digits = 0;
-    var format;
-    var _ticks;
-    while (true) {
-        format = d3.format('.' + digits + 'f');
-        _ticks = scale.ticks().map(function (d) {
-            return format(prefix.scale(d));
-        });
-        if (_ticks.length === this._uniq(_ticks).length) {
-            break;
-        }
-        digits++;
-    }
-
-    return function (d) {
-        if (!prefix.symbol || d === scale.domain()[0]) {
-            return (d + ' ' + suffixes[seq_type]);
-        }
-        else {
-            return (format(prefix.scale(d)) +
-                    ' ' + prefix.symbol + suffixes[seq_type]);
-        }
-    };
-}
-
 Graph.prototype._create_axis = function(scale, orientation, height, text_anchor, dx, dy, seq_type) {
-  var formatter = this._create_formatter(scale, seq_type);
+  var formatter = this._helpers.tick_formatter(scale, seq_type);
   var tvalues = scale.ticks();
   tvalues.pop();
   var axis = d3.svg.axis()
