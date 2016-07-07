@@ -22,7 +22,7 @@ export default class LengthDistribution extends React.Component {
     return(
       <div>
         <div className='length-distribution-title'>
-          <h4>Frequency of Hits length</h4>
+          <h5>Frequency of Hits length</h5>
         </div>
         <div ref="svgContainer" className='length-distribution'>
         </div>
@@ -46,6 +46,7 @@ export class Graph {
         .append('g')
         .attr('transform','translate('+this._margin.left+','+this._margin.top+')');
     this.draw();
+    this.setupResponsiveness();
   }
 
   draw() {
@@ -86,6 +87,17 @@ export class Graph {
       'delay': 0,
       'white-space': 'nowrap'
     });
+  }
+
+  setupResponsiveness() {
+    var currentWidth = $(window).width();
+    var debounced_draw = _.debounce(_.bind(function () {
+      if (currentWidth != $(window).width()) {
+        console.log('redraw initiated ');
+        this.draw();
+      }
+    }, this), 125);
+    $(window).resize(debounced_draw);
   }
 
   tick_formatter(seq_type) {
