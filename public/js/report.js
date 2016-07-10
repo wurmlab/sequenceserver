@@ -613,6 +613,7 @@ var Hit = React.createClass({
                 <div
                   className="page-header">
                     <h4
+                      className="subject-name"
                       data-toggle="collapse"
                       data-target={ "#Query_" + this.props.query.number + "_hit_"
                                      + this.props.hit.number + "_alignment"} >
@@ -867,7 +868,7 @@ var Query = React.createClass({
                 data-algorithm={this.props.data.program}>
                 <div
                     className="page-header">
-                    <h3>
+                    <h3 className="subject-name">
                         Query= {this.props.query.id}
                         &nbsp;
                         <small>
@@ -1413,7 +1414,7 @@ var Report = React.createClass({
 
     // SVG and PNG download links.
     setupKablammoImageExporter: function () {
-        new ImageExporter('#report', '.export-to-svg', '.export-to-png');
+        new ImageExporter('.subject', '.export-to-svg', '.export-to-png');
     },
 
     // Life-cycle methods. //
