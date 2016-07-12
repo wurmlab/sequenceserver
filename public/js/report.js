@@ -250,7 +250,7 @@ var Kablammo = (function () {
 
         render: function () {
             return (
-                <div ref="svgContainer">
+                <div ref="svgContainer" className="kablammo">
                 </div>
             );
         },
@@ -508,6 +508,10 @@ var Hit = React.createClass({
         return "Query_" + this.props.query.number + "_hit_" + this.props.hit.number;
     },
 
+    container: function () {
+      return $(React.findDOMNode(this.refs.container));
+    },
+
     /**
      * Return prettified stats for the given hsp and based on the BLAST
      * algorithm.
@@ -583,6 +587,18 @@ var Hit = React.createClass({
             $("#" + this.domID()).find(".view-sequence").addClass('disabled');
         }
 
+        // On HOver function to display download links
+        var container = this.container();
+        container
+          .on('mouseenter', _.bind(function () {
+            $("#Query_"+this.props.query.number+"_hit_"+this.props.hit.number+"_alignment")
+              .find('.hit-links').show();
+          }, this))
+          .on('mouseleave', _.bind(function () {
+            $("#Query_"+this.props.query.number+"_hit_"+this.props.hit.number+"_alignment")
+              .find('.hit-links').hide();
+          }, this))
+
         // Event-handler for exporting alignments.
         // Calls relevant method on AlignmentExporter defined in alignment_exporter.js.
         $("#" + this.domID()).find('.export-alignment').on('click',_.bind(function () {
@@ -639,9 +655,10 @@ var Hit = React.createClass({
                 <div
                     className="page-content collapse in"
                     id={"Query_" + this.props.query.number + "_hit_"
-                        + this.props.hit.number + "_alignment"}>
+                        + this.props.hit.number + "_alignment"}
+                    ref="container">
                     <div
-                        className="hit-links">
+                        className="hit-links" style={{display: 'none'}}>
                         <label>
                             <input
                                 type="checkbox" id={this.domID() + "_checkbox"}
@@ -821,6 +838,18 @@ var GraphicalOverview = React.createClass({
             <div
                 className="graphical-overview"
                 ref="svgContainer">
+                <div
+                    className="hit-links">
+                    <a href = "#" className="export-to-svg">
+                        <i className="fa fa-download"/>
+                        <span>{"  SVG  "}</span>
+                    </a>
+                    <span>{" | "}</span>
+                    <a href = "#" className="export-to-png">
+                        <i className="fa fa-download"/>
+                        <span>{"  PNG  "}</span>
+                    </a>
+                </div>
             </div>
         );
     },
@@ -886,18 +915,7 @@ var Query = React.createClass({
                     (
                         <div
                             className="page-content">
-                            <div
-                                className="hit-links">
-                                <a href = "#" className="export-to-svg">
-                                    <i className="fa fa-download"/>
-                                    <span>{"  SVG  "}</span>
-                                </a>
-                                <span>{" | "}</span>
-                                <a href = "#" className="export-to-png">
-                                    <i className="fa fa-download"/>
-                                    <span>{"  PNG  "}</span>
-                                </a>
-                            </div>
+
                             <GraphicalOverview query={this.props.query} program={this.props.data.program}/>
                             <LengthDistribution query={this.props.query} algorithm={this.props.data.program}/>
                             <HitsTable query={this.props.query}/>

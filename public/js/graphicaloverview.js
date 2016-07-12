@@ -145,10 +145,55 @@ import * as Helpers from './visualisation_helpers';
         return hits;
     };
 
-    var drawLegend = function (svg, options, width, height) {
+    var drawLegend = function (svg, options, width, height, hits) {
         var svg_legend = svg.append('g')
             .attr('transform',
-                'translate(0,' + (height - 2.2 * options.margin) + ')');
+                'translate(0,' + (height - 3.0 * options.margin) + ')');
+
+        var legend_scale = d3.scale.linear()
+            .domain([
+              d3.min([1e-5, d3.min(_.map(hits, function(d) {
+                if (parseFloat(d.hitEvalue) === 0.0) return undefined;
+                return d.hitEvalue;
+              }))]),
+              d3.max(_.map(hits, function(d) {
+                return d.hitEvalue;
+              }))
+            ])
+            .range([(2 * (width - 4 * options.margin) / 10),0]);
+
+        var hits_evalues = _.map(hits, function(d) {
+          return d.hitEvalue;
+        });
+
+        var bins = d3.layout.histogram()
+            .range(legend_scale.domain())
+            .bins(legend_scale.ticks(10))
+            (hits_evalues);
+
+        // console.log('hits_evalues '+hits_evalues.toString());
+        // _.each(bins, function (d) {
+        //   console.log('['+d.toString()+']');
+        // });
+        // console.log('test scale '+legend_scale.ticks().toString());
+
+        var legend_axis = d3.svg.axis()
+            .scale(legend_scale)
+            .orient('bottom')
+            .ticks(10);
+
+        axis_container = svg_legend.append('g')
+            .attr('transform','translate('+(7 * (width - 2 * options.margin) / 10)+','+10+')')
+            .append('g')
+            .attr('class','legend axis')
+            .call(legend_axis);
+
+        axis_container.selectAll('text')
+            .style('text-anchor','end')
+            .attr('x','-8px')
+            .attr('y', '3px')
+            .attr('dy', 0)
+            .attr('transform','rotate(-90)');
 
         svg_legend.append('rect')
             .attr('x', 7 * (width - 2 * options.margin) / 10)
@@ -296,7 +341,7 @@ import * as Helpers from './visualisation_helpers';
 
             svg.append('g')
                 .attr('class', 'ghit')
-                .attr('transform', 'translate(0, ' + (2 * options.margin - options.legend) + ')')
+                .attr('transform', 'translate(0, ' + (2 * options.margin - 2 * options.legend) + ')')
                 .selectAll('.hits')
                 .data(hits)
                 .enter()
@@ -365,7 +410,7 @@ import * as Helpers from './visualisation_helpers';
 
             // Draw legend only when more than one hit present
             if (hits.length > 1) {
-                drawLegend(svg, options, width, height);
+                drawLegend(svg, options, width, height, inhits);
             }
             // Bind listener events once all the graphical elements have
             // been drawn for first time.

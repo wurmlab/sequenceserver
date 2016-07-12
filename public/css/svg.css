@@ -22,6 +22,18 @@
   stroke-dasharray: 5,5;
 }
 
+.hit-links {
+  float: right;
+}
+
+.kablammo {
+  border: 1px solid transparent;
+}
+
+.kablammo:hover {
+  border: 1px solid lightblue;
+}
+
 .alignment-selected {
   border: 1px dashed black;
 }

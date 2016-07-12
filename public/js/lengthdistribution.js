@@ -15,16 +15,37 @@ export default class LengthDistribution extends React.Component {
   }
 
   componentDidMount() {
-    this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm)
+    this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm);
+    var svgContainer = this.svgContainer();
+    svgContainer
+    .on('mouseover', function () {
+      $(this).find('.hit-links').show();
+    })
+    .on('mouseleave', function() {
+      $(this).find('.hit-links').hide();
+    })
   }
 
   render() {
     return(
       <div>
+
         <div className='length-distribution-title'>
           <h5>Frequency of Hits length</h5>
         </div>
         <div ref="svgContainer" className='length-distribution'>
+          <div
+              className="hit-links" style={{display:"none"}}>
+              <a href = "#" className="export-to-svg">
+                  <i className="fa fa-download"/>
+                  <span>{"  SVG  "}</span>
+              </a>
+              <span>{" | "}</span>
+              <a href = "#" className="export-to-png">
+                  <i className="fa fa-download"/>
+                  <span>{"  PNG  "}</span>
+              </a>
+          </div>
         </div>
       </div>
     );

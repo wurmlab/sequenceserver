@@ -5,6 +5,13 @@ function ImageExporter(container_selector, export_svg_selector, export_png_selec
   var handle_click = function(export_callback) {
     return function() {
       var svg = $(this).parentsUntil('.subject').find('svg');
+      var test = $(this).parentsUntil('.subject')
+                  .map(function () {
+                    return this.tagName;
+                  })
+                  .get()
+                  .join(", ");
+      console.log('test '+test);
       var styles = self._get_styles(window.document);
       var serialized = self._serialize_svg(svg.get(0), styles);
 
