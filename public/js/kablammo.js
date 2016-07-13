@@ -7,6 +7,7 @@ import * as Helpers from './visualisation_helpers';
 import React from 'react';
 import _ from 'underscore';
 import d3 from 'd3';
+import * as Grapher_component from './grapher';
 
 /**
  * Renders Kablammo visualization
@@ -78,8 +79,10 @@ export default class Kablammo extends React.Component {
 
  render() {
      return (
-         <div ref="svgContainer" className="kablammo">
-         </div>
+        <div
+          className="grapher" ref="grapher">
+          {Grapher_component.grapher_render()}
+        </div>
      );
  }
 
@@ -91,6 +94,7 @@ export default class Kablammo extends React.Component {
      var hsps = this.toKablammo(this.props.hit.hsps, this.props.query);
      var svgContainer = this.svgContainer();
      var grapher = new Grapher();
+     this.graph_links = Grapher_component.graph_links($(React.findDOMNode(this.refs.grapher)));
 
      Graph.prototype._canvas_width = svgContainer.width();
 

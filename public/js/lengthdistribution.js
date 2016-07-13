@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'underscore';
 import * as Helpers from './visualisation_helpers';
+import * as Grapher from './grapher';
 
 /**
  * Renders Length Distribution of all hits per query
@@ -16,40 +17,63 @@ export default class LengthDistribution extends React.Component {
 
   componentDidMount() {
     this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm);
-    var svgContainer = this.svgContainer();
-    svgContainer
-    .on('mouseover', function () {
-      $(this).find('.hit-links').show();
-    })
-    .on('mouseleave', function() {
-      $(this).find('.hit-links').hide();
-    })
+    this.graph_links = Grapher.graph_links($(React.findDOMNode(this.refs.grapher)));
+    // var svgContainer = this.svgContainer();
+    // console.log('test '+svgContainer);
+    // svgContainer
+    // .on('mouseover', function () {
+    //   $(this).find('.hit-links').show();
+    // })
+    // .on('mouseleave', function() {
+    //   $(this).find('.hit-links').hide();
+    // })
   }
 
   render() {
     return(
-      <div>
-
-        <div className='length-distribution-title'>
-          <h5>Frequency of Hits length</h5>
-        </div>
-        <div ref="svgContainer" className='length-distribution'>
-          <div
-              className="hit-links" style={{display:"none"}}>
-              <a href = "#" className="export-to-svg">
-                  <i className="fa fa-download"/>
-                  <span>{"  SVG  "}</span>
-              </a>
-              <span>{" | "}</span>
-              <a href = "#" className="export-to-png">
-                  <i className="fa fa-download"/>
-                  <span>{"  PNG  "}</span>
-              </a>
-          </div>
-        </div>
+      <div className="grapher" ref="grapher">
+        <h5
+          >Frequency
+        </h5>
+        {Grapher.grapher_render()}
       </div>
     );
   }
+
+  // render() {
+  //   return(
+  //     <div>
+  //       <h5>Frequency</h5>
+  //       <Grapher/>
+  //       <div ref="svgContainer">
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
+  // render() {
+  //   return(
+  //     <div>
+  //       <div className='length-distribution-title'>
+  //         <h5>Frequency of Hits length</h5>
+  //       </div>
+  //       <div ref="svgContainer" className='length-distribution'>
+  //         <div
+  //             className="hit-links" style={{display:"none"}}>
+  //             <a href = "#" className="export-to-svg">
+  //                 <i className="fa fa-download"/>
+  //                 <span>{"  SVG  "}</span>
+  //             </a>
+  //             <span>{" | "}</span>
+  //             <a href = "#" className="export-to-png">
+  //                 <i className="fa fa-download"/>
+  //                 <span>{"  PNG  "}</span>
+  //             </a>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 }
 
 export class Graph {

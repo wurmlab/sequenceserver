@@ -22,8 +22,9 @@
   stroke-dasharray: 5,5;
 }
 
-.hit-links {
+.graph-links {
   float: right;
+  z-index: 10;
 }
 
 .kablammo {
@@ -31,6 +32,14 @@
 }
 
 .kablammo:hover {
+  border: 1px solid lightblue;
+}
+
+.grapher {
+  border: 1px solid transparent;
+}
+
+.grapher:hover {
   border: 1px solid lightblue;
 }
 
@@ -46,9 +55,14 @@
   font-size: 12px;
 }
 
-.length-distribution-title {
+/*.length-distribution-title {
   text-align: left;
-  text-transform: capitalize;
+  text-transform: uppercase;
+}*/
+
+h5 h6 .caption {
+  text-align: left;
+  text-transform: uppercase;
 }
 
 .bar:hover {

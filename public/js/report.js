@@ -7,6 +7,7 @@ import './graphicaloverview';
 import Kablammo from './kablammo';
 import './sequence';
 import LengthDistribution from './lengthdistribution';
+import * as Grapher from './grapher';
 
 /**
  * Pretty formats number
@@ -70,7 +71,7 @@ var Utils = {
      * Render URL for sequence-viewer.
      */
     a: function (link , hitlength) {
-        if (link.title && link.url)
+        if (link.title && link.url && link.title != 'SVG' && link.title != 'PNG')
         {
             return (
                 <a href={link.url} className={link.class} target='_blank'>
@@ -314,10 +315,6 @@ var Hit = React.createClass({
         return "Query_" + this.props.query.number + "_hit_" + this.props.hit.number;
     },
 
-    container: function () {
-      return $(React.findDOMNode(this.refs.container));
-    },
-
     /**
      * Return prettified stats for the given hsp and based on the BLAST
      * algorithm.
@@ -393,18 +390,6 @@ var Hit = React.createClass({
             $("#" + this.domID()).find(".view-sequence").addClass('disabled');
         }
 
-        // On HOver function to display download links
-        var container = this.container();
-        container
-          .on('mouseenter', _.bind(function () {
-            $("#Query_"+this.props.query.number+"_hit_"+this.props.hit.number+"_alignment")
-              .find('.hit-links').show();
-          }, this))
-          .on('mouseleave', _.bind(function () {
-            $("#Query_"+this.props.query.number+"_hit_"+this.props.hit.number+"_alignment")
-              .find('.hit-links').hide();
-          }, this))
-
         // Event-handler for exporting alignments.
         // Calls relevant method on AlignmentExporter defined in alignment_exporter.js.
         $("#" + this.domID()).find('.export-alignment').on('click',_.bind(function () {
@@ -461,10 +446,9 @@ var Hit = React.createClass({
                 <div
                     className="page-content collapse in"
                     id={"Query_" + this.props.query.number + "_hit_"
-                        + this.props.hit.number + "_alignment"}
-                    ref="container">
+                        + this.props.hit.number + "_alignment"}>
                     <div
-                        className="hit-links" style={{display: 'none'}}>
+                        className="hit-links">
                         <label>
                             <input
                                 type="checkbox" id={this.domID() + "_checkbox"}
@@ -640,29 +624,39 @@ var GraphicalOverview = React.createClass({
     // Life-cycle methods //
 
     render: function () {
-        return (
-            <div
-                className="graphical-overview"
-                ref="svgContainer">
-                <div
-                    className="hit-links">
-                    <a href = "#" className="export-to-svg">
-                        <i className="fa fa-download"/>
-                        <span>{"  SVG  "}</span>
-                    </a>
-                    <span>{" | "}</span>
-                    <a href = "#" className="export-to-png">
-                        <i className="fa fa-download"/>
-                        <span>{"  PNG  "}</span>
-                    </a>
-                </div>
-            </div>
-        );
+      return (
+        <div className="grapher" ref="grapher">
+          {Grapher.grapher_render()}
+        </div>
+      );
     },
+
+    // render: function () {
+    //     return (
+    //         <div
+    //             className="graphical-overview"
+    //             ref="svgContainer">
+    //             <div
+    //                 className="hit-links">
+    //                 <a href = "#" className="export-to-svg">
+    //                     <i className="fa fa-download"/>
+    //                     <span>{"  SVG  "}</span>
+    //                 </a>
+    //                 <span>{" | "}</span>
+    //                 <a href = "#" className="export-to-png">
+    //                     <i className="fa fa-download"/>
+    //                     <span>{"  PNG  "}</span>
+    //                 </a>
+    //             </div>
+    //         </div>
+    //     );
+    // },
 
     componentDidMount: function () {
         var hits = this.toGraph(this.props.query.hits, this.props.query.number);
-        $.graphIt(this.svgContainer().parent().parent(), this.svgContainer(), 0, 20, null, hits);
+        var query_div = this.svgContainer().parents('.resultn');
+        this.graph_links = Grapher.graph_links($(React.findDOMNode(this.refs.grapher)));
+        $.graphIt(query_div, this.svgContainer(), 0, 20, null, hits);
     }
 });
 
