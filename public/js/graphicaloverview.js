@@ -149,7 +149,6 @@ import * as Helpers from './visualisation_helpers';
         var svg_legend = svg.append('g')
             .attr('transform',
                 'translate(0,' + (height - 2.2 * options.margin) + ')');
-        console.log('hits test '+hits[hits.length - 1].hitEvalue);
 
         svg_legend.append('rect')
             .attr('x', 7 * (width - 2 * options.margin) / 10)
