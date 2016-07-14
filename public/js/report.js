@@ -71,7 +71,7 @@ var Utils = {
      * Render URL for sequence-viewer.
      */
     a: function (link , hitlength) {
-        if (link.title && link.url && link.title != 'SVG' && link.title != 'PNG')
+        if (link.title && link.url)
         {
             return (
                 <a href={link.url} className={link.class} target='_blank'>
