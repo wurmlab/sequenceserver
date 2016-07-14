@@ -30,50 +30,8 @@ export default class LengthDistribution extends React.Component {
   }
 
   render() {
-    return(
-      <div className="grapher" ref="grapher">
-        <h5
-          >Frequency
-        </h5>
-        {Grapher.grapher_render()}
-      </div>
-    );
+    return Grapher.grapher_render();
   }
-
-  // render() {
-  //   return(
-  //     <div>
-  //       <h5>Frequency</h5>
-  //       <Grapher/>
-  //       <div ref="svgContainer">
-  //       </div>
-  //     </div>
-  //   )
-  // }
-
-  // render() {
-  //   return(
-  //     <div>
-  //       <div className='length-distribution-title'>
-  //         <h5>Frequency of Hits length</h5>
-  //       </div>
-  //       <div ref="svgContainer" className='length-distribution'>
-  //         <div
-  //             className="hit-links" style={{display:"none"}}>
-  //             <a href = "#" className="export-to-svg">
-  //                 <i className="fa fa-download"/>
-  //                 <span>{"  SVG  "}</span>
-  //             </a>
-  //             <span>{" | "}</span>
-  //             <a href = "#" className="export-to-png">
-  //                 <i className="fa fa-download"/>
-  //                 <span>{"  PNG  "}</span>
-  //             </a>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 }
 
 export class Graph {

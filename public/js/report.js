@@ -624,33 +624,8 @@ var GraphicalOverview = React.createClass({
     // Life-cycle methods //
 
     render: function () {
-      return (
-        <div className="grapher" ref="grapher">
-          {Grapher.grapher_render()}
-        </div>
-      );
+      return Grapher.grapher_render();
     },
-
-    // render: function () {
-    //     return (
-    //         <div
-    //             className="graphical-overview"
-    //             ref="svgContainer">
-    //             <div
-    //                 className="hit-links">
-    //                 <a href = "#" className="export-to-svg">
-    //                     <i className="fa fa-download"/>
-    //                     <span>{"  SVG  "}</span>
-    //                 </a>
-    //                 <span>{" | "}</span>
-    //                 <a href = "#" className="export-to-png">
-    //                     <i className="fa fa-download"/>
-    //                     <span>{"  PNG  "}</span>
-    //                 </a>
-    //             </div>
-    //         </div>
-    //     );
-    // },
 
     componentDidMount: function () {
         var hits = this.toGraph(this.props.query.hits, this.props.query.number);
@@ -717,6 +692,10 @@ var Query = React.createClass({
                             className="page-content">
 
                             <GraphicalOverview query={this.props.query} program={this.props.data.program}/>
+                            <h5
+                              className="caption">
+                              Frequency of Hit Lengths
+                            </h5>
                             <LengthDistribution query={this.props.query} algorithm={this.props.data.program}/>
                             <HitsTable query={this.props.query}/>
                             <div

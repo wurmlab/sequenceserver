@@ -52,7 +52,7 @@ export function grapher_node() {
 
 export function grapher_render() {
   return (
-    <div className="grapher_render">
+    <div className="grapher" ref="grapher">
       <div
           className="graph-links" style={{display:"none"}}>
           <a href = "#" className="export-to-svg">
@@ -65,7 +65,7 @@ export function grapher_render() {
               <span>{"  PNG  "}</span>
           </a>
       </div>
-      <div ref="svgContainer"></div>
+      <div ref="svgContainer" className="svgContainer"></div>
     </div>
   )
 }

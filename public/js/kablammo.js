@@ -78,12 +78,7 @@ export default class Kablammo extends React.Component {
  // Life-cycle methods //
 
  render() {
-     return (
-        <div
-          className="grapher" ref="grapher">
-          {Grapher_component.grapher_render()}
-        </div>
-     );
+    return Grapher_component.grapher_render();
  }
 
  /**
