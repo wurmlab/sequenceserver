@@ -690,11 +690,14 @@ var Query = React.createClass({
                     (
                         <div
                             className="page-content">
-
+                            <h5
+                              className="caption">
+                              Alignment overview
+                            </h5>
                             <GraphicalOverview query={this.props.query} program={this.props.data.program}/>
                             <h5
                               className="caption">
-                              Frequency of Hit Lengths
+                              Length Distribution of Hits
                             </h5>
                             <LengthDistribution query={this.props.query} algorithm={this.props.data.program}/>
                             <HitsTable query={this.props.query}/>
@@ -1253,6 +1256,7 @@ var Report = React.createClass({
         this.setupDownloadLinks();
         this.setupSequenceViewer();
         this.setupKablammoImageExporter();
+        Grapher.setupResponsiveness();
     }
 });
 

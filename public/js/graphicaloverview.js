@@ -162,7 +162,7 @@ import * as Helpers from './visualisation_helpers';
             .attr('x', 6 * (width - 2 * options.margin) / 10 - options.margin / 2)
             // .text("Weaker hits");
             .text(function() {
-              return hits[hits.length-1].hitEvalue;
+              return Helpers.prettify_evalue(hits[hits.length-1].hitEvalue);
             })
 
         svg_legend.append('text')
@@ -171,7 +171,7 @@ import * as Helpers from './visualisation_helpers';
             .attr('x', 9 * (width - 2 * options.margin) / 10 + options.margin / 2)
             // .text("Stronger hits");
             .text(function () {
-              return hits[0].hitEvalue;
+              return Helpers.prettify_evalue(hits[0].hitEvalue);
             })
 
         svg.append('linearGradient')
@@ -244,7 +244,7 @@ import * as Helpers from './visualisation_helpers';
                     .attr('width', width)
                     .attr('height', height)
                 .append('g')
-                    .attr('transform', 'translate(' + options.margin / 4 + ', ' + (1.5 * options.margin) + ')');
+                    .attr('transform', 'translate(' + options.margin / 2 + ', ' + (1.5 * options.margin) + ')');
 
             var x = d3.scale
                 .linear()

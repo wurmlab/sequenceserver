@@ -50,6 +50,20 @@ export function grapher_node() {
   return $(React.findDOMNode(this.refs.grapher));
 }
 
+export function setupResponsiveness() {
+  $.fn.resize_graph = function () {
+    $('.grapher').each(function (index) {
+      console.log('test '+index);
+    })
+  }
+  // $(window).resize(function () {
+  //   $('.grapher').each(function (index) {
+  //     var svg = $(React.findDOMNode(svgContainer))
+  //     svg.Graph().draw()
+  //   })
+  // });
+}
+
 export function grapher_render() {
   return (
     <div className="grapher" ref="grapher">

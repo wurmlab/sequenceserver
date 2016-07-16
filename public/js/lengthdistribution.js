@@ -49,7 +49,7 @@ export class Graph {
         .append('g')
         .attr('transform','translate('+this._margin.left+','+this._margin.top+')');
     this.draw();
-    this.setupResponsiveness();
+    // this.setupResponsiveness();
   }
 
   draw() {

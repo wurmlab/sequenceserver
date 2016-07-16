@@ -23,8 +23,7 @@
 }
 
 .graph-links {
-  background-color: rgb(238,238,238);
-  right: 4%;
+  right: 3%;
   position: absolute;
   z-index: 10;
 }
@@ -56,6 +55,10 @@
 .caption {
   text-align: left;
   text-transform: uppercase;
+}
+
+.btn > .btn-link > .more {
+  text-align: center;
 }
 
 .bar:hover {
