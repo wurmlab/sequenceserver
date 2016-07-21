@@ -631,7 +631,9 @@ var GraphicalOverview = React.createClass({
         var hits = this.toGraph(this.props.query.hits, this.props.query.number);
         var query_div = this.svgContainer().parents('.resultn');
         this.graph_links = Grapher.graph_links($(React.findDOMNode(this.refs.grapher)));
-        $.graphIt(query_div, this.svgContainer(), 0, 20, null, hits);
+        this.graph = $.graphIt(query_div, this.svgContainer(), 0, 20, null, hits);
+        var arr = Grapher.graph();
+        arr.push(this.graph);
     }
 });
 

@@ -81,6 +81,13 @@ export default class Kablammo extends React.Component {
     return Grapher_component.grapher_render();
  }
 
+ componentWillUpdate() {
+   console.log('update');
+   this.svgContainer().find('svg').remove();
+   Graph.prototype._canvas_width = this.svgContainer().width();
+   this._graph._initiate();
+ }
+
  /**
   * Invokes Graph method defined in graph.js to render kablammo visualization.
   * Also defines event handler for hovering on HSP polygon.
@@ -106,6 +113,12 @@ export default class Kablammo extends React.Component {
          svgContainer,
          Helpers
      );
+
+    //  var arr = Grapher_component.graph();
+    //  arr.push(this.graph);
+     $(window).resize(_.bind(function() {
+       this.setState({width: $(window).width()});
+     }, this));
 
      // Disable hover handlers and show alignment on selecting hsp.
      var selected = {}

@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'underscore';
 
 // export default class Grapher {
 //   // svgContainer() {
@@ -50,6 +51,12 @@ export function grapher_node() {
   return $(React.findDOMNode(this.refs.grapher));
 }
 
+var arr = new Array();
+
+export function graph() {
+  return arr;
+}
+
 export function setupResponsiveness() {
   $.fn.resize_graph = function () {
     $('.grapher').each(function (index) {
@@ -57,10 +64,26 @@ export function setupResponsiveness() {
     })
   }
   // $(window).resize(function () {
-  //   $('.grapher').each(function (index) {
-  //     var svg = $(React.findDOMNode(svgContainer))
-  //     svg.Graph().draw()
-  //   })
+  //   // $('.grapher').each(function () {
+  //   //   var svg = $(React.findDOMNode(this.svgContainer));
+  //   //   console.log('svg test '+$(this).children+' sec '+$(this));
+  //   //   svg.draw();
+  //   //   // this.graph.draw();
+  //   // })
+  //   // // console.log("test "+$('.grapher').refs);
+  //   var test = [1, 3, , 7, ,9];
+  //   // arr.fill(7);
+  //   // var arr = graph();
+  //   console.log('resize initiated '+Array.from(arr.values())+ ' other '+[...test]);
+  //   // _.each(test, _.bind(function() {
+  //   //   console.log('test '+ this);
+  //   // }, this));
+  //   for (const x of arr){
+  //     if (!_.isUndefined(x)) {
+  //       // console.log('offof '+x.hasClass());
+  //       x.draw();
+  //     }
+  //   }
   // });
 }
 

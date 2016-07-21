@@ -15,9 +15,33 @@ export default class LengthDistribution extends React.Component {
     return $(React.findDOMNode(this.refs.svgContainer));
   }
 
+  // shouldComponentUpdate() {
+  //   var currentWidth = $(window).width();
+  //   console.log('in should '+currentWidth);
+  //   // $(window).resize(function () {
+  //   //   if (currentWidth != $(window).width()) return true;
+  //   // })
+  //   return true;
+  // }
+
+  componentWillUpdate() {
+    console.log('in will update');
+    // this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm);
+    this.svgContainer().find('svg').remove();
+    this.graph.initiate(this.svgContainer().width());
+  }
+
   componentDidMount() {
     this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm);
     this.graph_links = Grapher.graph_links($(React.findDOMNode(this.refs.grapher)));
+    React.findDOMNode(this.refs.grapher).graph = this.graph;
+    // var arr = Grapher.graph()
+    // arr.push(this.graph);
+    // this.setState({width: $(window).width()});
+    $(window).resize(_.bind(function () {
+      this.setState({width: $(window).width()});
+    }, this))
+    // Grapher.graph().fill(this.graph, this.length-1, this.length);
     // var svgContainer = this.svgContainer();
     // console.log('test '+svgContainer);
     // svgContainer
@@ -38,24 +62,36 @@ export class Graph {
   constructor(query, $svg_container, algorithm) {
     this.query = query;
     this._seq_type = Helpers.get_seq_type(algorithm);
+    this.svg_container = $svg_container
 
     this._margin = {top: 30, right: 40, bottom: 55, left: 15};
-    this._width = $svg_container.width() - this._margin.left - this._margin.right;
-    this._height = 350 - this._margin.top - this._margin.bottom;
 
-    this.svg = d3.select($svg_container[0]).insert('svg', ':first-child')
-        .attr('width', this._width + this._margin.right + this._margin.left)
-        .attr('height', this._height + this._margin.top + this._margin.bottom)
-        .append('g')
-        .attr('transform','translate('+this._margin.left+','+this._margin.top+')');
-    this.draw();
-    // this.setupResponsiveness();
+
+
+    this.initiate($svg_container.width());
+    // if (this.query.number == 1) {
+    //   this.setupResponsiveness();
+    // }
   }
 
-  draw() {
+  initiate(width) {
+    this._width = width - this._margin.left - this._margin.right;
+    this._height = 350 - this._margin.top - this._margin.bottom;
+    this.svg = d3.select(this.svg_container[0]).insert('svg', ':first-child')
+        .attr('width', this._width + this._margin.right + this._margin.left)
+        .attr('height', this._height + this._margin.top + this._margin.bottom)
+        // .attr('width', $svg_container.width())
+        // .attr('height', 350)
+        .append('g')
+        .attr('transform','translate('+this._margin.left+','+this._margin.top+')');
     this.hit_lengths();
     this.define_scale_and_bins();
     this.update_data();
+    this.draw();
+  }
+
+  draw() {
+    console.log('drawing');
     this.draw_rectangles();
     this.draw_query_line();
     this.draw_axes();
@@ -94,12 +130,24 @@ export class Graph {
 
   setupResponsiveness() {
     var currentWidth = $(window).width();
+    console.log('cureent '+currentWidth);
     var debounced_draw = _.debounce(_.bind(function () {
       if (currentWidth != $(window).width()) {
-        console.log('redraw initiated ');
+        console.log('redraw initiated '+this._height);
         this.draw();
+        currentWidth = $(window).width();
       }
     }, this), 125);
+    // var debounced_draw = _.debounce(function () {
+    //   if (currentWidth != $(window).width) {
+    //     console.log('test '+this._height);
+    //     this.draw();
+    //   }
+    // }, 125);
+    // $(window).resize(function () {
+    //   console.log('resiing');
+    //   debounced_draw;
+    // });
     $(window).resize(debounced_draw);
   }
 
