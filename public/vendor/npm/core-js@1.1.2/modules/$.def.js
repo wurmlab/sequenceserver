@@ -1,8 +1,8 @@
 /* */ 
-var global = require("./$.global"),
-    core = require("./$.core"),
-    hide = require("./$.hide"),
-    $redef = require("./$.redef"),
+var global = require('./$.global'),
+    core = require('./$.core'),
+    hide = require('./$.hide'),
+    $redef = require('./$.redef'),
     PROTOTYPE = 'prototype';
 var ctx = function(fn, that) {
   return function() {

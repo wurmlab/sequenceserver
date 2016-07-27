@@ -1,4 +1,4 @@
-import './kablammo/graph';
+import Graph from './kablammo/graph';
 import './kablammo/exporter';
 import './kablammo/image_exporter';
 import './kablammo/alignment_viewer';
@@ -84,7 +84,7 @@ export default class Kablammo extends React.Component {
  componentWillUpdate() {
    console.log('update');
    this.svgContainer().find('svg').remove();
-   Graph.prototype._canvas_width = this.svgContainer().width();
+   this._graph._canvas_width = this.svgContainer().width();
    this._graph._initiate();
  }
 
@@ -98,7 +98,7 @@ export default class Kablammo extends React.Component {
      var grapher = new Grapher();
      this.graph_links = Grapher_component.graph_links($(React.findDOMNode(this.refs.grapher)));
 
-     Graph.prototype._canvas_width = svgContainer.width();
+    //  Graph.prototype._canvas_width = svgContainer.width();
 
      this._graph = new Graph(
          grapher,

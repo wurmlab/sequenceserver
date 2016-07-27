@@ -1,18 +1,18 @@
 /* */ 
 'use strict';
-var $ = require("./$"),
-    hide = require("./$.hide"),
-    ctx = require("./$.ctx"),
-    species = require("./$.species"),
-    strictNew = require("./$.strict-new"),
-    defined = require("./$.defined"),
-    forOf = require("./$.for-of"),
-    step = require("./$.iter-step"),
-    ID = require("./$.uid")('id'),
-    $has = require("./$.has"),
-    isObject = require("./$.is-object"),
+var $ = require('./$'),
+    hide = require('./$.hide'),
+    ctx = require('./$.ctx'),
+    species = require('./$.species'),
+    strictNew = require('./$.strict-new'),
+    defined = require('./$.defined'),
+    forOf = require('./$.for-of'),
+    step = require('./$.iter-step'),
+    ID = require('./$.uid')('id'),
+    $has = require('./$.has'),
+    isObject = require('./$.is-object'),
     isExtensible = Object.isExtensible || isObject,
-    SUPPORT_DESC = require("./$.support-desc"),
+    SUPPORT_DESC = require('./$.support-desc'),
     SIZE = SUPPORT_DESC ? '_s' : 'size',
     id = 0;
 var fastKey = function(it, create) {
@@ -48,7 +48,7 @@ module.exports = {
       if (iterable != undefined)
         forOf(iterable, IS_MAP, that[ADDER], that);
     });
-    require("./$.mix")(C.prototype, {
+    require('./$.mix')(C.prototype, {
       clear: function clear() {
         for (var that = this,
             data = that._i,
@@ -127,7 +127,7 @@ module.exports = {
   },
   getEntry: getEntry,
   setStrong: function(C, NAME, IS_MAP) {
-    require("./$.iter-define")(C, NAME, function(iterated, kind) {
+    require('./$.iter-define')(C, NAME, function(iterated, kind) {
       this._t = iterated;
       this._k = kind;
       this._l = undefined;
@@ -148,6 +148,6 @@ module.exports = {
       return step(0, [entry.k, entry.v]);
     }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
     species(C);
-    species(require("./$.core")[NAME]);
+    species(require('./$.core')[NAME]);
   }
 };

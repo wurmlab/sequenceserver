@@ -1,6 +1,6 @@
 /* */ 
-var $ = require("./$"),
-    toIObject = require("./$.to-iobject");
+var $ = require('./$'),
+    toIObject = require('./$.to-iobject');
 module.exports = function(object, el) {
   var O = toIObject(object),
       keys = $.getKeys(O),

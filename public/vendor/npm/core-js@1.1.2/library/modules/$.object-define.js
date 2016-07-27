@@ -1,7 +1,7 @@
 /* */ 
-var $ = require("./$"),
-    ownKeys = require("./$.own-keys"),
-    toIObject = require("./$.to-iobject");
+var $ = require('./$'),
+    ownKeys = require('./$.own-keys'),
+    toIObject = require('./$.to-iobject');
 module.exports = function define(target, mixin) {
   var keys = ownKeys(toIObject(mixin)),
       length = keys.length,

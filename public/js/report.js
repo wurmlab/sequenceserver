@@ -8,6 +8,7 @@ import Kablammo from './kablammo';
 import './sequence';
 import LengthDistribution from './lengthdistribution';
 import * as Grapher from './grapher';
+import Circos from './circos';
 
 /**
  * Pretty formats number
@@ -1116,6 +1117,7 @@ var Report = React.createClass({
             <div
                 className={this.shouldShowSidebar() ? 'col-md-9 main' : 'col-md-12'}>
                 { this.overview() }
+                <Circos queries={this.state.queries}/>
                 {
                     _.map(this.state.queries, _.bind(function (query) {
                         return (

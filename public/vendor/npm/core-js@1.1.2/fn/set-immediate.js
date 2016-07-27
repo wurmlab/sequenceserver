@@ -1,3 +1,3 @@
 /* */ 
-require("../modules/web.immediate");
-module.exports = require("../modules/$.core").setImmediate;
+require('../modules/web.immediate');
+module.exports = require('../modules/$.core').setImmediate;

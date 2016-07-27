@@ -1,10 +1,10 @@
 /* */ 
-var $ = require("./$"),
-    has = require("./$.has"),
-    $def = require("./$.def"),
-    createDesc = require("./$.property-desc"),
-    anObject = require("./$.an-object"),
-    isObject = require("./$.is-object");
+var $ = require('./$'),
+    has = require('./$.has'),
+    $def = require('./$.def'),
+    createDesc = require('./$.property-desc'),
+    anObject = require('./$.an-object'),
+    isObject = require('./$.is-object');
 function set(target, propertyKey, V) {
   var receiver = arguments.length < 4 ? target : arguments[3],
       ownDesc = $.getDesc(anObject(target), propertyKey),

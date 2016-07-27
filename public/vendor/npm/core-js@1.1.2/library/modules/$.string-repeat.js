@@ -1,7 +1,7 @@
 /* */ 
 'use strict';
-var toInteger = require("./$.to-integer"),
-    defined = require("./$.defined");
+var toInteger = require('./$.to-integer'),
+    defined = require('./$.defined');
 module.exports = function repeat(count) {
   var str = String(defined(this)),
       res = '',

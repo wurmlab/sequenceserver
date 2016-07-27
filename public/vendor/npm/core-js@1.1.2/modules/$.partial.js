@@ -1,8 +1,8 @@
 /* */ 
 'use strict';
-var path = require("./$.path"),
-    invoke = require("./$.invoke"),
-    aFunction = require("./$.a-function");
+var path = require('./$.path'),
+    invoke = require('./$.invoke'),
+    aFunction = require('./$.a-function');
 module.exports = function() {
   var fn = aFunction(this),
       length = arguments.length,

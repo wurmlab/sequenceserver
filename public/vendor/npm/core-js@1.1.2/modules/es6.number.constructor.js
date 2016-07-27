@@ -1,11 +1,11 @@
 /* */ 
 'use strict';
-var $ = require("./$"),
-    global = require("./$.global"),
-    has = require("./$.has"),
-    cof = require("./$.cof"),
-    isObject = require("./$.is-object"),
-    fails = require("./$.fails"),
+var $ = require('./$'),
+    global = require('./$.global'),
+    has = require('./$.has'),
+    cof = require('./$.cof'),
+    isObject = require('./$.is-object'),
+    fails = require('./$.fails'),
     NUMBER = 'Number',
     $Number = global[NUMBER],
     Base = $Number,
@@ -43,12 +43,12 @@ if (!($Number('0o1') && $Number('0b1'))) {
       proto.valueOf.call(that);
     }) : cof(that) != NUMBER) ? new Base(toNumber(it)) : toNumber(it);
   };
-  $.each.call(require("./$.support-desc") ? $.getNames(Base) : ('MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' + 'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' + 'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger').split(','), function(key) {
+  $.each.call(require('./$.support-desc') ? $.getNames(Base) : ('MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' + 'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' + 'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger').split(','), function(key) {
     if (has(Base, key) && !has($Number, key)) {
       $.setDesc($Number, key, $.getDesc(Base, key));
     }
   });
   $Number.prototype = proto;
   proto.constructor = $Number;
-  require("./$.redef")(global, NUMBER, $Number);
+  require('./$.redef')(global, NUMBER, $Number);
 }

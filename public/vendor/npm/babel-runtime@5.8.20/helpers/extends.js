@@ -1,6 +1,6 @@
 /* */ 
 "use strict";
-var _Object$assign = require("../core-js/object/assign")["default"];
+var _Object$assign = require('../core-js/object/assign')["default"];
 exports["default"] = _Object$assign || function(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];

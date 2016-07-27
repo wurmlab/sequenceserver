@@ -1,3 +1,3 @@
 /* */ 
-require("../../modules/es6.regexp.match");
-module.exports = require("../../modules/$.wks")('match');
+require('../../modules/es6.regexp.match');
+module.exports = require('../../modules/$.wks')('match');

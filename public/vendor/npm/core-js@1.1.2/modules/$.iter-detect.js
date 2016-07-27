@@ -1,5 +1,5 @@
 /* */ 
-var SYMBOL_ITERATOR = require("./$.wks")('iterator'),
+var SYMBOL_ITERATOR = require('./$.wks')('iterator'),
     SAFE_CLOSING = false;
 try {
   var riter = [7][SYMBOL_ITERATOR]();

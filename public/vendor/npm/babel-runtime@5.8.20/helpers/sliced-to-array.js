@@ -1,7 +1,7 @@
 /* */ 
 "use strict";
-var _getIterator = require("../core-js/get-iterator")["default"];
-var _isIterable = require("../core-js/is-iterable")["default"];
+var _getIterator = require('../core-js/get-iterator')["default"];
+var _isIterable = require('../core-js/is-iterable')["default"];
 exports["default"] = (function() {
   function sliceIterator(arr, i) {
     var _arr = [];

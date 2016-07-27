@@ -1,9 +1,9 @@
 /* */ 
-require("./es6.array.iterator");
-var global = require("./$.global"),
-    hide = require("./$.hide"),
-    Iterators = require("./$.iterators"),
-    ITERATOR = require("./$.wks")('iterator'),
+require('./es6.array.iterator');
+var global = require('./$.global'),
+    hide = require('./$.hide'),
+    Iterators = require('./$.iterators'),
+    ITERATOR = require('./$.wks')('iterator'),
     NL = global.NodeList,
     HTC = global.HTMLCollection,
     NLProto = NL && NL.prototype,

@@ -1,3 +1,3 @@
 /* */ 
-var $def = require("./$.def");
-$def($def.S, 'Math', {sign: require("./$.sign")});
+var $def = require('./$.def');
+$def($def.S, 'Math', {sign: require('./$.sign')});

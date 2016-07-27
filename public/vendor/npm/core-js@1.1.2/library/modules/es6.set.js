@@ -1,7 +1,7 @@
 /* */ 
 'use strict';
-var strong = require("./$.collection-strong");
-require("./$.collection")('Set', function(get) {
+var strong = require('./$.collection-strong');
+require('./$.collection')('Set', function(get) {
   return function Set() {
     return get(this, arguments[0]);
   };

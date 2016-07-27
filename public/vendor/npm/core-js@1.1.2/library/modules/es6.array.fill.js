@@ -1,9 +1,9 @@
 /* */ 
 'use strict';
-var $def = require("./$.def"),
-    toObject = require("./$.to-object"),
-    toIndex = require("./$.to-index"),
-    toLength = require("./$.to-length");
+var $def = require('./$.def'),
+    toObject = require('./$.to-object'),
+    toIndex = require('./$.to-index'),
+    toLength = require('./$.to-length');
 $def($def.P, 'Array', {fill: function fill(value) {
     var O = toObject(this, true),
         length = toLength(O.length),
@@ -14,4 +14,4 @@ $def($def.P, 'Array', {fill: function fill(value) {
       O[index++] = value;
     return O;
   }});
-require("./$.unscope")('fill');
+require('./$.unscope')('fill');

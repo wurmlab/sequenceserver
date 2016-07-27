@@ -1,7 +1,7 @@
 /* */ 
 'use strict';
-var $def = require("./$.def"),
-    anObject = require("./$.an-object");
+var $def = require('./$.def'),
+    anObject = require('./$.an-object');
 var Enumerate = function(iterated) {
   this._t = anObject(iterated);
   this._i = 0;
@@ -10,7 +10,7 @@ var Enumerate = function(iterated) {
   for (key in iterated)
     keys.push(key);
 };
-require("./$.iter-create")(Enumerate, 'Object', function() {
+require('./$.iter-create')(Enumerate, 'Object', function() {
   var that = this,
       keys = that._k,
       key;

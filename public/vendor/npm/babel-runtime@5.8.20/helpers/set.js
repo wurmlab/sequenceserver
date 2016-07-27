@@ -1,6 +1,6 @@
 /* */ 
 "use strict";
-var _Object$getOwnPropertyDescriptor = require("../core-js/object/get-own-property-descriptor")["default"];
+var _Object$getOwnPropertyDescriptor = require('../core-js/object/get-own-property-descriptor')["default"];
 exports["default"] = function set(object, property, value, receiver) {
   var desc = _Object$getOwnPropertyDescriptor(object, property);
   if (desc === undefined) {

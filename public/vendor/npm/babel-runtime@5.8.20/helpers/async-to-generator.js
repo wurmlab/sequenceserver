@@ -1,6 +1,6 @@
 /* */ 
 "use strict";
-var _Promise = require("../core-js/promise")["default"];
+var _Promise = require('../core-js/promise')["default"];
 exports["default"] = function(fn) {
   return function() {
     var gen = fn.apply(this, arguments);

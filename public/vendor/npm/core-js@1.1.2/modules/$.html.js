@@ -1,2 +1,2 @@
 /* */ 
-module.exports = require("./$.global").document && document.documentElement;
+module.exports = require('./$.global').document && document.documentElement;

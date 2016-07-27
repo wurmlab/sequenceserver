@@ -3,7 +3,7 @@ var g = typeof global === "object" ? global : typeof window === "object" ? windo
 var hadRuntime = g.regeneratorRuntime && Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
 var oldRuntime = hadRuntime && g.regeneratorRuntime;
 g.regeneratorRuntime = undefined;
-module.exports = require("./runtime");
+module.exports = require('./runtime');
 if (hadRuntime) {
   g.regeneratorRuntime = oldRuntime;
 } else {

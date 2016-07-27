@@ -1,6 +1,6 @@
 /* */ 
-var cof = require("./$.cof"),
-    TAG = require("./$.wks")('toStringTag'),
+var cof = require('./$.cof'),
+    TAG = require('./$.wks')('toStringTag'),
     ARG = cof(function() {
       return arguments;
     }()) == 'Arguments';

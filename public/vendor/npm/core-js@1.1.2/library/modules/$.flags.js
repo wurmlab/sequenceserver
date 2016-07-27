@@ -1,6 +1,6 @@
 /* */ 
 'use strict';
-var anObject = require("./$.an-object");
+var anObject = require('./$.an-object');
 module.exports = function() {
   var that = anObject(this),
       result = '';

@@ -1,9 +1,9 @@
 /* */ 
-var $ = require("./$"),
-    $def = require("./$.def"),
-    ownKeys = require("./$.own-keys"),
-    toIObject = require("./$.to-iobject"),
-    createDesc = require("./$.property-desc");
+var $ = require('./$'),
+    $def = require('./$.def'),
+    ownKeys = require('./$.own-keys'),
+    toIObject = require('./$.to-iobject'),
+    createDesc = require('./$.property-desc');
 $def($def.S, 'Object', {getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
     var O = toIObject(object),
         setDesc = $.setDesc,

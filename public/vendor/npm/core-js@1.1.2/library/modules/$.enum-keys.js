@@ -1,5 +1,5 @@
 /* */ 
-var $ = require("./$");
+var $ = require('./$');
 module.exports = function(it) {
   var keys = $.getKeys(it),
       getSymbols = $.getSymbols;

@@ -1,2 +1,2 @@
 /* */ 
-module.exports = require("./$.global");
+module.exports = require('./$.global');

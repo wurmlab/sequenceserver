@@ -1,9 +1,9 @@
 /* */ 
 'use strict';
-var $def = require("./$.def"),
-    toObject = require("./$.to-object"),
-    toIndex = require("./$.to-index"),
-    toLength = require("./$.to-length");
+var $def = require('./$.def'),
+    toObject = require('./$.to-object'),
+    toIndex = require('./$.to-index'),
+    toLength = require('./$.to-length');
 $def($def.P, 'Array', {copyWithin: function copyWithin(target, start) {
     var O = toObject(this),
         len = toLength(O.length),
@@ -28,4 +28,4 @@ $def($def.P, 'Array', {copyWithin: function copyWithin(target, start) {
     }
     return O;
   }});
-require("./$.unscope")('copyWithin');
+require('./$.unscope')('copyWithin');

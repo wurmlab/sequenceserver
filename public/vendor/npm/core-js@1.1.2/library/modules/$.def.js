@@ -1,6 +1,6 @@
 /* */ 
-var global = require("./$.global"),
-    core = require("./$.core"),
+var global = require('./$.global'),
+    core = require('./$.core'),
     PROTOTYPE = 'prototype';
 var ctx = function(fn, that) {
   return function() {

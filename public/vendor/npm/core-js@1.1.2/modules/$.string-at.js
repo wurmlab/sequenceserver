@@ -1,6 +1,6 @@
 /* */ 
-var toInteger = require("./$.to-integer"),
-    defined = require("./$.defined");
+var toInteger = require('./$.to-integer'),
+    defined = require('./$.defined');
 module.exports = function(TO_STRING) {
   return function(that, pos) {
     var s = String(defined(that)),

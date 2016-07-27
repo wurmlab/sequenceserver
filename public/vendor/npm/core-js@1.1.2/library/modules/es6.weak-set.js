@@ -1,7 +1,7 @@
 /* */ 
 'use strict';
-var weak = require("./$.collection-weak");
-require("./$.collection")('WeakSet', function(get) {
+var weak = require('./$.collection-weak');
+require('./$.collection')('WeakSet', function(get) {
   return function WeakSet() {
     return get(this, arguments[0]);
   };

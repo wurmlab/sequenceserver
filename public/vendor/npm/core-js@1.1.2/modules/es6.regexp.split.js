@@ -1,5 +1,5 @@
 /* */ 
-require("./$.fix-re-wks")('split', 2, function(defined, SPLIT, $split) {
+require('./$.fix-re-wks')('split', 2, function(defined, SPLIT, $split) {
   return function split(separator, limit) {
     'use strict';
     var O = defined(this),

@@ -1,9 +1,9 @@
 /* */ 
-var $ = require("./$"),
-    has = require("./$.has"),
-    $def = require("./$.def"),
-    isObject = require("./$.is-object"),
-    anObject = require("./$.an-object");
+var $ = require('./$'),
+    has = require('./$.has'),
+    $def = require('./$.def'),
+    isObject = require('./$.is-object'),
+    anObject = require('./$.an-object');
 function get(target, propertyKey) {
   var receiver = arguments.length < 3 ? target : arguments[2],
       desc,

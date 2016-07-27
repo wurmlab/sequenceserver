@@ -1,3 +1,3 @@
 /* */ 
-require("../modules/core.function.part");
-module.exports = require("../modules/$.core")._;
+require('../modules/core.function.part');
+module.exports = require('../modules/$.core')._;

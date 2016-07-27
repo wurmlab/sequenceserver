@@ -1,5 +1,5 @@
 /* */ 
-var aFunction = require("./$.a-function");
+var aFunction = require('./$.a-function');
 module.exports = function(fn, that, length) {
   aFunction(fn);
   if (that === undefined)

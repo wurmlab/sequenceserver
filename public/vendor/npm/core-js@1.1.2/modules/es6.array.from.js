@@ -1,13 +1,13 @@
 /* */ 
 'use strict';
-var ctx = require("./$.ctx"),
-    $def = require("./$.def"),
-    toObject = require("./$.to-object"),
-    call = require("./$.iter-call"),
-    isArrayIter = require("./$.is-array-iter"),
-    toLength = require("./$.to-length"),
-    getIterFn = require("./core.get-iterator-method");
-$def($def.S + $def.F * !require("./$.iter-detect")(function(iter) {
+var ctx = require('./$.ctx'),
+    $def = require('./$.def'),
+    toObject = require('./$.to-object'),
+    call = require('./$.iter-call'),
+    isArrayIter = require('./$.is-array-iter'),
+    toLength = require('./$.to-length'),
+    getIterFn = require('./core.get-iterator-method');
+$def($def.S + $def.F * !require('./$.iter-detect')(function(iter) {
   Array.from(iter);
 }), 'Array', {from: function from(arrayLike) {
     var O = toObject(arrayLike),

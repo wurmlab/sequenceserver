@@ -1,7 +1,7 @@
 /* */ 
-var toObject = require("./$.to-object"),
-    IObject = require("./$.iobject"),
-    enumKeys = require("./$.enum-keys");
+var toObject = require('./$.to-object'),
+    IObject = require('./$.iobject'),
+    enumKeys = require('./$.enum-keys');
 module.exports = Object.assign || function assign(target, source) {
   var T = toObject(target),
       l = arguments.length,

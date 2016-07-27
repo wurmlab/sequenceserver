@@ -1,6 +1,6 @@
 /* */ 
-var $def = require("./$.def");
-$def($def.S + $def.F * require("./$.fails")(function() {
+var $def = require('./$.def');
+$def($def.S + $def.F * require('./$.fails')(function() {
   return Math.imul(0xffffffff, 5) != -5;
 }), 'Math', {imul: function imul(x, y) {
     var UINT16 = 0xffff,

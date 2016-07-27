@@ -1,1 +1,1 @@
-module.exports = require("npm:core-js@1.1.2/index");
+module.exports = require("npm:core-js@1.1.2/index.js");

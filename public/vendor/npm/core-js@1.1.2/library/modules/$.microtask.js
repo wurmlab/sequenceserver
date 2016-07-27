@@ -1,7 +1,7 @@
 /* */ 
 (function(process) {
-  var global = require("./$.global"),
-      macrotask = require("./$.task").set,
+  var global = require('./$.global'),
+      macrotask = require('./$.task').set,
       Observer = global.MutationObserver || global.WebKitMutationObserver,
       process = global.process,
       head,
@@ -14,7 +14,7 @@
     }
     last = undefined;
   };
-  if (require("./$.cof")(process) == 'process') {
+  if (require('./$.cof')(process) == 'process') {
     notify = function() {
       process.nextTick(flush);
     };
@@ -43,4 +43,4 @@
     }
     last = task;
   };
-})(require("process"));
+})(require('process'));

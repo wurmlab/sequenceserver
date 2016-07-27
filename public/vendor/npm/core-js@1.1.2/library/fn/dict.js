@@ -1,3 +1,3 @@
 /* */ 
-require("../modules/core.dict");
-module.exports = require("../modules/$.core").Dict;
+require('../modules/core.dict');
+module.exports = require('../modules/$.core').Dict;

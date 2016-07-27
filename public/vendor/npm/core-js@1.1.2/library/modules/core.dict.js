@@ -1,19 +1,19 @@
 /* */ 
 'use strict';
-var $ = require("./$"),
-    ctx = require("./$.ctx"),
-    $def = require("./$.def"),
-    createDesc = require("./$.property-desc"),
-    assign = require("./$.assign"),
-    keyOf = require("./$.keyof"),
-    aFunction = require("./$.a-function"),
-    forOf = require("./$.for-of"),
-    isIterable = require("./core.is-iterable"),
-    step = require("./$.iter-step"),
-    isObject = require("./$.is-object"),
-    toIObject = require("./$.to-iobject"),
-    SUPPORT_DESC = require("./$.support-desc"),
-    has = require("./$.has"),
+var $ = require('./$'),
+    ctx = require('./$.ctx'),
+    $def = require('./$.def'),
+    createDesc = require('./$.property-desc'),
+    assign = require('./$.assign'),
+    keyOf = require('./$.keyof'),
+    aFunction = require('./$.a-function'),
+    forOf = require('./$.for-of'),
+    isIterable = require('./core.is-iterable'),
+    step = require('./$.iter-step'),
+    isObject = require('./$.is-object'),
+    toIObject = require('./$.to-iobject'),
+    SUPPORT_DESC = require('./$.support-desc'),
+    has = require('./$.has'),
     getKeys = $.getKeys;
 var createDictMethod = function(TYPE) {
   var IS_MAP = TYPE == 1,
@@ -65,7 +65,7 @@ var DictIterator = function(iterated, kind) {
   this._i = 0;
   this._k = kind;
 };
-require("./$.iter-create")(DictIterator, 'Dict', function() {
+require('./$.iter-create')(DictIterator, 'Dict', function() {
   var that = this,
       O = that._t,
       keys = that._a,
