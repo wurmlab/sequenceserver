@@ -1117,7 +1117,7 @@ var Report = React.createClass({
             <div
                 className={this.shouldShowSidebar() ? 'col-md-9 main' : 'col-md-12'}>
                 { this.overview() }
-                <Circos queries={this.state.queries}/>
+                <Circos queries={this.state.queries} data={this.state}/>
                 {
                     _.map(this.state.queries, _.bind(function (query) {
                         return (
