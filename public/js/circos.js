@@ -10,28 +10,37 @@ export default class Circos extends React.Component {
 
   componentDidMount() {
     // CircosJs(this.props.queries);
-    this.graph = new Graph(this.props.queries, this.props.data.program);
+    this.graph = new Graph(this.props.data.queries, this.props.data.program, this.svgContainer());
   }
 
-  svgTag() {
-    return $(React.findDOMNode(this.refs.svgTag));
+  svgContainer() {
+    return $(React.findDOMNode(this.refs.svgContainer));
   }
 
   render() {
     return (
-      <svg className="circosContainer" ref="svgTag"></svg>
+      <div
+        className='svgContainer' ref='svgContainer'>
+        <svg className="circosContainer" ref="svgTag"></svg>
+      </div>
     )
   }
 }
 
 export class Graph {
-  constructor(queries, algorithm) {
+  constructor(queries, algorithm, $svgContainer) {
     this.queries = queries;
+    this.svgContainer = $svgContainer;
     this.seq_type = Helpers.get_seq_type(algorithm);
     this.initiate();
   }
 
   initiate() {
+    this.width = 800;
+    // this.width = this.svgContainer.width();
+    this.height = 800;
+    // this.height = this.svgContainer.height();
+    console.log('height test '+this.svgContainer.height()+' width '+this.svgContainer.width());
     this.query_arr = [];
     this.hit_arr = [];
     this.max_length = 0;
@@ -70,7 +79,7 @@ export class Graph {
     this.hit_arr = _.uniq(this.hit_arr);
     this.layout_data();
     this.chords_data();
-    this.create_instance();
+    this.create_instance(this.svgContainer, this.height, this.width);
     this.instance_render();
     _.each(this.query_arr, _.bind(function (id) {
       $(".Query_"+this.clean_id(id)).attr('data-toggle','tooltip')
@@ -80,7 +89,7 @@ export class Graph {
       $(".Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
                   .attr('title',id);
     }, this));
-    // this.setupTooltip();
+    this.setupTooltip();
   }
 
   layout_data() {
@@ -139,8 +148,8 @@ export class Graph {
   create_instance(container, width, height) {
     this.instance = new circosJs({
       container: '.circosContainer',
-      width: 800,
-      height: 800
+      width: width,
+      height: height
     });
     this.chord_layout();
     this.instance_layout();
