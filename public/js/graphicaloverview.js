@@ -160,19 +160,19 @@ import * as Helpers from './visualisation_helpers';
             .attr('class',' legend-text')
             .attr('transform', 'translate(0, ' +options.legend +')')
             .attr('x', 6 * (width - 2 * options.margin) / 10 - options.margin / 2)
-            // .text("Weaker hits");
-            .text(function() {
-              return Helpers.prettify_evalue(hits[hits.length-1].hitEvalue);
-            })
+            .text("Weaker hits");
+            // .text(function() {
+            //   return Helpers.prettify_evalue(hits[hits.length-1].hitEvalue);
+            // })
 
         svg_legend.append('text')
             .attr('class',' legend-text')
             .attr('transform', 'translate(0, ' + options.legend + ')')
             .attr('x', 9 * (width - 2 * options.margin) / 10 + options.margin / 2)
-            // .text("Stronger hits");
-            .text(function () {
-              return Helpers.prettify_evalue(hits[0].hitEvalue);
-            })
+            .text("Stronger hits");
+            // .text(function () {
+            //   return Helpers.prettify_evalue(hits[0].hitEvalue);
+            // })
 
         svg.append('linearGradient')
             .attr('id', 'legend-grad')

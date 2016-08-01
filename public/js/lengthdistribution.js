@@ -33,7 +33,6 @@ export default class LengthDistribution extends React.Component {
 
   componentDidMount() {
     this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm);
-    this.graph_links = Grapher.graph_links($(React.findDOMNode(this.refs.grapher)));
     React.findDOMNode(this.refs.grapher).graph = this.graph;
     // var arr = Grapher.graph()
     // arr.push(this.graph);

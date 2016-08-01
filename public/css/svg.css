@@ -26,9 +26,14 @@
   right: 3%;
   position: absolute;
   z-index: 10;
+  display: none;
 }
 
-.svgContainer {
+.grapher:hover .graph-links {
+  display: block;
+}
+
+.svg_container {
   padding-top: 2%;
 }
 

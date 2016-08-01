@@ -96,7 +96,6 @@ export default class Kablammo extends React.Component {
      var hsps = this.toKablammo(this.props.hit.hsps, this.props.query);
      var svgContainer = this.svgContainer();
      var grapher = new Grapher();
-     this.graph_links = Grapher_component.graph_links($(React.findDOMNode(this.refs.grapher)));
 
      Graph.prototype._canvas_width = svgContainer.width();
 
