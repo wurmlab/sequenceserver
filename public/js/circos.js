@@ -130,19 +130,45 @@ export class Graph {
 
     _.each(this.data, _.bind(function(query) {
       _.each(query.hits, _.bind(function(hit) {
+        console.log('inn layout '+this.hit_arr.length+' '+query.id);
         var index = _.indexOf(this.hit_arr, hit.id);
         if (index >= 0 ) {
+          console.log('test');
           var label = hit.id;
           // console.log('division hit '+hit.length/this.max_length);
           if (hit.length/this.max_length < 0.35) {
             label = label.slice(0,2) + '...';
           }
+          // _.each(this.layout_arr, function(arr) {
+          //   _.findKey(arr)
+          // })
+          // if (hit.id != _.property('id')(arr)) {
+          //   var item = {'len': hit.length, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
+          //   this.layout_arr.push(item);
+          // }
           var item = {'len': hit.length, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
           this.layout_arr.push(item);
           // this.hit_arr[index] = 0;
         }
       }, this))
     }, this));
+
+    // _.each(this.data, _.bind(function(query) {
+    //   _.each(this.hit_arr, _.bind(function(hit_id) {
+    //     _.each(query.hits, _.bind(function (hit) {
+    //       if(hit.id == hit_id) {
+    //         var label = hit.id;
+    //         // console.log('division hit '+hit.length/this.max_length);
+    //         if (hit.length/this.max_length < 0.35) {
+    //           label = label.slice(0,2) + '...';
+    //         }
+    //         var item = {'len': hit.length, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
+    //         this.layout_arr.push(item);
+    //       }
+    //     }, this))
+    //   }, this))
+    // }, this));
+    console.log('lst '+this.layout_arr.length);
   }
 
   clean_id(id) {
@@ -217,7 +243,7 @@ export class Graph {
       $(".Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
                   .attr('title',id);
     }, this));
-    
+
     $('[data-toggle="tooltip"]').tooltip({
       'placement': 'top',
       'container': 'body',
