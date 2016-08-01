@@ -2,6 +2,7 @@ import circosJs from 'nicgirault/circosJs';
 import React from 'react';
 import _ from 'underscore';
 import * as Helpers from './visualisation_helpers';
+import * as Grapher from './grapher';
 
 export default class Circos extends React.Component {
   constructor(props) {
@@ -10,7 +11,8 @@ export default class Circos extends React.Component {
 
   componentDidMount() {
     // CircosJs(this.props.queries);
-    this.graph = new Graph(this.props.data.queries, this.props.data.program, this.svgContainer());
+    this.graph = new Graph(this.props.queries, this.props.program, this.svgContainer(), this.props.hitArray);
+    this.graph_links = Grapher.graph_links($(React.findDOMNode(this.refs.grapher)));
   }
 
   svgContainer() {
@@ -20,34 +22,36 @@ export default class Circos extends React.Component {
   render() {
     return (
       <div
-        className='svgContainer' ref='svgContainer'>
-        <svg className="circosContainer" ref="svgTag"></svg>
+        className="grapher" ref="grapher">
+        <div
+            className="graph-links" style={{display:"none"}}>
+            <a href = "#" className="export-to-svg">
+                <i className="fa fa-download"/>
+                <span>{"  SVG  "}</span>
+            </a>
+            <span>{" | "}</span>
+            <a href = "#" className="export-to-png">
+                <i className="fa fa-download"/>
+                <span>{"  PNG  "}</span>
+            </a>
+        </div>
+        <div
+          className='svgContainer' ref='svgContainer'>
+          <svg className="circosContainer" ref="svgTag"></svg>
+        </div>
       </div>
     )
   }
 }
 
 export class Graph {
-  constructor(queries, algorithm, $svgContainer) {
+  constructor(queries, algorithm, $svgContainer, hit_arr) {
     this.queries = queries;
     this.svgContainer = $svgContainer;
     this.seq_type = Helpers.get_seq_type(algorithm);
-    this.initiate();
-  }
-
-  initiate() {
-    this.width = 800;
-    // this.width = this.svgContainer.width();
-    this.height = 800;
-    // this.height = this.svgContainer.height();
-    console.log('height test '+this.svgContainer.height()+' width '+this.svgContainer.width());
+    this.max_length = 0;
     this.query_arr = [];
     this.hit_arr = [];
-    this.max_length = 0;
-    this.denominator = 100;
-    this.spacing = 20;
-    var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
-    // this.suffix = suffixes[this.seq_type.subject_seq_type];
     this.data = _.map(this.queries, _.bind(function (query) {
       if (this.max_length < query.length) {
         this.max_length = query.length;
@@ -65,6 +69,29 @@ export class Graph {
       this.query_arr.push(query.id);
       return query;
     }, this));
+    if (hit_arr) {
+      this.hit_arr = _.uniq(hit_arr);
+      console.log('using hit_arr '+hit_arr.length);
+    } else {
+      console.log('using normal');
+      this.hit_arr = _.uniq(this.hit_arr);
+    }
+    this.initiate();
+  }
+
+  initiate() {
+    this.width = 800;
+    // this.width = this.svgContainer.width();
+    this.height = 800;
+    // this.height = this.svgContainer.height();
+    console.log('height test '+this.svgContainer.height()+' width '+this.svgContainer.width());
+
+
+    this.denominator = 100;
+    this.spacing = 20;
+    var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
+    // this.suffix = suffixes[this.seq_type.subject_seq_type];
+
 
     var prefix = d3.formatPrefix(this.max_length);
     this.suffix = ' '+prefix.symbol+suffixes[this.seq_type.subject_seq_type];
@@ -76,19 +103,11 @@ export class Graph {
     }
     console.log('check '+this.denominator+' '+this.suffix+' subject '+suffixes[this.seq_type.query_seq_type]);
     console.log('max '+this.max_length+' hit '+this.hit_arr.length);
-    this.hit_arr = _.uniq(this.hit_arr);
+
     this.layout_data();
     this.chords_data();
     this.create_instance(this.svgContainer, this.height, this.width);
     this.instance_render();
-    _.each(this.query_arr, _.bind(function (id) {
-      $(".Query_"+this.clean_id(id)).attr('data-toggle','tooltip')
-                    .attr('title',id)
-    }, this))
-    _.each(this.hit_arr, _.bind(function(id) {
-      $(".Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
-                  .attr('title',id);
-    }, this));
     this.setupTooltip();
   }
 
@@ -190,6 +209,15 @@ export class Graph {
   }
 
   setupTooltip() {
+    _.each(this.query_arr, _.bind(function (id) {
+      $(".Query_"+this.clean_id(id)).attr('data-toggle','tooltip')
+                    .attr('title',id)
+    }, this))
+    _.each(this.hit_arr, _.bind(function(id) {
+      $(".Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
+                  .attr('title',id);
+    }, this));
+    
     $('[data-toggle="tooltip"]').tooltip({
       'placement': 'top',
       'container': 'body',
