@@ -14,7 +14,7 @@
     "jspm": "^0.16.2"
   },
   "scripts": {
-    "build": "jspm bundle-sfx --minify --skip-source-maps js/sequenceserver.js public/sequenceserver.min.js && cat public/vendor/github/twbs/bootstrap@3.3.5/css/bootstrap.min.css public/vendor/npm/font-awesome@4.4.0/css/font-awesome.min.css public/css/custom.css | cleancss -o public/sequenceserver.min.css && gzip -kf public/sequenceserver.min.js && gzip -kf public/sequenceserver.min.css"
+    "build": "jspm bundle-sfx --minify --skip-source-maps js/sequenceserver.js public/sequenceserver.min.js && cleancss public/css/sequenceserver.css > public/sequenceserver.min.css && gzip -kf public/sequenceserver.min.js && gzip -kf public/sequenceserver.min.css"
   },
   "jspm": {
     "directories": {
