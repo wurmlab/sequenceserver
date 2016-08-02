@@ -782,6 +782,45 @@ var SideBar = React.createClass({
         this.postForm(sequence_ids, database_ids);
     },
 
+    circosOfSelected: function () {
+      var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
+        return this.value;
+      }).get();
+      _.each(sequence_ids, function(id) {
+        console.log('test '+id);
+      })
+      // var selected_hits = _.map(this.props.data.queries, function (query) {
+      //   var hit_details = _.map(query.hits, function (hit) {
+      //     if (id == hit.id) {
+      //       console.log('test indexOf '+_.indexOf(sequence_ids, hit.id));
+      //       return {id: hit.id, length: hit.length, number: hit.number, hsps: hit.hsps};
+      //     }
+      //     // return (_.indexOf(sequence_ids, hit.id) != -1);
+      //   });
+      //   console.log('internal test '+hit_details.length);
+      //   return {id: query.id, length: query.length, number: query.number, hits: hit_details};
+      // });
+
+      // var selected_hits = _.map(this.props.data.queries, function (query) {
+      //   return {id: query.id, length: query.length, hits: _.map(sequence_ids, function (id) {
+      //     _.each(query.hits, function (hit) {
+      //       if(id == _.property('id')(hit)) {
+      //         console.log('internal '+hit.id);
+      //         return {id: hit.id, length: hit.length, hsps: hits.hsps};
+      //       }
+      //     });
+      //   })};
+      // });
+      React.render(<CircosDemo queries={this.props.data.queries} program={this.props.data.program} hitArray={sequence_ids}/>,
+                    document.getElementById('circos-demo'));
+      // _.each(selected_hits, function(query) {
+      //   console.log('test '+query.id+' length '+query.hits.length);
+      //   _.each(query.hits, function(hit) {
+      //     console.log('hits test '+hit.id);
+      //   });
+      // });
+    },
+
     summary: function () {
         var program = this.props.data.program;
         var numqueries = this.props.data.queries.length;
@@ -843,9 +882,9 @@ var SideBar = React.createClass({
                   </li>
                   <li>
                     <a
-                      className='circos-of-selected'
-                      href='#'>
-                      Circos for selected
+                      className='circos-of-selected disabled'
+                      href='#' onClick={this.circosOfSelected}>
+                      Circos of <span className="text-bold"></span> selected hit(s)
                     </a>
                   </li>
                 </ul>
@@ -927,9 +966,16 @@ var CircosDemo = React.createClass({
     this.show();
   },
 
+  message: function () {
+    if (this.props.hitArray.length > 10) {
+      return "Sorry";
+    }
+    return false;
+  },
+
   renderCircos: function () {
     return (
-      <Circos data={this.props.data} />
+      <Circos queries={this.props.queries} program={this.props.program} hitArray={this.props.hitArray}/>
     );
   },
 
@@ -941,12 +987,12 @@ var CircosDemo = React.createClass({
           className='modal-content'>
           <div
             className='modal-header'>
-            <h3>Circos Demo</h3>
+            <h3>Circos Visualization</h3>
           </div>
 
           <div
             className='modal-body'>
-            { this.renderCircos() }
+            { this.message() || this.renderCircos() }
           </div>
         </div>
       </div>
@@ -985,6 +1031,8 @@ var Report = React.createClass({
             .addClass('glow')
             .find(":checkbox").not(checkbox).check();
             var $a = $('.download-fasta-of-selected');
+            var $c = $('.circos-of-selected');
+            $c.enable()
             var $n = $a.find('span');
             $a
             .enable()
@@ -999,12 +1047,17 @@ var Report = React.createClass({
         if (num_checked >= 1)
         {
             var $a = $('.download-fasta-of-selected');
-            $a.find('.text-bold').html(num_checked);
+            var $c = $('.circos-of-selected');
+            // $a.find('.text-bold').html(num_checked);
+            // $c.find('.text-bold').html(num_checked);
+            $('.text-bold').html(num_checked);
         }
 
         if (num_checked == 0) {
             var $a = $('.download-fasta-of-selected');
+            var $c = $('.circos-of-selected');
             $a.addClass('disabled').find('.text-bold').html('');
+            $c.addClass('disabled').find('.text-bold').html('');
         }
     },
 
@@ -1288,8 +1341,9 @@ var Report = React.createClass({
       $(document).on('click','.circos-demo', function (event) {
         event.preventDefault();
         event.stopPropagation();
+        var hit_arr = 0;
         // console.log('test '+data);
-        React.render(<CircosDemo data={data} />,
+        React.render(<CircosDemo queries={data.queries} program={data.program} hitArray={hit_arr} />,
                       document.getElementById('circos-demo'));
       })
     },
@@ -1337,9 +1391,9 @@ var Report = React.createClass({
         this.setupHitSelection();
         this.setupDownloadLinks();
         this.setupSequenceViewer();
+        this.setupCircosDemo(this.state);
         this.setupKablammoImageExporter();
         Grapher.setupResponsiveness();
-        this.setupCircosDemo(this.state);
     }
 });
 
@@ -1358,7 +1412,7 @@ var Page = React.createClass({
                 </div>
 
                 <div
-                  id='circos-demo' className='modal'>
+                  id='circos-demo' className='modal subject'>
                 </div>
 
                 <canvas
