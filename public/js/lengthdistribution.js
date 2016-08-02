@@ -15,18 +15,8 @@ export default class LengthDistribution extends React.Component {
     return $(React.findDOMNode(this.refs.svgContainer));
   }
 
-  // shouldComponentUpdate() {
-  //   var currentWidth = $(window).width();
-  //   console.log('in should '+currentWidth);
-  //   // $(window).resize(function () {
-  //   //   if (currentWidth != $(window).width()) return true;
-  //   // })
-  //   return true;
-  // }
-
   componentWillUpdate() {
     console.log('in will update');
-    // this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm);
     this.svgContainer().find('svg').remove();
     this.graph.initiate(this.svgContainer().width());
   }
@@ -34,22 +24,9 @@ export default class LengthDistribution extends React.Component {
   componentDidMount() {
     this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm);
     React.findDOMNode(this.refs.grapher).graph = this.graph;
-    // var arr = Grapher.graph()
-    // arr.push(this.graph);
-    // this.setState({width: $(window).width()});
     $(window).resize(_.bind(function () {
       this.setState({width: $(window).width()});
     }, this))
-    // Grapher.graph().fill(this.graph, this.length-1, this.length);
-    // var svgContainer = this.svgContainer();
-    // console.log('test '+svgContainer);
-    // svgContainer
-    // .on('mouseover', function () {
-    //   $(this).find('.hit-links').show();
-    // })
-    // .on('mouseleave', function() {
-    //   $(this).find('.hit-links').hide();
-    // })
   }
 
   render() {
@@ -79,8 +56,6 @@ export class Graph {
     this.svg = d3.select(this.svg_container[0]).insert('svg', ':first-child')
         .attr('width', this._width + this._margin.right + this._margin.left)
         .attr('height', this._height + this._margin.top + this._margin.bottom)
-        // .attr('width', $svg_container.width())
-        // .attr('height', 350)
         .append('g')
         .attr('transform','translate('+this._margin.left+','+this._margin.top+')');
     this.hit_lengths();
@@ -137,16 +112,6 @@ export class Graph {
         currentWidth = $(window).width();
       }
     }, this), 125);
-    // var debounced_draw = _.debounce(function () {
-    //   if (currentWidth != $(window).width) {
-    //     console.log('test '+this._height);
-    //     this.draw();
-    //   }
-    // }, 125);
-    // $(window).resize(function () {
-    //   console.log('resiing');
-    //   debounced_draw;
-    // });
     $(window).resize(debounced_draw);
   }
 
@@ -194,26 +159,6 @@ export class Graph {
       data2.push(item);
     })
     this._update_data = data2;
-    // var data2 = _.map(this._bins, _.bind(function (bin) {
-    //   bin.reverse();
-    //   var y0 = bin.length;
-    //   var inner_data = _.map(bin, _.bind(function(d) {
-    //     var i = _.indexOf(bin, d);
-    //     var y1 = d.length - (i+1);
-    //     len_index = _.findIndex(this.query.hits, {length: d});
-    //     console.log('test '+len_index+' i val '+i);
-    //     return {
-    //       value: d,
-    //       id: this.query.hits[len_index].id,
-    //       evalue: this.query.hits[len_index].evalue,
-    //       y0: y0,
-    //       y1: y0 += (y1 - y0),
-    //       color: Helpers.get_colors_for_evalue(this.query.hits[len_index].evalue,this.query.hits)
-    //     }
-    //   }, this));
-    //   return {data: inner_data, x: bin.x, dx: bin.dx, length: bin.length};
-    // }, this));
-    // return data2;
   }
 
   draw_rectangles() {
@@ -268,7 +213,6 @@ export class Graph {
 
   draw_axes() {
     var formatter = this.tick_formatter(this._seq_type.subject_seq_type);
-    // var formatter = this.visualisation_helpers.tick_formatter(this._scale_x,this._seq_type.subject_seq_type);
     var x_axis = d3.svg.axis()
         .scale(this._scale_x)
         .orient('bottom')
@@ -315,18 +259,5 @@ export class Graph {
         .attr('class','axis axis--y')
         .attr('transform','translate('+this._margin.left+',0)')
         .call(y_axis);
-
-    // this.svg.append('text')
-    //     .attr('class','xaxis-label')
-    //     .attr('x',0.35 * this._width)
-    //     .attr('y',this._height + 65)
-    //     .text('Sequence Length');
-    //
-    // this.svg.append('text')
-    //     .attr('class', 'yaxis-label')
-    //     .attr('x',-255)
-    //     .attr('y',-15)
-    //     .attr('transform','rotate(-90)')
-    //     .text('Number of Sequences');
   }
 }
