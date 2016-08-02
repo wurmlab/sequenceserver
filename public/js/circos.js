@@ -52,6 +52,8 @@ export class Graph {
     this.max_length = 0;
     this.query_arr = [];
     this.hit_arr = [];
+    this.layout_arr = [];
+    this.chords_arr = [];
     this.data = _.map(this.queries, _.bind(function (query) {
       if (this.max_length < query.length) {
         this.max_length = query.length;
@@ -69,6 +71,19 @@ export class Graph {
       this.query_arr.push(query.id);
       return query;
     }, this));
+    this.data2 = _.map(this.queries, _.bind(function(query) {
+      _.each(query.hits, _.bind(function(hit) {
+        _.each(hit.hsps, _.bind(function(hsp) {
+          if(hsp.evalue < 1) {
+            var item = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, query.number];
+            this.chords_arr.push(item);
+            this.query_arr.push(query.id);
+            this.hit_arr.push(hit.id);
+          }
+        }, this))
+      }, this))
+    }, this));
+    this.query_arr = _.uniq(this.query_arr);
     if (hit_arr) {
       this.hit_arr = _.uniq(hit_arr);
       console.log('using hit_arr '+hit_arr.length);
@@ -80,19 +95,15 @@ export class Graph {
   }
 
   initiate() {
-    this.width = 800;
+    this.width = 900;
     // this.width = this.svgContainer.width();
-    this.height = 800;
+    this.height = 900;
     // this.height = this.svgContainer.height();
     console.log('height test '+this.svgContainer.height()+' width '+this.svgContainer.width());
-
-
     this.denominator = 100;
     this.spacing = 20;
     var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
     // this.suffix = suffixes[this.seq_type.subject_seq_type];
-
-
     var prefix = d3.formatPrefix(this.max_length);
     this.suffix = ' '+prefix.symbol+suffixes[this.seq_type.subject_seq_type];
     if (prefix.symbol == 'k') {
@@ -101,18 +112,16 @@ export class Graph {
     if (this.max_length > 10000) {
       this.spacing = 50;
     }
-    console.log('check '+this.denominator+' '+this.suffix+' subject '+suffixes[this.seq_type.query_seq_type]);
     console.log('max '+this.max_length+' hit '+this.hit_arr.length);
 
     this.layout_data();
-    this.chords_data();
+    // this.chords_data();
     this.create_instance(this.svgContainer, this.height, this.width);
     this.instance_render();
     this.setupTooltip();
   }
 
   layout_data() {
-    this.layout_arr = [];
     _.each(this.query_arr, _.bind(function(id) {
       _.each(this.data, _.bind(function (query) {
         if (id == query.id) {
@@ -130,10 +139,10 @@ export class Graph {
 
     _.each(this.data, _.bind(function(query) {
       _.each(query.hits, _.bind(function(hit) {
-        console.log('inn layout '+this.hit_arr.length+' '+query.id);
+        // console.log('inn layout '+this.hit_arr.length+' '+query.id);
         var index = _.indexOf(this.hit_arr, hit.id);
         if (index >= 0 ) {
-          console.log('test');
+          // console.log('test');
           var label = hit.id;
           // console.log('division hit '+hit.length/this.max_length);
           if (hit.length/this.max_length < 0.35) {
@@ -176,7 +185,6 @@ export class Graph {
   }
 
   chords_data() {
-    this.chords_arr = [];
     _.each(this.data, _.bind(function(query) {
       _.each(query.hits, _.bind(function(hit) {
         _.each(hit.hsps, _.bind(function(hsp) {
@@ -202,18 +210,18 @@ export class Graph {
 
   chord_layout() {
     return {
-      usePalette: false,
+      usePalette: true,
       // colorPaletteSize: 9,
-      color: 'rgb(0,0,0)',
-      // colorPalette: 'RdYlBu', // colors of chords based on last value in chords
+      // color: 'rgb(0,0,0)',
+      colorPalette: 'RdYlBu', // colors of chords based on last value in chords
       // tooltipContent: 'Hiten'
     }
   }
 
   instance_layout() {
     return {
-      innerRadius: 300,
-      outerRadius: 330,
+      innerRadius: 340,
+      outerRadius: 380,
       labels: {
         display: true,
         size: '8px',
