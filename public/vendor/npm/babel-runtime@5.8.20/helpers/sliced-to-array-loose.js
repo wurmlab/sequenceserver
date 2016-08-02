@@ -1,7 +1,7 @@
 /* */ 
 "use strict";
-var _isIterable = require("../core-js/is-iterable")["default"];
-var _getIterator = require("../core-js/get-iterator")["default"];
+var _isIterable = require('../core-js/is-iterable')["default"];
+var _getIterator = require('../core-js/get-iterator')["default"];
 exports["default"] = function(arr, i) {
   if (Array.isArray(arr)) {
     return arr;

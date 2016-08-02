@@ -1,6 +1,6 @@
 /* */ 
 "use strict";
-var _Object$defineProperty = require("../core-js/object/define-property")["default"];
+var _Object$defineProperty = require('../core-js/object/define-property')["default"];
 exports["default"] = function(obj, key, value) {
   if (key in obj) {
     _Object$defineProperty(obj, key, {

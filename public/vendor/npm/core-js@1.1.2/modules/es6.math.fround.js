@@ -1,6 +1,6 @@
 /* */ 
-var $def = require("./$.def"),
-    sign = require("./$.sign"),
+var $def = require('./$.def'),
+    sign = require('./$.sign'),
     pow = Math.pow,
     EPSILON = pow(2, -52),
     EPSILON32 = pow(2, -23),

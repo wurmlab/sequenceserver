@@ -1,8 +1,8 @@
 /* */ 
-var global = require("./$.global"),
-    $def = require("./$.def"),
-    invoke = require("./$.invoke"),
-    partial = require("./$.partial"),
+var global = require('./$.global'),
+    $def = require('./$.def'),
+    invoke = require('./$.invoke'),
+    partial = require('./$.partial'),
     navigator = global.navigator,
     MSIE = !!navigator && /MSIE .\./.test(navigator.userAgent);
 var wrap = function(set) {

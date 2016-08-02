@@ -1,3 +1,3 @@
 /* */ 
-require("../../modules/core.object.define");
-module.exports = require("../../modules/$.core").Object.define;
+require('../../modules/core.object.define');
+module.exports = require('../../modules/$.core').Object.define;

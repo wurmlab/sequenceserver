@@ -1,7 +1,7 @@
 /* */ 
 var toString = {}.toString,
-    toIObject = require("./$.to-iobject"),
-    getNames = require("./$").getNames;
+    toIObject = require('./$.to-iobject'),
+    getNames = require('./$').getNames;
 var windowNames = typeof window == 'object' && Object.getOwnPropertyNames ? Object.getOwnPropertyNames(window) : [];
 var getWindowNames = function(it) {
   try {

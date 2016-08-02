@@ -1,7 +1,7 @@
 /* */ 
 'use strict';
-var $def = require("./$.def"),
-    $re = require("./$.replacer")(/[&<>"']/g, {
+var $def = require('./$.def'),
+    $re = require('./$.replacer')(/[&<>"']/g, {
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',

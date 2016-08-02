@@ -1,12 +1,12 @@
 /* */ 
 'use strict';
-var LIBRARY = require("./$.library"),
-    $def = require("./$.def"),
-    $redef = require("./$.redef"),
-    hide = require("./$.hide"),
-    has = require("./$.has"),
-    SYMBOL_ITERATOR = require("./$.wks")('iterator'),
-    Iterators = require("./$.iterators"),
+var LIBRARY = require('./$.library'),
+    $def = require('./$.def'),
+    $redef = require('./$.redef'),
+    hide = require('./$.hide'),
+    has = require('./$.has'),
+    SYMBOL_ITERATOR = require('./$.wks')('iterator'),
+    Iterators = require('./$.iterators'),
     FF_ITERATOR = '@@iterator',
     KEYS = 'keys',
     VALUES = 'values';
@@ -14,7 +14,7 @@ var returnThis = function() {
   return this;
 };
 module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE) {
-  require("./$.iter-create")(Constructor, NAME, next);
+  require('./$.iter-create')(Constructor, NAME, next);
   var createMethod = function(kind) {
     switch (kind) {
       case KEYS:
@@ -37,8 +37,8 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE)
       methods,
       key;
   if (_native) {
-    var IteratorPrototype = require("./$").getProto(_default.call(new Base));
-    require("./$.tag")(IteratorPrototype, TAG, true);
+    var IteratorPrototype = require('./$').getProto(_default.call(new Base));
+    require('./$.tag')(IteratorPrototype, TAG, true);
     if (!LIBRARY && has(proto, FF_ITERATOR))
       hide(IteratorPrototype, SYMBOL_ITERATOR, returnThis);
   }
@@ -58,6 +58,6 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE)
           $redef(proto, key, methods[key]);
       }
     else
-      $def($def.P + $def.F * require("./$.iter-buggy"), NAME, methods);
+      $def($def.P + $def.F * require('./$.iter-buggy'), NAME, methods);
   }
 };

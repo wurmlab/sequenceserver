@@ -1,14 +1,14 @@
 /* */ 
-var $ = require("./$"),
-    $def = require("./$.def"),
-    $Array = require("./$.core").Array || Array,
+var $ = require('./$'),
+    $def = require('./$.def'),
+    $Array = require('./$.core').Array || Array,
     statics = {};
 var setStatics = function(keys, length) {
   $.each.call(keys.split(','), function(key) {
     if (length == undefined && key in $Array)
       statics[key] = $Array[key];
     else if (key in [])
-      statics[key] = require("./$.ctx")(Function.call, [][key], length);
+      statics[key] = require('./$.ctx')(Function.call, [][key], length);
   });
 };
 setStatics('pop,reverse,shift,keys,values,entries', 1);

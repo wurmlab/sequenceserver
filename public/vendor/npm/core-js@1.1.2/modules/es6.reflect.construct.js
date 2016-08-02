@@ -1,11 +1,11 @@
 /* */ 
-var $ = require("./$"),
-    $def = require("./$.def"),
-    aFunction = require("./$.a-function"),
-    anObject = require("./$.an-object"),
-    isObject = require("./$.is-object"),
-    bind = Function.bind || require("./$.core").Function.prototype.bind;
-$def($def.S + $def.F * require("./$.fails")(function() {
+var $ = require('./$'),
+    $def = require('./$.def'),
+    aFunction = require('./$.a-function'),
+    anObject = require('./$.an-object'),
+    isObject = require('./$.is-object'),
+    bind = Function.bind || require('./$.core').Function.prototype.bind;
+$def($def.S + $def.F * require('./$.fails')(function() {
   function F() {}
   return !(Reflect.construct(function() {}, [], F) instanceof F);
 }), 'Reflect', {construct: function construct(Target, args) {

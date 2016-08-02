@@ -1,0 +1,1 @@
+module.exports = require("github:nicgirault/circosJs@1.7.0/dist/circosJS.js");

@@ -1,2 +1,2 @@
 /* */ 
-require("../../modules/es6.function.name");
+require('../../modules/es6.function.name');

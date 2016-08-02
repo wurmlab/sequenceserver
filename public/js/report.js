@@ -8,6 +8,7 @@ import Kablammo from './kablammo';
 import './sequence';
 import LengthDistribution from './lengthdistribution';
 import * as Grapher from './grapher';
+import Circos from './circos';
 
 /**
  * Pretty formats number
@@ -826,6 +827,30 @@ var SideBar = React.createClass({
                 <br/>
 
                 <div
+                  className='page-header'>
+                  <h4>
+                    Circos visualization
+                  </h4>
+                </div>
+                <ul
+                  className='downloads list-unstyled list-padded'>
+                  <li>
+                    <a
+                      className='circos-demo'
+                      href='#'>
+                      Circos Demo
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className='circos-of-selected'
+                      href='#'>
+                      Circos for selected
+                    </a>
+                  </li>
+                </ul>
+
+                <div
                   className="page-header">
                     <h4>
                         Download FASTA, XML, TSV
@@ -881,6 +906,52 @@ var SideBar = React.createClass({
             </div>
         )
     }
+});
+
+/**
+ * Circos Demo
+ */
+var CircosDemo = React.createClass({
+  show: function() {
+    this.modal().modal('show');
+  },
+
+  hide: function() {
+    this.modal().modal('hide');
+  },
+
+  modal: function() {
+    return $('#circos-demo');
+  },
+  componentDidMount: function() {
+    this.show();
+  },
+
+  renderCircos: function () {
+    return (
+      <Circos data={this.props.data} />
+    );
+  },
+
+  render: function () {
+    return (
+      <div
+        className='modal-dialog modal-lg'>
+        <div
+          className='modal-content'>
+          <div
+            className='modal-header'>
+            <h3>Circos Demo</h3>
+          </div>
+
+          <div
+            className='modal-body'>
+            { this.renderCircos() }
+          </div>
+        </div>
+      </div>
+    );
+  }
 });
 
 /**
@@ -1213,6 +1284,16 @@ var Report = React.createClass({
         });
     },
 
+    setupCircosDemo: function (data) {
+      $(document).on('click','.circos-demo', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        // console.log('test '+data);
+        React.render(<CircosDemo data={data} />,
+                      document.getElementById('circos-demo'));
+      })
+    },
+
     // SVG and PNG download links.
     setupKablammoImageExporter: function () {
         new ImageExporter('.subject', '.export-to-svg', '.export-to-png');
@@ -1258,6 +1339,7 @@ var Report = React.createClass({
         this.setupSequenceViewer();
         this.setupKablammoImageExporter();
         Grapher.setupResponsiveness();
+        this.setupCircosDemo(this.state);
     }
 });
 
@@ -1273,6 +1355,10 @@ var Page = React.createClass({
                 <div
                     id="sequence-viewer" className="modal"
                     tabIndex="-1">
+                </div>
+
+                <div
+                  id='circos-demo' className='modal'>
                 </div>
 
                 <canvas

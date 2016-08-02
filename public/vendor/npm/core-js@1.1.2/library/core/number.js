@@ -1,3 +1,3 @@
 /* */ 
-require("../modules/core.number.iterator");
-module.exports = require("../modules/$.core").Number;
+require('../modules/core.number.iterator');
+module.exports = require('../modules/$.core').Number;

@@ -1,10 +1,10 @@
 /* */ 
 'use strict';
-var setUnscope = require("./$.unscope"),
-    step = require("./$.iter-step"),
-    Iterators = require("./$.iterators"),
-    toIObject = require("./$.to-iobject");
-require("./$.iter-define")(Array, 'Array', function(iterated, kind) {
+var setUnscope = require('./$.unscope'),
+    step = require('./$.iter-step'),
+    Iterators = require('./$.iterators'),
+    toIObject = require('./$.to-iobject');
+require('./$.iter-define')(Array, 'Array', function(iterated, kind) {
   this._t = toIObject(iterated);
   this._i = 0;
   this._k = kind;

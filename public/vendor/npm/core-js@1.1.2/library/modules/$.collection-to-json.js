@@ -1,6 +1,6 @@
 /* */ 
-var forOf = require("./$.for-of"),
-    classof = require("./$.classof");
+var forOf = require('./$.for-of'),
+    classof = require('./$.classof');
 module.exports = function(NAME) {
   return function toJSON() {
     if (classof(this) != NAME)

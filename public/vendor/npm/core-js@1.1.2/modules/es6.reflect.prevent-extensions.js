@@ -1,6 +1,6 @@
 /* */ 
-var $def = require("./$.def"),
-    anObject = require("./$.an-object"),
+var $def = require('./$.def'),
+    anObject = require('./$.an-object'),
     $preventExtensions = Object.preventExtensions;
 $def($def.S, 'Reflect', {preventExtensions: function preventExtensions(target) {
     anObject(target);

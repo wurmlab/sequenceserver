@@ -1,11 +1,11 @@
 /* */ 
-var global = require("./$.global"),
-    hide = require("./$.hide"),
-    SRC = require("./$.uid")('src'),
+var global = require('./$.global'),
+    hide = require('./$.hide'),
+    SRC = require('./$.uid')('src'),
     TO_STRING = 'toString',
     $toString = Function[TO_STRING],
     TPL = ('' + $toString).split(TO_STRING);
-require("./$.core").inspectSource = function(it) {
+require('./$.core').inspectSource = function(it) {
   return $toString.call(it);
 };
 (module.exports = function(O, key, val, safe) {

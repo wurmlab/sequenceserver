@@ -1,6 +1,6 @@
 /* */ 
 "use strict";
-var _Object$defineProperty = require("../core-js/object/define-property")["default"];
+var _Object$defineProperty = require('../core-js/object/define-property')["default"];
 exports["default"] = (function() {
   function defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {

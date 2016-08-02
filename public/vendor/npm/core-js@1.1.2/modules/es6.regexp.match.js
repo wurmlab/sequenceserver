@@ -1,5 +1,5 @@
 /* */ 
-require("./$.fix-re-wks")('match', 1, function(defined, MATCH) {
+require('./$.fix-re-wks')('match', 1, function(defined, MATCH) {
   return function match(regexp) {
     'use strict';
     var O = defined(this),

@@ -1,6 +1,6 @@
 /* */ 
-var $def = require("./$.def"),
-    log1p = require("./$.log1p"),
+var $def = require('./$.def'),
+    log1p = require('./$.log1p'),
     sqrt = Math.sqrt,
     $acosh = Math.acosh;
 $def($def.S + $def.F * !($acosh && Math.floor($acosh(Number.MAX_VALUE)) == 710), 'Math', {acosh: function acosh(x) {

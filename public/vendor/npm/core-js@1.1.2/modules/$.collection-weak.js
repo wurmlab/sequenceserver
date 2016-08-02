@@ -1,13 +1,13 @@
 /* */ 
 'use strict';
-var hide = require("./$.hide"),
-    anObject = require("./$.an-object"),
-    strictNew = require("./$.strict-new"),
-    forOf = require("./$.for-of"),
-    method = require("./$.array-methods"),
-    WEAK = require("./$.uid")('weak'),
-    isObject = require("./$.is-object"),
-    $has = require("./$.has"),
+var hide = require('./$.hide'),
+    anObject = require('./$.an-object'),
+    strictNew = require('./$.strict-new'),
+    forOf = require('./$.for-of'),
+    method = require('./$.array-methods'),
+    WEAK = require('./$.uid')('weak'),
+    isObject = require('./$.is-object'),
+    $has = require('./$.has'),
     isExtensible = Object.isExtensible || isObject,
     find = method(5),
     findIndex = method(6),
@@ -57,7 +57,7 @@ module.exports = {
       if (iterable != undefined)
         forOf(iterable, IS_MAP, that[ADDER], that);
     });
-    require("./$.mix")(C.prototype, {
+    require('./$.mix')(C.prototype, {
       'delete': function(key) {
         if (!isObject(key))
           return false;

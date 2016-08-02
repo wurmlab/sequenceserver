@@ -1,3 +1,3 @@
 /* */ 
-var $def = require("./$.def");
-$def($def.S, 'Reflect', {ownKeys: require("./$.own-keys")});
+var $def = require('./$.def');
+$def($def.S, 'Reflect', {ownKeys: require('./$.own-keys')});

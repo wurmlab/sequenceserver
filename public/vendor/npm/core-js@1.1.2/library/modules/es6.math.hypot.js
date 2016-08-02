@@ -1,5 +1,5 @@
 /* */ 
-var $def = require("./$.def"),
+var $def = require('./$.def'),
     abs = Math.abs;
 $def($def.S, 'Math', {hypot: function hypot(value1, value2) {
     var sum = 0,

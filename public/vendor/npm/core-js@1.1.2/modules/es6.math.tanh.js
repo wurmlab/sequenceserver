@@ -1,6 +1,6 @@
 /* */ 
-var $def = require("./$.def"),
-    expm1 = require("./$.expm1"),
+var $def = require('./$.def'),
+    expm1 = require('./$.expm1'),
     exp = Math.exp;
 $def($def.S, 'Math', {tanh: function tanh(x) {
     var a = expm1(x = +x),

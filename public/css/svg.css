@@ -10,6 +10,10 @@
   font-size: 12px;
 }
 
+.circosContainer {
+  /*background-color: red;*/
+}
+
 .hit {
   stroke: rgba(255, 255, 255, 0.7);
   stroke-width: 1px;

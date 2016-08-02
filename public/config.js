@@ -24,6 +24,7 @@ System.config({
     "font-awesome": "npm:font-awesome@4.4.0",
     "jquery": "github:components/jquery@2.1.4",
     "jquery-ui": "github:components/jqueryui@1.11.4",
+    "nicgirault/circosJs": "github:nicgirault/circosJs@1.7.0",
     "react": "npm:react@0.13.3",
     "react-router": "npm:react-router@0.13.3",
     "underscore": "npm:underscore@1.8.3",

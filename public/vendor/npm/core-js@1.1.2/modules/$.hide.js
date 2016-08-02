@@ -1,7 +1,7 @@
 /* */ 
-var $ = require("./$"),
-    createDesc = require("./$.property-desc");
-module.exports = require("./$.support-desc") ? function(object, key, value) {
+var $ = require('./$'),
+    createDesc = require('./$.property-desc');
+module.exports = require('./$.support-desc') ? function(object, key, value) {
   return $.setDesc(object, key, createDesc(1, value));
 } : function(object, key, value) {
   object[key] = value;

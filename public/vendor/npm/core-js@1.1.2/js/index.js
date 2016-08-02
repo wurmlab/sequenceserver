@@ -1,3 +1,3 @@
 /* */ 
-require("../modules/js.array.statics");
-module.exports = require("../modules/$.core");
+require('../modules/js.array.statics');
+module.exports = require('../modules/$.core');

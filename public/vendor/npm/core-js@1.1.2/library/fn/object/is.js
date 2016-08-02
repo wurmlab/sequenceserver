@@ -1,3 +1,3 @@
 /* */ 
-require("../../modules/es6.object.is");
-module.exports = require("../../modules/$.core").Object.is;
+require('../../modules/es6.object.is');
+module.exports = require('../../modules/$.core').Object.is;

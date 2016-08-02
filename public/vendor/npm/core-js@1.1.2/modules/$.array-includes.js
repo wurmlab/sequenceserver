@@ -1,7 +1,7 @@
 /* */ 
-var toIObject = require("./$.to-iobject"),
-    toLength = require("./$.to-length"),
-    toIndex = require("./$.to-index");
+var toIObject = require('./$.to-iobject'),
+    toLength = require('./$.to-length'),
+    toIndex = require('./$.to-index');
 module.exports = function(IS_INCLUDES) {
   return function($this, el, fromIndex) {
     var O = toIObject($this),

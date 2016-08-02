@@ -1,3 +1,3 @@
 /* */ 
-var $def = require("./$.def");
-$def($def.P, 'String', {repeat: require("./$.string-repeat")});
+var $def = require('./$.def');
+$def($def.P, 'String', {repeat: require('./$.string-repeat')});

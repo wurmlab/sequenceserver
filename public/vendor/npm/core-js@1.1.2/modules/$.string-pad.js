@@ -1,7 +1,7 @@
 /* */ 
-var toLength = require("./$.to-length"),
-    repeat = require("./$.string-repeat"),
-    defined = require("./$.defined");
+var toLength = require('./$.to-length'),
+    repeat = require('./$.string-repeat'),
+    defined = require('./$.defined');
 module.exports = function(that, maxLength, fillString, left) {
   var S = String(defined(that)),
       stringLength = S.length,

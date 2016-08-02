@@ -1,6 +1,6 @@
 /* */ 
 "use strict";
-var _Object$getOwnPropertyDescriptor = require("../core-js/object/get-own-property-descriptor")["default"];
+var _Object$getOwnPropertyDescriptor = require('../core-js/object/get-own-property-descriptor')["default"];
 exports["default"] = function get(_x, _x2, _x3) {
   var _again = true;
   _function: while (_again) {

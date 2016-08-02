@@ -1,7 +1,7 @@
 /* */ 
 'use strict';
-var $at = require("./$.string-at")(true);
-require("./$.iter-define")(String, 'String', function(iterated) {
+var $at = require('./$.string-at')(true);
+require('./$.iter-define')(String, 'String', function(iterated) {
   this._t = String(iterated);
   this._i = 0;
 }, function() {

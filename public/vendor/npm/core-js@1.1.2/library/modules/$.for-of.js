@@ -1,10 +1,10 @@
 /* */ 
-var ctx = require("./$.ctx"),
-    call = require("./$.iter-call"),
-    isArrayIter = require("./$.is-array-iter"),
-    anObject = require("./$.an-object"),
-    toLength = require("./$.to-length"),
-    getIterFn = require("./core.get-iterator-method");
+var ctx = require('./$.ctx'),
+    call = require('./$.iter-call'),
+    isArrayIter = require('./$.is-array-iter'),
+    anObject = require('./$.an-object'),
+    toLength = require('./$.to-length'),
+    getIterFn = require('./core.get-iterator-method');
 module.exports = function(iterable, entries, fn, that) {
   var iterFn = getIterFn(iterable),
       f = ctx(fn, that, entries ? 2 : 1),
