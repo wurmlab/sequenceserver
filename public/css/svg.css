@@ -22,6 +22,33 @@
   stroke-dasharray: 5,5;
 }
 
+.graph-links {
+  right: 3%;
+  position: absolute;
+  z-index: 10;
+  display: none;
+}
+
+.grapher:hover .graph-links {
+  display: block;
+}
+
+.svg_container {
+  padding-top: 2%;
+}
+
+.grapher {
+  border: 1px solid transparent;
+}
+
+.grapher:hover {
+  border: 1px solid lightblue;
+}
+
+.alignment-selected {
+  border: 1px dashed black;
+}
+
 .axis-label {
   font-size: 11px;
 }
@@ -30,7 +57,12 @@
   font-size: 12px;
 }
 
-.length-distribution-title {
+.caption {
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.btn > .btn-link > .more {
   text-align: center;
 }
 

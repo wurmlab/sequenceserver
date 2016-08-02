@@ -26,12 +26,10 @@ function Graph(grapher, results, query_def, query_id, subject_def, subject_id, q
   this._subject_container = svg_container.parents('.subject');
   this._subject_container[0]._grapher = this;
 
-  var svg_container_d3 = d3.select(svg_container[0]);
+  this.svg_container_d3 = d3.select(svg_container[0]);
   this._svg = {};
-  this._svg.d3 = svg_container_d3.insert('svg', ':first-child') // Prepend to svg_container
-                                 .attr('width', this._canvas_width)
-                                 .attr('height', this._canvas_height);
-  this._svg.raw = this._svg.d3[0][0];
+
+
   this._svg.jq = $(this._svg.raw);
 
   // Use key/value structure, where keys are HSP indices and values are the
@@ -50,9 +48,18 @@ function Graph(grapher, results, query_def, query_id, subject_def, subject_id, q
   };
   this._axis_ticks = 10;
 
-  this._render_graph();
+  // this._render_graph();
+  this._initiate();
   // this._configure_panning();
   // this._configure_zooming();
+}
+
+Graph.prototype._initiate = function () {
+  this._svg.d3 = this.svg_container_d3.insert('svg', ':first-child') // Prepend to svg_container
+                                 .attr('width', this._canvas_width)
+                                 .attr('height', this._canvas_height);
+  this._svg.raw = this._svg.d3[0][0];
+  this._render_graph();
 }
 
 Graph.prototype._display_selected_hsp_count = function() {

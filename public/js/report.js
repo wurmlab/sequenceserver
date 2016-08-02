@@ -4,9 +4,10 @@ import d3 from 'd3';
 
 import * as Helpers from './visualisation_helpers';
 import './graphicaloverview';
-import './kablammo';
+import Kablammo from './kablammo';
 import './sequence';
 import LengthDistribution from './lengthdistribution';
+import * as Grapher from './grapher';
 
 /**
  * Pretty formats number
@@ -115,187 +116,6 @@ var Utils = {
     },
 
 };
-
-/**
- * Renders Kablammo visualization
- *
- * JSON received from server side is modified as JSON expected by kablammo's
- * graph.js.  All the relevant information including a SVG container where
- * visual needs to be rendered, is delegated to graph.js. graph.js renders
- * kablammo visualization and has all event handlers for events performed on
- * the visual.
- *
- * Event handlers related to downloading and viewing of alignments and images
- * have been extracted from grapher.js and interface.js and directly included
- * here.
- */
-var Kablammo = (function () {
-
-    /**
-     * Mock Kablammo's grapher.js.
-     */
-    var grapher = {
-        use_complement_coords: false,
-
-        /**
-         * Coverts colour from RGBA to RGB.
-         *
-         * Taken from grapher.js.
-         */
-        _rgba_to_rgb: function (rgba, matte_rgb) {
-
-            // Algorithm taken from http://stackoverflow.com/a/2049362/1691611.
-            var normalize = function (colour) {
-                return colour.map(function (channel) { return channel / 255; });
-            };
-
-            var denormalize = function (colour) {
-                return colour.map(function (channel) { return Math.round(Math.min(255, channel * 255)); });;
-            };
-
-            var norm = normalize(rgba.slice(0, 3));
-            matte_rgb = normalize(matte_rgb);
-            var alpha = rgba[3] / 255;
-
-            var rgb = [
-                (alpha * norm[0]) + (1 - alpha) * matte_rgb[0],
-                (alpha * norm[1]) + (1 - alpha) * matte_rgb[1],
-                (alpha * norm[2]) + (1 - alpha) * matte_rgb[2],
-            ];
-
-            return denormalize(rgb);
-        },
-
-        /**
-         * Determines colour of a hsp based on normalized bit-score.
-         *
-         * Taken from grapher.js
-         */
-        determine_colour: function (level) {
-            var graph_colour = { r: 30, g: 139, b: 195 };
-            var matte_colour = { r: 255, g: 255, b: 255 };
-            var min_opacity = 0.3;
-            var opacity = ((1 - min_opacity) * level) + min_opacity;
-            var rgb = this._rgba_to_rgb([
-                graph_colour.r,
-                graph_colour.g,
-                graph_colour.b,
-                255 * opacity
-            ], [
-                matte_colour.r,
-                matte_colour.g,
-                matte_colour.b,
-            ]);
-            return 'rgb(' + rgb.join(',') + ')';
-        },
-    };
-
-    return React.createClass({
-        mixins: [Utils],
-
-        // Internal helpers. //
-
-        /**
-         * Adapter to convert server-side JSON into a form expected by Kablammo.
-         * This is done by changing keys of JSON.
-         */
-        toKablammo: function (hsps, query) {
-            var maxBitScore = query.hits[0].hsps[0].bit_score;
-
-            var hspKeyMap = {
-                'qstart':  'query_start',
-                'qend':    'query_end',
-                'qframe':  'query_frame' ,
-                'sstart':  'subject_start',
-                'send':    'subject_end',
-                'sframe':  'subject_frame',
-                'length':  'alignment_length',
-                'qseq':    'query_seq',
-                'sseq':    'subject_seq',
-                'midline': 'midline_seq'
-            };
-            return _.map(hsps, function (hsp) {
-                var _hsp = {};
-                $.each(hsp, function (key, value) {
-                    key = hspKeyMap[key] || key;
-                    _hsp[key] = value;
-                    _hsp.normalized_bit_score = hsp.bit_score / maxBitScore;
-                })
-                return _hsp;
-            });
-        },
-
-        /**
-         * Returns jQuery wrapped element that should hold Kablammo's svg.
-         */
-        svgContainer: function () {
-            return $(React.findDOMNode(this.refs.svgContainer));
-        },
-
-        isHspSelected: function (index , selected) {
-            return index in selected
-        },
-
-        /**
-         * Event-handler for viewing alignments.
-         * Calls relevant method on AlignmentViewer defined in alignment_viewer.js.
-         */
-        showAlignment: function (hsps, query_seq_type, query_def, query_id, subject_seq_type, subject_def, subject_id) {
-            event.preventDefault();
-            aln_viewer = new AlignmentViewer();
-            aln_viewer.view_alignments(hsps, query_seq_type, query_def, query_id, subject_seq_type, subject_def, subject_id);
-        },
-
-        // Life-cycle methods //
-
-        render: function () {
-            return (
-                <div ref="svgContainer">
-                </div>
-            );
-        },
-
-        /**
-         * Invokes Graph method defined in graph.js to render kablammo visualization.
-         * Also defines event handler for hovering on HSP polygon.
-         */
-        componentDidMount: function (event) {
-            var hsps = this.toKablammo(this.props.hit.hsps, this.props.query);
-            var svgContainer = this.svgContainer();
-
-            Graph.prototype._canvas_width = svgContainer.width();
-
-            this._graph = new Graph(
-                grapher,
-                Helpers.get_seq_type(this.props.algorithm),
-                this.props.query.id + ' ' + this.props.query.title,
-                this.props.query.id,
-                this.props.hit.id + ' ' + this.props.hit.title,
-                this.props.hit.id,
-                this.props.query.length,
-                this.props.hit.length,
-                hsps,
-                svgContainer,
-                Helpers
-            );
-
-            // Disable hover handlers and show alignment on selecting hsp.
-            var selected = {}
-            var polygons = d3.select(svgContainer[0]).selectAll('polygon');
-            var labels = d3.select(svgContainer[0]).selectAll('text');
-            polygons
-            .on('mouseenter', null)
-            .on('mouseleave', null)
-            .on('click', _.bind(function (clicked_hsp , clicked_index) {
-              var polygon = polygons[0][clicked_index];
-              polygon.parentNode.appendChild(polygon);
-              d3.select(polygon).classed('selected', true);
-              var label = labels[0][clicked_index];
-              label.parentNode.appendChild(label);
-            }, this))
-        },
-    });
-})();
 
 /**
  * Component for sequence-viewer links.
@@ -600,6 +420,7 @@ var Hit = React.createClass({
                 <div
                   className="page-header">
                     <h4
+                      className="subject-name"
                       data-toggle="collapse"
                       data-target={ "#Query_" + this.props.query.number + "_hit_"
                                      + this.props.hit.number + "_alignment"} >
@@ -803,17 +624,15 @@ var GraphicalOverview = React.createClass({
     // Life-cycle methods //
 
     render: function () {
-        return (
-            <div
-                className="graphical-overview"
-                ref="svgContainer">
-            </div>
-        );
+      return Grapher.grapher_render();
     },
 
     componentDidMount: function () {
         var hits = this.toGraph(this.props.query.hits, this.props.query.number);
-        $.graphIt(this.svgContainer().parent().parent(), this.svgContainer(), 0, 20, null, hits);
+        var query_div = this.svgContainer().parents('.resultn');
+        this.graph = $.graphIt(query_div, this.svgContainer(), 0, 20, null, hits);
+        var arr = Grapher.graph();
+        arr.push(this.graph);
     }
 });
 
@@ -854,7 +673,7 @@ var Query = React.createClass({
                 data-algorithm={this.props.data.program}>
                 <div
                     className="page-header">
-                    <h3>
+                    <h3 className="subject-name">
                         Query= {this.props.query.id}
                         &nbsp;
                         <small>
@@ -872,19 +691,15 @@ var Query = React.createClass({
                     (
                         <div
                             className="page-content">
-                            <div
-                                className="hit-links">
-                                <a href = "#" className="export-to-svg">
-                                    <i className="fa fa-download"/>
-                                    <span>{"  SVG  "}</span>
-                                </a>
-                                <span>{" | "}</span>
-                                <a href = "#" className="export-to-png">
-                                    <i className="fa fa-download"/>
-                                    <span>{"  PNG  "}</span>
-                                </a>
-                            </div>
+                            <h5
+                              className="caption">
+                              Alignment overview
+                            </h5>
                             <GraphicalOverview query={this.props.query} program={this.props.data.program}/>
+                            <h5
+                              className="caption">
+                              Length Distribution of Hits
+                            </h5>
                             <LengthDistribution query={this.props.query} algorithm={this.props.data.program}/>
                             <HitsTable query={this.props.query}/>
                             <div
@@ -1400,7 +1215,7 @@ var Report = React.createClass({
 
     // SVG and PNG download links.
     setupKablammoImageExporter: function () {
-        new ImageExporter('#report', '.export-to-svg', '.export-to-png');
+        new ImageExporter('.subject', '.export-to-svg', '.export-to-png');
     },
 
     // Life-cycle methods. //
@@ -1442,6 +1257,7 @@ var Report = React.createClass({
         this.setupDownloadLinks();
         this.setupSequenceViewer();
         this.setupKablammoImageExporter();
+        Grapher.setupResponsiveness();
     }
 });
 

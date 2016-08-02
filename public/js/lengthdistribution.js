@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'underscore';
 import * as Helpers from './visualisation_helpers';
+import * as Grapher from './grapher';
 
 /**
  * Renders Length Distribution of all hits per query
@@ -14,20 +15,22 @@ export default class LengthDistribution extends React.Component {
     return $(React.findDOMNode(this.refs.svgContainer));
   }
 
+  componentWillUpdate() {
+    console.log('in will update');
+    this.svgContainer().find('svg').remove();
+    this.graph.initiate(this.svgContainer().width());
+  }
+
   componentDidMount() {
-    this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm)
+    this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm);
+    React.findDOMNode(this.refs.grapher).graph = this.graph;
+    $(window).resize(_.bind(function () {
+      this.setState({width: $(window).width()});
+    }, this))
   }
 
   render() {
-    return(
-      <div>
-        <div className='length-distribution-title'>
-          <h4>Frequency of Hits length</h4>
-        </div>
-        <div ref="svgContainer" className='length-distribution'>
-        </div>
-      </div>
-    );
+    return Grapher.grapher_render();
   }
 }
 
@@ -35,23 +38,34 @@ export class Graph {
   constructor(query, $svg_container, algorithm) {
     this.query = query;
     this._seq_type = Helpers.get_seq_type(algorithm);
+    this.svg_container = $svg_container
 
     this._margin = {top: 30, right: 40, bottom: 55, left: 15};
-    this._width = $svg_container.width() - this._margin.left - this._margin.right;
-    this._height = 350 - this._margin.top - this._margin.bottom;
 
-    this.svg = d3.select($svg_container[0]).insert('svg', ':first-child')
+
+
+    this.initiate($svg_container.width());
+    // if (this.query.number == 1) {
+    //   this.setupResponsiveness();
+    // }
+  }
+
+  initiate(width) {
+    this._width = width - this._margin.left - this._margin.right;
+    this._height = 350 - this._margin.top - this._margin.bottom;
+    this.svg = d3.select(this.svg_container[0]).insert('svg', ':first-child')
         .attr('width', this._width + this._margin.right + this._margin.left)
         .attr('height', this._height + this._margin.top + this._margin.bottom)
         .append('g')
         .attr('transform','translate('+this._margin.left+','+this._margin.top+')');
+    this.hit_lengths();
+    this.define_scale_and_bins();
+    this.update_data();
     this.draw();
   }
 
   draw() {
-    this.hit_lengths();
-    this.define_scale_and_bins();
-    this.update_data();
+    console.log('drawing');
     this.draw_rectangles();
     this.draw_query_line();
     this.draw_axes();
@@ -88,6 +102,19 @@ export class Graph {
     });
   }
 
+  setupResponsiveness() {
+    var currentWidth = $(window).width();
+    console.log('cureent '+currentWidth);
+    var debounced_draw = _.debounce(_.bind(function () {
+      if (currentWidth != $(window).width()) {
+        console.log('redraw initiated '+this._height);
+        this.draw();
+        currentWidth = $(window).width();
+      }
+    }, this), 125);
+    $(window).resize(debounced_draw);
+  }
+
   tick_formatter(seq_type) {
     var ticks = this._scale_x.ticks();
     var format = d3.format('.1f');
@@ -121,6 +148,7 @@ export class Graph {
           value: d,
           id: self.query.hits[len_index].id,
           evalue: self.query.hits[len_index].evalue,
+          url: '#Query_'+self.query.number+'_hit_'+self.query.hits[len_index].number,
           y0: y0,
           y1: y0 += (y1 - y0),
           color: Helpers.get_colors_for_evalue(self.query.hits[len_index].evalue,self.query.hits)
@@ -131,26 +159,6 @@ export class Graph {
       data2.push(item);
     })
     this._update_data = data2;
-    // var data2 = _.map(this._bins, _.bind(function (bin) {
-    //   bin.reverse();
-    //   var y0 = bin.length;
-    //   var inner_data = _.map(bin, _.bind(function(d) {
-    //     var i = _.indexOf(bin, d);
-    //     var y1 = d.length - (i+1);
-    //     len_index = _.findIndex(this.query.hits, {length: d});
-    //     console.log('test '+len_index+' i val '+i);
-    //     return {
-    //       value: d,
-    //       id: this.query.hits[len_index].id,
-    //       evalue: this.query.hits[len_index].evalue,
-    //       y0: y0,
-    //       y1: y0 += (y1 - y0),
-    //       color: Helpers.get_colors_for_evalue(this.query.hits[len_index].evalue,this.query.hits)
-    //     }
-    //   }, this));
-    //   return {data: inner_data, x: bin.x, dx: bin.dx, length: bin.length};
-    // }, this));
-    // return data2;
   }
 
   draw_rectangles() {
@@ -165,7 +173,9 @@ export class Graph {
 
     bar.selectAll('rect')
         .data(function (d) { return d.data; })
-        .enter().append('rect')
+        .enter().append('a')
+        .attr('xlink:href', function(i) { return i.url })
+        .append('rect')
         .attr('class','bar')
         .attr('data-toggle','tooltip')
         .attr('title', function(i) {
@@ -203,7 +213,6 @@ export class Graph {
 
   draw_axes() {
     var formatter = this.tick_formatter(this._seq_type.subject_seq_type);
-    // var formatter = this.visualisation_helpers.tick_formatter(this._scale_x,this._seq_type.subject_seq_type);
     var x_axis = d3.svg.axis()
         .scale(this._scale_x)
         .orient('bottom')
@@ -250,18 +259,5 @@ export class Graph {
         .attr('class','axis axis--y')
         .attr('transform','translate('+this._margin.left+',0)')
         .call(y_axis);
-
-    // this.svg.append('text')
-    //     .attr('class','xaxis-label')
-    //     .attr('x',0.35 * this._width)
-    //     .attr('y',this._height + 65)
-    //     .text('Sequence Length');
-    //
-    // this.svg.append('text')
-    //     .attr('class', 'yaxis-label')
-    //     .attr('x',-255)
-    //     .attr('y',-15)
-    //     .attr('transform','rotate(-90)')
-    //     .text('Number of Sequences');
   }
 }

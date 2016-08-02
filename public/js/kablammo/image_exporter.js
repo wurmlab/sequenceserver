@@ -4,11 +4,13 @@ function ImageExporter(container_selector, export_svg_selector, export_png_selec
   var self = this;
   var handle_click = function(export_callback) {
     return function() {
-      var svg = $(this).parents('.subject').find('svg');
+      // var svg = $(this).parentsUntil('.subject').find('svg');
+      var svg = $(this).parent().next().find('svg');
+      
       var styles = self._get_styles(window.document);
       var serialized = self._serialize_svg(svg.get(0), styles);
 
-      var subject_label = $(this).parents('.row').prev().find('.subject-name').text();
+      var subject_label = $(this).parentsUntil('.subject').prev().find('.subject-name').text();
       export_callback.call(self, svg, serialized, subject_label);
       return false;
     };
