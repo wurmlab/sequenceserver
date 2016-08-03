@@ -10,7 +10,7 @@ export default class Circos extends React.Component {
 
   componentDidMount() {
     // CircosJs(this.props.queries);
-    this.graph = new Graph(this.props.data.queries, this.props.data.program, this.svgContainer());
+    this.graph = new Graph(this.props.queries, this.props.program, this.svgContainer());
   }
 
   svgContainer() {
@@ -81,14 +81,6 @@ export class Graph {
     this.chords_data();
     this.create_instance(this.svgContainer, this.height, this.width);
     this.instance_render();
-    _.each(this.query_arr, _.bind(function (id) {
-      $(".Query_"+this.clean_id(id)).attr('data-toggle','tooltip')
-                    .attr('title',id)
-    }, this))
-    _.each(this.hit_arr, _.bind(function(id) {
-      $(".Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
-                  .attr('title',id);
-    }, this));
     this.setupTooltip();
   }
 
@@ -157,11 +149,12 @@ export class Graph {
 
   chord_layout() {
     return {
-      usePalette: false,
+      usePalette: true,
       // colorPaletteSize: 9,
-      color: 'rgb(0,0,0)',
-      // colorPalette: 'RdYlBu', // colors of chords based on last value in chords
-      // tooltipContent: 'Hiten'
+      // color: 'rgb(0,0,0)',
+      colorPalette: 'RdYlBu', // colors of chords based on last value in chords
+      // tooltipContent: 'Hiten',
+      opacity: 0.5 // add opacity to ribbons
     }
   }
 
@@ -169,6 +162,7 @@ export class Graph {
     return {
       innerRadius: 300,
       outerRadius: 330,
+      cornerRadius: 1, // rounding at edges of karyotypes
       labels: {
         display: true,
         size: '8px',
@@ -179,6 +173,10 @@ export class Graph {
         spacing: this.spacing, // the ticks values to display
         labelDenominator: this.denominator, // divide the value by this value
         labelSuffix: this.suffix,
+        size: {
+          minor: 0, // to remove minor ticks
+          major: 4
+        }
       }
     }
   }
@@ -190,6 +188,14 @@ export class Graph {
   }
 
   setupTooltip() {
+    _.each(this.query_arr, _.bind(function (id) {
+      $(".Query_"+this.clean_id(id)).attr('data-toggle','tooltip')
+                    .attr('title',id)
+    }, this))
+    _.each(this.hit_arr, _.bind(function(id) {
+      $(".Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
+                  .attr('title',id);
+    }, this));
     $('[data-toggle="tooltip"]').tooltip({
       'placement': 'top',
       'container': 'body',
