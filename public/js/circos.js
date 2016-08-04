@@ -84,8 +84,12 @@ export class Graph {
     }, this));
 
     this.hit_arr = _.uniq(this.hit_arr);
+    this.calculate_threshold();
     this.max_length = this.calculate_max_length();
-    this.calculate_multipliers();
+    this.apply_threshold();
+    this.max_length = this.calculate_max_length(); // recalculate for difference
+    // this.calculate_multipliers();
+    this.handle_spacing();
 
     console.log('max '+this.max_length+' hit '+this.hit_arr.length);
     var prefix = d3.formatPrefix(this.max_length);
@@ -144,14 +148,54 @@ export class Graph {
     console.log('query '+this.query_multiplier+' hit '+this.hit_multiplier);
   }
 
+  handle_spacing() {
+    if (this.max_length > 16000) {
+      this.spacing = 200;
+    } else if (this.max_length > 12000) {
+      this.spacing = 150;
+    } else if (this.max_length > 8000) {
+      this.spacing = 100;
+    } else if (this.max_length > 4000) {
+      this.spacing = 50;
+    }
+  }
+
+  calculate_threshold() {
+    var sum_lengths = this.hit_arr.length + this.query_arr.length
+    if (sum_lengths > 20) {
+      this.threshold = 0.05;
+    } else if (sum_lengths > 10) {
+      this.threshold = 0.03;
+    } else {
+      this.threshold = 0;
+    }
+    console.log('threshold '+this.threshold);
+  }
+
+  apply_threshold() {
+    _.each(this.data, _.bind(function (query) {
+      var q_index = _.indexOf(this.hit_arr, query.id)
+      if (query.length/this.max_length < this.threshold ) {
+        this.query_arr[q_index] = 0;
+        return
+      }
+      _.each(query.hits, _.bind(function (hit) {
+        var h_index = _.indexOf(this.hit_arr, hit.id)
+        if (hit.length/this.max_length < this.threshold) {
+          this.hit_arr[h_index] = 0;
+        }
+      }, this))
+    }, this))
+  }
+
   calculate_max_length() {
     var max = 0;
     _.each(this.data, _.bind(function (query) {
-      if (max < query.length) {
-        max = query.length
+      if (max < query.length && _.indexOf(this.query_arr, query.id) >= 0) {
+        max = query.length;
       }
       _.each(query.hits, _.bind(function (hit) {
-        if (max < hit.length) {
+        if (max < hit.length && _.indexOf(this.hit_arr, hit.id) >= 0) {
           max = hit.length;
         }
       }, this));
@@ -209,14 +253,11 @@ export class Graph {
   }
 
   chords_data() {
-    this.chords_arr = [];
     _.each(this.data, _.bind(function(query) {
       _.each(query.hits, _.bind(function(hit) {
         _.each(hit.hsps, _.bind(function(hsp) {
-          if (_.indexOf(this.hit_arr, hit.id) >= 0) {
-            var q = this.query_multiplier;
-            var h = this.hit_multiplier;
-            var item = ['Query_'+this.clean_id(query.id), hsp.qstart*q, hsp.qend*q, 'Hit_'+this.clean_id(hit.id), hsp.sstart*h, hsp.send*h, query.number];
+          if (_.indexOf(this.hit_arr, hit.id) >= 0 && _.indexOf(this.query_arr,query.id) >= 0) {
+            var item = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, query.number];
             this.chords_arr.push(item);
             this.hit_arr.push(hit.id);
           }
