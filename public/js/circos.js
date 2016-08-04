@@ -45,6 +45,8 @@ export class Graph {
     // console.log('height test '+this.svgContainer.height()+' width '+this.svgContainer.width());
     this.query_arr = [];
     this.hit_arr = [];
+    this.layout_arr = [];
+    this.chords_arr = [];
     // this.max_length = 0;
     this.denominator = 100;
     this.spacing = 20;
@@ -53,12 +55,17 @@ export class Graph {
     // this.suffix = suffixes[this.seq_type.subject_seq_type];
     var hsp_count = 0;
     this.data = _.map(this.queries, _.bind(function (query) {
-      if (hsp_count > 25) {
-        console.log('break '+hsp_count);
-      }
       // if (this.max_length < query.length) {
       //   this.max_length = query.length;
       // }
+      var label = query.id;
+      var len = query.length;
+      // if (len/this.max_length < 0.35) {
+      //   label = label.slice(0,2) + '...';
+      // }
+      // console.log('q id: '+query.id+' len '+len/this.max_length+' index '+q_index);
+      var item1 = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
+      this.layout_arr.push(item1);
       var hit_details = _.map(query.hits, _.bind(function(hit) {
         // this.hit_arr.push(hit.id);
         // if (hit.number <= 3) {
@@ -68,12 +75,23 @@ export class Graph {
         //   }
         // }
         var hsp_details = _.map(hit.hsps, _.bind(function (hsp) {
-          if (hsp.evalue) {
+          // if (hsp.evalue) {
+          //   this.hit_arr.push(hit.id);
+          //   hsp_count++;
+          //   // if (this.max_length < hit.length) {
+          //   //   this.max_length = hit.length;
+          //   // }
+          // }
+          if (hsp_count < 25) {
             this.hit_arr.push(hit.id);
             hsp_count++;
-            // if (this.max_length < hit.length) {
-            //   this.max_length = hit.length;
-            // }
+            var label = hit.id;
+            var len  = hit.length;
+            // console.log('h id: '+hit.id+' len '+len/this.max_length+' index '+h_index);
+            var item2 = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
+            this.layout_arr.push(item2);
+            var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, query.number];
+            this.chords_arr.push(item3);
           }
           return hsp;
         }, this));
@@ -103,20 +121,13 @@ export class Graph {
     } else if (prefix.symbol == 'g') {
       this.denominator = 1000000000;
     }
-    if (this.max_length > 10000) {
-      this.spacing = 50;
-    }
-    console.log('check '+this.denominator+' '+this.suffix+' subject '+suffixes[this.seq_type.query_seq_type]);
-    if ((this.hit_arr.length + this.query_arr.length) > 20) {
-      this.threshold = 0.05;
-    } else if ((this.hit_arr.length + this.query_arr.length) > 10) {
-      this.threshold = 0.03;
-    } else {
-      this.threshold = 0;
-    }
-    console.log('threshold '+this.threshold);
-    this.layout_data();
-    this.chords_data();
+    // if (this.max_length > 10000) {
+    //   this.spacing = 50;
+    // }
+    console.log('denominator '+this.denominator+' '+this.suffix+' subject '+suffixes[this.seq_type.query_seq_type]);
+    console.log('spacing '+this.spacing);
+    // this.layout_data();
+    // this.chords_data();
     this.create_instance(this.svgContainer, this.height, this.width);
     this.instance_render();
     this.setupTooltip();
@@ -204,45 +215,60 @@ export class Graph {
   }
 
   layout_data() {
-    this.layout_arr = [];
-    _.each(this.query_arr, _.bind(function(id) {
-      _.each(this.data, _.bind(function (query) {
-        if (id == query.id) {
-          var index = _.indexOf(this.query_arr,query.id);
-          // console.log('division query '+query.length/this.max_length);
-          var label = query.id;
-          var len = query.length*this.query_multiplier;
-          if (len/this.max_length < this.threshold) {
-            this.query_arr[index] = 0;
-            return
-          }
-          if (len/this.max_length < 0.35) {
-            label = label.slice(0,2) + '...';
-          }
-          console.log('q id: '+query.id+' len '+len/this.max_length);
-          var item = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
-          this.layout_arr.push(item);
-        }
-      }, this))
-    }, this));
+    // _.each(this.query_arr, _.bind(function(id) {
+    //   _.each(this.data, _.bind(function (query) {
+    //     if (id == query.id) {
+    //       var index = _.indexOf(this.query_arr,query.id);
+    //       // console.log('division query '+query.length/this.max_length);
+    //       var label = query.id;
+    //       var len = query.length;
+    //       // if (len/this.max_length < this.threshold) {
+    //       //   this.query_arr[index] = 0;
+    //       //   // this.query_arr.splice(index, 1);
+    //       //   return
+    //       // }
+    //       if (len/this.max_length < 0.35) {
+    //         label = label.slice(0,2) + '...';
+    //       }
+    //       console.log('q id: '+query.id+' len '+len/this.max_length+' index '+index);
+    //       var item = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
+    //       this.layout_arr.push(item);
+    //     }
+    //   }, this))
+    // }, this));
 
     _.each(this.data, _.bind(function(query) {
+      var q_index = _.indexOf(this.query_arr, query.id)
+      if (q_index >= 0) {
+        var label = query.id;
+        var len = query.length;
+        if (len/this.max_length < this.threshold) {
+          return
+        }
+        if (len/this.max_length < 0.35) {
+          label = label.slice(0,2) + '...';
+        }
+        console.log('q id: '+query.id+' len '+len/this.max_length+' index '+q_index);
+        var item = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
+        this.layout_arr.push(item);
+      }
       _.each(query.hits, _.bind(function(hit) {
-        var index = _.indexOf(this.hit_arr, hit.id);
-        if (index >= 0 ) {
+        var h_index = _.indexOf(this.hit_arr, hit.id);
+        if (h_index >= 0 ) {
           var label = hit.id;
-          var len = hit.length*this.hit_multiplier;
-          if (len/this.max_length < this.threshold) {
-            this.hit_arr[index] = 0;
-            return
-          }
+          var len = hit.length;
+          // if (len/this.max_length < this.threshold) {
+          //   this.hit_arr[index] = 0;
+          //   // this.hit_arr.splice(index, 1);
+          //   return
+          // }
           if (len/this.max_length < 0.35) {
             label = label.slice(0,2) + '...';
           }
-          console.log('h id: '+hit.id+' len '+len/this.max_length);
+          console.log('h id: '+hit.id+' len '+len/this.max_length+' index '+h_index);
           var item = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
           this.layout_arr.push(item);
-          // this.hit_arr[index] = 0;
+          // this.hit_arr[h_index] = 0; // to prevent duplicates in next iteration
         }
       }, this))
     }, this));
