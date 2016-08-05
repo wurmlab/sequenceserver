@@ -410,12 +410,9 @@ var Hit = React.createClass({
     },
 
     render: function () {
-        // NOTE:
-        //   Adding 'subject' class to hit container is important for
-        //   Kablammo's ImageExporter to work.
         return (
             <div
-                className="hitn subject" id={this.domID()}
+                className="hitn" id={this.domID()}
                 data-hit-def={this.props.hit.id} data-hit-evalue={this.props.hit.evalue}
                 data-hit-len={this.props.hit.length}>
                 <div
@@ -664,12 +661,9 @@ var Query = React.createClass({
     // Life cycle methods //
 
     render: function () {
-        // NOTE:
-        //   Adding 'subject' class to query container is required by
-        //   ImageExporter.
         return (
             <div
-                className="resultn subject" id={this.domID()}
+                className="resultn" id={this.domID()}
                 data-query-len={this.props.query.length}
                 data-algorithm={this.props.data.program}>
                 <div
@@ -1217,7 +1211,7 @@ var Report = React.createClass({
 
     // SVG and PNG download links.
     setupKablammoImageExporter: function () {
-        new ImageExporter('.subject', '.export-to-svg', '.export-to-png');
+        new ImageExporter('.grapher', '.export-to-svg', '.export-to-png');
     },
 
     // Life-cycle methods. //

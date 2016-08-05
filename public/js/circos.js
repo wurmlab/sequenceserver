@@ -20,8 +20,23 @@ export default class Circos extends React.Component {
   render() {
     return (
       <div
-        className='svgContainer' ref='svgContainer'>
-        <svg className="circosContainer" ref="svgTag"></svg>
+        className='grapher' ref='grapher'>
+        <div
+            className="graph-links">
+            <a href = "#" className="export-to-svg">
+                <i className="fa fa-download"/>
+                <span>{"  SVG  "}</span>
+            </a>
+            <span>{" | "}</span>
+            <a href = "#" className="export-to-png">
+                <i className="fa fa-download"/>
+                <span>{"  PNG  "}</span>
+            </a>
+        </div>
+        <div
+          className='svgContainer' ref='svgContainer'>
+          <svg className="circosContainer" ref="svgTag"></svg>
+        </div>
       </div>
     )
   }
