@@ -20,6 +20,9 @@ export function setupResponsiveness() {
 }
 
 export function grapher_render() {
+  // NOTE:
+  //   Adding 'grapher' class to query container is required by
+  //   ImageExporter.
   return (
     <div className="grapher" ref="grapher">
       <div

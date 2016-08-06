@@ -410,12 +410,9 @@ var Hit = React.createClass({
     },
 
     render: function () {
-        // NOTE:
-        //   Adding 'subject' class to hit container is important for
-        //   Kablammo's ImageExporter to work.
         return (
             <div
-                className="hitn subject" id={this.domID()}
+                className="hitn" id={this.domID()}
                 data-hit-def={this.props.hit.id} data-hit-evalue={this.props.hit.evalue}
                 data-hit-len={this.props.hit.length}>
                 <div
@@ -664,12 +661,9 @@ var Query = React.createClass({
     // Life cycle methods //
 
     render: function () {
-        // NOTE:
-        //   Adding 'subject' class to query container is required by
-        //   ImageExporter.
         return (
             <div
-                className="resultn subject" id={this.domID()}
+                className="resultn" id={this.domID()}
                 data-query-len={this.props.query.length}
                 data-algorithm={this.props.data.program}>
                 <div
@@ -827,30 +821,6 @@ var SideBar = React.createClass({
                 <br/>
 
                 <div
-                  className='page-header'>
-                  <h4>
-                    Circos visualization
-                  </h4>
-                </div>
-                <ul
-                  className='downloads list-unstyled list-padded'>
-                  <li>
-                    <a
-                      className='circos-demo'
-                      href='#'>
-                      Circos Demo
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className='circos-of-selected'
-                      href='#'>
-                      Circos for selected
-                    </a>
-                  </li>
-                </ul>
-
-                <div
                   className="page-header">
                     <h4>
                         Download FASTA, XML, TSV
@@ -906,52 +876,6 @@ var SideBar = React.createClass({
             </div>
         )
     }
-});
-
-/**
- * Circos Demo
- */
-var CircosDemo = React.createClass({
-  show: function() {
-    this.modal().modal('show');
-  },
-
-  hide: function() {
-    this.modal().modal('hide');
-  },
-
-  modal: function() {
-    return $('#circos-demo');
-  },
-  componentDidMount: function() {
-    this.show();
-  },
-
-  renderCircos: function () {
-    return (
-      <Circos data={this.props.data} />
-    );
-  },
-
-  render: function () {
-    return (
-      <div
-        className='modal-dialog modal-lg'>
-        <div
-          className='modal-content'>
-          <div
-            className='modal-header'>
-            <h3>Circos Demo</h3>
-          </div>
-
-          <div
-            className='modal-body'>
-            { this.renderCircos() }
-          </div>
-        </div>
-      </div>
-    );
-  }
 });
 
 /**
@@ -1186,6 +1110,7 @@ var Report = React.createClass({
             <div
                 className={this.shouldShowSidebar() ? 'col-md-9 main' : 'col-md-12'}>
                 { this.overview() }
+                <Circos queries={this.state.queries} program={this.state.program}/>
                 {
                     _.map(this.state.queries, _.bind(function (query) {
                         return (
@@ -1284,19 +1209,9 @@ var Report = React.createClass({
         });
     },
 
-    setupCircosDemo: function (data) {
-      $(document).on('click','.circos-demo', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        // console.log('test '+data);
-        React.render(<CircosDemo data={data} />,
-                      document.getElementById('circos-demo'));
-      })
-    },
-
     // SVG and PNG download links.
     setupKablammoImageExporter: function () {
-        new ImageExporter('.subject', '.export-to-svg', '.export-to-png');
+        new ImageExporter('.grapher', '.export-to-svg', '.export-to-png');
     },
 
     // Life-cycle methods. //
@@ -1339,7 +1254,6 @@ var Report = React.createClass({
         this.setupSequenceViewer();
         this.setupKablammoImageExporter();
         Grapher.setupResponsiveness();
-        this.setupCircosDemo(this.state);
     }
 });
 

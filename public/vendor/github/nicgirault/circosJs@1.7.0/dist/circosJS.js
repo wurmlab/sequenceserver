@@ -1300,7 +1300,10 @@ circosJS.renderLayoutTicks = function(conf, layout, d3, instance) {
       return null;
     } else if (i % conf.ticks.labelSpacing) {
       return null;
-    } else {
+    } else if (i === 0) {
+      return v / conf.ticks.labelDenominator; // added support for 0 without suffix.
+    }
+    else {
       return v / conf.ticks.labelDenominator + conf.ticks.labelSuffix;
     }
   };

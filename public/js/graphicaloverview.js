@@ -7,6 +7,7 @@ import * as Helpers from './visualisation_helpers';
             'placement': 'top',
             'container': 'body',
             'html': 'true',
+            'delay': 0,
             'white-space': 'nowrap'
         });
     };
@@ -357,6 +358,7 @@ import * as Helpers from './visualisation_helpers';
                             d3.select(this)
                                 .attr('xlink:href', '#' + q_i + '_hit_' + h_i)
                                 .append('rect')
+                                    .attr('class','bar')
                                     .attr('x', function (d) {
                                         return x(d.hspStart);
                                     })
