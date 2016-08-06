@@ -51,8 +51,8 @@ export class Graph {
   }
 
   initiate() {
-    this.width = 600;
-    // this.width = this.svgContainer.width();
+    // this.width = 700;
+    this.width = this.svgContainer.width();
     this.height = 600;
     // this.height = this.svgContainer.height();
     this.innerRadius = 200;
@@ -96,7 +96,7 @@ export class Graph {
     console.log('spacing '+this.spacing);
     // this.layout_data();
     // this.chords_data();
-    this.create_instance(this.svgContainer, this.height, this.width);
+    this.create_instance(this.svgContainer, this.width, this.height);
     this.instance_render();
     this.setupTooltip();
   }
