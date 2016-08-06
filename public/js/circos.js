@@ -127,7 +127,8 @@ export class Graph {
         // }
         console.log('q id: '+query.id);
         var item1 = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
-        this.new_layout.push(item1);
+        // this.new_layout.push(item1);
+        this.layout_arr.push(item1);
       }
       var hit_details = _.map(query.hits, _.bind(function(hit) {
         // this.hit_arr.push(hit.id);
@@ -140,7 +141,8 @@ export class Graph {
               this.hit_arr.push(hit.id);
               // console.log('h id: '+hit.id);
               var item2 = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
-              this.new_layout.push(item2);
+              // this.new_layout.push(item2);
+              this.layout_arr.push(item2);
             }
 
             hsp_count++;
@@ -155,7 +157,7 @@ export class Graph {
       this.query_arr.push(query.id);
       return query;
     }, this));
-    this.rearrange_new_layout();
+    // this.rearrange_new_layout(); // called to collect all querys at one place
   }
 
   // rearraging hit and query karyotypes to have all query in one place
@@ -194,7 +196,7 @@ export class Graph {
       var rel_length = (obj.len / this.max_length).toFixed(3);
       var label = obj.label;
       // console.log('rel '+rel_length+' id '+label+' index '+index);
-      if (rel_length < 0.1 && index >= this.query_arr.length) {
+      if (rel_length < 0.1 && (obj.id).slice(0,3) != 'Que') {
         this.delete_from_layout.push(obj);
         this.hit_arr.slice(_.indexOf(this.hit_arr, obj.label), 1); // corresponding delete from hit_arr
       }
