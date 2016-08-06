@@ -73,12 +73,10 @@ export class Graph {
     this.iterator_for_edits();
     // this.sweeping_layout_and_chords();
     this.hit_arr = _.uniq(this.hit_arr);
-    this.calculate_threshold();
-    // this.generate_tuples();
+    // this.calculate_threshold();
+    //
+    // this.apply_threshold();
     // this.max_length = this.calculate_max_length();
-
-    this.apply_threshold();
-    // this.max_length = this.calculate_max_length(); // recalculate for difference
     // this.calculate_multipliers(); // for half n half
     this.handle_spacing();
 
@@ -110,6 +108,7 @@ export class Graph {
     } else {
       this.simple_layout_edits();
     }
+    this.edit_labels();
   }
 
   // Generate both layout_arr and chords_arr with top hsps set by this.hsp_count
@@ -146,7 +145,7 @@ export class Graph {
 
             hsp_count++;
 
-            var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, query.number];
+            var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, hsp_count];
             this.chords_arr.push(item3);
           }
           return hsp;
@@ -189,71 +188,47 @@ export class Graph {
 
   // label edits along with deleting hits which are too small to display
   complex_layout_edits() {
-    this.delete_layout_index = [];
-    this.delete_chords_index = [];
+    this.delete_from_layout = [];
+    this.delete_from_chords = [];
     _.each(this.layout_arr, _.bind(function (obj, index) {
       var rel_length = (obj.len / this.max_length).toFixed(3);
       var label = obj.label;
-      console.log('rel '+rel_length+' id '+label+' index '+index);
-      if (rel_length < 0.3) {
-        obj.label = '..';
-      } else if (rel_length < 0.85) {
-        obj.label = label.slice(0,2) + '...';
-      } else if (label.length > 10) {
-        obj.label = label.slice(0,2) + '...';
-      }
+      // console.log('rel '+rel_length+' id '+label+' index '+index);
       if (rel_length < 0.1 && index >= this.query_arr.length) {
-        this.delete_layout_index.push(index);
-        this.hit_arr.slice(_.indexOf(this.hit_arr, obj.id), 1);
-        this.edit_chord_layout(obj, (obj.id).slice(0,3)); // send obj to be removed and Hit or Que
+        this.delete_from_layout.push(obj);
+        this.hit_arr.slice(_.indexOf(this.hit_arr, obj.label), 1); // corresponding delete from hit_arr
       }
     }, this));
-    if (this.delete_layout_index.length > 0 || this.delete_chords_index.length > 0) {
-      // console.log('delete_layout_index'+this.delete_layout_index.length);
-      // console.log('delete_chords_index'+this.delete_chords_index.length);
-      this.delete_layout_arr_index(this.delete_layout_arr_index);
-      this.delete_chords_arr_index(this.delete_chords_arr_index);
-      // this.iterator_for_edits(); for multiple iteration till we achive best
+    if (this.delete_from_layout.length > 0) {
+      this.delete_layout_and_chords();
     }
   }
 
-  // deleting corresponding ribbons related to hits karyotypes being deleted
-  edit_chord_layout(elem, type) {
-    _.each(this.chords_arr, _.bind(function(obj, index) {
-      // console.log('chords_arr '+obj[1]+'len '+this.chords_arr.length);
-      if (type == 'Hit') {
-        // console.log('match '+type);
+  delete_layout_and_chords() {
+    console.log('delete_layout_and_chords '+this.delete_from_layout.length);
+    _.each(this.delete_from_layout, _.bind(function(elem) {
+      var layout_index;
+      var chords_index = [];
+      _.each(this.layout_arr, _.bind(function(obj, index) {
+        if (obj.label == elem.label) {
+          // console.log('tesss '+obj.label+' index splice '+index);
+          layout_index = index;
+        }
+      }, this));
+      _.each(this.chords_arr, _.bind(function(obj, index) {
         if (obj[3] == elem.id) {
-          console.log('fou '+index);
-          this.delete_chords_index.push(index);
+          // console.log('chorsds '+obj[3]+' index slice '+index);
+          chords_index.push(index);
         }
-
-      } else if (type == 'Que') {
-        // console.log('match '+type);
-        if (obj[0] == elem.id) {
-          console.log('found '+index);
-          // var h_index = this.find_index_of_hit(obj[3]);
-          // this.delete_layout_index.push(h_index);
-          this.delete_chords_index.push(index);
-        }
-      }
-    }, this));
-  }
-
-  // deleting objects from layout_arr based on array provided as arguments
-  delete_layout_arr_index(arr) {
-    console.log('delete layout '+arr.length);
-    _.each(arr, _.bind(function(index) {
-      this.layout_arr.splice(index, 1);
-    }, this));
-  }
-
-  // deleting objects from chords_arr based on array provided as arguments
-  delete_chords_arr_index(arr) {
-    console.log('delete chords '+arr.length);
-    _.each(arr, _.bind(function(index) {
-      this.chords_arr.splice(index, 1);
-    }, this));
+      }, this));
+      // console.log('anon '+this.layout_arr.length+' now '+_.map(this.layout_arr, _.iteratee('label')));
+      this.layout_arr.splice(layout_index, 1);
+      // this.chords_arr.splice(chords_index, 1);
+      _.each(chords_index, _.bind(function (id, index) {
+        this.chords_arr.splice((id-index), 1)
+      }, this))
+    }, this))
+    this.iterator_for_edits();
   }
 
   // sweeping: as in cleaning the unmathced chords and ribbons
@@ -296,33 +271,19 @@ export class Graph {
     return _.indexOf(this.layout_arr, found);
   }
 
-  generate_tuples() {
-    console.log('tuples entry');
-    this.new_data = _.map(this.queries, _.bind(function(query) {
-      var hit_details = _.map(query.hits, _.bind(function(hit) {
-        var hsp_details = _.map(hit.hsps, _.bind(function(hsp) {
-          return {
-            qstart: hsp.qstart,
-            qend: hsp.qend,
-            sstart: hsp.sstart,
-            send: hsp.send
-          };
-        }, this));
-        return {
-          id: hit.id,
-          length: hit.length,
-          hsps: hsp_details
-        };
-      }, this));
-      return {
-        id: query.id,
-        length: query.length,
-        hits: hit_details
-      };
+  edit_labels() {
+    console.log('label edits');
+    _.each(this.layout_arr, _.bind(function (obj) {
+      var rel_length = (obj.len / this.max_length).toFixed(3);
+      var label = obj.label;
+      if (rel_length < 0.3) {
+        obj.label = '..';
+      } else if (rel_length < 0.85) {
+        obj.label = label.slice(0,2) + '...';
+      } else if (label.length > 10) {
+        obj.label = label.slice(0,2) + '...';
+      }
     }, this));
-    _.each(this.new_data, _.bind(function(query) {
-      console.log('in for a 5 '+query.hits.length);
-    }, this))
   }
 
   calculate_multipliers() {
@@ -359,6 +320,8 @@ export class Graph {
     } else if (this.max_length > 8000) {
       this.spacing = 100;
     } else if (this.max_length > 4000) {
+      this.spacing = 75;
+    } else if (this.max_length > 1800) {
       this.spacing = 50;
     }
   }
@@ -366,7 +329,7 @@ export class Graph {
   calculate_threshold() {
     var sum_lengths = this.hit_arr.length + this.query_arr.length
     if (sum_lengths > 20) {
-      this.threshold = 0.05;
+      this.threshold = 0.1;
     } else if (sum_lengths > 10) {
       this.threshold = 0.03;
     } else {
@@ -534,7 +497,7 @@ export class Graph {
         labelSpacing: this.labelSpacing, // ticks value apper in interval
         labelDenominator: this.denominator, // divide the value by this value
         labelSuffix: this.suffix,
-        // labelSize: '2px',
+        labelSize: '2px',
         majorSpacing: this.labelSpacing, // major ticks apper in interval
         size: {
           minor: 0, // to remove minor ticks

@@ -25,7 +25,7 @@ export default class Graph {
     // Use parents() instead of parent() to (if needed) traverse multiple levels
     // up DOM tree.
     // Note that _subject_container is a jQuery reference.
-    this._subject_container = svg_container.parents('.subject');
+    this._subject_container = svg_container.parents('.grapher');
     this._subject_container[0]._grapher = this;
 
     this.svg_container_d3 = d3.select(svg_container[0]);
