@@ -147,7 +147,7 @@ export class Graph {
 
             hsp_count++;
 
-            var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, hsp_count];
+            var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, hsp_count, hsp];
             this.chords_arr.push(item3);
           }
           return hsp;
