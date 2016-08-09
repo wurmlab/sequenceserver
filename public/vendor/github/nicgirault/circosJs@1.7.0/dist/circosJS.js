@@ -625,7 +625,11 @@ circosJS.Chord = function() {
     })).attr('opacity', function(d) {
       return d.opacity || conf.opacity;
     }).attr('data-toggle','tooltip').attr('title',function(d) {
-      return 'Identity '+d.hsp.identity+'<br> HSP '+d.hsp.evalue;
+      return 'Identity '+d.hsp.identity+'<br> Evalue '+d.hsp.evalue;
+    }).attr('id',function (d) {
+      var slen = d.source.start + d.source.end;
+      var tlen = d.target.start + d.target.end;
+      return d.source.id+'_'+slen+'_'+d.target.id+'_'+tlen;
     }).on('mouseover', (function(_this) {
       return function(d, i, j) {
         _this.dimChords(track, d, conf, i);
