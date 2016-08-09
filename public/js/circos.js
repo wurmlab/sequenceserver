@@ -527,7 +527,7 @@ export class Graph {
     _.each(this.chords_arr, function (obj) {
       var slen = obj[1] + obj[2];
       var tlen = obj[4] + obj[5];
-      $("#"+obj[0]+"_"+slen+"_"+obj[3]+"_"+tlen).css("opacity",0.5);
+      $("#"+obj[0]+"_"+slen+"_"+obj[3]+"_"+tlen).show();
     });
   }
 
@@ -553,7 +553,7 @@ export class Graph {
       if (_.indexOf(this.chordsHide, index) == -1) {
         var slen = obj[1] + obj[2];
         var tlen = obj[4] + obj[5];
-        $("#"+obj[0]+"_"+slen+"_"+obj[3]+"_"+tlen).css("opacity",0);
+        $("#"+obj[0]+"_"+slen+"_"+obj[3]+"_"+tlen).hide();
       }
     }, this))
   }
@@ -620,5 +620,11 @@ export class Graph {
       'delay': 0,
       'white-space': 'nowrap'
     });
+  }
+
+  chordTooltip() {
+    _.each(this.chords_arr, _.bind(function (obj) {
+
+    }, this))
   }
 }
