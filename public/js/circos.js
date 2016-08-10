@@ -51,8 +51,8 @@ export class Graph {
   }
 
   initiate() {
-    this.width = 600;
-    // this.width = this.svgContainer.width();
+    // this.width = 700;
+    this.width = this.svgContainer.width();
     this.height = 600;
     // this.height = this.svgContainer.height();
     this.innerRadius = 200;
@@ -96,9 +96,10 @@ export class Graph {
     console.log('spacing '+this.spacing);
     // this.layout_data();
     // this.chords_data();
-    this.create_instance(this.svgContainer, this.height, this.width);
+    this.create_instance(this.svgContainer, this.width, this.height);
     this.instance_render();
     this.setupTooltip();
+    // this.drawLegend();
   }
 
   iterator_for_edits() {
@@ -127,7 +128,8 @@ export class Graph {
         // }
         console.log('q id: '+query.id);
         var item1 = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
-        this.new_layout.push(item1);
+        // this.new_layout.push(item1);
+        this.layout_arr.push(item1);
       }
       var hit_details = _.map(query.hits, _.bind(function(hit) {
         // this.hit_arr.push(hit.id);
@@ -140,13 +142,15 @@ export class Graph {
               this.hit_arr.push(hit.id);
               // console.log('h id: '+hit.id);
               var item2 = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
-              this.new_layout.push(item2);
+              // this.new_layout.push(item2);
+              this.layout_arr.push(item2);
             }
 
             hsp_count++;
 
-            var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, hsp_count];
+            var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, hsp_count, hsp];
             this.chords_arr.push(item3);
+
           }
           return hsp;
         }, this));
@@ -155,7 +159,7 @@ export class Graph {
       this.query_arr.push(query.id);
       return query;
     }, this));
-    this.rearrange_new_layout();
+    // this.rearrange_new_layout(); // called to collect all querys at one place
   }
 
   // rearraging hit and query karyotypes to have all query in one place
@@ -194,7 +198,7 @@ export class Graph {
       var rel_length = (obj.len / this.max_length).toFixed(3);
       var label = obj.label;
       // console.log('rel '+rel_length+' id '+label+' index '+index);
-      if (rel_length < 0.1 && index >= this.query_arr.length) {
+      if (rel_length < 0.1 && (obj.id).slice(0,3) != 'Que') {
         this.delete_from_layout.push(obj);
         this.hit_arr.slice(_.indexOf(this.hit_arr, obj.label), 1); // corresponding delete from hit_arr
       }
@@ -471,9 +475,14 @@ export class Graph {
   }
 
   chord_layout() {
+    if (this.chords_arr.length > 11) {
+      this.paletteSize = 11;
+    } else {
+      this.paletteSize = this.chords_arr.length;
+    }
     return {
       usePalette: true,
-      // colorPaletteSize: 9,
+      colorPaletteSize: this.paletteSize,
       // color: 'rgb(0,0,0)',
       colorPalette: 'RdYlBu', // colors of chords based on last value in chords
       // tooltipContent: 'Hiten',
@@ -513,17 +522,102 @@ export class Graph {
     this.instance.render();
   }
 
-  setupTooltip() {
-    _.each(this.query_arr, _.bind(function (id) {
-      if (id) {
-        $(".Query_"+this.clean_id(id)).attr('data-toggle','tooltip')
-                      .attr('title',id);
+  layoutReset() {
+    this.layoutHide = [];
+    _.each(this.layout_arr, function(obj) {
+      $("."+obj.id).css("opacity", 1);
+    });
+  }
+
+  chordsReset() {
+    this.chordsHide = [];
+    _.each(this.chords_arr, function (obj) {
+      var slen = obj[1] + obj[2];
+      var tlen = obj[4] + obj[5];
+      $("#"+obj[0]+"_"+slen+"_"+obj[3]+"_"+tlen).show();
+    });
+  }
+
+  chordsCheck(id, type) {
+    _.each(this.chords_arr, _.bind(function (obj, index) {
+      if (type == 'Que') {
+        if (obj[0] == id) {
+          this.chordsHide.push(index);
+          this.layoutHide.push(obj[3]);
+        }
+      }
+      if (type == 'Hit') {
+        if (obj[3] == id) {
+          this.chordsHide.push(index);
+          this.layoutHide.push(obj[0]);
+        }
       }
     }, this))
-    _.each(this.hit_arr, _.bind(function(id) {
+  }
+
+  chordsClean() {
+    _.each(this.chords_arr, _.bind(function (obj, index) {
+      if (_.indexOf(this.chordsHide, index) == -1) {
+        var slen = obj[1] + obj[2];
+        var tlen = obj[4] + obj[5];
+        $("#"+obj[0]+"_"+slen+"_"+obj[3]+"_"+tlen).hide();
+      }
+    }, this))
+  }
+
+  layoutClean() {
+    _.each(this.layout_arr, _.bind(function(obj, index) {
+      if(_.indexOf(this.layoutHide, obj.id) == -1) {
+        $("."+obj.id).css("opacity",0.1);
+      }
+    }, this))
+  }
+
+  setupTooltip() {
+    _.each(this.query_arr, _.bind(function (id, index) {
+      this.chordsHide = [];
+      this.layoutHide = [];
+      var selected = {};
+      if (id) {
+        $(".Query_"+this.clean_id(id)).attr('data-toggle','tooltip')
+                      .attr('title',id)
+                      .on('click', _.bind(function () {
+                        if (selected[index] != id) {
+                          selected[index] = id;
+                          var cleaned_id = "Query_"+this.clean_id(id);
+                          this.layoutHide.push(cleaned_id);
+                          this.chordsCheck(cleaned_id, "Que");
+                          this.chordsClean();
+                          this.layoutClean();
+                        } else {
+                          selected[index] = 0;
+                          this.layoutReset();
+                          this.chordsReset();
+                        }
+                      }, this));
+      }
+    }, this))
+    _.each(this.hit_arr, _.bind(function(id, index) {
+      this.chordsHide = [];
+      this.layoutHide = [];
+      var selected = {};
       if (id) {
         $(".Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
-                    .attr('title',id);
+                    .attr('title',id)
+                    .on('click', _.bind(function () {
+                      if (selected[index] != id) {
+                        selected[index] = id;
+                        var cleaned_id = "Hit_"+this.clean_id(id);
+                        this.layoutHide.push(cleaned_id);
+                        this.chordsCheck(cleaned_id, "Hit");
+                        this.chordsClean();
+                        this.layoutClean();
+                      } else {
+                        selected[index] = 0;
+                        this.layoutReset();
+                        this.chordsReset();
+                      }
+                    }, this));
       }
     }, this));
     $('[data-toggle="tooltip"]').tooltip({
@@ -533,5 +627,100 @@ export class Graph {
       'delay': 0,
       'white-space': 'nowrap'
     });
+  }
+
+  ratioCalculate(value, min, max, scope, reverse, logScale) {
+    var fraction, scaleLogBase, x;
+    scaleLogBase = logScale ? 2.3 : 1;
+    if (min === max || (value === min && !reverse) || (value === max && reverse)) {
+      return 0;
+    }
+    if (value === max || (value === min && reverse)) {
+      return scope - 1;
+    }
+    fraction = (value - min) / (max - min);
+    x = Math.exp(1 / scaleLogBase * Math.log(fraction));
+    if (reverse) {
+      x = 1 - x;
+    }
+    return Math.floor(scope * x);
+  }
+
+  drawLegend() {
+    this.ratioHSP = [];
+    _.each(this.chords_arr, _.bind(function (obj) {
+      var item = {number: obj[6], evalue: obj[7].evalue}
+      this.ratioHSP.push(item);
+    }, this));
+    var min = d3.min(this.ratioHSP, function(d) {
+      return d.number;
+    });
+    var max = d3.max(this.ratioHSP, function(d) {
+      return d.number;
+    });
+    console.log('chords_arr '+this.chords_arr.length);
+    console.log('ratioHSP test '+this.ratioHSP.length);
+    console.log('paletteSize '+this.paletteSize);
+    console.log('min '+min+' max '+max);
+    this.legend = d3.select(this.svgContainer[0]).insert('svg', ':first-child')
+        .attr('height', 20)
+        .attr('width', this.ratioHSP.length * 30)
+        .attr('transform','translate(10, 10)')
+        .append('g')
+        .attr('class','RdYlBu')
+        .attr('transform','translate(10, 0)');
+
+    var bar = this.legend.selectAll('.bar')
+        .data(this.ratioHSP)
+        .enter().append('g')
+        .attr('class','g')
+        .attr('transform', function(d, i) {
+          return 'translate('+i * 30+',0)';
+        })
+        .append('rect')
+        .attr('class',_.bind(function(d,i) {
+          var s = this.ratioCalculate(d.number,min,max,this.paletteSize, false, false);
+          console.log('calc ratio '+s);
+          return 'q'+s+"-"+this.paletteSize;
+        }, this))
+        .attr('data-toggle','tooltip')
+        .attr('title', function (d) {
+          return d.evalue;
+        })
+        .attr('x', 1)
+        .attr('width', 30)
+        .attr('height', 20);
+        // .attr('fill','#43ff21');
+
+    var scale = d3.scale.linear()
+        .domain([0, 250])
+        .range([0, 100]);
+
+    // this.legend.append('rect')
+    //     .attr('x', 7*14)
+    //     .attr('width', 2*10)
+    //     .attr('height', 10)
+    //     .attr('fill','#43ff21');
+    //
+    // this.legend.append('text')
+    //     .attr('class','text-legend')
+    //     .attr('transform','translate('+10+',0)')
+    //     .attr('x',6*14)
+    //     .text('Weaker Hits');
+    //
+    // this.legend.append('text')
+    //     .attr('class','text-legend')
+    //     .attr('transform','translate('+10+',0)')
+    //     .attr('x',9*14)
+    //     .text('Stronger Hits');
+
+    // bar.selectAll('rect')
+
+
+    // this.legend.append('rect')
+    //     .attr('x',1)
+    //     .attr('width', 10)
+    //     .attr('height', 10)
+    //     .attr('fill','#232323');
   }
 }

@@ -345,7 +345,7 @@ var Hit = React.createClass({
         switch (this.props.algorithm) {
         case 'tblastx':
             _.extend(stats, {
-                'Frame': in_fraction(hsp.qframe, hsp.sframe)
+                'Frame': this.inFraction(hsp.qframe, hsp.sframe)
             });
             // fall-through
         case 'blastp':
