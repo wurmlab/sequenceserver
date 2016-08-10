@@ -99,6 +99,7 @@ export class Graph {
     this.create_instance(this.svgContainer, this.width, this.height);
     this.instance_render();
     this.setupTooltip();
+    this.drawLegend();
   }
 
   iterator_for_edits() {
@@ -115,6 +116,7 @@ export class Graph {
   construct_layout() {
     var hsp_count = 0;
     this.new_layout = [];
+    this.ratioHSP = [];
     this.data = _.map(this.queries, _.bind(function (query) {
       // if (this.max_length < query.length) {
       //   this.max_length = query.length;
@@ -149,6 +151,7 @@ export class Graph {
 
             var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, hsp_count, hsp];
             this.chords_arr.push(item3);
+            this.ratioHSP.push({number: hsp_count, evalue: hsp.evalue});
           }
           return hsp;
         }, this));
@@ -475,7 +478,7 @@ export class Graph {
   chord_layout() {
     return {
       usePalette: true,
-      // colorPaletteSize: 9,
+      // colorPaletteSize: this.chords_arr.length,
       // color: 'rgb(0,0,0)',
       colorPalette: 'RdYlBu', // colors of chords based on last value in chords
       // tooltipContent: 'Hiten',
@@ -622,9 +625,98 @@ export class Graph {
     });
   }
 
-  chordTooltip() {
-    _.each(this.chords_arr, _.bind(function (obj) {
+  ratioCalculate(value, min, max, scope, reverse, logScale) {
+    var fraction, scaleLogBase, x;
+    scaleLogBase = logScale ? 2.3 : 1;
+    if (min === max || (value === min && !reverse) || (value === max && reverse)) {
+      return 0;
+    }
+    if (value === max || (value === min && reverse)) {
+      return scope - 1;
+    }
+    fraction = (value - min) / (max - min);
+    x = Math.exp(1 / scaleLogBase * Math.log(fraction));
+    if (reverse) {
+      x = 1 - x;
+    }
+    return Math.floor(scope * x);
+  }
 
-    }, this))
+  drawLegend() {
+    console.log('ratioHSP test '+this.ratioHSP.length);
+    var min = d3.min(this.ratioHSP, function(d) {
+      // console.log('d test '+d.evalue+' a '+d.number);
+      return d.number;
+    });
+    var max = d3.max(this.ratioHSP, function(d) {
+      return d.number;
+    });
+    this.ratioHSP = _.map(this.ratioHSP, _.bind(function (d) {
+      var s = this.ratioCalculate(d.number,min,max,this.chords_arr.length, false, false);
+      console.log('calc ratio '+s);
+      return {
+        number: d.number,
+        evalue: d.evalue,
+        color: 'q'+s+"-"+this.chords_arr.length
+      }
+    }, this));
+    console.log('min '+min+' max '+max);
+    this.legend = d3.select(this.svgContainer[0]).insert('svg', ':first-child')
+        .attr('height', 20)
+        .attr('transform','translate(10, 10)')
+        .append('g')
+        .attr('class','RdYlBu')
+        .attr('transform','translate(10, 0)');
+
+    var bar = this.legend.selectAll('.bar')
+        .data(this.ratioHSP)
+        .enter().append('g')
+        .attr('class','g')
+        .attr('transform', function(d, i) {
+          return 'translate('+i * 30+',0)';
+        })
+        .append('rect')
+        .attr('class',_.bind(function(d,i) {
+          return d.color;
+        }, this))
+        .attr('data-toggle','tooltip')
+        .attr('title', function (d) {
+          return d.evalue;
+        })
+        .attr('x', 1)
+        .attr('width', 30)
+        .attr('height', 20);
+        // .attr('fill','#43ff21');
+
+    var scale = d3.scale.linear()
+        .domain([0, 250])
+        .range([0, 100]);
+
+    // this.legend.append('rect')
+    //     .attr('x', 7*14)
+    //     .attr('width', 2*10)
+    //     .attr('height', 10)
+    //     .attr('fill','#43ff21');
+    //
+    // this.legend.append('text')
+    //     .attr('class','text-legend')
+    //     .attr('transform','translate('+10+',0)')
+    //     .attr('x',6*14)
+    //     .text('Weaker Hits');
+    //
+    // this.legend.append('text')
+    //     .attr('class','text-legend')
+    //     .attr('transform','translate('+10+',0)')
+    //     .attr('x',9*14)
+    //     .text('Stronger Hits');
+
+    // bar.selectAll('rect')
+
+
+    // this.legend.append('rect')
+    //     .attr('x',1)
+    //     .attr('width', 10)
+    //     .attr('height', 10)
+    //     .attr('fill','#232323');
   }
 }

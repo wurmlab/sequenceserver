@@ -641,6 +641,7 @@ circosJS.Chord = function() {
         return _this.dispatch.mouseout(d, i, j);
       };
     })(this));
+    console.log('min '+conf.cmin+' max '+conf.cmax);
     if (conf.usePalette) {
       link.attr('class', function(d) {
         return 'q' + ratio(d.value, conf.cmin, conf.cmax, conf.colorPaletteSize, conf.colorPaletteReverse, conf.logScale) + '-' + conf.colorPaletteSize;
@@ -1305,14 +1306,51 @@ circosJS.renderLayoutLabels = function(conf, d3, block) {
 circosJS.renderLayoutTicks = function(conf, layout, d3, instance) {
   var blockTicks, displayLabel, ticks;
   blockTicks = function(d) {
-    var k;
+    var k,space;
     k = (d.end - d.start) / d.len;
-    return d3.range(0, d.len, conf.ticks.spacing).map(function(v, i) {
-      return {
+    // console.log('start '+d.start+' end '+d.end);
+    if ((d.end - d.start) > 1.57) {
+      space = 8;
+    } else if ((d.end - d.start) > 0.785) {
+      space = 4;
+    } else if ((d.end - d.start) > 0.3925) {
+      space = 2;
+    } else if ((d.end - d.start) > 0) {
+      space = 0;
+    }
+    var arr = [];
+    var item = {angle: 0 * k + d.start, label: 0}
+    arr.push(item);
+    var temp_scale = d3.scale.linear()
+        .domain([1, d.len])
+        .range([d.start, d.end])
+    var len = temp_scale.ticks(space).length
+    // console.log(' teset '+temp_scale.ticks(space)+' actual len '+d.len);
+    temp_scale.ticks(space).map(function (v,i) {
+      var init = v * k + d.start;
+      var final = d.len * k +d.start;
+      if ((final - init) > 0.5) {
+      }
+      var item = {
         angle: v * k + d.start,
-        label: displayLabel(v, i)
+        label: v / conf.ticks.labelDenominator + conf.ticks.labelSuffix
       };
+      arr.push(item);
     });
+    arr.splice(len, 1);
+    var item = {
+      angle: d.len * k + d.start,
+      label: d.len / conf.ticks.labelDenominator + conf.ticks.labelSuffix
+    }
+    arr.push(item);
+    // return d3.range(0, d.len, conf.ticks.spacing).map(function(v, i) {
+    //   return {
+    //     angle: v * k + d.start,
+    //     label: displayLabel(v, i)
+    //   };
+    // });
+    // console.log('checkes '+arr.length);
+    return arr;
   };
   displayLabel = function(v, i) {
     if (conf.ticks.labels === false) {
@@ -1332,11 +1370,12 @@ circosJS.renderLayoutTicks = function(conf, layout, d3, instance) {
     return 'rotate(' + (d.angle * 180 / Math.PI - 90) + ')' + 'translate(' + conf.outerRadius + ',0)';
   });
   ticks.append('line').attr('x1', 0).attr('y1', 1).attr('x2', function(d, i) {
-    if (i % conf.ticks.majorSpacing) {
-      return conf.ticks.size.minor;
-    } else {
-      return conf.ticks.size.major;
-    }
+    // if (i % conf.ticks.majorSpacing) {
+    //   return conf.ticks.size.minor;
+    // } else {
+    //   return conf.ticks.size.major;
+    // }
+    return conf.ticks.size.major;
   }).attr('y2', 1).style('stroke', conf.ticks.color);
   return ticks.append('text').attr('x', 8).attr('dy', '.35em').attr('transform', function(d) {
     if (d.angle > Math.PI) {
@@ -1353,6 +1392,7 @@ circosJS.renderLayoutTicks = function(conf, layout, d3, instance) {
   }).style('font-size', '' + conf.ticks.labelSize + 'px').style('fill', conf.ticks.labelColor).text(function(d) {
     return d.label;
   });
+  console.log('fontSize '+conf.ticks.labelSize);
 };
 
 circosJS.Core.prototype.render = function(ids, removeTracks) {
