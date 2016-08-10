@@ -51,6 +51,7 @@ module SequenceServer
 
         # Capture error.
         status = $CHILD_STATUS.exitstatus
+<<<<<<< HEAD
         case status
         when 1 # error in query sequence or options; see [1]
           efile.open
@@ -60,6 +61,11 @@ module SequenceServer
           error = efile.each_line do |l|
             break Regexp.last_match[1] if l.match(ERROR_LINE)
           end
+=======
+        status!(status)
+        success! if status == 0 && !File.zero?(rfile)
+      end
+>>>>>>> e056d92... unnecessary comments removed
 
           # But sometimes BLAST+ returns the exact/ relevant error message.
           # Trying to parse such messages returns nil, and we use the error
