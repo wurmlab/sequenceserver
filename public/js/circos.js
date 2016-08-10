@@ -99,7 +99,7 @@ export class Graph {
     this.create_instance(this.svgContainer, this.width, this.height);
     this.instance_render();
     this.setupTooltip();
-    this.drawLegend();
+    // this.drawLegend();
   }
 
   iterator_for_edits() {
@@ -116,7 +116,6 @@ export class Graph {
   construct_layout() {
     var hsp_count = 0;
     this.new_layout = [];
-    this.ratioHSP = [];
     this.data = _.map(this.queries, _.bind(function (query) {
       // if (this.max_length < query.length) {
       //   this.max_length = query.length;
@@ -151,7 +150,7 @@ export class Graph {
 
             var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, hsp_count, hsp];
             this.chords_arr.push(item3);
-            this.ratioHSP.push({number: hsp_count, evalue: hsp.evalue});
+
           }
           return hsp;
         }, this));
@@ -476,9 +475,14 @@ export class Graph {
   }
 
   chord_layout() {
+    if (this.chords_arr.length > 11) {
+      this.paletteSize = 11;
+    } else {
+      this.paletteSize = this.chords_arr.length;
+    }
     return {
       usePalette: true,
-      // colorPaletteSize: this.chords_arr.length,
+      colorPaletteSize: this.paletteSize,
       // color: 'rgb(0,0,0)',
       colorPalette: 'RdYlBu', // colors of chords based on last value in chords
       // tooltipContent: 'Hiten',
@@ -643,26 +647,24 @@ export class Graph {
   }
 
   drawLegend() {
-    console.log('ratioHSP test '+this.ratioHSP.length);
+    this.ratioHSP = [];
+    _.each(this.chords_arr, _.bind(function (obj) {
+      var item = {number: obj[6], evalue: obj[7].evalue}
+      this.ratioHSP.push(item);
+    }, this));
     var min = d3.min(this.ratioHSP, function(d) {
-      // console.log('d test '+d.evalue+' a '+d.number);
       return d.number;
     });
     var max = d3.max(this.ratioHSP, function(d) {
       return d.number;
     });
-    this.ratioHSP = _.map(this.ratioHSP, _.bind(function (d) {
-      var s = this.ratioCalculate(d.number,min,max,this.chords_arr.length, false, false);
-      console.log('calc ratio '+s);
-      return {
-        number: d.number,
-        evalue: d.evalue,
-        color: 'q'+s+"-"+this.chords_arr.length
-      }
-    }, this));
+    console.log('chords_arr '+this.chords_arr.length);
+    console.log('ratioHSP test '+this.ratioHSP.length);
+    console.log('paletteSize '+this.paletteSize);
     console.log('min '+min+' max '+max);
     this.legend = d3.select(this.svgContainer[0]).insert('svg', ':first-child')
         .attr('height', 20)
+        .attr('width', this.ratioHSP.length * 30)
         .attr('transform','translate(10, 10)')
         .append('g')
         .attr('class','RdYlBu')
@@ -677,7 +679,9 @@ export class Graph {
         })
         .append('rect')
         .attr('class',_.bind(function(d,i) {
-          return d.color;
+          var s = this.ratioCalculate(d.number,min,max,this.paletteSize, false, false);
+          console.log('calc ratio '+s);
+          return 'q'+s+"-"+this.paletteSize;
         }, this))
         .attr('data-toggle','tooltip')
         .attr('title', function (d) {
