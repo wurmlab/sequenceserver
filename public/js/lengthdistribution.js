@@ -214,6 +214,13 @@ export class Graph {
   }
 
   draw_axes() {
+    var space, len;
+    len = this._scale_y.ticks().length;
+    if (len >= 8) {
+      space = 8;
+    } else {
+      space = len;
+    }
     var formatter = this.tick_formatter(this._seq_type.subject_seq_type);
     var x_axis = d3.svg.axis()
         .scale(this._scale_x)
@@ -223,6 +230,7 @@ export class Graph {
     var y_axis = d3.svg.axis()
         .scale(this._scale_y)
         .orient('left')
+        .tickValues(this._scale_y.ticks(space))
         .tickFormat(function (e) {
           if (Math.floor(e) != e) {
             return ;
