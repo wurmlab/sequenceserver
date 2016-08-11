@@ -206,7 +206,7 @@ import * as Helpers from './visualisation_helpers';
              */
             var defaults = {
                 barHeight: 4,
-                barPadding: 5,
+                barPadding: 1,
                 legend: 10,
                 margin: 20
             },
@@ -228,6 +228,7 @@ import * as Helpers from './visualisation_helpers';
             var width = $graphDiv.width();
             var height = hits.length * (options.barHeight + options.barPadding) +
                 2 * options.legend + 5 * options.margin;
+            // var height = $graphDiv.height();
 
             var SEQ_TYPES = {
                 blastn: 'nucleic_acid',

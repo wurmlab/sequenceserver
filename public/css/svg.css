@@ -61,6 +61,18 @@
   font-size: 12px;
 }
 
+.length-distribution {
+  height: 200px;
+}
+
+.kablammo {
+  height: 250px;
+}
+
+.alignment-overview {
+  /*height: 200px;*/
+}
+
 .caption {
   text-align: left;
   text-transform: uppercase;

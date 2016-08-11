@@ -85,6 +85,7 @@ export default class Kablammo extends React.Component {
    console.log('update');
    this.svgContainer().find('svg').remove();
    this._graph._canvas_width = this.svgContainer().width();
+   this._graph._canvas_height = this.svgContainer().height();
    this._graph._initiate();
  }
 
@@ -95,6 +96,7 @@ export default class Kablammo extends React.Component {
  componentDidMount(event) {
      var hsps = this.toKablammo(this.props.hit.hsps, this.props.query);
      var svgContainer = this.svgContainer();
+     svgContainer.addClass('kablammo');
      var grapher = new Grapher();
 
     //  Graph.prototype._canvas_width = svgContainer.width();

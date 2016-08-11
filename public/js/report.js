@@ -627,6 +627,8 @@ var GraphicalOverview = React.createClass({
 
     componentDidMount: function () {
         var hits = this.toGraph(this.props.query.hits, this.props.query.number);
+        var svgContainer = this.svgContainer();
+        svgContainer.addClass('alignment-overview');
         var query_div = this.svgContainer().parents('.resultn');
         this.graph = $.graphIt(query_div, this.svgContainer(), 0, 20, null, hits);
         var arr = Grapher.graph();

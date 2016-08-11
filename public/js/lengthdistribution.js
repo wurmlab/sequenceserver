@@ -18,11 +18,13 @@ export default class LengthDistribution extends React.Component {
   componentWillUpdate() {
     console.log('in will update');
     this.svgContainer().find('svg').remove();
-    this.graph.initiate(this.svgContainer().width());
+    this.graph.initiate(this.svgContainer().width(), this.svgContainer().height());
   }
 
   componentDidMount() {
-    this.graph = new Graph(this.props.query, this.svgContainer(), this.props.algorithm);
+    var svgContainer = this.svgContainer();
+    svgContainer.addClass('length-distribution');
+    this.graph = new Graph(this.props.query, svgContainer, this.props.algorithm);
     React.findDOMNode(this.refs.grapher).graph = this.graph;
     $(window).resize(_.bind(function () {
       this.setState({width: $(window).width()});
@@ -44,15 +46,15 @@ export class Graph {
 
 
 
-    this.initiate($svg_container.width());
+    this.initiate($svg_container.width(), $svg_container.height());
     // if (this.query.number == 1) {
     //   this.setupResponsiveness();
     // }
   }
 
-  initiate(width) {
+  initiate(width, height) {
     this._width = width - this._margin.left - this._margin.right;
-    this._height = 350 - this._margin.top - this._margin.bottom;
+    this._height = height - this._margin.top - this._margin.bottom;
     this.svg = d3.select(this.svg_container[0]).insert('svg', ':first-child')
         .attr('width', this._width + this._margin.right + this._margin.left)
         .attr('height', this._height + this._margin.top + this._margin.bottom)
@@ -212,6 +214,13 @@ export class Graph {
   }
 
   draw_axes() {
+    var space, len;
+    len = this._scale_y.ticks().length;
+    if (len >= 8) {
+      space = 8;
+    } else {
+      space = len;
+    }
     var formatter = this.tick_formatter(this._seq_type.subject_seq_type);
     var x_axis = d3.svg.axis()
         .scale(this._scale_x)
@@ -221,6 +230,7 @@ export class Graph {
     var y_axis = d3.svg.axis()
         .scale(this._scale_y)
         .orient('left')
+        .tickValues(this._scale_y.ticks(space))
         .tickFormat(function (e) {
           if (Math.floor(e) != e) {
             return ;

@@ -8,7 +8,8 @@ export default class Graph {
     this._padding_y = 70;
     //this._canvas_width = 500;
     this._canvas_width = svg_container.width();
-    this._canvas_height = 330;
+    // this._canvas_height = 330;
+    this._canvas_height = svg_container.height();
 
     this._grapher = grapher;
     this._results = results;
