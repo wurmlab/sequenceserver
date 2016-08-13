@@ -63,7 +63,7 @@ export class Graph {
     this.layout_arr = [];
     this.chords_arr = [];
     // this.max_length = 0;
-    this.hsp_count = 50;
+    this.hsp_count = 500;
     this.denominator = 100;
     this.spacing = 20;
     this.labelSpacing = 10;
@@ -73,11 +73,6 @@ export class Graph {
     this.iterator_for_edits();
     // this.sweeping_layout_and_chords();
     this.hit_arr = _.uniq(this.hit_arr);
-    // this.calculate_threshold();
-    //
-    // this.apply_threshold();
-    // this.max_length = this.calculate_max_length();
-    // this.calculate_multipliers(); // for half n half
     this.handle_spacing();
 
     console.log('2.max '+this.max_length+' hit '+this.hit_arr.length);
@@ -94,16 +89,22 @@ export class Graph {
     }
     console.log('denominator '+this.denominator+' '+this.suffix+' subject '+suffixes[this.seq_type.query_seq_type]);
     console.log('spacing '+this.spacing);
-    // this.layout_data();
-    // this.chords_data();
     this.create_instance(this.svgContainer, this.width, this.height);
-    this.instance_render();
+    if (this.chords_arr.length && this.layout_arr.length) {
+      this.instance_render();
+    } else {
+      this.render_error();
+    }
     this.setupTooltip();
     // this.drawLegend();
   }
 
   iterator_for_edits() {
     this.max_length = this.calculate_max_length();
+    console.log('chords_arr '+this.chords_arr.length);
+    if (this.chords_arr.length > 50) {
+      this.filter_chords();
+    }
     if (this.hit_arr.length > 10) {
       this.complex_layout_edits();
     } else {
@@ -126,16 +127,18 @@ export class Graph {
         // if (len/this.max_length < 0.35) {
         //   label = label.slice(0,2) + '...';
         // }
-        console.log('q id: '+query.id);
+        console.log('q id: '+query.id+' len '+query.length);
         var item1 = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
         // this.new_layout.push(item1);
         this.layout_arr.push(item1);
       }
+      // console.log('hits '+query.hits.length+' id '+query.id);
       var hit_details = _.map(query.hits, _.bind(function(hit) {
         // this.hit_arr.push(hit.id);
+        // console.log(hit.number+' id '+hit.id+' len '+hit.length);
         var hsp_details = _.map(hit.hsps, _.bind(function (hsp) {
-
-          if (hsp_count < this.hsp_count) {
+          // console.log('  hsp: '+hsp.evalue);
+          if (hsp_count < this.hsp_count && hit.number < 10) {
             if (_.indexOf(this.hit_arr, hit.id) == -1) {
               var label = hit.id;
               var len  = hit.length;
@@ -200,11 +203,11 @@ export class Graph {
       // console.log('rel '+rel_length+' id '+label+' index '+index);
       if (rel_length < 0.1 && (obj.id).slice(0,3) != 'Que') {
         this.delete_from_layout.push(obj);
-        this.hit_arr.slice(_.indexOf(this.hit_arr, obj.label), 1); // corresponding delete from hit_arr
+        this.hit_arr.splice(_.indexOf(this.hit_arr, obj.label), 1); // corresponding delete from hit_arr
       }
     }, this));
     if (this.delete_from_layout.length > 0) {
-      this.delete_layout_and_chords();
+      // this.delete_layout_and_chords();
     }
   }
 
@@ -233,6 +236,20 @@ export class Graph {
       }, this))
     }, this))
     this.iterator_for_edits();
+  }
+
+  filter_chords() {
+    var chords_index = [];
+    _.each(this.chords_arr, function (obj, index) {
+      var hsp = obj[7];
+      if (hsp.qcovhsp < 10) {
+        chords_index.push(index);
+      }
+    });
+    console.log('filtering '+chords_index.length);
+    _.each(chords_index, _.bind(function(id, index) {
+      this.chords_arr.splice((id-index), 1);
+    }, this))
   }
 
   // sweeping: as in cleaning the unmathced chords and ribbons
@@ -276,7 +293,6 @@ export class Graph {
   }
 
   edit_labels() {
-    console.log('label edits');
     _.each(this.layout_arr, _.bind(function (obj) {
       var rel_length = (obj.len / this.max_length).toFixed(3);
       var label = obj.label;
@@ -288,32 +304,6 @@ export class Graph {
         obj.label = label.slice(0,2) + '...';
       }
     }, this));
-  }
-
-  calculate_multipliers() {
-    var sum_query_length = 0;
-    var sum_hit_length = 0;
-    _.each(this.query_arr, _.bind(function (id) {
-      _.each(this.data, _.bind(function (query) {
-        if (id == query.id) {
-          sum_query_length += query.length;
-        }
-      }, this));
-    }, this));
-
-    _.each(this.data, _.bind(function (query) {
-      _.each(query.hits, _.bind(function (hit) {
-        var index = _.indexOf(this.hit_arr, hit.id);
-        if (index >= 0) {
-          sum_hit_length += hit.length;
-        }
-      }, this));
-    }, this));
-    var mid_sum = (sum_query_length + sum_hit_length) / 2;
-    console.log('mid sum '+mid_sum+' hit_sum '+sum_hit_length+' query_sum '+sum_query_length);
-    this.query_multiplier = (mid_sum / sum_query_length).toFixed(3);
-    this.hit_multiplier = (mid_sum / sum_hit_length).toFixed(3);
-    console.log('query '+this.query_multiplier+' hit '+this.hit_multiplier);
   }
 
   handle_spacing() {
@@ -330,46 +320,8 @@ export class Graph {
     }
   }
 
-  calculate_threshold() {
-    var sum_lengths = this.hit_arr.length + this.query_arr.length
-    if (sum_lengths > 20) {
-      this.threshold = 0.1;
-    } else if (sum_lengths > 10) {
-      this.threshold = 0.03;
-    } else {
-      this.threshold = 0;
-    }
-    console.log('threshold '+this.threshold);
-  }
-
-  apply_threshold() {
-    _.each(this.data, _.bind(function (query) {
-      var q_index = _.indexOf(this.hit_arr, query.id)
-      if (query.length/this.max_length < this.threshold ) {
-        this.query_arr[q_index] = 0;
-        return
-      }
-      _.each(query.hits, _.bind(function (hit) {
-        var h_index = _.indexOf(this.hit_arr, hit.id)
-        if (hit.length/this.max_length < this.threshold) {
-          this.hit_arr[h_index] = 0;
-        }
-      }, this))
-    }, this))
-  }
-
   calculate_max_length() {
     var max = 0;
-    // _.each(this.data, _.bind(function (query) {
-    //   if (max < query.length && _.indexOf(this.query_arr, query.id) >= 0) {
-    //     max = query.length;
-    //   }
-    //   _.each(query.hits, _.bind(function (hit) {
-    //     if (max < hit.length && _.indexOf(this.hit_arr, hit.id) >= 0) {
-    //       max = hit.length;
-    //     }
-    //   }, this));
-    // }, this));
     _.each(this.layout_arr, function(obj) {
       if (max < obj.len) {
         max = obj.len;
@@ -378,90 +330,8 @@ export class Graph {
     return max;
   }
 
-  calculte_total_length() {
-    var sum = 0
-    _.each(this.layout_arr, function(obj) {
-      sum += obj.len;
-    })
-    return sum;
-  }
-
-  layout_data() {
-    // _.each(this.query_arr, _.bind(function(id) {
-    //   _.each(this.data, _.bind(function (query) {
-    //     if (id == query.id) {
-    //       var index = _.indexOf(this.query_arr,query.id);
-    //       // console.log('division query '+query.length/this.max_length);
-    //       var label = query.id;
-    //       var len = query.length;
-    //       // if (len/this.max_length < this.threshold) {
-    //       //   this.query_arr[index] = 0;
-    //       //   // this.query_arr.splice(index, 1);
-    //       //   return
-    //       // }
-    //       if (len/this.max_length < 0.35) {
-    //         label = label.slice(0,2) + '...';
-    //       }
-    //       console.log('q id: '+query.id+' len '+len/this.max_length+' index '+index);
-    //       var item = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
-    //       this.layout_arr.push(item);
-    //     }
-    //   }, this))
-    // }, this));
-
-    _.each(this.data, _.bind(function(query) {
-      var q_index = _.indexOf(this.query_arr, query.id)
-      if (q_index >= 0) {
-        var label = query.id;
-        var len = query.length;
-        if (len/this.max_length < this.threshold) {
-          return
-        }
-        if (len/this.max_length < 0.35) {
-          label = label.slice(0,2) + '...';
-        }
-        console.log('q id: '+query.id+' len '+len/this.max_length+' index '+q_index);
-        var item = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
-        this.layout_arr.push(item);
-      }
-      _.each(query.hits, _.bind(function(hit) {
-        var h_index = _.indexOf(this.hit_arr, hit.id);
-        if (h_index >= 0 ) {
-          var label = hit.id;
-          var len = hit.length;
-          // if (len/this.max_length < this.threshold) {
-          //   this.hit_arr[index] = 0;
-          //   // this.hit_arr.splice(index, 1);
-          //   return
-          // }
-          if (len/this.max_length < 0.35) {
-            label = label.slice(0,2) + '...';
-          }
-          console.log('h id: '+hit.id+' len '+len/this.max_length+' index '+h_index);
-          var item = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
-          this.layout_arr.push(item);
-          // this.hit_arr[h_index] = 0; // to prevent duplicates in next iteration
-        }
-      }, this))
-    }, this));
-  }
-
   clean_id(id) {
     return id.replace(/[^a-zA-Z0-9]/g, '');
-  }
-
-  chords_data() {
-    _.each(this.data, _.bind(function(query) {
-      _.each(query.hits, _.bind(function(hit) {
-        _.each(hit.hsps, _.bind(function(hsp) {
-          if (_.indexOf(this.hit_arr, hit.id) >= 0 && _.indexOf(this.query_arr,query.id) >= 0) {
-            var item = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, query.number];
-            this.chords_arr.push(item);
-            this.hit_arr.push(hit.id);
-          }
-        }, this))
-      }, this))
-    }, this));
   }
 
   create_instance(container, width, height) {
@@ -520,6 +390,22 @@ export class Graph {
     this.instance.layout(this.instance_layout(),this.layout_arr);
     this.instance.chord('chord1',this.chord_layout(),this.chords_arr);
     this.instance.render();
+  }
+
+  render_error() {
+    this.svgContainer.find('svg').remove();
+    this.svg = d3.select(this.svgContainer[0]).insert('svg',':first-child')
+        .attr('width', this.svgContainer.width())
+        .attr('height', this.svgContainer.height())
+        .append('g')
+        .attr('class','circos-error')
+        .attr('transform','translate('+this.svgContainer.width() / 2+','+this.svgContainer.height()/2+')')
+        .append('text')
+        .attr('text-anchor','start')
+        .attr('dy', '0.75em')
+        .attr('x', -50)
+        .attr('y', 2)
+        .text('Sorry no Circos Generated')
   }
 
   layoutReset() {
