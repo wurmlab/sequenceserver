@@ -980,22 +980,25 @@ var Report = React.createClass({
     loading: function () {
         return (
             <div
-                className="col-md-6 col-md-offset-3 text-center">
-                <h1>
-                    <i
-                        className="fa fa-cog fa-spin"></i>
-                    BLAST-ing
-                </h1>
-                <p>
-                    <br/>
-                    This can take some time depending on the size of your query and
-                    database(s). The page will update automatically when BLAST is
-                    done.
-                    <br/>
-                    <br/>
-                    You can bookmark the page and come back to it later or share
-                    the link with someone.
-                </p>
+                className="row">
+                <div
+                    className="col-md-6 col-md-offset-3 text-center">
+                    <h1>
+                        <i
+                            className="fa fa-cog fa-spin"></i>
+                        BLAST-ing
+                    </h1>
+                    <p>
+                        <br/>
+                        This can take some time depending on the size of your query and
+                        database(s). The page will update automatically when BLAST is
+                        done.
+                        <br/>
+                        <br/>
+                        You can bookmark the page and come back to it later or share
+                        the link with someone.
+                    </p>
+                </div>
             </div>
         );
     },
@@ -1110,28 +1113,29 @@ var Report = React.createClass({
     results: function () {
         return (
             <div
-                className={this.shouldShowSidebar() ? 'col-md-9 main' : 'col-md-12'}>
-                { this.overview() }
-                <Circos queries={this.state.queries} program={this.state.program}/>
-                {
-                    _.map(this.state.queries, _.bind(function (query) {
-                        return (
-                            <Query query={query} data={this.state} selectHit={this.selectHit}/>
-                        );
-                    }, this))
+                className="row">
+                <div
+                    className={this.shouldShowSidebar() ? 'col-md-9 main' : 'col-md-12'}>
+                    { this.overview() }
+                    <Circos queries={this.state.queries}
+                        program={this.state.program}/>
+                    {
+                        _.map(this.state.queries, _.bind(function (query) {
+                            return (
+                                <Query query={query} data={this.state}
+                                    selectHit={this.selectHit}/>
+                                );
+                        }, this))
+                    }
+                </div>
+                { this.shouldShowSidebar() &&
+                    (
+                        <div
+                            className="side col-md-3 hidden-xs hidden-sm">
+                            <SideBar data={this.state}/>
+                        </div>
+                    )
                 }
-            </div>
-        );
-    },
-
-    /**
-     * Renders sidebar.
-     */
-    sidebar: function () {
-        return (
-            <div
-                className="side col-md-3 hidden-xs hidden-sm">
-                <SideBar data={this.state}/>
             </div>
         );
     },
@@ -1231,13 +1235,7 @@ var Report = React.createClass({
     },
 
     render: function () {
-        return (
-            <div
-                className="row">
-                { this.isResultAvailable() && this.results() || this.loading() }
-                { this.shouldShowSidebar() && this.sidebar() }
-            </div>
-        );
+        return (this.isResultAvailable() && this.results() || this.loading());
     },
 
     componentDidMount: function () {
