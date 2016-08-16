@@ -1295,7 +1295,7 @@ circosJS.renderLayoutLabels = function(conf, d3, block) {
   block.append('path').attr('fill', 'none').attr('stroke', 'none').attr('d', labelArc).attr('id', function(d) {
     return 'arc-label' + d.id;
   });
-  label = block.append('text').style('font-size', '' + conf.labels.size + 'px').attr('text-anchor', 'middle');
+  label = block.append('text').attr('font-size', conf.labels.size).attr('text-anchor', 'middle');
   return label.append('textPath').attr('startOffset', '25%').attr('xlink:href', function(d) {
     return '#arc-label' + d.id;
   }).style('fill', conf.labels.color).text(function(d) {
@@ -1325,7 +1325,6 @@ circosJS.renderLayoutTicks = function(conf, layout, d3, instance) {
         .domain([1, d.len])
         .range([d.start, d.end])
     var len = temp_scale.ticks(space).length
-    // console.log(' teset '+temp_scale.ticks(space)+' actual len '+d.len);
     temp_scale.ticks(space).map(function (v,i) {
       var init = v * k + d.start;
       var final = d.len * k +d.start;
@@ -1339,17 +1338,10 @@ circosJS.renderLayoutTicks = function(conf, layout, d3, instance) {
     });
     arr.splice(len, 1);
     var item = {
-      angle: d.len * k + d.start,
+      angle: (d.len - 40) * k + d.start,
       label: d.len / conf.ticks.labelDenominator + conf.ticks.labelSuffix
     }
     arr.push(item);
-    // return d3.range(0, d.len, conf.ticks.spacing).map(function(v, i) {
-    //   return {
-    //     angle: v * k + d.start,
-    //     label: displayLabel(v, i)
-    //   };
-    // });
-    // console.log('checkes '+arr.length);
     return arr;
   };
   displayLabel = function(v, i) {
@@ -1370,11 +1362,6 @@ circosJS.renderLayoutTicks = function(conf, layout, d3, instance) {
     return 'rotate(' + (d.angle * 180 / Math.PI - 90) + ')' + 'translate(' + conf.outerRadius + ',0)';
   });
   ticks.append('line').attr('x1', 0).attr('y1', 1).attr('x2', function(d, i) {
-    // if (i % conf.ticks.majorSpacing) {
-    //   return conf.ticks.size.minor;
-    // } else {
-    //   return conf.ticks.size.major;
-    // }
     return conf.ticks.size.major;
   }).attr('y2', 1).style('stroke', conf.ticks.color);
   return ticks.append('text').attr('x', 8).attr('dy', '.35em').attr('transform', function(d) {
@@ -1383,16 +1370,15 @@ circosJS.renderLayoutTicks = function(conf, layout, d3, instance) {
     } else {
       return null;
     }
-  }).style('text-anchor', function(d) {
+  }).attr('text-anchor', function(d) {
     if (d.angle > Math.PI) {
       return "end";
     } else {
       return null;
     }
-  }).style('font-size', '' + conf.ticks.labelSize + 'px').style('fill', conf.ticks.labelColor).text(function(d) {
+  }).attr('font-size', conf.ticks.labelSize).style('fill', conf.ticks.labelColor).text(function(d) {
     return d.label;
   });
-  console.log('fontSize '+conf.ticks.labelSize);
 };
 
 circosJS.Core.prototype.render = function(ids, removeTracks) {
