@@ -41,8 +41,8 @@
   border: 1px solid lightblue;
 }
 
-.alignment-selected {
-  border: 1px dashed black;
+.raised {
+  z-index: 100;
 }
 
 .axis-label {

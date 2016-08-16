@@ -126,26 +126,27 @@ export default class Kablammo extends React.Component {
      var polygons = d3.select(svgContainer[0]).selectAll('polygon');
      var labels = d3.select(svgContainer[0]).selectAll('text');
      polygons
-     .on('mouseenter', null)
-     .on('mouseleave', null)
-     .on('click', _.bind(function (clicked_hsp , clicked_index) {
-       if (!this.isHspSelected(clicked_index, selected)) {
-         selected[clicked_index] = hsps[clicked_index];
-         var polygon = polygons[0][clicked_index];
-         polygon.parentNode.appendChild(polygon);
-         var label = labels[0][clicked_index];
-         label.parentNode.appendChild(label);
-         $("#Alignment_Query_" + this.props.query.number + "_hit_" + this.props.hit.number + "_" + (clicked_index + 1)).addClass('alignment-selected');
-       } else {
-         delete selected[clicked_index];
-         var polygon = polygons[0][clicked_index];
-         var firstChild = polygon.parentNode.firstChild;
-         if (firstChild) {
-           polygon.parentNode.insertBefore(polygon, firstChild)
-         }
-         $("#Alignment_Query_" + this.props.query.number + "_hit_" + this.props.hit.number + "_" + (clicked_index + 1)).removeClass('alignment-selected');
+     .on('mouseenter', function (hov_hsp, hov_index) {
+       var label = labels[0][hov_index];
+       var polygon = polygons[0][hov_index];
+       d3.select(polygon).classed('raised', true);
+       polygon.parentNode.appendChild(polygon);
+       label.parentNode.appendChild(label);
+     })
+     .on('mouseleave', function (hov_hsp, hov_index) {
+       var label = labels[0][hov_index];
+       var polygon = polygons[0][hov_index];
+       d3.select(polygon).classed('raised', false);
+       var firstPolygon = polygon.parentNode.firstChild;
+       var firstLabel = label.parentNode.firstChild;
+       if (firstPolygon) {
+         polygon.parentNode.insertBefore(polygon, firstPolygon)
        }
-     }, this))
+       if (firstLabel) {
+         label.parentNode.insertBefore(label, firstLabel)
+       }
+     })
+     .on('click', null)
  }
 }
 
