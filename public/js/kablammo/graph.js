@@ -273,10 +273,10 @@ export default class Graph {
          }
 
          var points = [
-           [query_x_points[0],   self._scales.query.height   + 2],
+           [query_x_points[0],   self._scales.query.height   + 1],
            [subject_x_points[0], self._scales.subject.height - 1],
            [subject_x_points[1], self._scales.subject.height - 1],
-           [query_x_points[1],   self._scales.query.height   + 2],
+           [query_x_points[1],   self._scales.query.height   + 1],
          ];
 
          return points.map(function(point) {

@@ -133,7 +133,6 @@ export default class Kablammo extends React.Component {
          selected[clicked_index] = hsps[clicked_index];
          var polygon = polygons[0][clicked_index];
          polygon.parentNode.appendChild(polygon);
-         d3.select(polygon).classed('selected', true);
          var label = labels[0][clicked_index];
          label.parentNode.appendChild(label);
          $("#Alignment_Query_" + this.props.query.number + "_hit_" + this.props.hit.number + "_" + (clicked_index + 1)).addClass('alignment-selected');
@@ -144,7 +143,6 @@ export default class Kablammo extends React.Component {
          if (firstChild) {
            polygon.parentNode.insertBefore(polygon, firstChild)
          }
-         d3.select(polygon).classed('selected', false);
          $("#Alignment_Query_" + this.props.query.number + "_hit_" + this.props.hit.number + "_" + (clicked_index + 1)).removeClass('alignment-selected');
        }
      }, this))
