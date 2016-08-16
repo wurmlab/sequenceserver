@@ -73,11 +73,6 @@ export class Graph {
     this.iterator_for_edits();
     // this.sweeping_layout_and_chords();
     this.hit_arr = _.uniq(this.hit_arr);
-    // this.calculate_threshold();
-    //
-    // this.apply_threshold();
-    // this.max_length = this.calculate_max_length();
-    // this.calculate_multipliers(); // for half n half
     this.handle_spacing();
 
     console.log('2.max '+this.max_length+' hit '+this.hit_arr.length);
@@ -94,8 +89,6 @@ export class Graph {
     }
     console.log('denominator '+this.denominator+' '+this.suffix+' subject '+suffixes[this.seq_type.query_seq_type]);
     console.log('spacing '+this.spacing);
-    // this.layout_data();
-    // this.chords_data();
     this.create_instance(this.svgContainer, this.width, this.height);
     this.instance_render();
     this.setupTooltip();
@@ -127,7 +120,7 @@ export class Graph {
         //   label = label.slice(0,2) + '...';
         // }
         console.log('q id: '+query.id);
-        var item1 = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
+        var item1 = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id), 'ori_id': label};
         // this.new_layout.push(item1);
         this.layout_arr.push(item1);
       }
@@ -141,7 +134,7 @@ export class Graph {
               var len  = hit.length;
               this.hit_arr.push(hit.id);
               // console.log('h id: '+hit.id);
-              var item2 = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
+              var item2 = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id), 'ori_id': label};
               // this.new_layout.push(item2);
               this.layout_arr.push(item2);
             }
@@ -183,9 +176,10 @@ export class Graph {
     _.each(this.layout_arr, _.bind(function (obj, index) {
       var rel_length = (obj.len / this.max_length).toFixed(3);
       var label = obj.label;
-      console.log('rel '+rel_length+' id '+label+' index '+index);
       if (rel_length < 0.3) {
         obj.label = '...';
+      } else {
+        obj.label = obj.ori_id
       }
     }, this))
   }
@@ -280,12 +274,12 @@ export class Graph {
     _.each(this.layout_arr, _.bind(function (obj) {
       var rel_length = (obj.len / this.max_length).toFixed(3);
       var label = obj.label;
-      if (rel_length < 0.3) {
+      if (rel_length < 0.41) {
         obj.label = '..';
-      } else if (rel_length < 0.85) {
-        obj.label = label.slice(0,2) + '...';
       } else if (label.length > 10) {
         obj.label = label.slice(0,2) + '...';
+      } else {
+        obj.label = obj.ori_id;
       }
     }, this));
   }
@@ -330,46 +324,8 @@ export class Graph {
     }
   }
 
-  calculate_threshold() {
-    var sum_lengths = this.hit_arr.length + this.query_arr.length
-    if (sum_lengths > 20) {
-      this.threshold = 0.1;
-    } else if (sum_lengths > 10) {
-      this.threshold = 0.03;
-    } else {
-      this.threshold = 0;
-    }
-    console.log('threshold '+this.threshold);
-  }
-
-  apply_threshold() {
-    _.each(this.data, _.bind(function (query) {
-      var q_index = _.indexOf(this.hit_arr, query.id)
-      if (query.length/this.max_length < this.threshold ) {
-        this.query_arr[q_index] = 0;
-        return
-      }
-      _.each(query.hits, _.bind(function (hit) {
-        var h_index = _.indexOf(this.hit_arr, hit.id)
-        if (hit.length/this.max_length < this.threshold) {
-          this.hit_arr[h_index] = 0;
-        }
-      }, this))
-    }, this))
-  }
-
   calculate_max_length() {
     var max = 0;
-    // _.each(this.data, _.bind(function (query) {
-    //   if (max < query.length && _.indexOf(this.query_arr, query.id) >= 0) {
-    //     max = query.length;
-    //   }
-    //   _.each(query.hits, _.bind(function (hit) {
-    //     if (max < hit.length && _.indexOf(this.hit_arr, hit.id) >= 0) {
-    //       max = hit.length;
-    //     }
-    //   }, this));
-    // }, this));
     _.each(this.layout_arr, function(obj) {
       if (max < obj.len) {
         max = obj.len;
@@ -378,90 +334,8 @@ export class Graph {
     return max;
   }
 
-  calculte_total_length() {
-    var sum = 0
-    _.each(this.layout_arr, function(obj) {
-      sum += obj.len;
-    })
-    return sum;
-  }
-
-  layout_data() {
-    // _.each(this.query_arr, _.bind(function(id) {
-    //   _.each(this.data, _.bind(function (query) {
-    //     if (id == query.id) {
-    //       var index = _.indexOf(this.query_arr,query.id);
-    //       // console.log('division query '+query.length/this.max_length);
-    //       var label = query.id;
-    //       var len = query.length;
-    //       // if (len/this.max_length < this.threshold) {
-    //       //   this.query_arr[index] = 0;
-    //       //   // this.query_arr.splice(index, 1);
-    //       //   return
-    //       // }
-    //       if (len/this.max_length < 0.35) {
-    //         label = label.slice(0,2) + '...';
-    //       }
-    //       console.log('q id: '+query.id+' len '+len/this.max_length+' index '+index);
-    //       var item = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
-    //       this.layout_arr.push(item);
-    //     }
-    //   }, this))
-    // }, this));
-
-    _.each(this.data, _.bind(function(query) {
-      var q_index = _.indexOf(this.query_arr, query.id)
-      if (q_index >= 0) {
-        var label = query.id;
-        var len = query.length;
-        if (len/this.max_length < this.threshold) {
-          return
-        }
-        if (len/this.max_length < 0.35) {
-          label = label.slice(0,2) + '...';
-        }
-        console.log('q id: '+query.id+' len '+len/this.max_length+' index '+q_index);
-        var item = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
-        this.layout_arr.push(item);
-      }
-      _.each(query.hits, _.bind(function(hit) {
-        var h_index = _.indexOf(this.hit_arr, hit.id);
-        if (h_index >= 0 ) {
-          var label = hit.id;
-          var len = hit.length;
-          // if (len/this.max_length < this.threshold) {
-          //   this.hit_arr[index] = 0;
-          //   // this.hit_arr.splice(index, 1);
-          //   return
-          // }
-          if (len/this.max_length < 0.35) {
-            label = label.slice(0,2) + '...';
-          }
-          console.log('h id: '+hit.id+' len '+len/this.max_length+' index '+h_index);
-          var item = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
-          this.layout_arr.push(item);
-          // this.hit_arr[h_index] = 0; // to prevent duplicates in next iteration
-        }
-      }, this))
-    }, this));
-  }
-
   clean_id(id) {
     return id.replace(/[^a-zA-Z0-9]/g, '');
-  }
-
-  chords_data() {
-    _.each(this.data, _.bind(function(query) {
-      _.each(query.hits, _.bind(function(hit) {
-        _.each(hit.hsps, _.bind(function(hsp) {
-          if (_.indexOf(this.hit_arr, hit.id) >= 0 && _.indexOf(this.query_arr,query.id) >= 0) {
-            var item = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, query.number];
-            this.chords_arr.push(item);
-            this.hit_arr.push(hit.id);
-          }
-        }, this))
-      }, this))
-    }, this));
   }
 
   create_instance(container, width, height) {
@@ -497,7 +371,7 @@ export class Graph {
       cornerRadius: 1, // rounding at edges of karyotypes
       labels: {
         display: true,
-        size: '8px',
+        size: '11px',
         radialOffset: 10
       },
       ticks: {
@@ -506,7 +380,7 @@ export class Graph {
         labelSpacing: this.labelSpacing, // ticks value apper in interval
         labelDenominator: this.denominator, // divide the value by this value
         labelSuffix: this.suffix,
-        labelSize: '2px',
+        labelSize: '11px',
         majorSpacing: this.labelSpacing, // major ticks apper in interval
         size: {
           minor: 0, // to remove minor ticks
