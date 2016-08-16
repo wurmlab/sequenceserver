@@ -481,7 +481,7 @@ var Hit = React.createClass({
                                           id={"Alignment_Query_" + this.props.query.number + "_hit_"
                                                   + this.props.hit.number + "_" + hsp.number}>
                                             <td>
-                                                {hsp.number + "."}
+                                                {String.fromCharCode(96+hsp.number) + "."}
                                             </td>
                                             <td
                                                 style={{width: "100%"}}>

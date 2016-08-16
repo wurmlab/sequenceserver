@@ -312,12 +312,15 @@ export default class Graph {
        .append('text')
        .attr('x', function(hsp) {
          var query_x_points = [self._scales.query.scale(hsp.query_start), self._scales.query.scale(hsp.query_end)];
-         return (query_x_points[0] + query_x_points[1]) * 0.5;
+         var subject_x_points = [self._scales.subject.scale(hsp.subject_start), self._scales.subject.scale(hsp.subject_end)];
+         var middle1 = (query_x_points[0] + subject_x_points[0]) * 0.5;
+         var middle2 = (query_x_points[1] + subject_x_points[1]) * 0.5;
+         return (middle2 + middle1) * 0.5;
        })
-       .attr('y', self._scales.query.height + 15)
+       .attr('y', self._scales.query.height + 55)
        .attr('class', 'hsp_numbering')
        .text(function(hsp) {
-         return hsp.number;
+         return String.fromCharCode(96+hsp.number);
        });
 
     this._fade_unselected();
