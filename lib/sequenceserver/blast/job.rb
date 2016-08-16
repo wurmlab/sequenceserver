@@ -105,7 +105,6 @@ module SequenceServer
             end
           end
         end
-        res.delete 'evalue'
         res
       end
 

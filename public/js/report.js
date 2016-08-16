@@ -18,7 +18,7 @@ var Utils = {
     /**
      * Prettifies numbers and arrays.
      */
-    prettify: function (data){
+    prettify: function (data) {
         if (this.isTuple(data)) {
             return this.prettify_tuple(data);
         }
@@ -1010,99 +1010,27 @@ var Report = React.createClass({
         return (
             <div
                 className="overview">
-                <h4>
+                <pre
+                    className="pre-reset">
                     {this.state.program_version}
-                </h4>
-                <table
-                    className="table table-condensed">
-                    <thead>
-                        <tr>
-                            <th>
-                                Database
-                            </th>
-                            <th
-                                className="text-right">
-                                Number of sequences
-                            </th>
-                            <th
-                                className="text-right">
-                                Number of characters
-                            </th>
-                            <th
-                                className="text-right">
-                                Created or updated on
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            _.map(this.state.querydb, function (db) {
-                                return (
-                                    <tr>
-                                        <td>
-                                            { db.title }
-                                        </td>
-                                        <td
-                                            className="text-right">
-                                            { db.nsequences }
-                                        </td>
-                                        <td
-                                            className="text-right">
-                                            { db.ncharacters }
-                                        </td>
-                                        <td
-                                            className="text-right">
-                                            { db.updated_on }
-                                        </td>
-                                    </tr>
-                                );
-                            })
-                        }
-                        <tr>
-                            <td
-                                className="text-right">
-                                Total
-                            </td>
-                            <td
-                                className="text-right">
-                                {this.state.stats.nsequences}
-                            </td>
-                            <td
-                                className="text-right">
-                                {this.state.stats.ncharacters}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table
-                    className="table table-condensed">
-                    <thead>
-                        <tr>
-                            {
-                                _.map(_.keys(this.state.params), function (param) {
-                                    return (
-                                        <th>
-                                            { param }
-                                        </th>
-                                    );
-                                })
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            {
-                                _.map(this.state.params, function (param) {
-                                    return (
-                                        <td>
-                                            { param }
-                                        </td>
-                                    );
-                                })
-                            }
-                        </tr>
-                    </tbody>
-                </table>
+                    <br/>
+                    <br/>
+                    {
+                        _.map(this.state.querydb, function (db) {
+                            return db.title;
+                        }).join(", ")
+                    }
+                    <br/>
+                    Total: {this.state.stats.nsequences} sequences, {this.state
+                        .stats.ncharacters} characters
+                    <br/>
+                    <br/>
+                    {
+                        _.map(this.state.params, function (val, key) {
+                            return key + " " + val;
+                        }).join(", ")
+                    }
+                </pre>
             </div>
         );
     },
@@ -1115,8 +1043,10 @@ var Report = React.createClass({
             <div
                 className="row">
                 <div
-                    className={this.shouldShowSidebar() ? 'col-md-9 main' : 'col-md-12'}>
+                    className={this.shouldShowSidebar() ? 'col-md-9' : 'col-md-12'}>
                     { this.overview() }
+                    <br/>
+                    <br/>
                     <Circos queries={this.state.queries}
                         program={this.state.program}/>
                     {
@@ -1131,7 +1061,7 @@ var Report = React.createClass({
                 { this.shouldShowSidebar() &&
                     (
                         <div
-                            className="side col-md-3 hidden-xs hidden-sm">
+                            className="col-md-3 hidden-sm">
                             <SideBar data={this.state}/>
                         </div>
                     )

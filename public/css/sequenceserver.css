@@ -59,9 +59,9 @@ a.disabled:hover {
  * Increase font size, add border, make place for subtext to app name.
  */
 .navbar {
+  margin-bottom: 0;
   border-radius: 0;
   border-bottom: 1px solid #eee;
-  margin-bottom: 35px;
 }
 .navbar-brand {
   height: auto;
@@ -271,6 +271,7 @@ a.disabled:hover {
 }
 
 .query-container {
+  margin-top: 35px;
   margin-bottom: 0;
 }
 
@@ -340,12 +341,17 @@ input[name="advanced"] {
 /**********************
         Sidebar
  **********************/
+.sidebar {
+  /* Line up with "Results" on left. */
+  margin-top: 20px;
+}
 .sidebar > .page-header > h4 {
   padding: 10px 0 0 0;
   font-size: 14px;
 }
 
 .sidebar.affix {
+  margin-top: 0;
   top: 0;
 }
 @media (min-width: 992px) {
@@ -367,6 +373,9 @@ input[name="advanced"] {
 }
 
 /* Result per query. */
+.overview {
+  margin-top: 30px;
+}
 .resultn {
   margin-bottom: 50px;
 }
