@@ -90,7 +90,11 @@ export class Graph {
     console.log('denominator '+this.denominator+' '+this.suffix+' subject '+suffixes[this.seq_type.query_seq_type]);
     console.log('spacing '+this.spacing);
     this.create_instance(this.svgContainer, this.width, this.height);
-    this.instance_render();
+    if (this.chords_arr.length && this.layout_arr.length) {
+      this.instance_render();
+    } else {
+      this.render_error();
+    }
     this.setupTooltip();
     // this.drawLegend();
   }
@@ -396,6 +400,22 @@ export class Graph {
     this.instance.layout(this.instance_layout(),this.layout_arr);
     this.instance.chord('chord1',this.chord_layout(),this.chords_arr);
     this.instance.render();
+  }
+
+  render_error() {
+    this.svgContainer.find('svg').remove();
+    this.svg = d3.select(this.svgContainer[0]).insert('svg',':first-child')
+        .attr('width', this.svgContainer.width())
+        .attr('height', this.svgContainer.height())
+        .append('g')
+        .attr('class', 'circos-error')
+        .attr('transform','translate('+this.svgContainer.width() / 2+','+this.svgContainer.height()/2+')')
+        .append('text')
+        .attr('text-anchor','start')
+        .attr('dy','0.75em')
+        .attr('x', -50)
+        .attr('y', 2)
+        .text('Sorry no Circos generated')
   }
 
   layoutReset() {
