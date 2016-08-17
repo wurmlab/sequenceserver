@@ -3,7 +3,7 @@ import React from 'react';
 import d3 from 'd3';
 
 import * as Helpers from './visualisation_helpers';
-import './graphicaloverview';
+import GraphicalOverview from './alignmentsoverview';
 import Kablammo from './kablammo';
 import './sequence';
 import LengthDistribution from './lengthdistribution';
@@ -581,60 +581,60 @@ var HitsTable = React.createClass({
  * Component for graphical-overview per query.
  */
 
-var GraphicalOverview = React.createClass({
-
-    // Internal helpers. //
-
-    /**
-     * Converts data into form accepted by graphical overview.
-     */
-    toGraph : function (query_hits,number) {
-        var hits = [];
-        query_hits.map(function (hit) {
-            var _hsps = [];
-            var hsps = hit.hsps;
-            _.each(hsps, function (hsp) {
-                var _hsp = {};
-                _hsp.hspEvalue = hsp.evalue;
-                _hsp.hspStart = hsp.qstart;
-                _hsp.hspEnd = hsp.qend;
-                _hsp.hspFrame = hsp.sframe;
-                _hsp.hspId = "Query_"+number+"_hit_"+hit.number+"_hsp_"+hsp.number;
-                _hsps.push(_hsp);
-            });
-            _hsps.hitId = hit.id;
-            _hsps.hitDef = "Query_"+number+"_hit_"+hit.number;
-            _hsps.hitEvalue = hit.evalue;
-            hits.push(_hsps);
-        });
-        return hits;
-    },
-
-    /**
-     * Returns jQuery wrapped element that should hold graphical overview's
-     * svg.
-     */
-    svgContainer: function () {
-        return $(React.findDOMNode(this.refs.svgContainer));
-    },
-
-
-    // Life-cycle methods //
-
-    render: function () {
-      return Grapher.grapher_render();
-    },
-
-    componentDidMount: function () {
-        var hits = this.toGraph(this.props.query.hits, this.props.query.number);
-        var svgContainer = this.svgContainer();
-        svgContainer.addClass('alignment-overview');
-        var query_div = this.svgContainer().parents('.resultn');
-        this.graph = $.graphIt(query_div, this.svgContainer(), 0, 20, null, hits);
-        var arr = Grapher.graph();
-        arr.push(this.graph);
-    }
-});
+// var GraphicalOverview = React.createClass({
+//
+//     // Internal helpers. //
+//
+//     /**
+//      * Converts data into form accepted by graphical overview.
+//      */
+//     toGraph : function (query_hits,number) {
+//         var hits = [];
+//         query_hits.map(function (hit) {
+//             var _hsps = [];
+//             var hsps = hit.hsps;
+//             _.each(hsps, function (hsp) {
+//                 var _hsp = {};
+//                 _hsp.hspEvalue = hsp.evalue;
+//                 _hsp.hspStart = hsp.qstart;
+//                 _hsp.hspEnd = hsp.qend;
+//                 _hsp.hspFrame = hsp.sframe;
+//                 _hsp.hspId = "Query_"+number+"_hit_"+hit.number+"_hsp_"+hsp.number;
+//                 _hsps.push(_hsp);
+//             });
+//             _hsps.hitId = hit.id;
+//             _hsps.hitDef = "Query_"+number+"_hit_"+hit.number;
+//             _hsps.hitEvalue = hit.evalue;
+//             hits.push(_hsps);
+//         });
+//         return hits;
+//     },
+//
+//     /**
+//      * Returns jQuery wrapped element that should hold graphical overview's
+//      * svg.
+//      */
+//     svgContainer: function () {
+//         return $(React.findDOMNode(this.refs.svgContainer));
+//     },
+//
+//
+//     // Life-cycle methods //
+//
+//     render: function () {
+//       return Grapher.grapher_render();
+//     },
+//
+//     componentDidMount: function () {
+//         var hits = this.toGraph(this.props.query.hits, this.props.query.number);
+//         var svgContainer = this.svgContainer();
+//         svgContainer.addClass('alignment-overview');
+//         var query_div = this.svgContainer().parents('.resultn');
+//         this.graph = $.graphIt(query_div, this.svgContainer(), 0, 20, null, hits);
+//         var arr = Grapher.graph();
+//         arr.push(this.graph);
+//     }
+// });
 
 /**
  * Renders report for each query sequence.
