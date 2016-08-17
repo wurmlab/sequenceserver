@@ -73,14 +73,9 @@ export class Graph {
     this.iterator_for_edits();
     // this.sweeping_layout_and_chords();
     this.hit_arr = _.uniq(this.hit_arr);
-    // this.calculate_threshold();
-    //
-    // this.apply_threshold();
-    // this.max_length = this.calculate_max_length();
-    // this.calculate_multipliers(); // for half n half
     this.handle_spacing();
 
-    console.log('2.max '+this.max_length+' hit '+this.hit_arr.length);
+    console.log('2.max '+this.max_length+' hit '+this.hit_arr.length+' qry '+this.query_arr.length);
     var prefix = d3.formatPrefix(this.max_length);
     this.suffix = ' '+prefix.symbol+suffixes[this.seq_type.subject_seq_type];
     if (prefix.symbol == 'k') {
@@ -94,10 +89,12 @@ export class Graph {
     }
     console.log('denominator '+this.denominator+' '+this.suffix+' subject '+suffixes[this.seq_type.query_seq_type]);
     console.log('spacing '+this.spacing);
-    // this.layout_data();
-    // this.chords_data();
     this.create_instance(this.svgContainer, this.width, this.height);
-    this.instance_render();
+    if (this.chords_arr.length && this.layout_arr.length) {
+      this.instance_render();
+    } else {
+      this.render_error();
+    }
     this.setupTooltip();
     // this.drawLegend();
   }
@@ -107,55 +104,57 @@ export class Graph {
     if (this.hit_arr.length > 10) {
       this.complex_layout_edits();
     } else {
-      this.simple_layout_edits();
+      // this.simple_layout_edits();
     }
-    this.edit_labels();
+    // this.edit_labels();
   }
 
   // Generate both layout_arr and chords_arr with top hsps set by this.hsp_count
   construct_layout() {
     var hsp_count = 0;
+    var query_count = 0;
+    var num_karyotype = 32;
+    var num_queries = this.queries.length;
+    var x = Math.min(num_karyotype / 2, num_queries);
+    var num_hits = (num_karyotype - x) / x;
     this.new_layout = [];
     this.data = _.map(this.queries, _.bind(function (query) {
       // if (this.max_length < query.length) {
       //   this.max_length = query.length;
       // }
-      if (hsp_count < this.hsp_count) {
+      if (query_count < x) {
         var label = query.id;
         var len = query.length;
         // if (len/this.max_length < 0.35) {
         //   label = label.slice(0,2) + '...';
         // }
         console.log('q id: '+query.id);
-        var item1 = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
+        var item1 = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id), 'ori_id': label};
         // this.new_layout.push(item1);
         this.layout_arr.push(item1);
-      }
-      var hit_details = _.map(query.hits, _.bind(function(hit) {
-        // this.hit_arr.push(hit.id);
-        var hsp_details = _.map(hit.hsps, _.bind(function (hsp) {
+        var hit_details = _.map(query.hits, _.bind(function(hit) {
+          // this.hit_arr.push(hit.id);
+          if (hit.number < num_hits) {
+            var hsp_details = _.map(hit.hsps, _.bind(function (hsp) {
 
-          if (hsp_count < this.hsp_count) {
-            if (_.indexOf(this.hit_arr, hit.id) == -1) {
-              var label = hit.id;
-              var len  = hit.length;
-              this.hit_arr.push(hit.id);
-              // console.log('h id: '+hit.id);
-              var item2 = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
-              // this.new_layout.push(item2);
-              this.layout_arr.push(item2);
-            }
+              if (_.indexOf(this.hit_arr, hit.id) == -1) {
+                var label = hit.id;
+                var len  = hit.length;
+                this.hit_arr.push(hit.id);
+                // console.log('h id: '+hit.id);
+                var item2 = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id), 'ori_id': label};
+                // this.new_layout.push(item2);
+                this.layout_arr.push(item2);
+              }
 
-            hsp_count++;
-
-            var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, hsp_count, hsp];
-            this.chords_arr.push(item3);
-
+              var item3 = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, hit.number, hsp];
+              this.chords_arr.push(item3);
+              return hsp;
+            }, this));
+            return hit;
           }
-          return hsp;
         }, this));
-        return hit;
-      }, this));
+      }
       this.query_arr.push(query.id);
       return query;
     }, this));
@@ -183,9 +182,10 @@ export class Graph {
     _.each(this.layout_arr, _.bind(function (obj, index) {
       var rel_length = (obj.len / this.max_length).toFixed(3);
       var label = obj.label;
-      console.log('rel '+rel_length+' id '+label+' index '+index);
       if (rel_length < 0.3) {
         obj.label = '...';
+      } else {
+        obj.label = obj.ori_id
       }
     }, this))
   }
@@ -204,7 +204,7 @@ export class Graph {
       }
     }, this));
     if (this.delete_from_layout.length > 0) {
-      this.delete_layout_and_chords();
+      // this.delete_layout_and_chords();
     }
   }
 
@@ -280,12 +280,12 @@ export class Graph {
     _.each(this.layout_arr, _.bind(function (obj) {
       var rel_length = (obj.len / this.max_length).toFixed(3);
       var label = obj.label;
-      if (rel_length < 0.3) {
+      if (rel_length < 0.41) {
         obj.label = '..';
-      } else if (rel_length < 0.85) {
-        obj.label = label.slice(0,2) + '...';
       } else if (label.length > 10) {
         obj.label = label.slice(0,2) + '...';
+      } else {
+        obj.label = obj.ori_id;
       }
     }, this));
   }
@@ -330,46 +330,8 @@ export class Graph {
     }
   }
 
-  calculate_threshold() {
-    var sum_lengths = this.hit_arr.length + this.query_arr.length
-    if (sum_lengths > 20) {
-      this.threshold = 0.1;
-    } else if (sum_lengths > 10) {
-      this.threshold = 0.03;
-    } else {
-      this.threshold = 0;
-    }
-    console.log('threshold '+this.threshold);
-  }
-
-  apply_threshold() {
-    _.each(this.data, _.bind(function (query) {
-      var q_index = _.indexOf(this.hit_arr, query.id)
-      if (query.length/this.max_length < this.threshold ) {
-        this.query_arr[q_index] = 0;
-        return
-      }
-      _.each(query.hits, _.bind(function (hit) {
-        var h_index = _.indexOf(this.hit_arr, hit.id)
-        if (hit.length/this.max_length < this.threshold) {
-          this.hit_arr[h_index] = 0;
-        }
-      }, this))
-    }, this))
-  }
-
   calculate_max_length() {
     var max = 0;
-    // _.each(this.data, _.bind(function (query) {
-    //   if (max < query.length && _.indexOf(this.query_arr, query.id) >= 0) {
-    //     max = query.length;
-    //   }
-    //   _.each(query.hits, _.bind(function (hit) {
-    //     if (max < hit.length && _.indexOf(this.hit_arr, hit.id) >= 0) {
-    //       max = hit.length;
-    //     }
-    //   }, this));
-    // }, this));
     _.each(this.layout_arr, function(obj) {
       if (max < obj.len) {
         max = obj.len;
@@ -378,90 +340,8 @@ export class Graph {
     return max;
   }
 
-  calculte_total_length() {
-    var sum = 0
-    _.each(this.layout_arr, function(obj) {
-      sum += obj.len;
-    })
-    return sum;
-  }
-
-  layout_data() {
-    // _.each(this.query_arr, _.bind(function(id) {
-    //   _.each(this.data, _.bind(function (query) {
-    //     if (id == query.id) {
-    //       var index = _.indexOf(this.query_arr,query.id);
-    //       // console.log('division query '+query.length/this.max_length);
-    //       var label = query.id;
-    //       var len = query.length;
-    //       // if (len/this.max_length < this.threshold) {
-    //       //   this.query_arr[index] = 0;
-    //       //   // this.query_arr.splice(index, 1);
-    //       //   return
-    //       // }
-    //       if (len/this.max_length < 0.35) {
-    //         label = label.slice(0,2) + '...';
-    //       }
-    //       console.log('q id: '+query.id+' len '+len/this.max_length+' index '+index);
-    //       var item = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
-    //       this.layout_arr.push(item);
-    //     }
-    //   }, this))
-    // }, this));
-
-    _.each(this.data, _.bind(function(query) {
-      var q_index = _.indexOf(this.query_arr, query.id)
-      if (q_index >= 0) {
-        var label = query.id;
-        var len = query.length;
-        if (len/this.max_length < this.threshold) {
-          return
-        }
-        if (len/this.max_length < 0.35) {
-          label = label.slice(0,2) + '...';
-        }
-        console.log('q id: '+query.id+' len '+len/this.max_length+' index '+q_index);
-        var item = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id)};
-        this.layout_arr.push(item);
-      }
-      _.each(query.hits, _.bind(function(hit) {
-        var h_index = _.indexOf(this.hit_arr, hit.id);
-        if (h_index >= 0 ) {
-          var label = hit.id;
-          var len = hit.length;
-          // if (len/this.max_length < this.threshold) {
-          //   this.hit_arr[index] = 0;
-          //   // this.hit_arr.splice(index, 1);
-          //   return
-          // }
-          if (len/this.max_length < 0.35) {
-            label = label.slice(0,2) + '...';
-          }
-          console.log('h id: '+hit.id+' len '+len/this.max_length+' index '+h_index);
-          var item = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id)};
-          this.layout_arr.push(item);
-          // this.hit_arr[h_index] = 0; // to prevent duplicates in next iteration
-        }
-      }, this))
-    }, this));
-  }
-
   clean_id(id) {
     return id.replace(/[^a-zA-Z0-9]/g, '');
-  }
-
-  chords_data() {
-    _.each(this.data, _.bind(function(query) {
-      _.each(query.hits, _.bind(function(hit) {
-        _.each(hit.hsps, _.bind(function(hsp) {
-          if (_.indexOf(this.hit_arr, hit.id) >= 0 && _.indexOf(this.query_arr,query.id) >= 0) {
-            var item = ['Query_'+this.clean_id(query.id), hsp.qstart, hsp.qend, 'Hit_'+this.clean_id(hit.id), hsp.sstart, hsp.send, query.number];
-            this.chords_arr.push(item);
-            this.hit_arr.push(hit.id);
-          }
-        }, this))
-      }, this))
-    }, this));
   }
 
   create_instance(container, width, height) {
@@ -497,7 +377,7 @@ export class Graph {
       cornerRadius: 1, // rounding at edges of karyotypes
       labels: {
         display: true,
-        size: '8px',
+        size: '10px',
         radialOffset: 10
       },
       ticks: {
@@ -506,7 +386,7 @@ export class Graph {
         labelSpacing: this.labelSpacing, // ticks value apper in interval
         labelDenominator: this.denominator, // divide the value by this value
         labelSuffix: this.suffix,
-        labelSize: '2px',
+        labelSize: '10px',
         majorSpacing: this.labelSpacing, // major ticks apper in interval
         size: {
           minor: 0, // to remove minor ticks
@@ -520,6 +400,22 @@ export class Graph {
     this.instance.layout(this.instance_layout(),this.layout_arr);
     this.instance.chord('chord1',this.chord_layout(),this.chords_arr);
     this.instance.render();
+  }
+
+  render_error() {
+    this.svgContainer.find('svg').remove();
+    this.svg = d3.select(this.svgContainer[0]).insert('svg',':first-child')
+        .attr('width', this.svgContainer.width())
+        .attr('height', this.svgContainer.height())
+        .append('g')
+        .attr('class', 'circos-error')
+        .attr('transform','translate('+this.svgContainer.width() / 2+','+this.svgContainer.height()/2+')')
+        .append('text')
+        .attr('text-anchor','start')
+        .attr('dy','0.75em')
+        .attr('x', -50)
+        .attr('y', 2)
+        .text('Sorry no Circos generated')
   }
 
   layoutReset() {
