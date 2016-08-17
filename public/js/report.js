@@ -1145,11 +1145,6 @@ var Report = React.createClass({
         });
     },
 
-    // SVG and PNG download links.
-    setupKablammoImageExporter: function () {
-        new ImageExporter('.grapher', '.export-to-svg', '.export-to-png');
-    },
-
     // Life-cycle methods. //
 
     getInitialState: function () {
@@ -1182,7 +1177,7 @@ var Report = React.createClass({
         this.setupHitSelection();
         this.setupDownloadLinks();
         this.setupSequenceViewer();
-        this.setupKablammoImageExporter();
+        Grapher.setupKablammoImageExporter();
         Grapher.setupResponsiveness();
     }
 });

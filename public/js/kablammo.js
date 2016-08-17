@@ -1,8 +1,8 @@
 import Graph from './kablammo/graph';
-import './kablammo/exporter';
-import './kablammo/image_exporter';
+// import './kablammo/exporter';
+// import './kablammo/image_exporter';
 import './kablammo/alignment_viewer';
-import './kablammo/alignment_exporter';
+// import './kablammo/alignment_exporter';
 import * as Helpers from './visualisation_helpers';
 import React from 'react';
 import _ from 'underscore';
