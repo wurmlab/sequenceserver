@@ -1,4 +1,3 @@
-import './kablammo/alignment_viewer';
 import * as Helpers from './visualisation_helpers';
 import React from 'react';
 import _ from 'underscore';
@@ -19,175 +18,128 @@ import * as Grapher_component from './grapher';
  * here.
  */
 export default class Kablammo extends React.Component {
- constructor(props) {
-   super(props);
- }
+    constructor(props) {
+        super(props);
+    }
 
- toKablammo(hsps, query) {
-   var maxBitScore = query.hits[0].hsps[0].bit_score;
+    toKablammo(hsps, query) {
+        var maxBitScore = query.hits[0].hsps[0].bit_score;
 
-   var hspKeyMap = {
-       'qstart':  'query_start',
-       'qend':    'query_end',
-       'qframe':  'query_frame' ,
-       'sstart':  'subject_start',
-       'send':    'subject_end',
-       'sframe':  'subject_frame',
-       'length':  'alignment_length',
-       'qseq':    'query_seq',
-       'sseq':    'subject_seq',
-       'midline': 'midline_seq'
-   };
+        var hspKeyMap = {
+            'qstart':  'query_start',
+            'qend':    'query_end',
+            'qframe':  'query_frame' ,
+            'sstart':  'subject_start',
+            'send':    'subject_end',
+            'sframe':  'subject_frame',
+            'length':  'alignment_length',
+            'qseq':    'query_seq',
+            'sseq':    'subject_seq',
+            'midline': 'midline_seq'
+        };
 
-   return _.map(hsps, function (hsp) {
-     var _hsp = {};
-     $.each(hsp, function(key, value) {
-       key = hspKeyMap[key] || key;
-       _hsp[key] = value;
-       _hsp.normalized_bit_score = hsp.bit_score / maxBitScore;
-     })
-     return _hsp;
-   })
- }
+        return _.map(hsps, function (hsp) {
+            var _hsp = {};
+            $.each(hsp, function(key, value) {
+                key = hspKeyMap[key] || key;
+                _hsp[key] = value;
+                _hsp.normalized_bit_score = hsp.bit_score / maxBitScore;
+            })
+            return _hsp;
+        })
+    }
 
- /**
-  * Returns jQuery wrapped element that should hold Kablammo's svg.
-  */
- svgContainer() {
-   return $(React.findDOMNode(this.refs.svgContainer));
- }
+    /**
+     * Returns jQuery wrapped element that should hold Kablammo's svg.
+     */
+    svgContainer() {
+        return $(React.findDOMNode(this.refs.svgContainer));
+    }
 
- isHspSelected(index, selected) {
-   return index in selected;
- }
+    // Life-cycle methods //
 
- /**
-  * Event-handler for viewing alignments.
-  * Calls relevant method on AlignmentViewer defined in alignment_viewer.js.
-  */
- showAlignment(hsps, query_seq_type, query_def, query_id, subject_seq_type, subject_def, subject_id) {
-     event.preventDefault();
-     aln_viewer = new AlignmentViewer();
-     aln_viewer.view_alignments(hsps, query_seq_type, query_def, query_id, subject_seq_type, subject_def, subject_id);
- }
+    render() {
+        return Grapher_component.grapher_render();
+    }
 
- // Life-cycle methods //
+    componentWillUpdate() {
+        this.svgContainer().find('svg').remove();
+        this._graph._canvas_width = this.svgContainer().width();
+        this._graph._canvas_height = this.svgContainer().height();
+        this._graph._initiate();
+    }
 
- render() {
-    return Grapher_component.grapher_render();
- }
+    /**
+     * Invokes Graph method defined in graph.js to render kablammo visualization.
+     * Also defines event handler for hovering on HSP polygon.
+     */
+    componentDidMount(event) {
+        var hsps = this.toKablammo(this.props.hit.hsps, this.props.query);
+        var svgContainer = this.svgContainer();
+        svgContainer.addClass('kablammo');
 
- componentWillUpdate() {
-   console.log('update');
-   this.svgContainer().find('svg').remove();
-   this._graph._canvas_width = this.svgContainer().width();
-   this._graph._canvas_height = this.svgContainer().height();
-   this._graph._initiate();
- }
+        this._graph = new Graph(
+            Helpers.get_seq_type(this.props.algorithm),
+            this.props.query.id,
+            this.props.hit.id,
+            this.props.query.length,
+            this.props.hit.length,
+            hsps,
+            svgContainer,
+            Helpers
+        );
 
- /**
-  * Invokes Graph method defined in graph.js to render kablammo visualization.
-  * Also defines event handler for hovering on HSP polygon.
-  */
- componentDidMount(event) {
-     var hsps = this.toKablammo(this.props.hit.hsps, this.props.query);
-     var svgContainer = this.svgContainer();
-     svgContainer.addClass('kablammo');
-     var grapher = new Grapher();
+        $(window).resize(_.bind(function() {
+            this.setState({width: $(window).width()});
+        }, this));
 
-    //  Graph.prototype._canvas_width = svgContainer.width();
-
-     this._graph = new Graph(
-         grapher,
-         Helpers.get_seq_type(this.props.algorithm),
-         this.props.query.id + ' ' + this.props.query.title,
-         this.props.query.id,
-         this.props.hit.id + ' ' + this.props.hit.title,
-         this.props.hit.id,
-         this.props.query.length,
-         this.props.hit.length,
-         hsps,
-         svgContainer,
-         Helpers
-     );
-
-    //  var arr = Grapher_component.graph();
-    //  arr.push(this.graph);
-     $(window).resize(_.bind(function() {
-       this.setState({width: $(window).width()});
-     }, this));
-
-     // Disable hover handlers and show alignment on selecting hsp.
-     var selected = {}
-     var polygons = d3.select(svgContainer[0]).selectAll('polygon');
-     var labels = d3.select(svgContainer[0]).selectAll('text');
-     polygons
-     .on('mouseenter', function (hov_hsp, hov_index) {
-       var label = labels[0][hov_index];
-       var polygon = polygons[0][hov_index];
-       d3.select(polygon).classed('raised', true);
-       polygon.parentNode.appendChild(polygon);
-       label.parentNode.appendChild(label);
-     })
-     .on('mouseleave', function (hov_hsp, hov_index) {
-       var label = labels[0][hov_index];
-       var polygon = polygons[0][hov_index];
-       d3.select(polygon).classed('raised', false);
-       var firstPolygon = polygon.parentNode.firstChild;
-       var firstLabel = label.parentNode.firstChild;
-       if (firstPolygon) {
-         polygon.parentNode.insertBefore(polygon, firstPolygon)
-       }
-       if (firstLabel) {
-         label.parentNode.insertBefore(label, firstLabel)
-       }
-     })
-     .on('click', null)
- }
+        // Disable hover handlers and show alignment on selecting hsp.
+        var polygons = d3.select(svgContainer[0]).selectAll('polygon');
+        var labels = d3.select(svgContainer[0]).selectAll('text');
+        polygons
+        .on('mouseenter', function (hov_hsp, hov_index) {
+            var polygon = polygons[0][hov_index];
+            var label = labels[0][hov_index];
+            d3.select(polygon).classed('raised', true);
+            polygon.parentNode.appendChild(polygon);
+            label.parentNode.appendChild(label);
+        })
+        .on('mouseleave', function (hov_hsp, hov_index) {
+            var polygon = polygons[0][hov_index];
+            var label = labels[0][hov_index];
+            d3.select(polygon).classed('raised', false);
+            var firstPolygon = polygon.parentNode.firstChild;
+            var firstLabel = label.parentNode.firstChild;
+            if (firstPolygon) {
+                polygon.parentNode.insertBefore(polygon, firstPolygon)
+            }
+            if (firstLabel) {
+                label.parentNode.insertBefore(label, firstLabel)
+            }
+        })
+    }
 }
 
 export class Graph {
-  constructor(grapher, results, query_def, query_id, subject_def, subject_id, query_length, subject_length, hsps, svg_container, visualisation_helpers) {
-    this._show_hsp_outlines = true;
+  constructor(results, query_id, subject_id, query_length, subject_length, hsps, svg_container) {
     this._zoom_scale_by = 1.4;
     this._padding_x = 20;
     this._padding_y = 70;
-    //this._canvas_width = 500;
-    this._canvas_width = svg_container.width();
-    // this._canvas_height = 330;
-    this._canvas_height = svg_container.height();
 
-    this._grapher = grapher;
+    this._canvas_height = svg_container.height();
+    this._canvas_width = svg_container.width();
+
     this._results = results;
-    this._query_def = query_def;
     this._query_id = query_id;
-    this._subject_def = subject_def;
     this._subject_id = subject_id;
     this._query_length = query_length;
     this._subject_length = subject_length;
     this._hsps = hsps;
 
-    this._helpers = visualisation_helpers;
-
-    // Use parents() instead of parent() to (if needed) traverse multiple levels
-    // up DOM tree.
-    // Note that _subject_container is a jQuery reference.
-    this._subject_container = svg_container.parents('.grapher');
-    this._subject_container[0]._grapher = this;
-
     this.svg_container_d3 = d3.select(svg_container[0]);
     this._svg = {};
 
-
     this._svg.jq = $(this._svg.raw);
-
-    // Use key/value structure, where keys are HSP indices and values are the
-    // associated HSPs. This duplicates the HSP information, which is stored in
-    // this._hsps. Relative to array, however, this allows efficient querying of
-    // whether an HSP is selected ("if(index in this._selected..."), and it is a
-    // convenient structure to pass to other classes such as AlignmentViewer,
-    // which need both index and HSP.
-    this._selected = {};
 
     this._scales = this._create_scales();
 
@@ -197,70 +149,17 @@ export class Graph {
     };
     this._axis_ticks = 10;
 
-    // this._render_graph();
+    this.use_complement_coords = false;
     this._initiate();
-    // this._configure_panning();
-    // this._configure_zooming();
   }
 
   _initiate() {
-    this._svg.d3 = this.svg_container_d3.insert('svg', ':first-child') // Prepend to svg_container
-                                   .attr('width', this._canvas_width)
-                                   .attr('height', this._canvas_height);
+      this._svg.d3 =
+          this.svg_container_d3.insert('svg', ':first-child')
+          .attr('height', this._canvas_height)
+          .attr('width', this._canvas_width);
     this._svg.raw = this._svg.d3[0][0];
     this._render_graph();
-  }
-
-  _display_selected_hsp_count() {
-    var count = this._count_selected_hsps();
-    var elem = this._subject_container.find('.selected-count');
-
-    if(count === 1) {
-      var first_selected_index = Object.keys(this._selected)[0];
-      this._show_subject_params(this._selected[first_selected_index]);
-    } else {
-      this._hide_subject_params();
-    }
-
-    if(count === 0) {
-      elem.hide();
-      return;
-    } else {
-      if(count === 1) {
-      var first_selected_index = parseInt(Object.keys(this._selected)[0], 10);
-        var desc = 'Alignment #' + (first_selected_index + 1) + ' selected';
-      } else {
-        var desc = count + ' alignments selected';
-      }
-      elem.show().html(desc);
-    }
-  }
-
-  _show_subject_params(hsp) {
-    var position_formatter = d3.format(',d');
-
-    var subject_params = [
-      ['Bit score', hsp.bit_score],
-      ['E value', hsp.evalue],
-      ['Query start', position_formatter(hsp.query_start)],
-      ['Query end', position_formatter(hsp.query_end)],
-      ['Query frame', hsp.query_frame],
-      ['Subject start', position_formatter(hsp.subject_start)],
-      ['Subject end', position_formatter(hsp.subject_end)],
-      ['Alignment length', position_formatter(hsp.alignment_length)],
-      ['Subject frame', hsp.subject_frame],
-    ];
-    var sp_contents = subject_params.map(function(param) {
-      var key = param[0];
-      var value = param[1];
-      return '<li><span class="key">' + key + ':</span> ' + value + '</li>';
-    }).join('\n');
-
-    this._subject_container.find('.subject-params').html(sp_contents).show();
-  }
-
-  _hide_subject_params() {
-    this._subject_container.find('.subject-params').hide();
   }
 
   _fade_subset(predicate, duration) {
@@ -279,12 +178,12 @@ export class Graph {
     this._set_hsp_opacity(
       d3.selectAll(to_make_opaque),
       1,
-      this._grapher.fade_duration
+      this.fade_duration
     );
     this._set_hsp_opacity(
       d3.selectAll(to_fade),
-      this._grapher.fade_opacity,
-      this._grapher.fade_duration
+      this.fade_opacity,
+      this.fade_duration
     );
   }
 
@@ -292,21 +191,7 @@ export class Graph {
     var self = this;
     this._fade_subset(function(hsp, idx) {
       return !(idx === hovered_idx || self._is_hsp_selected(idx));
-    }, this._grapher.hover_fade_duration);
-  }
-
-  _fade_unselected() {
-    // If nothing is selected, everything should be opaque.
-    if(this._count_selected_hsps() === 0) {
-      var all_hsps = this._svg.d3.selectAll('.hit');
-      this._set_hsp_opacity(all_hsps, 1, 200);
-      return;
-    }
-
-    var self = this;
-    this._fade_subset(function(hsp, idx) {
-      return !self._is_hsp_selected(idx);
-    }, 0);
+    }, this.hover_fade_duration);
   }
 
   _set_hsp_opacity(hsps, opacity, duration) {
@@ -330,7 +215,7 @@ export class Graph {
   }
 
   _create_axis(scale, orientation, height, text_anchor, dx, dy, seq_type) {
-    var formatter = this._helpers.tick_formatter(scale, seq_type);
+    var formatter = Helpers.tick_formatter(scale, seq_type);
     var tvalues = scale.ticks();
     tvalues.pop();
     var axis = d3.svg.axis()
@@ -397,7 +282,7 @@ export class Graph {
        .append('polygon')
        .attr('class', 'hit')
        .attr('fill', function(hsp) {
-         return self._grapher.determine_colour(hsp.normalized_bit_score);
+         return self.determine_colour(hsp.normalized_bit_score);
        }).attr('points', function(hsp) {
          // We create query_x_points such that the 0th element will *always* be
          // on the left of the 1st element, regardless of whether the axis is
@@ -411,7 +296,7 @@ export class Graph {
          // Axis will be rendered with 5' end on right and 3' end on left, so we
          // must reverse the order of vertices for the polygon we will render to
          // prevent the polygon from "crossing over" itself.
-         if(!self._grapher.use_complement_coords) {
+         if(!self.use_complement_coords) {
            if(hsp.query_frame < 0)
              query_x_points.reverse();
            if(hsp.subject_frame < 0)
@@ -430,27 +315,6 @@ export class Graph {
          }).join(' ');
        });
 
-    this._polygons.on('mouseenter', function(hovered_hsp, hovered_index) {
-         if(self._count_selected_hsps() > 0) {
-           return;
-         }
-         self._show_subject_params(hovered_hsp);
-         self._fade_unhovered(hovered_index);
-       }).on('mouseleave', function(hovered_hsp, hovered_index) {
-         // If *any* HSP is selected, do nothing -- we don't want to fade out the
-         // subject-params for whatever HSP is selected.
-         if(self._count_selected_hsps() > 0) {
-           return;
-         }
-         self._hide_subject_params();
-         self._fade_unselected();
-       }).on('click', function(clicked_hsp, clicked_index) {
-         if(!self._is_hsp_selected(clicked_index)) {
-           self._select_hsp(clicked_index);
-         } else {
-           self._deselect_hsp(clicked_index);
-         }
-       });
 
    this._labels = this._svg.d3.selectAll('text')
        .data(this._hsps)
@@ -468,61 +332,6 @@ export class Graph {
        .text(function(hsp) {
          return String.fromCharCode(96+hsp.number);
        });
-
-    this._fade_unselected();
-    this._add_outline_to_selected();
-  }
-
-  _change_outline_on_selected(use_outline) {
-    for(var idx in this._selected) {
-      var polygon = this._polygons[0][idx];
-      d3.select(polygon).classed('selected', use_outline);
-    }
-  }
-
-  _add_outline_to_selected() {
-    if(!this._show_hsp_outlines)
-      return;
-    this._change_outline_on_selected(true);
-  }
-
-  _remove_outline_from_selected() {
-    this._change_outline_on_selected(false);
-  }
-
-  _select_hsp(hsp_index) {
-    if(this._is_hsp_selected(hsp_index))
-      return;
-    this._selected[hsp_index] = this._hsps[hsp_index];
-    this._display_selected_hsp_count();
-
-    this._fade_unselected();
-    this._add_outline_to_selected();
-
-    var count = this._count_selected_hsps();
-    if(count === 1) {
-      this._subject_container.find('.hsp-selection-controls').slideDown();
-    }
-  }
-
-  _deselect_hsp(hsp_index) {
-    delete this._selected[hsp_index];
-    this._display_selected_hsp_count();
-    this._fade_unselected();
-    d3.select(this._polygons[0][hsp_index]).classed('selected', false);
-
-    var count = this._count_selected_hsps();
-    if(count === 0) {
-      this._subject_container.find('.hsp-selection-controls').slideUp();
-    }
-  }
-
-  _is_hsp_selected(index) {
-    return index in this._selected;
-  }
-
-  _count_selected_hsps() {
-    return Object.keys(this._selected).length;
   }
 
   _overlaps(s1, e1, s2, e2) {
@@ -644,7 +453,7 @@ export class Graph {
     // will be precisely the same (meaning down to the pixel -- they will be
     // *identical*). Only the direction of the axis, and the coordinates of
     // points falling along it, change.
-    if(!this._grapher.use_complement_coords) {
+    if(!this.use_complement_coords) {
       if(this._hsps[0].query_frame < 0)
         query_range.reverse();
       if(this._hsps[0].subject_frame < 0)
@@ -725,76 +534,27 @@ export class Graph {
     this._svg.d3.on('wheel',      handle_mouse_wheel); // Firefox, IE
   }
 
-  enable_hsp_outlines() {
-    this._show_hsp_outlines = true;
-    this._add_outline_to_selected();
-  }
-
-  disable_hsp_outlines() {
-    this._show_hsp_outlines = false;
-    this._remove_outline_from_selected();
-  }
-
-  view_alignments() {
-    this._grapher.alignment_viewer.view_alignments(
-      this._selected,
-      this._results.query_seq_type,
-      this._query_def,
-      this._query_id,
-      this._results.subject_seq_type,
-      this._subject_def,
-      this._subject_id
-    );
-  }
-
-  export_alignments() {
-    this._grapher.alignment_exporter.export_alignments(
-      this._selected,
-      this._query_def,
-      this._query_id,
-      this._subject_def,
-      this._subject_id
-    );
-  }
-
-  deselect_all_alignments() {
-    for(var idx in Object.keys(this._selected)) {
-      idx = parseInt(idx, 10);
-      this._deselect_hsp(idx);
-    }
-  }
-}
-
-
-/**
- * Mock Kablammo's grapher.js.
- */
-class Grapher {
-  constructor() {
-    this.use_complement_coords = false;
-  }
-
   _rgba_to_rgb(rgba, matte_rgb) {
-    // Algorithm taken from http://stackoverflow.com/a/2049362/1691611.
-    var normalize = function (colour) {
-        return colour.map(function (channel) { return channel / 255; });
-    };
+      // Algorithm taken from http://stackoverflow.com/a/2049362/1691611.
+      var normalize = function (colour) {
+          return colour.map(function (channel) { return channel / 255; });
+      };
 
-    var denormalize = function (colour) {
-        return colour.map(function (channel) { return Math.round(Math.min(255, channel * 255)); });;
-    };
+      var denormalize = function (colour) {
+          return colour.map(function (channel) { return Math.round(Math.min(255, channel * 255)); });;
+      };
 
-    var norm = normalize(rgba.slice(0, 3));
-    matte_rgb = normalize(matte_rgb);
-    var alpha = rgba[3] / 255;
+      var norm = normalize(rgba.slice(0, 3));
+      matte_rgb = normalize(matte_rgb);
+      var alpha = rgba[3] / 255;
 
-    var rgb = [
-        (alpha * norm[0]) + (1 - alpha) * matte_rgb[0],
-        (alpha * norm[1]) + (1 - alpha) * matte_rgb[1],
-        (alpha * norm[2]) + (1 - alpha) * matte_rgb[2],
-    ];
+      var rgb = [
+          (alpha * norm[0]) + (1 - alpha) * matte_rgb[0],
+          (alpha * norm[1]) + (1 - alpha) * matte_rgb[1],
+          (alpha * norm[2]) + (1 - alpha) * matte_rgb[2],
+      ];
 
-    return denormalize(rgb);
+      return denormalize(rgb);
   }
 
   /**
