@@ -9,7 +9,6 @@ export default class Circos extends React.Component {
   }
 
   componentDidMount() {
-    // CircosJs(this.props.queries);
     this.graph = new Graph(this.props.queries, this.props.program, this.svgContainer());
   }
 
@@ -54,10 +53,8 @@ export class Graph {
     // this.width = 700;
     this.width = this.svgContainer.width();
     this.height = 600;
-    // this.height = this.svgContainer.height();
     this.innerRadius = 200;
     this.outerRadius = 230;
-    // console.log('height test '+this.svgContainer.height()+' width '+this.svgContainer.width());
     this.query_arr = [];
     this.hit_arr = [];
     this.layout_arr = [];
@@ -71,11 +68,8 @@ export class Graph {
     // this.suffix = suffixes[this.seq_type.subject_seq_type];
     this.construct_layout();
     this.iterator_for_edits();
-    // this.sweeping_layout_and_chords();
     this.hit_arr = _.uniq(this.hit_arr);
     this.handle_spacing();
-
-    console.log('2.max '+this.max_length+' hit '+this.hit_arr.length+' qry '+this.query_arr.length);
     var prefix = d3.formatPrefix(this.max_length);
     this.suffix = ' '+prefix.symbol+suffixes[this.seq_type.subject_seq_type];
     if (prefix.symbol == 'k') {
@@ -87,8 +81,6 @@ export class Graph {
     } else if (prefix.symbol == 'g') {
       this.denominator = 1000000000;
     }
-    console.log('denominator '+this.denominator+' '+this.suffix+' subject '+suffixes[this.seq_type.query_seq_type]);
-    console.log('spacing '+this.spacing);
     this.create_instance(this.svgContainer, this.width, this.height);
     if (this.chords_arr.length && this.layout_arr.length) {
       this.instance_render();
@@ -103,10 +95,7 @@ export class Graph {
     this.max_length = this.calculate_max_length();
     if (this.hit_arr.length > 10) {
       this.complex_layout_edits();
-    } else {
-      // this.simple_layout_edits();
     }
-    // this.edit_labels();
   }
 
   // Generate both layout_arr and chords_arr with top hsps set by this.hsp_count
@@ -119,21 +108,12 @@ export class Graph {
     var num_hits = (num_karyotype - x) / x;
     this.new_layout = [];
     this.data = _.map(this.queries, _.bind(function (query) {
-      // if (this.max_length < query.length) {
-      //   this.max_length = query.length;
-      // }
       if (query_count < x) {
         var label = query.id;
         var len = query.length;
-        // if (len/this.max_length < 0.35) {
-        //   label = label.slice(0,2) + '...';
-        // }
-        console.log('q id: '+query.id);
         var item1 = {'len': len, 'color': '#8dd3c7', 'label': label, 'id': 'Query_'+this.clean_id(query.id), 'ori_id': label};
-        // this.new_layout.push(item1);
         this.layout_arr.push(item1);
         var hit_details = _.map(query.hits, _.bind(function(hit) {
-          // this.hit_arr.push(hit.id);
           if (hit.number < num_hits) {
             var hsp_details = _.map(hit.hsps, _.bind(function (hsp) {
 
@@ -141,9 +121,7 @@ export class Graph {
                 var label = hit.id;
                 var len  = hit.length;
                 this.hit_arr.push(hit.id);
-                // console.log('h id: '+hit.id);
                 var item2 = {'len': len, 'color': '#80b1d3', 'label': label, 'id': 'Hit_'+this.clean_id(hit.id), 'ori_id': label};
-                // this.new_layout.push(item2);
                 this.layout_arr.push(item2);
               }
 
@@ -158,7 +136,6 @@ export class Graph {
       this.query_arr.push(query.id);
       return query;
     }, this));
-    // this.rearrange_new_layout(); // called to collect all querys at one place
   }
 
   // rearraging hit and query karyotypes to have all query in one place
@@ -177,19 +154,6 @@ export class Graph {
     }, this));
   }
 
-  // label edits when hit_arr length is less than 10
-  simple_layout_edits() {
-    _.each(this.layout_arr, _.bind(function (obj, index) {
-      var rel_length = (obj.len / this.max_length).toFixed(3);
-      var label = obj.label;
-      if (rel_length < 0.3) {
-        obj.label = '...';
-      } else {
-        obj.label = obj.ori_id
-      }
-    }, this))
-  }
-
   // label edits along with deleting hits which are too small to display
   complex_layout_edits() {
     this.delete_from_layout = [];
@@ -197,52 +161,11 @@ export class Graph {
     _.each(this.layout_arr, _.bind(function (obj, index) {
       var rel_length = (obj.len / this.max_length).toFixed(3);
       var label = obj.label;
-      // console.log('rel '+rel_length+' id '+label+' index '+index);
       if (rel_length < 0.1 && (obj.id).slice(0,3) != 'Que') {
         this.delete_from_layout.push(obj);
         this.hit_arr.slice(_.indexOf(this.hit_arr, obj.label), 1); // corresponding delete from hit_arr
       }
     }, this));
-    if (this.delete_from_layout.length > 0) {
-      // this.delete_layout_and_chords();
-    }
-  }
-
-  delete_layout_and_chords() {
-    console.log('delete_layout_and_chords '+this.delete_from_layout.length);
-    _.each(this.delete_from_layout, _.bind(function(elem) {
-      var layout_index;
-      var chords_index = [];
-      _.each(this.layout_arr, _.bind(function(obj, index) {
-        if (obj.label == elem.label) {
-          // console.log('tesss '+obj.label+' index splice '+index);
-          layout_index = index;
-        }
-      }, this));
-      _.each(this.chords_arr, _.bind(function(obj, index) {
-        if (obj[3] == elem.id) {
-          // console.log('chorsds '+obj[3]+' index slice '+index);
-          chords_index.push(index);
-        }
-      }, this));
-      // console.log('anon '+this.layout_arr.length+' now '+_.map(this.layout_arr, _.iteratee('label')));
-      this.layout_arr.splice(layout_index, 1);
-      // this.chords_arr.splice(chords_index, 1);
-      _.each(chords_index, _.bind(function (id, index) {
-        this.chords_arr.splice((id-index), 1)
-      }, this))
-    }, this))
-    this.iterator_for_edits();
-  }
-
-  // sweeping: as in cleaning the unmathced chords and ribbons
-  sweeping_layout_and_chords() {
-    this.delete_arr = [];
-    console.log('sweepers away ');
-    _.each(this.layout_arr, _.bind(function(obj, index) {
-      this.check_in_chords_arr(obj.id, (obj.id).slice(0,3), index);
-    }, this))
-    this.delete_layout_arr_index(this.delete_arr)
   }
 
   // get the chords_arr index based on hit or query id

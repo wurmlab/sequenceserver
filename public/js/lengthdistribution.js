@@ -47,9 +47,6 @@ export class Graph {
 
 
     this.initiate($svg_container.width(), $svg_container.height());
-    // if (this.query.number == 1) {
-    //   this.setupResponsiveness();
-    // }
   }
 
   initiate(width, height) {
@@ -67,7 +64,6 @@ export class Graph {
   }
 
   draw() {
-    console.log('drawing');
     this.draw_rectangles();
     this.draw_query_line();
     this.draw_axes();

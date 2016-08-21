@@ -605,7 +605,6 @@ circosJS.Chord = function() {
   })(this);
   this.dimChords = function (parentElement, d, conf, index) {
     parentElement.selectAll('path').style('opacity', function (p, i) {
-      // console.log('opacity test '+p.source.id);
       if (index == i) {
         return 1;
       }
@@ -641,7 +640,6 @@ circosJS.Chord = function() {
         return _this.dispatch.mouseout(d, i, j);
       };
     })(this));
-    console.log('min '+conf.cmin+' max '+conf.cmax);
     if (conf.usePalette) {
       link.attr('class', function(d) {
         return 'q' + ratio(d.value, conf.cmin, conf.cmax, conf.colorPaletteSize, conf.colorPaletteReverse, conf.logScale) + '-' + conf.colorPaletteSize;
@@ -1309,7 +1307,6 @@ circosJS.renderLayoutTicks = function(conf, layout, d3, instance) {
   blockTicks = function(d) {
     var k,space;
     k = (d.end - d.start) / d.len;
-    // console.log('start '+d.start+' end '+d.end);
     if ((d.end - d.start) > 1.57) {
       space = 8;
     } else if ((d.end - d.start) > 0.785) {

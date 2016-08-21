@@ -7,20 +7,6 @@ export function grapher_node() {
   return $(React.findDOMNode(this.refs.grapher));
 }
 
-var arr = new Array();
-
-export function graph() {
-  return arr;
-}
-
-export function setupResponsiveness() {
-  $.fn.resize_graph = function () {
-    $('.grapher').each(function (index) {
-      console.log('test '+index);
-    })
-  }
-}
-
 // SVG and PNG download links.
 export function setupKablammoImageExporter() {
   new ImageExporter('.grapher', '.export-to-svg', '.export-to-png');
