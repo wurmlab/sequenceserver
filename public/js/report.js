@@ -469,7 +469,7 @@ var Hit = React.createClass({
                         </label>
                     </div>
                     <br/>
-                    <Kablammo query={this.props.query} hit={this.props.hit} algorithm={this.props.algorithm}/>
+                    <Kablammo key={"Kablammo"+this.props.query.id} query={this.props.query} hit={this.props.hit} algorithm={this.props.algorithm}/>
                     <table
                       className="table hsps">
                         <tbody>
@@ -479,7 +479,8 @@ var Hit = React.createClass({
                                     return (
                                         <tr
                                           id={"Alignment_Query_" + this.props.query.number + "_hit_"
-                                                  + this.props.hit.number + "_" + hsp.number}>
+                                                  + this.props.hit.number + "_" + hsp.number}
+                                          key={"Query_"+this.props.query.id+"_Hit_"+this.props.hit.id+"_"+hsp.number}>
                                             <td>
                                                 {String.fromCharCode(96+hsp.number) + "."}
                                             </td>
@@ -498,7 +499,7 @@ var Hit = React.createClass({
                                                         <thead>
                                                         {
                                                             _.map(stats_returned, function (value , key) {
-                                                                return(<th>{key}</th>);
+                                                                return(<th key={value+"_"+key}>{key}</th>);
                                                             })
                                                         }
                                                         </thead>
@@ -506,7 +507,7 @@ var Hit = React.createClass({
                                                             <tr>
                                                                 {
                                                                     _.map(stats_returned, _.bind(function (value , key) {
-                                                                        return(<th>{this.prettify(value)}</th>);
+                                                                        return(<th key={value+"_"+key}>{this.prettify(value)}</th>);
                                                                     }, this))
                                                                 }
                                                             </tr>
@@ -554,7 +555,7 @@ var HitsTable = React.createClass({
                     {
                         _.map(this.props.query.hits, _.bind(function (hit) {
                             return (
-                                <tr>
+                                <tr key={hit.id}>
                                     <td className="text-left">{hit.number + "."}</td>
                                     <td>
                                         <a href={"#Query_" + this.props.query.number + "_hit_" + hit.number}>
@@ -692,13 +693,13 @@ var Query = React.createClass({
                               className="caption">
                               Alignment overview
                             </h5>
-                            <GraphicalOverview query={this.props.query} program={this.props.data.program}/>
+                            <GraphicalOverview key={"GO_"+this.props.query.id} query={this.props.query} program={this.props.data.program}/>
                             <h5
                               className="caption">
                               Length Distribution of Hits
                             </h5>
-                            <LengthDistribution query={this.props.query} algorithm={this.props.data.program}/>
-                            <HitsTable query={this.props.query}/>
+                            <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program}/>
+                            <HitsTable key={"HT_"+this.props.query.id} query={this.props.query}/>
                             <div
                                 id="hits">
                                 {
@@ -706,6 +707,7 @@ var Query = React.createClass({
                                         return (
                                             <Hit
                                                 hit={hit}
+                                                key={"HIT_"+hit.id}
                                                 algorithm={this.props.data.program}
                                                 query={this.props.query}
                                                 selectHit={this.props.selectHit}/>
@@ -806,7 +808,7 @@ var SideBar = React.createClass({
                     {
                         _.map(this.props.data.queries, _.bind(function (query) {
                             return (
-                                <li>
+                                <li key={"Side_bar_"+query.id}>
                                     <a
                                         className="nowrap-ellipsis hover-bold"
                                         href={"#Query_" + query.number}
@@ -1052,7 +1054,7 @@ var Report = React.createClass({
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
-                                <Query query={query} data={this.state}
+                                <Query key={"Query_"+query.id} query={query} data={this.state}
                                     selectHit={this.selectHit}/>
                                 );
                         }, this))
