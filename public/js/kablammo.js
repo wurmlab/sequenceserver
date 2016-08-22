@@ -22,33 +22,6 @@ export default class Kablammo extends React.Component {
         super(props);
     }
 
-    toKablammo(hsps, query) {
-        var maxBitScore = query.hits[0].hsps[0].bit_score;
-
-        var hspKeyMap = {
-            'qstart':  'query_start',
-            'qend':    'query_end',
-            'qframe':  'query_frame' ,
-            'sstart':  'subject_start',
-            'send':    'subject_end',
-            'sframe':  'subject_frame',
-            'length':  'alignment_length',
-            'qseq':    'query_seq',
-            'sseq':    'subject_seq',
-            'midline': 'midline_seq'
-        };
-
-        return _.map(hsps, function (hsp) {
-            var _hsp = {};
-            $.each(hsp, function(key, value) {
-                key = hspKeyMap[key] || key;
-                _hsp[key] = value;
-                _hsp.normalized_bit_score = hsp.bit_score / maxBitScore;
-            })
-            return _hsp;
-        })
-    }
-
     /**
      * Returns jQuery wrapped element that should hold Kablammo's svg.
      */
@@ -74,24 +47,16 @@ export default class Kablammo extends React.Component {
      * Also defines event handler for hovering on HSP polygon.
      */
     componentDidMount(event) {
-        var hsps = this.toKablammo(this.props.hit.hsps, this.props.query);
         var svgContainer = this.svgContainer();
         svgContainer.addClass('kablammo');
 
         this._graph = new Graph(
             Helpers.get_seq_type(this.props.algorithm),
-            this.props.query.id,
-            this.props.hit.id,
-            this.props.query.length,
-            this.props.hit.length,
-            hsps,
+            this.props.query,
+            this.props.hit,
             svgContainer,
             Helpers
         );
-
-        $(window).resize(_.bind(function() {
-            this.setState({width: $(window).width()});
-        }, this));
 
         // Disable hover handlers and show alignment on selecting hsp.
         var polygons = d3.select(svgContainer[0]).selectAll('polygon');
@@ -121,7 +86,7 @@ export default class Kablammo extends React.Component {
 }
 
 export class Graph {
-  constructor(results, query_id, subject_id, query_length, subject_length, hsps, svg_container) {
+  constructor(results, query, hit, svg_container) {
     this._zoom_scale_by = 1.4;
     this._padding_x = 20;
     this._padding_y = 70;
@@ -130,11 +95,12 @@ export class Graph {
     this._canvas_width = svg_container.width();
 
     this._results = results;
-    this._query_id = query_id;
-    this._subject_id = subject_id;
-    this._query_length = query_length;
-    this._subject_length = subject_length;
-    this._hsps = hsps;
+    this._query_id = query.id;
+    this._subject_id = hit.id;
+    this._query_length = query.length;
+    this._subject_length = hit.length;
+    this._hsps = hit.hsps;
+    this._maxBitScore = query.hits[0].hsps[0].bit_score;
 
     this.svg_container_d3 = d3.select(svg_container[0]);
     this._svg = {};
@@ -160,44 +126,6 @@ export class Graph {
           .attr('width', this._canvas_width);
     this._svg.raw = this._svg.d3[0][0];
     this._render_graph();
-  }
-
-  _fade_subset(predicate, duration) {
-    var all_hsps = this._svg.d3.selectAll('.hit');
-    var to_make_opaque = [];
-    var to_fade = [];
-
-    all_hsps.each(function(d, idx) {
-      if(predicate(this, idx)) {
-        to_fade.push(this);
-      } else {
-        to_make_opaque.push(this);
-      }
-    });
-
-    this._set_hsp_opacity(
-      d3.selectAll(to_make_opaque),
-      1,
-      this.fade_duration
-    );
-    this._set_hsp_opacity(
-      d3.selectAll(to_fade),
-      this.fade_opacity,
-      this.fade_duration
-    );
-  }
-
-  _fade_unhovered(hovered_idx) {
-    var self = this;
-    this._fade_subset(function(hsp, idx) {
-      return !(idx === hovered_idx || self._is_hsp_selected(idx));
-    }, this.hover_fade_duration);
-  }
-
-  _set_hsp_opacity(hsps, opacity, duration) {
-    hsps.transition()
-      .duration(duration)
-      .style('opacity', opacity);
   }
 
   _rotate_axis_labels(text, text_anchor, dx, dy) {
@@ -282,7 +210,7 @@ export class Graph {
        .append('polygon')
        .attr('class', 'hit')
        .attr('fill', function(hsp) {
-         return self.determine_colour(hsp.normalized_bit_score);
+         return self.determine_colour(hsp.bit_score / self._maxBitScore);
        }).attr('points', function(hsp) {
          // We create query_x_points such that the 0th element will *always* be
          // on the left of the 1st element, regardless of whether the axis is
@@ -290,16 +218,17 @@ export class Graph {
          // for subject_x_points. As our parsing code guarantees start < end, we
          // decide on this ordering based on the reading frame, because it
          // determines whether our axis will be reversed or not.
-         var query_x_points = [self._scales.query.scale(hsp.query_start), self._scales.query.scale(hsp.query_end)];
-         var subject_x_points = [self._scales.subject.scale(hsp.subject_start), self._scales.subject.scale(hsp.subject_end)];
+         console.log('1. '+hsp.qstart+' 2. '+hsp.qend+' 3. '+hsp.sstart+' 4. '+hsp.send);
+         var query_x_points = [self._scales.query.scale(hsp.qstart), self._scales.query.scale(hsp.qend)];
+         var subject_x_points = [self._scales.subject.scale(hsp.sstart), self._scales.subject.scale(hsp.send)];
 
          // Axis will be rendered with 5' end on right and 3' end on left, so we
          // must reverse the order of vertices for the polygon we will render to
          // prevent the polygon from "crossing over" itself.
          if(!self.use_complement_coords) {
-           if(hsp.query_frame < 0)
+           if(hsp.qframe < 0)
              query_x_points.reverse();
-           if(hsp.subject_frame < 0)
+           if(hsp.sframe < 0)
              subject_x_points.reverse();
          }
 
@@ -321,8 +250,8 @@ export class Graph {
        .enter()
        .append('text')
        .attr('x', function(hsp) {
-         var query_x_points = [self._scales.query.scale(hsp.query_start), self._scales.query.scale(hsp.query_end)];
-         var subject_x_points = [self._scales.subject.scale(hsp.subject_start), self._scales.subject.scale(hsp.subject_end)];
+         var query_x_points = [self._scales.query.scale(hsp.qstart), self._scales.query.scale(hsp.qend)];
+         var subject_x_points = [self._scales.subject.scale(hsp.sstart), self._scales.subject.scale(hsp.send)];
          var middle1 = (query_x_points[0] + subject_x_points[0]) * 0.5;
          var middle2 = (query_x_points[1] + subject_x_points[1]) * 0.5;
          return (middle2 + middle1) * 0.5;
@@ -454,9 +383,9 @@ export class Graph {
     // *identical*). Only the direction of the axis, and the coordinates of
     // points falling along it, change.
     if(!this.use_complement_coords) {
-      if(this._hsps[0].query_frame < 0)
+      if(this._hsps[0].qframe < 0)
         query_range.reverse();
-      if(this._hsps[0].subject_frame < 0)
+      if(this._hsps[0].sframe < 0)
         subject_range.reverse();
     }
 
