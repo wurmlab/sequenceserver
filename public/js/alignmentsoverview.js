@@ -1,30 +1,25 @@
 import React from 'react';
 import _ from 'underscore';
 import * as Helpers from './visualisation_helpers';
-import * as Grapher from './grapher.js';
+import Grapher from './grapher.js';
 
-export default class GraphicalOverview extends React.Component {
-  constructor(props) {
-    super(props);
+class Graph {
+
+  static name() {
+    return 'Alignment Overview';
   }
 
-  svgContainer() {
-    return $(React.findDOMNode(this.refs.svgContainer))
+  static className() {
+    return 'alignment-overview';
   }
 
-  componentDidMount() {
-    var hits = this.toGraph(this.props.query.hits, this.props.query.number);
-    var svgContainer = this.svgContainer();
-    svgContainer.addClass('alignment-overview');
-    var query_div = this.svgContainer().parents('.resultn');
-    this.graph = new Graph(query_div, svgContainer, 0, 20, null, hits);
+  constructor($svgContainer, props) {
+    $queryDiv = $svgContainer.parents('.resultn')
+    hits = this.extractData(props.query.hits, props.query.number)
+    this.graphIt($queryDiv, $svgContainer, 0, 20, null, hits);
   }
 
-  render() {
-    return Grapher.grapher_render();
-  }
-
-  toGraph(query_hits, number) {
+  extractData(query_hits, number) {
     var hits = [];
     query_hits.map(function (hit) {
         var _hsps = [];
@@ -44,12 +39,6 @@ export default class GraphicalOverview extends React.Component {
         hits.push(_hsps);
     });
     return hits;
-  }
-}
-
-export class Graph {
-  constructor($queryDiv, $graphDiv, shownHits, index, opts, hits) {
-    this.graphIt($queryDiv, $graphDiv, shownHits, index, opts, hits);
   }
 
   setupTooltip() {
@@ -403,7 +392,7 @@ export class Graph {
     if (index === 0) {
         this.graphControls($queryDiv, $graphDiv, true, opts, inhits);
         // Redraw the SVG on a browser resize...
-        this.setupResponsiveness($queryDiv, $graphDiv, index, opts, inhits);
+        // this.setupResponsiveness($queryDiv, $graphDiv, index, opts, inhits);
     }
     // Refresh tooltip each time graph is redrawn.
     this.setupTooltip();
@@ -412,3 +401,6 @@ export class Graph {
     this.setupClick($graphDiv);
   }
 }
+
+var AlignmentOverview = Grapher(Graph);
+export default AlignmentOverview;

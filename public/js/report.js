@@ -7,7 +7,6 @@ import GraphicalOverview from './alignmentsoverview';
 import Kablammo from './kablammo';
 import './sequence';
 import LengthDistribution from './lengthdistribution';
-import * as Grapher from './grapher';
 import Circos from './circos';
 
 /**
@@ -630,15 +629,9 @@ var Query = React.createClass({
                     (
                         <div
                             className="page-content">
-                            <h5
-                              className="caption">
-                              Alignment overview
-                            </h5>
+
                             <GraphicalOverview key={"GO_"+this.props.query.id} query={this.props.query} program={this.props.data.program}/>
-                            <h5
-                              className="caption">
-                              Length Distribution of Hits
-                            </h5>
+
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program}/>
                             <HitsTable key={"HT_"+this.props.query.id} query={this.props.query}/>
                             <div
@@ -1120,7 +1113,6 @@ var Report = React.createClass({
         this.setupHitSelection();
         this.setupDownloadLinks();
         this.setupSequenceViewer();
-        Grapher.setupKablammoImageExporter();
     }
 });
 

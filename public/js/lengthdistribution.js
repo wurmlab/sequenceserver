@@ -1,45 +1,24 @@
 import React from 'react';
 import _ from 'underscore';
 import * as Helpers from './visualisation_helpers';
-import * as Grapher from './grapher';
+import Grapher from './grapher';
 
 /**
  * Renders Length Distribution of all hits per query
  */
-export default class LengthDistribution extends React.Component {
-  constructor(props) {
-    super(props);
+
+class Graph {
+  static name() {
+    return 'Length Distribution';
   }
 
-  svgContainer() {
-    return $(React.findDOMNode(this.refs.svgContainer));
+  static className() {
+    return 'length-distribution';
   }
 
-  componentWillUpdate() {
-    console.log('in will update');
-    this.svgContainer().find('svg').remove();
-    this.graph.initiate(this.svgContainer().width(), this.svgContainer().height());
-  }
-
-  componentDidMount() {
-    var svgContainer = this.svgContainer();
-    svgContainer.addClass('length-distribution');
-    this.graph = new Graph(this.props.query, svgContainer, this.props.algorithm);
-    React.findDOMNode(this.refs.grapher).graph = this.graph;
-    $(window).resize(_.bind(function () {
-      this.setState({width: $(window).width()});
-    }, this))
-  }
-
-  render() {
-    return Grapher.grapher_render();
-  }
-}
-
-export class Graph {
-  constructor(query, $svg_container, algorithm) {
-    this.query = query;
-    this._seq_type = Helpers.get_seq_type(algorithm);
+  constructor($svg_container, props) {
+    this.query = props.query;
+    this._seq_type = Helpers.get_seq_type(props.algorithm);
     this.svg_container = $svg_container
 
     this._margin = {top: 30, right: 40, bottom: 55, left: 15};
@@ -267,3 +246,6 @@ export class Graph {
         .call(y_axis);
   }
 }
+
+var LengthDistribution = Grapher(Graph);
+export default LengthDistribution;

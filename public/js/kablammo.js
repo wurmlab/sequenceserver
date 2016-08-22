@@ -2,7 +2,7 @@ import * as Helpers from './visualisation_helpers';
 import React from 'react';
 import _ from 'underscore';
 import d3 from 'd3';
-import * as Grapher_component from './grapher';
+import Grapher from './grapher';
 
 /**
  * Renders Kablammo visualization
@@ -17,126 +17,32 @@ import * as Grapher_component from './grapher';
  * have been extracted from grapher.js and interface.js and directly included
  * here.
  */
-export default class Kablammo extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
-    toKablammo(hsps, query) {
-        var maxBitScore = query.hits[0].hsps[0].bit_score;
+class Graph {
+  static name() {
+    return 'Kablammo';
+  }
 
-        var hspKeyMap = {
-            'qstart':  'query_start',
-            'qend':    'query_end',
-            'qframe':  'query_frame' ,
-            'sstart':  'subject_start',
-            'send':    'subject_end',
-            'sframe':  'subject_frame',
-            'length':  'alignment_length',
-            'qseq':    'query_seq',
-            'sseq':    'subject_seq',
-            'midline': 'midline_seq'
-        };
+  static className() {
+    return 'kablammo';
+  }
 
-        return _.map(hsps, function (hsp) {
-            var _hsp = {};
-            $.each(hsp, function(key, value) {
-                key = hspKeyMap[key] || key;
-                _hsp[key] = value;
-                _hsp.normalized_bit_score = hsp.bit_score / maxBitScore;
-            })
-            return _hsp;
-        })
-    }
-
-    /**
-     * Returns jQuery wrapped element that should hold Kablammo's svg.
-     */
-    svgContainer() {
-        return $(React.findDOMNode(this.refs.svgContainer));
-    }
-
-    // Life-cycle methods //
-
-    render() {
-        return Grapher_component.grapher_render();
-    }
-
-    componentWillUpdate() {
-        this.svgContainer().find('svg').remove();
-        this._graph._canvas_width = this.svgContainer().width();
-        this._graph._canvas_height = this.svgContainer().height();
-        this._graph._initiate();
-    }
-
-    /**
-     * Invokes Graph method defined in graph.js to render kablammo visualization.
-     * Also defines event handler for hovering on HSP polygon.
-     */
-    componentDidMount(event) {
-        var hsps = this.toKablammo(this.props.hit.hsps, this.props.query);
-        var svgContainer = this.svgContainer();
-        svgContainer.addClass('kablammo');
-
-        this._graph = new Graph(
-            Helpers.get_seq_type(this.props.algorithm),
-            this.props.query.id,
-            this.props.hit.id,
-            this.props.query.length,
-            this.props.hit.length,
-            hsps,
-            svgContainer,
-            Helpers
-        );
-
-        $(window).resize(_.bind(function() {
-            this.setState({width: $(window).width()});
-        }, this));
-
-        // Disable hover handlers and show alignment on selecting hsp.
-        var polygons = d3.select(svgContainer[0]).selectAll('polygon');
-        var labels = d3.select(svgContainer[0]).selectAll('text');
-        polygons
-        .on('mouseenter', function (hov_hsp, hov_index) {
-            var polygon = polygons[0][hov_index];
-            var label = labels[0][hov_index];
-            d3.select(polygon).classed('raised', true);
-            polygon.parentNode.appendChild(polygon);
-            label.parentNode.appendChild(label);
-        })
-        .on('mouseleave', function (hov_hsp, hov_index) {
-            var polygon = polygons[0][hov_index];
-            var label = labels[0][hov_index];
-            d3.select(polygon).classed('raised', false);
-            var firstPolygon = polygon.parentNode.firstChild;
-            var firstLabel = label.parentNode.firstChild;
-            if (firstPolygon) {
-                polygon.parentNode.insertBefore(polygon, firstPolygon)
-            }
-            if (firstLabel) {
-                label.parentNode.insertBefore(label, firstLabel)
-            }
-        })
-    }
-}
-
-export class Graph {
-  constructor(results, query_id, subject_id, query_length, subject_length, hsps, svg_container) {
+  constructor($svgContainer, props) {
     this._zoom_scale_by = 1.4;
     this._padding_x = 20;
     this._padding_y = 70;
 
-    this._canvas_height = svg_container.height();
-    this._canvas_width = svg_container.width();
+    this._canvas_height = $svgContainer.height();
+    this._canvas_width = $svgContainer.width();
 
-    this._results = results;
-    this._query_id = query_id;
-    this._subject_id = subject_id;
-    this._query_length = query_length;
-    this._subject_length = subject_length;
-    this._hsps = hsps;
+    this._results = Helpers.get_seq_type(props.algorithm);
+    this._query_id = props.query.id;
+    this._subject_id = props.hit.id;
+    this._query_length = props.query.length;
+    this._subject_length = props.hit.length;
+    this._hsps = this.toKablammo(props.hit.hsps, props.query);
 
-    this.svg_container_d3 = d3.select(svg_container[0]);
+    this.svgContainer_d3 = d3.select($svgContainer[0]);
     this._svg = {};
 
     this._svg.jq = $(this._svg.raw);
@@ -150,12 +56,67 @@ export class Graph {
     this._axis_ticks = 10;
 
     this.use_complement_coords = false;
+    this.polygon_highlighting($svgContainer);
     this._initiate();
+  }
+
+  polygon_highlighting(svgContainer) {
+    // Disable hover handlers and show alignment on selecting hsp.
+    var polygons = d3.select(svgContainer[0]).selectAll('polygon');
+    var labels = d3.select(svgContainer[0]).selectAll('text');
+    polygons
+    .on('mouseenter', function (hov_hsp, hov_index) {
+        var polygon = polygons[0][hov_index];
+        var label = labels[0][hov_index];
+        d3.select(polygon).classed('raised', true);
+        polygon.parentNode.appendChild(polygon);
+        label.parentNode.appendChild(label);
+    })
+    .on('mouseleave', function (hov_hsp, hov_index) {
+        var polygon = polygons[0][hov_index];
+        var label = labels[0][hov_index];
+        d3.select(polygon).classed('raised', false);
+        var firstPolygon = polygon.parentNode.firstChild;
+        var firstLabel = label.parentNode.firstChild;
+        if (firstPolygon) {
+            polygon.parentNode.insertBefore(polygon, firstPolygon)
+        }
+        if (firstLabel) {
+            label.parentNode.insertBefore(label, firstLabel)
+        }
+    })
+  }
+
+  toKablammo(hsps, query) {
+    var maxBitScore = query.hits[0].hsps[0].bit_score;
+
+    var hspKeyMap = {
+        'qstart':  'query_start',
+        'qend':    'query_end',
+        'qframe':  'query_frame' ,
+        'sstart':  'subject_start',
+        'send':    'subject_end',
+        'sframe':  'subject_frame',
+        'length':  'alignment_length',
+        'qseq':    'query_seq',
+        'sseq':    'subject_seq',
+        'midline': 'midline_seq'
+    };
+
+    return _.map(hsps, function (hsp) {
+        var _hsp = {};
+        $.each(hsp, function(key, value) {
+            key = hspKeyMap[key] || key;
+            _hsp[key] = value;
+            _hsp.normalized_bit_score = hsp.bit_score / maxBitScore;
+        })
+        return _hsp;
+    })
   }
 
   _initiate() {
       this._svg.d3 =
-          this.svg_container_d3.insert('svg', ':first-child')
+          this.svgContainer_d3.insert('svg', ':first-child')
           .attr('height', this._canvas_height)
           .attr('width', this._canvas_width);
     this._svg.raw = this._svg.d3[0][0];
@@ -580,3 +541,6 @@ export class Graph {
       return 'rgb(' + rgb.join(',') + ')';
   }
 }
+
+var Kablammo = Grapher(Graph);
+export default Kablammo;

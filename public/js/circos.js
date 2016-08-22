@@ -2,50 +2,22 @@ import circosJs from 'nicgirault/circosJs';
 import React from 'react';
 import _ from 'underscore';
 import * as Helpers from './visualisation_helpers';
+import Grapher from './grapher';
 
-export default class Circos extends React.Component {
-  constructor(props) {
-    super(props);
+class Graph {
+  static name() {
+    return 'Circos';
   }
 
-  componentDidMount() {
-    this.graph = new Graph(this.props.queries, this.props.program, this.svgContainer());
+  static className() {
+    return 'circos-distribution';
   }
 
-  svgContainer() {
-    return $(React.findDOMNode(this.refs.svgContainer));
-  }
-
-  render() {
-    return (
-      <div
-        className='grapher' ref='grapher'>
-        <div
-            className="graph-links">
-            <a href = "#" className="export-to-svg">
-                <i className="fa fa-download"/>
-                <span>{"  SVG  "}</span>
-            </a>
-            <span>{" | "}</span>
-            <a href = "#" className="export-to-png">
-                <i className="fa fa-download"/>
-                <span>{"  PNG  "}</span>
-            </a>
-        </div>
-        <div
-          className='svgContainer' ref='svgContainer'>
-          <svg className="circosContainer" ref="svgTag"></svg>
-        </div>
-      </div>
-    )
-  }
-}
-
-export class Graph {
-  constructor(queries, algorithm, $svgContainer) {
-    this.queries = queries;
+  constructor($svgContainer, props) {
+    this.queries = props.queries;
     this.svgContainer = $svgContainer;
-    this.seq_type = Helpers.get_seq_type(algorithm);
+    console.log('tess '+props.program);
+    this.seq_type = Helpers.get_seq_type(props.program);
     this.initiate();
   }
 
@@ -65,7 +37,6 @@ export class Graph {
     this.spacing = 20;
     this.labelSpacing = 10;
     var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
-    // this.suffix = suffixes[this.seq_type.subject_seq_type];
     this.construct_layout();
     this.iterator_for_edits();
     this.hit_arr = _.uniq(this.hit_arr);
@@ -81,6 +52,8 @@ export class Graph {
     } else if (prefix.symbol == 'g') {
       this.denominator = 1000000000;
     }
+    d3.select(this.svgContainer[0]).insert('svg',':first-child')
+        .attr('class','circosContainer');
     this.create_instance(this.svgContainer, this.width, this.height);
     if (this.chords_arr.length && this.layout_arr.length) {
       this.instance_render();
@@ -543,3 +516,6 @@ export class Graph {
     //     .attr('fill','#232323');
   }
 }
+
+var Circos = Grapher(Graph);
+export default Circos;
