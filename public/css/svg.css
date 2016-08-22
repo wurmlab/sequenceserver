@@ -18,23 +18,17 @@
   right: 3%;
   position: absolute;
   z-index: 10;
-  display: none;
-}
-
-.grapher:hover .graph-links {
   display: block;
 }
 
-.svg_container {
+.svg-container {
+  margin-top: 3%;
   padding-top: 2%;
 }
 
 .grapher {
-  border: 1px solid transparent;
-}
-
-.grapher:hover {
-  border: 1px solid lightblue;
+  border: 1px solid #ddd;
+  border-radius: 12px;
 }
 
 .raised {
@@ -64,6 +58,7 @@
 .caption {
   text-align: left;
   text-transform: uppercase;
+  padding-left: 10px;
 }
 
 .btn > .btn-link > .more {
