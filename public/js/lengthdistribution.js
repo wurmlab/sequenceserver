@@ -180,12 +180,12 @@ class Graph {
         .attr('x',1)
         .attr('width',4)
         .attr('height',this._height)
-        .style('fill','rgb(55,0,232)');
+        .style('fill','rgb(30,139,195)');
 
     query_line.append('text')
         .attr('dy', '0.75em')
-        .attr('y', -5)
-        .attr('x', 5)
+        .attr('y', -10)
+        .attr('x', 2)
         .attr('text-anchor','start')
         .text('Query')
         .style('fill','#000')

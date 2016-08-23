@@ -6,7 +6,7 @@ import Grapher from './grapher.js';
 class Graph {
 
   static name() {
-    return 'Alignment Overview';
+    return 'Alignments Overview';
   }
 
   static className() {
@@ -220,7 +220,7 @@ class Graph {
      * margin: Margin around the svg element.
      */
     var defaults = {
-        barHeight: 4,
+        barHeight: 2,
         barPadding: 1,
         legend: 10,
         margin: 20
