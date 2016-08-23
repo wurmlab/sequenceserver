@@ -19,6 +19,7 @@
   position: absolute;
   z-index: 10;*/
   float: right;
+  margin: 5px 5px;
 }
 
 .svg-container {
@@ -29,7 +30,7 @@
 .grapher {
   border: 1px solid #ddd;
   border-radius: 12px;
-  margin: 3px 1px;
+  margin: 5px 5px;
 }
 
 .raised {

@@ -180,7 +180,7 @@ class Graph {
         .attr('x',1)
         .attr('width',4)
         .attr('height',this._height)
-        .style('fill','rgb(30,139,195)');
+        .style('fill','rgb(49,54,149)');
 
     query_line.append('text')
         .attr('dy', '0.75em')

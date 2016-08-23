@@ -221,8 +221,8 @@ class Graph {
      */
     var defaults = {
         barHeight: 2,
-        barPadding: 1,
-        legend: 10,
+        barPadding: 0.5,
+        legend: 5,
         margin: 20
     },
         options = $.extend(defaults, opts);

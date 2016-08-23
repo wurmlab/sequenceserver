@@ -982,7 +982,6 @@ var Report = React.createClass({
                     className={this.shouldShowSidebar() ? 'col-md-9' : 'col-md-12'}>
                     { this.overview() }
                     <br/>
-                    <br/>
                     <Circos queries={this.state.queries}
                         program={this.state.program}/>
                     {
