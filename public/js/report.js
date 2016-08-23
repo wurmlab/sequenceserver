@@ -6,6 +6,7 @@ import * as Helpers from './visualisation_helpers';
 import GraphicalOverview from './alignmentsoverview';
 import Kablammo from './kablammo';
 import './sequence';
+import './alignment_exporter';
 import LengthDistribution from './lengthdistribution';
 import Circos from './circos';
 
@@ -707,6 +708,12 @@ var SideBar = React.createClass({
         this.postForm(sequence_ids, database_ids);
     },
 
+    downloadAlignmentOfAll: function() {
+        var sequence_ids = $('.hit-links :checkbox').map(function () {
+            return this.value;
+        }).get();
+    },
+
     /**
      * Handles downloading fasta of selected hits.
      */
@@ -716,6 +723,12 @@ var SideBar = React.createClass({
         }).get();
         var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
         this.postForm(sequence_ids, database_ids);
+    },
+
+    downloadAlignmentOfSelected: function () {
+        var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
+            return this.value;
+        }).get();
     },
 
     summary: function () {
@@ -760,6 +773,27 @@ var SideBar = React.createClass({
                 </ul>
 
                 <br/>
+                <div
+                    className="page-header">
+                    <h4>Download alignment</h4>
+                </div>
+                <ul
+                    className="downloads list-unstyled list-padded">
+                    <li>
+                        <a
+                          className="download-alignment-of-all"
+                          onClick={this.downloadAlignmentOfAll}>
+                          Alignment of all hits
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                          className="download-alignment-of-selected disabled"
+                          onClick={this.downloadAlignmentOfSelected}>
+                          Alignment of <span className="text-bold"></span> selected hit(s)
+                        </a>
+                    </li>
+                </ul>
                 <br/>
 
                 <div
@@ -851,6 +885,8 @@ var Report = React.createClass({
             .addClass('glow')
             .find(":checkbox").not(checkbox).check();
             var $a = $('.download-fasta-of-selected');
+            var $b = $('.download-alignment-of-selected');
+            $b.enable()
             var $n = $a.find('span');
             $a
             .enable()
@@ -865,12 +901,16 @@ var Report = React.createClass({
         if (num_checked >= 1)
         {
             var $a = $('.download-fasta-of-selected');
+            var $b = $('.download-alignment-of-selected');
             $a.find('.text-bold').html(num_checked);
+            $b.find('.text-bold').html(num_checked);
         }
 
         if (num_checked == 0) {
             var $a = $('.download-fasta-of-selected');
+            var $b = $('.download-alignment-of-selected');
             $a.addClass('disabled').find('.text-bold').html('');
+            $b.addClass('disabled').find('.text-bold').html('');
         }
     },
 
@@ -985,7 +1025,7 @@ var Report = React.createClass({
                 <div
                     className={this.shouldShowSidebar() ? 'col-md-9' : 'col-md-12'}>
                     { this.overview() }
-                    <br/>
+
                     <Circos queries={this.state.queries}
                         program={this.state.program}/>
                     {

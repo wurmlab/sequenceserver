@@ -178,6 +178,7 @@ class Graph {
 
     query_line.append('rect')
         .attr('x',1)
+        .attr('class','bar')
         .attr('width',4)
         .attr('height',this._height)
         .style('fill','rgb(95,122,183)');
@@ -189,6 +190,7 @@ class Graph {
         .attr('text-anchor','start')
         .text('Query')
         .style('fill','#000')
+        .style('font-size','10px')
         .attr('transform','rotate(-45)');
   }
 
@@ -249,7 +251,7 @@ class Graph {
         .attr('class','axis axis--y')
         .attr('transform','translate('+this._margin.left+',0)')
         .call(y_axis);
-        
+
     yContainer.selectAll('text').style('font-size','10px')
   }
 }

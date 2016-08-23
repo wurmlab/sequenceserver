@@ -30,7 +30,8 @@
 .grapher {
   border: 1px solid #ddd;
   border-radius: 12px;
-  margin: 20px 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .raised {

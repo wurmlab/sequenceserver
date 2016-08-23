@@ -169,7 +169,7 @@ class Graph {
   drawLegend(svg, options, width, height, hits) {
     var svg_legend = svg.append('g')
         .attr('transform',
-            'translate(0,' + (height - 2.2 * options.margin) + ')');
+            'translate(0,' + (height - 1.85 * options.margin) + ')');
 
     svg_legend.append('rect')
         .attr('x', 7 * (width - 2 * options.margin) / 10)
@@ -320,7 +320,7 @@ class Graph {
 
     svg.append('g')
         .attr('class', 'ghit')
-        .attr('transform', 'translate(0, ' + 2 * (options.margin - options.legend) + ')')
+        .attr('transform', 'translate(0, ' + 1.65 * (options.margin - options.legend) + ')')
         .selectAll('.hits')
         .data(hits)
         .enter()

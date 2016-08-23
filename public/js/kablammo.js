@@ -34,7 +34,7 @@ class Graph {
   constructor($svgContainer, props) {
     this._zoom_scale_by = 1.4;
     this._padding_x = 20;
-    this._padding_y = 70;
+    this._padding_y = 50;
 
     this._canvas_height = $svgContainer.height();
     this._canvas_width = $svgContainer.width();
@@ -54,11 +54,6 @@ class Graph {
     this._svg.jq = $(this._svg.raw);
 
     this._scales = this._create_scales();
-
-    this._axis_label_visibility = {
-      query: 'visible',
-      subject: 'visible'
-    };
     this._axis_ticks = 10;
 
     this.use_complement_coords = false;
@@ -274,7 +269,6 @@ class Graph {
       // zooming/panning operations, you don't see it flickering into existence
       // here as it's created, only to be hidden by the overlap-detection code
       // below.
-       .style('visibility', this._axis_label_visibility[type])
        .attr('class', type + ' axis-label')
        .attr('text-anchor', 'end')
        .attr('x', centre)
@@ -290,13 +284,6 @@ class Graph {
         var current_overlap = self._rects_overlap(label_bb, tick_bb, padding);
         return previous_overlap || current_overlap;
       }, false);
-
-      if(does_label_overlap_ticks) {
-        //self._axis_label_visibility[type] = 'hidden';
-        //label.style('visibility', 'hidden');
-      } else {
-        self._axis_label_visibility[type] = 'visible';
-      }
     }, 1);
   }
 
@@ -379,61 +366,6 @@ class Graph {
       query:   { height: query_height,   scale: query_scale   },
     };
     return scales;
-  }
-
-  _configure_panning() {
-    var self = this;
-    var last_x = null;
-
-    this._svg.d3.on('mousedown',  function() { last_x = d3.event.clientX; });
-    this._svg.d3.on('mouseup',    function() { last_x = null;             });
-    this._svg.d3.on('mouseleave', function() { last_x = null;             });
-
-    this._svg.d3.on('mousemove',  function() {
-      if(last_x === null)
-        return;
-
-      var new_x = d3.event.clientX;
-      var delta = new_x - last_x;
-      last_x = new_x;
-
-      var mouse_coords = d3.mouse(self._svg.raw);
-      var target_scale = self._find_nearest_scale(mouse_coords);
-
-      self._pan_scale(target_scale, target_scale.original_domain, delta);
-      self._render_graph();
-    });
-  }
-
-  _configure_zooming() {
-    var self = this;
-
-    function handle_mouse_wheel() {
-      var evt = d3.event;
-      evt.preventDefault();
-
-      var scale_by = self._zoom_scale_by;
-      var direction = (evt.deltaY < 0 || evt.wheelDelta > 0) ? 1 : -1;
-      if(direction < 0)
-        scale_by = 1/scale_by;
-
-      var mouse_coords = d3.mouse(self._svg.raw);
-      var target_scale = self._find_nearest_scale(mouse_coords);
-      // Take x-coordinate of mouse, figure out where that lies on subject
-      // axis, then place that point on centre of new zoomed axis.
-      var zoom_from = target_scale.invert(mouse_coords[0]);
-
-      self._zoom_scale(
-        target_scale,
-        target_scale.original_domain,
-        zoom_from,
-        scale_by
-      );
-      self._render_graph();
-    }
-
-    this._svg.d3.on('mousewheel', handle_mouse_wheel); // Chrome
-    this._svg.d3.on('wheel',      handle_mouse_wheel); // Firefox, IE
   }
 
   _rgba_to_rgb(rgba, matte_rgb) {
