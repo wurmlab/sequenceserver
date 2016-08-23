@@ -36,14 +36,16 @@ export default function Grapher(Graph) {
             return (
                 <div className="grapher" ref="grapher">
                     <div className='container-fluid'>
-                      <div className="col-md-6">
-                        <h5
-                            className="caption">
-                            {Graph.name()}
-                        </h5>
-                      </div>
+                      <h5
+                          className="caption"
+                          data-toggle="collapse"
+                          data-target={"#Collapse_"+Graph.collapseId(this.props)}>
+                          <i className="fa fa-chevron-down"></i>
+                          &nbsp;
+                          {Graph.name()}
+                      </h5>
                       <div
-                          className="graph-links col-md-6">
+                          className="graph-links">
                           <a href = "#" className="export-to-svg">
                               <i className="fa fa-download"/>
                               <span>{"  SVG  "}</span>
@@ -55,7 +57,7 @@ export default function Grapher(Graph) {
                           </a>
                       </div>
                     </div>
-                    <div ref="svgContainer"
+                    <div ref="svgContainer" id={"Collapse_"+Graph.collapseId(this.props)}
                         className={"svg-container " + Graph.className()}>
                     </div>
                 </div>

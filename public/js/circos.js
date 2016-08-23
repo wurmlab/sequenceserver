@@ -10,7 +10,11 @@ class Graph {
   }
 
   static className() {
-    return 'circos-distribution';
+    return 'circos-distribution collapse in';
+  }
+
+  static collapseId(props) {
+    return 'circos-collapse';
   }
 
   constructor($svgContainer, props) {

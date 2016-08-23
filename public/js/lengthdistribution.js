@@ -13,7 +13,11 @@ class Graph {
   }
 
   static className() {
-    return 'length-distribution';
+    return 'length-distribution collapse in';
+  }
+
+  static collapseId(props) {
+    return 'length_'+props.query.number;
   }
 
   constructor($svg_container, props) {

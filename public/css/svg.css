@@ -59,6 +59,7 @@
   text-align: left;
   text-transform: uppercase;
   float: left;
+  cursor: pointer;
 }
 
 .btn > .btn-link > .more {

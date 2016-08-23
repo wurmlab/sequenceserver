@@ -24,7 +24,11 @@ class Graph {
   }
 
   static className() {
-    return 'kablammo';
+    return 'kablammo collapse in';
+  }
+
+  static collapseId(props) {
+    return 'kablammo_'+props.query.number+'_'+props.hit.number;
   }
 
   constructor($svgContainer, props) {

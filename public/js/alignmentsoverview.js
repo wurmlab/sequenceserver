@@ -10,7 +10,11 @@ class Graph {
   }
 
   static className() {
-    return 'alignment-overview';
+    return 'alignment-overview collapse in';
+  }
+
+  static collapseId(props) {
+    return 'alignment_'+props.query.number;
   }
 
   constructor($svgContainer, props) {
