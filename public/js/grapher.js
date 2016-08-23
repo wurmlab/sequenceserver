@@ -45,7 +45,7 @@ export default function Grapher(Graph) {
                           {Graph.name()}
                       </h5>
                       <div
-                          className="graph-links">
+                          className="graph-links hit-links">
                           <a href = "#" className="export-to-svg">
                               <i className="fa fa-download"/>
                               <span>{"  SVG  "}</span>
