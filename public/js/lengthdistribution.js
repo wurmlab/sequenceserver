@@ -180,7 +180,7 @@ class Graph {
         .attr('x',1)
         .attr('width',4)
         .attr('height',this._height)
-        .style('fill','rgb(49,54,149)');
+        .style('fill','rgb(95,122,183)');
 
     query_line.append('text')
         .attr('dy', '0.75em')
@@ -242,12 +242,15 @@ class Graph {
         .attr('x', '-8px')
         .attr('y', '3px')
         .attr('dy', '0')
+        .style('font-size','10px')
         .attr('transform','rotate(-90)');
 
     var yContainer = this.svg.append('g')
         .attr('class','axis axis--y')
         .attr('transform','translate('+this._margin.left+',0)')
         .call(y_axis);
+        
+    yContainer.selectAll('text').style('font-size','10px')
   }
 }
 
