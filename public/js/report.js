@@ -542,13 +542,13 @@ var HitsTable = React.createClass({
             <table
               className="table table-hover table-condensed tabular-view">
                 <thead>
-                    <th className="text-left"> Number </th>
+                    <th className="text-left"> </th>
                     <th>Sequences producing significant alignments</th>
                      {hasName && <th className="text-left"> Scientific name </th>}
                     <th className="text-right"> Total score </th>
                     <th className="text-right"> E value </th>
                     <th className="text-right"> Coverage </th>
-                    <th className="text-right"> Length </th>
+                    <th className="text-right"> Hit Length </th>
                 </thead>
                 <tbody>
                     {

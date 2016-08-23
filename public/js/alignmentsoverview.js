@@ -221,7 +221,7 @@ class Graph {
      */
     var defaults = {
         barHeight: 2,
-        barPadding: 0.5,
+        barPadding: 1,
         legend: 5,
         margin: 20
     },
@@ -319,7 +319,7 @@ class Graph {
 
     svg.append('g')
         .attr('class', 'ghit')
-        .attr('transform', 'translate(0, ' + (2 * options.margin - options.legend) + ')')
+        .attr('transform', 'translate(0, ' + 2 * (options.margin - options.legend) + ')')
         .selectAll('.hits')
         .data(hits)
         .enter()

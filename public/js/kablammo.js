@@ -20,7 +20,7 @@ import Grapher from './grapher';
 
 class Graph {
   static name() {
-    return 'Kablammo';
+    return 'query against hit';
   }
 
   static className() {
@@ -307,8 +307,8 @@ class Graph {
     var subject_axis = this._create_axis(this._scales.subject.scale, 'bottom',
                       this._scales.subject.height, 'end',   '-11px',  '3px',
                       this._results.subject_seq_type);
-    this._label_axis('query', query_axis);
-    this._label_axis('subject', subject_axis);
+    // this._label_axis('query', query_axis);
+    // this._label_axis('subject', subject_axis);
   }
 
   _render_graph() {

@@ -20,7 +20,6 @@ class Graph {
   constructor($svgContainer, props) {
     this.queries = props.queries;
     this.svgContainer = $svgContainer;
-    console.log('tess '+props.program);
     this.seq_type = Helpers.get_seq_type(props.program);
     this.initiate();
   }
