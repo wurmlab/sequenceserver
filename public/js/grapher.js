@@ -35,21 +35,25 @@ export default function Grapher(Graph) {
         render () {
             return (
                 <div className="grapher" ref="grapher">
-                    <h5
-                        className="caption">
-                        {Graph.name()}
-                    </h5>
-                    <div
-                        className="graph-links">
-                        <a href = "#" className="export-to-svg">
-                            <i className="fa fa-download"/>
-                            <span>{"  SVG  "}</span>
-                        </a>
-                        <span>{" | "}</span>
-                        <a href = "#" className="export-to-png">
-                            <i className="fa fa-download"/>
-                            <span>{"  PNG  "}</span>
-                        </a>
+                    <div className='container-fluid'>
+                      <div className="col-md-6">
+                        <h5
+                            className="caption">
+                            {Graph.name()}
+                        </h5>
+                      </div>
+                      <div
+                          className="graph-links col-md-6">
+                          <a href = "#" className="export-to-svg">
+                              <i className="fa fa-download"/>
+                              <span>{"  SVG  "}</span>
+                          </a>
+                          <span>{" | "}</span>
+                          <a href = "#" className="export-to-png">
+                              <i className="fa fa-download"/>
+                              <span>{"  PNG  "}</span>
+                          </a>
+                      </div>
                     </div>
                     <div ref="svgContainer"
                         className={"svg-container " + Graph.className()}>

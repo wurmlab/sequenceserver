@@ -15,15 +15,15 @@
 }
 
 .graph-links {
-  right: 3%;
+  /*right: 3%;
   position: absolute;
-  z-index: 10;
-  display: block;
+  z-index: 10;*/
+  float: right;
 }
 
 .svg-container {
-  margin-top: 3%;
-  padding-top: 2%;
+  /*margin-top: 3%;
+  padding-top: 2%;*/
 }
 
 .grapher {
@@ -58,7 +58,7 @@
 .caption {
   text-align: left;
   text-transform: uppercase;
-  padding-left: 10px;
+  float: left;
 }
 
 .btn > .btn-link > .more {
