@@ -43,10 +43,14 @@ var Utils = {
             return element;
         }
         else {
-            if(!(base % 1==0))
+            if(!(base % 1==0)) {
+              if (parseFloat(base).toFixed(2) == 0.00) {
+                return parseFloat(base).toFixed(5)
+              }
                 return parseFloat(base).toFixed(2);
-            else
+            } else {
                 return base;
+            }
         }
     },
 
