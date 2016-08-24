@@ -169,7 +169,7 @@ class Graph {
   drawLegend(svg, options, width, height, hits) {
     var svg_legend = svg.append('g')
         .attr('transform',
-            'translate(0,' + (height - 1.85 * options.margin) + ')');
+            'translate(0,' + (height - 1.88 * options.margin) + ')');
 
     svg_legend.append('rect')
         .attr('x', 7 * (width - 2 * options.margin) / 10)

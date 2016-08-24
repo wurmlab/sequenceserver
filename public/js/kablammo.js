@@ -224,10 +224,10 @@ class Graph {
          var middle2 = (query_x_points[1] + subject_x_points[1]) * 0.5;
          return (middle2 + middle1) * 0.5;
        })
-       .attr('y', self._scales.query.height + 55)
+       .attr('y', self._scales.query.height + 85)
        .attr('class', 'hsp_numbering')
        .text(function(hsp) {
-         return String.fromCharCode(96+hsp.number);
+         return Helpers.toLetters(hsp.number)
        });
   }
 
@@ -251,42 +251,6 @@ class Graph {
     );
   }
 
-  _label_axis(type, axis) {
-    var centre = 0.5 * this._svg.d3.attr('width');
-    var padding = 1;
-
-    if(type === 'query') {
-      var y = 12;
-    } else if(type === 'subject') {
-      var y = this._svg.d3.attr('height') - 5;
-    } else {
-      throw 'Unknown axis type: ' + type;
-    }
-
-    var capitalized = type.charAt(0).toUpperCase() + type.slice(1);
-    var label = this._svg.d3.append('text')
-      // Cache the last visible state of the label so that, during
-      // zooming/panning operations, you don't see it flickering into existence
-      // here as it's created, only to be hidden by the overlap-detection code
-      // below.
-       .attr('class', type + ' axis-label')
-       .attr('text-anchor', 'end')
-       .attr('x', centre)
-       .attr('y', y)
-       .text(capitalized);
-
-    var self = this;
-    setTimeout(function() {
-      var label_bb = label[0][0].getBoundingClientRect();
-      var ticks = axis.selectAll('.tick');
-      var does_label_overlap_ticks = axis.selectAll('.tick')[0].reduce(function(previous_overlap, tick) {
-        var tick_bb = tick.getBoundingClientRect();
-        var current_overlap = self._rects_overlap(label_bb, tick_bb, padding);
-        return previous_overlap || current_overlap;
-      }, false);
-    }, 1);
-  }
-
   _render_axes() {
     var query_axis = this._create_axis(this._scales.query.scale,   'top',
                       this._scales.query.height,   'start', '9px', '2px',
@@ -294,8 +258,6 @@ class Graph {
     var subject_axis = this._create_axis(this._scales.subject.scale, 'bottom',
                       this._scales.subject.height, 'end',   '-11px',  '3px',
                       this._results.subject_seq_type);
-    // this._label_axis('query', query_axis);
-    // this._label_axis('subject', subject_axis);
   }
 
   _render_graph() {

@@ -486,7 +486,7 @@ var Hit = React.createClass({
                                                   + this.props.hit.number + "_" + hsp.number}
                                           key={"Query_"+this.props.query.id+"_Hit_"+this.props.hit.id+"_"+hsp.number}>
                                             <td>
-                                                {String.fromCharCode(96+hsp.number) + "."}
+                                                {Helpers.toLetters(hsp.number) + "."}
                                             </td>
                                             <td
                                                 style={{width: "100%"}}>
@@ -712,6 +712,7 @@ var SideBar = React.createClass({
         var sequence_ids = $('.hit-links :checkbox').map(function () {
             return this.value;
         }).get();
+        console.log('check '+sequence_ids.toString()+' sec '+this.props.data.queries.length);
     },
 
     /**
@@ -773,27 +774,6 @@ var SideBar = React.createClass({
                 </ul>
 
                 <br/>
-                <div
-                    className="page-header">
-                    <h4>Download alignment</h4>
-                </div>
-                <ul
-                    className="downloads list-unstyled list-padded">
-                    <li>
-                        <a
-                          className="download-alignment-of-all"
-                          onClick={this.downloadAlignmentOfAll}>
-                          Alignment of all hits
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                          className="download-alignment-of-selected disabled"
-                          onClick={this.downloadAlignmentOfSelected}>
-                          Alignment of <span className="text-bold"></span> selected hit(s)
-                        </a>
-                    </li>
-                </ul>
                 <br/>
 
                 <div
@@ -816,6 +796,20 @@ var SideBar = React.createClass({
                           className="download-fasta-of-selected disabled"
                           onClick={this.downloadFastaOfSelected}>
                             FASTA of <span className="text-bold"></span> selected hit(s)
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                          className="download-alignment-of-all"
+                          onClick={this.downloadAlignmentOfAll}>
+                          Alignment of all hits
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                          className="download-alignment-of-selected disabled"
+                          onClick={this.downloadAlignmentOfSelected}>
+                          Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
                     <li>
