@@ -1,45 +1,28 @@
 import React from 'react';
 import _ from 'underscore';
 import * as Helpers from './visualisation_helpers';
-import * as Grapher from './grapher';
+import Grapher from './grapher';
 
 /**
  * Renders Length Distribution of all hits per query
  */
-export default class LengthDistribution extends React.Component {
-  constructor(props) {
-    super(props);
+
+class Graph {
+  static name() {
+    return 'Length Distribution';
   }
 
-  svgContainer() {
-    return $(React.findDOMNode(this.refs.svgContainer));
+  static className() {
+    return 'length-distribution collapse in';
   }
 
-  componentWillUpdate() {
-    console.log('in will update');
-    this.svgContainer().find('svg').remove();
-    this.graph.initiate(this.svgContainer().width(), this.svgContainer().height());
+  static collapseId(props) {
+    return 'length_'+props.query.number;
   }
 
-  componentDidMount() {
-    var svgContainer = this.svgContainer();
-    svgContainer.addClass('length-distribution');
-    this.graph = new Graph(this.props.query, svgContainer, this.props.algorithm);
-    React.findDOMNode(this.refs.grapher).graph = this.graph;
-    $(window).resize(_.bind(function () {
-      this.setState({width: $(window).width()});
-    }, this))
-  }
-
-  render() {
-    return Grapher.grapher_render();
-  }
-}
-
-export class Graph {
-  constructor(query, $svg_container, algorithm) {
-    this.query = query;
-    this._seq_type = Helpers.get_seq_type(algorithm);
+  constructor($svg_container, props) {
+    this.query = props.query;
+    this._seq_type = Helpers.get_seq_type(props.algorithm);
     this.svg_container = $svg_container
 
     this._margin = {top: 30, right: 40, bottom: 55, left: 15};
@@ -195,17 +178,19 @@ export class Graph {
 
     query_line.append('rect')
         .attr('x',1)
+        .attr('class','bar')
         .attr('width',4)
         .attr('height',this._height)
-        .style('fill','rgb(55,0,232)');
+        .style('fill','rgb(95,122,183)');
 
     query_line.append('text')
         .attr('dy', '0.75em')
-        .attr('y', -5)
-        .attr('x', 5)
+        .attr('y', -10)
+        .attr('x', 2)
         .attr('text-anchor','start')
         .text('Query')
         .style('fill','#000')
+        .style('font-size','10px')
         .attr('transform','rotate(-45)');
   }
 
@@ -259,11 +244,17 @@ export class Graph {
         .attr('x', '-8px')
         .attr('y', '3px')
         .attr('dy', '0')
+        .style('font-size','10px')
         .attr('transform','rotate(-90)');
 
     var yContainer = this.svg.append('g')
         .attr('class','axis axis--y')
         .attr('transform','translate('+this._margin.left+',0)')
         .call(y_axis);
+
+    yContainer.selectAll('text').style('font-size','10px')
   }
 }
+
+var LengthDistribution = Grapher(Graph);
+export default LengthDistribution;

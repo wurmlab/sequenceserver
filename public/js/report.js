@@ -6,8 +6,8 @@ import * as Helpers from './visualisation_helpers';
 import GraphicalOverview from './alignmentsoverview';
 import Kablammo from './kablammo';
 import './sequence';
+import './alignment_exporter';
 import LengthDistribution from './lengthdistribution';
-import * as Grapher from './grapher';
 import Circos from './circos';
 
 /**
@@ -44,10 +44,14 @@ var Utils = {
             return element;
         }
         else {
-            if(!(base % 1==0))
+            if(!(base % 1==0)) {
+              if (parseFloat(base).toFixed(2) == 0.00) {
+                return parseFloat(base).toFixed(5)
+              }
                 return parseFloat(base).toFixed(2);
-            else
+            } else {
                 return base;
+            }
         }
     },
 
@@ -482,7 +486,7 @@ var Hit = React.createClass({
                                                   + this.props.hit.number + "_" + hsp.number}
                                           key={"Query_"+this.props.query.id+"_Hit_"+this.props.hit.id+"_"+hsp.number}>
                                             <td>
-                                                {String.fromCharCode(96+hsp.number) + "."}
+                                                {Helpers.toLetters(hsp.number) + "."}
                                             </td>
                                             <td
                                                 style={{width: "100%"}}>
@@ -543,13 +547,13 @@ var HitsTable = React.createClass({
             <table
               className="table table-hover table-condensed tabular-view">
                 <thead>
-                    <th className="text-left"> Number </th>
+                    <th className="text-left"> </th>
                     <th>Sequences producing significant alignments</th>
                      {hasName && <th className="text-left"> Scientific name </th>}
                     <th className="text-right"> Total score </th>
                     <th className="text-right"> E value </th>
                     <th className="text-right"> Coverage </th>
-                    <th className="text-right"> Length </th>
+                    <th className="text-right"> Hit Length </th>
                 </thead>
                 <tbody>
                     {
@@ -630,15 +634,9 @@ var Query = React.createClass({
                     (
                         <div
                             className="page-content">
-                            <h5
-                              className="caption">
-                              Alignment overview
-                            </h5>
+
                             <GraphicalOverview key={"GO_"+this.props.query.id} query={this.props.query} program={this.props.data.program}/>
-                            <h5
-                              className="caption">
-                              Length Distribution of Hits
-                            </h5>
+
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program}/>
                             <HitsTable key={"HT_"+this.props.query.id} query={this.props.query}/>
                             <div
@@ -710,6 +708,13 @@ var SideBar = React.createClass({
         this.postForm(sequence_ids, database_ids);
     },
 
+    downloadAlignmentOfAll: function() {
+        var sequence_ids = $('.hit-links :checkbox').map(function () {
+            return this.value;
+        }).get();
+        console.log('check '+sequence_ids.toString()+' sec '+this.props.data.queries.length);
+    },
+
     /**
      * Handles downloading fasta of selected hits.
      */
@@ -719,6 +724,12 @@ var SideBar = React.createClass({
         }).get();
         var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
         this.postForm(sequence_ids, database_ids);
+    },
+
+    downloadAlignmentOfSelected: function () {
+        var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
+            return this.value;
+        }).get();
     },
 
     summary: function () {
@@ -789,6 +800,20 @@ var SideBar = React.createClass({
                     </li>
                     <li>
                         <a
+                          className="download-alignment-of-all"
+                          onClick={this.downloadAlignmentOfAll}>
+                          Alignment of all hits
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                          className="download-alignment-of-selected disabled"
+                          onClick={this.downloadAlignmentOfSelected}>
+                          Alignment of <span className="text-bold"></span> selected hit(s)
+                        </a>
+                    </li>
+                    <li>
+                        <a
                           className="download" data-toggle="tooltip"
                           title="15 columns: query and subject ID; scientific
                           name, alignment length, mismatches, gaps, identity,
@@ -854,6 +879,8 @@ var Report = React.createClass({
             .addClass('glow')
             .find(":checkbox").not(checkbox).check();
             var $a = $('.download-fasta-of-selected');
+            var $b = $('.download-alignment-of-selected');
+            $b.enable()
             var $n = $a.find('span');
             $a
             .enable()
@@ -868,12 +895,16 @@ var Report = React.createClass({
         if (num_checked >= 1)
         {
             var $a = $('.download-fasta-of-selected');
+            var $b = $('.download-alignment-of-selected');
             $a.find('.text-bold').html(num_checked);
+            $b.find('.text-bold').html(num_checked);
         }
 
         if (num_checked == 0) {
             var $a = $('.download-fasta-of-selected');
+            var $b = $('.download-alignment-of-selected');
             $a.addClass('disabled').find('.text-bold').html('');
+            $b.addClass('disabled').find('.text-bold').html('');
         }
     },
 
@@ -988,8 +1019,7 @@ var Report = React.createClass({
                 <div
                     className={this.shouldShowSidebar() ? 'col-md-9' : 'col-md-12'}>
                     { this.overview() }
-                    <br/>
-                    <br/>
+
                     <Circos queries={this.state.queries}
                         program={this.state.program}/>
                     {
@@ -1120,7 +1150,6 @@ var Report = React.createClass({
         this.setupHitSelection();
         this.setupDownloadLinks();
         this.setupSequenceViewer();
-        Grapher.setupKablammoImageExporter();
     }
 });
 

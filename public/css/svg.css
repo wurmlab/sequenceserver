@@ -15,26 +15,23 @@
 }
 
 .graph-links {
-  right: 3%;
+  /*right: 3%;
   position: absolute;
-  z-index: 10;
-  display: none;
+  z-index: 10;*/
+  float: right;
+  margin: 5px 5px;
 }
 
-.grapher:hover .graph-links {
-  display: block;
-}
-
-.svg_container {
-  padding-top: 2%;
+.svg-container {
+  /*margin-top: 3%;
+  padding-top: 2%;*/
 }
 
 .grapher {
-  border: 1px solid transparent;
-}
-
-.grapher:hover {
-  border: 1px solid lightblue;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .raised {
@@ -64,6 +61,8 @@
 .caption {
   text-align: left;
   text-transform: uppercase;
+  float: left;
+  cursor: pointer;
 }
 
 .btn > .btn-link > .more {

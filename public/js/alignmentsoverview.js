@@ -1,30 +1,29 @@
 import React from 'react';
 import _ from 'underscore';
 import * as Helpers from './visualisation_helpers';
-import * as Grapher from './grapher.js';
+import Grapher from './grapher.js';
 
-export default class GraphicalOverview extends React.Component {
-  constructor(props) {
-    super(props);
+class Graph {
+
+  static name() {
+    return 'Alignments Overview';
   }
 
-  svgContainer() {
-    return $(React.findDOMNode(this.refs.svgContainer))
+  static className() {
+    return 'alignment-overview collapse in';
   }
 
-  componentDidMount() {
-    var hits = this.toGraph(this.props.query.hits, this.props.query.number);
-    var svgContainer = this.svgContainer();
-    svgContainer.addClass('alignment-overview');
-    var query_div = this.svgContainer().parents('.resultn');
-    this.graph = new Graph(query_div, svgContainer, 0, 20, null, hits);
+  static collapseId(props) {
+    return 'alignment_'+props.query.number;
   }
 
-  render() {
-    return Grapher.grapher_render();
+  constructor($svgContainer, props) {
+    $queryDiv = $svgContainer.parents('.resultn')
+    hits = this.extractData(props.query.hits, props.query.number)
+    this.graphIt($queryDiv, $svgContainer, 0, 20, null, hits);
   }
 
-  toGraph(query_hits, number) {
+  extractData(query_hits, number) {
     var hits = [];
     query_hits.map(function (hit) {
         var _hsps = [];
@@ -44,12 +43,6 @@ export default class GraphicalOverview extends React.Component {
         hits.push(_hsps);
     });
     return hits;
-  }
-}
-
-export class Graph {
-  constructor($queryDiv, $graphDiv, shownHits, index, opts, hits) {
-    this.graphIt($queryDiv, $graphDiv, shownHits, index, opts, hits);
   }
 
   setupTooltip() {
@@ -176,7 +169,7 @@ export class Graph {
   drawLegend(svg, options, width, height, hits) {
     var svg_legend = svg.append('g')
         .attr('transform',
-            'translate(0,' + (height - 2.2 * options.margin) + ')');
+            'translate(0,' + (height - 1.88 * options.margin) + ')');
 
     svg_legend.append('rect')
         .attr('x', 7 * (width - 2 * options.margin) / 10)
@@ -227,9 +220,9 @@ export class Graph {
      * margin: Margin around the svg element.
      */
     var defaults = {
-        barHeight: 4,
+        barHeight: 2,
         barPadding: 1,
-        legend: 10,
+        legend: 5,
         margin: 20
     },
         options = $.extend(defaults, opts);
@@ -300,6 +293,7 @@ export class Graph {
     container.selectAll('text')
             .attr('x','25px')
             .attr('y','2px')
+            .style('font-size','10px')
             .attr('transform','rotate(-90)');
 
     var y = d3.scale
@@ -326,7 +320,7 @@ export class Graph {
 
     svg.append('g')
         .attr('class', 'ghit')
-        .attr('transform', 'translate(0, ' + (2 * options.margin - options.legend) + ')')
+        .attr('transform', 'translate(0, ' + 1.65 * (options.margin - options.legend) + ')')
         .selectAll('.hits')
         .data(hits)
         .enter()
@@ -403,7 +397,7 @@ export class Graph {
     if (index === 0) {
         this.graphControls($queryDiv, $graphDiv, true, opts, inhits);
         // Redraw the SVG on a browser resize...
-        this.setupResponsiveness($queryDiv, $graphDiv, index, opts, inhits);
+        // this.setupResponsiveness($queryDiv, $graphDiv, index, opts, inhits);
     }
     // Refresh tooltip each time graph is redrawn.
     this.setupTooltip();
@@ -412,3 +406,6 @@ export class Graph {
     this.setupClick($graphDiv);
   }
 }
+
+var AlignmentOverview = Grapher(Graph);
+export default AlignmentOverview;

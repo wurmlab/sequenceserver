@@ -17,6 +17,13 @@ export function get_colors_for_evalue(evalue, hits) {
   return d3.rgb(rgb, rgb , rgb);
 }
 
+export function toLetters(num) {
+    var mod = num % 26,
+        pow = num / 26 | 0,
+        out = mod ? String.fromCharCode(96 + mod) : (--pow, 'z');
+    return pow ? toLetters(pow) + out : out;
+}
+
 /**
  * Defines how ticks will be formatted.
  *
