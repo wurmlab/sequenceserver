@@ -10,9 +10,8 @@ svg text {
   shape-rendering: crispEdges;
 }
 
-.graph-links {
-  float: right;
-  margin: 5px 5px;
+.bar:hover {
+  fill: orangered;
 }
 
 .grapher {
@@ -20,6 +19,21 @@ svg text {
   border-radius: 12px;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.caption {
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 0 0 0 10px;
+  cursor: pointer;
+  width: 82%;
+}
+
+.graph-links {
+  display: inline-block;
+  padding: 0 10px 0 0;
+  text-align: right;
+  width: 18%;
 }
 
 .raised {
@@ -38,17 +52,6 @@ svg text {
   /*height: 200px;*/
 }
 
-.caption {
-  text-align: left;
-  text-transform: uppercase;
-  float: left;
-  cursor: pointer;
-}
-
 .btn > .btn-link > .more {
   text-align: center;
-}
-
-.bar:hover {
-  fill: orangered;
 }
