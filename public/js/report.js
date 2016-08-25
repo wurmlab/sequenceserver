@@ -472,7 +472,6 @@ var Hit = React.createClass({
                             }
                         </label>
                     </div>
-                    <br/>
                     <Kablammo key={"Kablammo"+this.props.query.id} query={this.props.query} hit={this.props.hit} algorithm={this.props.algorithm}/>
                     <table
                       className="table hsps">
