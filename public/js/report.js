@@ -1066,7 +1066,7 @@ var Report = React.createClass({
      * Prevents folding of hits during text-selection.
      */
     setupHitSelection: function () {
-        $('.result').on('mousedown', ".hitn > .page-header > h4", function (event) {
+        $('body').on('mousedown', ".hitn > .page-header > h4", function (event) {
             var $this = $(this);
             $this.on('mouseup mousemove', function handler(event) {
                 if (event.type === 'mouseup') {
