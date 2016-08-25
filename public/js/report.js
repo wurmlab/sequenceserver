@@ -6,7 +6,7 @@ import * as Helpers from './visualisation_helpers';
 import GraphicalOverview from './alignmentsoverview';
 import Kablammo from './kablammo';
 import './sequence';
-import './alignment_exporter';
+//import './alignment_exporter';
 import LengthDistribution from './lengthdistribution';
 import Circos from './circos';
 
@@ -614,7 +614,7 @@ var Query = React.createClass({
                 data-algorithm={this.props.data.program}>
                 <div
                     className="page-header">
-                    <h3 className="subject-name">
+                    <h3>
                         Query= {this.props.query.id}
                         &nbsp;
                         <small>

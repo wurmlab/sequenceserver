@@ -3,14 +3,14 @@ svg text {
   font-size: 10px;
 }
 
-.axis path,
+svg .axis path,
 .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
 }
 
-.bar:hover {
+svg .bar:hover {
   fill: orangered;
 }
 

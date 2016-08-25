@@ -1,7 +1,7 @@
-import React from 'react';
 import _ from 'underscore';
-import './exporter'
-import './image_exporter';
+import React from 'react';
+
+import './svgExporter'; // create handlers for SVG and PNG download buttons
 
 var Graphers = [];
 
@@ -17,9 +17,6 @@ var Graphers = [];
             });
     }, 125));
 }());
-
-// SVG and PNG download links.
-new ImageExporter('.grapher', '.export-to-svg', '.export-to-png');
 
 export default function Grapher(Graph) {
 

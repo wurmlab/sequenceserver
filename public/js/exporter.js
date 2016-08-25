@@ -1,37 +1,29 @@
-function Exporter() {
+export function download_url(url, filename) {
+    var a = d3.select('body').append('a')
+    .attr('download', filename)
+    .style('display', 'none')
+    .attr('href', url);
+
+    a.node().click();
+    setTimeout(function() {
+        a.remove();
+    }, 100);
 }
 
-Exporter.prototype.download_file = function(url, filename) {
-  var a = d3.select('body')
-            .append('a')
-            .style('display', 'none')
-            .attr('download', filename)
-            .attr('href', url);
-  a.node().click();
-  return a;
+export function download_blob(blob, filename) {
+    if (typeof window.navigator.msSaveOrOpenBlob !== 'undefined') {
+        window.navigator.msSaveOrOpenBlob(blob, filename);
+        return;
+    }
+
+    download_url(window.URL.createObjectURL(blob), filename);
 }
 
-Exporter.prototype.download_blob = function(blob, filename) {
-  if(typeof window.navigator.msSaveOrOpenBlob !== 'undefined') {
-    window.navigator.msSaveOrOpenBlob(blob, filename);
-    return;
-  }
-
-  var url = window.URL.createObjectURL(blob);
-  var a = this.download_file(url, filename);
-  // If URL revoked immediately, download doesn't work.
-  setTimeout(function() {
-    a.remove();
-    window.URL.revokeObjectURL(url);
-  }, 100);
+export function sanitize_filename(str) {
+    var san = str.replace(/[^a-zA-Z0-9=_\-]/g, '_');
+    // Replace runs of underscores with single one.
+    san = san.replace(/_{2,}/g, '_');
+    // Remove any leading or trailing underscores.
+    san = san.replace(/^_/, '').replace(/_$/, '');
+    return san;
 }
-
-Exporter.prototype.sanitize_filename = function(str) {
-  var san = str.replace(/[^a-zA-Z0-9=_\-]/g, '_');
-  // Replace runs of underscores with single one.
-  san = san.replace(/_{2,}/g, '_');
-  // Remove any leading or trailing underscores.
-  san = san.replace(/^_/, '').replace(/_$/, '');
-  return san;
-}
-

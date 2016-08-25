@@ -5,6 +5,7 @@
 @import url('../vendor/github/nicgirault/circosJs@1.7.0/dist/colorBrewer.css');
 @import url('../vendor/github/twbs/bootstrap@3.3.5/css/bootstrap.min.css');
 @import url('../vendor/npm/font-awesome@4.4.0/css/font-awesome.min.css');
+@import url('grapher.css');
 @import url('fonts.css');
 
 /**
