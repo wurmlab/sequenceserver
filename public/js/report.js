@@ -540,20 +540,20 @@ var HitsTable = React.createClass({
     render: function () {
         var count = 0,
           hasName = _.every(this.props.query.hits, function(hit) {
-            return hit.sciname !== "-";
+            return hit.sciname !== '';
           });
 
-        return(
+        return (
             <table
-              className="table table-hover table-condensed tabular-view">
+                className="table table-hover table-condensed tabular-view">
                 <thead>
-                    <th className="text-left"> </th>
-                    <th>Sequences producing significant alignments</th>
-                     {hasName && <th className="text-left"> Scientific name </th>}
-                    <th className="text-right"> Total score </th>
-                    <th className="text-right"> E value </th>
-                    <th className="text-right"> Coverage </th>
-                    <th className="text-right"> Hit Length </th>
+                    <th className="text-left">#</th>
+                    <th>Similar sequences</th>
+                    {hasName && <th className="text-left">Species</th>}
+                    <th className="text-right">Query coverage</th>
+                    <th className="text-right">Total Score</th>
+                    <th className="text-right">E value</th>
+                    <th className="text-right">Identity</th>
                 </thead>
                 <tbody>
                     {
@@ -566,12 +566,11 @@ var HitsTable = React.createClass({
                                             {hit.id}
                                         </a>
                                     </td>
-
                                     {hasName && <td className="text-left">{this.prettify(hit.sciname)}</td>}
-                                    <td className="text-right">{this.prettify(hit.score)}</td>
-                                    <td className="text-right">{this.prettify(hit.evalue)}</td>
                                     <td className="text-right">{this.prettify(hit.qcovs)}</td>
-                                    <td className="text-right">{this.prettify(hit.length)}</td>
+                                    <td className="text-right">{this.prettify(hit.score)}</td>
+                                    <td className="text-right">{this.prettify(hit.hsps[0].evalue)}</td>
+                                    <td className="text-right">{this.prettify(hit.hsps[0].identity)}</td>
                                 </tr>
                             )
                         }, this))

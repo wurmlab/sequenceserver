@@ -27,7 +27,7 @@ module SequenceServer
       'xml'             => [5, :xml],
       'std_tsv'         => [7, :tsv, STDREP],
       'full_tsv'        => [7, :tsv, OUTFMT_SPECIFIERS],
-      '__ssparse'       => [7, :tsv, 'qseqid sseqid sscinames qcovs qcovhsp'],
+      '___'             => [7, :tsv, 'qseqid sseqid sscinames qcovs qcovhsp'],
       'asn_text'        => [8, :asn],
       'asn_binary'      => [9, :asn],
       'csv'             => [10, :csv],

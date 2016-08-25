@@ -16,11 +16,6 @@ module SequenceServer
         super
       end
 
-      def sort_hits_by_evalue!
-        # change made here
-        @hits = hits.sort_by { |h| [h.evalue, h.score] }
-      end
-
       attr_reader :id, :title
 
       def to_json(*args)

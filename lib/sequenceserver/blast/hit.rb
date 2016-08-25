@@ -1,28 +1,24 @@
 module SequenceServer
   # Define BLAST::Hit.
   module BLAST
-    # Hit Object to store all the hits per Query.
+    # Hit Object to store all the hits per Query. HSPs per hit should be sorted
+    # in ascending order of evalue.
     Hit = Struct.new(:query, :number, :id, :accession, :title,
-                     :length, :qcovs, :sciname, :hsps) do
+                     :length, :sciname, :qcovs, :hsps) do
       include Links
 
       def initialize(*args)
         args[1] = args[1].to_i
         args[4] = '' if args[4] == 'No definition line'
         args[5] = args[5].to_i
-        args[6] = args[6].to_i
-        args[7] = "-" if args[7] == "N/A"
+        args[6] = '' if args[6] == 'N/A'
+        args[7] = args[7].to_i
         super
       end
 
-      # Hit evalue is the minimum evalue of all HSP(s).
-      def evalue
-        hsps.map(&:evalue).min
-      end
-
-      # Hit score is the sum of bit scores of all HSP(s).
+      # Hit score is the sum of scores of all HSP(s).
       def score
-        hsps.map(&:bit_score).reduce(:+)
+        hsps.map(&:score).reduce(:+)
       end
 
       def links
@@ -31,22 +27,15 @@ module SequenceServer
         links.sort_by { |link| [link[:order], link[:title]] }
       end
 
-      # Returns an array of database objects which contain the queried sequence
-      # id.
+      # Returns a list of databases that contain this hit.
       #
-      # NOTE:
-      #   This function may return more than one database object for a single
-      #   sequence id.
-      #
-      # e.g., which_blastdb('SI_2.2.23') => [<Database: ...>, ...]
+      # e.g., whichdb('SI_2.2.23') => [<Database: ...>, ...]
       def whichdb
         querydb.select { |db| db.include? id }
       end
 
-      def report
-        query.report
-      end
-
+      # Returns tuple of tuple indicating start and end coordinates of matched
+      # regions of query and hit sequences.
       def coordinates
         qstart_min = hsps.map(&:qstart).min
         qend_max = hsps.map(&:qend).max
@@ -56,13 +45,25 @@ module SequenceServer
         [[qstart_min, qend_max], [sstart_min, send_max]]
       end
 
+      # NOTE: Evalue of a hit is meaningless. This is here for code that needs
+      # minimum evalue of all HSPs.
+      def evalue
+        hsps.first.evalue
+      end
+
+      def to_json(*args)
+        [:number, :id, :accession, :title, :length, :score, :qcovs, :sciname, :evalue,
+         :hsps, :links].inject({}) { |h, k| h[k] = send(k); h }.to_json(*args)
+      end
+
+      private
+
       def querydb
         report.querydb
       end
 
-      def to_json(*args)
-        [:number, :id, :accession, :title, :length, :evalue, :score, :qcovs,
-         :sciname, :hsps, :links].inject({}) { |h, k| h[k] = send(k); h }.to_json(*args)
+      def report
+        query.report
       end
     end
   end

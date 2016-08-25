@@ -43,32 +43,12 @@ module SequenceServer
 
       # Generate report.
       def generate
-        xml = Formatter.run(job.rfile, 'xml').file
-        tsv = parse_tsv File.read(Formatter.run(job.rfile, '__ssparse').file)
-        ir = node_to_array(Ox.parse(File.read(xml)).root)
-        extract_program_info ir
-        extract_params ir
-        extract_stats ir
-        extract_query ir, tsv
-      end
-
-      def parse_tsv(tsv)
-        # HASH => qseqids => sseqids => [qcovs, [qcovhsp]]
-        info = {}
-
-        tsv.each_line do |line|
-          unless line.start_with? '#'
-            row = line.chomp.split("\t")
-            if !info.has_key? row[0]
-              info[row[0]] = {row[1] => [row[2], row[3], [row[4]]] }
-            elsif !info[row[0]].has_key? row[1]
-              info[row[0]][row[1]] = [row[2], row[3], [row[4]]]
-            else
-              info[row[0]][row[1]][2].push(row[4])
-            end
-          end
-        end
-        info
+        xml_ir = parse_xml File.read(Formatter.run(job.rfile, 'xml').file)
+        tsv_ir = parse_tsv File.read(Formatter.run(job.rfile, '___').file)
+        extract_program_info xml_ir
+        extract_params xml_ir
+        extract_stats xml_ir
+        extract_queries xml_ir, tsv_ir
       end
 
       # Make program name and program name + version available via `program`
@@ -109,37 +89,45 @@ module SequenceServer
         }
       end
 
-      # Make results for each input query available via `queries` atribute.
-      def extract_query(ir, cov_info)
-        ir[8].each do |n|
+      # Create query objects for the given report from the given ir.
+      def extract_queries(xml_ir, tsv_ir)
+        xml_ir[8].each do |n|
           query = Query.new(self, n[0], n[2], n[3], [])
-          extract_hits(n[4], query, cov_info)
-          query.sort_hits_by_evalue!
+          extract_hits(n[4], tsv_ir[query.id], query)
+          query.hits = query.hits.sort_by do |h|
+            first_hsp = h.hsps.first # most significant hsp
+            [first_hsp.evalue, first_hsp.score]
+          end
           queries << query
         end
       end
 
-      # Create Hit objects from given ir and associate them to query i.
-      def extract_hits(hits_ir, query, cov_info)
-        return if hits_ir == ["\n"] # => No hits.
-        hits_ir.each do |n|
-          hit_info = cov_info[query.id][n[1]]
+      # Create Hit objects for the given query from the given ir.
+      def extract_hits(xml_ir, tsv_ir, query)
+        return if xml_ir == ["\n"] # => No hits.
+        xml_ir.each do |n|
           hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4],
-                        hit_info[1], hit_info[0], [])
-          extract_hsps(n[5], hit, hit_info[2])
+                        tsv_ir[n[1]][0], tsv_ir[n[1]][1],[])
+          extract_hsps(n[5], tsv_ir[n[1]][2], hit)
+          hit.hsps = hit.hsps.sort_by do |h|
+            [h.evalue, h.score]
+          end
           query.hits << hit
         end
       end
 
-      # Create HSP objects from the given ir and associate them with hit j of
-      # query i.
-      def extract_hsps(hsp_ir, hit, hsp_covs)
-        hsp_ir.each_with_index do |n, i|
+      # Create HSP objects for the given hit from the given ir.
+      def extract_hsps(xml_ir, tsv_ir, hit)
+        xml_ir.each_with_index do |n, i|
           hsp_klass = HSP.const_get program.upcase
-          n.insert(14, hsp_covs[i])
+          n.insert(14, tsv_ir[i])
           hsp = hsp_klass.new(*[hit, *n])
           hit.hsps << hsp
         end
+      end
+
+      def parse_xml(xml)
+        node_to_array Ox.parse(xml).root
       end
 
       PARSEABLE_AS_HASH  = %w(Parameters)
@@ -170,6 +158,24 @@ module SequenceServer
 
       def first_text(node)
         node.nodes.find { |n| n.is_a? String }
+      end
+
+      # Parses the given TSV string as:
+      #
+      # {
+      #    qseqid: {
+      #      sseqid: [sciname, qcovs, [qcovhsp]],
+      #      ...
+      #    },
+      #    ...
+      # }
+      def parse_tsv(tsv)
+        ir = Hash.new {|h, k| h[k] = {} }
+        tsv.each_line do |line|
+          next if line.start_with? '#'; row = line.chomp.split("\t")
+          (ir[row[0]][row[1]] ||= [row[2], row[3], []])[2] << row[4]
+        end
+        ir
       end
     end
   end

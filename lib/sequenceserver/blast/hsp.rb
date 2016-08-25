@@ -3,9 +3,8 @@ module SequenceServer
   module BLAST
     # Structure to hold generic HSP data for each hit.
     #
-    # HSP class is not used directly.  Relevant HSP stats and formatting the
-    # alignment changes with BLAST algorithm. We subclass HSP for each BLAST
-    # algorithm.
+    # HSP class is not used directly. Alignment formatting changes with BLAST
+    # algorithm. We subclass HSP for each BLAST algorithm.
     HSP = Struct.new(:hit, :number, :bit_score, :score, :evalue, :qstart, :qend,
                      :sstart, :send, :qframe, :sframe, :identity, :positives,
                      :gaps, :length, :qcovhsp, :qseq, :sseq, :midline) do
