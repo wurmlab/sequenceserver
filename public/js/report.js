@@ -710,6 +710,16 @@ var SideBar = React.createClass({
             return this.value;
         }).get();
         console.log('check '+sequence_ids.toString()+' sec '+this.props.data.queries.length);
+        _.each(this.props.data.queries, _.bind(function (query) {
+            _.each(query.hits, function (hit) {
+                if (_.indexOf(sequence_ids, hit.id) != -1) {
+                    var aln_exporter = new AlignmentExporter();
+                    aln_exporter.export_alignments(hit.hsps, query.id + query.title,
+                                                   query.id, hit.id + hit.title,
+                                                   hit.id);
+                }
+            })
+        }, this))
     },
 
     /**

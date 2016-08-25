@@ -62,29 +62,12 @@ class Graph {
 
   polygon_highlighting(svgContainer) {
     // Disable hover handlers and show alignment on selecting hsp.
-    var polygons = d3.select(svgContainer[0]).selectAll('polygon');
-    var labels = d3.select(svgContainer[0]).selectAll('text');
-    polygons
-    .on('mouseenter', function (hov_hsp, hov_index) {
-        var polygon = polygons[0][hov_index];
-        var label = labels[0][hov_index];
-        d3.select(polygon).classed('raised', true);
-        polygon.parentNode.appendChild(polygon);
-        label.parentNode.appendChild(label);
-    })
-    .on('mouseleave', function (hov_hsp, hov_index) {
-        var polygon = polygons[0][hov_index];
-        var label = labels[0][hov_index];
-        d3.select(polygon).classed('raised', false);
-        var firstPolygon = polygon.parentNode.firstChild;
-        var firstLabel = label.parentNode.firstChild;
-        if (firstPolygon) {
-            polygon.parentNode.insertBefore(polygon, firstPolygon)
+    $('polygon').hover(
+        function() {
+            var gnode = $(this).parent();
+            $(this).parent().parent().append(gnode);
         }
-        if (firstLabel) {
-            label.parentNode.insertBefore(label, firstLabel)
-        }
-    })
+    )
   }
 
   _initiate() {
@@ -174,7 +157,10 @@ class Graph {
     this._polygons = this._svg.d3.selectAll('polygon')
        .data(this._hsps)
        .enter()
-       .append('polygon')
+       .append('g')
+       .attr('class','polygon')
+
+    this._polygons.append('polygon')
        .attr('class', 'hit')
        .attr('fill', function(hsp) {
          return self.determine_colour(hsp.bit_score / self._maxBitScore);
@@ -208,25 +194,22 @@ class Graph {
          return points.map(function(point) {
           return point[0] + ',' + point[1];
          }).join(' ');
-       });
+     });
 
+    this._polygons.append('text')
+             .attr('x', function(hsp) {
+               var query_x_points = [self._scales.query.scale(hsp.qstart), self._scales.query.scale(hsp.qend)];
+               var subject_x_points = [self._scales.subject.scale(hsp.sstart), self._scales.subject.scale(hsp.send)];
+               var middle1 = (query_x_points[0] + subject_x_points[0]) * 0.5;
+               var middle2 = (query_x_points[1] + subject_x_points[1]) * 0.5;
+               return (middle2 + middle1) * 0.5;
+             })
+             .attr('y', (self._scales.query.height + self._scales.subject.height) * 0.5)
+             .attr('class', 'hsp_numbering')
+             .text(function(hsp) {
+               return Helpers.toLetters(hsp.number)
+             });
 
-   this._labels = this._svg.d3.selectAll('text')
-       .data(this._hsps)
-       .enter()
-       .append('text')
-       .attr('x', function(hsp) {
-         var query_x_points = [self._scales.query.scale(hsp.qstart), self._scales.query.scale(hsp.qend)];
-         var subject_x_points = [self._scales.subject.scale(hsp.sstart), self._scales.subject.scale(hsp.send)];
-         var middle1 = (query_x_points[0] + subject_x_points[0]) * 0.5;
-         var middle2 = (query_x_points[1] + subject_x_points[1]) * 0.5;
-         return (middle2 + middle1) * 0.5;
-       })
-       .attr('y', self._scales.query.height + 85)
-       .attr('class', 'hsp_numbering')
-       .text(function(hsp) {
-         return Helpers.toLetters(hsp.number)
-       });
   }
 
   _overlaps(s1, e1, s2, e2) {

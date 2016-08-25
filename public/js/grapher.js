@@ -55,9 +55,18 @@ export default function Grapher(Graph) {
             );
         }
 
-        componentDidMount ()  {
-            Graphers.push(this)
+        componentDidMount () {
+            Graphers.push(this);
             this.draw();
+            this.hide_dispay = $(".caption").on('click', function() {
+                $(this).find('i').toggleClass('fa-eye fa-eye-slash');
+                var graph_links = $(this).next();
+                if (graph_links.is(':visible')) {
+                    graph_links.hide();
+                } else {
+                    graph_links.show();
+                }
+            })
         }
 
     };
