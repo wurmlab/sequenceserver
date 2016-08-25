@@ -1012,12 +1012,18 @@ var Report = React.createClass({
      */
     results: function () {
         return (
-            <div
-                className="row">
-                <div
-                    className={this.shouldShowSidebar() ? 'col-md-9' : 'col-md-12'}>
+            <div className="row">
+                { this.shouldShowSidebar() &&
+                    (
+                        <div
+                            className="col-md-3 hidden-sm">
+                            <SideBar data={this.state}/>
+                        </div>
+                    )
+                }
+                <div className={this.shouldShowSidebar() ?
+                    'col-md-9' : 'col-md-12'}>
                     { this.overview() }
-
                     <Circos queries={this.state.queries}
                         program={this.state.program}/>
                     {
@@ -1029,14 +1035,6 @@ var Report = React.createClass({
                         }, this))
                     }
                 </div>
-                { this.shouldShowSidebar() &&
-                    (
-                        <div
-                            className="col-md-3 hidden-sm">
-                            <SideBar data={this.state}/>
-                        </div>
-                    )
-                }
             </div>
         );
     },

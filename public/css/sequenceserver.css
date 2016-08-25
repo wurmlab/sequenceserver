@@ -357,13 +357,13 @@ input[name="advanced"] {
 @media (min-width: 992px) {
   /* MacBook Pro etc. */
   .sidebar.affix {
-    width: 243.5px;
+    width: 212.5px;
   }
 }
 @media (min-width: 1200px) {
   /* iMac etc. */
   .sidebar.affix {
-    width: 292.5px;
+    width: 262.5px;
   }
 }
 
