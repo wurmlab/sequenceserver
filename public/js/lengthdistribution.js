@@ -190,7 +190,6 @@ class Graph {
         .attr('text-anchor','start')
         .text('Query')
         .style('fill','#000')
-        .style('font-size','10px')
         .attr('transform','rotate(-45)');
   }
 
@@ -244,15 +243,12 @@ class Graph {
         .attr('x', '-8px')
         .attr('y', '3px')
         .attr('dy', '0')
-        .style('font-size','10px')
         .attr('transform','rotate(-90)');
 
     var yContainer = this.svg.append('g')
         .attr('class','axis axis--y')
         .attr('transform','translate('+this._margin.left+',0)')
         .call(y_axis);
-
-    yContainer.selectAll('text').style('font-size','10px')
   }
 }
 

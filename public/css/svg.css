@@ -1,3 +1,8 @@
+svg text {
+  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 10px;
+}
+
 .axis path,
 .axis line {
   fill: none;
@@ -5,26 +10,9 @@
   shape-rendering: crispEdges;
 }
 
-.axis text {
-  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 12px;
-}
-
-.hit {
-  cursor: pointer;
-}
-
 .graph-links {
-  /*right: 3%;
-  position: absolute;
-  z-index: 10;*/
   float: right;
   margin: 5px 5px;
-}
-
-.svg-container {
-  /*margin-top: 3%;
-  padding-top: 2%;*/
 }
 
 .grapher {
@@ -36,14 +24,6 @@
 
 .raised {
   z-index: 100;
-}
-
-.axis-label {
-  font-size: 11px;
-}
-
-.legend-text {
-  font-size: 12px;
 }
 
 .length-distribution {

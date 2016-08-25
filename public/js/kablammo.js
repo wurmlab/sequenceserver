@@ -127,7 +127,6 @@ class Graph {
        .attr('transform', 'translate(0,' + height + ')')
        .call(axis);
     this._rotate_axis_labels(container.selectAll('text'), text_anchor, dx, dy);
-    container.selectAll('text').style('font-size','10px')
     return container;
   }
 

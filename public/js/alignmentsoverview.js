@@ -293,7 +293,6 @@ class Graph {
     container.selectAll('text')
             .attr('x','25px')
             .attr('y','2px')
-            .style('font-size','10px')
             .attr('transform','rotate(-90)');
 
     var y = d3.scale
