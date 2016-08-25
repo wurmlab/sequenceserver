@@ -5,19 +5,6 @@ import './svgExporter'; // create handlers for SVG and PNG download buttons
 
 var Graphers = [];
 
-// Redraw if window resized.
-(function () {
-    var $window = $(window)
-    $(window).resize(_.debounce(function () {
-            _.each(Graphers, (grapher) => {
-                if (grapher.graph.width !==
-                    grapher.svgContainer().width) {
-                    grapher.graph.draw();
-                }
-            });
-    }, 125));
-}());
-
 export default function Grapher(Graph) {
 
     return class extends React.Component {
@@ -27,6 +14,11 @@ export default function Grapher(Graph) {
 
         svgContainer () {
             return $(React.findDOMNode(this.refs.svgContainer));
+        }
+
+        draw () {
+            this.svgContainer().empty();
+            this.graph = new Graph(this.svgContainer(), this.props);
         }
 
         render () {
@@ -63,9 +55,17 @@ export default function Grapher(Graph) {
             );
         }
 
-        componentDidMount () {
-            this.graph = new Graph(this.svgContainer(), this.props);
-            Graphers.push(this);
+        componentDidMount ()  {
+            Graphers.push(this)
+            this.draw();
         }
+
     };
 }
+
+// Redraw if window resized.
+$(window).resize(_.debounce(function () {
+    _.each(Graphers, (grapher) => {
+        grapher.draw();
+    });
+}, 125));

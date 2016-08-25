@@ -1,8 +1,9 @@
-import circosJs from 'nicgirault/circosJs';
-import React from 'react';
+import d3 from 'd3';
 import _ from 'underscore';
-import * as Helpers from './visualisation_helpers';
+import circosJs from 'nicgirault/circosJs';
+
 import Grapher from './grapher';
+import * as Helpers from './visualisation_helpers';
 
 class Graph {
   static name() {
