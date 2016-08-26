@@ -145,7 +145,7 @@ var SequenceViewer = (function () {
                 <div
                     className="fastan">
                     <div
-                        className="page-header">
+                        className="section-header">
                         <h4>
                             {this.props.sequence.id}
                             <small>
@@ -154,7 +154,7 @@ var SequenceViewer = (function () {
                         </h4>
                     </div>
                     <div
-                        className="page-content">
+                        className="section-content">
                         <div
                             className={this.widgetClass} id={this.widgetID}>
                         </div>
@@ -218,13 +218,13 @@ var SequenceViewer = (function () {
                         <div
                             className="fastan">
                             <div
-                                className="page-header">
+                                className="section-header">
                                 <h4>
                                     {error_msg[0]}
                                 </h4>
                             </div>
                             <div
-                                className="page-content">
+                                className="section-content">
                                 <pre
                                     className="pre-reset">
                                     {error_msg[1]}
@@ -382,7 +382,7 @@ var Hit = React.createClass({
         return stats;
     },
 
-     // Life cycle methods //
+    // Life cycle methods //
 
 
     /**
@@ -416,13 +416,12 @@ var Hit = React.createClass({
     render: function () {
         return (
             <div
-                className="hitn" id={this.domID()}
+                className="hit" id={this.domID()}
                 data-hit-def={this.props.hit.id} data-hit-evalue={this.props.hit.evalue}
                 data-hit-len={this.props.hit.length}>
                 <div
-                  className="page-header">
+                  className="section-header">
                     <h4
-                      className="subject-name"
                       data-toggle="collapse"
                       data-target={ "#Query_" + this.props.query.number + "_hit_"
                                      + this.props.hit.number + "_alignment"} >
@@ -446,7 +445,7 @@ var Hit = React.createClass({
                     </span>
                 </div>
                 <div
-                    className="page-content collapse in"
+                    className="section-content collapse in"
                     id={"Query_" + this.props.query.number + "_hit_"
                         + this.props.hit.number + "_alignment"}>
                     <div
@@ -613,7 +612,7 @@ var Query = React.createClass({
                 data-query-len={this.props.query.length}
                 data-algorithm={this.props.data.program}>
                 <div
-                    className="page-header">
+                    className="section-header">
                     <h3>
                         Query= {this.props.query.id}
                         &nbsp;
@@ -631,7 +630,7 @@ var Query = React.createClass({
                 {this.numhits() &&
                     (
                         <div
-                            className="page-content">
+                            className="section-content">
 
                             <GraphicalOverview key={"GO_"+this.props.query.id} query={this.props.query} program={this.props.data.program}/>
 
@@ -655,7 +654,7 @@ var Query = React.createClass({
                         </div>
                     ) || (
                         <div
-                            className="page-content">
+                            className="section-content">
                             <p>
                                 Query length: {this.props.query.length}
                             </p>
@@ -748,7 +747,7 @@ var SideBar = React.createClass({
             <div
                 className="sidebar">
                 <div
-                  className="page-header">
+                  className="section-header">
                   <h4>
                       { this.summary() }
                   </h4>
@@ -775,7 +774,7 @@ var SideBar = React.createClass({
                 <br/>
 
                 <div
-                  className="page-header">
+                  className="section-header">
                     <h4>
                         Download FASTA, XML, TSV
                     </h4>
@@ -869,11 +868,11 @@ var Report = React.createClass({
             return;
         }
 
-        var $hitn = $(checkbox.data('target'));
+        var $hit = $(checkbox.data('target'));
 
         // Highlight selected hit and sync checkboxes if sequence viewer is open.
         if (checkbox.is(":checked")) {
-            $hitn
+            $hit
             .addClass('glow')
             .find(":checkbox").not(checkbox).check();
             var $a = $('.download-fasta-of-selected');
@@ -885,7 +884,7 @@ var Report = React.createClass({
         }
 
         else {
-            $hitn
+            $hit
             .removeClass('glow')
             .find(":checkbox").not(checkbox).uncheck();
         }
@@ -1064,7 +1063,7 @@ var Report = React.createClass({
      * Prevents folding of hits during text-selection.
      */
     setupHitSelection: function () {
-        $('body').on('mousedown', ".hitn > .page-header > h4", function (event) {
+        $('body').on('mousedown', ".hit > .section-header > h4", function (event) {
             var $this = $(this);
             $this.on('mouseup mousemove', function handler(event) {
                 if (event.type === 'mouseup') {

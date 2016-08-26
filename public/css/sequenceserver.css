@@ -81,30 +81,24 @@ a.disabled:hover {
 }
 
 /**
- * Take out margin from .page-header and use table layout with first cell
- * taking up all available space left by its siblings.
- *
- * Useful for displaying small, extra bit of information in the page
- * header alongside title.
+ * Like BS' .page-header but without extra margin and the ability to display a
+ * sub-text on right.
  */
-.page-header {
-  display: table;
-  margin: 0;
-  width: 100%;
-  border-color: #ddd;
+.section-header {
+  border-bottom: 1px solid #ddd;
   padding-bottom: 5px;
+  display: table;
+  width: 100%;
 }
-.page-header > * {
+.section-header > * {
   display: table-cell;
 }
-.page-header > *:first-child {
+.section-header > *:first-child {
   width: 100%;
 }
-
-.page-content {
-  padding: 5px 0 0 5px;
+.section-content {
+  padding: 5px 0 0 0px;
 }
-
 /**
  * Take out border, cut down margin and padding, and remove background color
  * from panel.
@@ -346,7 +340,7 @@ input[name="advanced"] {
   /* Line up with "Results" on left. */
   margin-top: 20px;
 }
-.sidebar > .page-header > h4 {
+.sidebar > .section-header > h4 {
   padding: 10px 0 0 0;
   font-size: 14px;
 }
@@ -395,17 +389,17 @@ input[name="advanced"] {
   margin-bottom: 14px;
 }
 
-.hitn {
+.hit {
   padding-top: 14px;
   margin-top: 4px;
 }
-.hitn h4 {
+.hit h4 {
   cursor: pointer;
 }
-.hitn h4 span {
+.hit h4 span {
   cursor: text;
 }
-.hitn > p {
+.hit > p {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -435,10 +429,10 @@ input[name="advanced"] {
   letter-spacing: 1px;
 }
 
-.fastan > .page-header {
+.fastan > .section-header {
   padding-bottom: 8px;
 }
-.fastan > .page-content {
+.fastan > .section-content {
   padding-top: 8px;
   padding-left: 0;
 }

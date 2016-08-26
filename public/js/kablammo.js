@@ -32,7 +32,7 @@ class Graph {
 
   constructor($svgContainer, props) {
     this._zoom_scale_by = 1.4;
-    this._padding_x = 20;
+    this._padding_x = 17.5;
     this._padding_y = 50;
 
     this._canvas_height = $svgContainer.height();
