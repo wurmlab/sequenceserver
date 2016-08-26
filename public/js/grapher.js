@@ -31,7 +31,7 @@ export default function Grapher(Graph) {
                             className="caption"
                             data-toggle="collapse"
                             data-target={"#Collapse_"+Graph.collapseId(this.props)}>
-                            <i className="fa fa-chevron-down"></i>
+                            <i className="fa fa-eye"></i>
                             &nbsp;
                             {Graph.name()}
                         </h5>
