@@ -6,7 +6,7 @@ import * as Helpers from './visualisation_helpers';
 import GraphicalOverview from './alignmentsoverview';
 import Kablammo from './kablammo';
 import './sequence';
-//import './alignment_exporter';
+import AlignmentExporter from './alignment_exporter';
 import LengthDistribution from './lengthdistribution';
 import Circos from './circos';
 
