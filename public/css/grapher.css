@@ -14,6 +14,11 @@ svg .bar:hover {
   fill: orangered;
 }
 
+.polygon:hover {
+    stroke: rgba(0, 0, 0, 0.4);
+    stroke-width: 1px;
+}
+
 .grapher {
   border: 1px solid #ddd;
   border-radius: 12px;
