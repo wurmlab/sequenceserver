@@ -30,6 +30,10 @@ class Graph {
     return 'kablammo_'+props.query.number+'_'+props.hit.number;
   }
 
+  static dataName(props) {
+      return 'Kablammo-'+props.query.id+'-'+props.hit.id;
+  }
+
   constructor($svgContainer, props) {
     this._zoom_scale_by = 1.4;
     this._padding_x = 17.5;

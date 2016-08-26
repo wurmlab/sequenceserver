@@ -118,7 +118,7 @@ var get_styles = function () {
 var handle_click = function (export_callback) {
     return function () {
         var $svg = $(this).parents('.grapher').find('svg');
-        export_callback($svg[0], 'TODO');//$svg.data('name'));
+        export_callback($svg[0], $svg.attr('data-name'));//;
         return false;
     }
 };

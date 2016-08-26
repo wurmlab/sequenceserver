@@ -58,6 +58,7 @@ export default function Grapher(Graph) {
         componentDidMount () {
             Graphers.push(this);
             this.draw();
+            this.svgContainer().find('svg').attr('data-name', Graph.dataName(this.props));
             this.hide_dispay = $(".caption").on('click', function() {
                 $(this).find('i').toggleClass('fa-eye fa-eye-slash');
                 var graph_links = $(this).next();
