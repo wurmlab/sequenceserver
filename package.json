@@ -14,7 +14,7 @@
     "jspm": "^0.16.2"
   },
   "scripts": {
-    "build": "jspm bundle-sfx --minify --skip-source-maps js/sequenceserver.js public/sequenceserver.min.js && cleancss public/css/sequenceserver.css > public/sequenceserver.min.css && gzip -kf public/sequenceserver.min.js && gzip -kf public/sequenceserver.min.css"
+    "build": "jspm bundle-sfx --minify --skip-source-maps js/sequenceserver.js public/sequenceserver.min.js && cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css && gzip -kf public/sequenceserver.min.js && gzip -kf public/css/sequenceserver.min.css"
   },
   "jspm": {
     "directories": {
