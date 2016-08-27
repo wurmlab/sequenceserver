@@ -32,7 +32,7 @@ export default function Grapher(Graph) {
                             data-toggle="collapse"
                             data-target={"#Collapse_"+Graph.collapseId(this.props)}>
                             <i className="fa fa-eye"></i>
-                            &nbsp;
+                            &nbsp;&nbsp;
                             {Graph.name()}
                         </h5>
                         <div
