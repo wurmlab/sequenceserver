@@ -400,16 +400,14 @@ var Hit = React.createClass({
         $("#" + this.domID()).find('.export-alignment').on('click',_.bind(function () {
             event.preventDefault();
 
-            var hsps = _.map(this.props.hit.hsps, function (hsp) {
-                hsp['query_seq'] = hsp.qseq;
-                hsp['subject_seq'] = hsp.sseq;
+            var hsps = _.map(this.props.hit.hsps, _.bind(function (hsp) {
+                hsp.query_id = this.props.query.id;
+                hsp.hit_id = this.props.hit.id;
                 return hsp;
-            })
+            }, this))
 
             var aln_exporter = new AlignmentExporter();
-            aln_exporter.export_alignments(hsps, this.props.query.id + this.props.query.title,
-                                           this.props.query.id, this.props.hit.id + this.props.hit.title,
-                                           this.props.hit.id);
+            aln_exporter.export_alignments(hsps, this.props.query.id+"_"+this.props.hit.id);
         }, this))
     },
 
@@ -705,23 +703,6 @@ var SideBar = React.createClass({
         this.postForm(sequence_ids, database_ids);
     },
 
-    downloadAlignmentOfAll: function() {
-        var sequence_ids = $('.hit-links :checkbox').map(function () {
-            return this.value;
-        }).get();
-        console.log('check '+sequence_ids.toString()+' sec '+this.props.data.queries.length);
-        _.each(this.props.data.queries, _.bind(function (query) {
-            _.each(query.hits, function (hit) {
-                if (_.indexOf(sequence_ids, hit.id) != -1) {
-                    var aln_exporter = new AlignmentExporter();
-                    aln_exporter.export_alignments(hit.hsps, query.id + query.title,
-                                                   query.id, hit.id + hit.title,
-                                                   hit.id);
-                }
-            })
-        }, this))
-    },
-
     /**
      * Handles downloading fasta of selected hits.
      */
@@ -733,10 +714,44 @@ var SideBar = React.createClass({
         this.postForm(sequence_ids, database_ids);
     },
 
+    downloadAlignmentOfAll: function() {
+        var sequence_ids = $('.hit-links :checkbox').map(function () {
+            return this.value;
+        }).get();
+        var hsps_arr = [];
+        var aln_exporter = new AlignmentExporter();
+        _.each(this.props.data.queries, _.bind(function (query) {
+            _.each(query.hits, function (hit) {
+                _.each(hit.hsps, function (hsp) {
+                    hsp.hit_id = hit.id;
+                    hsp.query_id = query.id;
+                    hsps_arr.push(hsp);
+                })
+            })
+        }, this));
+        console.log('len '+hsps_arr.length);
+        aln_exporter.export_alignments(hsps_arr, "alignment-"+sequence_ids.length+"_hits");
+    },
+
     downloadAlignmentOfSelected: function () {
         var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
             return this.value;
         }).get();
+        var hsps_arr = [];
+        var aln_exporter = new AlignmentExporter();
+        console.log('check '+sequence_ids.toString());
+        _.each(this.props.data.queries, _.bind(function (query) {
+            _.each(query.hits, function (hit) {
+                if (_.indexOf(sequence_ids, hit.id) != -1) {
+                    _.each(hit.hsps, function (hsp) {
+                        hsp.hit_id = hit.id;
+                        hsp.query_id = query.id;
+                        hsps_arr.push(hsp);
+                    });
+                }
+            });
+        }, this));
+        aln_exporter.export_alignments(hsps_arr, "alignment-"+sequence_ids.length+"_hits");
     },
 
     summary: function () {
