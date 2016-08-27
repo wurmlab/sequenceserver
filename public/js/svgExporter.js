@@ -15,7 +15,7 @@ import * as Exporter from './exporter';
 var export_as_svg = function (svg, filename) {
     var blob = new Blob([serialize_svg(svg)], { type: 'text/xml' });
     filename = Exporter.sanitize_filename(filename) + '.svg';
-    Exporter.download_blob(blob, name);
+    Exporter.download_blob(blob, filename);
 }
 
 /**
@@ -118,7 +118,7 @@ var get_styles = function () {
 var handle_click = function (export_callback) {
     return function () {
         var $svg = $(this).parents('.grapher').find('svg');
-        export_callback($svg[0], $svg.attr('data-name'));//;
+        export_callback($svg[0], $svg.attr('data-name'));
         return false;
     }
 };
