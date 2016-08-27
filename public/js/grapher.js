@@ -63,8 +63,12 @@ export default function Grapher(Graph) {
                 $(this).find('i').toggleClass('fa-eye-slash fa-eye');
                 var graph_links = $(this).next();
                 if (graph_links.is(':visible')) {
+                    // console.log('hideing');
+                    // graph_links.delay(800).hide(0);
                     graph_links.hide();
                 } else {
+                    // console.log('showing');
+                    // graph_links.delay(800).css('display','block');
                     graph_links.show();
                 }
             })

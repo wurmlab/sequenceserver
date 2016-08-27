@@ -37,7 +37,6 @@ export default class AlignmentExporter {
 
     export_alignments(hsps, filename_prefix) {
         var fasta = this.generate_fasta(hsps);
-        console.log('length '+hsps.length);
 
         var blob = new Blob([fasta], { type: 'application/fasta' });
         // var filename_prefix = query_def + '_' + subject_def;
