@@ -208,8 +208,12 @@ class Graph {
                var middle2 = (query_x_points[1] + subject_x_points[1]) * 0.5;
                return (middle2 + middle1) * 0.5;
              })
-             .attr('y', (self._scales.query.height + self._scales.subject.height) * 0.5)
-             .attr('class', 'hsp_numbering')
+             .attr('y', function(hsp) {
+                 var a = self._scales.query.height;
+                 var b = self._scales.subject.height;
+                 var middle = ( b - a ) / 2;
+                 return a + middle;
+             })
              .text(function(hsp) {
                return Helpers.toLetters(hsp.number)
              });
