@@ -18,6 +18,10 @@ class Graph {
     return 'circos-collapse';
   }
 
+  static dataName(props) {
+      return 'Circos-visualisation';
+  }
+
   constructor($svgContainer, props) {
     this.queries = props.queries;
     this.svgContainer = $svgContainer;

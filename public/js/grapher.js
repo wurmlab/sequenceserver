@@ -31,8 +31,8 @@ export default function Grapher(Graph) {
                             className="caption"
                             data-toggle="collapse"
                             data-target={"#Collapse_"+Graph.collapseId(this.props)}>
-                            <i className="fa fa-chevron-down"></i>
-                            &nbsp;
+                            <i className="fa fa-minus-square-o"></i>
+                            &nbsp;&nbsp;
                             {Graph.name()}
                         </h5>
                         <div
@@ -55,9 +55,23 @@ export default function Grapher(Graph) {
             );
         }
 
-        componentDidMount ()  {
-            Graphers.push(this)
+        componentDidMount () {
+            Graphers.push(this);
             this.draw();
+            this.svgContainer().find('svg').attr('data-name', Graph.dataName(this.props));
+            this.hide_dispay = $(".caption").on('click', function() {
+                $(this).find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+                var graph_links = $(this).next();
+                if (graph_links.is(':visible')) {
+                    // console.log('hideing');
+                    // graph_links.delay(800).hide(0);
+                    graph_links.hide();
+                } else {
+                    // console.log('showing');
+                    // graph_links.delay(800).css('display','block');
+                    graph_links.show();
+                }
+            })
         }
 
     };

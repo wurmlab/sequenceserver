@@ -20,6 +20,10 @@ class Graph {
     return 'length_'+props.query.number;
   }
 
+  static dataName(props) {
+      return 'length-distribution-'+props.query.id
+  }
+
   constructor($svg_container, props) {
     this.query = props.query;
     this._seq_type = Helpers.get_seq_type(props.algorithm);

@@ -17,6 +17,10 @@ class Graph {
     return 'alignment_'+props.query.number;
   }
 
+  static dataName(props) {
+      return 'Alignment-Overview-'+props.query.id;
+  }
+
   constructor($svgContainer, props) {
     $queryDiv = $svgContainer.parents('.resultn')
     hits = this.extractData(props.query.hits, props.query.number)
