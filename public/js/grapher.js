@@ -31,7 +31,7 @@ export default function Grapher(Graph) {
                             className="caption"
                             data-toggle="collapse"
                             data-target={"#Collapse_"+Graph.collapseId(this.props)}>
-                            <i className="fa fa-eye-slash"></i>
+                            <i className="fa fa-minus-square-o"></i>
                             &nbsp;&nbsp;
                             {Graph.name()}
                         </h5>
@@ -60,7 +60,7 @@ export default function Grapher(Graph) {
             this.draw();
             this.svgContainer().find('svg').attr('data-name', Graph.dataName(this.props));
             this.hide_dispay = $(".caption").on('click', function() {
-                $(this).find('i').toggleClass('fa-eye-slash fa-eye');
+                $(this).find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
                 var graph_links = $(this).next();
                 if (graph_links.is(':visible')) {
                     // console.log('hideing');
