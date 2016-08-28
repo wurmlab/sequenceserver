@@ -212,7 +212,7 @@ class Graph {
                  var a = self._scales.query.height;
                  var b = self._scales.subject.height;
                  var middle = ( b - a ) / 2;
-                 return a + middle;
+                 return a + middle + 5; // + 5 for font-height 10px
              })
              .text(function(hsp) {
                return Helpers.toLetters(hsp.number)
