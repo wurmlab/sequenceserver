@@ -29,7 +29,7 @@ class Graph {
     this._seq_type = Helpers.get_seq_type(props.algorithm);
     this.svg_container = $svg_container
 
-    this._margin = {top: 30, right: 40, bottom: 55, left: 15};
+    this._margin = {top: 30, right: 25, bottom: 55, left: 12.5};
 
 
 
