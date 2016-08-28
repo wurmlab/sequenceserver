@@ -20,7 +20,7 @@ export default class AlignmentExporter {
 
     generate_fasta(hsps) {
 
-        var fasta = "\n";
+        var fasta = "";
 
         _.each(hsps, _.bind(function (hsp) {
             fasta += hsp.query_id+" "+hsp.qstart+" "+hsp.qend+"\n";
