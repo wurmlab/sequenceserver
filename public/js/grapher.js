@@ -58,20 +58,6 @@ export default function Grapher(Graph) {
         componentDidMount () {
             Graphers.push(this);
             this.draw();
-            this.svgContainer().find('svg').attr('data-name', Graph.dataName(this.props));
-            this.hide_dispay = $(".caption").on('click', function() {
-                $(this).find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
-                var graph_links = $(this).next();
-                if (graph_links.is(':visible')) {
-                    // console.log('hideing');
-                    // graph_links.delay(800).hide(0);
-                    graph_links.hide();
-                } else {
-                    // console.log('showing');
-                    // graph_links.delay(800).css('display','block');
-                    graph_links.show();
-                }
-            })
         }
 
     };
@@ -83,3 +69,17 @@ $(window).resize(_.debounce(function () {
         grapher.draw();
     });
 }, 125));
+
+// Swap-icon and toggle .graph-links on collapse.
+$('body').on('hide.bs.collapse', ".collapse", function () {
+    $(this).parent().find('.caption').find('i').
+        removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
+});
+$('body').on('hidden.bs.collapse', ".collapse", function () {
+    $(this).parent().find('.graph-links').toggle();
+});
+$('body').on('show.bs.collapse', ".collapse", function () {
+    $(this).parent().find('.caption').find('i').
+        removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
+    $(this).parent().find('.graph-links').toggle();
+});
