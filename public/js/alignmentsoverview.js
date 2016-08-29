@@ -328,12 +328,6 @@ class Graph {
         .data(hits)
         .enter()
         .append('g')
-            .attr('data-toggle', 'tooltip')
-            .attr('title', function(d) {
-                // Pretty print evalue in tooltip.
-                return d.hitId + '<br><strong>E value:</strong> ' + Helpers.prettify_evalue(d.hitEvalue);
-
-            })
             .each(function (d,i) {
                 // TODO: Avoid too many variables and improve naming.
                 var h_i = i+1;
@@ -345,13 +339,15 @@ class Graph {
                 .selectAll('.hsp')
                 .data(d).enter()
                 .append('a')
-                .each(function (_, j) {
+                .each(function (v, j) {
                     // Drawing the HSPs connector line using the same
                     // color as that of the hit track (using lookahead).
                     var yHspline = y(p_id) + options.barHeight / 2;
-                    var hsplineColor = d3.rgb(gradScale(p_hsp.hitEvalue),
-                                              gradScale(p_hsp.hitEvalue),
-                                              gradScale(p_hsp.hitEvalue));
+                    // var yHspline = y(p_id) + 1;
+                    // console.log('clr '+v.hspEvalue);
+                    var hsplineColor = d3.rgb(gradScale(v.hspEvalue),
+                                              gradScale(v.hspEvalue),
+                                              gradScale(v.hspEvalue));
 
                     if (j+1 < p_count) {
                         if (p_hsp[j].hspEnd <= p_hsp[j+1].hspStart) {
@@ -378,6 +374,8 @@ class Graph {
                     d3.select(this)
                         .attr('xlink:href', '#' + q_i + '_hit_' + h_i)
                         .append('rect')
+                            .attr('data-toggle', 'tooltip')
+                            .attr('title', d.hitId + '<br><strong>E value:</strong> '+Helpers.prettify_evalue(v.hspEvalue))
                             .attr('class','bar')
                             .attr('x', function (d) {
                                 return x(d.hspStart);
