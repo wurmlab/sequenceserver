@@ -374,14 +374,21 @@ class Graph {
   }
 
   setupTooltip() {
+      var selected = {};
+      $('.circos-distribution').on('click', _.bind(function(event) {
+          event.stopPropagation();
+          this.layoutReset();
+          this.chordsReset();
+          selected = {};
+      }, this));
     _.each(this.query_arr, _.bind(function (id, index) {
       this.chordsHide = [];
       this.layoutHide = [];
-      var selected = {};
       if (id) {
-        $(".Query_"+this.clean_id(id)).attr('data-toggle','tooltip')
+        $(".circos-distribution .Query_"+this.clean_id(id)).attr('data-toggle','tooltip')
                       .attr('title',id)
-                      .on('click', _.bind(function () {
+                      .on('click', _.bind(function (event) {
+                          event.stopPropagation();
                         if (selected[index] != id) {
                           selected[index] = id;
                           var cleaned_id = "Query_"+this.clean_id(id);
@@ -400,11 +407,11 @@ class Graph {
     _.each(this.hit_arr, _.bind(function(id, index) {
       this.chordsHide = [];
       this.layoutHide = [];
-      var selected = {};
       if (id) {
-        $(".Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
+        $(".circos-distribution .Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
                     .attr('title',id)
-                    .on('click', _.bind(function () {
+                    .on('click', _.bind(function (event) {
+                        event.stopPropagation();
                       if (selected[index] != id) {
                         selected[index] = id;
                         var cleaned_id = "Hit_"+this.clean_id(id);
