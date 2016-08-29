@@ -58,6 +58,7 @@ export default function Grapher(Graph) {
         componentDidMount () {
             Graphers.push(this);
             this.draw();
+            this.svgContainer().find('svg').attr('data-name', Graph.dataName(this.props));
         }
 
     };
