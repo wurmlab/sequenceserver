@@ -330,10 +330,6 @@ class Graph {
         .append('g')
             .each(function (d,i) {
                 // TODO: Avoid too many variables and improve naming.
-                var h_i = i+1;
-                var p_hsp = d;
-                var p_id = d.hitId;
-                var p_count = d.length;
 
                 d3.select(this)
                 .selectAll('.hsp')
@@ -342,29 +338,27 @@ class Graph {
                 .each(function (v, j) {
                     // Drawing the HSPs connector line using the same
                     // color as that of the hit track (using lookahead).
-                    var yHspline = y(p_id) + options.barHeight / 2;
-                    // var yHspline = y(p_id) + 1;
-                    // console.log('clr '+v.hspEvalue);
+                    var yHspline = y(d.hitId) + options.barHeight / 2;
                     var hsplineColor = d3.rgb(gradScale(v.hspEvalue),
                                               gradScale(v.hspEvalue),
                                               gradScale(v.hspEvalue));
 
-                    if (j+1 < p_count) {
-                        if (p_hsp[j].hspEnd <= p_hsp[j+1].hspStart) {
+                    if (j+1 < d.length) {
+                        if (d[j].hspEnd <= d[j+1].hspStart) {
                             d3.select(this.parentNode)
                             .append('line')
-                                .attr('x1', x(p_hsp[j].hspEnd))
+                                .attr('x1', x(d[j].hspEnd))
                                 .attr('y1', yHspline)
-                                .attr('x2', x(p_hsp[j+1].hspStart))
+                                .attr('x2', x(d[j+1].hspStart))
                                 .attr('y2', yHspline)
                                 .attr('stroke', hsplineColor);
                         }
-                        else if (p_hsp[j].hspStart > p_hsp[j+1].hspEnd) {
+                        else if (d[j].hspStart > d[j+1].hspEnd) {
                             d3.select(this.parentNode)
                             .append('line')
-                                .attr('x1', x(p_hsp[j+1].hspEnd))
+                                .attr('x1', x(d[j+1].hspEnd))
                                 .attr('y1', yHspline)
-                                .attr('x2', x(p_hsp[j].hspStart))
+                                .attr('x2', x(d[j].hspStart))
                                 .attr('y2', yHspline)
                                 .attr('stroke', hsplineColor);
                         }
@@ -372,7 +366,7 @@ class Graph {
 
                     // Draw the rectangular hit tracks itself.
                     d3.select(this)
-                        .attr('xlink:href', '#' + q_i + '_hit_' + h_i)
+                        .attr('xlink:href', '#' + q_i + '_hit_' + (i+1))
                         .append('rect')
                             .attr('data-toggle', 'tooltip')
                             .attr('title', d.hitId + '<br><strong>E value:</strong> '+Helpers.prettify_evalue(v.hspEvalue))
@@ -380,7 +374,7 @@ class Graph {
                             .attr('x', function (d) {
                                 return x(d.hspStart);
                             })
-                            .attr('y', y(p_id))
+                            .attr('y', y(d.hitId))
                             .attr('width', function (d) {
                                 return x(d.hspEnd - d.hspStart + 1);
                             })
