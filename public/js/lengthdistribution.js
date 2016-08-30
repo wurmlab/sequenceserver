@@ -30,10 +30,12 @@ class Graph {
     this.svg_container = $svg_container
 
     this._margin = {top: 30, right: 25, bottom: 55, left: 12.5};
-
-
-
     this.initiate($svg_container.width(), $svg_container.height());
+    var test = $('#Collapse_length_'+props.query.number);
+    test.removeClass('in');
+    test.parent().find('.caption').find('i').
+        removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
+    test.parent().find('.graph-links').hide();
   }
 
   initiate(width, height) {
