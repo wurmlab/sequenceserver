@@ -222,8 +222,9 @@ module SequenceServer
       # /home/ben/pd.ben/sequenceserver/db/nr.00 => yes
       # /home/ben/pd.ben/sequenceserver/db/nr => no
       # /home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01 => yes
+      # /home/ben/pd.ben/sequenceserver/db/nr00 => no
       def multipart_database_name?(db_name)
-        !(db_name.match(%r{.+/\S+\d{2}$}).nil?)
+        !(db_name.match(%r{.+/\S+\.\d{2}$}).nil?)
       end
 
       # Returns true if first character of the file is '>'.
