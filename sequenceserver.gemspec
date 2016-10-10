@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
                    'Vivek Rai', 'Yannick Wurm']
   s.email       = ['anurag08priyam@gmail.com', 'b.woodcroft@uq.edu.au']
   s.homepage    = 'http://sequenceserver.com'
-  s.license     = 'GNU AGPL v3'
+  s.license     = 'AGPL-3.0'
 
   s.summary     = 'BLAST search made easy!'
   s.description = <<DESC
