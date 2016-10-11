@@ -8,7 +8,7 @@ end
 
 desc 'Run CodeClimate (rubocop, csslint, eslint)'
 task :lint do
-  sh 'codeclimate analyse'
+  sh 'codeclimate analyze'
 end
 
 desc 'Concatenate, minify and gzip JS and CSS files; build gem'
