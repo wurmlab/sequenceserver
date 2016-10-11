@@ -1,6 +1,7 @@
 --- !ruby/object:SequenceServer::BLAST::Job
 id: no_hits_sample
 method: blastn
+advanced_params: {}
 
 databases:
 - !ruby/struct:SequenceServer::Database
