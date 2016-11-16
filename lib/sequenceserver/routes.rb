@@ -58,6 +58,7 @@ module SequenceServer
 
     # Returns base HTML. Rest happens client-side: rendering the search form.
     get '/' do
+      @input_sequence = ''
       erb :layout
     end
 
@@ -72,8 +73,13 @@ module SequenceServer
 
     # Queues a search job and redirects to `/:jid`.
     post '/' do
-      job = Job.create(params)
-      redirect "/#{job.id}"
+      if params[:input_sequence]
+        @input_sequence = params[:input_sequence]
+        erb :layout
+      else
+        job = Job.create(params)
+        redirect "/#{job.id}"
+      end
     end
 
     # Returns results for the given job id in JSON format.  Returns 202 with
