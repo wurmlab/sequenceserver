@@ -58,7 +58,6 @@ module SequenceServer
 
     # Returns base HTML. Rest happens client-side: rendering the search form.
     get '/' do
-      @input_sequence = ''
       erb :layout
     end
 
