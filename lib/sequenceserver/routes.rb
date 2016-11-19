@@ -82,6 +82,16 @@ target="#{target}">)
         data
       end
 
+      # Formats the given number as "1e-3" if the number is less than 1 or
+      # greater than 10.
+      #
+      # NOTE: Copied over from hsp.rb to provide a quick fix on this branch.
+      def in_scientific_or_twodecimal(num)
+        return format('%.2f', num) if num >= 1 && num < 10
+        return num if num == 0
+        format '%.2e', num
+      end
+
       # Formats float as "a.bc" or "a x b^c". The latter if float is in
       # scientific notation. Former otherwise.
       def prettify_float(data)

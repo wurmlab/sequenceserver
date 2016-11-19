@@ -171,8 +171,9 @@ module SequenceServer
       # Formats the given number as "1e-3" if the number is less than 1 or
       # greater than 10.
       def in_scientific_or_twodecimal(num)
-        return in_twodecimal(num) if num >= 1 && num < 10
-        format '%.2e', num.to_f
+        return format('%.2f', num) if num >= 1 && num < 10
+        return num if num == 0
+        format '%.2e', num
       end
     end
 

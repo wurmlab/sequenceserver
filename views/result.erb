@@ -50,7 +50,7 @@
                   <td class="text-left"><%= h + 1 %>.</td>
                   <td> <a href="<%="#Query_#{query.number}_hit_#{hit.number}"%>"><%= "#{hit.id}" %></a> </td>
                   <td class="text-right"><%= prettify hit.score  %></td>
-                  <td class="text-right"><%= prettify hit.evalue %></td>
+                  <td class="text-right"><%= prettify in_scientific_or_twodecimal hit.evalue %></td>
                   <td class="text-right"><%= prettify hit.length %></td>
                 </tr>
               <% end %>
