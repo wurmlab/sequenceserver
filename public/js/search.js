@@ -352,8 +352,9 @@ var Query = React.createClass({
     // Lifecycle methods. //
 
     getInitialState: function () {
+        var input_sequence = $("input#input_sequence").val() || '';
         return {
-            value: ''
+            value: input_sequence
         };
     },
 
