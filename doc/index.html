@@ -82,6 +82,12 @@ layout: page
         </li>
         <li
           role="presentation">
+          <a href="#password">
+            Password protection
+          </a>
+        </li>
+        <li
+          role="presentation">
           <a href="#hpc">
             HPC integration
           </a>
@@ -715,6 +721,28 @@ location /sequenceserver/ {
 
       <p>
         SequenceServer can be integrated with Nginx similar to Apache, using Phusion Passenger. And Apache can be used instead of Nginx to proxy connections as well. Whether to use reverse proxy or Phusion Passenger and Apache or Nginx is up to the user. A discussion of pros and cons of each is beyond the scope of this documentation.
+      </p>
+    </section>
+
+    <!-- Password protection -->
+    <section
+      id="password">
+      <div
+        class="page-header">
+        <h2>
+          Password protection
+        </h2>
+      </div>
+      <p>
+        If you are using SequenceServer with Apache or Nginx then you can
+        easily password protect your data using HTTP basic authentication
+        scheme. These tutorials from <a
+          href="https://www.digitalocean.com">DigitalOcean</a> detail the
+        steps required for both
+        <a
+          href="https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-14-04">Apache</a>
+        and <a
+          href="https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-nginx-on-ubuntu-14-04">Nginx</a>.
       </p>
     </section>
 
