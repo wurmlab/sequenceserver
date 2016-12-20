@@ -259,8 +259,8 @@ class Graph {
   }
 
   chord_layout() {
-    if (this.chords_arr.length > 11) {
-      this.paletteSize = 11;
+    if (this.chords_arr.length > 32) {
+      this.paletteSize = 32;
     } else {
       this.paletteSize = this.chords_arr.length;
     }
