@@ -16,12 +16,8 @@ module SequenceServer
       File.join(database_dir, 'sample')
     end
 
-    let 'database_dir_test' do
-      File.join(database_dir, 'test')
-    end
-
     let 'database_dir_unformatted' do
-      File.join(database_dir_test, 'unformatted')
+      File.join(database_dir, 'unformatted')
     end
 
     let 'fasta_file_prot_seqs' do
@@ -88,11 +84,9 @@ module SequenceServer
       sample_name1 = '/home/ben/pd.ben/sequenceserver/db/nr'
       sample_name2 = '/home/ben/pd.ben/sequenceserver/db/nr.00'
       sample_name3 = '/home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01'
-      sample_name4 = '/home/ben/pd.ben/sequenceserver/db/nr00'
       Database.multipart_database_name?(sample_name1).should be_falsey
       Database.multipart_database_name?(sample_name2).should be_truthy
       Database.multipart_database_name?(sample_name3).should be_truthy
-      Database.multipart_database_name?(sample_name4).should be_falsey
     end
 
     it 'can tell FASTA files that are yet to be made into a BLAST+ database' do

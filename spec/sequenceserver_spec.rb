@@ -18,12 +18,8 @@ module SequenceServer
       File.join(root, 'spec', 'database')
     end
 
-    let 'database_dir_sample' do
-      File.join(database_dir, 'sample')
-    end
-
     let 'database_dir_no_db' do
-      File.join(database_dir, 'test', 'unformatted',
+      File.join(root, 'spec', 'database', 'unformatted',
                 'Cardiocondyla_obscurior')
     end
 
@@ -104,7 +100,7 @@ module SequenceServer
     end
 
     it 'has a list of databases after startup' do
-      SequenceServer.init(config.update :database_dir => database_dir_sample)
+      SequenceServer.init(config.update :database_dir => database_dir)
       Database.all.should_not be_empty
       Database.all.length.should == 6
     end

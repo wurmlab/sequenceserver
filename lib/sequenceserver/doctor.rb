@@ -4,9 +4,10 @@ require 'sequenceserver/database'
 require 'sequenceserver/sequence'
 
 module SequenceServer
-  # Doctor detects inconsistencies likely to cause problems with your database.
+  # Doctor detects inconsistencies likely to cause problems with Sequenceserver
+  # operation.
   class Doctor
-    ERROR_PARSEQ_IDS          = 1
+    ERROR_PARSE_SEQIDS        = 1
     ERROR_NUMERIC_IDS         = 2
     ERROR_PROBLEMATIC_IDS     = 3
 
@@ -64,14 +65,17 @@ module SequenceServer
         return if values.empty?
 
         case error
-        when ERROR_PARSEQ_IDS
+        when ERROR_PARSE_SEQIDS
           puts <<MSG
 *** Doctor has found improperly formatted database:
 #{bullet_list(values)}
     Please reformat your databases with -parse_seqids switch (or use
     sequenceserver -m) for using SequenceServer as the current format
     may cause problems.
+
+    These databases are ignored in further checks.
 MSG
+
         when ERROR_NUMERIC_IDS
           puts <<MSG
 *** Doctor has found databases with numeric sequence ids:
@@ -116,11 +120,11 @@ MSG
       @all_seqids.delete_if { |sq| @ignore.include? sq[:db] }
     end
 
-    # Obtain files which aren't formatted with -parseq_ids and add them to
+    # Obtain files which aren't formatted with -parse_seqids and add them to
     # ignore list.
     def check_parse_seqids
       without_parse_seqids = Doctor.inspect_parse_seqids(@all_seqids)
-      Doctor.show_message(ERROR_PARSEQ_IDS, without_parse_seqids)
+      Doctor.show_message(ERROR_PARSE_SEQIDS, without_parse_seqids)
 
       @ignore.concat(without_parse_seqids)
     end
@@ -153,4 +157,4 @@ end
 # [2]: For sequence deflines of the kind abc|def, accession number is returned
 # as abc:def. Even though you take hacky measure and ensure that latter is
 # queried, correct entries are not returned. Using the value returned by %i
-# works in all cases.
+# works in all cases. This may change in later versions of BLAST+.
