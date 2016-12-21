@@ -54,6 +54,10 @@ module SequenceServer
                 'Cobs1.4.proteins.fa.*')
     end
 
+    before do
+      SequenceServer.instance_variable_set(:@config, Config.new({}))
+    end
+
     before :each do
       # Empty Database collection so we can use different directories as
       # needed.
