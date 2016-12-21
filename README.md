@@ -34,9 +34,8 @@ npm install
 bundle
 ```
 
-We use Capybara with WebKit driver for functional testing, which requires `qt`
-to be installed. If `bundle` fails, install `qt` (On Mac: `brew install qt`)
-and run `bundle` again.
+We use capybara-webkit for functional testing, which requires [`qt` to be
+installed](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit).
 
 We use JSPM (via Node) for front-end package management and building JavaScript
 and CSS files.
