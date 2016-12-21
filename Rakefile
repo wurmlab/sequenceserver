@@ -4,6 +4,7 @@ require 'rspec/core/rake_task'
 desc 'Run specs'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
+  spec.pattern.exclude(ENV['exclude'])
 end
 
 desc 'Run CodeClimate (rubocop, csslint, eslint)'
