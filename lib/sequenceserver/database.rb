@@ -116,13 +116,8 @@ module SequenceServer
           out.each_line do |line|
             name = line.split('	')[0]
             next if multipart_database_name?(name)
-            begin
-              self << Database.new(*line.split('	'))
-            rescue NoMethodError => e
-              err << "BLAST Database error:\n#{e}\n#{line}"
-            end
+            self << Database.new(*line.split('	'))
           end
-          throw_scan_error(cmd, out, err, $CHILD_STATUS)
         end
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
