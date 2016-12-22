@@ -36,6 +36,10 @@ module SequenceServer
       !out.empty?
     end
 
+    def ==(other)
+      @id == Digest::MD5.hexdigest(other.name)
+    end
+
     def to_s
       "#{type}: #{title} #{name}"
     end

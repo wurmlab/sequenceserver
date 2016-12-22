@@ -70,6 +70,7 @@ BANNER
     on 'c', 'config_file=',
        'Use the given configuration file',
        :argument => true
+
     on 'config=',
        'Same as --config_file (deprecated)',
        :argument => true
@@ -115,6 +116,9 @@ BANNER
 
     on 'i', 'interactive',
        'Run SequenceServer in interactive mode'
+
+    on 'doctor',
+       'Run SequenceServer doctor'
 
     on 'D', 'devel',
        'Start SequenceServer in development mode'
@@ -366,6 +370,13 @@ https://groups.google.com/forum/?fromgroups#!forum/sequenceserver
 Error:
 #{e.backtrace.unshift(e.message).join("\n")}
 MSG
+        exit
+      end
+
+      if doctor?
+        puts '*** Running SequenceServer Doctor.'
+        puts '    Initializing an index of databases. This may take a while..'
+        SequenceServer::Doctor.new.diagnose
         exit
       end
 
