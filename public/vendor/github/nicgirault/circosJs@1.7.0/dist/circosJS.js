@@ -622,7 +622,7 @@ circosJS.Chord = function() {
     }).target(function(d) {
       return getTarget(d, layout);
     })).attr('opacity', function(d) {
-      return d.opacity || conf.opacity;
+        return conf.opacity;
     }).attr('data-toggle','tooltip').attr('title',function(d) {
       return 'Identity '+d.hsp.identity+'<br> Evalue '+d.hsp.evalue;
     }).attr('id',function (d) {

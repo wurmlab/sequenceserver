@@ -270,7 +270,7 @@ class Graph {
       // color: 'rgb(0,0,0)',
       colorPalette: 'RdYlBu', // colors of chords based on last value in chords
       // tooltipContent: 'Hiten',
-      opacity: 0.5 // add opacity to ribbons
+      opacity: 0.85 // add opacity to ribbons
     }
   }
 
