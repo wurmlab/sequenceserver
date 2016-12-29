@@ -259,8 +259,8 @@ class Graph {
   }
 
   chord_layout() {
-    if (this.chords_arr.length > 11) {
-      this.paletteSize = 11;
+    if (this.chords_arr.length > 32) {
+      this.paletteSize = 32;
     } else {
       this.paletteSize = this.chords_arr.length;
     }
@@ -270,7 +270,7 @@ class Graph {
       // color: 'rgb(0,0,0)',
       colorPalette: 'RdYlBu', // colors of chords based on last value in chords
       // tooltipContent: 'Hiten',
-      opacity: 0.5 // add opacity to ribbons
+      opacity: 0.85 // add opacity to ribbons
     }
   }
 
