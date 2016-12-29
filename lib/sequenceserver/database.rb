@@ -113,16 +113,19 @@ module SequenceServer
       def scan_databases_dir
         cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
               ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
-        Open3.popen3(cmd) do |_, out, err|
-          out = out.read
-          err = err.read
-          throw_scan_error(cmd, out, err, $CHILD_STATUS)
-          out.each_line do |line|
-            name = line.split('	')[0]
-            next if multipart_database_name?(name)
-            self << Database.new(*line.split('	'))
-          end
+        begin
+          out, err = sys(cmd)
+        rescue
+          fail BLAST_DATABASE_ERROR.new(cmd, err)
         end
+        out.each_line do |line|
+          name = line.split('	')[0]
+          next if multipart_database_name?(name)
+          self << Database.new(*line.split('	'))
+        end
+        errpat = /BLAST Database error/
+        fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
+        fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 

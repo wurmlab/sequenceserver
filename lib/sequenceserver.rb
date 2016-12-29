@@ -1,4 +1,5 @@
 require 'English'
+require 'tempfile'
 
 require 'sequenceserver/version'
 require 'sequenceserver/exceptions'
@@ -56,6 +57,83 @@ module SequenceServer
     end
 
     attr_reader :config
+
+    # 'sys' executes a shell command.
+    #
+    # 'sys' can write the stdout and/or stderr from a shell command to files, or
+    #  return these values.
+    #
+    # 'sys' can get from a failed shell command stdout, stderr, and exit status.
+    #
+    # Supply 'sys' with the shell command and optionally:
+    # A directory to change to for the duration of the execution of the shell
+    # command.
+    # A directory to change the PATH environment variable to for the duration of the
+    # execution of the shell command.
+    # A path to a file to write stdout to.
+    # A path to a file to write stderr to.
+    #
+    # Usage:
+    #
+    # stdout, stderr = sys(command, :directory => '/path/to/directory',
+    # :path => '/path/to/directory', :stdout_file => '/path/to/stdout_file',
+    # :stderr_file => '/path/to/stderr_file'
+
+    def sys(command, options = {})
+      # Store the initial value of the PATH environment variable.
+      initial_path = ENV['PATH']
+      # Store the path to the safe directory, if it exists. If it does not exist,
+      # use the initial value of PATH environment variable.
+      path = options[:path] || ENV['PATH']
+      safe_path = Dir.exist?(path) && path || ENV['PATH']
+      # Set the PATH environment variable to the safe directory.
+      ENV['PATH'] = safe_path
+
+      # Make temporary files to store output from stdout and stderr.
+      temp_stdout_file = Tempfile.new
+      temp_stderr_file = Tempfile.new
+
+      logger.debug("Executing: #{command}")
+
+      directory = options[:directory] || Dir.pwd
+
+      # Change the directory, execute the shell command, redirect stdout and stderr
+      # to the temporary files.
+      Dir.chdir(Dir.exist?(directory) && directory || Dir.pwd) do
+        system("#{command} 1>#{temp_stdout_file.path} 2>#{temp_stderr_file.path}")
+      end
+
+      unless $CHILD_STATUS.success?
+        raise CommandFailed.new(temp_stdout_file.read, temp_stderr_file.read, $CHILD_STATUS.exitstatus)
+      end
+
+      # Write stdout and/or stderr to files, if paths for them were given.
+      # If a full path was given for an output file, write the contents of
+      # the temporary file to this path. If the path given does not
+      # exist, create it.
+      [options[:stdout_file], options[:stderr_file]].each_with_index do |filename, index|
+        if filename
+          file_dir = File.dirname(filename)
+          unless File.directory?(file_dir)
+            FileUtils.mkdir_p(file_dir)
+          end
+          FileUtils.mv([temp_stdout_file, temp_stderr_file][index], filename)
+        end
+      end
+
+      # If paths to write stdout and/or stderr to were not given, return the
+      # contents of stdout and/or stderr. Otherwise, return nil.
+      return_array = [] 
+      return_array[0] = temp_stdout_file.read unless options[:stdout_file]
+      return_array[1] = temp_stderr_file.read unless options[:stderr_file]
+
+      return return_array
+
+    ensure
+      # Ensure that the PATH environment variable is changed back to
+      # its initial value.
+      ENV['PATH'] = initial_path 
+    end
 
     # Run SequenceServer as a self-hosted server using Thin webserver.
     def run
