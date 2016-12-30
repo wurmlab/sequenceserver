@@ -66,21 +66,21 @@ module SequenceServer
     # 'sys' can get from a failed shell command stdout, stderr, and exit status.
     #
     # Supply 'sys' with the shell command and optionally:
-    # directory: A directory to change to for the duration of the execution of
+    # dir: A directory to change to for the duration of the execution of
     # the shell command.
     # path: A directory to change the PATH environment variable to for the
     # duration of the execution of the shell command.
-    # stdout_file: A path to a file to store stdout.
-    # stderr_file: A path to a file to store stderr.
+    # stdout: A path to a file to store stdout.
+    # stderr: A path to a file to store stderr.
     #
     # Usage:
     #
-    # stdout, stderr = sys(command, :directory => '/path/to/directory',
+    # stdout, stderr = sys(command, :dir => '/path/to/directory',
     # :path => '/path/to/directory'
     #
     # sys(command, :directory => '/path/to/directory',
-    # :path => '/path/to/directory', :stdout_file => '/path/to/stdout_file',
-    # :stderr_file => '/path/to/stderr_file'
+    # :path => '/path/to/directory', :stdout => '/path/to/stdout_file',
+    # :stderr => '/path/to/stderr_file'
 
     def sys(command, options = {})
       # Store the initial value of the PATH environment variable.
@@ -98,7 +98,7 @@ module SequenceServer
 
       logger.debug("Executing: #{command}")
 
-      directory = options[:directory] || Dir.pwd
+      directory = options[:dir] || Dir.pwd
 
       # Change the directory, execute the shell command, redirect stdout and stderr
       # to the temporary files.
@@ -113,7 +113,7 @@ module SequenceServer
       # Store stdout and/or stderr in files, if paths for the files were given.
       # If a full path was given for an output file, move the temporary file
       # to this path. If the path given does not exist, create it.
-      [options[:stdout_file], options[:stderr_file]].each_with_index do |filename, index|
+      [options[:stdout], options[:stderr]].each_with_index do |filename, index|
         if filename
           file_dir = File.dirname(filename)
           unless File.directory?(file_dir)
@@ -125,7 +125,7 @@ module SequenceServer
 
       # If paths to write stdout and stderr to were not given, return the
       # contents of stdout and/or stderr. Otherwise, return nil.
-      return temp_stdout_file.read, temp_stderr_file.read unless options[:stdout_file] || options[:stderr_file]
+      return temp_stdout_file.read, temp_stderr_file.read unless options[:stdout] || options[:stderr]
 
     ensure
       # Ensure that the PATH environment variable is changed back to
