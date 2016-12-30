@@ -125,11 +125,7 @@ module SequenceServer
 
       # If paths to write stdout and stderr to were not given, return the
       # contents of stdout and/or stderr. Otherwise, return nil.
-      return_array = [] 
-      return_array[0] = temp_stdout_file.read unless options[:stdout_file] || options[:stderr_file]
-      return_array[1] = temp_stderr_file.read unless options[:stdout_file] || options[:stderr_file]
-
-      return return_array
+      return temp_stdout_file.read, temp_stderr_file.read unless options[:stdout_file] || options[:stderr_file]
 
     ensure
       # Ensure that the PATH environment variable is changed back to
