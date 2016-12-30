@@ -123,11 +123,11 @@ module SequenceServer
         end
       end
 
-      # If paths to write stdout and/or stderr to were not given, return the
+      # If paths to write stdout and stderr to were not given, return the
       # contents of stdout and/or stderr. Otherwise, return nil.
       return_array = [] 
-      return_array[0] = temp_stdout_file.read unless options[:stdout_file]
-      return_array[1] = temp_stderr_file.read unless options[:stderr_file]
+      return_array[0] = temp_stdout_file.read unless options[:stdout_file] || options[:stderr_file]
+      return_array[1] = temp_stderr_file.read unless options[:stdout_file] || options[:stderr_file]
 
       return return_array
 
