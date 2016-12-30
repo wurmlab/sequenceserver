@@ -76,18 +76,20 @@ module SequenceServer
     # Usage:
     #
     # stdout, stderr = sys(command, :dir => '/path/to/directory',
-    # :path => '/path/to/directory'
+    # :path => '/path/to/directory')
     #
     # sys(command, :directory => '/path/to/directory',
     # :path => '/path/to/directory', :stdout => '/path/to/stdout_file',
-    # :stderr => '/path/to/stderr_file'
+    # :stderr => '/path/to/stderr_file')
 
     def sys(command, options = {})
       # Store the initial value of the PATH environment variable.
       initial_path = ENV['PATH']
+      # If the value for path to the safe directory is falsey, use the current
+      # value of the PATH environment variable.
+      path = options[:path] || ENV['PATH']
       # Store the path to the safe directory, if it exists. If it does not exist,
       # use the initial value of PATH environment variable.
-      path = options[:path] || ENV['PATH']
       safe_path = Dir.exist?(path) && path || ENV['PATH']
       # Set the PATH environment variable to the safe directory.
       ENV['PATH'] = safe_path
@@ -98,6 +100,8 @@ module SequenceServer
 
       logger.debug("Executing: #{command}")
 
+      # If the value for the path to the directory is falsey, use the current
+      # working directory.
       directory = options[:dir] || Dir.pwd
 
       # Change the directory, execute the shell command, redirect stdout and stderr
