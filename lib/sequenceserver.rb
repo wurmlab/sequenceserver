@@ -66,16 +66,19 @@ module SequenceServer
     # 'sys' can get from a failed shell command stdout, stderr, and exit status.
     #
     # Supply 'sys' with the shell command and optionally:
-    # A directory to change to for the duration of the execution of the shell
-    # command.
-    # A directory to change the PATH environment variable to for the duration of the
-    # execution of the shell command.
-    # A path to a file to write stdout to.
-    # A path to a file to write stderr to.
+    # directory: A directory to change to for the duration of the execution of
+    # the shell command.
+    # path: A directory to change the PATH environment variable to for the
+    # duration of the execution of the shell command.
+    # stdout_file: A path to a file to store stdout.
+    # stderr_file: A path to a file to store stderr.
     #
     # Usage:
     #
     # stdout, stderr = sys(command, :directory => '/path/to/directory',
+    # :path => '/path/to/directory'
+    #
+    # sys(command, :directory => '/path/to/directory',
     # :path => '/path/to/directory', :stdout_file => '/path/to/stdout_file',
     # :stderr_file => '/path/to/stderr_file'
 
@@ -107,10 +110,9 @@ module SequenceServer
         raise CommandFailed.new(temp_stdout_file.read, temp_stderr_file.read, $CHILD_STATUS.exitstatus)
       end
 
-      # Write stdout and/or stderr to files, if paths for them were given.
-      # If a full path was given for an output file, write the contents of
-      # the temporary file to this path. If the path given does not
-      # exist, create it.
+      # Store stdout and/or stderr in files, if paths for the files were given.
+      # If a full path was given for an output file, move the temporary file
+      # to this path. If the path given does not exist, create it.
       [options[:stdout_file], options[:stderr_file]].each_with_index do |filename, index|
         if filename
           file_dir = File.dirname(filename)
