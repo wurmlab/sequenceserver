@@ -110,32 +110,28 @@ module SequenceServer
       # Recurisvely scan `database_dir` for blast databases.
       #
       # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-      def scan_databases_dir
+      def blastdbmcmd
         cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
               ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
         begin
           out, err = sys(cmd)
-        rescue
+        rescue CommandFailed => e.stderr
           fail BLAST_DATABASE_ERROR.new(cmd, err)
         end
+        errpat = /BLAST Database error/
+        fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
+        fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
+        scan_databases_dir(out)
+      end
+
+      def scan_databases_dir(out)
         out.each_line do |line|
           name = line.split('	')[0]
           next if multipart_database_name?(name)
           self << Database.new(*line.split('	'))
         end
-        errpat = /BLAST Database error/
-        fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
-        fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
-
-      def throw_scan_error(cmd, out, err, child_status)
-        errpat = /BLAST Database error/
-        if !child_status.success? || err.match(errpat)
-          fail BLAST_DATABASE_ERROR.new(cmd, err)
-        end
-        fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
-      end
 
       # Recursively scan `database_dir` for un-formatted FASTA and format them
       # for use with BLAST+.
