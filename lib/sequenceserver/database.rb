@@ -122,7 +122,7 @@ module SequenceServer
       end
 
       def scan_databases_dir
-        out = blastdbcmd
+        out = blastdbmcmd
         fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
         out.each_line do |line|
           name = line.split('	')[0]
