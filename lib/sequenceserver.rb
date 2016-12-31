@@ -88,8 +88,8 @@ module SequenceServer
       # If the value for path to the safe directory is falsey, use the current
       # value of the PATH environment variable.
       path = options[:path] || ENV['PATH']
-      # Store the path to the safe directory, if it exists. If it does not exist,
-      # use the initial value of PATH environment variable.
+      # Store the path to the safe directory, if it exists. If it does not
+      # exist, use the initial value of PATH environment variable.
       safe_path = Dir.exist?(path) && path || ENV['PATH']
       # Set the PATH environment variable to the safe directory.
       ENV['PATH'] = safe_path
@@ -104,8 +104,8 @@ module SequenceServer
       # working directory.
       directory = options[:dir] || Dir.pwd
 
-      # Change the directory, execute the shell command, redirect stdout and stderr
-      # to the temporary files.
+      # Change the directory, execute the shell command, redirect stdout and
+      # stderr to the temporary files.
       Dir.chdir(Dir.exist?(directory) && directory || Dir.pwd) do
         system("#{command} 1>#{temp_stdout_file.path} 2>#{temp_stderr_file.path}")
       end
