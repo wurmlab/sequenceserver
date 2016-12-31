@@ -78,7 +78,7 @@ module SequenceServer
     # stdout, stderr = sys(command, :dir => '/path/to/directory',
     # :path => '/path/to/directory')
     #
-    # sys(command, :directory => '/path/to/directory',
+    # sys(command, :dir => '/path/to/directory',
     # :path => '/path/to/directory', :stdout => '/path/to/stdout_file',
     # :stderr => '/path/to/stderr_file')
 

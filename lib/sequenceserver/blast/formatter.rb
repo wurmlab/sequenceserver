@@ -40,7 +40,7 @@ module SequenceServer
           "blast_formatter -archive '#{archive_file}'" \
           " -outfmt '#{format} #{specifiers}'" \
           " -out '#{file}'"
-        sys(command, :directory => DOTDIR)
+        sys(command, :dir => DOTDIR)
       end
 
       def validate
