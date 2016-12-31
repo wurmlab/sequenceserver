@@ -110,7 +110,7 @@ module SequenceServer
       # Recurisvely scan `database_dir` for blast databases.
       #
       # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-      def blastdbmcmd
+      def blastdbcmd
         cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
               ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
           out, err = sys(cmd)
@@ -122,7 +122,7 @@ module SequenceServer
       end
 
       def scan_databases_dir
-        out = blastdbmcmd
+        out = blastdbcmd
         fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
         out.each_line do |line|
           name = line.split('	')[0]
