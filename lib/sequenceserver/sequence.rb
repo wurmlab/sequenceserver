@@ -190,9 +190,8 @@ module SequenceServer
                   " -db '#{database_names.join(' ')}'" \
                   " -entry '#{sequence_ids.join(',')}'"
 
-        logger.debug("Executing: #{command}")
+        out, err = sys(command)
 
-        out = `#{command} 2> /dev/null`
         @sequences = out.each_line.map do |line|
           Sequence.new(*line.chomp.split('	'))
         end
