@@ -91,8 +91,6 @@ module SequenceServer
       # Store the path to the safe directory, if it exists. If it does not
       # exist, use the initial value of PATH environment variable.
       safe_path = Dir.exist?(path) && path || ENV['PATH']
-      # Set the PATH environment variable to the safe directory.
-      ENV['PATH'] = safe_path
 
       # Make temporary files to store output from stdout and stderr.
       temp_stdout_file = Tempfile.new
@@ -104,14 +102,20 @@ module SequenceServer
       # working directory.
       directory = options[:dir] || Dir.pwd
 
-      # Change the directory, execute the shell command, redirect stdout and
-      # stderr to the temporary files.
-      Dir.chdir(Dir.exist?(directory) && directory || Dir.pwd) do
-        system("#{command} 1>#{temp_stdout_file.path} 2>#{temp_stderr_file.path}")
-      end
+      # Wait for the termination of the child process, fork.
+      _, status = Process.wait2(
+        fork do
+          # Set the PATH environment variable to the safe directory.
+          ENV['PATH'] = safe_path
+          # Change the directory, execute the shell command, redirect stdout and
+          # stderr to the temporary files.
+          Dir.chdir(Dir.exist?(directory) && directory || Dir.pwd)
+          system("#{command} 1>#{temp_stdout_file.path} 2>#{temp_stderr_file.path}")
+          exit $CHILD_STATUS.exitstatus
+        end)
 
-      unless $CHILD_STATUS.success?
-        raise CommandFailed.new(temp_stdout_file.read, temp_stderr_file.read, $CHILD_STATUS.exitstatus)
+      unless status == 0
+        raise CommandFailed.new(temp_stdout_file.read, temp_stderr_file.read, status)
       end
 
       # Store stdout and/or stderr in files, if paths for the files were given.
@@ -130,11 +134,6 @@ module SequenceServer
       # If paths to write stdout and stderr to were not given, return the
       # contents of stdout and/or stderr. Otherwise, return nil.
       return temp_stdout_file.read, temp_stderr_file.read unless options[:stdout] || options[:stderr]
-
-    ensure
-      # Ensure that the PATH environment variable is changed back to
-      # its initial value.
-      ENV['PATH'] = initial_path 
     end
 
     # Run SequenceServer as a self-hosted server using Thin webserver.
