@@ -111,7 +111,7 @@ module SequenceServer
         Dir.chdir(Dir.exist?(directory) && directory || Dir.pwd)
         system("#{command} 1>#{temp_stdout_file.path} 2>#{temp_stderr_file.path}")
         exit $CHILD_STATUS.exitstatus
-      end)
+      end
 
       # Wait for the termination of the child process.
       _, status = Process.wait2(child_pid)
