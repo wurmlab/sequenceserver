@@ -102,17 +102,19 @@ module SequenceServer
       # working directory.
       directory = options[:dir] || Dir.pwd
 
-      # Wait for the termination of the child process, fork.
-      _, status = Process.wait2(
-        fork do
-          # Set the PATH environment variable to the safe directory.
-          ENV['PATH'] = safe_path
-          # Change the directory, execute the shell command, redirect stdout and
-          # stderr to the temporary files.
-          Dir.chdir(Dir.exist?(directory) && directory || Dir.pwd)
-          system("#{command} 1>#{temp_stdout_file.path} 2>#{temp_stderr_file.path}")
-          exit $CHILD_STATUS.exitstatus
-        end)
+      # Fork.
+      child_pid = fork do
+        # Set the PATH environment variable to the safe directory.
+        ENV['PATH'] = safe_path
+        # Change the directory, execute the shell command, redirect stdout and
+        # stderr to the temporary files.
+        Dir.chdir(Dir.exist?(directory) && directory || Dir.pwd)
+        system("#{command} 1>#{temp_stdout_file.path} 2>#{temp_stderr_file.path}")
+        exit $CHILD_STATUS.exitstatus
+      end)
+
+      # Wait for the termination of the child process.
+      _, status = Process.wait2(child_pid)
 
       unless status == 0
         raise CommandFailed.new(temp_stdout_file.read, temp_stderr_file.read, status)
