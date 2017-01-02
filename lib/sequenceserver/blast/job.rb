@@ -1,5 +1,6 @@
 require 'sequenceserver/pool'
 require 'sequenceserver/job'
+require 'forwardable'
 
 require_relative 'exceptions'
 require_relative 'constants'
@@ -13,6 +14,9 @@ module SequenceServer
     # `BLAST::ArgumentError` and `BLAST::RuntimeError` signal errors
     # encountered when attempting a BLAST search.
     class Job < Job
+
+      extend Forwardable
+      def_delegators SequenceServer, :sys
 
       def initialize(params)
         validate params

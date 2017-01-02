@@ -56,7 +56,7 @@ module SequenceServer
 
       extend Forwardable
 
-      def_delegators SequenceServer, :config, :logger
+      def_delegators SequenceServer, :config, :logger, :sys
 
       def collection
         @collection ||= {}

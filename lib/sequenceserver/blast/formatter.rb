@@ -9,7 +9,7 @@ module SequenceServer
       end
 
       extend Forwardable
-      def_delegators SequenceServer, :logger
+      def_delegators SequenceServer, :logger, :sys
 
       def initialize(archive_file, type)
         @archive_file = archive_file
