@@ -51,7 +51,7 @@ module SequenceServer
 
     # Provide access to global `config` & `logger` services to the job objects.
     extend Forwardable
-    def_delegators SequenceServer, :config, :logger
+    def_delegators SequenceServer, :config, :logger, :sys
 
     # Initialize the job: generates a job id, creates directory where all kind
     # of job data will be held, yields (if block given) and saves the job.
