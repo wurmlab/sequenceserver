@@ -9,7 +9,7 @@ module SequenceServer
       end
 
       extend Forwardable
-      def_delegators SequenceServer, :logger
+      def_delegators SequenceServer, :logger, :sys
 
       def initialize(archive_file, type)
         @archive_file = archive_file
@@ -39,11 +39,8 @@ module SequenceServer
         command =
           "blast_formatter -archive '#{archive_file}'" \
           " -outfmt '#{format} #{specifiers}'" \
-          " -out '#{file}' 2> /dev/null"
-        logger.debug("Executing: #{command}")
-        Dir.chdir(File.exist?(DOTDIR) && DOTDIR || Dir.pwd) do
-          system(command)
-        end
+          " -out '#{file}'"
+        sys(command, :dir => DOTDIR)
       end
 
       def validate

@@ -56,7 +56,7 @@ module SequenceServer
 
       extend Forwardable
 
-      def_delegators SequenceServer, :config, :logger
+      def_delegators SequenceServer, :config, :logger, :sys
 
       def collection
         @collection ||= {}
@@ -110,29 +110,27 @@ module SequenceServer
       # Recurisvely scan `database_dir` for blast databases.
       #
       # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-      def scan_databases_dir
+      def blastdbcmd
         cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
               ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
-        Open3.popen3(cmd) do |_, out, err|
-          out = out.read
-          err = err.read
-          throw_scan_error(cmd, out, err, $CHILD_STATUS)
-          out.each_line do |line|
-            name = line.split('	')[0]
-            next if multipart_database_name?(name)
-            self << Database.new(*line.split('	'))
-          end
+        out, err = sys(cmd)
+        errpat = /BLAST Database error/
+        fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
+        return out
+      rescue CommandFailed => e
+        fail BLAST_DATABASE_ERROR.new(cmd, e.stderr)
+      end
+
+      def scan_databases_dir
+        out = blastdbcmd
+        fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
+        out.each_line do |line|
+          name = line.split('	')[0]
+          next if multipart_database_name?(name)
+          self << Database.new(*line.split('	'))
         end
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
-
-      def throw_scan_error(cmd, out, err, child_status)
-        errpat = /BLAST Database error/
-        if !child_status.success? || err.match(errpat)
-          fail BLAST_DATABASE_ERROR.new(cmd, err)
-        end
-        fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
-      end
 
       # Recursively scan `database_dir` for un-formatted FASTA and format them
       # for use with BLAST+.

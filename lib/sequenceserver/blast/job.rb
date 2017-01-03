@@ -44,13 +44,12 @@ module SequenceServer
         command = "#{method} -db '#{databases.map(&:name).join(' ')}'" \
                   " -query '#{qfile}' #{options}"
 
-        logger.debug("Executing: #{command}")
-
-        system("#{command} > #{rfile} 2> #{efile}")
+        sys(command, :stdout => rfile, :stderr => efile) 
         done!
 
+      rescue CommandFailed => e
         # Capture error.
-        status = $CHILD_STATUS.exitstatus
+        status = e.exitstatus
         case status
         when 1 # error in query sequence or options; see [1]
           efile.open

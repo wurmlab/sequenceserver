@@ -159,4 +159,17 @@ Please could you report this to 'https://groups.google.com/forum/#!forum/sequenc
 MSG
     end
   end
+
+  # Raised if the 'sys' method could not successfully execute a shell command.
+  class CommandFailed < StandardError
+
+    def initialize(stdout, stderr, exitstatus)
+      @stdout = stdout
+      @stderr = stderr
+      @exitstatus = exitstatus
+    end
+
+    attr_reader :stdout, :stderr, :exitstatus
+
+  end
 end
