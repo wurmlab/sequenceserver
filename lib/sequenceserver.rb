@@ -95,7 +95,7 @@ module SequenceServer
         ENV['PATH'] = options[:path] if options[:path]
 
         # Change to the specified directory.
-        Dir.chdir(options[:dir]) if options[:dir] and Dir.exist?(options[:dir])
+        Dir.chdir(options[:dir]) if options[:dir] && Dir.exist?(options[:dir])
 
         # Execute the shell command, redirect stdout and stderr to the
         # temporary files.
@@ -105,7 +105,7 @@ module SequenceServer
       # Wait for the termination of the child process.
       _, status = Process.wait2(child_pid)
 
-      unless status == 0
+      unless status.zero?
         raise CommandFailed.new(temp_stdout_file.read, temp_stderr_file.read, status)
       end
 
