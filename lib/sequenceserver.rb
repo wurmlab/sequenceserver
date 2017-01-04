@@ -105,7 +105,7 @@ module SequenceServer
       # Wait for the termination of the child process.
       _, status = Process.wait2(child_pid)
 
-      unless status.zero?
+      unless status == 0
         raise CommandFailed.new(temp_stdout_file.read, temp_stderr_file.read, status)
       end
 
