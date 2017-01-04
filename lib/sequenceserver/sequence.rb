@@ -110,7 +110,7 @@ module SequenceServer
     class Retriever
       extend Forwardable
 
-      def_delegators SequenceServer, :logger
+      def_delegators SequenceServer, :logger, :sys
 
       # Provides IO for Retriever similar to BLAST::Formatter. We dynamically
       # extend Retriever object with this module if file download has been
@@ -190,7 +190,7 @@ module SequenceServer
                   " -db '#{database_names.join(' ')}'" \
                   " -entry '#{sequence_ids.join(',')}'"
 
-        out, err = sys(command)
+        out, _ = sys(command)
 
         @sequences = out.each_line.map do |line|
           Sequence.new(*line.chomp.split('	'))
