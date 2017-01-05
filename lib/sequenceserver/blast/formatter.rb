@@ -24,7 +24,11 @@ module SequenceServer
       attr_reader :format, :mime, :specifiers
 
       def file
-        @file = File.join(File.dirname(archive_file), filename)
+        @file ||= File.join(File.dirname(archive_file), filename)
+      end
+
+      def efile
+        @efile ||= Tempfile.new('efile')
       end
 
       def filename
@@ -41,6 +45,16 @@ module SequenceServer
           " -outfmt '#{format} #{specifiers}'" \
           " -out '#{file}'"
         sys(command, :dir => DOTDIR)
+        error_check($CHILD_STATUS.exitstatus)
+      end
+
+      def error_check(status)
+        err = "
+        Error in report generation. Maybe it's because sequence_ids are
+        not unique across the database. See -
+        https://groups.google.com/d/msg/sequenceserver/QbE11EMQoEo/nAcCOmlsSjwJ
+        Also the STDERR file: #{File.read(efile.path)}"
+        fail ArgumentError, err unless status == 0 || File.exist?(efile) && !File.zero?(efile)
       end
 
       def validate

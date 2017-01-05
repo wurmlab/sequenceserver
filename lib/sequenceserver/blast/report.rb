@@ -4,6 +4,7 @@ require 'sequenceserver/report'
 require 'sequenceserver/links'
 
 require_relative 'formatter'
+require_relative 'error'
 require_relative 'query'
 require_relative 'hit'
 require_relative 'hsp'
@@ -23,6 +24,7 @@ module SequenceServer
     class Report < Report
       def initialize(job)
         super do
+          Error.check(job) unless job.success?
           @querydb = job.databases
           @queries = []
         end

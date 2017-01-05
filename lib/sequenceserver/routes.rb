@@ -51,6 +51,14 @@ module SequenceServer
       }
     end
 
+    helpers do
+      def return_error(code, template)
+        status code
+        error = env['sinatra.error']
+        erb template, :layout => nil, :locals => { :error => error }
+      end
+    end
+
     # For any request that hits the app,  log incoming params at debug level.
     before do
       logger.debug params
@@ -129,13 +137,21 @@ module SequenceServer
       send_file out.file, :filename => out.filename, :type => out.mime
     end
 
+    # This error block will be hit when Job is not found
+    error KeyError do
+      return_error(404, :'400')
+    end
+
     # This error block will only ever be hit if the user gives us a funny
     # sequence or incorrect advanced parameter. Well, we could hit this block
     # if someone is playing around with our HTTP API too.
     error BLAST::ArgumentError do
-      status 400
-      error = env['sinatra.error']
-      erb :'400', :layout => nil, :locals => { :error => error }
+      return_error(400, :'400')
+    end
+
+    # This will catch error occurred during executing blast or blast_formatter
+    error BLAST::RuntimeError do
+      return_error(500, :'400')
     end
 
     # This will catch any unhandled error and some very special errors. Ideally
@@ -143,10 +159,8 @@ module SequenceServer
     # or something really weird going on. If we hit this error block we show
     # the stacktrace to the user requesting them to post the same to our Google
     # Group.
-    error Exception, BLAST::RuntimeError do
-      status 500
-      error = env['sinatra.error']
-      erb :'500', :layout => nil, :locals => { :error => error }
+    error Exception do
+      return_error(500, :'500')
     end
   end
 end
