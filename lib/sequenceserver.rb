@@ -84,8 +84,8 @@ module SequenceServer
 
     def sys(command, options = {})
       # Make temporary files to store output from stdout and stderr.
-      temp_stdout_file = Tempfile.new
-      temp_stderr_file = Tempfile.new
+      temp_stdout_file = Tempfile.new 'sequenceserver-sys'
+      temp_stderr_file = Tempfile.new 'sequenceserver-sys'
 
       logger.debug("Executing: #{command}")
 
