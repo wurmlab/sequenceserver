@@ -2,6 +2,7 @@
 require 'readline'
 require 'English'
 require 'slop'
+require 'sequenceserver'
 
 ENV['RACK_ENV'] ||= 'production'
 
@@ -17,7 +18,7 @@ def download_from_url(url)
   cmd = "curl -ip4 -C - #{url} -o #{archive} && " \
         'mkdir -p ~/.sequenceserver && '          \
         "tar xvf #{archive} -C ~/.sequenceserver"
-  system cmd
+  sys(cmd)
 end
 
 begin
@@ -152,8 +153,6 @@ BANNER
         system('stty', stty)
         exit
       end
-
-      require 'sequenceserver'
 
       begin
         SequenceServer.init clean_opts[to_h]
