@@ -168,12 +168,11 @@ module SequenceServer
         _make_blast_database(file, type, title, taxid)
       end
 
-      def _make_blast_database(file, type, title, taxid, quiet = false)
+      def _make_blast_database(file, type, title, taxid)
         cmd = 'makeblastdb -parse_seqids -hash_index ' \
               "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
               " -taxid #{taxid}"
-        cmd << ' &> /dev/null' if quiet
-        system cmd
+        sys(cmd)
       end
 
       # Show file path and guessed sequence type to the user and obtain a y/n
