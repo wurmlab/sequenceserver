@@ -91,7 +91,9 @@ module SequenceServer
 
       # Fork.
       child_pid = fork do
-        # Set the PATH environment variable to the safe directory.
+        # Set the PATH environment variable to the binary directory or
+        # safe directory.
+        ENV['PATH'] = config[:bin] if config[:bin] && !options[:path]
         ENV['PATH'] = options[:path] if options[:path]
 
         # Change to the specified directory.
@@ -189,7 +191,6 @@ module SequenceServer
           fail BIN_DIR_NOT_FOUND, config[:bin]
         end
         logger.debug("Will use NCBI BLAST+ at: #{config[:bin]}")
-        export_bin_dir
       else
         logger.debug('Location of NCBI BLAST+ not provided. Assuming NCBI' \
                      ' BLAST+ to be present in: $PATH')
