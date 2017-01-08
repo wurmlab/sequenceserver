@@ -250,14 +250,6 @@ module SequenceServer
       require config[:require]
     end
 
-    # Export NCBI BLAST+ bin dir to PATH environment variable.
-    def export_bin_dir
-      bin_dir = config[:bin]
-      return unless bin_dir
-      return if ENV['PATH'].split(':').include? bin_dir
-      ENV['PATH'] = "#{bin_dir}:#{ENV['PATH']}"
-    end
-
     def assert_blast_installed_and_compatible
       fail BLAST_NOT_INSTALLED unless command? 'blastdbcmd'
       version = `blastdbcmd -version`.split[1]
