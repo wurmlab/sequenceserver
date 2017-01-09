@@ -12,16 +12,11 @@ module SequenceServer
       disable :method_override
 
       # Ensure exceptions never leak out of the app. Exceptions raised within
-      # the app must be handled by the app. We do this by attaching error
-      # blocks to exceptions we know how to handle and attaching to Exception
-      # as fallback.
+      # the app must be handled by the app.
       disable :show_exceptions, :raise_errors
 
       # Make it a policy to dump to 'rack.errors' any exception raised by the
-      # app so that error handlers don't have to do it themselves. But for it
-      # to always work, Exceptions defined by us should not respond to `code`
-      # or `http_status` methods. Error blocks must explicitly set http
-      # status, if needed, by calling `status` method.
+      # app.
       enable :dump_errors
 
       # We don't want Sinatra do setup any loggers for us. We will use our own.
@@ -49,14 +44,6 @@ module SequenceServer
         frame_options = SequenceServer.config[:frame_options]
         frame_options && { :frame_options => frame_options }
       }
-    end
-
-    helpers do
-      def return_error(code, template)
-        status code
-        error = env['sinatra.error']
-        erb template, :layout => nil, :locals => { :error => error }
-      end
     end
 
     # For any request that hits the app,  log incoming params at debug level.
@@ -94,8 +81,7 @@ module SequenceServer
     get '/:jid.json' do |jid|
       job = Job.fetch(jid)
       halt 202 unless job.done?
-      rep = Report.generate job
-      rep.to_json
+      Report.generate(job).to_json
     end
 
     # Returns base HTML. Rest happens client-side: polling for and rendering
@@ -137,30 +123,13 @@ module SequenceServer
       send_file out.file, :filename => out.filename, :type => out.mime
     end
 
-    # This error block will be hit when Job is not found
-    error KeyError do
-      return_error(404, :'400')
-    end
-
-    # This error block will only ever be hit if the user gives us a funny
-    # sequence or incorrect advanced parameter. Well, we could hit this block
-    # if someone is playing around with our HTTP API too.
-    error BLAST::ArgumentError do
-      return_error(400, :'400')
-    end
-
-    # This will catch error occurred during executing blast or blast_formatter
-    error BLAST::RuntimeError do
-      return_error(500, :'400')
-    end
-
-    # This will catch any unhandled error and some very special errors. Ideally
-    # we will never hit this block. If we do, there's a bug in SequenceServer
-    # or something really weird going on. If we hit this error block we show
-    # the stacktrace to the user requesting them to post the same to our Google
-    # Group.
+    # Catches any exception raised within the app and returns error message and
+    # the backtrace as response body. If the error class defines `http_status`
+    # instance method, its return value will be used to set HTTP status. HTTP
+    # status is set to 500 otherwise.
     error Exception do
-      return_error(500, :'500')
+      error = env['sinatra.error']
+      [error.message, *error.backtrace].join("\n")
     end
   end
 end

@@ -4,7 +4,6 @@ require 'sequenceserver/report'
 require 'sequenceserver/links'
 
 require_relative 'formatter'
-require_relative 'error'
 require_relative 'query'
 require_relative 'hit'
 require_relative 'hsp'
@@ -24,7 +23,6 @@ module SequenceServer
     class Report < Report
       def initialize(job)
         super do
-          Error.check(job) unless job.success?
           @querydb = job.databases
           @queries = []
         end
@@ -45,12 +43,25 @@ module SequenceServer
 
       # Generate report.
       def generate
+        assert_job_completed_successfully
         xml_ir = parse_xml File.read(Formatter.run(job.rfile, 'xml').file)
         tsv_ir = parse_tsv File.read(Formatter.run(job.rfile, '___').file)
         extract_program_info xml_ir
         extract_params xml_ir
         extract_stats xml_ir
         extract_queries xml_ir, tsv_ir
+      end
+
+      def assert_job_completed_successfully
+        return true if success?
+
+        stderr = File.readlines(job.efile)
+        if job.exitstatus == 1 # error in query sequence or options; see [1]
+          error = stderr.grep(ERROR_LINE)
+          error = stderr if error.empty?
+          fail InputError, error.join
+        end
+        fail SystemError, job.efile.join
       end
 
       # Make program name and program name + version available via `program`

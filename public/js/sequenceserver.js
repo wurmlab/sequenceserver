@@ -6,6 +6,7 @@ import 'webshim';
 import React from 'react';
 import Router from 'react-router';
 
+import ErrorModal from './errormodal';
 import {Page as Search} from './search';
 import {Page as Report} from './report';
 
@@ -121,14 +122,15 @@ SequenceServer = React.createClass({
         },
 
         showErrorModal: function (jqXHR, beforeShow) {
+            if (!beforeShow) {
+                beforeShow = function () {};
+            }
+
             setTimeout(function () {
                 beforeShow();
-                if (jqXHR.responseText) {
-                    $("#error").html(jqXHR.responseText).modal();
-                }
-                else {
-                    $("#error-no-response").modal();
-                }
+
+                //React.render(<ErrorModal status={jqHR.status}
+                    //error={jqXHR.responseText}>), document.getElementById('view'));
             }, 500);
         },
 

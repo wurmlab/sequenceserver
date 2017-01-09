@@ -27,10 +27,6 @@ module SequenceServer
         @file ||= File.join(File.dirname(archive_file), filename)
       end
 
-      def efile
-        @efile ||= Tempfile.new('efile')
-      end
-
       def filename
         @filename ||=
           "sequenceserver-#{type}_report.#{mime}"
@@ -42,25 +38,16 @@ module SequenceServer
         return if File.exist?(file)
         command =
           "blast_formatter -archive '#{archive_file}'" \
-          " -outfmt '#{format} #{specifiers}'" \
-          " -out '#{file}'"
-        sys(command, :dir => DOTDIR)
-        error_check($CHILD_STATUS.exitstatus)
-      end
-
-      def error_check(status)
-        err = "
-        Error in report generation. Maybe it's because sequence_ids are
-        not unique across the database. See -
-        https://groups.google.com/d/msg/sequenceserver/QbE11EMQoEo/nAcCOmlsSjwJ
-        Also the STDERR file: #{File.read(efile.path)}"
-        fail ArgumentError, err unless status == 0 || File.exist?(efile) && !File.zero?(efile)
+          " -outfmt '#{format} #{specifiers}'"
+        sys(command, :dir => DOTDIR, :stdout => file)
+      rescue CommandFailed => e
+        fail SystemError, e.stderr
       end
 
       def validate
         return true if archive_file && format &&
                        File.exist?(archive_file)
-        fail ArgumentError, <<MSG
+        fail InputError, <<MSG
 Incorrect request parameters. Please ensure that requested file name is
 correct and the file type is either xml or tsv.
 MSG

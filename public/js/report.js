@@ -949,7 +949,7 @@ var Report = React.createClass({
             case 404:
             case 400:
             case 500:
-                SequenceServer.showErrorModal(jqXHR, function () {});
+                SequenceServer.showErrorModal(jqXHR);
                 break;
             }
         }, this));

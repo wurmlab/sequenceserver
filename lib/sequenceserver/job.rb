@@ -6,45 +6,42 @@ require 'forwardable'
 require 'securerandom'
 
 module SequenceServer
-  # Job super class.
+  # Abstract job super class.
   #
-  # Provides access to global `config` and `logger` object as instance methods.
-  # Sub-classes must at least define `run` instance method.
+  # Provides a simple framework to store job data, execute shell commands
+  # asynchronously and capture stdout, stderr and exit status. Subclasses
+  # must provide a concrete implementation for `command` and may override
+  # any other methods as required.
+  #
+  # Global `config` and `logger` object are available as instance methods.
+  #
+  # Singleton methods provide the facility to create and queue a job,
+  # fetch a job or all jobs, and delete a job.
   class Job
-    UUID_PATTERN = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/
-
     class << self
       # Creates and queues a job. Returns created job object.
-      #
-      # TODO: Implement dynamic dispatch.
       def create(params)
-        queue BLAST::Job.new(params)
+        job = BLAST::Job.new(params)# TODO: Dynamic dispatch.
+        SequenceServer.pool.queue { job.run }
+        job
       end
 
-      # Fetches job object for the given id.
-      #
-      # TODO: What if the given job id does not exist?
+      # Fetches job with the given id.
       def fetch(id)
         job_file = File.join(DOTDIR, id, 'job.yaml')
-        fail KeyError, 'Requested job was not found' unless File.exist?(job_file)
+        fail NotFound unless File.exist?(job_file)
         YAML.load_file(job_file)
       end
 
-      def all
-        jobdirs = Dir["#{DOTDIR}/*"].select{ |f| f =~ UUID_PATTERN }
-        jobdirs.map{ |fname| fetch File.basename(fname) }
-      end
-
+      # Deletes job with the given id.
       def delete(id)
         FileUtils.rm_r File.join(DOTDIR, id)
       end
 
-      private
-
-      # Queues given job on the thread pool. Returns job.
-      def queue(job)
-        SequenceServer.pool.queue { job.run }
-        job
+      # Returns an Array of all jobs.
+      def all
+        Dir["#{DOTDIR}/**/job.yaml"].
+          map { |f| fetch File.basename File.dirname f }
       end
     end
 
@@ -70,13 +67,35 @@ module SequenceServer
 
     attr_reader :id, :completed_at, :exitstatus
 
-    # How to execute the job.
+    # Shell out and execute the job.
     #
-    # Subclasses should provide their own implementation.  The method should
-    # call `done!` and `success!`, as appropriate, to indicate if the job is
-    # done and whether it was successful.
+    # NOTE: This method is called asynchronously by thread pool.
     def run
-      raise "To be implemented."
+      sys(command, :stdout => stdout, :stderr => stderr)
+      done!
+    rescue CommandFailed => e
+      done! e.exitstatus
+    end
+
+    # Returns shell command that will be executed. Subclass needs to provide a
+    # concrete implementation.
+    def command
+      raise "Not implemented."
+    end
+
+    # Where will the stdout be written to during execution and read from later.
+    def stdout
+      File.join(dir, 'stdout')
+    end
+
+    # Where will the stderr be written to during execution and read from later.
+    def stderr
+      File.join(dir, 'stderr')
+    end
+
+    # Was the job successful?
+    def success?
+      exitstatus == 0
     end
 
     # Is the job done?
@@ -84,16 +103,11 @@ module SequenceServer
       !!@exitstatus
     end
 
-    # Was the job success?
-    def success?
-      exitstatus == 0
-    end
-
     private
 
-    # Save job state.
+    # Saves job object to a YAML file in job directory.
     def save
-      File.write(File.join(dir, 'job.yaml'), to_yaml)
+      File.write(yfile, to_yaml)
     end
 
     # Save arbitrary blob of data for this job to a file. Returns absolute path
@@ -110,8 +124,18 @@ module SequenceServer
       filename
     end
 
+    # Retrieve file from job dir with the given name. Raises RuntimeError if
+    # the file can't be found.
+    #
+    # NOTE: Not used.
+    def fetch(key)
+      filename = File.join(dir, key)
+      raise if !File.exist? filename
+      filename
+    end
+
     # Marks the job as done and save its exitstatus.
-    def done!(status)
+    def done!(status = 0)
       @completed_at = Time.now
       @exitstatus = status
       save
@@ -120,6 +144,11 @@ module SequenceServer
     # Where to save all kind of data for this job.
     def dir
       File.join(DOTDIR, id)
+    end
+
+    # Where to write serialised job object.
+    def yfile
+      File.join(dir, 'job.yaml')
     end
   end
 end

@@ -1,3 +1,4 @@
+require 'sequenceserver/api_errors'
 require 'sequenceserver/pool'
 require 'sequenceserver/job'
 
@@ -6,9 +7,6 @@ module SequenceServer
   # BLAST module.
   module BLAST
     # Extends SequenceServer::Job to describe a BLAST job.
-    #
-    # `BLAST::ArgumentError` and `BLAST::RuntimeError` signal errors
-    # encountered when attempting a BLAST search.
     class Job < Job
 
       def initialize(params)
@@ -20,42 +18,31 @@ module SequenceServer
           @options   = params[:advanced].to_s.strip + defaults
           @advanced_params = parse_advanced params[:advanced]
 
-
           # BLASTN implies BLASTN, not MEGABLAST. But let's not interfere if
           # user specifies `task` herself.
           @options << ' -task blastn' if @method == 'blastn' && !(@options =~ /task/)
         end
       end
 
-
       attr_reader :advanced_params
+
       # :nodoc:
-      # Attributes used by us.
-      #
-      # Should be considered private.
+      # Attributes used by us - should be considered private.
       attr_reader :method, :qfile, :databases, :options
 
-      # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/MethodLength
-      def run
-        command = "#{method} -db '#{databases.map(&:name).join(' ')}'" \
-                  " -query '#{qfile}' #{options}"
-
-        sys(command, :stdout => rfile, :stderr => efile)
-        status = $CHILD_STATUS.exitstatus
-        done!(status)
+      # Returns the command that will be executed. Job super class takes care
+      # of actual execution.
+      def command
+        @command ||= "#{method} -db '#{databases.map(&:name).join(' ')}'" \
+                     " -query '#{qfile}' #{options}"
       end
 
-      def rfile
-        File.join(dir, 'rfile')
+      def assert
       end
 
-      def efile
-        File.join(dir, 'efile')
-      end
-
+      # BLAST's exit status is not definitive of success or error, so we
+      # override success? to define custom criteria.
       def success?
-        exitstatus == 0 && File.exist?(rfile) && !File.zero?(rfile)
       end
 
       private
@@ -91,38 +78,37 @@ module SequenceServer
 
       def validate_method(method)
         return true if ALGORITHMS.include? method
-        fail ArgumentError, 'BLAST algorithm should be one of:' \
+        fail InputError, 'BLAST algorithm should be one of:' \
                             " #{ALGORITHMS.join(', ')}."
       end
 
       def validate_sequences(sequences)
         return true if sequences.is_a?(String) && !sequences.empty?
-        fail ArgumentError, 'Sequences should be a non-empty string.'
+        fail InputError, 'Sequences should be a non-empty string.'
       end
 
       def validate_databases(database_ids)
         ids = Database.ids
         return true if database_ids.is_a?(Array) && !database_ids.empty? &&
                        (ids & database_ids).length == database_ids.length
-        fail ArgumentError, 'Database id should be one of:' \
-                            " #{ids.join("\n")}."
+        fail InputError, "Database id should be one of: #{ids.join("\n")}."
       end
 
       # Advanced options are specified by the user. Here they are checked for
       # interference with SequenceServer operations.
       #
-      # Raise ArgumentError if an error has occurred.
+      # Raise InputError if an error has occurred.
       def validate_options(options)
         return true if !options || (options.is_a?(String) &&
                                     options.strip.empty?)
 
         unless allowed_chars.match(options)
-          fail ArgumentError, 'Invalid characters detected in options.'
+          fail InputError, 'Invalid characters detected in options.'
         end
 
         if disallowed_options.match(options)
           failedopt = Regexp.last_match[0]
-          fail ArgumentError, "Option \"#{failedopt}\" is prohibited."
+          fail InputError, "Option \"#{failedopt}\" is prohibited."
         end
 
         true
