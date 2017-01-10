@@ -15,6 +15,9 @@ require 'sequenceserver/doctor'
 
 # Top level module / namespace.
 module SequenceServer
+  # Constant for denoting the path ~/.sequenceserver
+  DOTDIR = File.expand_path('~/.sequenceserver')
+
   # Use a fixed minimum version of BLAST+
   MINIMUM_BLAST_VERSION = '2.2.31+'
 

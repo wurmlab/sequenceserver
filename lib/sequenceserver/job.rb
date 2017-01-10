@@ -11,7 +11,6 @@ module SequenceServer
   # Provides access to global `config` and `logger` object as instance methods.
   # Sub-classes must at least define `run` instance method.
   class Job
-    DOTDIR = File.expand_path('~/.sequenceserver')
     UUID_PATTERN = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}/
 
     class << self
