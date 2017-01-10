@@ -93,7 +93,8 @@ module SequenceServer
       child_pid = fork do
         # Set the PATH environment variable to the binary directory or
         # safe directory.
-        ENV['PATH'] = config[:bin] || options[:path] || ENV['PATH']
+        ENV['PATH'] = config[:bin] if config[:bin] && !options[:path]
+        ENV['PATH'] = options[:path] if options[:path]
 
         # Change to the specified directory.
         Dir.chdir(options[:dir]) if options[:dir] && Dir.exist?(options[:dir])
