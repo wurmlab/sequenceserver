@@ -289,7 +289,7 @@ module SequenceServer
 
     # Return `true` if the given command exists and is executable.
     def command?(command)
-      sys("which #{command}")
+      system("which #{command} > /dev/null 2>&1")
     end
   end
 end
