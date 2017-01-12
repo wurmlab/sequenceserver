@@ -17,7 +17,7 @@ def download_from_url(url)
   cmd = "curl -ip4 -C - #{url} -o #{archive} && " \
         'mkdir -p ~/.sequenceserver && '          \
         "tar xvf #{archive} -C ~/.sequenceserver"
-  system cmd
+  system(cmd)
 end
 
 begin

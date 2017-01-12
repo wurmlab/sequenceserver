@@ -172,8 +172,8 @@ module SequenceServer
         cmd = 'makeblastdb -parse_seqids -hash_index ' \
               "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
               " -taxid #{taxid}"
-        cmd << ' &> /dev/null' if quiet
-        system cmd
+        out, err = sys(cmd)
+        puts out, err unless quiet
       end
 
       # Show file path and guessed sequence type to the user and obtain a y/n
