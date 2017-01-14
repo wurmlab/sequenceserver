@@ -255,7 +255,7 @@ module SequenceServer
 
     def assert_blast_installed_and_compatible
       fail BLAST_NOT_INSTALLED unless command? 'blastdbcmd'
-      version = `blastdbcmd -version`.split[1]
+      version = sys('blastdbcmd -version')[0].chomp
       fail BLAST_NOT_EXECUTABLE if !$CHILD_STATUS.success? || version.empty?
       fail BLAST_NOT_COMPATIBLE, version unless version >= MINIMUM_BLAST_VERSION
     end
@@ -285,7 +285,7 @@ module SequenceServer
 
     # Return `true` if the given command exists and is executable.
     def command?(command)
-      system("which #{command} > /dev/null 2>&1")
+      (sys("which #{command}") rescue false) || true
     end
   end
 end
