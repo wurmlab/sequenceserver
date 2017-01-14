@@ -23,14 +23,12 @@ export default class AlignmentExporter {
         var fasta = "";
 
         _.each(hsps, _.bind(function (hsp) {
-            fasta += hsp.query_id+" "+hsp.qstart+" "+hsp.qend+"\n";
-            fasta += hsp.hit_id+" "+hsp.sstart+" "+hsp.send+"\n";
+            fasta += ">"+hsp.query_id+":"+hsp.qstart+"-"+hsp.qend+"\n";
             fasta += hsp.qseq+"\n";
-            fasta += hsp.midline+"\n";
+            fasta += ">"+hsp.hit_id+":"+hsp.sstart+"-"+hsp.send+"\n";
             fasta += hsp.sseq+"\n";
-            // fasta += this.wrap_string(hsp.qseq, 80)+"\n";
-            // fasta += this.wrap_string(hsp.midline, 80)+"\n";
-            // fasta += this.wrap_string(hsp.sseq, 80)+"\n";
+            fasta += ">"+hsp.query_id+":"+hsp.qstart+"-"+hsp.qend+"_alignment_"+hsp.hit_id+":"+hsp.sstart+"-"+hsp.send+"\n";
+            fasta += hsp.midline+"\n";
         }, this));
         return fasta;
     }
