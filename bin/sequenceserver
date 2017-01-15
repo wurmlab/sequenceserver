@@ -169,6 +169,12 @@ BANNER
         puts e
         exit!
 
+      rescue SequenceServer::ENOENT => e
+        puts e.to_s, ""
+
+        puts "Please consult sequenceserver --help for instructions on how to set the correct values."
+        exit!
+
       rescue SequenceServer::BIN_DIR_NOT_FOUND => e
 
         puts e
