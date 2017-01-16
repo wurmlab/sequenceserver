@@ -191,7 +191,7 @@ module SequenceServer
       if config[:bin]
         config[:bin] = File.expand_path config[:bin]
         unless File.exist?(config[:bin]) && File.directory?(config[:bin])
-          fail BIN_DIR_NOT_FOUND, config[:bin]
+          fail ENOENT.new("bin dir", config[:bin])
         end
         logger.debug("Will use NCBI BLAST+ at: #{config[:bin]}")
       else
