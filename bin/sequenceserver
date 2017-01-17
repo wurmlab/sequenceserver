@@ -175,19 +175,6 @@ BANNER
         puts "Please consult sequenceserver --help for instructions on how to set the correct values."
         exit!
 
-      rescue SequenceServer::BIN_DIR_NOT_FOUND => e
-
-        puts e
-
-        unless bin?
-          puts 'You can set the correct value by running:'
-          puts
-          puts '  sequenceserver -s -b <value>'
-          puts
-        end
-
-        exit!
-
       rescue SequenceServer::DATABASE_DIR_NOT_FOUND => e
 
         puts e
