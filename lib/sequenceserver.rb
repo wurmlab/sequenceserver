@@ -208,7 +208,7 @@ module SequenceServer
       config[:database_dir] = File.expand_path(config[:database_dir])
       unless File.exist?(config[:database_dir]) &&
              File.directory?(config[:database_dir])
-        fail DATABASE_DIR_NOT_FOUND, config[:database_dir]
+        fail ENOENT.new("database dir", config[:database_dir])
       end
 
       logger.debug("Will use BLAST+ databases at: #{config[:database_dir]}")
