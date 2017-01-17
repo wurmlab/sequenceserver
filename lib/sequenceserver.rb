@@ -246,7 +246,7 @@ module SequenceServer
 
       config[:require] = File.expand_path config[:require]
       unless File.exist?(config[:require]) && File.file?(config[:require])
-        fail EXTENSION_FILE_NOT_FOUND, config[:require]
+        fail ENOENT.new("extension file", config[:require])
       end
 
       logger.debug("Loading extension: #{config[:require]}")
