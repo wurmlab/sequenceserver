@@ -52,13 +52,6 @@ MSG
     end
   end
 
-  # Raised if extension file set, but does not exist.
-  class EXTENSION_FILE_NOT_FOUND < ENOENT
-    def initialize(ent)
-      super 'extension file', ent
-    end
-  end
-
   ## NUM THREADS ##
 
   # Raised if num_threads set by the user is incorrect.

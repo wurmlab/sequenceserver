@@ -188,19 +188,6 @@ BANNER
 
         exit!
 
-      rescue SequenceServer::EXTENSION_FILE_NOT_FOUND => e
-
-        puts e
-
-        unless require?
-          puts 'You can set the correct value by running:'
-          puts
-          puts '  sequenceserver -s -r <value>'
-          puts
-        end
-
-        exit!
-
       rescue SequenceServer::BLAST_NOT_INSTALLED,
              SequenceServer::BLAST_NOT_EXECUTABLE,
              SequenceServer::BLAST_NOT_COMPATIBLE => e
