@@ -52,13 +52,6 @@ MSG
     end
   end
 
-  # Raised if database dir set, but does not exist.
-  class DATABASE_DIR_NOT_FOUND < ENOENT
-    def initialize(ent)
-      super 'database dir', ent
-    end
-  end
-
   # Raised if extension file set, but does not exist.
   class EXTENSION_FILE_NOT_FOUND < ENOENT
     def initialize(ent)
