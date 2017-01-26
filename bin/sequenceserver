@@ -221,7 +221,8 @@ BANNER
 
         exit!
 
-      rescue SequenceServer::BLAST_NOT_INSTALLED,
+      rescue SequenceServer::BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE,
+             SequenceServer::BLAST_NOT_INSTALLED,
              SequenceServer::BLAST_NOT_EXECUTABLE,
              SequenceServer::BLAST_NOT_COMPATIBLE => e
 
@@ -238,8 +239,10 @@ BANNER
         puts
         puts <<MSG
 SequenceServer can use NCBI BLAST+ that you may have on your system already, or
-download the correct package for itself. Please enter the path to NCBI BLAST+
-or press Enter to download.
+download the correct package for itself. A recent system update may have broken
+your NCBI BLAST+ installation.
+
+Please enter the path to NCBI BLAST+ or press Enter to download.
 
 Press Ctrl+C to quit.
 MSG
