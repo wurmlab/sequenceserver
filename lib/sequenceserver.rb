@@ -254,12 +254,14 @@ module SequenceServer
     end
 
     def assert_blast_installed_and_compatible
+      begin
       out, _ = sys("blastdbcmd -version")
+      rescue
+        fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE
+      end
       version = out.split[1]
       fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE if version.empty?
       fail BLAST_NOT_COMPATIBLE, version unless version >= MINIMUM_BLAST_VERSION
-    rescue
-      fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE
     end
 
     def server_url
