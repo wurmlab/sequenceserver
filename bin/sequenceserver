@@ -170,7 +170,7 @@ BANNER
         exit!
 
       rescue SequenceServer::ENOENT => e
-        puts e.to_s, ""
+        puts e
 
         puts "Please consult sequenceserver --help for instructions on how to set the correct values."
         exit!
