@@ -86,6 +86,12 @@ MSG
 
   # Raised if SequenceServer could not locate NCBI BLAST+ installation on
   # user's system.
+  class BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE < StandardError
+    def to_s
+      "BLAST not installed, or is not executable."
+    end
+  end
+
   class BLAST_NOT_INSTALLED < StandardError
     def to_s
       'Could not locate BLAST+ binaries.'

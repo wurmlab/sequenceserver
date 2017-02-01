@@ -254,9 +254,13 @@ module SequenceServer
     end
 
     def assert_blast_installed_and_compatible
-      fail BLAST_NOT_INSTALLED unless command? 'blastdbcmd'
-      version = `blastdbcmd -version`.split[1]
-      fail BLAST_NOT_EXECUTABLE if !$CHILD_STATUS.success? || version.empty?
+      begin
+      out, _ = sys("blastdbcmd -version")
+      rescue
+        fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE
+      end
+      version = out.split[1]
+      fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE if version.empty?
       fail BLAST_NOT_COMPATIBLE, version unless version >= MINIMUM_BLAST_VERSION
     end
 
