@@ -191,7 +191,7 @@ module SequenceServer
       if config[:bin]
         config[:bin] = File.expand_path config[:bin]
         unless File.exist?(config[:bin]) && File.directory?(config[:bin])
-          fail BIN_DIR_NOT_FOUND, config[:bin]
+          fail ENOENT.new("bin dir", config[:bin])
         end
         logger.debug("Will use NCBI BLAST+ at: #{config[:bin]}")
       else
@@ -208,7 +208,7 @@ module SequenceServer
       config[:database_dir] = File.expand_path(config[:database_dir])
       unless File.exist?(config[:database_dir]) &&
              File.directory?(config[:database_dir])
-        fail DATABASE_DIR_NOT_FOUND, config[:database_dir]
+        fail ENOENT.new("database dir", config[:database_dir])
       end
 
       logger.debug("Will use BLAST+ databases at: #{config[:database_dir]}")
@@ -246,7 +246,7 @@ module SequenceServer
 
       config[:require] = File.expand_path config[:require]
       unless File.exist?(config[:require]) && File.file?(config[:require])
-        fail EXTENSION_FILE_NOT_FOUND, config[:require]
+        fail ENOENT.new("extension file", config[:require])
       end
 
       logger.debug("Loading extension: #{config[:require]}")
