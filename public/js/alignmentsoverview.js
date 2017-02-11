@@ -321,6 +321,32 @@ class Graph {
         ])
         .range([40,150]);
 
+    var defs = svg.append('defs')
+
+    var markerData = [
+        { id: 0, name: 'Arrow0', path: 'M 0,3 v-3 l6,3 l-6,3 Z', viewbox: '0 0 6 6', fill: '#00c2000'}
+    ];
+
+    var marker = defs.selectAll('marker')
+            .data(markerData)
+            .enter()
+            .append('svg:marker')
+            .attr('id', function (d) { return d.name })
+            .attr('markerHeight', 2)
+            .attr('markerWidth', 2)
+            .attr('markerUnits','strokeWidth')
+            .attr('orient', 'auto')
+            .attr('refX', 3) // For adjustment of matched length
+            .attr('refY', 3) // The height is adjusted
+            .attr('viewBox', function(d) { return d.viewbox })
+                .append('svg:path')
+                .attr('d', function(d) { return d.path })
+                .attr('fill', function(d) { return d.fill });
+
+    var getMarker = function (evalue) {
+        return 'url(#Arrow0)';
+    }
+
     svg.append('g')
         .attr('class', 'ghit')
         .attr('transform', 'translate(0, ' + 1.65 * (options.margin - options.legend) + ')')
@@ -364,22 +390,54 @@ class Graph {
                         }
                     }
 
+                    if (d[j].hspFrame > 0) {
+                        d3.select(this.parentNode)
+                            .append('text')
+                            .attr('class', 'title')
+                            .attr('x', x(d[j].hspEnd) - 10)
+                            .attr('y', yHspline + 6)
+                            // .style('stroke',hsplineColor)
+                            // .style('fill', hsplineColor)
+                            .style('font-size', '24px')
+                            .text('\u22D9');
+                    } else {
+                        d3.select(this.parentNode)
+                            .append('text')
+                            .attr('class', 'title')
+                            .attr('x', x(d[j].hspStart) - 16)
+                            .attr('y', yHspline + 5)
+                            // .style('stroke', hsplineColor)
+                            // .style('fill', hsplineColor)
+                            .style('font-size', '20px')
+                            .text('\u22D8');
+                    }
+
                     // Draw the rectangular hit tracks itself.
-                    d3.select(this)
-                        .attr('xlink:href', '#' + q_i + '_hit_' + (i+1))
-                        .append('rect')
-                            .attr('data-toggle', 'tooltip')
-                            .attr('title', d.hitId + '<br><strong>E value:</strong> '+Helpers.prettify_evalue(v.hspEvalue))
-                            .attr('class','bar')
-                            .attr('x', function (d) {
-                                return x(d.hspStart);
-                            })
-                            .attr('y', y(d.hitId))
-                            .attr('width', function (d) {
-                                return x(d.hspEnd - d.hspStart + 1);
-                            })
-                            .attr('height', options.barHeight)
-                            .attr('fill', d3.rgb(hsplineColor));
+                    if (j+1 < d.length) {
+                        d3.select(this)
+                            .attr('xlink:href', '#' + q_i + '_hit_' + (i+1))
+                            .append('rect')
+                                .attr('data-toggle', 'tooltip')
+                                .attr('title', d.hitId + '<br><strong>E value:</strong> '+Helpers.prettify_evalue(v.hspEvalue))
+                                .attr('class','bar')
+                                .attr('x', function (d) {
+                                    return x(d.hspStart);
+                                })
+                                .attr('y', function (v,idx) {
+                                    // if (d[idx].hspEnd > d[idx+1].hspStart) {
+                                    //     console.log('overlaps ');
+                                    //     return y(d.hitId) + 3
+                                    // } else {
+                                    //     return y(d.hitId)
+                                    // }
+                                    return y(d.hitId)
+                                })
+                                .attr('width', function (d) {
+                                    return x(d.hspEnd - d.hspStart + 1);
+                                })
+                                .attr('height', options.barHeight)
+                                .attr('fill', d3.rgb(hsplineColor));
+                    }
                 });
             });
 
