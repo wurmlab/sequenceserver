@@ -793,13 +793,22 @@ var Form = React.createClass({
      };
     },
 
+    formatQuerySequences: function (retrieved_seqs) {
+      if (retrieved_seqs.hasOwnProperty("sequences")) {
+        return retrieved_seqs.sequences.map(function (x) {
+          return '>' + x.id + "\r\n" + x.value
+        }).join("\r\n");
+      }
+      return [];
+    },
+
     componentDidMount: function () {
        $.getJSON("searchdata.json"+window.location.search, _.bind(function(data) {
          this.setState({
             preDefinedOpts: data["options"],
             databases: data["database"]
          });
-         this.refs.query.value(data["query"]);
+         this.refs.query.value(this.formatQuerySequences(data["query"]));
        }, this));
 
        $(document).bind("keydown", _.bind(function (e) {
