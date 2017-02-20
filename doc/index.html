@@ -668,8 +668,8 @@ launchctl load ~/Library/LaunchAgents/sequenceserver
         </h2>
       </div>
       <p>
-        SequenceServer's built-in webserver can handle medium workloads. Though
-        for large communities or to integrate SequenceServer as part of
+        SequenceServer's built-in webserver can handle medium workloads.
+        Though, for large communities or to integrate SequenceServer as part of
         existing websites it may be desirable to run SequenceServer with Apache.
         Also, setting up with Apache means SequenceServer will automatically be
         available when server restarts.
@@ -687,11 +687,27 @@ SequenceServer.init :config_file => "/home/foo/.sequenceserver.conf"
 {% endhighlight %}
 
       <p>
-        For SequenceServer 1.0.7 and earlier, you will additionally need to delete <code>Gemfile</code> from SequenceServer's installation directory.
+        For SequenceServer 1.0.7 and earlier, you will additionally need to
+        delete <code>Gemfile</code> from SequenceServer's installation
+        directory.
       </p>
 
       <p>
-        If JS, CSS, and icons don't load, it is not SequenceServer's fault. See <a href="https://groups.google.com/forum/#!topic/sequenceserver/NIfKTNm1om4">this thread</a> for a fix. Further, because BLAST searches can take time, you may additionally want to configure <a href="https://httpd.apache.org/docs/2.4/mod/core.html#timeout"><code>Timeout</code></a> in your Apache config to a suitable value (e.g., 5 minutes) so that the Apache doesn't close the connection before a BLAST search has been performed.
+        If you plan to deploy multiple SequenceServer instances, you should
+        <a href="https://groups.google.com/d/msg/sequenceserver/FWI0Dq_2erw/SV6H_tTxBgAJ">
+        deploy each to a sub-uri</a>.
+      </p>
+
+      <p>
+        If you deploy to a sub-uri a trailing slash is required for JS, CSS and
+        the icons to load properly. Ideally, just putting a trailing slash in
+        Apache config should be sufficient. See
+        <a href="https://groups.google.com/forum/#!topic/sequenceserver/NIfKTNm1om4">
+          this thread</a> for more solutions.
+      </p>
+
+      <p>
+      Further, because BLAST searches can take time, you may additionally want to configure <a href="https://httpd.apache.org/docs/2.4/mod/core.html#timeout"><code>Timeout</code></a> in your Apache config to a suitable value (e.g., 5 minutes) so that the Apache doesn't close the connection before a BLAST search has been performed.
       </p>
     </section>
 
