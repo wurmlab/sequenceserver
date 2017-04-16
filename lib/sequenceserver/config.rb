@@ -84,7 +84,7 @@ module SequenceServer
       {
         :num_threads  => 1,
         :port         => 4567,
-        :host         => '0.0.0.0'
+        :host         => 'localhost'
       }
     end
 
