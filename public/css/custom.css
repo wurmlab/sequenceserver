@@ -350,7 +350,7 @@ svg:not(:root) {
 .axis path,
 .axis line {
     fill: none;
-    stroke: #f00;
+    stroke: #777;
     stroke-width: 2px;
     shape-rendering: crispEdges;
 }
