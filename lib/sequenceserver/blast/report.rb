@@ -33,8 +33,9 @@ module SequenceServer
 
       # Generate report.
       def generate
-        xml = Formatter.run(search_id, 'xml').file
-        ir  = node_to_array(Ox.parse(xml.open.read).root)
+        ox = Ox.load_file(Formatter.run(search_id, 'xml').file.path,
+                          :skip => :skip_none)
+        ir = node_to_array ox.root
         extract_program_info ir
         extract_params ir
         extract_stats ir
