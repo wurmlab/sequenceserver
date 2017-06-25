@@ -1,7 +1,7 @@
 {
     "name": "SequenceServer",
     "description": "BLAST search made easy!",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "homepage": "http://www.sequenceserver.com",
     "repository": "https://github.com/yannickwurm/sequenceserver",
     "author": {
