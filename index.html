@@ -467,42 +467,34 @@ layout: page
         style="padding-left: 20px;">
         <li>
           <p>
-            <strong>
-              Linux or Mac OSX.
-            </strong>
-            While we would like to also support Windows, our resources
-            are limited and we prefer to first concentrate on making
-            SequenceServer great on fewer platforms. It should be
-            possible to run SequenceServer on Windows using
-            <a
-              href="http://cygwin.com/">
-              Cygwin</a>.
-            Note that you can connect to SequenceServer running on
-            other machines from your browser in Windows.
+            <strong> Linux or Mac </strong> and <strong><a
+                href="http://ruby-lang.org">Ruby</a> (&ge;
+              1.8.7; preferrably &ge; 2.0)</strong>.
+            Additionally, the <code>ruby-dev</code>
+            package on Ubuntu and Debian.
           </p>
         </li>
         <li>
           <p>
-            <a href="http://ruby-lang.org">Ruby</a> (&ge; 1.8.7) along with the
-            <code>ruby-dev</code> package on Darwin/Debian.
-            <a href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">
+            <a
+              href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">
               NCBI BLAST+
-            </a> (&ge; 2.2.31+) is interactively downloaded if absent.
+            </a> (2.2.31+) is interactively downloaded if absent.
           </p>
         </li>
         <li>
           <p>
             <img
-            src="https://raw.githubusercontent.com/alrra/browser-logos/master/chrome/chrome_32x32.png"
+            src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/42.6.0/archive/chrome_12-48/chrome_12-48_32x32.png"
             alt="Google Chrome"> or
             <img
-            src="https://raw.githubusercontent.com/alrra/browser-logos/master/firefox/firefox_32x32.png"
+            src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/42.6.0/archive/firefox_1/firefox_1_32x32.png"
             alt="Mozilla Firefox"> or
             <img
-            src="https://raw.githubusercontent.com/alrra/browser-logos/master/safari/safari_32x32.png"
+            src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/42.6.0/archive/safari_1-7/safari_1-7_32x32.png"
             alt="Safari"> 7+ or
             <img
-            src="https://raw.githubusercontent.com/alrra/browser-logos/master/internet-explorer/internet-explorer_32x32.png"
+            src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/42.6.0/archive/internet-explorer_9-11/internet-explorer_9-11_32x32.png"
             alt="Internet Explorer"> 9+
           </p>
         </li>
@@ -512,31 +504,31 @@ layout: page
         style="border-top: 1px solid #eee">
         <h3
           id="quick-setup">
-          Quick setup
+          Install or update
         </h3>
       </div>
       <p>
-        Run the following in a terminal to install, configure and run the
-        latest release of SequenceServer. It will automatically guide you
-        through an interactive setup process to locate or download BLAST+
-        binaries, ask for the location of FASTA files (or BLAST+ databases),
-        and offer to create BLAST+ databases from FASTA files.
+        Run the following in a terminal to install SequenceServer for the first time, or to update the latest version:
       </p>
 {% highlight shell %}
-# Install or update.
 sudo gem install sequenceserver
+{% endhighlight %}
 
-# Configure and run.
+      <div
+        class="page-header"
+        style="border-top: 1px solid #eee">
+        <h3
+          id="quick-setup">
+          Configure and run
+        </h3>
+      </div>
+      <p>
+        Run the following in a terminal to configure and run SequenceServer. It
+        will automatically prompt you for anything that might be missing:
+      </p>
+{% highlight shell %}
 sequenceserver
 {% endhighlight %}
-      <p>
-        Alternatively, you can use SequenceServer with
-        <a
-          href="http://www.sequenceserver.com/doc">
-          Docker
-        </a> - only need to specify the location of your database directory.
-      </p>
-<pre>docker run --rm -itp 4567:4567 -v /path-to-database-dir:/db wurmlab/sequenceserver:1.0.11</pre>
       <p>
         That's it! Open
         <a
@@ -566,13 +558,29 @@ sequenceserver
         class="page-header"
         style="border-top: 1px solid #eee">
         <h3>
-          Advanced
+          Advanced configuration
         </h3>
       </div>
       <p>
         We have expanded, updated, and improved our documentation and moved it
         to the new <a href="/doc">advanced setup</a> page.
       </p>
+
+      <div
+        class="page-header"
+        style="border-top: 1px solid #eee">
+        <h3>
+          Using with docker
+        </h3>
+      </div>
+      <p>
+        Alternatively, you can use SequenceServer with
+        <a
+          href="http://www.sequenceserver.com/doc">
+          Docker
+        </a> - only need to specify the location of your database directory.
+      </p>
+<pre>docker run --rm -itp 4567:4567 -v /path-to-database-dir:/db wurmlab/sequenceserver:1.0.11</pre>
     </section>
 
     <!-- License and Support================================================== -->
