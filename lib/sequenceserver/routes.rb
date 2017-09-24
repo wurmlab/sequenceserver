@@ -64,10 +64,44 @@ module SequenceServer
     # Returns data that is used to render the search form client side. These
     # include available databases and user-defined search options.
     get '/searchdata.json' do
-      {
+      searchdata = {
         database: Database.all,
-        options:  SequenceServer.config[:options]
-      }.to_json
+        options: SequenceServer.config[:options]
+      }
+      if params[:query]
+        # if the url contains a query param (query=seqid1:start-stop,seqid2:start-stop)
+        # parse the sequence ids and retrieve the sequences to be added to the textarea
+        # by updating query state in search.js.
+        #
+        # Have to check both database types as we don't know what type of id we have and
+        # blastdbcmd throws an error if given a set of databases with mixed type.
+        #
+        # Loop through query sequences one-by-one to allow us to specify range and catch
+        # individual identifiers that cannot be found.
+        databases = Database.all.select { |x| x.type == 'protein' }
+        protein_database_ids = databases.map { |x| x.id }
+        databases = Database.all.select { |x| x.type == 'nucleotide' }
+        nucleotide_database_ids = databases.map { |x| x.id }
+        retrieved_seqs = {}
+        sequences = params[:query].split(',')
+        sequences.each do |sequence|
+          sequence_id,range = sequence.split(':')
+          new_seqs = {}
+          begin
+            new_seqs = Sequence::Retriever.new(sequence_id, protein_database_ids,false,range).to_hash
+          rescue
+            begin
+              new_seqs = Sequence::Retriever.new(sequence_id, nucleotide_database_ids,false,range).to_hash
+            rescue
+              # will get here if no sequence matched the provided identifier
+              new_seqs = { :error_msgs=> [ "You requested a sequence with the identifier "+sequence_id+" but no matching sequences were found." ] }
+            end
+          end
+          retrieved_seqs = retrieved_seqs.merge( new_seqs ){ |k,a,b| a + b }
+        end
+        searchdata = searchdata.merge( { query: retrieved_seqs } )
+      end
+      searchdata.to_json
     end
 
     # Queues a search job and redirects to `/:jid`.

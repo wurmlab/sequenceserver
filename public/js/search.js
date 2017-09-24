@@ -281,7 +281,7 @@ var Query = React.createClass({
      * of directly calling this method.
      */
     type: function () {
-        var sequences = this.value().split(/>.*/);
+        var sequences = this.value().toString().split(/>.*/);
 
         var type, tmp;
 
@@ -793,12 +793,22 @@ var Form = React.createClass({
      };
     },
 
+    formatQuerySequences: function (retrieved_seqs) {
+      if (retrieved_seqs.hasOwnProperty("sequences")) {
+        return retrieved_seqs.sequences.map(function (x) {
+          return '>' + x.id + "\r\n" + x.value
+        }).join("\r\n");
+      }
+      return [];
+    },
+
     componentDidMount: function () {
-       $.getJSON("searchdata.json", _.bind(function(data) {
+       $.getJSON("searchdata.json"+window.location.search, _.bind(function(data) {
          this.setState({
             preDefinedOpts: data["options"],
             databases: data["database"]
          });
+         this.refs.query.value(this.formatQuerySequences(data["query"]));
        }, this));
 
        $(document).bind("keydown", _.bind(function (e) {
@@ -863,7 +873,7 @@ var Form = React.createClass({
     },
 
     handleAlgoChanged: function (algo) {
-      if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
+      if (this.state.preDefinedOpts && this.state.preDefinedOpts.hasOwnProperty(algo)) {
         this.refs.opts.setState({
           preOpts: this.state.preDefinedOpts[algo].join(" ")
         });

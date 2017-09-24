@@ -164,15 +164,16 @@ module SequenceServer
         end
       end
 
-      def initialize(sequence_ids, database_ids, in_file = false)
+      def initialize(sequence_ids, database_ids, in_file = false, range = false)
         @sequence_ids = Array sequence_ids
         @database_ids = Array database_ids
         @in_file = in_file
+        @range = range
 
         validate && run
       end
 
-      attr_reader :sequence_ids, :database_ids, :in_file
+      attr_reader :sequence_ids, :database_ids, :in_file, :range
 
       attr_reader :sequences
 
@@ -183,12 +184,21 @@ module SequenceServer
         }.to_json
       end
 
+      def to_hash
+        {
+          :error_msgs => error_msgs,
+          :sequences  => sequences.map(&:info)
+        }
+      end
+
       private
 
       def run
         command = "blastdbcmd -outfmt '%g	%i	%a	%t	%s'" \
                   " -db '#{database_names.join(' ')}'" \
                   " -entry '#{sequence_ids.join(',')}'"
+
+        command += " -range '#{range}'" if range
 
         out, _ = sys(command)
 
@@ -238,6 +248,7 @@ MSG
         ]
       end
       # rubocop:enable Metrics/MethodLength
+
     end
   end
 end
