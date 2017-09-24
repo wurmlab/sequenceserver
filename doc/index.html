@@ -57,6 +57,13 @@ layout: page
         <li
           role="presentation">
           <a
+            href="#autostart-systemd">
+            Autostart with systemd
+          </a>
+        </li>
+        <li
+          role="presentation">
+          <a
             href="#ubuntu">
             Autostart on Ubuntu / Bio Linux
           </a>
@@ -65,7 +72,7 @@ layout: page
           role="presentation">
           <a
             href="#macosx">
-            Autostart on Mac OSX
+            Autostart on Mac OS X
           </a>
         </li>
         <li
@@ -180,7 +187,7 @@ sequenceserver -s -b /path/to/latest/blast/binaries
       <p>
         The following table lists all configuration values accepted by
         SequenceServer through the configuration file or through command line
-        options. Command line options take preecendence over the values in
+        options. Command line options take precendence over the values in
         configuration file.
       </p>
       <table
@@ -374,7 +381,7 @@ sequenceserver -s -b /path/to/latest/blast/binaries
       <p>
         The BLAST search algorithms don't directly understand FASTA files.
         BLAST includes the <code>makeblastdb</code> tool that is used to
-        converts FASTA files into the optimized BLASTDB format, which is
+        convert FASTA files into the optimized BLASTDB format, which is
         then used by the search algorithms:
       </p>
 
@@ -425,7 +432,7 @@ sequenceserver -m -c /path/to/config_file_containing_database_dir</pre>
         are split across several files (volumes) and linked together with an
         alias file. SequenceServer works seamlessly with such, multi-part
         databases. We also have an alternative to
-        <code>update_blastdb.pl</code> to download BLAST datbases from NCBI
+        <code>update_blastdb.pl</code> to download BLAST databases from NCBI
         faster: <a
           href="https://github.com/yeban/ncbi-blast-dbs">ncbi-blast-dbs</a>.
       </p>
@@ -515,7 +522,7 @@ Enter a database title or will use 'SI 2.2.3 ':
       </div>
       <p>
         It is often desirable to link search hits to external resources such as
-        NCBI, UniProt, or a genome browser. Sequenceserver provides a powerful
+        NCBI, UniProt, or a genome browser. SequenceServer provides a powerful
         and flexible mechanism to do this.
 
         Simply edit <code>lib/sequenceserver/links.rb</code> in your
@@ -562,7 +569,7 @@ Enter a database title or will use 'SI 2.2.3 ':
       <p>
         If you already have a fixed, public IP but port 4567 is blocked by a
         firewall, you can try running SequenceServer on a different port:
-        <code>sequenceserver -p 8080</code>. Administrator previlege is
+        <code>sequenceserver -p 8080</code>. Administrator privilege is
         required to use port 80: <code>sudo sequenceserver -p 80</code>.
       </p>
       <p>
@@ -570,6 +577,60 @@ Enter a database title or will use 'SI 2.2.3 ':
           by setting <code>:host:</code> key in config file to
           <code>127.0.0.1</code>: <code>sequenceserver -s -H 127.0.0.1</code>
         </p>
+    </section>
+
+    <!-- Autostart with systemd ============================================== -->
+    <section
+      id="autostart-systemd">
+      <div
+        class="page-header"
+        style="margin-top: 20px;">
+        <h2>
+          Autostart with systemd
+        </h2>
+      </div>
+      <p>
+        Either put your user account or create a local user account for SequenceServer <code>sudo useradd -s /sbin/nologin seqservuser</code>.
+      </p>
+      <p>
+        Create file <code>/etc/systemd/system/sequenceserver.service</code> with the following content, changing <code>ExecStart</code> (and maybe <code>User</code>) to match your environment:
+      </p>
+
+{% highlight shell %}
+[Unit]
+Description=SequenceServer server daemon
+Documentation="file://sequenceserver --help" "http://sequenceserver.com/doc"
+After=network.target
+
+[Service]
+Type=simple
+User=seqservuser
+ExecStart=/path/to/bin/sequenceserver -c /path/to/sequenceserver.conf
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+RestartPreventExitStatus=255
+
+[Install]
+WantedBy=multi-user.target
+{% endhighlight %}
+
+      <p>
+        Stop any SequenceServer instance you might be running and check the above works by running the following command:
+      </p>
+{% highlight shell %}
+## let systemd know about changed files
+sudo systemctl daemon-reload
+## enable service for automatic start on boot
+systemctl enable sequenceserver.service
+## start service immediately
+systemctl start sequenceserver.service
+{% endhighlight %}
+
+      <p>
+        See <a href="https://freedesktop.org/wiki/Software/systemd/">systemd website</a>
+        for more options and debugging if it fails.
+      </p>
     </section>
 
     <!-- Autostart on Ubuntu / Bio Linux =================================== -->
@@ -614,14 +675,14 @@ sudo start sequenceserver
       </p>
     </section>
 
-    <!-- Autostart on Mac OSX ============================================== -->
+    <!-- Autostart on Mac OS X ============================================== -->
     <section
       id="macosx">
       <div
         class="page-header"
         style="margin-top: 20px;">
         <h2>
-          Autostart on Mac OSX
+          Autostart on Mac OS X
         </h2>
       </div>
       <p>
@@ -880,9 +941,9 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
           characters. This will be fixed in the next major release.
         </li>
         <li>
-          <strong>During setup on some versions of OSX, an extra space is added
+          <strong>During setup on some versions of OS X, an extra space is added
             at the end of autocompleted paths when SequenceServer prompts for
-            paths to the BLAST+ executables or database directory</strong>. Ths
+            paths to the BLAST+ executables or database directory</strong>. This
           appears to be due to a bug in Ruby readline library. Unfortunately it
           is beyond our scope to fix this slightly inconvenient
           <a href="https://github.com/wurmlab/sequenceserver/issues/136">
@@ -957,7 +1018,7 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
           The BLAST+ publication
         </a>
         explains why BLAST+ is easier to use and faster than the old
-        <em>legacy</em> BLAST. WU-BLAST is now commerical and called
+        <em>legacy</em> BLAST. WU-BLAST is now commercial and called
         <a
           href="http://blast.advbiocomp.com/">
           AB-BLAST</a>.
