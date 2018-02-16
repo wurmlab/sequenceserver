@@ -47,15 +47,26 @@ dl dd {
   background-color: white;
 }
 
+.brand-container {
+  width: 279px;
+}
+
 .navbar-brand {
-  height: auto;
-  padding: 20px 15px;
-  font-size: 32px;
+  padding: 20px 15px 5px 15px;
   color: rgb(51, 51, 51);
+  font-size: 32px;
 }
 
 .navbar-brand > small {
   font-size: 50%;
+}
+
+.navbar-brand-made-by {
+  color: #777;
+}
+
+.navbar-brand-made-by:hover {
+  text-decoration: none;
 }
 
 .navbar-nav > li > a {
