@@ -270,6 +270,9 @@ module SequenceServer
       "http://#{host}:#{config[:port]}"
     end
 
+    # Uses `open` on Mac or `xdg-open` on Linux to opens the search form in
+    # user's default browser. This function is called when SequenceServer
+    # is launched from the terminal. Errors, if any, are silenced.
     def open_in_browser(server_url)
       return if using_ssh? || verbose?
       if RUBY_PLATFORM =~ /linux/ && xdg?
@@ -277,6 +280,8 @@ module SequenceServer
       elsif RUBY_PLATFORM =~ /darwin/
         sys("open #{server_url}")
       end
+    rescue
+      # fail silently
     end
 
     def using_ssh?
