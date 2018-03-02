@@ -7,7 +7,7 @@ import GraphicalOverview from './alignmentsoverview';
 //import Kablammo from './kablammo';
 import './sequence';
 import AlignmentExporter from './alignment_exporter';
-import LengthDistribution from './lengthdistribution';
+//import LengthDistribution from './lengthdistribution';
 //import Circos from './circos';
 
 /**
@@ -634,7 +634,9 @@ var Query = React.createClass({
 
                             <GraphicalOverview key={"GO_"+this.props.query.id} query={this.props.query} program={this.props.data.program}/>
 
+                            {/*
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program}/>
+                            */}
                             <HitsTable key={"HT_"+this.props.query.id} query={this.props.query}/>
                             <div
                                 id="hits">
