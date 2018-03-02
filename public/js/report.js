@@ -8,7 +8,7 @@ import Kablammo from './kablammo';
 import './sequence';
 import AlignmentExporter from './alignment_exporter';
 import LengthDistribution from './lengthdistribution';
-import Circos from './circos';
+//import Circos from './circos';
 
 /**
  * Pretty formats number
@@ -1048,8 +1048,10 @@ var Report = React.createClass({
                 <div className={this.shouldShowSidebar() ?
                     'col-md-9' : 'col-md-12'}>
                     { this.overview() }
+                    {/*
                     <Circos queries={this.state.queries}
                         program={this.state.program}/>
+                    */}
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (

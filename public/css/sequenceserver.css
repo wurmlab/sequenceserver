@@ -369,7 +369,7 @@ input[name="advanced"] {
 
 /* Result per query. */
 .overview {
-  margin-top: 30px;
+  margin: 30px 0;
 }
 .resultn {
   margin-bottom: 50px;
