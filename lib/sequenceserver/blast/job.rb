@@ -44,9 +44,8 @@ module SequenceServer
         command = "#{method} -db '#{databases.map(&:name).join(' ')}'" \
                   " -query '#{qfile}' #{options}"
 
-        sys(command, :stdout => rfile, :stderr => efile) 
+        sys(command, stdout: rfile, stderr: efile, path: config[:bin])
         done!
-
       rescue CommandFailed => e
         # Capture error.
         status = e.exitstatus

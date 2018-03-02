@@ -113,7 +113,7 @@ module SequenceServer
       def blastdbcmd
         cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
               ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
-        out, err = sys(cmd)
+        out, err = sys(cmd, path: config[:bin])
         errpat = /BLAST Database error/
         fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
         return out
