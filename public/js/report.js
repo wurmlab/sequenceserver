@@ -16,63 +16,6 @@ import AlignmentExporter from './alignment_exporter';
 var Utils = {
 
     /**
-     * Prettifies numbers and arrays.
-     */
-    prettify: function (data) {
-        if (this.isTuple(data)) {
-            return this.prettify_tuple(data);
-        }
-        if (this.isFloat(data)) {
-            return this.prettify_float(data);
-        }
-        return data
-    },
-
-    /**
-     * Formats float as "a.bc" or "a x b^c". The latter if float is in
-     * scientific notation. Former otherwise.
-     */
-    prettify_float: function (data) {
-        var matches = data.toString().split("e");
-        var base  = matches[0];
-        var power = matches[1];
-
-        if (power)
-        {
-            var s = parseFloat(base).toFixed(2);
-            var element = <span>{s} &times; 10<sup>{power}</sup></span>;
-            return element;
-        }
-        else {
-            if(!(base % 1==0)) {
-              if (parseFloat(base).toFixed(2) == 0.00) {
-                return parseFloat(base).toFixed(5)
-              }
-                return parseFloat(base).toFixed(2);
-            } else {
-                return base;
-            }
-        }
-    },
-
-    // Formats an array of two elements as "first (last)".
-    prettify_tuple: function (tuple) {
-        return (tuple[0] + " (" + tuple[tuple.length - 1] + ")");
-    },
-
-    // Checks if data is an array.
-    isTuple: function (data) {
-        return (Array.isArray(data) && data.length == 2)
-    },
-
-    // Checks if data if float.
-    isFloat: function (data) {
-        return (typeof(data) == 'number' ||
-                (typeof(data) == 'string' &&
-                    data.match(/(\d*\.\d*)e?([+-]\d+)?/)))
-    },
-
-    /**
      * Render URL for sequence-viewer.
      */
     a: function (link , hitlength) {
@@ -85,6 +28,16 @@ var Utils = {
                 </a>
             );
         }
+    },
+
+
+    /***********************************
+     * Formatters for hits & hsp table *
+     ***********************************/
+
+    // Formats an array of two elements as "first (last)".
+    format_2_tuple: function (tuple) {
+        return (tuple[0] + " (" + tuple[tuple.length - 1] + ")");
     },
 
     /**
@@ -105,19 +58,25 @@ var Utils = {
      * Returns given Float as String formatted to two decimal places.
      */
     inTwoDecimal: function (num) {
-        return parseFloat(num).toFixed(2)
+        return num.toFixed(2)
     },
 
     /**
      * Formats the given number as "1e-3" if the number is less than 1 or
      * greater than 10.
      */
-    inScientificOrTwodecimal: function (num) {
-        if(num >= 1 && num < 10)
+    inExponential: function (num) {
+        if (num >= 1 && num < 10)
         {
             return this.inTwoDecimal(num)
         }
-        return num.toExponential(2);
+        var exp = num.toExponential(2);
+
+        var parts = exp.split("e");
+        var base  = parts[0];
+        var power = parts[1];
+
+        return <span>{base} &times; 10<sup>{power}</sup></span>;
     },
 
 };
@@ -326,22 +285,22 @@ var Hit = React.createClass({
      */
     getStats: function (hsp) {
         var stats = {
-            'Score': [
+            'Score': this.format_2_tuple([
                 this.inTwoDecimal(hsp.bit_score),
                 hsp.score
-            ],
+            ]),
 
-            'E value': this.inScientificOrTwodecimal(hsp.evalue),
+            'E value': this.inExponential(hsp.evalue),
 
-            'Identities': [
+            'Identities': this.format_2_tuple([
                 this.inFraction(hsp.identity, hsp.length),
                 this.inPercentage(hsp.identity, hsp.length)
-            ],
+            ]),
 
-            'Gaps': [
+            'Gaps': this.format_2_tuple([
                 this.inFraction(hsp.gaps, hsp.length),
                 this.inPercentage(hsp.gaps, hsp.length)
-            ],
+            ]),
 
             'Coverage': hsp.qcovhsp
         };
@@ -354,10 +313,10 @@ var Hit = React.createClass({
             // fall-through
         case 'blastp':
             _.extend(stats, {
-                'Positives': [
+                'Positives': this.format_2_tuple([
                     this.inFraction(hsp.positives, hsp.length),
                     this.inPercentage(hsp.positives, hsp.length)
-                ]
+                ])
             });
             break;
         case 'blastn':
@@ -508,8 +467,8 @@ var Hit = React.createClass({
                                                         <tbody>
                                                             <tr>
                                                                 {
-                                                                    _.map(stats_returned, _.bind(function (value , key) {
-                                                                        return(<th key={value+"_"+key}>{this.prettify(value)}</th>);
+                                                                    _.map(stats_returned, _.bind(function (value, key) {
+                                                                        return(<th key={value+"_"+key}>{value}</th>);
                                                                     }, this))
                                                                 }
                                                             </tr>
@@ -564,11 +523,11 @@ var HitsTable = React.createClass({
                                             {hit.id}
                                         </a>
                                     </td>
-                                    {hasName && <td className="text-left">{this.prettify(hit.sciname)}</td>}
-                                    <td className="text-right">{this.prettify(hit.qcovs)}</td>
-                                    <td className="text-right">{this.prettify(hit.score)}</td>
-                                    <td className="text-right">{this.prettify(hit.hsps[0].evalue)}</td>
-                                    <td className="text-right">{this.prettify(hit.hsps[0].identity)}</td>
+                                    {hasName && <td className="text-left">{hit.sciname}</td>}
+                                    <td className="text-right">{hit.qcovs}</td>
+                                    <td className="text-right">{hit.score}</td>
+                                    <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
+                                    <td className="text-right">{hit.hsps[0].identity}</td>
                                 </tr>
                             )
                         }, this))
