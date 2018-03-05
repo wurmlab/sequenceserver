@@ -17,6 +17,8 @@ interface for use locally or over the web.
 DESC
 
   # dependencies
+  s.required_ruby_version = '>= 2.3.0'
+
   s.add_dependency('sinatra',   '~> 1.4',  '>= 1.4.5')
   s.add_dependency('json_pure', '~> 1.8',  '>= 1.8.2')
   s.add_dependency('ox',        '~> 2.1',  '>= 2.1.1')
