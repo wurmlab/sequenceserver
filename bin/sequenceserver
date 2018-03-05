@@ -229,7 +229,7 @@ MSG
                 when /darwin/       # Mac
                   'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/' \
                   "#{version.chop}/" \
-                  "ncbi-blast-#{version}-universal-macosx.tar.gz"
+                  "ncbi-blast-#{version}-x64-macosx.tar.gz"
                 else
                   puts <<ERR
 ------------------------------------------------------------------------

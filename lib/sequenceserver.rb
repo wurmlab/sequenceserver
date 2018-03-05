@@ -19,7 +19,7 @@ module SequenceServer
   DOTDIR = File.expand_path('~/.sequenceserver')
 
   # Use a fixed minimum version of BLAST+
-  MINIMUM_BLAST_VERSION = '2.2.31+'
+  MINIMUM_BLAST_VERSION = '2.6.0+'
 
   class << self
     def environment
