@@ -56,7 +56,7 @@ module SequenceServer
 
       extend Forwardable
 
-      def_delegators SequenceServer, :config, :logger, :sys
+      def_delegators SequenceServer, :config, :sys
 
       def collection
         @collection ||= {}
@@ -172,7 +172,7 @@ module SequenceServer
         cmd = 'makeblastdb -parse_seqids -hash_index ' \
               "-in #{file} -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
               " -taxid #{taxid}"
-        out, err = sys(cmd)
+        out, err = sys(cmd, path: config[:bin])
         puts out, err unless quiet
       end
 
