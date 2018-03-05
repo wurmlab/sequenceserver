@@ -900,11 +900,20 @@ var Report = React.createClass({
      * Fetch results.
      */
     fetch_results: function () {
+        var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
+
         $.getJSON(location.pathname + '.json')
         .complete(_.bind(function (jqXHR) {
             switch (jqXHR.status) {
             case 202:
-                setTimeout(this.fetch_results, 5000);
+                var interval;
+                if (intervals.length === 1) {
+                    interval = intervals[0];
+                }
+                else {
+                    interval = intervals.shift;
+                }
+                setTimeout(this.fetch_results, interval);
                 break;
             case 200:
                 this.setState(jqXHR.responseJSON);
