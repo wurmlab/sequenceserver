@@ -904,7 +904,7 @@ var Report = React.createClass({
         .complete(_.bind(function (jqXHR) {
             switch (jqXHR.status) {
             case 202:
-                setTimeout(fetch_results, 5000);
+                setTimeout(this.fetch_results, 5000);
                 break;
             case 200:
                 this.setState(jqXHR.responseJSON);
