@@ -193,7 +193,10 @@ module SequenceServer
         out, _ = sys(command, path: config[:bin])
 
         @sequences = out.each_line.map do |line|
-          line = line.encode('UTF-8', invalid: :replace, replace: '?')
+          # Stop codons in amino acid sequence databases show up as invalid
+          # UTF-8 characters in the output and cause the subsequent call to
+          # `split` to fail. We replace invalid UTF-8 characters with X.
+          line = line.encode('UTF-8', invalid: :replace, replace: 'X')
           Sequence.new(*line.chomp.split('	'))
         end
         extend(IO) && write if in_file
