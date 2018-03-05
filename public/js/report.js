@@ -1003,7 +1003,7 @@ var Report = React.createClass({
                 { this.shouldShowSidebar() &&
                     (
                         <div
-                            className="col-md-3 hidden-sm">
+                            className="col-md-3 hidden-sm hidden-xs">
                             <SideBar data={this.state}/>
                         </div>
                     )
