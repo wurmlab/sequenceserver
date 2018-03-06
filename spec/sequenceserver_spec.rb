@@ -32,12 +32,12 @@ module SequenceServer
       # Raise if bin dir does not exist.
       expect do
         SequenceServer.init(config.update :bin => '/foo/bar')
-      end.to raise_error(BIN_DIR_NOT_FOUND)
+      end.to raise_error(ENOENT)
 
       # Raise if bin dir is not a directory.
       expect do
         SequenceServer.init(config.update :bin => __FILE__)
-      end.to raise_error(BIN_DIR_NOT_FOUND)
+      end.to raise_error(ENOENT)
     end
 
     # database_dir is compulsory
@@ -52,12 +52,12 @@ module SequenceServer
       # Raise if database_dir does not exist.
       expect do
         SequenceServer.init(config.update :database_dir => '/foo/bar')
-      end.to raise_error(DATABASE_DIR_NOT_FOUND)
+      end.to raise_error(ENOENT)
 
       # Raise if database_dir is not a directory.
       expect do
         SequenceServer.init(config.update :database_dir => __FILE__)
-      end.to raise_error(DATABASE_DIR_NOT_FOUND)
+      end.to raise_error(ENOENT)
     end
 
     # database_dir, when correctly set, should contain at least one BLAST+
@@ -90,13 +90,13 @@ module SequenceServer
       expect do
         SequenceServer.init(config.update :database_dir => database_dir,
                                           :require      => 'foo/bar')
-      end.to raise_error(EXTENSION_FILE_NOT_FOUND)
+      end.to raise_error(ENOENT)
 
       # Raise if directory.
       expect do
         SequenceServer.init(config.update :database_dir => database_dir,
                                           :require => File.dirname(__FILE__))
-      end.to raise_error(EXTENSION_FILE_NOT_FOUND)
+      end.to raise_error(ENOENT)
     end
 
     it 'has a list of databases after startup' do
