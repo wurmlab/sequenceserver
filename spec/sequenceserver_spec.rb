@@ -15,7 +15,7 @@ module SequenceServer
     end
 
     let 'database_dir' do
-      File.join(root, 'spec', 'database')
+      File.join(root, 'spec', 'database', 'sample')
     end
 
     let 'database_dir_no_db' do
@@ -100,9 +100,10 @@ module SequenceServer
     end
 
     it 'has a list of databases after startup' do
+      SequenceServer::Database.clear
       SequenceServer.init(config.update :database_dir => database_dir)
       Database.all.should_not be_empty
-      Database.all.length.should == 6
+      Database.all.length.should == 2
     end
   end
 end
