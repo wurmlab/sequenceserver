@@ -25,7 +25,6 @@ module SequenceServer
       config[:num_threads].should eq 1
       config[:host].should eq '0.0.0.0'
       config[:port].should eq 4567
-      config.config_file.should eq File.expand_path('~/.sequenceserver.conf')
     end
 
     it 'symbolizes keys' do

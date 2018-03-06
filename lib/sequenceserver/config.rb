@@ -11,9 +11,11 @@ module SequenceServer
 
     def initialize(data = {})
       @data = normalize data
-      @config_file = @data.delete(:config_file) || default_config_file
-      @config_file = File.expand_path(@config_file)
-      @data = parse_config_file.update @data
+      @config_file = @data.delete(:config_file)
+      if @config_file
+        @config_file = File.expand_path(@config_file)
+        @data = parse_config_file.update @data
+      end
       @data = defaults.update @data
     end
 
@@ -86,10 +88,6 @@ module SequenceServer
         :port         => 4567,
         :host         => '0.0.0.0'
       }
-    end
-
-    def default_config_file
-      '~/.sequenceserver.conf'
     end
   end
 end

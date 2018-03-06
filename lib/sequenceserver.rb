@@ -15,11 +15,14 @@ require 'sequenceserver/doctor'
 
 # Top level module / namespace.
 module SequenceServer
-  # Constant for denoting the path ~/.sequenceserver
-  DOTDIR = File.expand_path('~/.sequenceserver')
-
   # Use a fixed minimum version of BLAST+
   MINIMUM_BLAST_VERSION = '2.6.0+'
+
+  # Default location of configuration file.
+  DEFAULT_CONFIG_FILE = '~/.sequenceserver.conf'
+
+  # Constant for denoting the path ~/.sequenceserver
+  DOTDIR = File.expand_path('~/.sequenceserver')
 
   class << self
     def environment
@@ -43,7 +46,10 @@ module SequenceServer
     end
 
     def init(config = {})
+      # Use default config file if caller didn't specify one.
+      config[:config_file] ||= DEFAULT_CONFIG_FILE
       @config = Config.new(config)
+
       Thread.abort_on_exception = true if ENV['RACK_ENV'] == 'development'
 
       init_binaries
