@@ -21,9 +21,9 @@ branches:
     - master
 
 install:
-  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.31/ncbi-blast-2.2.31+-x64-linux.tar.gz"
-  - tar xvf ncbi-blast-2.2.31+-x64-linux.tar.gz
-  - export PATH="ncbi-blast-2.2.31+/bin:$PATH"
+  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.6.0/ncbi-blast-2.6.0+-x64-linux.tar.gz"
+  - tar xvf ncbi-blast-2.6.0+-x64-linux.tar.gz
+  - export PATH="ncbi-blast-2.6.0+/bin:$PATH"
   - gem install bundler && bundle
 
 script: xvfb-run bundle exec rake spec
@@ -31,6 +31,6 @@ script: xvfb-run bundle exec rake spec
 cache:
   directories:
     - vendor/bundle
-    - ncbi-blast-2.2.31+
+    - ncbi-blast-2.6.0+
 
 sudo: false
