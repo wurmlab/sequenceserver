@@ -66,8 +66,9 @@ module SequenceServer
 
       sequences.length.should eq 1
       sequences.first.gi.should be_nil
-      sequences.first.seqid.should eq 'SI2.2.0_06267'
-      sequences.first.id.should eq 'SI2.2.0_06267'
+      sequences.first.seqid.should eq 'lcl|SI2.2.0_06267'
+      sequences.first.accession.should eq 'SI2.2.0_06267'
+      sequences.first.id.should eq 'lcl|SI2.2.0_06267'
       sequences.first.title.should eq 'locus=Si_gnF.scaffold02592'\
                                       '[1282609..1284114].pep_2 quality=100.00'
       sequences.first.value.should == "\
