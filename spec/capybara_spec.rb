@@ -1,6 +1,7 @@
 require 'spec_helper'
-require 'capybara/rspec'
-require 'capybara-webkit'
+
+# Cause the test to fail if Capybara is not available
+exit! unless $capybara_available
 
 describe 'a browser', :js => true do
   sequence = 'ATCGATCAGCTACGATCAGCATCGACTAGCATCGACTACGA'
