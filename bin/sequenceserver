@@ -117,8 +117,8 @@ BANNER
     on 'i', 'interactive',
        'Run SequenceServer in interactive mode'
 
-    on 'doctor',
-       'Run SequenceServer doctor'
+    #on 'doctor',
+       #'Run SequenceServer doctor'
 
     on 'D', 'devel',
        'Start SequenceServer in development mode'
