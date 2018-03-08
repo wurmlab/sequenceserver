@@ -9,7 +9,7 @@ describe 'a browser', :js => true do
   # sample_prot_db = 'Sinvicta2-2-3.prot'
 
   before(:all) do
-    Capybara.javascript_driver = :webkit
+    Capybara.javascript_driver = :selenium
     Capybara.default_wait_time = 5
 
     options = { :database_dir => File.join(SequenceServer.root, 'spec/database/sample/') }

@@ -24,13 +24,12 @@ DESC
   s.add_dependency('ox',        '~> 2.1',  '>= 2.1.1')
   s.add_dependency('slop',      '~> 3.6',  '>= 3.6.0')
 
-  s.add_development_dependency('rack-test',       '~> 0.6',  '>= 0.6.2')
-  s.add_development_dependency('rspec',           '~> 2.8',  '>= 2.8.0')
-  s.add_development_dependency('rake',            '~> 10.3', '>= 10.3.2')
-  s.add_development_dependency('capybara',        '~> 2.4',  '>= 2.4.4')
-  s.add_development_dependency('capybara-webkit', '~> 1.3',  '>= 1.3.0')
-  s.add_development_dependency('codeclimate-test-reporter',
-                               '~> 0.4', '>= 0.4.7')
+  s.add_development_dependency('rake', '~> 10.3', '>= 10.3.2')
+  s.add_development_dependency('rspec', '~> 2.8',  '>= 2.8.0')
+  s.add_development_dependency('capybara', '~> 2.4',  '>= 2.4.4')
+  s.add_development_dependency('rack-test', '~> 0.6',  '>= 0.6.2')
+  s.add_development_dependency('selenium-webdriver', '~> 2.53', '>= 2.53.4')
+  s.add_development_dependency('codeclimate-test-reporter', '~> 0.4', '>= 0.4.7')
 
   # gem
   s.files         = `git ls-files`.split("\n") - ['Gemfile', 'Gemfile.lock']
