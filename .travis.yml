@@ -6,10 +6,6 @@ rvm:
   - 2.5
 
 addons:
-  apt:
-    packages:
-    - xvfb
-
   firefox: "58.0"
 
   code_climate:
