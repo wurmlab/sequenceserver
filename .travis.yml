@@ -8,8 +8,9 @@ rvm:
 addons:
   apt:
     packages:
-    - libqtwebkit-dev
     - xvfb
+
+  firefox: "58.0"
 
   code_climate:
     repo_token:
