@@ -8,12 +8,9 @@ describe 'a browser', :js => true do
   sample_nucl_db = 'Sinvicta 2-2-3 cdna subset'
   # sample_prot_db = 'Sinvicta2-2-3.prot'
 
-  before(:all) do
+  before do
+    Capybara.app = SequenceServer.init
     Capybara.javascript_driver = :selenium
-    Capybara.default_wait_time = 5
-
-    options = { :database_dir => File.join(SequenceServer.root, 'spec/database/sample/') }
-    Capybara.app = SequenceServer.init(options)
   end
 
   it 'runs a simple blastn search' do
