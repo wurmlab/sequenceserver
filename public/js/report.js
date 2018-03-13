@@ -421,12 +421,12 @@ var Hit = React.createClass({
                                 }
                             />
                             <span>{" Select "}</span>
-                            {
-                                _.map(this.props.hit.links, _.bind(function (link) {
-                                    return [<span> | </span>, this.a(link)];
-                                }, this))
-                            }
                         </label>
+                        {
+                            _.map(this.props.hit.links, _.bind(function (link) {
+                                return [<span> | </span>, this.a(link)];
+                            }, this))
+                        }
                     </div>
                     {/*
                     <Kablammo key={"Kablammo"+this.props.query.id} query={this.props.query} hit={this.props.hit} algorithm={this.props.algorithm}/>
