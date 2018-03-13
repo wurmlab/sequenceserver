@@ -27,6 +27,10 @@ module SequenceServer
       { :config_file => empty_config }
     end
 
+    before :each do
+      @config = nil
+    end
+
     # bin, if set, should be a _directory_ that exists
     it 'raises appropriate error if bin incorrectly set' do
       # Raise if bin dir does not exist.
