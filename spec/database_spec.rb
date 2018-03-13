@@ -78,12 +78,6 @@ module SequenceServer
         .should eq :nucleotide
     end
 
-    it 'can tell BLAST+ databases in a directory' do
-      SequenceServer.config[:database_dir] = database_dir_sample
-      Database.scan_databases_dir
-      Database.all.length.should eq 2
-    end
-
     it 'can tell NCBI multipart database name' do
       sample_name1 = '/home/ben/pd.ben/sequenceserver/db/nr'
       sample_name2 = '/home/ben/pd.ben/sequenceserver/db/nr.00'
