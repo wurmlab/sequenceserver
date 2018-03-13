@@ -60,21 +60,6 @@ module SequenceServer
     # ---------
     # See methods provided by default for an example implementation.
 
-    def sequence_viewer
-      accession = encode self.accession
-      database_ids = encode querydb.map(&:id).join(' ')
-      url = "get_sequence/?sequence_ids=#{accession}" \
-            "&database_ids=#{database_ids}"
-
-      {
-        :order => 0,
-        :url   => url,
-        :title => 'Sequence',
-        :class => 'view-sequence',
-        :icon  => 'fa-eye'
-      }
-    end
-
     def fasta_download
       accession = encode self.accession
       database_ids = encode querydb.map(&:id).join(' ')

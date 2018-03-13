@@ -163,7 +163,7 @@ var SequenceViewer = (function () {
         // Internal helpers. //
 
         modal: function () {
-            return $('#sequence-viewer');
+            return $(React.findDOMNode(this.refs.modal));
         },
 
         spinner: function () {
@@ -216,23 +216,27 @@ var SequenceViewer = (function () {
         render: function () {
             return (
                 <div
-                    className="modal-dialog">
+                    className="modal sequence-viewer"
+                    ref="modal" tabIndex="-1">
                     <div
-                        className="modal-content">
+                        className="modal-dialog">
                         <div
-                            className="modal-header">
-                            <h3>View sequence</h3>
-                        </div>
+                            className="modal-content">
+                            <div
+                                className="modal-header">
+                                <h3>View sequence</h3>
+                            </div>
 
-                        <div
-                            className="modal-body">
-                            { this.renderErrors() }
-                            { this.renderSequences() }
-                        </div>
+                            <div
+                                className="modal-body">
+                                { this.renderErrors() }
+                                { this.renderSequences() }
+                            </div>
 
-                        <div
-                            className="spinner" ref="spinner">
-                            <i className="fa fa-spinner fa-3x fa-spin"></i>
+                            <div
+                                className="spinner" ref="spinner">
+                                <i className="fa fa-spinner fa-3x fa-spin"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -260,6 +264,8 @@ var SequenceViewer = (function () {
                     });
                 });
             }
+
+            this.modal().on('hidden.bs.modal', this.props.onHide);
         },
     });
 })();
@@ -270,6 +276,13 @@ var SequenceViewer = (function () {
 var Hit = React.createClass({
     mixins: [Utils],
 
+    /**
+     * Hits have an accession number.
+     */
+    accession: function () {
+        return this.props.hit.accession;
+    },
+
     // Internal helpers. //
 
     /**
@@ -277,6 +290,21 @@ var Hit = React.createClass({
      */
     domID: function () {
         return "Query_" + this.props.query.number + "_hit_" + this.props.hit.number;
+    },
+
+    databaseIDs: function () {
+        return _.map(this.props.querydb, function (db) {
+            return db.id;
+        });
+    },
+
+    showSequenceViewer: function (event) {
+        this.setState({ showSequenceViewer: true });
+        event && event.preventDefault();
+    },
+
+    hideSequenceViewer: function () {
+        this.setState({ showSequenceViewer: false });
     },
 
     /**
@@ -343,6 +371,9 @@ var Hit = React.createClass({
 
     // Life cycle methods //
 
+    getInitialState: function () {
+        return { showSequenceViewer: false };
+    },
 
     /**
      * Handles click event for exporting alignments.
@@ -422,6 +453,14 @@ var Hit = React.createClass({
                             />
                             <span>{" Select "}</span>
                         </label>
+                        <span> | </span>
+                        <a
+                            href={encodeURI(`get_sequence/?sequence_ids=${this.accession()}&database_ids=${this.databaseIDs()}`)}
+                            className='view-sequence' onClick={this.showSequenceViewer}>
+                            <i className="fa fa-eye"></i>
+                            Sequence
+                        </a>
+                        { this.state.showSequenceViewer && <SequenceViewer onHide={this.hideSequenceViewer}> }
                         {
                             _.map(this.props.hit.links, _.bind(function (link) {
                                 return [<span> | </span>, this.a(link)];
@@ -606,6 +645,7 @@ var Query = React.createClass({
                                                 hit={hit}
                                                 key={"HIT_"+hit.id}
                                                 algorithm={this.props.data.program}
+                                                querydb={this.props.data.querydb}
                                                 query={this.props.query}
                                                 selectHit={this.props.selectHit}/>
                                         );
@@ -1102,16 +1142,6 @@ var Report = React.createClass({
         });
     },
 
-    // Handles sequence-viewer links.
-    setupSequenceViewer: function (event) {
-        $(document).on('click', '.view-sequence', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            React.render(<SequenceViewer event={event}/>,
-                         document.getElementById('sequence-viewer'));
-        });
-    },
-
     // Life-cycle methods. //
 
     getInitialState: function () {
@@ -1143,7 +1173,6 @@ var Report = React.createClass({
         this.setupScrollSpy();
         this.setupHitSelection();
         this.setupDownloadLinks();
-        this.setupSequenceViewer();
     }
 });
 
@@ -1154,11 +1183,6 @@ var Page = React.createClass({
                 <div
                     className="container">
                     <Report ref="report"/>
-                </div>
-
-                <div
-                    id="sequence-viewer" className="modal"
-                    tabIndex="-1">
                 </div>
 
                 <div
