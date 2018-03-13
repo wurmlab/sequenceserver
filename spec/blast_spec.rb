@@ -2,17 +2,9 @@ require 'spec_helper'
 
 # Test BLAST module.
 module SequenceServer
-  sample_reports = File.join(SequenceServer.root, 'spec', 'sample_reports')
-
-  load_job = lambda do |jid|
-    YAML.load_file File.join(sample_reports, jid, 'job.yaml')
-  end
-
-  with_hits = load_job.call('with_hits_sample')
-  no_hits = load_job.call('no_hits_sample')
-
-  Job::DOTDIR =  File.join File.dirname(__FILE__), 'sample_reports'
-  SequenceServer::DOTDIR = Job::DOTDIR
+  SequenceServer::DOTDIR = File.join(__dir__, 'sample_reports')
+  with_hits = Job.fetch('with_hits_sample')
+  no_hits = Job.fetch('no_hits_sample')
 
   init
 
@@ -160,7 +152,7 @@ module SequenceServer
   #
   describe 'BLASTN' do
     let 'hsp' do
-      report = BLAST::Report.new(load_job.call('blastn_sample'))
+      report = BLAST::Report.new(Job.fetch('blastn_sample'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -183,7 +175,7 @@ module SequenceServer
 
   describe 'BLASTP' do
     let 'hsp' do
-      report = BLAST::Report.new(load_job.call('blastp_sample'))
+      report = BLAST::Report.new(Job.fetch('blastp_sample'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -204,7 +196,7 @@ module SequenceServer
 
   describe 'BLASTX' do
     let 'hsp' do
-      report = BLAST::Report.new(load_job.call('blastx_sample'))
+      report = BLAST::Report.new(Job.fetch('blastx_sample'))
 
       report.queries.first.hits.last.hsps.first
     end
@@ -225,7 +217,7 @@ module SequenceServer
 
   describe 'TBLASTX' do
     let 'hsp' do
-      report = BLAST::Report.new(load_job.call('tblastx_sample'))
+      report = BLAST::Report.new(Job.fetch('tblastx_sample'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -245,7 +237,7 @@ module SequenceServer
 
   describe 'TBLASTN' do
     let 'hsp' do
-      report = BLAST::Report.new(load_job.call('tblastn_sample'))
+      report = BLAST::Report.new(Job.fetch('tblastn_sample'))
       report.queries.first.hits.last.hsps.first
     end
 
