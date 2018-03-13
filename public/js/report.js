@@ -18,7 +18,7 @@ var Utils = {
     /**
      * Render URL for sequence-viewer.
      */
-    a: function (link , hitlength) {
+    a: function (link) {
         if (link.title && link.url)
         {
             return (
