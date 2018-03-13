@@ -10,6 +10,23 @@ import AlignmentExporter from './alignment_exporter';
 //import LengthDistribution from './lengthdistribution';
 //import Circos from './circos';
 
+
+/**
+ * Dynamically create form and submit.
+ */
+var downloadFASTA = function (sequence_ids, database_ids) {
+    var form = $('<form/>').attr('method', 'post').attr('action', '/get_sequence');
+    addField("sequence_ids", sequence_ids);
+    addField("database_ids", database_ids);
+    form.appendTo('body').submit().remove();
+
+    function addField(name, val) {
+        form.append(
+            $('<input>').attr('type', 'hidden').attr('name', name).val(val)
+        );
+    }
+}
+
 /**
  * Pretty formats number
  */
@@ -293,9 +310,7 @@ var Hit = React.createClass({
     },
 
     databaseIDs: function () {
-        return _.map(this.props.querydb, function (db) {
-            return db.id;
-        });
+        return _.map(this.props.querydb, _.iteratee('id'));
     },
 
     showSequenceViewer: function (event) {
@@ -305,6 +320,12 @@ var Hit = React.createClass({
 
     hideSequenceViewer: function () {
         this.setState({ showSequenceViewer: false });
+    },
+
+    downloadFASTA: function (event) {
+        event && event.preventDefault();
+        var accessions = [this.accession()];
+        downloadFASTA(accessions, this.databaseIDs());
     },
 
     /**
@@ -460,7 +481,14 @@ var Hit = React.createClass({
                             <i className="fa fa-eye"></i>
                             Sequence
                         </a>
-                        { this.state.showSequenceViewer && <SequenceViewer onHide={this.hideSequenceViewer}> }
+                        { this.state.showSequenceViewer && <SequenceViewer onHide={this.hideSequenceViewer}/> }
+                        <span> | </span>
+                        <a
+                            href={encodeURI(`get_sequence/?sequence_ids=${this.accession()}&database_ids=${this.databaseIDs()}`)}
+                            className='download-fa' onClick={this.downloadFASTA}>
+                            <i className="fa fa-download"></i>
+                            FASTA
+                        </a>
                         {
                             _.map(this.props.hit.links, _.bind(function (link) {
                                 return [<span> | </span>, this.a(link)];
@@ -680,22 +708,6 @@ var Query = React.createClass({
 var SideBar = React.createClass({
 
     /**
-     * Dynamically create form and submit.
-     */
-    postForm: function (sequence_ids, database_ids) {
-        var form = $('<form/>').attr('method', 'post').attr('action', '/get_sequence');
-        addField("sequence_ids", sequence_ids);
-        addField("database_ids", database_ids);
-        form.appendTo('body').submit().remove();
-
-        function addField(name, val) {
-            form.append(
-                $('<input>').attr('type', 'hidden').attr('name', name).val(val)
-            );
-        }
-    },
-
-    /**
      * Event-handler for downloading fasta of all hits.
      */
     downloadFastaOfAll: function () {
@@ -703,7 +715,7 @@ var SideBar = React.createClass({
             return this.value;
         }).get();
         var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
-        this.postForm(sequence_ids, database_ids);
+        downloadFASTA(sequence_ids, database_ids);
     },
 
     /**
@@ -714,7 +726,7 @@ var SideBar = React.createClass({
             return this.value;
         }).get();
         var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
-        this.postForm(sequence_ids, database_ids);
+        downloadFASTA(sequence_ids, database_ids);
     },
 
     downloadAlignmentOfAll: function() {

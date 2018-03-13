@@ -60,21 +60,6 @@ module SequenceServer
     # ---------
     # See methods provided by default for an example implementation.
 
-    def fasta_download
-      accession = encode self.accession
-      database_ids = encode querydb.map(&:id).join(' ')
-      url = "get_sequence/?sequence_ids=#{accession}" \
-            "&database_ids=#{database_ids}&download=fasta"
-
-      {
-        :order => 1,
-        :title => 'FASTA',
-        :url   => url,
-        :class => 'download',
-        :icon  => 'fa-download'
-      }
-    end
-
     def ncbi
       return nil unless id.match(NCBI_ID_PATTERN)
       ncbi_id = Regexp.last_match[1]
