@@ -283,7 +283,7 @@ var Hit = React.createClass({
      * Return prettified stats for the given hsp and based on the BLAST
      * algorithm.
      */
-    getStats: function (hsp) {
+    getHSPStats: function (hsp) {
         var stats = {
             'Score': this.format_2_tuple([
                 this.inTwoDecimal(hsp.bit_score),
@@ -436,7 +436,7 @@ var Hit = React.createClass({
                         <tbody>
                             {
                                 _.map (this.props.hit.hsps, _.bind( function (hsp) {
-                                    stats_returned = this.getStats(hsp);
+                                    stats_returned = this.getHSPStats(hsp);
                                     return (
                                         <tr
                                           id={"Alignment_Query_" + this.props.query.number + "_hit_"
