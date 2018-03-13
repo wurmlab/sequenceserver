@@ -6,30 +6,15 @@ module SequenceServer
     ENV['RACK_ENV'] = 'test'
     include Rack::Test::Methods
 
-    let 'root' do
-      SequenceServer.root
-    end
-
-    let 'empty_config' do
-      File.join(root, 'spec', 'empty_config.yml')
-    end
-
-    let 'database_dir' do
-      File.join(root, 'spec', 'database')
+    before do
+      SequenceServer.init
     end
 
     before :each do
-      SequenceServer.init(:config_file  => empty_config,
-                          :database_dir => database_dir)
-
-      algorithm = Database.first.type == 'protein' ? 'blastp' : 'blastn'
-      sequence  = 'AGCTAGCTAGCT'
-      databases = [Database.first.id]
-
-      @params   = {
-        'method'    => algorithm,
-        'sequence'  => sequence,
-        'databases' => databases
+      @params = {
+        'sequence'  => 'AGCTAGCTAGCT',
+        'databases' => [Database.first.id],
+        'method'    => (Database.first.type == 'protein' ? 'blastp' : 'blastn')
       }
     end
 
