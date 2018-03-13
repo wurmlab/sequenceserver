@@ -19,7 +19,7 @@ branches:
 
 install:
   - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-macos.tar.gz"
-  - tar xvf geckodriver-*.tar.gz -C geckodriver
+  - mkdir geckodriver && tar xvf geckodriver-*.tar.gz -C geckodriver
   - export PATH="geckodriver:$PATH"
   - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.6.0/ncbi-blast-2.6.0+-x64-linux.tar.gz"
   - tar xvf ncbi-blast-*.tar.gz
