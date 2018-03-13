@@ -55,7 +55,7 @@ module SequenceServer
     end
 
     before do
-      SequenceServer.instance_variable_set(:@config, Config.new({}))
+      SequenceServer.init
     end
 
     before :each do
