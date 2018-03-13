@@ -28,7 +28,7 @@ DESC
   s.add_development_dependency('rspec', '~> 2.8',  '>= 2.8.0')
   s.add_development_dependency('capybara', '~> 2.4',  '>= 2.4.4')
   s.add_development_dependency('rack-test', '~> 0.6',  '>= 0.6.2')
-  s.add_development_dependency('selenium-webdriver', '~> 2.53', '>= 2.53.4')
+  s.add_development_dependency('selenium-webdriver', '~> 3.11', '>= 3.11.0')
   s.add_development_dependency('codeclimate-test-reporter', '~> 0.4', '>= 0.4.7')
 
   # gem
