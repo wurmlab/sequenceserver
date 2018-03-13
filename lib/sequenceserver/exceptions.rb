@@ -96,8 +96,8 @@ MSG
 
     def to_s
       <<MSG
-Your BLAST+ version #{version} is outdated.
-SequenceServer needs NCBI BLAST+ version #{MINIMUM_BLAST_VERSION} or higher.
+Your BLAST+ version #{version} is incompatible.
+SequenceServer needs NCBI BLAST+ version #{BLAST_VERSION}.
 MSG
     end
   end

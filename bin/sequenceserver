@@ -221,7 +221,7 @@ MSG
           puts 'Archive will be extracted in ~/.sequenceserver directory.'
           puts
 
-          version = SequenceServer::MINIMUM_BLAST_VERSION
+          version = SequenceServer::BLAST_VERSION
           url = case RUBY_PLATFORM
                 when /x86_64-linux/ # 64 bit Linux
                   'ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/' \
@@ -249,8 +249,7 @@ ERR
             puts 'Failed to install BLAST+.'
             puts '  You may need to download BLAST+ from - '
             puts '   http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download'
-            puts "  Please ensure that you download BLAST+ version
-            #{SequenceServer::MINIMUM_BLAST_VERSION} or higher."
+            puts "  Please ensure that you download BLAST+ version #{SequenceServer::BLAST_VERSION}."
             exit!
           end
           fetch_option(:bin).value =

@@ -16,7 +16,7 @@ require 'sequenceserver/doctor'
 # Top level module / namespace.
 module SequenceServer
   # Use a fixed minimum version of BLAST+
-  MINIMUM_BLAST_VERSION = '2.6.0+'
+  BLAST_VERSION = '2.6.0+'
 
   # Default location of configuration file.
   DEFAULT_CONFIG_FILE = '~/.sequenceserver.conf'
@@ -266,7 +266,7 @@ module SequenceServer
       end
       version = out.split[1]
       fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE if version.empty?
-      fail BLAST_NOT_COMPATIBLE, version unless version >= MINIMUM_BLAST_VERSION
+      fail BLAST_NOT_COMPATIBLE, version unless version == BLAST_VERSION
     end
 
     def server_url
