@@ -14,6 +14,8 @@ module SequenceServer
   Job::DOTDIR =  File.join File.dirname(__FILE__), 'sample_reports'
   SequenceServer::DOTDIR = Job::DOTDIR
 
+  init
+
   describe 'Report' do
     hits_report = BLAST::Report.new(with_hits)
     no_hits_report = BLAST::Report.new(no_hits)
