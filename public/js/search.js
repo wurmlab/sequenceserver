@@ -878,8 +878,7 @@ var Form = React.createClass({
             <div
                 className="container">
                 <form
-                    className="form-horizontal" id="blast"
-                    method="post" target="_blank">
+                    id="blast" method="post" className="form-horizontal">
                     <div
                         className="form-group query-container">
                         <Query ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged}/>
