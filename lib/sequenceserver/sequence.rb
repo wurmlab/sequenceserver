@@ -14,27 +14,23 @@ module SequenceServer
   #
   #   FASTA format:
   #
-  #     >defline
+  #     >id title
   #     actual sequence
-  #
-  #   where,
-  #
-  #     defline = >id title
   #
   #   ID of a sequence fetched from nr database should look like this:
   #
-  #                  sequence id    -> self.seqid
-  #                  -------------
+  #     gi|322796550|gb|EFZ19024.1| -> self.id
   #                     accession   -> self.accession
   #                     ----------
-  #     gi|322796550|gb|EFZ19024.1| -> self.id
+  #                   sequence id   -> self.seqid
+  #                  -------------
   #        ---------
   #        gi number                -> self.gi
   #
-  #   while for local databases, the id should be the exact same, as in the
-  #   original FASTA file:
+  #   while for local databases, the id should be the exact same,
+  #   as in the original FASTA file:
   #
-  #     SI2.2.0_06267 -> self.id == self.seqid == self.accession.
+  #     SI2.2.0_06267 -> self.id == self.accession
   Sequence = Struct.new(:gi, :seqid, :accession, :title, :value) do
     def initialize(*args)
       args[0] = nil if args[0] == 'N/A'
@@ -43,7 +39,7 @@ module SequenceServer
 
     # Returns FASTA sequence id.
     def id
-      (gi ? ['gi', gi, seqid] : [seqid]).join('|')
+      (gi ? ['gi', gi, seqid] : [accession]).join('|')
     end
 
     # Returns length of the sequence.
