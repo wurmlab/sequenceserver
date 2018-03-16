@@ -1005,7 +1005,7 @@ var Report = React.createClass({
                     className="col-md-6 col-md-offset-3 text-center">
                     <h1>
                         <i
-                            className="fa fa-cog fa-spin"></i>
+                            className="fa fa-cog fa-spin"></i>&nbsp;
                         BLAST-ing
                     </h1>
                     <p>
