@@ -169,13 +169,6 @@ var SequenceViewer = (function () {
             this.modal().modal('show');
         },
 
-        /**
-         * Hides sequence viewer.
-         */
-        hide: function () {
-            this.modal().modal('hide');
-        },
-
 
         // Internal helpers. //
 
@@ -183,40 +176,45 @@ var SequenceViewer = (function () {
             return $(React.findDOMNode(this.refs.modal));
         },
 
-        spinner: function () {
-            return $(React.findDOMNode(this.refs.spinner));
-        },
-
-        renderErrors: function () {
+        resultsJSX: function () {
             return (
-                _.map(this.state.error_msgs, _.bind(function (error_msg) {
-                    return (
-                        <div
-                            className="fastan">
-                            <div
-                                className="section-header">
-                                <h4>
-                                    {error_msg[0]}
-                                </h4>
-                            </div>
-                            <div
-                                className="section-content">
-                                <pre
-                                    className="pre-reset">
-                                    {error_msg[1]}
-                                </pre>
-                            </div>
-                        </div>
-                    );
-                }, this))
+                <div className="modal-body">
+                    {
+                        _.map(this.state.error_msgs, _.bind(function (error_msg) {
+                            return (
+                                <div
+                                    className="fastan">
+                                    <div
+                                        className="section-header">
+                                        <h4>
+                                            {error_msg[0]}
+                                        </h4>
+                                    </div>
+                                    <div
+                                        className="section-content">
+                                        <pre
+                                            className="pre-reset">
+                                            {error_msg[1]}
+                                        </pre>
+                                    </div>
+                                </div>
+                            );
+                        }, this))
+                    }
+                    {
+                        _.map(this.state.sequences, _.bind(function (sequence) {
+                            return (<Viewer sequence={sequence}/>);
+                        }, this))
+                    }
+                </div>
             );
         },
 
-        renderSequences: function () {
+        loadingJSX: function () {
             return (
-                _.map(this.state.sequences, _.bind(function (sequence) {
-                    return (<Viewer sequence={sequence}/>);
-                }, this))
+                <div className="modal-body text-center">
+                    <i className="fa fa-spinner fa-3x fa-spin"></i>
+                </div>
             );
         },
 
@@ -226,7 +224,8 @@ var SequenceViewer = (function () {
         getInitialState: function () {
             return {
                 error_msgs: [],
-                sequences:  []
+                sequences:  [],
+                requestCompleted: false
             };
         },
 
@@ -244,16 +243,8 @@ var SequenceViewer = (function () {
                                 <h3>View sequence</h3>
                             </div>
 
-                            <div
-                                className="modal-body">
-                                { this.renderErrors() }
-                                { this.renderSequences() }
-                            </div>
-
-                            <div
-                                className="spinner" ref="spinner">
-                                <i className="fa fa-spinner fa-3x fa-spin"></i>
-                            </div>
+                            { this.state.requestCompleted &&
+                                    this.resultsJSX() || this.loadingJSX() }
                         </div>
                     </div>
                 </div>
@@ -261,26 +252,23 @@ var SequenceViewer = (function () {
         },
 
         componentDidMount: function () {
-            var $anchor = $(event.target).closest('a');
+            // Display modal with a spinner.
+            this.show();
 
-            if (!$anchor.is(':disabled')) {
-                this.show();
-
-                var url = $anchor.attr('href');
-                $.getJSON(url)
+            // Fetch sequence and update state.
+            $.getJSON(this.props.url)
                 .done(_.bind(function (response) {
                     this.setState({
+                        sequences: response.sequences,
                         error_msgs: response.error_msgs,
-                        sequences:  response.sequences
+                        requestCompleted: true
                     })
-                    this.spinner().hide();
                 }, this))
                 .fail(function (jqXHR, status, error) {
                     SequenceServer.showErrorModal(jqXHR, function () {
                         this.hide();
                     });
                 });
-            }
 
             this.modal().on('hidden.bs.modal', this.props.onHide);
         },
@@ -294,10 +282,17 @@ var Hit = React.createClass({
     mixins: [Utils],
 
     /**
-     * Hits have an accession number.
+     * Returns accession number of the hit sequence.
      */
     accession: function () {
         return this.props.hit.accession;
+    },
+
+    /**
+     * Returns length of the hit sequence.
+     */
+    length: function () {
+        return this.props.hit.length;
     },
 
     // Internal helpers. //
@@ -320,6 +315,10 @@ var Hit = React.createClass({
 
     hideSequenceViewer: function () {
         this.setState({ showSequenceViewer: false });
+    },
+
+    viewSequenceLink: function () {
+        return encodeURI(`get_sequence/?sequence_ids=${this.accession()}&database_ids=${this.databaseIDs()}`);
     },
 
     downloadFASTA: function (event) {
@@ -398,14 +397,8 @@ var Hit = React.createClass({
 
     /**
      * Handles click event for exporting alignments.
-     * Disables Sequenece viewer if hit length is greater than 10,000.
      */
     componentDidMount: function () {
-        //Disable sequence-viewer link if hit length is greater than 10,000
-        if (this.props.hit.length > 10000) {
-            $("#" + this.domID()).find(".view-sequence").addClass('disabled');
-        }
-
         // Event-handler for exporting alignments.
         // Calls relevant method on AlignmentExporter defined in alignment_exporter.js.
         $("#" + this.domID()).find('.export-alignment').on('click',_.bind(function () {
@@ -475,13 +468,16 @@ var Hit = React.createClass({
                             <span>{" Select "}</span>
                         </label>
                         <span> | </span>
-                        <a
-                            href={encodeURI(`get_sequence/?sequence_ids=${this.accession()}&database_ids=${this.databaseIDs()}`)}
-                            className='view-sequence' onClick={this.showSequenceViewer}>
-                            <i className="fa fa-eye"></i>
-                            Sequence
-                        </a>
-                        { this.state.showSequenceViewer && <SequenceViewer onHide={this.hideSequenceViewer}/> }
+                        <button
+                            className="btn btn-link view-sequence"
+                            onClick={this.showSequenceViewer}
+                            disabled={this.length() > 10000}>
+                            <i className="fa fa-eye"></i> Sequence
+                        </button>
+                        {
+                            this.state.showSequenceViewer && <SequenceViewer
+                                url={this.viewSequenceLink()} onHide={this.hideSequenceViewer}/>
+                        }
                         <span> | </span>
                         <a
                             href={encodeURI(`get_sequence/?sequence_ids=${this.accession()}&database_ids=${this.databaseIDs()}`)}
