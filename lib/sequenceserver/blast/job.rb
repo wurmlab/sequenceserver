@@ -22,11 +22,6 @@ module SequenceServer
           @databases = Database[params[:databases]]
           @options   = params[:advanced].to_s.strip + defaults
           @advanced_params = parse_advanced params[:advanced]
-
-
-          # BLASTN implies BLASTN, not MEGABLAST. But let's not interfere if
-          # user specifies `task` herself.
-          @options << ' -task blastn' if @method == 'blastn' && !(@options =~ /task/)
         end
       end
 
