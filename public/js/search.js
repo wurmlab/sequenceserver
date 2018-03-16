@@ -153,8 +153,8 @@ var DnD = React.createClass({
                 reader.onload = function (e) {
                     var content = e.target.result;
                     if (SequenceServer.FASTA_FORMAT.test(content)) {
+                        indicator.text(file.name + ' ');
                         self.state.query.value(content);
-                        indicator.text(file.name);
                         tgtMarker.hide();
                     } else {
                         // apparently not FASTA
