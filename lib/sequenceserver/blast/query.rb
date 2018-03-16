@@ -9,7 +9,10 @@ module SequenceServer
     Query = Struct.new(:report, :number, :def, :length, :hits) do
       def initialize(*args)
         args[1] = args[1].to_i
-        args[2] = "Query_#{args[1]}" if args[2] == 'No definition line'
+        if args[2] == 'No definition line' ||
+            args[2] == 'unnamed protein product'
+          args[2] = "Query_#{args[1]}"
+        end
         args[3] = args[3].to_i
         @id, *rest = args[2].split
         @title = rest.join(' ')
