@@ -788,18 +788,25 @@ var SearchButton = React.createClass({
 var Form = React.createClass({
 
     getInitialState: function () {
-     return {
-       curOpts: {}
-     };
+        return {
+            databases: {},
+            preDefinedOpts: {
+                'blastn':  ['-task blastn', '-evalue 1e-5'],
+                'blastp':  ['-evalue 1e-5'],
+                'blastx':  ['-evalue 1e-5'],
+                'tblastx': ['-evalue 1e-5'],
+                'tblastn': ['-evalue 1e-5']
+            }
+        };
     },
 
     componentDidMount: function () {
-       $.getJSON("searchdata.json", _.bind(function(data) {
-         this.setState({
-            preDefinedOpts: data["options"],
-            databases: data["database"]
-         });
-       }, this));
+        $.getJSON("searchdata.json", _.bind(function(data) {
+            this.setState({
+                databases: data["database"], preDefinedOpts: $.extend({},
+                this.state.preDefinedOpts, data["options"])
+            });
+        }, this));
 
        $(document).bind("keydown", _.bind(function (e) {
            if (e.ctrlKey && e.keyCode === 13 &&
