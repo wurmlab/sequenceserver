@@ -326,6 +326,19 @@ var Hit = React.createClass({
         downloadFASTA(accessions, this.databaseIDs());
     },
 
+    // Event-handler for exporting alignments.
+    // Calls relevant method on AlignmentExporter defined in alignment_exporter.js.
+    downloadAlignment: function (event) {
+        var hsps = _.map(this.props.hit.hsps, _.bind(function (hsp) {
+            hsp.query_id = this.props.query.id;
+            hsp.hit_id = this.props.hit.id;
+            return hsp;
+        }, this))
+
+        var aln_exporter = new AlignmentExporter();
+        aln_exporter.export_alignments(hsps, this.props.query.id+"_"+this.props.hit.id);
+    },
+
     /**
      * Return prettified stats for the given hsp and based on the BLAST
      * algorithm.
@@ -392,26 +405,6 @@ var Hit = React.createClass({
 
     getInitialState: function () {
         return { showSequenceViewer: false };
-    },
-
-    /**
-     * Handles click event for exporting alignments.
-     */
-    componentDidMount: function () {
-        // Event-handler for exporting alignments.
-        // Calls relevant method on AlignmentExporter defined in alignment_exporter.js.
-        $("#" + this.domID()).find('.export-alignment').on('click',_.bind(function () {
-            event.preventDefault();
-
-            var hsps = _.map(this.props.hit.hsps, _.bind(function (hsp) {
-                hsp.query_id = this.props.query.id;
-                hsp.hit_id = this.props.hit.id;
-                return hsp;
-            }, this))
-
-            var aln_exporter = new AlignmentExporter();
-            aln_exporter.export_alignments(hsps, this.props.query.id+"_"+this.props.hit.id);
-        }, this))
     },
 
     render: function () {
@@ -482,6 +475,12 @@ var Hit = React.createClass({
                             className='btn btn-link download-fa'
                             onClick={this.downloadFASTA}>
                             <i className="fa fa-download"></i> FASTA
+                        </button>
+                        <span> | </span>
+                        <button
+                            className='btn btn-link download-aln'
+                            onClick={this.downloadAlignment}>
+                            <i className="fa fa-download"></i> Alignment
                         </button>
                         {
                             _.map(this.props.hit.links, _.bind(function (link) {
