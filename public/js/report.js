@@ -322,7 +322,6 @@ var Hit = React.createClass({
     },
 
     downloadFASTA: function (event) {
-        event && event.preventDefault();
         var accessions = [this.accession()];
         downloadFASTA(accessions, this.databaseIDs());
     },
@@ -479,12 +478,11 @@ var Hit = React.createClass({
                                 url={this.viewSequenceLink()} onHide={this.hideSequenceViewer}/>
                         }
                         <span> | </span>
-                        <a
-                            href={encodeURI(`get_sequence/?sequence_ids=${this.accession()}&database_ids=${this.databaseIDs()}`)}
-                            className='download-fa' onClick={this.downloadFASTA}>
-                            <i className="fa fa-download"></i>
-                            FASTA
-                        </a>
+                        <button
+                            className='btn btn-link download-fa'
+                            onClick={this.downloadFASTA}>
+                            <i className="fa fa-download"></i> FASTA
+                        </button>
                         {
                             _.map(this.props.hit.links, _.bind(function (link) {
                                 return [<span> | </span>, this.a(link)];
