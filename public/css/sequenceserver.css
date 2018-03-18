@@ -425,8 +425,12 @@ input[name="advanced"] {
   letter-spacing: 1px;
 }
 
-.hit-links {
+.hit-links * {
   letter-spacing: 1px;
+}
+.btn-link {
+  border: none;
+  padding: 0px;
 }
 
 .fastan > .section-header {
