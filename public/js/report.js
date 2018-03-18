@@ -79,23 +79,29 @@ var Utils = {
     },
 
     /**
-     * Formats the given number as "1e-3" if the number is less than 1 or
-     * greater than 10.
+     * Returns zero if num is zero. Returns two decimal representation of num
+     * if num is between [1..10). Returns num in scientific notation otherwise.
      */
     inExponential: function (num) {
+        // Nothing to do if num is 0.
+        if (num === 0) {
+            return 0
+        }
+
+        // Round to two decimal places if in the rane [1..10).
         if (num >= 1 && num < 10)
         {
             return this.inTwoDecimal(num)
         }
-        var exp = num.toExponential(2);
 
+        // Return numbers in the range [0..1) and [10..Inf] in
+        // scientific format.
+        var exp = num.toExponential(2);
         var parts = exp.split("e");
         var base  = parts[0];
         var power = parts[1];
-
         return <span>{base} &times; 10<sup>{power}</sup></span>;
-    },
-
+    }
 };
 
 /**
