@@ -453,7 +453,7 @@ var Hit = React.createClass({
                         <label>
                             <input
                                 type="checkbox" id={this.domID() + "_checkbox"}
-                                value={this.props.hit.id}
+                                value={this.accession()}
                                 data-target={"#Query_" + this.props.query.number
                                              + "_hit_" + this.props.hit.number}
                                 onChange=
