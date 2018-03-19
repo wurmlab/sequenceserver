@@ -33,13 +33,27 @@ module SequenceServer
   #     SI2.2.0_06267 -> self.id == self.accession
   Sequence = Struct.new(:gi, :seqid, :accession, :title, :value) do
     def initialize(*args)
+      # If gi of the hit is 'N/A', make it nil instead.
       args[0] = nil if args[0] == 'N/A'
+
+      # If seqid has 'lcl|' prefixed, remove it.
+      args[1] = args[1].gsub(/^lcl\|/, '')
+
+      # If hit comes from a non -parse_seqids
+      # database, obtain seqid and title from
+      # defline.
+      if args[1] =~ /^gnl\|/
+        defline = args[3].split
+        args[1] = defline.shift
+        args[3] = defline.join(' ')
+      end
+
       super
     end
 
     # Returns FASTA sequence id.
     def id
-      (gi ? ['gi', gi, seqid] : [accession]).join('|')
+      (gi ? ['gi', gi, seqid] : [seqid]).join('|')
     end
 
     # Returns length of the sequence.

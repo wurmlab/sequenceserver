@@ -106,6 +106,15 @@ module SequenceServer
       def extract_hits(xml_ir, tsv_ir, query)
         return if xml_ir == ["\n"] # => No hits.
         xml_ir.each do |n|
+          # If hit comes from a non -parse_seqids database, then
+          # we assign id to accession and process hit defline to
+          # obtain id and title.
+          if n[1] =~ /^gnl\|/
+            n[3] = n[1]
+            defline = n[2].split
+            n[1] = defline.shift
+            n[2] = defline.join(' ')
+          end
           hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4],
                         tsv_ir[n[1]][0], tsv_ir[n[1]][1],[])
           extract_hsps(n[5], tsv_ir[n[1]][2], hit)
