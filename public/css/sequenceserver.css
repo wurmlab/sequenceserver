@@ -474,3 +474,7 @@ input[name="advanced"] {
   padding-left: 16px;
   padding-right: 16px;
 }
+
+.downloads a {
+  cursor: pointer;
+}
