@@ -582,7 +582,7 @@ var HitsTable = React.createClass({
                     {
                         _.map(this.props.query.hits, _.bind(function (hit) {
                             return (
-                                <tr key={hit.id}>
+                                <tr key={hit.number}>
                                     <td className="text-left">{hit.number + "."}</td>
                                     <td>
                                         <a href={"#Query_" + this.props.query.number + "_hit_" + hit.number}>
@@ -657,12 +657,12 @@ var Query = React.createClass({
                         <div
                             className="section-content">
 
-                            <GraphicalOverview key={"GO_"+this.props.query.id} query={this.props.query} program={this.props.data.program}/>
+                            <GraphicalOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program}/>
 
                             {/*
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program}/>
                             */}
-                            <HitsTable key={"HT_"+this.props.query.id} query={this.props.query}/>
+                            <HitsTable key={"HT_"+this.props.query.number} query={this.props.query}/>
                             <div
                                 id="hits">
                                 {
@@ -670,7 +670,7 @@ var Query = React.createClass({
                                         return (
                                             <Hit
                                                 hit={hit}
-                                                key={"HIT_"+hit.id}
+                                                key={"HIT_"+hit.number}
                                                 algorithm={this.props.data.program}
                                                 querydb={this.props.data.querydb}
                                                 query={this.props.query}
