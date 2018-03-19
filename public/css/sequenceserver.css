@@ -431,6 +431,7 @@ input[name="advanced"] {
 .btn-link {
   border: none;
   padding: 0px;
+  letter-spacing: 1px;
 }
 
 .fastan > .section-header {
