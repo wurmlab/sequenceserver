@@ -54,10 +54,6 @@ svg .bar:hover {
 }
 
 .alignment-overview {
-  /*height: 200px;*/
-}
-
-.btn > .btn-link > .more {
   text-align: center;
 }
 
