@@ -107,8 +107,8 @@ module SequenceServer
     # in identifiers) and retreival_databases (we don't allow whitespace in a
     # database's name, so it's safe).
     get '/get_sequence/' do
-      sequence_ids = params[:sequence_ids].split(/\s/)
-      database_ids = params[:database_ids].split(/\s/)
+      sequence_ids = params[:sequence_ids].split(",")
+      database_ids = params[:database_ids].split(",")
       sequences = Sequence::Retriever.new(sequence_ids, database_ids)
       sequences.to_json
     end
