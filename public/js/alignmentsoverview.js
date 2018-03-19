@@ -99,6 +99,7 @@ class Graph {
             .html('View More&nbsp;')
             .append(
                 $('<i/>')
+                .html('&nbsp;&nbsp;')
                 .addClass('fa fa-angle-double-down')
             ),
             $('<button/>')
@@ -108,6 +109,7 @@ class Graph {
             .html('View Less&nbsp;')
             .append(
                 $('<i/>')
+                .html('&nbsp;&nbsp;')
                 .addClass('fa fa-angle-double-up')
             )
         );
