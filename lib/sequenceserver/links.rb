@@ -85,16 +85,6 @@ module SequenceServer
         :icon  => 'fa-external-link'
       }
     end
-
-    def alignment_download
-      {
-        :order => 2,
-        :title => 'Alignment',
-        :url   => '#',
-        :class => 'export-alignment',
-        :icon  => 'fa-download'
-      }
-    end
   end
 end
 
