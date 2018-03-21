@@ -25,7 +25,7 @@ module SequenceServer
       # HSPs divided by sum of length of all HSPs
       # (expressed as percentagge).
       def identity
-        hsps.map(&:identity).reduce(:+) * 100.0 / hsps.map(&:length).reduce(:+)
+        hsps.map(&:identity).reduce(:+) * 100 / hsps.map(&:length).reduce(:+)
       end
 
       def links

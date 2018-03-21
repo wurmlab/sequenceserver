@@ -596,7 +596,7 @@ var HitsTable = React.createClass({
                                     <td className="text-right">{hit.qcovs}</td>
                                     <td className="text-right">{hit.score}</td>
                                     <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
-                                    <td className="text-right">{this.inTwoDecimal(hit.identity)}</td>
+                                    <td className="text-right">{hit.identity}</td>
                                 </tr>
                             )
                         }, this))
