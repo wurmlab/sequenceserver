@@ -19,6 +19,7 @@ export default function Grapher(Graph) {
         draw () {
             this.svgContainer().empty();
             this.graph = new Graph(this.svgContainer(), this.props);
+            this.svgContainer().find('svg').attr('data-name', Graph.dataName(this.props));
         }
 
         render () {
@@ -57,8 +58,10 @@ export default function Grapher(Graph) {
 
         componentDidMount () {
             Graphers.push(this);
+
+            // Draw visualisation for the first time. Visualisations are
+            // redrawn when browser window is resized.
             this.draw();
-            this.svgContainer().find('svg').attr('data-name', Graph.dataName(this.props));
         }
 
     };
