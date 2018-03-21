@@ -573,10 +573,13 @@ var HitsTable = React.createClass({
                     <th className="text-left">#</th>
                     <th>Similar sequences</th>
                     {hasName && <th className="text-left">Species</th>}
-                    <th className="text-right">Query coverage</th>
-                    <th className="text-right">Total Score</th>
+                    <th className="text-right">Query coverage (%)</th>
+                    <th className="text-right">Total score</th>
                     <th className="text-right">E value</th>
-                    <th className="text-right">Identity</th>
+                    <th className="text-right" data-toggle="tooltip"
+                        data-placement="left" title="Total identity of all hsps / total length of all hsps">
+                        Identity (%)
+                    </th>
                 </thead>
                 <tbody>
                     {
@@ -593,7 +596,7 @@ var HitsTable = React.createClass({
                                     <td className="text-right">{hit.qcovs}</td>
                                     <td className="text-right">{hit.score}</td>
                                     <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
-                                    <td className="text-right">{hit.hsps[0].identity}</td>
+                                    <td className="text-right">{this.inTwoDecimal(hit.identity)}</td>
                                 </tr>
                             )
                         }, this))

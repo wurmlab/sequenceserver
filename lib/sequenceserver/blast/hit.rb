@@ -16,9 +16,16 @@ module SequenceServer
         super
       end
 
-      # Hit score is the sum of scores of all HSP(s).
+      # Hit's score is the sum of score of all HSPs.
       def score
         hsps.map(&:score).reduce(:+)
+      end
+
+      # Hit's identity is the sum of identity of all
+      # HSPs divided by sum of length of all HSPs
+      # (expressed as percentagge).
+      def identity
+        hsps.map(&:identity).reduce(:+) * 100.0 / hsps.map(&:length).reduce(:+)
       end
 
       def links
@@ -52,8 +59,8 @@ module SequenceServer
       end
 
       def to_json(*args)
-        [:number, :id, :accession, :title, :length, :score, :qcovs, :sciname, :evalue,
-         :hsps, :links].inject({}) { |h, k| h[k] = send(k); h }.to_json(*args)
+        [:number, :id, :accession, :title, :length, :score, :identity, :qcovs,
+         :sciname, :evalue, :hsps, :links].inject({}) { |h, k| h[k] = send(k); h }.to_json(*args)
       end
 
       private
