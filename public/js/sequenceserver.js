@@ -1,5 +1,6 @@
 import 'jquery';
-import 'jquery-ui';
+import 'jquery-ui/ui/effect-drop';
+import 'jquery-ui/ui/effect-bounce';
 import 'bootstrap';
 import 'webshim';
 
