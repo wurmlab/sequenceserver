@@ -1,0 +1,13 @@
+<!-- We will initialise React on this div -->
+<div id="view"></div>
+
+<!-- JS -->
+<% if settings.production? %>
+  <script src="sequenceserver-report.min.js"></script>
+<% else %>
+  <script src="vendor/system.js"></script>
+  <script src="config.js"></script>
+  <script>
+    System.import('js/report.js')
+  </script>
+<% end %>

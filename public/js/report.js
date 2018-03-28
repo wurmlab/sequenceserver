@@ -1,3 +1,4 @@
+import SequenceServer from './sequenceserver';
 import _ from 'underscore';
 import React from 'react';
 import d3 from 'd3';
@@ -1211,4 +1212,4 @@ var Page = React.createClass({
     }
 });
 
-export {Page};
+React.render(<Page/>, document.getElementById('view'));

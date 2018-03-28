@@ -61,8 +61,7 @@
     </noscript>
   </div>
 
-  <input type="hidden" id="input_sequence" value="<%= @input_sequence %>">
-  <div id="view"></div>
+  <%= yield %>
 
   <div
     class="footer" id="footer">
@@ -175,17 +174,6 @@
       </div>
     </div>
   </div> <!-- advanced options -->
-
-  <!-- JS -->
-  <% if settings.production? %>
-    <script src="sequenceserver.min.js"></script>
-  <% else %>
-    <script src="vendor/system.js"></script>
-    <script src="config.js"></script>
-    <script>
-      System.import('js/sequenceserver.js')
-    </script>
-  <% end %>
 
   <!-- twitter -->
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>

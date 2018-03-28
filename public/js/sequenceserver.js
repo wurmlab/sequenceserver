@@ -3,16 +3,6 @@ import 'jquery-ui';
 import 'bootstrap';
 import 'webshim';
 
-import React from 'react';
-import Router from 'react-router';
-
-import {Page as Search} from './search';
-import {Page as Report} from './report';
-
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-var RouteHandler = Router.RouteHandler;
-
 /**
  * Simple, small jQuery extensions for convenience.
  */
@@ -101,59 +91,31 @@ var RouteHandler = Router.RouteHandler;
     };
 }(jQuery));
 
-SequenceServer = React.createClass({
+export default {
 
-    // Class methods. //
+    FASTA_FORMAT: /^>/,
 
-    statics: {
-        FASTA_FORMAT: /^>/,
-
-        setupTooltips: function () {
-            $('.pos-label').each(function () {
-                $(this).tooltip({
-                    placement: 'right'
-                });
+    setupTooltips: function () {
+        $('.pos-label').each(function () {
+            $(this).tooltip({
+                placement: 'right'
             });
+        });
 
-            $('.downloads a').each(function () {
-                $(this).tooltip();
-            });
-        },
-
-        showErrorModal: function (jqXHR, beforeShow) {
-            setTimeout(function () {
-                beforeShow();
-                if (jqXHR.responseText) {
-                    $("#error").html(jqXHR.responseText).modal();
-                }
-                else {
-                    $("#error-no-response").modal();
-                }
-            }, 500);
-        },
-
-        routes: function () {
-            return (
-                <Route handler={SequenceServer}>
-                    <Route path="/"     handler={Search}/>
-                    <Route path="/:jid" handler={Report}/>
-                </Route>
-            );
-        },
-
-        run: function () {
-            Router.run(this.routes(), Router.HistoryLocation, function (Root) {
-                React.render(<Root/>, document.getElementById("view"));
-            });
-        }
+        $('.downloads a').each(function () {
+            $(this).tooltip();
+        });
     },
 
-
-    // Lifecycle methods. //
-
-    render: function () {
-        return (<RouteHandler/>);
+    showErrorModal: function (jqXHR, beforeShow) {
+        setTimeout(function () {
+            beforeShow();
+            if (jqXHR.responseText) {
+                $("#error").html(jqXHR.responseText).modal();
+            }
+            else {
+                $("#error-no-response").modal();
+            }
+        }, 500);
     }
-});
-
-SequenceServer.run();
+};

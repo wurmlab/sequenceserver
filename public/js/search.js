@@ -1,6 +1,6 @@
+import SequenceServer from './sequenceserver';
 import _ from 'underscore';
 import React from 'react';
-
 
 /**
  * Load necessary polyfills.
@@ -925,4 +925,4 @@ var Page = React.createClass({
     }
 });
 
-export {Page};
+React.render(<Page/>, document.getElementById('view'));

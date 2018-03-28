@@ -1,7 +1,7 @@
 {
   "name": "SequenceServer",
   "description": "BLAST searching made easy!",
-  "version": "1.1.0.beta",
+  "version": "1.1.0-beta",
   "homepage": "http://www.sequenceserver.com",
   "repository": "https://github.com/yannickwurm/sequenceserver",
   "author": {
@@ -14,7 +14,7 @@
     "jspm": "^0.16.2"
   },
   "scripts": {
-    "build": "jspm bundle-sfx --minify --skip-source-maps js/sequenceserver.js public/sequenceserver.min.js && cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css && gzip -kf public/sequenceserver.min.js && gzip -kf public/css/sequenceserver.min.css"
+    "build": "jspm bundle-sfx --minify --skip-source-maps js/search.js public/sequenceserver-search.min.js && jspm bundle-sfx --minify --skip-source-maps js/report.js public/sequenceserver-report.min.js && cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css && gzip -kf public/sequenceserver-search.min.js && gzip -kf public/sequenceserver-report.min.js && gzip -kf public/css/sequenceserver.min.css"
   },
   "jspm": {
     "directories": {
@@ -29,7 +29,6 @@
       "jquery-ui": "github:components/jqueryui@^1.11.4",
       "nicgirault/circosJs": "github:nicgirault/circosJs@^1.7.0",
       "react": "npm:react@^0.13.3",
-      "react-router": "npm:react-router@^0.13.3",
       "underscore": "npm:underscore@^1.8.3",
       "webshim": "npm:webshim@^1.15.8"
     },

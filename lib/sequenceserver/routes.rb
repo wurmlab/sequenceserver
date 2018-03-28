@@ -58,7 +58,7 @@ module SequenceServer
 
     # Returns base HTML. Rest happens client-side: rendering the search form.
     get '/' do
-      erb :layout
+      erb :search, layout: true
     end
 
     # Returns data that is used to render the search form client side. These
@@ -93,7 +93,7 @@ module SequenceServer
     # Returns base HTML. Rest happens client-side: polling for and rendering
     # the results.
     get '/:jid' do |jid|
-      erb :layout
+      erb :report, layout: true
     end
 
     # @params sequence_ids: whitespace separated list of sequence ids to
