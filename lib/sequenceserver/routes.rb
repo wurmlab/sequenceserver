@@ -49,6 +49,9 @@ module SequenceServer
         frame_options = SequenceServer.config[:frame_options]
         frame_options && { :frame_options => frame_options }
       }
+
+      # Serve compressed responses.
+      use Rack::Deflater
     end
 
     # For any request that hits the app,  log incoming params at debug level.
