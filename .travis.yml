@@ -16,7 +16,6 @@ branches:
   only:
     - 1.0.x  # stable
     - master
-    - fix-ci-script
 
 install:
   - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz"
