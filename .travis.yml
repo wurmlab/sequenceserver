@@ -18,9 +18,9 @@ branches:
     - master
 
 install:
-  - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-macos.tar.gz"
+  - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz"
   - mkdir geckodriver && tar xvf geckodriver-*.tar.gz -C geckodriver
-  - export PATH="geckodriver:$PATH"
+  - export PATH="$PWD/geckodriver:$PATH"
   - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.6.0/ncbi-blast-2.6.0+-x64-linux.tar.gz"
   - tar xvf ncbi-blast-*.tar.gz
   - gem install bundler && bundle
