@@ -225,13 +225,6 @@ a.disabled:hover {
 }
 
 /**
- * Set padding: 10px and 15px on li.
- */
-.list-padded li {
-  padding: 10px 15px;
-}
-
-/**
  * Reset Bootstrap's CSS for pre tags.
  */
 .pre-reset {
@@ -336,13 +329,15 @@ input[name="advanced"] {
 /**********************
         Sidebar
  **********************/
-.sidebar {
-  /* Line up with "Results" on left. */
+.sidebar > div {
+  /* To line up with the results on the right */
   margin-top: 20px;
 }
-.sidebar > .section-header > h4 {
-  padding: 10px 0 0 0;
+.sidebar h4 {
   font-size: 14px;
+}
+.sidebar li a {
+  padding: 7px 10px;
 }
 
 .sidebar.affix {
@@ -362,14 +357,10 @@ input[name="advanced"] {
   }
 }
 
-.index {
-  max-height: 416px; /* will accomodate 10 elements. IE 7 and above only. */
-  overflow-y: auto;
-}
-
 /* Result per query. */
 .overview {
-  margin: 30px 0;
+  /* To line up with the sidebar on the left */
+  margin: 20px 0;
 }
 .resultn {
   margin-bottom: 50px;
