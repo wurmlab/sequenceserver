@@ -15,12 +15,12 @@ describe 'a browser', :js => true do
 
   it 'runs a simple blastn search' do
     visit '/'
-    fill_in('sequence', :with => sequence)
+    fill_in('sequence', with: sequence, wait: 5)
     check(sample_nucl_db)
     click_button('method')
     # switch to new window because link opens in new window
     page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-    page.should have_content('Query')
+    page.should have_content('Query', wait: 5)
   end
 
   it 'properly controls blast button' do
