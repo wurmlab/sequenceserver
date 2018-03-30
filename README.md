@@ -34,12 +34,6 @@ npm install
 bundle
 ```
 
-We use capybara-webkit for functional testing, which requires [`qt` to be
-installed](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit).
-
-We use JSPM (via Node) for front-end package management and building JavaScript
-and CSS files.
-
 If you are deploying SequenceServer from git you can skip `npm install` step
 and skip installing gems used for testing (and `qt`), etc. by running:
 
@@ -53,15 +47,19 @@ logs verbosely and uses raw front-end files.
 bundle exec bin/sequenceserver -D
 ```
 
-Run the specs, lint the code, build front-end and package everything as a gem.
+Run tests:
 ```
-rake
+bundle exec rspec
 ```
 
-Sometimes you may just want to run the specs or lint the code:
+Run code style checkers (rubocop, csslint, eslint) -
 ```
-rake spec
-rake lint
+codeclimate analyze
+```
+
+Build minifies JS and CSS bundles:
+```
+npm run-script build
 ```
 
 ## Using Docker
