@@ -784,7 +784,7 @@ var SideBar = React.createClass({
     },
 
     showIndex: function () {
-        return this.props.data.queries.length < 10;
+        return this.props.data.queries.length <= 8;
     },
 
     index: function () {
