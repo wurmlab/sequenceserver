@@ -25,11 +25,11 @@ DESC
   s.add_dependency('slop',      '~> 3.6',  '>= 3.6.0')
 
   s.add_development_dependency('rake', '~> 10.3', '>= 10.3.2')
-  s.add_development_dependency('rspec', '~> 2.8',  '>= 2.8.0')
-  s.add_development_dependency('capybara', '~> 2.4',  '>= 2.4.4')
-  s.add_development_dependency('rack-test', '~> 0.8',  '>= 0.8.2')
+  s.add_development_dependency('rspec', '~> 2.99',  '>= 2.8.0')
+  s.add_development_dependency('capybara', '~> 2.18',  '>= 2.18.0')
+  s.add_development_dependency('rack-test', '~> 1.0',  '>= 1.0.0')
   s.add_development_dependency('selenium-webdriver', '~> 3.11', '>= 3.11.0')
-  s.add_development_dependency('codeclimate-test-reporter', '~> 0.4', '>= 0.4.7')
+  s.add_development_dependency('codeclimate-test-reporter', '~> 0.6', '>= 0.6.0')
 
   # gem
   s.files         = `git ls-files`.split("\n") - ['Gemfile', 'Gemfile.lock']
