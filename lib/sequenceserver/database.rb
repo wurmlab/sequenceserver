@@ -21,6 +21,11 @@ module SequenceServer
   # and use `parse_seqids` option of `makeblastdb` to format databases.
   Database = Struct.new(:name, :title, :type, :nsequences, :ncharacters,
                         :updated_on) do
+
+    extend Forwardable
+
+    def_delegators SequenceServer, :config, :sys
+
     def initialize(*args)
       args[2].downcase! # database type
       args.each(&:freeze)
@@ -32,7 +37,8 @@ module SequenceServer
     attr_reader :id
 
     def include?(accession)
-      out = `blastdbcmd -entry '#{accession}' -db #{name} 2> /dev/null`
+      cmd = "blastdbcmd -entry '#{accession}' -db #{name}"
+      out, _ = sys(cmd, path: config[:bin])
       !out.empty?
     end
 

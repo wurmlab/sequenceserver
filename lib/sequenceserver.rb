@@ -96,9 +96,11 @@ module SequenceServer
       temp_stdout_file = Tempfile.new 'sequenceserver-sys'
       temp_stderr_file = Tempfile.new 'sequenceserver-sys'
 
+      # Log the command we are going to run - use -D option to view.
       logger.debug("Executing: #{command}")
 
-      # Fork.
+      # Run command in a child process. This allows us to control PATH
+      # and pwd of the running process.
       child_pid = fork do
         # Set the PATH environment variable to the binary directory or
         # safe directory.
