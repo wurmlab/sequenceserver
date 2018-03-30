@@ -14,7 +14,7 @@
     "jspm": "^0.16.2"
   },
   "scripts": {
-    "build": "jspm bundle-sfx --minify --skip-source-maps js/search.js public/sequenceserver-search.min.js && jspm bundle-sfx --minify --skip-source-maps js/report.js public/sequenceserver-report.min.js && cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css && gzip -kf public/sequenceserver-search.min.js && gzip -kf public/sequenceserver-report.min.js && gzip -kf public/css/sequenceserver.min.css"
+    "build": "jspm bundle-sfx --minify --skip-source-maps js/search.js public/sequenceserver-search.min.js && jspm bundle-sfx --minify --skip-source-maps js/report.js public/sequenceserver-report.min.js && cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css"
   },
   "jspm": {
     "directories": {
