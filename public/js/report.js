@@ -772,23 +772,24 @@ var SideBar = React.createClass({
         aln_exporter.export_alignments(hsps_arr, "alignment-"+sequence_ids.length+"_hits");
     },
 
-    summary: function () {
-        var program = this.props.data.program;
-        var numqueries = this.props.data.queries.length;
-        var numquerydb = this.props.data.querydb.length;
 
-        return (
-            program.toUpperCase() + ': ' +
-            numqueries + ' ' + (numqueries > 1 ? 'queries' : 'query') + ", " +
-            numquerydb + ' ' + (numquerydb > 1 ? 'databases' : 'database')
-        );
-    },
-
-    // Life-cycle method. //
+    // JSX //
     render: function () {
         return (
-            <div
-                className="sidebar">
+            <div className="sidebar">
+                { this.showIndex() && this.index() }
+                { this.downloads() }
+            </div>
+        )
+    },
+
+    showIndex: function () {
+        return this.props.data.queries.length < 10;
+    },
+
+    index: function () {
+        return (
+            <div className="index">
                 <div
                   className="section-header">
                   <h4>
@@ -796,7 +797,7 @@ var SideBar = React.createClass({
                   </h4>
                 </div>
                 <ul
-                    className="nav hover-reset active-bold index">
+                    className="nav hover-reset active-bold">
                     {
                         _.map(this.props.data.queries, _.bind(function (query) {
                             return (
@@ -812,80 +813,95 @@ var SideBar = React.createClass({
                         }, this))
                     }
                 </ul>
+            </div>
+        );
+    },
 
-                <br/>
-                <br/>
+    summary: function () {
+        var program = this.props.data.program;
+        var numqueries = this.props.data.queries.length;
+        var numquerydb = this.props.data.querydb.length;
 
+        return (
+            program.toUpperCase() + ': ' +
+            numqueries + ' ' + (numqueries > 1 ? 'queries' : 'query') + ", " +
+            numquerydb + ' ' + (numquerydb > 1 ? 'databases' : 'database')
+        );
+    },
+
+    downloads: function () {
+        return (
+            <div className="downloads">
                 <div
-                  className="section-header">
+                    className="section-header">
                     <h4>
                         Download FASTA, XML, TSV
                     </h4>
                 </div>
                 <ul
-                  className="downloads list-unstyled list-padded">
+                    className="nav">
                     <li>
                         <a
-                          className="download-fasta-of-all"
-                          onClick={this.downloadFastaOfAll}>
+                            className="download-fasta-of-all"
+                            onClick={this.downloadFastaOfAll}>
                             FASTA of all hits
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download-fasta-of-selected disabled"
-                          onClick={this.downloadFastaOfSelected}>
+                            className="download-fasta-of-selected disabled"
+                            onClick={this.downloadFastaOfSelected}>
                             FASTA of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download-alignment-of-all"
-                          onClick={this.downloadAlignmentOfAll}>
-                          Alignment of all hits
+                            className="download-alignment-of-all"
+                            onClick={this.downloadAlignmentOfAll}>
+                            Alignment of all hits
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download-alignment-of-selected disabled"
-                          onClick={this.downloadAlignmentOfSelected}>
-                          Alignment of <span className="text-bold"></span> selected hit(s)
+                            className="download-alignment-of-selected disabled"
+                            onClick={this.downloadAlignmentOfSelected}>
+                            Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download" data-toggle="tooltip"
-                          title="15 columns: query and subject ID; scientific
-                          name, alignment length, mismatches, gaps, identity,
-                          start and end coordinates, e value, bitscore, query
-                          coverage per subject and per HSP."
-                          href={"download/" + this.props.data.search_id + ".std_tsv"}>
+                            className="download" data-toggle="tooltip"
+                            title="15 columns: query and subject ID; scientific
+                            name, alignment length, mismatches, gaps, identity,
+                            start and end coordinates, e value, bitscore, query
+                            coverage per subject and per HSP."
+                            href={"download/" + this.props.data.search_id + ".std_tsv"}>
                             Standard tabular report
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download" data-toggle="tooltip"
-                          title="44 columns: query and subject ID, GI,
-                          accessions, and length; alignment details;
-                          taxonomy details of subject sequence(s) and
-                          query coverage per subject and per HSP."
-                          href={"download/" + this.props.data.search_id + ".full_tsv"}>
+                            className="download" data-toggle="tooltip"
+                            title="44 columns: query and subject ID, GI,
+                            accessions, and length; alignment details;
+                            taxonomy details of subject sequence(s) and
+                            query coverage per subject and per HSP."
+                            href={"download/" + this.props.data.search_id + ".full_tsv"}>
                             Full tabular report
                         </a>
                     </li>
                     <li>
                         <a
-                          className="download" data-toggle="tooltip"
-                          title="Results in XML format."
-                          href={"download/" + this.props.data.search_id + ".xml"}>
+                            className="download" data-toggle="tooltip"
+                            title="Results in XML format."
+                            href={"download/" + this.props.data.search_id + ".xml"}>
                             Full XML report
                         </a>
                     </li>
                 </ul>
             </div>
-        )
-    }
+        );
+    },
 });
 
 /**
