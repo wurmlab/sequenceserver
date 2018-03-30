@@ -37,7 +37,7 @@ describe 'a browser', :js => true do
     visit '/'
     fill_in('sequence', :with => sequence)
     check(sample_nucl_db)
-    page.evaluate_script("$('.protein .checkbox').first().hasClass('disabled')")
+    page.evaluate_script("$('.protein .database').first().hasClass('disabled')")
       .should eq(true)
   end
 

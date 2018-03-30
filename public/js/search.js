@@ -509,21 +509,8 @@ var Databases = React.createClass({
                                         {
                                             _.map(this.databases(category), _.bind(function (database) {
                                                 return (
-                                                    <li
-                                                        className="list-group-item">
-                                                        <label
-                                                            className={(this.state.type && this.state.type !== database.type) && "disabled"}>
-                                                            <input
-                                                                type="checkbox" name="databases[]" value={database.id} data-type={database.type}
-                                                                disabled={this.state.type && this.state.type !== database.type}
-                                                                onChange=
-                                                                {
-                                                                    _.bind(function () {
-                                                                        this.handleClick(database)
-                                                                    }, this)
-                                                                }/>
-                                                            {" " + (database.title || database.name)}
-                                                        </label>
+                                                    <li className="list-group-item">
+                                                        { this.renderDatabase(database) }
                                                     </li>
                                                 );
                                             }, this))
@@ -535,6 +522,26 @@ var Databases = React.createClass({
                     }, this))
                 }
             </div>
+        );
+    },
+
+    renderDatabase: function (database) {
+        var disabled = this.state.type && this.state.type !== database.type;
+
+        return (
+            <label
+                className={disabled && 'disabled database' || 'database'}>
+                <input
+                    type="checkbox" name="databases[]" value={database.id}
+                    data-type={database.type} disabled={disabled}
+                    onChange=
+                    {
+                        _.bind(function () {
+                            this.handleClick(database)
+                        }, this)
+                    }/>
+                {" " + (database.title || database.name)}
+            </label>
         );
     },
 
