@@ -26,7 +26,7 @@ install:
   - gem install bundler && bundle
   - bundle exec bin/sequenceserver -s -b ncbi-blast-2.6.0+/bin -d spec/database/sample
 
-script: xvfb-run bundle exec rake spec
+script: xvfb-run bundle exec rspec
 
 cache:
   directories:
