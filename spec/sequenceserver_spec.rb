@@ -83,7 +83,7 @@ module SequenceServer
     it 'has a list of databases after startup' do
       SequenceServer.init()
       # assuming database_dir is set to spec/database/sample
-      Database.all.length.should == 2
+      Database.all.length.should == 4
       Database.all.should_not be_empty
     end
   end
