@@ -81,7 +81,7 @@ describe 'a browser', :js => true do
     page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
 
     # Check that results loaded.
-    page.should have_content('Query', wait: 5)
+    page.should have_content('Query', wait: 10)
   end
 
   def nucleotide_query
