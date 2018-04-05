@@ -12,7 +12,7 @@ describe 'a browser', :js => true do
   it 'properly controls blast button' do
     visit '/'
 
-    fill_in('sequence', with: nucleotide_query)
+    fill_in('sequence', with: nucleotide_query, wait: 5)
     page.evaluate_script("$('#method').is(':disabled')").should eq(true)
 
     check(nucleotide_databases.first)
@@ -21,7 +21,7 @@ describe 'a browser', :js => true do
 
   it 'properly controls interaction with database listing' do
     visit '/'
-    fill_in('sequence', with: nucleotide_query)
+    fill_in('sequence', with: nucleotide_query, wait: 5)
     check(nucleotide_databases.first)
     page.evaluate_script("$('.protein .database').first().hasClass('disabled')")
       .should eq(true)
@@ -29,7 +29,7 @@ describe 'a browser', :js => true do
 
   it 'shows a dropdown menu when other blast methods are available' do
     visit '/'
-    fill_in('sequence', with: nucleotide_query)
+    fill_in('sequence', with: nucleotide_query, wait: 5)
     check(nucleotide_databases.first)
     page.save_screenshot('screenshot.png')
     page.has_css?('button.dropdown-toggle').should eq(true)
