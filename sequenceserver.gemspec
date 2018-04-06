@@ -28,6 +28,7 @@ DESC
   s.add_development_dependency('rspec', '~> 3.7',  '>= 3.7.0')
   s.add_development_dependency('capybara', '~> 2.18',  '>= 2.18.0')
   s.add_development_dependency('rack-test', '~> 1.0',  '>= 1.0.0')
+  s.add_development_dependency('sauce_whisk', '~> 0.0', '>= 0.0.19')
   s.add_development_dependency('selenium-webdriver', '~> 3.11', '>= 3.11.0')
   s.add_development_dependency('codeclimate-test-reporter', '~> 0.6', '>= 0.6.0')
 

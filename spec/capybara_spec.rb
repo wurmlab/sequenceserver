@@ -1,12 +1,43 @@
 require 'spec_helper'
+require 'capybara/rspec'
+require 'selenium-webdriver'
 
-# Cause the test to fail if Capybara is not available
-exit! unless $capybara_available
+RSpec.configure do |config|
+  config.include Capybara::DSL
+end
 
 describe 'a browser', :js => true do
-  before do
+  before do |scenario|
     Capybara.app = SequenceServer.init
     Capybara.javascript_driver = :selenium
+
+    Capybara.register_driver :selenium do |app|
+      capabilities = {
+        name: scenario.full_description,
+        platform: ENV['platform'],
+        browserName: ENV['browserName'],
+        browserVersion: ENV['browserVersion'],
+        'tunnel-identifier': ENV['TRAVIS_JOB_NUMBER']
+      }
+      url = "https://#{ENV['SAUCE_USERNAME']}:#{ENV['SAUCE_ACCESS_KEY']}" \
+        "@ondemand.saucelabs.com:443/wd/hub".strip
+
+      Capybara::Selenium::Driver.new(app, browser: :remote, url: url,
+                                     desired_capabilities: capabilities)
+    end
+  end
+
+  before :each do |scenario|
+    jobname = scenario.full_description
+    Capybara.session_name = "#{jobname} - #{ENV['platform']} - " +
+      "#{ENV['browserName']} - #{ENV['browserVersion']}"
+
+      @driver = Capybara.current_session.driver
+
+      # Output sessionId and jobname to std out for Sauce OnDemand Plugin to
+      # display embeded results
+      @session_id = @driver.browser.session_id
+      puts "SauceOnDemandSessionID=#{@session_id} job-name=#{jobname}"
   end
 
   it 'properly controls blast button' do
@@ -61,6 +92,15 @@ describe 'a browser', :js => true do
       databases: nucleotide_databases
   end
 
+  after :each do |scenario|
+    @driver.quit
+    Capybara.use_default_driver
+    if scenario.exception
+      SauceWhisk::Jobs.fail_job @session_id
+    else
+      SauceWhisk::Jobs.pass_job @session_id
+    end
+  end
 
   ## Helpers ##
 

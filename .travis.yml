@@ -6,7 +6,7 @@ rvm:
   - 2.5
 
 addons:
-  firefox: "58.0"
+  sauce_connect: true
 
 branches:
   only:
@@ -14,15 +14,21 @@ branches:
     - master
 
 install:
-  - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz"
-  - mkdir geckodriver && tar xvf geckodriver-*.tar.gz -C geckodriver
-  - export PATH="$PWD/geckodriver:$PATH"
   - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.6.0/ncbi-blast-2.6.0+-x64-linux.tar.gz"
   - tar xvf ncbi-blast-*.tar.gz
   - gem install bundler && bundle
   - bundle exec bin/sequenceserver -s -b ncbi-blast-2.6.0+/bin -d spec/database/sample
 
-script: xvfb-run bundle exec rspec
+script:
+  - bundle exec rspec --exclude-pattern 'capybara*' # unit tests
+  - platform='macOS 10.13' browserName=safari browserVersion=11 bundle exec rspec spec/capybara_spec.rb
+  - platform='macOS 10.13' browserName=chrome browserVersion=65 bundle exec rspec spec/capybara_spec.rb
+  - platform='macOS 10.13' browserName=firefox browserVersion=59 bundle exec rspec spec/capybara_spec.rb
+  - platform='Windows 10' browserName=edge browserVersion='16.16299' bundle exec rspec spec/capybara_spec.rb
+  - platform='Windows 10' browserName=chrome browserVersion=65 bundle exec rspec spec/capybara_spec.rb
+  - platform='Windows 10' browserName=firefox browserVersion=59 bundle exec rspec spec/capybara_spec.rb
+  - platform='Linux' browserName=chrome browserVersion=48 bundle exec rspec spec/capybara_spec.rb
+  - platform='Linux' browserName=firefox browserVersion=45 bundle exec rspec spec/capybara_spec.rb
 
 cache:
   directories:
