@@ -19,6 +19,9 @@ install:
   - gem install bundler && bundle
   - bundle exec bin/sequenceserver -s -b ncbi-blast-2.6.0+/bin -d spec/database/sample
 
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter && chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
   - bundle exec rspec --exclude-pattern 'capybara*' # unit tests
   - platform='macOS 10.13' browserName=safari browserVersion=11 bundle exec rspec spec/capybara_spec.rb
@@ -29,6 +32,8 @@ script:
   - platform='Windows 10' browserName=firefox browserVersion=59 bundle exec rspec spec/capybara_spec.rb
   - platform='Linux' browserName=chrome browserVersion=48 bundle exec rspec spec/capybara_spec.rb
   - platform='Linux' browserName=firefox browserVersion=45 bundle exec rspec spec/capybara_spec.rb
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 cache:
   directories:
