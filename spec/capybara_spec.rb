@@ -18,6 +18,7 @@ describe 'a browser', :js => true do
         platform: ENV['platform'],
         browserName: ENV['browserName'],
         browserVersion: ENV['browserVersion'],
+        build: ENV['TRAVIS_BUILD_NUMBER'],
         'tunnel-identifier': ENV['TRAVIS_JOB_NUMBER']
       }
       url = "https://#{ENV['SAUCE_USERNAME']}:#{ENV['SAUCE_ACCESS_KEY']}" \
