@@ -7,6 +7,8 @@
 
 [![gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/wurmlab/sequenceserver)
 
+[![browser matrix](https://saucelabs.com/browser-matrix/yeban.svg)](https://saucelabs.com/u/yeban)
+
 # SequenceServer - BLAST searching made easy!
 
 SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
