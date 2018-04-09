@@ -1,4 +1,4 @@
-require 'codeclimate-test-reporter'
+require 'simplecov'
+SimpleCov.start
+
 require 'sequenceserver'
-require 'rack/test'
-require 'rspec'

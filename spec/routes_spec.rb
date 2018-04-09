@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+require 'rack/test'
+
 # Basic unit tests for HTTP / Rack interface.
 module SequenceServer
   describe 'Routes' do
