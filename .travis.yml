@@ -33,7 +33,7 @@ script:
   - platform='Linux' browserName=chrome browserVersion=48 bundle exec rspec spec/capybara_spec.rb
   - platform='Linux' browserName=firefox browserVersion=45 bundle exec rspec spec/capybara_spec.rb
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - ./cc-test-reporter after-build # --exit-code $TRAVIS_TEST_RESULT
 
 cache:
   directories:
