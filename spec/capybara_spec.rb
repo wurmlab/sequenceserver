@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'sauce_whisk'
 require 'capybara/rspec'
 require 'selenium-webdriver'
 
