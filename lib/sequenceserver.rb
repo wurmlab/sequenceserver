@@ -90,11 +90,15 @@ module SequenceServer
     # sys(command, :dir => '/path/to/directory',
     # :path => '/path/to/directory', :stdout => '/path/to/stdout_file',
     # :stderr => '/path/to/stderr_file')
-
     def sys(command, options = {})
+      # Available output channels
+      channels = [:stdout, :stderr]
+
       # Make temporary files to store output from stdout and stderr.
-      temp_stdout_file = Tempfile.new 'sequenceserver-sys'
-      temp_stderr_file = Tempfile.new 'sequenceserver-sys'
+      temp_files = {
+        stdout: Tempfile.new('sequenceserver-sys'),
+        stderr: Tempfile.new('sequenceserver-sys')
+      }
 
       # Log the command we are going to run - use -D option to view.
       logger.debug("Executing: #{command}")
@@ -111,32 +115,40 @@ module SequenceServer
 
         # Execute the shell command, redirect stdout and stderr to the
         # temporary files.
-        exec("#{command} 1>#{temp_stdout_file.path} 2>#{temp_stderr_file.path}")
+        exec("#{command} 1>#{temp_files[:stdout].path}" \
+             " 2>#{temp_files[:stderr].path}")
       end
 
       # Wait for the termination of the child process.
       _, status = Process.wait2(child_pid)
 
-      unless status == 0
-        raise CommandFailed.new(temp_stdout_file.read, temp_stderr_file.read, status)
+      # If a full path was given for stdout and stderr files, move the
+      # temporary files to this path. If the path given does not exist,
+      # create it.
+      channels.each do |channel|
+        filename = options[channel]
+        break unless filename
+
+        # If the given path has a directory component, ensure it exists.
+        file_dir = File.dirname(filename)
+        FileUtils.mkdir_p(file_dir) unless File.directory?(file_dir)
+
+        # Now move the temporary file to the given path.
+        # TODO: don't we need to explicitly close the temp file here?
+        FileUtils.mv(temp_files.delete(channel), filename)
       end
 
-      # Store stdout and/or stderr in files, if paths for the files were given.
-      # If a full path was given for an output file, move the temporary file
-      # to this path. If the path given does not exist, create it.
-      [options[:stdout], options[:stderr]].each_with_index do |filename, index|
-        if filename
-          file_dir = File.dirname(filename)
-          unless File.directory?(file_dir)
-            FileUtils.mkdir_p(file_dir)
-          end
-          FileUtils.mv([temp_stdout_file, temp_stderr_file][index], filename)
-        end
+      # Read the remaining temp files into memory. For large outputs,
+      # the caller should supply a file path to prevent loading the
+      # output in memory.
+      temp_files.each do |channel, tempfile|
+        temp_files[channel] = tempfile.read
       end
 
-      # If paths to write stdout and stderr to were not given, return the
-      # contents of stdout and/or stderr. Otherwise, return nil.
-      return temp_stdout_file.read, temp_stderr_file.read unless options[:stdout] || options[:stderr]
+      # Finally, return contents of the remaining temp files if the
+      # command completed successfully or raise CommandFailed error.
+      return temp_files.values if status.success?
+      raise CommandFailed.new(status.exitstatus, **temp_files)
     end
 
     # Run SequenceServer as a self-hosted server using Thin webserver.
