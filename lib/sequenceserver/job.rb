@@ -5,6 +5,9 @@ require 'digest/md5'
 require 'forwardable'
 require 'securerandom'
 
+require 'sequenceserver/pool'
+require 'sequenceserver/api_errors'
+
 module SequenceServer
   # Abstract job super class.
   #
@@ -71,7 +74,7 @@ module SequenceServer
     #
     # NOTE: This method is called asynchronously by thread pool.
     def run
-      sys(command, :stdout => stdout, :stderr => stderr)
+      sys(command, path: config[:bin], stdout: stdout, stderr: stderr)
       done!
     rescue CommandFailed => e
       done! e.exitstatus
@@ -98,7 +101,7 @@ module SequenceServer
       exitstatus == 0
     end
 
-    # Is the job done?
+    # Is the job done? Yes if exitstatus of the job is available. No otherwise.
     def done?
       !!@exitstatus
     end

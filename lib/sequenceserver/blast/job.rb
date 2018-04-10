@@ -1,5 +1,3 @@
-require 'sequenceserver/api_errors'
-require 'sequenceserver/pool'
 require 'sequenceserver/job'
 
 module SequenceServer
@@ -31,9 +29,6 @@ module SequenceServer
       def command
         @command ||= "#{method} -db '#{databases.map(&:name).join(' ')}'" \
                      " -query '#{qfile}' #{options}"
-      end
-
-      def assert
       end
 
       # BLAST's exit status is not definitive of success or error, so we
