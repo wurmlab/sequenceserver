@@ -4,6 +4,8 @@ import 'jquery-ui/ui/effect-bounce';
 import 'bootstrap';
 import 'webshim';
 
+import ErrorModal from './errormodal';
+
 /**
  * Simple, small jQuery extensions for convenience.
  */
@@ -109,14 +111,15 @@ export default {
     },
 
     showErrorModal: function (jqXHR, beforeShow) {
+        if (!beforeShow) {
+            beforeShow = function () {};
+        }
+
         setTimeout(function () {
             beforeShow();
-            if (jqXHR.responseText) {
-                $("#error").html(jqXHR.responseText).modal();
-            }
-            else {
-                $("#error-no-response").modal();
-            }
+
+            //React.render(<ErrorModal status={jqHR.status}
+            //error={jqXHR.responseText}>), document.getElementById('view'));
         }, 500);
-    }
+    },
 };
