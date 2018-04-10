@@ -44,8 +44,8 @@ module SequenceServer
       # Generate report.
       def generate
         assert_job_completed_successfully
-        xml_ir = parse_xml File.read(Formatter.run(job.rfile, 'xml').file)
-        tsv_ir = parse_tsv File.read(Formatter.run(job.rfile, 'custom_tsv').file)
+        xml_ir = parse_xml File.read(Formatter.run(job.stdout, 'xml').file)
+        tsv_ir = parse_tsv File.read(Formatter.run(job.stdout, 'custom_tsv').file)
         extract_program_info xml_ir
         extract_params xml_ir
         extract_stats xml_ir
@@ -53,15 +53,15 @@ module SequenceServer
       end
 
       def assert_job_completed_successfully
-        return true if success?
+        return true if job.success?
 
-        stderr = File.readlines(job.efile)
+        stderr = File.readlines(job.stderr)
         if job.exitstatus == 1 # error in query sequence or options; see [1]
           error = stderr.grep(ERROR_LINE)
           error = stderr if error.empty?
           fail InputError, error.join
         end
-        fail SystemError, job.efile.join
+        fail SystemError, stderr.join
       end
 
       # Make program name and program name + version available via `program`
