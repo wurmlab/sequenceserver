@@ -1,4 +1,6 @@
 import SequenceServer from './sequenceserver';
+import showErrorModal from './errormodal';
+
 import _ from 'underscore';
 import React from 'react';
 import d3 from 'd3';
@@ -272,7 +274,7 @@ var SequenceViewer = (function () {
                     })
                 }, this))
                 .fail(function (jqXHR, status, error) {
-                    SequenceServer.showErrorModal(jqXHR, function () {
+                    showErrorModal(jqXHR, function () {
                         this.hide();
                     });
                 });
@@ -989,8 +991,10 @@ var Report = React.createClass({
             case 200:
                 this.setState(jqXHR.responseJSON);
                 break;
+            case 404:
+            case 400:
             case 500:
-                SequenceServer.showErrorModal(jqXHR, function () {});
+                showErrorModal(jqXHR.responseJSON);
                 break;
             }
         }, this));

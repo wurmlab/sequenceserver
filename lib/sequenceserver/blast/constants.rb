@@ -2,7 +2,7 @@
 module SequenceServer
   # Define constanst used by BLAST module.
   module BLAST
-    ERROR_LINE = /\(CArgException.*\)\s(.*)/
+    ERROR_LINE = /Error:\s(.*)/
 
     ALGORITHMS = %w(blastn blastp blastx tblastn tblastx)
 

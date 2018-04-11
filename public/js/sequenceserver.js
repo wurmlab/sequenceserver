@@ -107,16 +107,4 @@ export default {
             $(this).tooltip();
         });
     },
-
-    showErrorModal: function (jqXHR, beforeShow) {
-        setTimeout(function () {
-            beforeShow();
-            if (jqXHR.responseText) {
-                $("#error").html(jqXHR.responseText).modal();
-            }
-            else {
-                $("#error-no-response").modal();
-            }
-        }, 500);
-    }
 };

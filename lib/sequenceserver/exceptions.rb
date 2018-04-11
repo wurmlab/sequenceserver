@@ -148,13 +148,12 @@ MSG
   # Raised if the 'sys' method could not successfully execute a shell command.
   class CommandFailed < StandardError
 
-    def initialize(stdout, stderr, exitstatus)
+    def initialize(exitstatus, stdout: nil, stderr: nil)
+      @exitstatus = exitstatus
       @stdout = stdout
       @stderr = stderr
-      @exitstatus = exitstatus
     end
 
     attr_reader :stdout, :stderr, :exitstatus
-
   end
 end

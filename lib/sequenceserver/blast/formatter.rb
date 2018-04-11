@@ -24,7 +24,7 @@ module SequenceServer
       attr_reader :format, :mime, :specifiers
 
       def file
-        @file = File.join(File.dirname(archive_file), filename)
+        @file ||= File.join(File.dirname(archive_file), filename)
       end
 
       def filename
@@ -41,12 +41,14 @@ module SequenceServer
           " -outfmt '#{format} #{specifiers}'" \
           " -out '#{file}'"
         sys(command, path: config[:bin], dir: DOTDIR)
+      rescue CommandFailed => e
+        fail SystemError, e.stderr
       end
 
       def validate
         return true if archive_file && format &&
                        File.exist?(archive_file)
-        fail ArgumentError, <<MSG
+        fail InputError, <<MSG
 Incorrect request parameters. Please ensure that requested file name is
 correct and the file type is either xml or tsv.
 MSG
