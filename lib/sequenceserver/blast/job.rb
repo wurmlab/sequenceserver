@@ -32,8 +32,9 @@ module SequenceServer
       end
 
       # BLAST's exit status is not definitive of success or error, so we
-      # override success? to define custom criteria.
+      # override success? to define custom criteria. :TODO:
       def success?
+        super
       end
 
       private
