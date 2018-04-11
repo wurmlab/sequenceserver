@@ -4,8 +4,6 @@ import 'jquery-ui/ui/effect-bounce';
 import 'bootstrap';
 import 'webshim';
 
-import ErrorModal from './errormodal';
-
 /**
  * Simple, small jQuery extensions for convenience.
  */
@@ -108,18 +106,5 @@ export default {
         $('.downloads a').each(function () {
             $(this).tooltip();
         });
-    },
-
-    showErrorModal: function (jqXHR, beforeShow) {
-        if (!beforeShow) {
-            beforeShow = function () {};
-        }
-
-        setTimeout(function () {
-            beforeShow();
-
-            //React.render(<ErrorModal status={jqHR.status}
-            //error={jqXHR.responseText}>), document.getElementById('view'));
-        }, 500);
     },
 };

@@ -130,9 +130,30 @@ module SequenceServer
     # the backtrace as response body. If the error class defines `http_status`
     # instance method, its return value will be used to set HTTP status. HTTP
     # status is set to 500 otherwise.
-    error Exception do
+    error 400..500 do
       error = env['sinatra.error']
-      [error.message, *error.backtrace].join("\n")
+
+      # All errors will have a message.
+      error_data = {message: error.message}
+
+      # If error object has a title method, use that, or use error class for
+      # title.
+      if error.respond_to? :title
+        error_data[:title] = error.title
+      else
+        error_data[:title] = error.class.to_s
+      end
+
+      # If error object has a more_info method, use that. If the error does
+      # not have more_info and the error is not APIError, use backtrace as
+      # more_info.
+      if error.respond_to? :more_info
+        error_data[:more_info] = error.more_info
+      else
+        error_data[:more_info] = error.backtrace.join("\n")
+      end
+
+      error_data.to_json
     end
   end
 end
