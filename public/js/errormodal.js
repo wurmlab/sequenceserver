@@ -22,7 +22,7 @@ class ErrorModal extends React.Component {
 
                         <div
                             className="modal-body">
-                            <p>{this.props.errorData.message}</p>
+                            <p dangerouslySetInnerHTML={{ __html: this.props.errorData.message}}></p>
 
                             {
                                 this.props.errorData.more_info &&

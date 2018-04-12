@@ -57,9 +57,10 @@ MSG
 
     def message
 <<MSG
-There was a problem running BLAST. Could be BLAST crashed because it is not
-compiled correctly, or the system is out of memory or disk space. Or may be
-the databases files are corrupt or have duplicated ids.
+Sorry BLAST failed - please try again. If this message persists, there is a
+problem with the server. In this case, please report the bug on our
+<a href="https://github.com/wurmlab/sequenceserver/issues" target="_blank">
+issue tracker</a>.
 MSG
     end
   end
