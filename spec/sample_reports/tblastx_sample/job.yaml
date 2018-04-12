@@ -2,6 +2,7 @@
 id: tblastx_sample
 method: tblastx
 advanced_params: {}
+exitstatus: 0
 
 databases:
 - !ruby/struct:SequenceServer::Database

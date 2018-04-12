@@ -2,6 +2,7 @@
 id: with_hits_sample
 method: blastn
 advanced_params: {}
+exitstatus: 0
 
 databases:
 - !ruby/struct:SequenceServer::Database
