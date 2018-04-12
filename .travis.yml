@@ -27,7 +27,7 @@ script:
   - platform='macOS 10.13' browserName=safari browserVersion=11 bundle exec rspec spec/capybara_spec.rb
   - platform='macOS 10.13' browserName=chrome browserVersion=65 bundle exec rspec spec/capybara_spec.rb
   - platform='macOS 10.13' browserName=firefox browserVersion=59 bundle exec rspec spec/capybara_spec.rb
-  - platform='Windows 10' browserName=edge browserVersion='16.16299' bundle exec rspec spec/capybara_spec.rb
+  - platform='Windows 10' browserName=microsoftedge browserVersion='16.16299' bundle exec rspec spec/capybara_spec.rb
   - platform='Windows 10' browserName=chrome browserVersion=65 bundle exec rspec spec/capybara_spec.rb
   - platform='Windows 10' browserName=firefox browserVersion=59 bundle exec rspec spec/capybara_spec.rb
   - platform='Linux' browserName=chrome browserVersion=48 bundle exec rspec spec/capybara_spec.rb
