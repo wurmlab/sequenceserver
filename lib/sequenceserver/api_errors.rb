@@ -32,7 +32,7 @@ module SequenceServer
     end
 
     def title
-      'Job failed'
+      'Input error'
     end
 
     def message
