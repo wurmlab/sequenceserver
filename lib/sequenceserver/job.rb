@@ -70,6 +70,12 @@ module SequenceServer
 
     attr_reader :id, :completed_at, :exitstatus
 
+    # Returns shell command that will be executed. Subclass needs to provide a
+    # concrete implementation.
+    def command
+      raise "Not implemented."
+    end
+
     # Shell out and execute the job.
     #
     # NOTE: This method is called asynchronously by thread pool.
@@ -80,10 +86,16 @@ module SequenceServer
       done! e.exitstatus
     end
 
-    # Returns shell command that will be executed. Subclass needs to provide a
-    # concrete implementation.
-    def command
-      raise "Not implemented."
+    # Is exitstatus of the job available? If yes, it means the job is done.
+    def done?
+      !!@exitstatus
+    end
+
+    # Raise RuntimeError if job finished with non-zero exit status. This method
+    # should be called on a completed job before attempting to use the results.
+    # Subclasses should provide their own implementation.
+    def raise!
+      raise if done? && exitstatus != 0
     end
 
     # Where will the stdout be written to during execution and read from later.
@@ -94,16 +106,6 @@ module SequenceServer
     # Where will the stderr be written to during execution and read from later.
     def stderr
       File.join(dir, 'stderr')
-    end
-
-    # Was the job successful?
-    def success?
-      exitstatus == 0
-    end
-
-    # Is the job done? Yes if exitstatus of the job is available. No otherwise.
-    def done?
-      !!@exitstatus
     end
 
     private

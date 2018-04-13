@@ -33,8 +33,16 @@ module SequenceServer
 
       # BLAST's exit status is not definitive of success or error, so we
       # override success? to define custom criteria. :TODO:
-      def success?
-        super
+      def raise!
+        return true if exitstatus == 0
+
+        stderr = File.readlines(this.stderr)
+        if exitstatus == 1 # error in query sequence or options; see [1]
+          error = stderr.grep(ERROR_LINE)
+          error = stderr if error.empty?
+          fail InputError, error.join
+        end
+        fail SystemError, stderr.join
       end
 
       private
