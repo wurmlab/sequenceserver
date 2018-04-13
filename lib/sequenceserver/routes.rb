@@ -126,15 +126,34 @@ module SequenceServer
       send_file out.file, :filename => out.filename, :type => out.mime
     end
 
-    # Catches any exception raised within the app and returns error message and
-    # the backtrace as response body. If the error class defines `http_status`
-    # instance method, its return value will be used to set HTTP status. HTTP
-    # status is set to 500 otherwise.
+    # Catches any exception raised within the app and returns JSON
+    # representation of the error:
+    # {
+    #    title: ...,     // plain text
+    #    message: ...,   // plain or HTML text
+    #    more_info: ..., // pre-formatted text
+    # }
+    #
+    # If the error class defines `http_status` instance method, its return
+    # value will be used to set HTTP status. HTTP status is set to 500
+    # otherwise.
+    #
+    # If the error class defines `title` instance method, its return value
+    # will be used as title. Otherwise name of the error class is used as
+    # title.
+    #
+    # If the error class defines `more_info` instance method, its return
+    # value will be used as more_info, otherwise `backtrace.join("\n")`
+    # is used as more_info. If an error class does not want to include
+    # more_info (like for NotFound), the error class must undefine
+    # `backtrace` method.
+    #
+    # All error classes should define `message` instance method.
     error 400..500 do
       error = env['sinatra.error']
 
       # All errors will have a message.
-      error_data = {message: error.message}
+      error_data = { message: error.message }
 
       # If error object has a title method, use that, or use error class for
       # title.
@@ -149,7 +168,7 @@ module SequenceServer
       # more_info.
       if error.respond_to? :more_info
         error_data[:more_info] = error.more_info
-      else
+      elsif error.respond_to? :backtrace
         error_data[:more_info] = error.backtrace.join("\n")
       end
 

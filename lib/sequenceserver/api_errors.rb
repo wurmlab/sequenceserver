@@ -18,6 +18,8 @@ module SequenceServer
     def message
       'The requested job could not be found'
     end
+
+    undef_method :backtrace
   end
 
   # Errors caused due to incorrect user input.
