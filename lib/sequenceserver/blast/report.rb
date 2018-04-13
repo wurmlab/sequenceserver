@@ -44,8 +44,8 @@ module SequenceServer
       # Generate report.
       def generate
         job.raise!
-        xml_ir = parse_xml File.read(Formatter.run(job.stdout, 'xml').file)
-        tsv_ir = parse_tsv File.read(Formatter.run(job.stdout, 'custom_tsv').file)
+        xml_ir = parse_xml File.read(Formatter.run(job, 'xml').file)
+        tsv_ir = parse_tsv File.read(Formatter.run(job, 'custom_tsv').file)
         extract_program_info xml_ir
         extract_params xml_ir
         extract_stats xml_ir

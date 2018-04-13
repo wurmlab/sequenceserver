@@ -122,7 +122,7 @@ module SequenceServer
     # Download BLAST report in various formats.
     get '/download/:jid.:type' do |jid, type|
       job = Job.fetch(jid)
-      out = BLAST::Formatter.new(job.rfile, type)
+      out = BLAST::Formatter.new(job, type)
       send_file out.file, :filename => out.filename, :type => out.mime
     end
 

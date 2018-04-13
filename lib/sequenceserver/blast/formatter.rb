@@ -11,20 +11,20 @@ module SequenceServer
       extend Forwardable
       def_delegators SequenceServer, :config, :logger, :sys
 
-      def initialize(archive_file, type)
-        @archive_file = archive_file
+      def initialize(job, type)
+        @job = job
         @format, @mime, @specifiers = OUTFMT[type]
         @type = type
 
         validate && run
       end
 
-      attr_reader :archive_file, :type
+      attr_reader :job, :type
 
       attr_reader :format, :mime, :specifiers
 
       def file
-        @file ||= File.join(File.dirname(archive_file), filename)
+        @file ||= File.join(job.dir, filename)
       end
 
       def filename
@@ -37,7 +37,7 @@ module SequenceServer
       def run
         return if File.exist?(file)
         command =
-          "blast_formatter -archive '#{archive_file}'" \
+          "blast_formatter -archive '#{job.stdout}'" \
           " -outfmt '#{format} #{specifiers}'" \
           " -out '#{file}'"
         sys(command, path: config[:bin], dir: DOTDIR)
