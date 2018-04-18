@@ -15,7 +15,7 @@
 
   <!-- CSS -->
   <% if settings.production? %>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css?ver=<%= SequenceServer::VERSION %>"/>
   <% else %>
     <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.css"/>
   <% end %>

@@ -6,7 +6,7 @@
 
 <!-- JS -->
 <% if settings.production? %>
-  <script src="sequenceserver-search.min.js"></script>
+  <script src="sequenceserver-search.min.js?ver=<%= SequenceServer::VERSION %>"></script>
 <% else %>
   <script src="vendor/system.js"></script>
   <script src="config.js"></script>
