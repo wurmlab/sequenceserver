@@ -95,10 +95,6 @@ module SequenceServer
         xml_ir[8].each do |n|
           query = Query.new(self, n[0], n[2], n[3], [])
           extract_hits(n[4], tsv_ir[query.id], query)
-          query.hits = query.hits.sort_by do |h|
-            first_hsp = h.hsps.first # most significant hsp
-            [first_hsp.evalue, first_hsp.score]
-          end
           queries << query
         end
       end
@@ -119,9 +115,6 @@ module SequenceServer
           hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4],
                         tsv_ir[n[1]][0], tsv_ir[n[1]][1],[])
           extract_hsps(n[5], tsv_ir[n[1]][2], hit)
-          hit.hsps = hit.hsps.sort_by do |h|
-            [h.evalue, h.score]
-          end
           query.hits << hit
         end
       end
