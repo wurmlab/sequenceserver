@@ -46,12 +46,9 @@ module SequenceServer
       end
 
       def validate
-        return true if archive_file && format &&
-                       File.exist?(archive_file)
-        fail InputError, <<MSG
-Incorrect request parameters. Please ensure that requested file name is
-correct and the file type is either xml or tsv.
-MSG
+        fail SystemError if !File.exist?(job.stdout) ||
+          File.zero?(job.stdout)
+        true
       end
     end
   end

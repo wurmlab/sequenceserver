@@ -112,6 +112,11 @@ module SequenceServer
       File.join(dir, 'stderr')
     end
 
+    # Where to save all kind of data for this job.
+    def dir
+      File.join(DOTDIR, id)
+    end
+
     private
 
     # Saves job object to a YAML file in job directory.
@@ -148,11 +153,6 @@ module SequenceServer
       @completed_at = Time.now
       @exitstatus = status
       save
-    end
-
-    # Where to save all kind of data for this job.
-    def dir
-      File.join(DOTDIR, id)
     end
 
     # Where to write serialised job object.
