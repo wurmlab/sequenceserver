@@ -366,11 +366,13 @@ var Query = React.createClass({
                 <div
                     className="sequence">
                     <textarea
-                        className="form-control text-monospace" id="sequence"
-                        rows="10" spellCheck="false" autoFocus="true"
-                        name="sequence"   value={this.state.value}
-                        ref="textarea" onChange={this.handleInput}
-                        placeholder="Paste query sequence(s) or drag file containing query sequence(s) in FASTA format here ..." >
+                        id="sequence" ref="textarea"
+                        className="form-control text-monospace"
+                        name="sequence" value={this.state.value}
+                        placeholder="Paste query sequence(s) or drag file
+                        containing query sequence(s) in FASTA format here ..."
+                        spellCheck="false" autoFocus="true"
+                        onChange={this.handleInput}>
                     </textarea>
                 </div>
                 <div

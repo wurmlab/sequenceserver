@@ -28,7 +28,8 @@ a:hover, .btn-link:hover {
  * Disable resize grabber on textarea.
  */
 textarea {
-  resize: none;
+  resize: vertical;
+  min-height: 214px;
 }
 
 /**
