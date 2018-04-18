@@ -63,6 +63,10 @@ module SequenceServer
       mkdir_p dir
       yield if block_given?
       save
+    rescue Errno::ENOSPC
+      raise SystemError
+    rescue Errno::EACCES
+      raise SystemError
     rescue => e
       rm_rf dir
       raise e
