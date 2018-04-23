@@ -214,8 +214,11 @@ module SequenceServer
       def fetch_tax_id
         default = 0
         print 'Enter taxid (optional): '
-        response_user = STDIN.gets.to_s.strip
-        response_user.empty? && default || response_user
+        user_response = STDIN.gets.strip
+        user_response && Integer(user_response) || default
+      rescue
+        puts 'taxid should be a number'
+        retry
       end
 
       # Returns true if the database name appears to be a multi-part database
