@@ -1,5 +1,4 @@
 [![build status](https://secure.travis-ci.org/wurmlab/sequenceserver.png)](https://travis-ci.org/wurmlab/sequenceserver)
-[![Sauce test status](https://saucelabs.com/buildstatus/yeban)](https://saucelabs.com/u/yeban)
 [![code climate](https://codeclimate.com/github/wurmlab/sequenceserver/badges/gpa.svg)](https://codeclimate.com/github/wurmlab/sequenceserver)
 [![coverage](https://codeclimate.com/github/wurmlab/sequenceserver/badges/coverage.svg)](https://codeclimate.com/github/wurmlab/sequenceserver)
 [![gem version](https://badge.fury.io/rb/sequenceserver.svg)](http://rubygems.org/gems/sequenceserver)
@@ -79,4 +78,4 @@ docker run --rm -ti -p 4567:4567 -v $(pwd)/db:/db wurmlab/sequenceserver
 
 ## Big Thanks
 
-Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs][https://saucelabs.com]
+Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com)
