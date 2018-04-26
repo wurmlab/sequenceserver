@@ -416,6 +416,28 @@ var Hit = React.createClass({
         return { showSequenceViewer: false };
     },
 
+    // Return JSX for view sequence button.
+    viewSequenceButton: function () {
+        if (this.length() > 10000) {
+            return (
+                <button
+                    className="btn btn-link view-sequence disabled"
+                    title="Sequence too long" disabled="true">
+                    <i className="fa fa-eye"></i> Sequence
+                </button>
+            );
+        }
+        else {
+            return (
+                <button
+                    className="btn btn-link view-sequence"
+                    onClick={this.showSequenceViewer}>
+                    <i className="fa fa-eye"></i> Sequence
+                </button>
+            );
+        }
+    },
+
     render: function () {
         return (
             <div
@@ -469,12 +491,7 @@ var Hit = React.createClass({
                             <span>{" Select "}</span>
                         </label>
                         <span> | </span>
-                        <button
-                            className="btn btn-link view-sequence"
-                            onClick={this.showSequenceViewer}
-                            disabled={this.length() > 10000}>
-                            <i className="fa fa-eye"></i> Sequence
-                        </button>
+                        { this.viewSequenceButton() }
                         {
                             this.state.showSequenceViewer && <SequenceViewer
                                 url={this.viewSequenceLink()} onHide={this.hideSequenceViewer}/>
