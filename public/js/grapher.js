@@ -3,13 +3,85 @@ import React from 'react';
 
 import './svgExporter'; // create handlers for SVG and PNG download buttons
 
-var Graphers = [];
+var Graphers = {};
 
 export default function Grapher(Graph) {
 
     return class extends React.Component {
         constructor(props) {
             super(props);
+            this.state = { collapsed: this.props.collapsed };
+        }
+
+        collapseId () {
+            return Graph.collapseId(this.props);
+        }
+
+        render () {
+            return (
+                <div className="grapher" ref="grapher">
+                    <div className="grapher-header">
+                        <h5 className="caption" data-toggle="collapse"
+                            data-target={"#"+this.collapseId()}>
+                            { this.state.collapsed ?
+                                this.plusIcon() : this.minusIcon() }
+                            &nbsp;&nbsp;
+                            {Graph.name()}
+                        </h5>
+                        { !this.state.collapsed && this.graphLinksJSX() }
+                    </div>
+                    { this.svgContainerJSX() }
+                </div>
+            );
+        }
+
+        minusIcon () {
+            return (
+                <i className="fa fa-minus-square-o"></i>
+            );
+        }
+
+        plusIcon () {
+            return (
+                <i className="fa fa-plus-square-o"></i>
+            );
+        }
+
+        graphLinksJSX () {
+            return (
+                <div className="hit-links graph-links">
+                    <a href = "#" className="export-to-svg">
+                        <i className="fa fa-download"/>
+                        <span>{"  SVG  "}</span>
+                    </a>
+                    <span>{" | "}</span>
+                    <a href = "#" className="export-to-png">
+                        <i className="fa fa-download"/>
+                        <span>{"  PNG  "}</span>
+                    </a>
+                </div>
+            );
+        }
+
+        svgContainerJSX () {
+            return (
+                <div ref="svgContainer" id={this.collapseId()}
+                    className={"svg-container " + Graph.className()}>
+                </div>
+            );
+        }
+
+        componentDidMount () {
+            Graphers[this.collapseId()] = this;
+
+            // Draw visualisation for the first time. Visualisations are
+            // redrawn when browser window is resized.
+            this.draw();
+        }
+
+        componentDidUpdate () {
+            // Re-draw visualisation when the component change state.
+            this.draw();
         }
 
         svgContainer () {
@@ -17,53 +89,15 @@ export default function Grapher(Graph) {
         }
 
         draw () {
+            // Clean slate.
             this.svgContainer().empty();
+            this.graph = null;
+
+            // Draw if uncollapsed.
+            if (this.state.collapsed) { return }
             this.graph = new Graph(this.svgContainer(), this.props);
             this.svgContainer().find('svg').attr('data-name', Graph.dataName(this.props));
         }
-
-        render () {
-            return (
-                <div
-                    className="grapher" ref="grapher">
-                    <div
-                        className="grapher-header">
-                        <h5
-                            className="caption"
-                            data-toggle="collapse"
-                            data-target={"#Collapse_"+Graph.collapseId(this.props)}>
-                            <i className="fa fa-minus-square-o"></i>
-                            &nbsp;&nbsp;
-                            {Graph.name()}
-                        </h5>
-                        <div
-                            className="hit-links graph-links">
-                            <a href = "#" className="export-to-svg">
-                                <i className="fa fa-download"/>
-                                <span>{"  SVG  "}</span>
-                            </a>
-                            <span>{" | "}</span>
-                            <a href = "#" className="export-to-png">
-                                <i className="fa fa-download"/>
-                                <span>{"  PNG  "}</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div ref="svgContainer" id={"Collapse_"+Graph.collapseId(this.props)}
-                        className={"svg-container " + Graph.className()}>
-                    </div>
-                </div>
-            );
-        }
-
-        componentDidMount () {
-            Graphers.push(this);
-
-            // Draw visualisation for the first time. Visualisations are
-            // redrawn when browser window is resized.
-            this.draw();
-        }
-
     };
 }
 
@@ -75,15 +109,11 @@ $(window).resize(_.debounce(function () {
 }, 125));
 
 // Swap-icon and toggle .graph-links on collapse.
-$('body').on('hide.bs.collapse', ".collapse", function () {
-    $(this).parent().find('.caption').find('i').
-        removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
-});
 $('body').on('hidden.bs.collapse', ".collapse", function () {
-    $(this).parent().find('.graph-links').toggle();
+    var component = Graphers[$(this).attr('id')];
+    component.setState({ collapsed: true });
 });
-$('body').on('show.bs.collapse', ".collapse", function () {
-    $(this).parent().find('.caption').find('i').
-        removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
-    $(this).parent().find('.graph-links').toggle();
+$('body').on('shown.bs.collapse', ".collapse", function () {
+    var component = Graphers[$(this).attr('id')];
+    component.setState({ collapsed: false });
 });

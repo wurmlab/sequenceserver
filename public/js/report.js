@@ -1113,7 +1113,7 @@ var Report = React.createClass({
                     'col-md-9' : 'col-md-12'}>
                     { this.overview() }
                     <Circos queries={this.state.queries}
-                        program={this.state.program}/>
+                        program={this.state.program} collapsed="true"/>
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
