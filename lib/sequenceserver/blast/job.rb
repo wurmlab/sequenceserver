@@ -36,7 +36,7 @@ module SequenceServer
       def raise!
         return true if exitstatus == 0
 
-        stderr = File.readlines(this.stderr)
+        stderr = File.readlines(self.stderr)
         if exitstatus == 1 # error in query sequence or options; see [1]
           error = stderr.grep(ERROR_LINE)
           error = stderr if error.empty?
