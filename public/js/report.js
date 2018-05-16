@@ -1006,7 +1006,7 @@ var Report = React.createClass({
                 setTimeout(this.fetch_results, interval);
                 break;
             case 200:
-                this.setState(jqXHR.responseJSON);
+                this.updatePage(jqXHR.responseJSON);
                 break;
             case 404:
             case 400:
@@ -1015,6 +1015,24 @@ var Report = React.createClass({
                 break;
             }
         }, this));
+    },
+
+    updatePage: function(responseJSON) {
+        var queries = responseJSON.queries;
+
+        // Render results for first query.
+        responseJSON.queries = [queries.shift()];
+        this.setState(responseJSON);
+
+        var update = function () {
+            if (queries.length > 0) {
+                this.setState({
+                    queries: this.state.queries.concat(queries.shift())
+                });
+                setTimeout(update.bind(this), 0)
+            }
+        };
+        setTimeout(update.bind(this), 0);
     },
 
     /**
