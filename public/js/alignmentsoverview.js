@@ -10,7 +10,7 @@ class Graph {
   }
 
   static className() {
-    return 'alignment-overview collapse in';
+    return 'alignment-overview collapse';
   }
 
   static collapseId(props) {

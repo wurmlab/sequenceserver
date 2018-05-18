@@ -677,10 +677,8 @@ var Query = React.createClass({
                 </div>
                 {this.numhits() &&
                     (
-                        <div
-                            className="section-content">
-
-                            <GraphicalOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program}/>
+                        <div className="section-content">
+                            <GraphicalOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program} collapsed="true"/>
 
                             {/*
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program}/>
