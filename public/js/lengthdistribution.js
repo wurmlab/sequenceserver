@@ -75,13 +75,10 @@ class Graph {
   }
 
   setupTooltip() {
-    $('[data-toggle="tooltip"]').tooltip({
-      'placement': 'top',
-      'container': 'body',
-      'html': 'true',
-      'delay': 0,
-      'white-space': 'nowrap'
-    });
+      this.svg_container.find('[data-toggle="tooltip"]').tooltip({
+          'placement': 'top', 'container': 'body', 'html': 'true',
+          'delay': 0, 'white-space': 'nowrap'
+      });
   }
 
   setupResponsiveness() {
