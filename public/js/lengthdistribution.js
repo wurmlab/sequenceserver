@@ -13,7 +13,7 @@ class Graph {
   }
 
   static className() {
-    return 'length-distribution collapse in';
+    return 'length-distribution collapse';
   }
 
   static collapseId(props) {
