@@ -64,18 +64,6 @@ class Graph {
     });
   }
 
-  setupResponsiveness($queryDiv, $graphDiv, index, opts, hits) {
-    var currentWidth = $(window).width();
-    var debounced_draw = _.debounce(_.bind(function () {
-        if (currentWidth !== $(window).width()) {
-            var shownHits = $queryDiv.find('.ghit > g').length;
-            this.graphIt($queryDiv, $graphDiv, shownHits, index, opts, hits);
-            currentWidth = $(window).width();
-        }
-    },this), 125);
-    $(window).resize(debounced_draw);
-  }
-
   graphControls($queryDiv, $graphDiv, isInit, opts, hits) {
     var MIN_HITS_TO_SHOW = 20;
 
@@ -390,8 +378,6 @@ class Graph {
     // been drawn for first time.
     if (index === 0) {
         this.graphControls($queryDiv, $graphDiv, true, opts, inhits);
-        // Redraw the SVG on a browser resize...
-        // this.setupResponsiveness($queryDiv, $graphDiv, index, opts, inhits);
     }
     // Refresh tooltip each time graph is redrawn.
     this.setupTooltip();
