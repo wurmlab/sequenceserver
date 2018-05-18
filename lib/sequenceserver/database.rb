@@ -215,7 +215,7 @@ module SequenceServer
         default = 0
         print 'Enter taxid (optional): '
         user_response = STDIN.gets.strip
-        user_response && Integer(user_response) || default
+        user_response.empty? && default || Integer(user_response)
       rescue
         puts 'taxid should be a number'
         retry
