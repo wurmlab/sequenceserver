@@ -1015,19 +1015,19 @@ var Report = React.createClass({
     updatePage: function(responseJSON) {
         var queries = responseJSON.queries;
 
-        // Render results for first query.
-        responseJSON.queries = [queries.shift()];
+        // Render results for first 10 queries.
+        responseJSON.queries = queries.splice(0, 50);
         this.setState(responseJSON);
 
         var update = function () {
             if (queries.length > 0) {
                 this.setState({
-                    queries: this.state.queries.concat(queries.shift())
+                    queries: this.state.queries.concat(queries.splice(0, 50))
                 });
-                setTimeout(update.bind(this), 0)
+                setTimeout(update.bind(this), 500)
             }
         };
-        setTimeout(update.bind(this), 0);
+        setTimeout(update.bind(this), 500);
     },
 
     /**
