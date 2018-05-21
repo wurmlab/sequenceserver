@@ -1169,7 +1169,7 @@ var Report = React.createClass({
                 setTimeout(update.bind(this), 500);
             }
             else {
-                this.afterPageUpdated();
+                this.componentFinishedUpdating();
             }
         };
         setTimeout(update.bind(this), 500);
@@ -1179,7 +1179,7 @@ var Report = React.createClass({
      * Locks Sidebar in its position, prevents folding of hits during
      * text-selection, etc.
      */
-    afterPageUpdated: function () {
+    componentFinishedUpdating: function () {
         this.affixSidebar();
         this.setupScrollSpy();
         this.setupHitSelection();
