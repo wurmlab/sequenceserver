@@ -10,7 +10,7 @@ class Graph {
   }
 
   static className() {
-    return 'alignment-overview collapse';
+    return 'alignment-overview';
   }
 
   static collapseId(props) {
@@ -22,9 +22,10 @@ class Graph {
   }
 
   constructor($svgContainer, props) {
-    $queryDiv = $svgContainer.parents('.resultn')
-    hits = this.extractData(props.query.hits, props.query.number)
-    this.graphIt($queryDiv, $svgContainer, 0, 20, null, hits);
+      this.svg_container = $svgContainer;
+      $queryDiv = $svgContainer.parents('.resultn');
+      hits = this.extractData(props.query.hits, props.query.number);
+      this.graphIt($queryDiv, $svgContainer, 0, 20, null, hits);
   }
 
   extractData(query_hits, number) {

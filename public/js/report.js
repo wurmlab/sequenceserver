@@ -678,7 +678,7 @@ var Query = React.createClass({
                 {this.numhits() &&
                     (
                         <div className="section-content">
-                            <GraphicalOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program} collapsed="true"/>
+                            <GraphicalOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program} collapsed={this.props.data.veryBig}/>
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program} collapsed="true"/>
                             <HitsTable key={"HT_"+this.props.query.number} query={this.props.query}/>
                             <div
@@ -981,53 +981,22 @@ var Report = React.createClass({
 
     // Internal helpers. //
 
-    /**
-     * Fetch results.
-     */
-    fetch_results: function () {
-        var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
+    // Life-cycle methods. //
 
-        $.getJSON(location.pathname + '.json')
-        .complete(_.bind(function (jqXHR) {
-            switch (jqXHR.status) {
-            case 202:
-                var interval;
-                if (intervals.length === 1) {
-                    interval = intervals[0];
-                }
-                else {
-                    interval = intervals.shift;
-                }
-                setTimeout(this.fetch_results, interval);
-                break;
-            case 200:
-                this.updatePage(jqXHR.responseJSON);
-                break;
-            case 404:
-            case 400:
-            case 500:
-                showErrorModal(jqXHR.responseJSON);
-                break;
-            }
-        }, this));
+    getInitialState: function () {
+        return {
+            search_id:       '',
+            program:         '',
+            program_version: '',
+            queries:         [],
+            querydb:         [],
+            params:          [],
+            stats:           []
+        };
     },
 
-    updatePage: function(responseJSON) {
-        var queries = responseJSON.queries;
-
-        // Render results for first 10 queries.
-        responseJSON.queries = queries.splice(0, 50);
-        this.setState(responseJSON);
-
-        var update = function () {
-            if (queries.length > 0) {
-                this.setState({
-                    queries: this.state.queries.concat(queries.splice(0, 50))
-                });
-                setTimeout(update.bind(this), 500)
-            }
-        };
-        setTimeout(update.bind(this), 500);
+    render: function () {
+        return (this.isResultAvailable() ? this.resultsJSX() : this.loadingJSX());
     },
 
     /**
@@ -1040,17 +1009,9 @@ var Report = React.createClass({
     },
 
     /**
-     * Returns true if sidebar should be shown.
-     *
-     * Sidebar is not shown if there is only one query and there are no hits
-     * corresponding to the query.
+     * Returns loading message
      */
-    shouldShowSidebar: function () {
-        return !(this.state.queries.length == 1 &&
-                 this.state.queries[0].hits.length == 0);
-    },
-
-    loading: function () {
+    loadingJSX: function () {
         return (
             <div
                 className="row">
@@ -1074,6 +1035,49 @@ var Report = React.createClass({
                 </div>
             </div>
         );
+    },
+
+    /**
+     * Return results JSX.
+     */
+    resultsJSX: function () {
+        return (
+            <div className="row">
+                { this.shouldShowSidebar() &&
+                    (
+                        <div
+                            className="col-md-3 hidden-sm hidden-xs">
+                            <SideBar data={this.state}/>
+                        </div>
+                    )
+                }
+                <div className={this.shouldShowSidebar() ?
+                    'col-md-9' : 'col-md-12'}>
+                    { this.overview() }
+                    <Circos queries={this.state.queries}
+                        program={this.state.program} collapsed="true"/>
+                    {
+                        _.map(this.state.queries, _.bind(function (query) {
+                            return (
+                                <Query key={"Query_"+query.id} query={query} data={this.state}
+                                    selectHit={this.selectHit}/>
+                                );
+                        }, this))
+                    }
+                </div>
+            </div>
+        );
+    },
+
+    /**
+     * Returns true if sidebar should be shown.
+     *
+     * Sidebar is not shown if there is only one query and there are no hits
+     * corresponding to the query.
+     */
+    shouldShowSidebar: function () {
+        return !(this.state.queries.length == 1 &&
+                 this.state.queries[0].hits.length == 0);
     },
 
     /**
@@ -1108,36 +1112,78 @@ var Report = React.createClass({
         );
     },
 
+    componentDidMount: function () {
+        this.fetchResults();
+    },
+
     /**
-     * Renders results per query.
+     * Fetch results.
      */
-    results: function () {
-        return (
-            <div className="row">
-                { this.shouldShowSidebar() &&
-                    (
-                        <div
-                            className="col-md-3 hidden-sm hidden-xs">
-                            <SideBar data={this.state}/>
-                        </div>
-                    )
+    fetchResults: function () {
+        var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
+
+        $.getJSON(location.pathname + '.json')
+        .complete(_.bind(function (jqXHR) {
+            switch (jqXHR.status) {
+            case 202:
+                var interval;
+                if (intervals.length === 1) {
+                    interval = intervals[0];
                 }
-                <div className={this.shouldShowSidebar() ?
-                    'col-md-9' : 'col-md-12'}>
-                    { this.overview() }
-                    <Circos queries={this.state.queries}
-                        program={this.state.program} collapsed="true"/>
-                    {
-                        _.map(this.state.queries, _.bind(function (query) {
-                            return (
-                                <Query key={"Query_"+query.id} query={query} data={this.state}
-                                    selectHit={this.selectHit}/>
-                                );
-                        }, this))
-                    }
-                </div>
-            </div>
-        );
+                else {
+                    interval = intervals.shift;
+                }
+                setTimeout(this.fetchResults, interval);
+                break;
+            case 200:
+                this.updatePage(jqXHR.responseJSON);
+                break;
+            case 404:
+            case 400:
+            case 500:
+                showErrorModal(jqXHR.responseJSON);
+                break;
+            }
+        }, this));
+    },
+
+    updatePage: function(responseJSON) {
+        var queries = responseJSON.queries;
+
+        // Render results for first 50 queries and set flag if total hits is
+        // more than 500.
+        var numHits = 0;
+        responseJSON.queries = queries.splice(0, 50);
+        responseJSON.veryBig = !_.every(queries, (query) => {
+            numHits += query.hits.length;
+            return (numHits <= 500);
+        });
+        this.setState(responseJSON);
+
+        // Render results for remaining queries.
+        var update = function () {
+            if (queries.length > 0) {
+                this.setState({
+                    queries: this.state.queries.concat(queries.splice(0, 50))
+                });
+                setTimeout(update.bind(this), 500);
+            }
+            else {
+                this.afterPageUpdated();
+            }
+        };
+        setTimeout(update.bind(this), 500);
+    },
+
+    /**
+     * Locks Sidebar in its position, prevents folding of hits during
+     * text-selection, etc.
+     */
+    afterPageUpdated: function () {
+        this.affixSidebar();
+        this.setupScrollSpy();
+        this.setupHitSelection();
+        this.setupDownloadLinks();
     },
 
     /**
@@ -1204,57 +1250,19 @@ var Report = React.createClass({
             });
         });
     },
-
-    // Life-cycle methods. //
-
-    getInitialState: function () {
-        return {
-            search_id:       '',
-            program:         '',
-            program_version: '',
-            queries:         [],
-            querydb:         [],
-            params:          [],
-            stats:           []
-        };
-    },
-
-    render: function () {
-        return (this.isResultAvailable() && this.results() || this.loading());
-    },
-
-    componentDidMount: function () {
-        this.fetch_results();
-    },
-
-    /**
-     * Locks Sidebar in its position.
-     * Prevents folding of hits during text-selection
-     */
-    componentDidUpdate: function () {
-        this.affixSidebar();
-        this.setupScrollSpy();
-        this.setupHitSelection();
-        this.setupDownloadLinks();
-    }
 });
 
 var Page = React.createClass({
     render: function () {
         return (
             <div>
-                <div
-                    className="container">
+                <div className="container">
                     <Report ref="report"/>
                 </div>
 
-                <div
-                  id='circos-demo' className='modal'>
-                </div>
+                <div id='circos-demo' className='modal'></div>
 
-                <canvas
-                    id="png-exporter" hidden>
-                </canvas>
+                <canvas id="png-exporter" hidden></canvas>
             </div>
         );
     }
