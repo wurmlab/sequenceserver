@@ -1156,14 +1156,15 @@ var Report = React.createClass({
     updatePage: function(responseJSON) {
         var queries = responseJSON.queries;
 
-        // Render results for first 50 queries and set flag if total hits is
-        // more than 500.
+        // Render results for first 50 queries and set flag if total queries is
+        // more than 250.
         var numHits = 0;
+        responseJSON.veryBig = queries.length > 250;
+        //responseJSON.veryBig = !_.every(queries, (query) => {
+            //numHits += query.hits.length;
+            //return (numHits <= 500);
+        //});
         responseJSON.queries = queries.splice(0, 50);
-        responseJSON.veryBig = !_.every(queries, (query) => {
-            numHits += query.hits.length;
-            return (numHits <= 500);
-        });
         this.setState(responseJSON);
 
         // Render results for remaining queries.
