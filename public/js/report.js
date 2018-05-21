@@ -791,14 +791,10 @@ var SideBar = React.createClass({
     render: function () {
         return (
             <div className="sidebar">
-                { this.showIndex() && this.index() }
+                { this.props.shouldShowIndex && this.index() }
                 { this.downloads() }
             </div>
         )
-    },
-
-    showIndex: function () {
-        return this.props.data.queries.length <= 8;
     },
 
     index: function () {
@@ -1047,7 +1043,7 @@ var Report = React.createClass({
                     (
                         <div
                             className="col-md-3 hidden-sm hidden-xs">
-                            <SideBar data={this.state}/>
+                            <SideBar data={this.state} shouldShowIndex={this.shouldShowIndex()}/>
                         </div>
                     )
                 }
@@ -1078,6 +1074,16 @@ var Report = React.createClass({
     shouldShowSidebar: function () {
         return !(this.state.queries.length == 1 &&
                  this.state.queries[0].hits.length == 0);
+    },
+
+    /**
+     * Returns true if index should be shown in the sidebar.
+     *
+     * Index is not shown in the sidebar if there are more than eight queries
+     * in total.
+     */
+    shouldShowIndex: function () {
+        return this.state.queries.length <= 8;
     },
 
     /**
@@ -1181,7 +1187,7 @@ var Report = React.createClass({
      */
     componentFinishedUpdating: function () {
         this.affixSidebar();
-        this.setupScrollSpy();
+        this.shouldShowIndex() && this.setupScrollSpy();
         this.setupHitSelection();
         this.setupDownloadLinks();
     },
