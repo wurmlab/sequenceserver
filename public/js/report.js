@@ -1190,7 +1190,6 @@ var Report = React.createClass({
         this.affixSidebar();
         this.shouldShowIndex() && this.setupScrollSpy();
         this.setupHitSelection();
-        this.setupDownloadLinks();
     },
 
     /**
@@ -1232,31 +1231,7 @@ var Report = React.createClass({
                 $this.off('mouseup mousemove', handler);
             });
         });
-    },
-
-    // Download links.
-    //
-    // Handles downloading files referenced by links with class 'download'.
-    setupDownloadLinks: function () {
-        $(document).on('click', '.download', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            var $anchor = $(this);
-
-            if ($anchor.is(':disabled')) return;
-
-            var url = $anchor.attr('href');
-
-            $.get(url)
-            .done(function (data) {
-                window.location.href = url;
-            })
-            .fail(function (jqXHR, status, error) {
-                SequenceServer.showErrorModal(jqXHR, function () {});
-            });
-        });
-    },
+    }
 });
 
 var Page = React.createClass({
