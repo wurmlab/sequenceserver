@@ -1120,6 +1120,7 @@ var Report = React.createClass({
 
     componentDidMount: function () {
         this.fetchResults();
+        this.setupHitSelection();
     },
 
     /**
@@ -1189,7 +1190,6 @@ var Report = React.createClass({
     componentFinishedUpdating: function () {
         this.affixSidebar();
         this.shouldShowIndex() && this.setupScrollSpy();
-        this.setupHitSelection();
     },
 
     /**
