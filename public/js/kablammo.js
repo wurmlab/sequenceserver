@@ -23,7 +23,7 @@ class Graph {
   }
 
   static className() {
-    return 'kablammo collapse in';
+    return 'kablammo';
   }
 
   static collapseId(props) {

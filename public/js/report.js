@@ -7,7 +7,7 @@ import d3 from 'd3';
 
 import * as Helpers from './visualisation_helpers';
 import GraphicalOverview from './alignmentsoverview';
-//import Kablammo from './kablammo';
+import Kablammo from './kablammo';
 import './sequence';
 import AlignmentExporter from './alignment_exporter';
 import LengthDistribution from './lengthdistribution';
@@ -514,9 +514,7 @@ var Hit = React.createClass({
                             }, this))
                         }
                     </div>
-                    {/*
-                    <Kablammo key={"Kablammo"+this.props.query.id} query={this.props.query} hit={this.props.hit} algorithm={this.props.algorithm}/>
-                    */}
+                    <Kablammo key={"Kablammo"+this.props.query.id} query={this.props.query} hit={this.props.hit} algorithm={this.props.algorithm} collapsed="true"/>
                     <table
                       className="table hsps">
                         <tbody>
