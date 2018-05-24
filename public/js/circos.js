@@ -316,10 +316,10 @@ class Graph {
         .attr('transform','translate('+this.svgContainer.width() / 2+','+this.svgContainer.height()/2+')')
         .append('text')
         .attr('text-anchor','start')
-        .attr('dy','0.75em')
-        .attr('x', -50)
-        .attr('y', 2)
-        .text('Sorry no Circos generated')
+        .attr('dy','-0.25em')
+        .attr('x', -175)
+        .style("font-size", "14px")
+        .text('Circos looks great with less than 16 queries')
   }
 
   layoutReset() {
