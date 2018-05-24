@@ -66,7 +66,7 @@ class Graph {
     if (this.chords_arr.length && this.layout_arr.length) {
       this.instance_render();
     } else {
-      this.render_error(this.query_arr.length);
+      this.render_error();
     }
     this.setupTooltip();
     // this.drawLegend();
@@ -306,7 +306,7 @@ class Graph {
     this.instance.render();
   }
 
-  render_error(err) {
+  render_error() {
     this.svgContainer.find('svg').remove();
     this.svg = d3.select(this.svgContainer[0]).insert('svg',':first-child')
         .attr('width', this.svgContainer.width())
@@ -317,9 +317,9 @@ class Graph {
         .append('text')
         .attr('text-anchor','start')
         .attr('dy','-0.25em')
-        .attr('x', -150)
+        .attr('x', -175)
         .style("font-size", "14px")
-        .text('Too many queries ('+err+') to generate Circos')
+        .text('Circos looks great with less than 16 queries')
   }
 
   layoutReset() {
