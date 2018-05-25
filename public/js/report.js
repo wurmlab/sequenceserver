@@ -1061,10 +1061,7 @@ var Report = React.createClass({
                     { this.isHitsAvailable() 
                     ? <Circos queries={this.state.queries}
                         program={this.state.program} collapsed="true"/> 
-                    : <div
-                    className="section-content">
-                        <strong> ****** No hits found ****** </strong><br/><br/>
-                    </div> }
+                    : <span></span> }
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
