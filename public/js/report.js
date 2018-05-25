@@ -1002,6 +1002,14 @@ var Report = React.createClass({
         return this.state.queries.length >= 1;
     },
 
+    isHitsAvailable: function () {
+        var cnt = 0;
+        _.each(this.state.queries, function (query) {
+            if(query.hits.length == 0) cnt++;
+        });
+        return !(cnt == this.state.queries.length);
+    },
+
     /**
      * Returns loading message
      */
@@ -1048,8 +1056,10 @@ var Report = React.createClass({
                 <div className={this.shouldShowSidebar() ?
                     'col-md-9' : 'col-md-12'}>
                     { this.overview() }
-                    <Circos queries={this.state.queries}
-                        program={this.state.program} collapsed="true"/>
+                    { this.isHitsAvailable() 
+                    ? <Circos queries={this.state.queries}
+                        program={this.state.program} collapsed="true"/> 
+                    : <span></span> }
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
