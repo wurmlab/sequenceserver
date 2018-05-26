@@ -919,7 +919,305 @@ var SideBar = React.createClass({
  */
 var Report = React.createClass({
 
-    // Kind of public API //
+    // Model //
+
+    getInitialState: function () {
+        this.fetchResults();
+        this.updateCycle = 0;
+
+        return {
+            search_id:       '',
+            program:         '',
+            program_version: '',
+            queries:         [],
+            querydb:         [],
+            params:          [],
+            stats:           []
+        };
+    },
+
+    /**
+     * Fetch results.
+     */
+    fetchResults: function () {
+        var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
+
+        (function poll (comp) {
+            $.getJSON(location.pathname + '.json')
+                .complete(function (jqXHR) {
+                    switch (jqXHR.status) {
+                        case 202:
+                            var interval;
+                            if (intervals.length === 1) {
+                                interval = intervals[0];
+                            }
+                            else {
+                                interval = intervals.shift;
+                            }
+                            setTimeout(poll, interval);
+                            break;
+                        case 200:
+                            comp.updateState(jqXHR.responseJSON);
+                            break;
+                        case 404:
+                        case 400:
+                        case 500:
+                            showErrorModal(jqXHR.responseJSON);
+                            break;
+                    }
+                });
+        }(this));
+    },
+
+    /**
+     * Incrementally update state so that the rendering process is
+     * not overwhelemed when there are too many queries.
+     */
+    updateState: function(responseJSON) {
+        var queries = responseJSON.queries;
+
+        // Render results for first 50 queries and set flag if total queries is
+        // more than 250.
+        var numHits = 0;
+        responseJSON.veryBig = queries.length > 250;
+        //responseJSON.veryBig = !_.every(queries, (query) => {
+            //numHits += query.hits.length;
+            //return (numHits <= 500);
+        //});
+        responseJSON.queries = queries.splice(0, 50);
+        this.setState(responseJSON);
+
+        // Render results for remaining queries.
+        var update = function () {
+            if (queries.length > 0) {
+                this.setState({
+                    queries: this.state.queries.concat(queries.splice(0, 50))
+                });
+                setTimeout(update.bind(this), 500);
+            }
+            else {
+                this.componentFinishedUpdating();
+            }
+        };
+        setTimeout(update.bind(this), 500);
+    },
+
+
+    // View //
+    render: function () {
+        return this.isResultAvailable() ?
+            this.resultsJSX() : this.loadingJSX();
+    },
+
+    /**
+     * Returns loading message
+     */
+    loadingJSX: function () {
+        return (
+            <div
+                className="row">
+                <div
+                    className="col-md-6 col-md-offset-3 text-center">
+                    <h1>
+                        <i
+                            className="fa fa-cog fa-spin"></i>&nbsp;
+                        BLAST-ing
+                    </h1>
+                    <p>
+                        <br/>
+                        This can take some time depending on the size of your query and
+                        database(s). The page will update automatically when BLAST is
+                        done.
+                        <br/>
+                        <br/>
+                        You can bookmark the page and come back to it later or share
+                        the link with someone.
+                    </p>
+                </div>
+            </div>
+        );
+    },
+
+    /**
+     * Return results JSX.
+     */
+    resultsJSX: function () {
+        return (
+            <div className="row">
+                { this.shouldShowSidebar() &&
+                    (
+                        <div
+                            className="col-md-3 hidden-sm hidden-xs">
+                            <SideBar data={this.state} shouldShowIndex={this.shouldShowIndex()}/>
+                        </div>
+                    )
+                }
+                <div className={this.shouldShowSidebar() ?
+                    'col-md-9' : 'col-md-12'}>
+                    { this.overviewJSX() }
+                    { this.isHitsAvailable() 
+                    ? <Circos queries={this.state.queries}
+                        program={this.state.program} collapsed="true"/> 
+                    : <span></span> }
+                    {
+                        _.map(this.state.queries, _.bind(function (query) {
+                            return (
+                                <Query key={"Query_"+query.id} query={query} data={this.state}
+                                    selectHit={this.selectHit}/>
+                                );
+                        }, this))
+                    }
+                </div>
+            </div>
+        );
+    },
+
+    /**
+     * Renders report overview.
+     */
+    overviewJSX: function () {
+        return (
+            <div
+                className="overview">
+                <pre
+                    className="pre-reset">
+                    {this.state.program_version}
+                    <br/>
+                    <br/>
+                    {
+                        _.map(this.state.querydb, function (db) {
+                            return db.title;
+                        }).join(", ")
+                    }
+                    <br/>
+                    Total: {this.state.stats.nsequences} sequences,
+                    {this.state.stats.ncharacters} characters
+                    <br/>
+                    <br/>
+                    {
+                        _.map(this.state.params, function (val, key) {
+                            return key + " " + val;
+                        }).join(", ")
+                    }
+                </pre>
+            </div>
+        );
+    },
+
+
+    // Controller //
+
+    /**
+     * Returns true if results have been fetched.
+     *
+     * A holding message is shown till results are fetched.
+     */
+    isResultAvailable: function () {
+        return this.state.queries.length >= 1;
+    },
+
+    isHitsAvailable: function () {
+        var cnt = 0;
+        _.each(this.state.queries, function (query) {
+            if(query.hits.length == 0) cnt++;
+        });
+        return !(cnt == this.state.queries.length);
+    },
+
+    /**
+     * Returns true if sidebar should be shown.
+     *
+     * Sidebar is not shown if there is only one query and there are no hits
+     * corresponding to the query.
+     */
+    shouldShowSidebar: function () {
+        return !(this.state.queries.length == 1 &&
+                 this.state.queries[0].hits.length == 0);
+    },
+
+    /**
+     * Returns true if index should be shown in the sidebar.
+     *
+     * Index is not shown in the sidebar if there are more than eight queries
+     * in total.
+     */
+    shouldShowIndex: function () {
+        return this.state.queries.length <= 8;
+    },
+
+    /**
+     * Called after first call to render. The results may not be available at
+     * this stage and thus results DOM cannot be scripted here, unless using
+     * delegated events bound to the window, document, or body.
+     */
+    componentDidMount: function () {
+        // This sets up an event handler which enables users to select text
+        // from hit header without collapsing the hit.
+        this.preventCollapseOnSelection();
+    },
+
+    /**
+     * Called after each state change. Only a part of results DOM may be
+     * available after a state change.
+     */
+    componentDidUpdate: function () {
+        // We track the number of updates to the component.
+        this.updateCycle += 1;
+
+        // Lock sidebar in its position on first update of
+        // results DOM.
+        if (this.updateCycle === 1 ) this.affixSidebar();
+    },
+
+    /**
+     * Prevents folding of hits during text-selection, etc.
+     */
+
+    /**
+     * Called after all results have been rendered.
+     */
+    componentFinishedUpdating: function () {
+        this.shouldShowIndex() && this.setupScrollSpy();
+    },
+
+    /**
+     * Prevents folding of hits during text-selection.
+     */
+    preventCollapseOnSelection: function () {
+        $('body').on('mousedown', ".hit > .section-header > h4", function (event) {
+            var $this = $(this);
+            $this.on('mouseup mousemove', function handler(event) {
+                if (event.type === 'mouseup') {
+                    // user wants to toggle
+                    $this.attr('data-toggle', 'collapse');
+                    $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
+                } else {
+                    // user wants to select
+                    $this.attr('data-toggle', '');
+                }
+                $this.off('mouseup mousemove', handler);
+            });
+        });
+    },
+
+    /**
+     * Affixes the sidebar.
+     */
+    affixSidebar: function () {
+        var $sidebar = $('.sidebar');
+        $sidebar.affix({
+            offset: {
+                top: $sidebar.offset().top
+            }
+        });
+    },
+
+    /**
+     * For the query in viewport, highlights corresponding entry in the index.
+     */
+    setupScrollSpy: function () {
+        $('body').scrollspy({target: '.sidebar'});
+    },
 
     /**
      * Event-handler when hit is selected
@@ -971,275 +1269,6 @@ var Report = React.createClass({
             $b.addClass('disabled').find('.text-bold').html('');
         }
     },
-
-
-    // Internal helpers. //
-
-    // Life-cycle methods. //
-
-    getInitialState: function () {
-        return {
-            search_id:       '',
-            program:         '',
-            program_version: '',
-            queries:         [],
-            querydb:         [],
-            params:          [],
-            stats:           []
-        };
-    },
-
-    render: function () {
-        return (this.isResultAvailable() ? this.resultsJSX() : this.loadingJSX());
-    },
-
-    /**
-     * Returns true if results have been fetched.
-     *
-     * A holding message is shown till results are fetched.
-     */
-    isResultAvailable: function () {
-        return this.state.queries.length >= 1;
-    },
-
-    isHitsAvailable: function () {
-        var cnt = 0;
-        _.each(this.state.queries, function (query) {
-            if(query.hits.length == 0) cnt++;
-        });
-        return !(cnt == this.state.queries.length);
-    },
-
-    /**
-     * Returns loading message
-     */
-    loadingJSX: function () {
-        return (
-            <div
-                className="row">
-                <div
-                    className="col-md-6 col-md-offset-3 text-center">
-                    <h1>
-                        <i
-                            className="fa fa-cog fa-spin"></i>&nbsp;
-                        BLAST-ing
-                    </h1>
-                    <p>
-                        <br/>
-                        This can take some time depending on the size of your query and
-                        database(s). The page will update automatically when BLAST is
-                        done.
-                        <br/>
-                        <br/>
-                        You can bookmark the page and come back to it later or share
-                        the link with someone.
-                    </p>
-                </div>
-            </div>
-        );
-    },
-
-    /**
-     * Return results JSX.
-     */
-    resultsJSX: function () {
-        return (
-            <div className="row">
-                { this.shouldShowSidebar() &&
-                    (
-                        <div
-                            className="col-md-3 hidden-sm hidden-xs">
-                            <SideBar data={this.state} shouldShowIndex={this.shouldShowIndex()}/>
-                        </div>
-                    )
-                }
-                <div className={this.shouldShowSidebar() ?
-                    'col-md-9' : 'col-md-12'}>
-                    { this.overview() }
-                    { this.isHitsAvailable() 
-                    ? <Circos queries={this.state.queries}
-                        program={this.state.program} collapsed="true"/> 
-                    : <span></span> }
-                    {
-                        _.map(this.state.queries, _.bind(function (query) {
-                            return (
-                                <Query key={"Query_"+query.id} query={query} data={this.state}
-                                    selectHit={this.selectHit}/>
-                                );
-                        }, this))
-                    }
-                </div>
-            </div>
-        );
-    },
-
-    /**
-     * Returns true if sidebar should be shown.
-     *
-     * Sidebar is not shown if there is only one query and there are no hits
-     * corresponding to the query.
-     */
-    shouldShowSidebar: function () {
-        return !(this.state.queries.length == 1 &&
-                 this.state.queries[0].hits.length == 0);
-    },
-
-    /**
-     * Returns true if index should be shown in the sidebar.
-     *
-     * Index is not shown in the sidebar if there are more than eight queries
-     * in total.
-     */
-    shouldShowIndex: function () {
-        return this.state.queries.length <= 8;
-    },
-
-    /**
-     * Renders report overview.
-     */
-    overview: function () {
-        return (
-            <div
-                className="overview">
-                <pre
-                    className="pre-reset">
-                    {this.state.program_version}
-                    <br/>
-                    <br/>
-                    {
-                        _.map(this.state.querydb, function (db) {
-                            return db.title;
-                        }).join(", ")
-                    }
-                    <br/>
-                    Total: {this.state.stats.nsequences} sequences, {this.state
-                        .stats.ncharacters} characters
-                    <br/>
-                    <br/>
-                    {
-                        _.map(this.state.params, function (val, key) {
-                            return key + " " + val;
-                        }).join(", ")
-                    }
-                </pre>
-            </div>
-        );
-    },
-
-    componentDidMount: function () {
-        this.fetchResults();
-        this.setupHitSelection();
-    },
-
-    /**
-     * Fetch results.
-     */
-    fetchResults: function () {
-        var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
-
-        $.getJSON(location.pathname + '.json')
-        .complete(_.bind(function (jqXHR) {
-            switch (jqXHR.status) {
-            case 202:
-                var interval;
-                if (intervals.length === 1) {
-                    interval = intervals[0];
-                }
-                else {
-                    interval = intervals.shift;
-                }
-                setTimeout(this.fetchResults, interval);
-                break;
-            case 200:
-                this.updatePage(jqXHR.responseJSON);
-                break;
-            case 404:
-            case 400:
-            case 500:
-                showErrorModal(jqXHR.responseJSON);
-                break;
-            }
-        }, this));
-    },
-
-    updatePage: function(responseJSON) {
-        var queries = responseJSON.queries;
-
-        // Render results for first 50 queries and set flag if total queries is
-        // more than 250.
-        var numHits = 0;
-        responseJSON.veryBig = queries.length > 250;
-        //responseJSON.veryBig = !_.every(queries, (query) => {
-            //numHits += query.hits.length;
-            //return (numHits <= 500);
-        //});
-        responseJSON.queries = queries.splice(0, 50);
-        this.setState(responseJSON);
-
-        // Render results for remaining queries.
-        var update = function () {
-            if (queries.length > 0) {
-                this.setState({
-                    queries: this.state.queries.concat(queries.splice(0, 50))
-                });
-                setTimeout(update.bind(this), 500);
-            }
-            else {
-                this.componentFinishedUpdating();
-            }
-        };
-        setTimeout(update.bind(this), 500);
-    },
-
-    /**
-     * Locks Sidebar in its position, prevents folding of hits during
-     * text-selection, etc.
-     */
-    componentFinishedUpdating: function () {
-        this.affixSidebar();
-        this.shouldShowIndex() && this.setupScrollSpy();
-    },
-
-    /**
-     * Affixes the sidebar.
-     *
-     * TODO: can't this be done with CSS?
-     */
-    affixSidebar: function () {
-        var $sidebar = $('.sidebar');
-        $sidebar.affix({
-            offset: {
-                top: $sidebar.offset().top
-            }
-        });
-    },
-
-    /**
-     * For the query in viewport, highlights corresponding entry in the index.
-     */
-    setupScrollSpy: function () {
-        $('body').scrollspy({target: '.sidebar'});
-    },
-
-    /**
-     * Prevents folding of hits during text-selection.
-     */
-    setupHitSelection: function () {
-        $('body').on('mousedown', ".hit > .section-header > h4", function (event) {
-            var $this = $(this);
-            $this.on('mouseup mousemove', function handler(event) {
-                if (event.type === 'mouseup') {
-                    // user wants to toggle
-                    $this.attr('data-toggle', 'collapse');
-                    $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
-                } else {
-                    // user wants to select
-                    $this.attr('data-toggle', '');
-                }
-                $this.off('mouseup mousemove', handler);
-            });
-        });
-    }
 });
 
 var Page = React.createClass({
