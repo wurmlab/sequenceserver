@@ -19,7 +19,7 @@ import * as Helpers from './visualisation_helpers';
 
 class Graph {
   static name() {
-    return 'query against hit';
+    return 'Matching region(s)';
   }
 
   static className() {

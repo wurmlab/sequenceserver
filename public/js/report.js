@@ -1,18 +1,16 @@
-import SequenceServer from './sequenceserver';
-import showErrorModal from './errormodal';
-
-import _ from 'underscore';
+import './sequenceserver' // for custom $.tooltip function
 import React from 'react';
-import d3 from 'd3';
+import _ from 'underscore';
 
-import * as Helpers from './visualisation_helpers';
-import GraphicalOverview from './alignmentsoverview';
-import Kablammo from './kablammo';
-import './sequence';
-import AlignmentExporter from './alignment_exporter';
-import LengthDistribution from './lengthdistribution';
 import Circos from './circos';
+import HitsOverview from './hits_overview';
+import LengthDistribution from './length_distribution'; // length distribution of hits
+import HSPOverview from './kablammo';
+import AlignmentExporter from './alignment_exporter'; // to download textual alignment
+import './sequence';
 
+import * as Helpers from './visualisation_helpers'; // for toLetters
+import showErrorModal from './error_modal';
 
 /**
  * Dynamically create form and submit.
@@ -514,7 +512,9 @@ var Hit = React.createClass({
                             }, this))
                         }
                     </div>
-                    <Kablammo key={"Kablammo"+this.props.query.id} query={this.props.query} hit={this.props.hit} algorithm={this.props.algorithm} collapsed="true"/>
+                    <HSPOverview key={"kablammo"+this.props.query.id}
+                        query={this.props.query} hit={this.props.hit}
+                        algorithm={this.props.algorithm}/>
                     <table
                       className="table hsps">
                         <tbody>
@@ -676,7 +676,7 @@ var Query = React.createClass({
                 {this.numhits() &&
                     (
                         <div className="section-content">
-                            <GraphicalOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program} collapsed={this.props.data.veryBig}/>
+                            <HitsOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program} collapsed={this.props.data.veryBig}/>
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program} collapsed="true"/>
                             <HitsTable key={"HT_"+this.props.query.number} query={this.props.query}/>
                             <div

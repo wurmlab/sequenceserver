@@ -388,5 +388,5 @@ class Graph {
   }
 }
 
-var AlignmentOverview = Grapher(Graph);
-export default AlignmentOverview;
+var HitsOverview = Grapher(Graph);
+export default HitsOverview;
