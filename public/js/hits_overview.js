@@ -6,7 +6,7 @@ import * as Helpers from './visualisation_helpers';
 class Graph {
 
   static name() {
-    return 'Alignments Overview';
+    return 'Matching sequences';
   }
 
   static className() {
