@@ -491,6 +491,24 @@ var Databases = React.createClass({
         this.setState({type: type});
     },
 
+    handleToggle: function (type) {       
+        var len = $('input[name="databases[]"]').length;
+        for(var i = 0; i < len; i++) {
+            var box = $('input[name="databases[]"]')[i];
+            if(box.attributes[3].nodeValue != type) {
+                box.checked = false;
+                continue;
+            };
+            if(box.checked) {
+                box.checked = false;
+            } else {
+                box.checked = true;
+            }
+        }
+        var setType = this.nselected() ? type : ''
+        this.setState({type: setType});
+    },
+
     render: function () {
         return (
             <div
@@ -504,7 +522,18 @@ var Databases = React.createClass({
                                     className="panel panel-default">
                                     <div
                                         className="panel-heading">
-                                        <h4>{category[0].toUpperCase() + category.substring(1).toLowerCase() + " databases"}</h4>
+                                        <h4 style={{display: "inline"}}>{category[0].toUpperCase() + category.substring(1).toLowerCase() + " databases"}</h4>
+                                        <p className="" style={{display: "inline"}}>
+                                            <a disabled={true}
+                                                style={{float: "right",cursor: "pointer"}}
+                                                onClick={
+                                                    _.bind(function () {
+                                                        this.handleToggle(category)
+                                                    }, this)
+                                                }>
+                                                Toggle All
+                                            </a>
+                                        </p>
                                     </div>
                                     <ul
                                         className={"list-group databases " + category}>
