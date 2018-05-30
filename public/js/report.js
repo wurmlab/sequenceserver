@@ -941,8 +941,9 @@ var Report = React.createClass({
      */
     fetchResults: function () {
         var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
+        var component = this;
 
-        (function poll (comp) {
+        function poll () {
             $.getJSON(location.pathname + '.json')
                 .complete(function (jqXHR) {
                     switch (jqXHR.status) {
@@ -952,12 +953,12 @@ var Report = React.createClass({
                                 interval = intervals[0];
                             }
                             else {
-                                interval = intervals.shift;
+                                interval = intervals.shift();
                             }
                             setTimeout(poll, interval);
                             break;
                         case 200:
-                            comp.updateState(jqXHR.responseJSON);
+                            component.updateState(jqXHR.responseJSON);
                             break;
                         case 404:
                         case 400:
@@ -966,7 +967,9 @@ var Report = React.createClass({
                             break;
                     }
                 });
-        }(this));
+        }
+
+        poll();
     },
 
     /**
