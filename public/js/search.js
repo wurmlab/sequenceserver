@@ -494,7 +494,7 @@ var Databases = React.createClass({
     handleToggle: function (type) {
         $(` .${type} .database `).click();
         var elem = $(` .${type} `);
-        elem[0].innerHTML = (elem[0].innerHTML === "[Deselect All]") ? "[Select All]" : "[Deselect All]";
+        elem[0].innerHTML = (elem[0].innerHTML === "[Deselect all]") ? "[Select all]" : "[Deselect all]";
         var othr = (type === "nucleotide") ? "protein" : "nucleotide";
         var elem2 = $(` .${othr}`);
         if(elem2[0].classList.contains("disabled")) {
@@ -531,7 +531,7 @@ var Databases = React.createClass({
                                                     this.handleToggle(category)
                                                 }, this)
                                             }>
-                                            [Select All]
+                                            [Select all]
                                         </a>
                                     </div>
                                     <ul
