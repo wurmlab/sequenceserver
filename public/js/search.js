@@ -491,21 +491,20 @@ var Databases = React.createClass({
         this.setState({type: type});
     },
 
-    handleToggle: function (type) {       
-        var len = $('input[name="databases[]"]').length;
-        for(var i = 0; i < len; i++) {
-            var box = $('input[name="databases[]"]')[i];
-            if(box.attributes[3].nodeValue != type) {
-                box.checked = false;
-                continue;
-            };
-            if(box.checked) {
-                box.checked = false;
-            } else {
-                box.checked = true;
-            }
+    handleToggle: function (type) {
+        $(` .${type} .database `).click();
+        var elem = $(` .${type} `);
+        elem[0].innerHTML = (elem[0].innerHTML === "[Deselect All]") ? "[Select All]" : "[Deselect All]";
+        var othr = (type === "nucleotide") ? "protein" : "nucleotide";
+        var elem2 = $(` .${othr}`);
+        if(elem2[0].classList.contains("disabled")) {
+            elem2[0].classList.remove("disabled");
+            elem2[0].style.setProperty("cursor", "pointer");
+        } else {
+            elem2[0].classList.add("disabled");
+            elem2[0].style.removeProperty("cursor");
         }
-        var setType = this.nselected() ? type : ''
+        var setType = this.nselected() ? type : '';
         this.setState({type: setType});
     },
 
@@ -523,17 +522,17 @@ var Databases = React.createClass({
                                     <div
                                         className="panel-heading">
                                         <h4 style={{display: "inline"}}>{category[0].toUpperCase() + category.substring(1).toLowerCase() + " databases"}</h4>
-                                        <p className="" style={{display: "inline"}}>
-                                            <a disabled={true}
-                                                style={{float: "right",cursor: "pointer"}}
-                                                onClick={
-                                                    _.bind(function () {
-                                                        this.handleToggle(category)
-                                                    }, this)
-                                                }>
-                                                Toggle All
-                                            </a>
-                                        </p>
+                                        &nbsp;&nbsp;
+                                        <a
+                                            className={"toggle " + category}
+                                            style={this.databases(category).length < 2 ? {display: "none"} : {cursor: "pointer"}}
+                                            onClick={
+                                                _.bind(function () {
+                                                    this.handleToggle(category)
+                                                }, this)
+                                            }>
+                                            [Select All]
+                                        </a>
                                     </div>
                                     <ul
                                         className={"list-group databases " + category}>
