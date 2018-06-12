@@ -514,7 +514,7 @@ var Hit = React.createClass({
                     </div>
                     <HSPOverview key={"kablammo"+this.props.query.id}
                         query={this.props.query} hit={this.props.hit}
-                        algorithm={this.props.algorithm} collapsed="true"/>
+                        algorithm={this.props.algorithm}/>
                     <table
                       className="table hsps">
                         <tbody>
