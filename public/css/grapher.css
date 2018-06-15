@@ -1,31 +1,9 @@
-svg text {
-  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 10px;
-}
-
-svg .axis path,
-.axis line {
-  fill: none;
-  stroke: black;
-  shape-rendering: crispEdges;
-}
-
-svg .bar:hover {
-  fill: orangered;
-}
-
-.polygon:hover {
-    stroke: rgba(0, 0, 0, 0.4);
-    stroke-width: 1px;
-}
-
+/** Common styles for container element of all graphs. **/
 .grapher {
   border: 1px solid #ddd;
   border-radius: 12px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
-
 .caption {
   text-transform: uppercase;
   display: inline-block;
@@ -33,7 +11,6 @@ svg .bar:hover {
   cursor: pointer;
   width: 82%;
 }
-
 .graph-links {
   display: inline-block;
   padding: 0 10px 0 0;
@@ -41,22 +18,51 @@ svg .bar:hover {
   width: 18%;
 }
 
-.raised {
-  z-index: 100;
+/** Common SVG styles for all graphs. **/
+
+/* Font used within the graph */
+svg text {
+  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 10px;
+}
+/* Thin, black axes. */
+svg .axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
 }
 
-.length-distribution {
-  height: 150px;
-}
 
-.kablammo {
-  height: 150px;
-}
+/** Specific styles for each graph.  **/
 
+/* Graphical overview of hits */
 .alignment-overview {
   text-align: center;
 }
 
+/* Length distribution of hits */
+.length-distribution {
+  height: 150px;
+}
+svg .bar:hover {
+  fill: orangered;
+}
+
+/* Graphical overview of HSP */
+.kablammo {
+  height: 150px;
+}
+.polygon:hover {
+    stroke: rgba(0, 0, 0, 0.4);
+    stroke-width: 1px;
+}
+
+
+/**
+ * These are taken from Kablammo project I think and are necessary for
+ * downloading functionality.
+ */
 svg .RdYlBu .q0-3{fill:rgb(252,141,89)}
 svg .RdYlBu .q1-3{fill:rgb(255,255,191)}
 svg .RdYlBu .q2-3{fill:rgb(145,191,219)}
