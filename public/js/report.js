@@ -632,7 +632,7 @@ var Hit = React.createClass({
                 this.inPercentage(hsp.gaps, hsp.length)
             ]),
 
-            'Coverage': hsp.qcovhsp
+            'Query coverage': `${hsp.qcovhsp}%`
         };
 
         switch (this.props.algorithm) {
