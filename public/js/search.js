@@ -7,6 +7,23 @@ import React from 'react';
  */
 $.webshims.polyfill('forms');
 
+var Page = React.createClass({
+    render: function () {
+        return (
+            <div>
+                <DnD ref="dnd"/>
+                <Form ref="form"/>
+            </div>
+        );
+    },
+
+    componentDidMount: function () {
+        this.refs.dnd.setState({
+            query: this.refs.form.refs.query
+        })
+    }
+});
+
 /** Drag n drop widget.
  */
 var DnD = React.createClass({
@@ -168,6 +185,135 @@ var DnD = React.createClass({
                 reader.readAsText(file);
             });
         });
+    }
+});
+
+/**
+ * Search form.
+ *
+ * Top level component that initialises and holds all other components, and
+ * facilitates communication between them.
+ */
+var Form = React.createClass({
+
+    getInitialState: function () {
+        return {
+            databases: {},
+            preDefinedOpts: {
+                'blastn':  ['-task blastn', '-evalue 1e-5'],
+                'blastp':  ['-evalue 1e-5'],
+                'blastx':  ['-evalue 1e-5'],
+                'tblastx': ['-evalue 1e-5'],
+                'tblastn': ['-evalue 1e-5']
+            }
+        };
+    },
+
+    componentDidMount: function () {
+        $.getJSON("searchdata.json", _.bind(function(data) {
+            this.setState({
+                databases: data["database"], preDefinedOpts: $.extend({},
+                this.state.preDefinedOpts, data["options"])
+            });
+        }, this));
+
+       $(document).bind("keydown", _.bind(function (e) {
+           if (e.ctrlKey && e.keyCode === 13 &&
+               !$('#method').is(':disabled')) {
+               $(this.getDOMNode()).trigger('submit');
+           }
+       }, this));
+    },
+
+    determineBlastMethod: function () {
+        var database_type = this.databaseType;
+        var sequence_type = this.sequenceType;
+
+        if (this.refs.query.isEmpty()) {
+            return [];
+        }
+
+        //database type is always known
+        switch (database_type) {
+            case 'protein':
+                switch (sequence_type) {
+                    case undefined:
+                        return ['blastp', 'blastx'];
+                    case 'protein':
+                        return ['blastp'];
+                    case 'nucleotide':
+                        return ['blastx'];
+                }
+                break;
+            case 'nucleotide':
+                switch (sequence_type) {
+                    case undefined:
+                        return ['tblastn', 'blastn', 'tblastx'];
+                    case 'protein':
+                        return ['tblastn'];
+                    case 'nucleotide':
+                        return ['blastn', 'tblastx'];
+                }
+                break;
+        }
+
+        return [];
+    },
+
+    handleSequenceTypeChanged: function (type) {
+        this.sequenceType = type;
+        this.refs.button.setState({
+            hasQuery: !this.refs.query.isEmpty(),
+            hasDatabases: !!this.databaseType,
+            methods: this.determineBlastMethod()
+        });
+    },
+
+    handleDatabaseTypeChanaged: function (type) {
+        this.databaseType = type;
+        this.refs.button.setState({
+            hasQuery: !this.refs.query.isEmpty(),
+            hasDatabases: !!this.databaseType,
+            methods: this.determineBlastMethod()
+        });
+    },
+
+    handleAlgoChanged: function (algo) {
+      if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
+        this.refs.opts.setState({
+          preOpts: this.state.preDefinedOpts[algo].join(" ")
+        });
+      }
+      else {
+        this.refs.opts.setState({preOpts: ""});
+      }
+    },
+
+    render: function () {
+        return (
+            <div
+                className="container">
+                <form
+                    id="blast" method="post" className="form-horizontal">
+                    <div
+                        className="form-group query-container">
+                        <Query ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged}/>
+                    </div>
+                    <div
+                        className="notifications" id="notifications">
+                        <NucleotideNotification/>
+                        <ProteinNotification/>
+                        <MixedNotification/>
+                    </div>
+                    <Databases ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} databases={this.state.databases}/>
+                    <div
+                        className="form-group">
+                        <Options ref="opts"/>
+                        <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged}/>
+                    </div>
+                </form>
+            </div>
+        );
     }
 });
 
@@ -813,152 +959,6 @@ var SearchButton = React.createClass({
         else {
             this.props.onAlgoChanged("");
         }
-    }
-});
-
-/**
- * Search form.
- *
- * Top level component that initialises and holds all other components, and
- * facilitates communication between them.
- */
-var Form = React.createClass({
-
-    getInitialState: function () {
-        return {
-            databases: {},
-            preDefinedOpts: {
-                'blastn':  ['-task blastn', '-evalue 1e-5'],
-                'blastp':  ['-evalue 1e-5'],
-                'blastx':  ['-evalue 1e-5'],
-                'tblastx': ['-evalue 1e-5'],
-                'tblastn': ['-evalue 1e-5']
-            }
-        };
-    },
-
-    componentDidMount: function () {
-        $.getJSON("searchdata.json", _.bind(function(data) {
-            this.setState({
-                databases: data["database"], preDefinedOpts: $.extend({},
-                this.state.preDefinedOpts, data["options"])
-            });
-        }, this));
-
-       $(document).bind("keydown", _.bind(function (e) {
-           if (e.ctrlKey && e.keyCode === 13 &&
-               !$('#method').is(':disabled')) {
-               $(this.getDOMNode()).trigger('submit');
-           }
-       }, this));
-    },
-
-    determineBlastMethod: function () {
-        var database_type = this.databaseType;
-        var sequence_type = this.sequenceType;
-
-        if (this.refs.query.isEmpty()) {
-            return [];
-        }
-
-        //database type is always known
-        switch (database_type) {
-            case 'protein':
-                switch (sequence_type) {
-                    case undefined:
-                        return ['blastp', 'blastx'];
-                    case 'protein':
-                        return ['blastp'];
-                    case 'nucleotide':
-                        return ['blastx'];
-                }
-                break;
-            case 'nucleotide':
-                switch (sequence_type) {
-                    case undefined:
-                        return ['tblastn', 'blastn', 'tblastx'];
-                    case 'protein':
-                        return ['tblastn'];
-                    case 'nucleotide':
-                        return ['blastn', 'tblastx'];
-                }
-                break;
-        }
-
-        return [];
-    },
-
-    handleSequenceTypeChanged: function (type) {
-        this.sequenceType = type;
-        this.refs.button.setState({
-            hasQuery: !this.refs.query.isEmpty(),
-            hasDatabases: !!this.databaseType,
-            methods: this.determineBlastMethod()
-        });
-    },
-
-    handleDatabaseTypeChanaged: function (type) {
-        this.databaseType = type;
-        this.refs.button.setState({
-            hasQuery: !this.refs.query.isEmpty(),
-            hasDatabases: !!this.databaseType,
-            methods: this.determineBlastMethod()
-        });
-    },
-
-    handleAlgoChanged: function (algo) {
-      if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
-        this.refs.opts.setState({
-          preOpts: this.state.preDefinedOpts[algo].join(" ")
-        });
-      }
-      else {
-        this.refs.opts.setState({preOpts: ""});
-      }
-    },
-
-    render: function () {
-        return (
-            <div
-                className="container">
-                <form
-                    id="blast" method="post" className="form-horizontal">
-                    <div
-                        className="form-group query-container">
-                        <Query ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged}/>
-                    </div>
-                    <div
-                        className="notifications" id="notifications">
-                        <NucleotideNotification/>
-                        <ProteinNotification/>
-                        <MixedNotification/>
-                    </div>
-                    <Databases ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} databases={this.state.databases}/>
-                    <div
-                        className="form-group">
-                        <Options ref="opts"/>
-                        <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged}/>
-                    </div>
-                </form>
-            </div>
-        );
-    }
-});
-
-var Page = React.createClass({
-    render: function () {
-        return (
-            <div>
-                <DnD ref="dnd"/>
-                <Form ref="form"/>
-            </div>
-        );
-    },
-
-    componentDidMount: function () {
-        this.refs.dnd.setState({
-            query: this.refs.form.refs.query
-        })
     }
 });
 
