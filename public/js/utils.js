@@ -31,7 +31,7 @@ var Utils = {
      * Returns fraction as percentage
      */
     inPercentage: function (num , den) {
-        return (num * 100.0 / den).toFixed(2);
+        return `${(num * 100.0 / den).toFixed(2)}%`;
     },
 
     /**
