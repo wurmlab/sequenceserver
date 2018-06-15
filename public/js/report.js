@@ -10,6 +10,7 @@ import AlignmentExporter from './alignment_exporter'; // to download textual ali
 import './sequence';
 
 import * as Helpers from './visualisation_helpers'; // for toLetters
+import Utils from './utils'; // to use as mixin in Hit and HitsTable
 import showErrorModal from './error_modal';
 
 /**
@@ -29,258 +30,520 @@ var downloadFASTA = function (sequence_ids, database_ids) {
 }
 
 /**
- * Pretty formats number
+ * Base component of report page. This component is later rendered into page's
+ * '#view' element.
  */
-var Utils = {
+var Page = React.createClass({
+    render: function () {
+        return (
+            <div>
+                {/* Provide bootstrap .container element inside the #view for
+                    the Report component to render itself in. */}
+                <div className="container"><Report ref="report"/></div>
 
-    /**
-     * Render URL for sequence-viewer.
-     */
-    a: function (link) {
-        if (link.title && link.url)
-        {
-            return (
-                <a href={link.url} className={link.class} target='_blank'>
-                    {link.icon && <i className={"fa " + link.icon}></i>}
-                    {" " + link.title + " "}
-                </a>
-            );
-        }
-    },
-
-
-    /***********************************
-     * Formatters for hits & hsp table *
-     ***********************************/
-
-    // Formats an array of two elements as "first (last)".
-    format_2_tuple: function (tuple) {
-        return (tuple[0] + " (" + tuple[tuple.length - 1] + ")");
-    },
-
-    /**
-     * Returns fraction as percentage
-     */
-    inPercentage: function (num , den) {
-        return (num * 100.0 / den).toFixed(2);
-    },
-
-    /**
-     * Returns fractional representation as String.
-     */
-    inFraction: function (num , den) {
-        return num + "/" + den;
-    },
-
-    /**
-     * Returns given Float as String formatted to two decimal places.
-     */
-    inTwoDecimal: function (num) {
-        return num.toFixed(2)
-    },
-
-    /**
-     * Returns zero if num is zero. Returns two decimal representation of num
-     * if num is between [1..10). Returns num in scientific notation otherwise.
-     */
-    inExponential: function (num) {
-        // Nothing to do if num is 0.
-        if (num === 0) {
-            return 0
-        }
-
-        // Round to two decimal places if in the rane [1..10).
-        if (num >= 1 && num < 10)
-        {
-            return this.inTwoDecimal(num)
-        }
-
-        // Return numbers in the range [0..1) and [10..Inf] in
-        // scientific format.
-        var exp = num.toExponential(2);
-        var parts = exp.split("e");
-        var base  = parts[0];
-        var power = parts[1];
-        return <span>{base} &times; 10<sup>{power}</sup></span>;
+                {/* Required by Grapher for SVG and PNG download */}
+                <canvas id="png-exporter" hidden></canvas>
+            </div>
+        );
     }
-};
+});
 
 /**
- * Component for sequence-viewer links.
+ * Renders entire report.
+ *
+ * Composed of Query and Sidebar components.
  */
-var SequenceViewer = (function () {
+var Report = React.createClass({
 
-    var Viewer = React.createClass({
+    // Model //
 
-        /**
-         * The CSS class name that will be assigned to the widget container. ID
-         * assigned to the widget container is derived from the same.
-         */
-        widgetClass: 'biojs-vis-sequence',
+    getInitialState: function () {
+        this.fetchResults();
+        this.updateCycle = 0;
 
-        // Lifecycle methods. //
+        return {
+            search_id:       '',
+            program:         '',
+            program_version: '',
+            queries:         [],
+            querydb:         [],
+            params:          [],
+            stats:           []
+        };
+    },
 
-        render: function () {
-            this.widgetID =
-                this.widgetClass + '-' + (new Date().getUTCMilliseconds());
+    /**
+     * Fetch results.
+     */
+    fetchResults: function () {
+        var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
+        var component = this;
 
-            return (
-                <div
-                    className="fastan">
-                    <div
-                        className="section-header">
-                        <h4>
-                            {this.props.sequence.id}
-                            <small>
-                                &nbsp; {this.props.sequence.title}
-                            </small>
-                        </h4>
-                    </div>
-                    <div
-                        className="section-content">
-                        <div
-                            className={this.widgetClass} id={this.widgetID}>
-                        </div>
-                    </div>
-                </div>
-            );
-        },
-
-        componentDidMount: function () {
-            // attach BioJS sequence viewer
-            var widget = new Sequence({
-                sequence: this.props.sequence.value,
-                target: this.widgetID,
-                format: 'PRIDE',
-                columns: {
-                    size: 40,
-                    spacedEach: 5
-                },
-                formatOptions: {
-                    title: false,
-                    footer: false
-                }
-            });
-            widget.hideFormatSelector();
-        }
-    });
-
-    return React.createClass({
-
-        // Kind of public API. //
-
-        /**
-         * Shows sequence viewer.
-         */
-        show: function () {
-            this.modal().modal('show');
-        },
-
-
-        // Internal helpers. //
-
-        modal: function () {
-            return $(React.findDOMNode(this.refs.modal));
-        },
-
-        resultsJSX: function () {
-            return (
-                <div className="modal-body">
-                    {
-                        _.map(this.state.error_msgs, _.bind(function (error_msg) {
-                            return (
-                                <div
-                                    className="fastan">
-                                    <div
-                                        className="section-header">
-                                        <h4>
-                                            {error_msg[0]}
-                                        </h4>
-                                    </div>
-                                    <div
-                                        className="section-content">
-                                        <pre
-                                            className="pre-reset">
-                                            {error_msg[1]}
-                                        </pre>
-                                    </div>
-                                </div>
-                            );
-                        }, this))
+        function poll () {
+            $.getJSON(location.pathname + '.json')
+                .complete(function (jqXHR) {
+                    switch (jqXHR.status) {
+                        case 202:
+                            var interval;
+                            if (intervals.length === 1) {
+                                interval = intervals[0];
+                            }
+                            else {
+                                interval = intervals.shift();
+                            }
+                            setTimeout(poll, interval);
+                            break;
+                        case 200:
+                            component.updateState(jqXHR.responseJSON);
+                            break;
+                        case 404:
+                        case 400:
+                        case 500:
+                            showErrorModal(jqXHR.responseJSON);
+                            break;
                     }
-                    {
-                        _.map(this.state.sequences, _.bind(function (sequence) {
-                            return (<Viewer sequence={sequence}/>);
-                        }, this))
-                    }
-                </div>
-            );
-        },
-
-        loadingJSX: function () {
-            return (
-                <div className="modal-body text-center">
-                    <i className="fa fa-spinner fa-3x fa-spin"></i>
-                </div>
-            );
-        },
-
-
-        // Lifecycle methods. //
-
-        getInitialState: function () {
-            return {
-                error_msgs: [],
-                sequences:  [],
-                requestCompleted: false
-            };
-        },
-
-        render: function () {
-            return (
-                <div
-                    className="modal sequence-viewer"
-                    ref="modal" tabIndex="-1">
-                    <div
-                        className="modal-dialog">
-                        <div
-                            className="modal-content">
-                            <div
-                                className="modal-header">
-                                <h3>View sequence</h3>
-                            </div>
-
-                            { this.state.requestCompleted &&
-                                    this.resultsJSX() || this.loadingJSX() }
-                        </div>
-                    </div>
-                </div>
-            );
-        },
-
-        componentDidMount: function () {
-            // Display modal with a spinner.
-            this.show();
-
-            // Fetch sequence and update state.
-            $.getJSON(this.props.url)
-                .done(_.bind(function (response) {
-                    this.setState({
-                        sequences: response.sequences,
-                        error_msgs: response.error_msgs,
-                        requestCompleted: true
-                    })
-                }, this))
-                .fail(function (jqXHR, status, error) {
-                    showErrorModal(jqXHR, function () {
-                        this.hide();
-                    });
                 });
+        }
 
-            this.modal().on('hidden.bs.modal', this.props.onHide);
-        },
-    });
-})();
+        poll();
+    },
+
+    /**
+     * Incrementally update state so that the rendering process is
+     * not overwhelemed when there are too many queries.
+     */
+    updateState: function(responseJSON) {
+        var queries = responseJSON.queries;
+
+        // Render results for first 50 queries and set flag if total queries is
+        // more than 250.
+        var numHits = 0;
+        responseJSON.veryBig = queries.length > 250;
+        //responseJSON.veryBig = !_.every(queries, (query) => {
+            //numHits += query.hits.length;
+            //return (numHits <= 500);
+        //});
+        responseJSON.queries = queries.splice(0, 50);
+        this.setState(responseJSON);
+
+        // Render results for remaining queries.
+        var update = function () {
+            if (queries.length > 0) {
+                this.setState({
+                    queries: this.state.queries.concat(queries.splice(0, 50))
+                });
+                setTimeout(update.bind(this), 500);
+            }
+            else {
+                this.componentFinishedUpdating();
+            }
+        };
+        setTimeout(update.bind(this), 500);
+    },
+
+
+    // View //
+    render: function () {
+        return this.isResultAvailable() ?
+            this.resultsJSX() : this.loadingJSX();
+    },
+
+    /**
+     * Returns loading message
+     */
+    loadingJSX: function () {
+        return (
+            <div
+                className="row">
+                <div
+                    className="col-md-6 col-md-offset-3 text-center">
+                    <h1>
+                        <i className="fa fa-cog fa-spin"></i>&nbsp; BLAST-ing
+                    </h1>
+                    <p>
+                        <br/>
+                        This can take some time depending on the size of your query and
+                        database(s). The page will update automatically when BLAST is
+                        done.
+                        <br/>
+                        <br/>
+                        You can bookmark the page and come back to it later or share
+                        the link with someone.
+                    </p>
+                </div>
+            </div>
+        );
+    },
+
+    /**
+     * Return results JSX.
+     */
+    resultsJSX: function () {
+        return (
+            <div className="row">
+                { this.shouldShowSidebar() &&
+                    (
+                        <div
+                            className="col-md-3 hidden-sm hidden-xs">
+                            <SideBar data={this.state} shouldShowIndex={this.shouldShowIndex()}/>
+                        </div>
+                    )
+                }
+                <div className={this.shouldShowSidebar() ?
+                    'col-md-9' : 'col-md-12'}>
+                    { this.overviewJSX() }
+                    { this.isHitsAvailable() 
+                    ? <Circos queries={this.state.queries}
+                        program={this.state.program} collapsed="true"/> 
+                    : <span></span> }
+                    {
+                        _.map(this.state.queries, _.bind(function (query) {
+                            return (
+                                <Query key={"Query_"+query.id} query={query} data={this.state}
+                                    selectHit={this.selectHit}/>
+                                );
+                        }, this))
+                    }
+                </div>
+            </div>
+        );
+    },
+
+    /**
+     * Renders report overview.
+     */
+    overviewJSX: function () {
+        return (
+            <div className="overview">
+                <pre className="pre-reset">{this.state.program_version}
+                    <br/>
+                    <br/>
+                    Databases: {
+                        _.map(this.state.querydb, function (db) {
+                            return db.title;
+                        }).join(", ")
+                    }
+                    <br/>
+                    Total: {this.state.stats.nsequences} sequences, {this.state.stats.ncharacters} characters
+                    <br/>
+                    Parameters: {
+                        _.map(this.state.params, function (val, key) {
+                            return key + " " + val;
+                        }).join(", ")
+                    }
+                </pre>
+            </div>
+        );
+    },
+
+
+    // Controller //
+
+    /**
+     * Returns true if results have been fetched.
+     *
+     * A holding message is shown till results are fetched.
+     */
+    isResultAvailable: function () {
+        return this.state.queries.length >= 1;
+    },
+
+    isHitsAvailable: function () {
+        var cnt = 0;
+        _.each(this.state.queries, function (query) {
+            if(query.hits.length == 0) cnt++;
+        });
+        return !(cnt == this.state.queries.length);
+    },
+
+    /**
+     * Returns true if sidebar should be shown.
+     *
+     * Sidebar is not shown if there is only one query and there are no hits
+     * corresponding to the query.
+     */
+    shouldShowSidebar: function () {
+        return !(this.state.queries.length == 1 &&
+                 this.state.queries[0].hits.length == 0);
+    },
+
+    /**
+     * Returns true if index should be shown in the sidebar.
+     *
+     * Index is not shown in the sidebar if there are more than eight queries
+     * in total.
+     */
+    shouldShowIndex: function () {
+        return this.state.queries.length <= 8;
+    },
+
+    /**
+     * Called after first call to render. The results may not be available at
+     * this stage and thus results DOM cannot be scripted here, unless using
+     * delegated events bound to the window, document, or body.
+     */
+    componentDidMount: function () {
+        // This sets up an event handler which enables users to select text
+        // from hit header without collapsing the hit.
+        this.preventCollapseOnSelection();
+    },
+
+    /**
+     * Called after each state change. Only a part of results DOM may be
+     * available after a state change.
+     */
+    componentDidUpdate: function () {
+        // We track the number of updates to the component.
+        this.updateCycle += 1;
+
+        // Lock sidebar in its position on first update of
+        // results DOM.
+        if (this.updateCycle === 1 ) this.affixSidebar();
+    },
+
+    /**
+     * Prevents folding of hits during text-selection, etc.
+     */
+
+    /**
+     * Called after all results have been rendered.
+     */
+    componentFinishedUpdating: function () {
+        this.shouldShowIndex() && this.setupScrollSpy();
+    },
+
+    /**
+     * Prevents folding of hits during text-selection.
+     */
+    preventCollapseOnSelection: function () {
+        $('body').on('mousedown', ".hit > .section-header > h4", function (event) {
+            var $this = $(this);
+            $this.on('mouseup mousemove', function handler(event) {
+                if (event.type === 'mouseup') {
+                    // user wants to toggle
+                    $this.attr('data-toggle', 'collapse');
+                    $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
+                } else {
+                    // user wants to select
+                    $this.attr('data-toggle', '');
+                }
+                $this.off('mouseup mousemove', handler);
+            });
+        });
+    },
+
+    /**
+     * Affixes the sidebar.
+     */
+    affixSidebar: function () {
+        var $sidebar = $('.sidebar');
+        $sidebar.affix({
+            offset: {
+                top: $sidebar.offset().top
+            }
+        });
+    },
+
+    /**
+     * For the query in viewport, highlights corresponding entry in the index.
+     */
+    setupScrollSpy: function () {
+        $('body').scrollspy({target: '.sidebar'});
+    },
+
+    /**
+     * Event-handler when hit is selected
+     * Adds glow to hit component.
+     * Updates number of Fasta that can be downloaded
+     */
+    selectHit: function (id) {
+
+        var checkbox = $("#" + id);
+        var num_checked  = $('.hit-links :checkbox:checked').length;
+
+        if (!checkbox || !checkbox.val()) {
+            return;
+        }
+
+        var $hit = $(checkbox.data('target'));
+
+        // Highlight selected hit and sync checkboxes if sequence viewer is open.
+        if (checkbox.is(":checked")) {
+            $hit
+            .addClass('glow')
+            .find(":checkbox").not(checkbox).check();
+            var $a = $('.download-fasta-of-selected');
+            var $b = $('.download-alignment-of-selected');
+            $b.enable()
+            var $n = $a.find('span');
+            $a
+            .enable()
+        }
+
+        else {
+            $hit
+            .removeClass('glow')
+            .find(":checkbox").not(checkbox).uncheck();
+        }
+
+        if (num_checked >= 1)
+        {
+            var $a = $('.download-fasta-of-selected');
+            var $b = $('.download-alignment-of-selected');
+            $a.find('.text-bold').html(num_checked);
+            $b.find('.text-bold').html(num_checked);
+        }
+
+        if (num_checked == 0) {
+            var $a = $('.download-fasta-of-selected');
+            var $b = $('.download-alignment-of-selected');
+            $a.addClass('disabled').find('.text-bold').html('');
+            $b.addClass('disabled').find('.text-bold').html('');
+        }
+    },
+});
+
+/**
+ * Renders report for each query sequence.
+ *
+ * Composed of graphical overview, tabular summary (HitsTable),
+ * and a list of Hits.
+ */
+var Query = React.createClass({
+
+    // Kind of public API //
+
+    /**
+     * Returns the id of query.
+     */
+    domID: function () {
+        return "Query_" + this.props.query.number;
+    },
+
+    /**
+     * Returns number of hits.
+     */
+    numhits: function () {
+        return this.props.query.hits.length;
+    },
+
+    // Life cycle methods //
+
+    render: function () {
+        return (
+            <div
+                className="resultn" id={this.domID()}
+                data-query-len={this.props.query.length}
+                data-algorithm={this.props.data.program}>
+                <div
+                    className="section-header">
+                    <h3>
+                        Query= {this.props.query.id}
+                        &nbsp;
+                        <small>
+                            {this.props.query.title}
+                        </small>
+                    </h3>
+                    <span
+                        className="label label-reset pos-label"
+                        title={"Query" + this.props.query.number + "."}
+                        data-toggle="tooltip">
+                        {this.props.query.number + "/" + this.props.data.queries.length}
+                    </span>
+                </div>
+                {this.numhits() &&
+                    (
+                        <div className="section-content">
+                            <HitsOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program} collapsed={this.props.data.veryBig}/>
+                            <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program} collapsed="true"/>
+                            <HitsTable key={"HT_"+this.props.query.number} query={this.props.query}/>
+                            <div
+                                id="hits">
+                                {
+                                    _.map(this.props.query.hits, _.bind(function (hit) {
+                                        return (
+                                            <Hit
+                                                hit={hit}
+                                                key={"HIT_"+hit.number}
+                                                algorithm={this.props.data.program}
+                                                querydb={this.props.data.querydb}
+                                                query={this.props.query}
+                                                selectHit={this.props.selectHit}/>
+                                        );
+                                    }, this))
+                                }
+                            </div>
+                        </div>
+                    ) || (
+                        <div
+                            className="section-content">
+                            <p>
+                                Query length: {this.props.query.length}
+                            </p>
+                            <br/>
+                            <br/>
+                            <p>
+                                <strong> ****** No hits found ****** </strong>
+                            </p>
+                        </div>
+                    )
+                }
+            </div>
+        )
+    },
+});
+
+/**
+ * Renders summary of all hits per query in a tabular form.
+ */
+var HitsTable = React.createClass({
+    mixins: [Utils],
+    render: function () {
+        var count = 0,
+          hasName = _.every(this.props.query.hits, function(hit) {
+            return hit.sciname !== '';
+          });
+
+        return (
+            <table
+                className="table table-hover table-condensed tabular-view">
+                <thead>
+                    <th className="text-left">#</th>
+                    <th>Similar sequences</th>
+                    {hasName && <th className="text-left">Species</th>}
+                    <th className="text-right">Query coverage (%)</th>
+                    <th className="text-right">Total score</th>
+                    <th className="text-right">E value</th>
+                    <th className="text-right" data-toggle="tooltip"
+                        data-placement="left" title="Total identity of all hsps / total length of all hsps">
+                        Identity (%)
+                    </th>
+                </thead>
+                <tbody>
+                    {
+                        _.map(this.props.query.hits, _.bind(function (hit) {
+                            return (
+                                <tr key={hit.number}>
+                                    <td className="text-left">{hit.number + "."}</td>
+                                    <td>
+                                        <a href={"#Query_" + this.props.query.number + "_hit_" + hit.number}>
+                                            {hit.id}
+                                        </a>
+                                    </td>
+                                    {hasName && <td className="text-left">{hit.sciname}</td>}
+                                    <td className="text-right">{hit.qcovs}</td>
+                                    <td className="text-right">{hit.score}</td>
+                                    <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
+                                    <td className="text-right">{hit.identity}</td>
+                                </tr>
+                            )
+                        }, this))
+                    }
+                </tbody>
+            </table>
+        );
+    }
+});
 
 /**
  * Component for each hit.
@@ -573,148 +836,183 @@ var Hit = React.createClass({
     }
 });
 
-/**
- * Renders summary of all hits per query in a tabular form.
- */
-var HitsTable = React.createClass({
-    mixins: [Utils],
-    render: function () {
-        var count = 0,
-          hasName = _.every(this.props.query.hits, function(hit) {
-            return hit.sciname !== '';
-          });
 
-        return (
-            <table
-                className="table table-hover table-condensed tabular-view">
-                <thead>
-                    <th className="text-left">#</th>
-                    <th>Similar sequences</th>
-                    {hasName && <th className="text-left">Species</th>}
-                    <th className="text-right">Query coverage (%)</th>
-                    <th className="text-right">Total score</th>
-                    <th className="text-right">E value</th>
-                    <th className="text-right" data-toggle="tooltip"
-                        data-placement="left" title="Total identity of all hsps / total length of all hsps">
-                        Identity (%)
-                    </th>
-                </thead>
-                <tbody>
+/**
+ * Component for sequence-viewer links.
+ */
+var SequenceViewer = (function () {
+
+    var Viewer = React.createClass({
+
+        /**
+         * The CSS class name that will be assigned to the widget container. ID
+         * assigned to the widget container is derived from the same.
+         */
+        widgetClass: 'biojs-vis-sequence',
+
+        // Lifecycle methods. //
+
+        render: function () {
+            this.widgetID =
+                this.widgetClass + '-' + (new Date().getUTCMilliseconds());
+
+            return (
+                <div
+                    className="fastan">
+                    <div
+                        className="section-header">
+                        <h4>
+                            {this.props.sequence.id}
+                            <small>
+                                &nbsp; {this.props.sequence.title}
+                            </small>
+                        </h4>
+                    </div>
+                    <div
+                        className="section-content">
+                        <div
+                            className={this.widgetClass} id={this.widgetID}>
+                        </div>
+                    </div>
+                </div>
+            );
+        },
+
+        componentDidMount: function () {
+            // attach BioJS sequence viewer
+            var widget = new Sequence({
+                sequence: this.props.sequence.value,
+                target: this.widgetID,
+                format: 'PRIDE',
+                columns: {
+                    size: 40,
+                    spacedEach: 5
+                },
+                formatOptions: {
+                    title: false,
+                    footer: false
+                }
+            });
+            widget.hideFormatSelector();
+        }
+    });
+
+    return React.createClass({
+
+        // Kind of public API. //
+
+        /**
+         * Shows sequence viewer.
+         */
+        show: function () {
+            this.modal().modal('show');
+        },
+
+
+        // Internal helpers. //
+
+        modal: function () {
+            return $(React.findDOMNode(this.refs.modal));
+        },
+
+        resultsJSX: function () {
+            return (
+                <div className="modal-body">
                     {
-                        _.map(this.props.query.hits, _.bind(function (hit) {
+                        _.map(this.state.error_msgs, _.bind(function (error_msg) {
                             return (
-                                <tr key={hit.number}>
-                                    <td className="text-left">{hit.number + "."}</td>
-                                    <td>
-                                        <a href={"#Query_" + this.props.query.number + "_hit_" + hit.number}>
-                                            {hit.id}
-                                        </a>
-                                    </td>
-                                    {hasName && <td className="text-left">{hit.sciname}</td>}
-                                    <td className="text-right">{hit.qcovs}</td>
-                                    <td className="text-right">{hit.score}</td>
-                                    <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
-                                    <td className="text-right">{hit.identity}</td>
-                                </tr>
-                            )
+                                <div
+                                    className="fastan">
+                                    <div
+                                        className="section-header">
+                                        <h4>
+                                            {error_msg[0]}
+                                        </h4>
+                                    </div>
+                                    <div
+                                        className="section-content">
+                                        <pre
+                                            className="pre-reset">
+                                            {error_msg[1]}
+                                        </pre>
+                                    </div>
+                                </div>
+                            );
                         }, this))
                     }
-                </tbody>
-            </table>
-        );
-    }
-});
-
-/**
- * Renders report for each query sequence.
- *
- * Composed of graphical overview, tabular summary (HitsTable),
- * and a list of Hits.
- */
-var Query = React.createClass({
-
-    // Kind of public API //
-
-    /**
-     * Returns the id of query.
-     */
-    domID: function () {
-        return "Query_" + this.props.query.number;
-    },
-
-    /**
-     * Returns number of hits.
-     */
-    numhits: function () {
-        return this.props.query.hits.length;
-    },
-
-    // Life cycle methods //
-
-    render: function () {
-        return (
-            <div
-                className="resultn" id={this.domID()}
-                data-query-len={this.props.query.length}
-                data-algorithm={this.props.data.program}>
-                <div
-                    className="section-header">
-                    <h3>
-                        Query= {this.props.query.id}
-                        &nbsp;
-                        <small>
-                            {this.props.query.title}
-                        </small>
-                    </h3>
-                    <span
-                        className="label label-reset pos-label"
-                        title={"Query" + this.props.query.number + "."}
-                        data-toggle="tooltip">
-                        {this.props.query.number + "/" + this.props.data.queries.length}
-                    </span>
+                    {
+                        _.map(this.state.sequences, _.bind(function (sequence) {
+                            return (<Viewer sequence={sequence}/>);
+                        }, this))
+                    }
                 </div>
-                {this.numhits() &&
-                    (
-                        <div className="section-content">
-                            <HitsOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program} collapsed={this.props.data.veryBig}/>
-                            <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program} collapsed="true"/>
-                            <HitsTable key={"HT_"+this.props.query.number} query={this.props.query}/>
-                            <div
-                                id="hits">
-                                {
-                                    _.map(this.props.query.hits, _.bind(function (hit) {
-                                        return (
-                                            <Hit
-                                                hit={hit}
-                                                key={"HIT_"+hit.number}
-                                                algorithm={this.props.data.program}
-                                                querydb={this.props.data.querydb}
-                                                query={this.props.query}
-                                                selectHit={this.props.selectHit}/>
-                                        );
-                                    }, this))
-                                }
-                            </div>
-                        </div>
-                    ) || (
-                        <div
-                            className="section-content">
-                            <p>
-                                Query length: {this.props.query.length}
-                            </p>
-                            <br/>
-                            <br/>
-                            <p>
-                                <strong> ****** No hits found ****** </strong>
-                            </p>
-                        </div>
-                    )
-                }
-            </div>
-        )
-    },
-});
+            );
+        },
 
+        loadingJSX: function () {
+            return (
+                <div className="modal-body text-center">
+                    <i className="fa fa-spinner fa-3x fa-spin"></i>
+                </div>
+            );
+        },
+
+
+        // Lifecycle methods. //
+
+        getInitialState: function () {
+            return {
+                error_msgs: [],
+                sequences:  [],
+                requestCompleted: false
+            };
+        },
+
+        render: function () {
+            return (
+                <div
+                    className="modal sequence-viewer"
+                    ref="modal" tabIndex="-1">
+                    <div
+                        className="modal-dialog">
+                        <div
+                            className="modal-content">
+                            <div
+                                className="modal-header">
+                                <h3>View sequence</h3>
+                            </div>
+
+                            { this.state.requestCompleted &&
+                                    this.resultsJSX() || this.loadingJSX() }
+                        </div>
+                    </div>
+                </div>
+            );
+        },
+
+        componentDidMount: function () {
+            // Display modal with a spinner.
+            this.show();
+
+            // Fetch sequence and update state.
+            $.getJSON(this.props.url)
+                .done(_.bind(function (response) {
+                    this.setState({
+                        sequences: response.sequences,
+                        error_msgs: response.error_msgs,
+                        requestCompleted: true
+                    })
+                }, this))
+                .fail(function (jqXHR, status, error) {
+                    showErrorModal(jqXHR, function () {
+                        this.hide();
+                    });
+                });
+
+            this.modal().on('hidden.bs.modal', this.props.onHide);
+        },
+    });
+})();
 
 /**
  * Renders links for downloading hit information in different formats.
@@ -910,384 +1208,6 @@ var SideBar = React.createClass({
             </div>
         );
     },
-});
-
-/**
- * Renders entire report.
- *
- * Composed of Query and Sidebar components.
- */
-var Report = React.createClass({
-
-    // Model //
-
-    getInitialState: function () {
-        this.fetchResults();
-        this.updateCycle = 0;
-
-        return {
-            search_id:       '',
-            program:         '',
-            program_version: '',
-            queries:         [],
-            querydb:         [],
-            params:          [],
-            stats:           []
-        };
-    },
-
-    /**
-     * Fetch results.
-     */
-    fetchResults: function () {
-        var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
-        var component = this;
-
-        function poll () {
-            $.getJSON(location.pathname + '.json')
-                .complete(function (jqXHR) {
-                    switch (jqXHR.status) {
-                        case 202:
-                            var interval;
-                            if (intervals.length === 1) {
-                                interval = intervals[0];
-                            }
-                            else {
-                                interval = intervals.shift();
-                            }
-                            setTimeout(poll, interval);
-                            break;
-                        case 200:
-                            component.updateState(jqXHR.responseJSON);
-                            break;
-                        case 404:
-                        case 400:
-                        case 500:
-                            showErrorModal(jqXHR.responseJSON);
-                            break;
-                    }
-                });
-        }
-
-        poll();
-    },
-
-    /**
-     * Incrementally update state so that the rendering process is
-     * not overwhelemed when there are too many queries.
-     */
-    updateState: function(responseJSON) {
-        var queries = responseJSON.queries;
-
-        // Render results for first 50 queries and set flag if total queries is
-        // more than 250.
-        var numHits = 0;
-        responseJSON.veryBig = queries.length > 250;
-        //responseJSON.veryBig = !_.every(queries, (query) => {
-            //numHits += query.hits.length;
-            //return (numHits <= 500);
-        //});
-        responseJSON.queries = queries.splice(0, 50);
-        this.setState(responseJSON);
-
-        // Render results for remaining queries.
-        var update = function () {
-            if (queries.length > 0) {
-                this.setState({
-                    queries: this.state.queries.concat(queries.splice(0, 50))
-                });
-                setTimeout(update.bind(this), 500);
-            }
-            else {
-                this.componentFinishedUpdating();
-            }
-        };
-        setTimeout(update.bind(this), 500);
-    },
-
-
-    // View //
-    render: function () {
-        return this.isResultAvailable() ?
-            this.resultsJSX() : this.loadingJSX();
-    },
-
-    /**
-     * Returns loading message
-     */
-    loadingJSX: function () {
-        return (
-            <div
-                className="row">
-                <div
-                    className="col-md-6 col-md-offset-3 text-center">
-                    <h1>
-                        <i
-                            className="fa fa-cog fa-spin"></i>&nbsp;
-                        BLAST-ing
-                    </h1>
-                    <p>
-                        <br/>
-                        This can take some time depending on the size of your query and
-                        database(s). The page will update automatically when BLAST is
-                        done.
-                        <br/>
-                        <br/>
-                        You can bookmark the page and come back to it later or share
-                        the link with someone.
-                    </p>
-                </div>
-            </div>
-        );
-    },
-
-    /**
-     * Return results JSX.
-     */
-    resultsJSX: function () {
-        return (
-            <div className="row">
-                { this.shouldShowSidebar() &&
-                    (
-                        <div
-                            className="col-md-3 hidden-sm hidden-xs">
-                            <SideBar data={this.state} shouldShowIndex={this.shouldShowIndex()}/>
-                        </div>
-                    )
-                }
-                <div className={this.shouldShowSidebar() ?
-                    'col-md-9' : 'col-md-12'}>
-                    { this.overviewJSX() }
-                    { this.isHitsAvailable() 
-                    ? <Circos queries={this.state.queries}
-                        program={this.state.program} collapsed="true"/> 
-                    : <span></span> }
-                    {
-                        _.map(this.state.queries, _.bind(function (query) {
-                            return (
-                                <Query key={"Query_"+query.id} query={query} data={this.state}
-                                    selectHit={this.selectHit}/>
-                                );
-                        }, this))
-                    }
-                </div>
-            </div>
-        );
-    },
-
-    /**
-     * Renders report overview.
-     */
-    overviewJSX: function () {
-        return (
-            <div
-                className="overview">
-                <pre
-                    className="pre-reset">
-                    {this.state.program_version}
-                    <br/>
-                    <br/>
-                    {
-                        _.map(this.state.querydb, function (db) {
-                            return db.title;
-                        }).join(", ")
-                    }
-                    <br/>
-                    Total: {this.state.stats.nsequences} sequences,
-                    {this.state.stats.ncharacters} characters
-                    <br/>
-                    <br/>
-                    {
-                        _.map(this.state.params, function (val, key) {
-                            return key + " " + val;
-                        }).join(", ")
-                    }
-                </pre>
-            </div>
-        );
-    },
-
-
-    // Controller //
-
-    /**
-     * Returns true if results have been fetched.
-     *
-     * A holding message is shown till results are fetched.
-     */
-    isResultAvailable: function () {
-        return this.state.queries.length >= 1;
-    },
-
-    isHitsAvailable: function () {
-        var cnt = 0;
-        _.each(this.state.queries, function (query) {
-            if(query.hits.length == 0) cnt++;
-        });
-        return !(cnt == this.state.queries.length);
-    },
-
-    /**
-     * Returns true if sidebar should be shown.
-     *
-     * Sidebar is not shown if there is only one query and there are no hits
-     * corresponding to the query.
-     */
-    shouldShowSidebar: function () {
-        return !(this.state.queries.length == 1 &&
-                 this.state.queries[0].hits.length == 0);
-    },
-
-    /**
-     * Returns true if index should be shown in the sidebar.
-     *
-     * Index is not shown in the sidebar if there are more than eight queries
-     * in total.
-     */
-    shouldShowIndex: function () {
-        return this.state.queries.length <= 8;
-    },
-
-    /**
-     * Called after first call to render. The results may not be available at
-     * this stage and thus results DOM cannot be scripted here, unless using
-     * delegated events bound to the window, document, or body.
-     */
-    componentDidMount: function () {
-        // This sets up an event handler which enables users to select text
-        // from hit header without collapsing the hit.
-        this.preventCollapseOnSelection();
-    },
-
-    /**
-     * Called after each state change. Only a part of results DOM may be
-     * available after a state change.
-     */
-    componentDidUpdate: function () {
-        // We track the number of updates to the component.
-        this.updateCycle += 1;
-
-        // Lock sidebar in its position on first update of
-        // results DOM.
-        if (this.updateCycle === 1 ) this.affixSidebar();
-    },
-
-    /**
-     * Prevents folding of hits during text-selection, etc.
-     */
-
-    /**
-     * Called after all results have been rendered.
-     */
-    componentFinishedUpdating: function () {
-        this.shouldShowIndex() && this.setupScrollSpy();
-    },
-
-    /**
-     * Prevents folding of hits during text-selection.
-     */
-    preventCollapseOnSelection: function () {
-        $('body').on('mousedown', ".hit > .section-header > h4", function (event) {
-            var $this = $(this);
-            $this.on('mouseup mousemove', function handler(event) {
-                if (event.type === 'mouseup') {
-                    // user wants to toggle
-                    $this.attr('data-toggle', 'collapse');
-                    $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
-                } else {
-                    // user wants to select
-                    $this.attr('data-toggle', '');
-                }
-                $this.off('mouseup mousemove', handler);
-            });
-        });
-    },
-
-    /**
-     * Affixes the sidebar.
-     */
-    affixSidebar: function () {
-        var $sidebar = $('.sidebar');
-        $sidebar.affix({
-            offset: {
-                top: $sidebar.offset().top
-            }
-        });
-    },
-
-    /**
-     * For the query in viewport, highlights corresponding entry in the index.
-     */
-    setupScrollSpy: function () {
-        $('body').scrollspy({target: '.sidebar'});
-    },
-
-    /**
-     * Event-handler when hit is selected
-     * Adds glow to hit component.
-     * Updates number of Fasta that can be downloaded
-     */
-    selectHit: function (id) {
-
-        var checkbox = $("#" + id);
-        var num_checked  = $('.hit-links :checkbox:checked').length;
-
-        if (!checkbox || !checkbox.val()) {
-            return;
-        }
-
-        var $hit = $(checkbox.data('target'));
-
-        // Highlight selected hit and sync checkboxes if sequence viewer is open.
-        if (checkbox.is(":checked")) {
-            $hit
-            .addClass('glow')
-            .find(":checkbox").not(checkbox).check();
-            var $a = $('.download-fasta-of-selected');
-            var $b = $('.download-alignment-of-selected');
-            $b.enable()
-            var $n = $a.find('span');
-            $a
-            .enable()
-        }
-
-        else {
-            $hit
-            .removeClass('glow')
-            .find(":checkbox").not(checkbox).uncheck();
-        }
-
-        if (num_checked >= 1)
-        {
-            var $a = $('.download-fasta-of-selected');
-            var $b = $('.download-alignment-of-selected');
-            $a.find('.text-bold').html(num_checked);
-            $b.find('.text-bold').html(num_checked);
-        }
-
-        if (num_checked == 0) {
-            var $a = $('.download-fasta-of-selected');
-            var $b = $('.download-alignment-of-selected');
-            $a.addClass('disabled').find('.text-bold').html('');
-            $b.addClass('disabled').find('.text-bold').html('');
-        }
-    },
-});
-
-var Page = React.createClass({
-    render: function () {
-        return (
-            <div>
-                <div className="container">
-                    <Report ref="report"/>
-                </div>
-
-                <div id='circos-demo' className='modal'></div>
-
-                <canvas id="png-exporter" hidden></canvas>
-            </div>
-        );
-    }
 });
 
 React.render(<Page/>, document.getElementById('view'));
