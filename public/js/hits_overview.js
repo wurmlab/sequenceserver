@@ -212,9 +212,9 @@ class Graph {
      * margin: Margin around the svg element.
      */
     var defaults = {
-        barHeight: 2,
+        barHeight: 3,
         barPadding: 1,
-        legend: inhits.length > 1 ? 5 : 0,
+        legend: inhits.length > 1 ? 3 : 0,
         margin: 20
     },
         options = $.extend(defaults, opts);
