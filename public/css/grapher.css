@@ -37,12 +37,12 @@ svg .axis path,
 /** Specific styles for each graph.  **/
 
 /* Graphical overview of hits */
-.alignment-overview {
+.alignment-overview.svg-container {
   text-align: center;
 }
 
 /* Length distribution of hits */
-.length-distribution {
+.length-distribution.svg-container {
   height: 150px;
 }
 svg .bar:hover {
@@ -50,7 +50,10 @@ svg .bar:hover {
 }
 
 /* Graphical overview of HSP */
-.kablammo {
+.kablammo.grapher {
+  margin: 13px 0 5px 0;
+}
+.kablammo.svg-container {
   height: 150px;
 }
 .polygon:hover {

@@ -18,8 +18,9 @@ export default function Grapher(Graph) {
         }
 
         render () {
+            var cssClasses = Graph.className() + ' grapher';
             return (
-                <div className="grapher" ref="grapher">
+                <div ref="grapher" className={cssClasses}>
                     <div className="grapher-header">
                         <h5 className="caption" data-toggle="collapse"
                             data-target={"#"+this.collapseId()}>
