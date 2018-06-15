@@ -57,8 +57,7 @@ svg .bar:hover {
   height: 150px;
 }
 .polygon:hover {
-    stroke: rgba(0, 0, 0, 0.4);
-    stroke-width: 1px;
+  font-weight: bold;
 }
 
 
