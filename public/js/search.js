@@ -633,70 +633,70 @@ var Databases = React.createClass({
     },
 
     handleClick: function (database) {
-        var type = this.nselected() ? database.type : ''
+        var type = this.nselected() ? database.type : '';
         this.setState({type: type});
     },
 
-    handleToggle: function (type) {
-        $(` .${type} .database `).click();
-        var elem = $(` .${type} `);
-        elem[0].innerHTML = (elem[0].innerHTML === "[Deselect all]") ? "[Select all]" : "[Deselect all]";
-        var othr = (type === "nucleotide") ? "protein" : "nucleotide";
-        var elem2 = $(` .${othr}`);
-        if(elem2[0].classList.contains("disabled")) {
-            elem2[0].classList.remove("disabled");
-            elem2[0].style.setProperty("cursor", "pointer");
-        } else {
-            elem2[0].classList.add("disabled");
-            elem2[0].style.removeProperty("cursor");
+    handleToggle: function (toggleState, type) {
+        switch (toggleState) {
+            case '[Select all]':
+                $(`.${type} .database input:not(:checked)`).click();
+                break;
+            case '[Deselect all]':
+                $(`.${type} .database input:checked`).click();
+                break;
         }
-        var setType = this.nselected() ? type : '';
-        this.setState({type: setType});
     },
 
     render: function () {
         return (
-            <div
-              className="form-group databases-container">
-                {
-                    _.map(this.categories(), _.bind(function (category) {
-                        return (
-                            <div
-                                className={this.categories().length === 1 ? 'col-md-12' : 'col-md-6'}>
-                                <div
-                                    className="panel panel-default">
-                                    <div
-                                        className="panel-heading">
-                                        <h4 style={{display: "inline"}}>{category[0].toUpperCase() + category.substring(1).toLowerCase() + " databases"}</h4>
-                                        &nbsp;&nbsp;
-                                        <a
-                                            className={"toggle " + category}
-                                            style={this.databases(category).length < 2 ? {display: "none"} : {cursor: "pointer"}}
-                                            onClick={
-                                                _.bind(function () {
-                                                    this.handleToggle(category)
-                                                }, this)
-                                            }>
-                                            [Select all]
-                                        </a>
-                                    </div>
-                                    <ul
-                                        className={"list-group databases " + category}>
-                                        {
-                                            _.map(this.databases(category), _.bind(function (database) {
-                                                return (
-                                                    <li className="list-group-item">
-                                                        { this.renderDatabase(database) }
-                                                    </li>
-                                                );
-                                            }, this))
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                        )
-                    }, this))
-                }
+            <div className="form-group databases-container">
+                { _.map(this.categories(), this.renderDatabases) }
+            </div>
+        );
+    },
+
+    renderDatabases: function (category) {
+        // Panel name and column width.
+        var panelTitle = category[0].toUpperCase() +
+            category.substring(1).toLowerCase() + " databases";
+        var columnClass = this.categories().length === 1 ?  'col-md-12' :
+            'col-md-6';
+
+        // Toggle button.
+        var toggleState = '[Select all]';
+        var toggleClass = 'btn btn-link';
+        var toggleShown = this.databases(category).length > 1 ;
+        var toggleDisabled = this.state.type && this.state.type !== category;
+        if (toggleShown && toggleDisabled) toggleClass += ' disabled';
+        if (!toggleShown) toggleClass += ' hidden';
+        if (this.nselected() === this.databases(category).length) {
+            toggleState = '[Deselect all]';
+        }
+
+        // JSX.
+        return (
+            <div className={columnClass}>
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <h4 style={{display: "inline"}}>{panelTitle}</h4> &nbsp;&nbsp;
+                        <button type="button" className={toggleClass} disabled={toggleDisabled}
+                            onClick={ function () { this.handleToggle(toggleState, category) }.bind(this) }>
+                            {toggleState}
+                        </button>
+                    </div>
+                    <ul className={"list-group databases " + category}>
+                        {
+                            _.map(this.databases(category), _.bind(function (database) {
+                                return (
+                                    <li className="list-group-item">
+                                        { this.renderDatabase(database) }
+                                    </li>
+                                );
+                            }, this))
+                        }
+                    </ul>
+                </div>
             </div>
         );
     },
@@ -721,9 +721,9 @@ var Databases = React.createClass({
         );
     },
 
-    shouldComponentUpdate: function (props, state) {
-        return !(state.type && state.type === this.state.type);
-    },
+    //shouldComponentUpdate: function (props, state) {
+        //return !(state.type && state.type === this.state.type);
+    //},
 
     componentDidUpdate: function () {
         if (this.databases() && this.databases().length === 1) {
