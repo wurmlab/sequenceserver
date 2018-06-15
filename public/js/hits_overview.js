@@ -214,7 +214,7 @@ class Graph {
     var defaults = {
         barHeight: 2,
         barPadding: 1,
-        legend: 5,
+        legend: inhits.length > 1 ? 5 : 0,
         margin: 20
     },
         options = $.extend(defaults, opts);
