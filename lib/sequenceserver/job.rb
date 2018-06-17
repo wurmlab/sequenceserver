@@ -60,6 +60,7 @@ module SequenceServer
     # Subclasses should extend `initialize` as per requirement.
     def initialize(*args)
       @id = SecureRandom.uuid
+      @submitted_at = Time.now
       mkdir_p dir
       yield if block_given?
       save
@@ -72,7 +73,7 @@ module SequenceServer
       raise e
     end
 
-    attr_reader :id, :completed_at, :exitstatus
+    attr_reader :id, :submitted_at, :completed_at, :exitstatus
 
     # Returns shell command that will be executed. Subclass needs to provide a
     # concrete implementation.

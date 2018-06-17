@@ -66,6 +66,7 @@ var Report = React.createClass({
             search_id:       '',
             program:         '',
             program_version: '',
+            submitted_at:    '',
             queries:         [],
             querydb:         [],
             params:          [],
@@ -232,6 +233,8 @@ var Report = React.createClass({
                             return key + " " + val;
                         }).join(", ")
                     }
+                    <br/>
+                    {this.state.submitted_at && `Submitted: ${this.state.submitted_at.split(' ')[0]}`}
                 </pre>
             </div>
         );
