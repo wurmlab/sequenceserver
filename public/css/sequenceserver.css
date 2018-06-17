@@ -398,24 +398,26 @@ input[name="advanced"] {
 }
 
 .hsps {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+}
+.hsp {
   padding-bottom: 14px;
 }
-.hsp-stats>thead>tr>th {
-  border-bottom: none;
-  padding: 0;
+.hsp pre {
+  font-size: 12px;
 }
-.hsp-stats>tbody>tr>td {
-  padding: 0;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #ddd;
+.hsp-stats {
+  word-break: normal;
+  white-space: pre-wrap;
 }
-
-.alignment {
-  margin-top: 8px;
-  white-space: pre;
-  font-family: monospace;
-  line-height: 12px;
+.hsp .hsp-lines {
+  margin-top: 5px;
   letter-spacing: 1px;
+}
+.hsp .hsp-coords {
+  color: rgb(110, 110, 110);
 }
 
 .hit-links * {

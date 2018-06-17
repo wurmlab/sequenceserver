@@ -7,6 +7,7 @@ import HitsOverview from './hits_overview';
 import LengthDistribution from './length_distribution'; // length distribution of hits
 import HSPOverview from './kablammo';
 import AlignmentExporter from './alignment_exporter'; // to download textual alignment
+import HSP from './hsp';
 import './sequence';
 
 import * as Helpers from './visualisation_helpers'; // for toLetters
@@ -609,67 +610,6 @@ var Hit = React.createClass({
         aln_exporter.export_alignments(hsps, this.props.query.id+"_"+this.props.hit.id);
     },
 
-    /**
-     * Return prettified stats for the given hsp and based on the BLAST
-     * algorithm.
-     */
-    getHSPStats: function (hsp) {
-        var stats = {
-            'Score': this.format_2_tuple([
-                this.inTwoDecimal(hsp.bit_score),
-                hsp.score
-            ]),
-
-            'E value': this.inExponential(hsp.evalue),
-
-            'Identities': this.format_2_tuple([
-                this.inFraction(hsp.identity, hsp.length),
-                this.inPercentage(hsp.identity, hsp.length)
-            ]),
-
-            'Gaps': this.format_2_tuple([
-                this.inFraction(hsp.gaps, hsp.length),
-                this.inPercentage(hsp.gaps, hsp.length)
-            ]),
-
-            'Query coverage': `${hsp.qcovhsp}%`
-        };
-
-        switch (this.props.algorithm) {
-        case 'tblastx':
-            _.extend(stats, {
-                'Frame': this.inFraction(hsp.qframe, hsp.sframe)
-            });
-            // fall-through
-        case 'blastp':
-            _.extend(stats, {
-                'Positives': this.format_2_tuple([
-                    this.inFraction(hsp.positives, hsp.length),
-                    this.inPercentage(hsp.positives, hsp.length)
-                ])
-            });
-            break;
-        case 'blastn':
-            _.extend(stats, {
-                'Strand': (hsp.qframe > 0 ? '+' : '-') +
-                          "/"                          +
-                          (hsp.sframe > 0 ? '+' : '-')
-            });
-            break;
-        case 'blastx':
-            _.extend(stats, {
-                'Query Frame': hsp.qframe
-            });
-            break;
-        case 'tblastn':
-            _.extend(stats, {
-                'Hit Frame': hsp.sframe
-            });
-            break;
-        }
-
-        return stats;
-    },
 
     // Life cycle methods //
 
@@ -778,61 +718,20 @@ var Hit = React.createClass({
                     <HSPOverview key={"kablammo"+this.props.query.id}
                         query={this.props.query} hit={this.props.hit}
                         algorithm={this.props.algorithm}/>
-                    <table
-                      className="table hsps">
-                        <tbody>
-                            {
-                                _.map (this.props.hit.hsps, _.bind( function (hsp) {
-                                    stats_returned = this.getHSPStats(hsp);
-                                    return (
-                                        <tr
-                                          id={"Alignment_Query_" + this.props.query.number + "_hit_"
-                                                  + this.props.hit.number + "_" + hsp.number}
-                                          key={"Query_"+this.props.query.id+"_Hit_"+this.props.hit.id+"_"+hsp.number}>
-                                            <td>
-                                                {Helpers.toLetters(hsp.number) + "."}
-                                            </td>
-                                            <td
-                                                style={{width: "100%"}}>
-                                                <div
-                                                    className="hsp"
-                                                    id={"Query_" + this.props.query.number + "_hit_"
-                                                         + this.props.hit.number + "_" + hsp.number}
-                                                    data-hsp-evalue={hsp.evalue}
-                                                    data-hsp-start={hsp.qstart}
-                                                    data-hsp-end={hsp.qend}
-                                                    data-hsp-frame={hsp.sframe}>
-                                                    <table
-                                                      className="table table-condensed hsp-stats">
-                                                        <thead>
-                                                        {
-                                                            _.map(stats_returned, function (value , key) {
-                                                                return(<th key={value+"_"+key}>{key}</th>);
-                                                            })
-                                                        }
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                {
-                                                                    _.map(stats_returned, _.bind(function (value, key) {
-                                                                        return(<th key={value+"_"+key}>{value}</th>);
-                                                                    }, this))
-                                                                }
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <div className="alignment">{hsp.pp}</div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                }, this))
-                            }
-                        </tbody>
-                    </table>
+                    { this.hspListJSX() }
                 </div>
             </div>
         );
+    },
+
+    hspListJSX: function () {
+        return <div className="hsps">
+            {
+                this.props.hit.hsps.map((hsp) => {
+                    return <HSP algorithm={this.props.algorithm} hsp={hsp}
+                        query={this.props.query} hit={this.props.hit}/>}, this)
+            }
+        </div>
     }
 });
 

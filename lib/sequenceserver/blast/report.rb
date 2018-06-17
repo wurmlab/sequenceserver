@@ -122,9 +122,8 @@ module SequenceServer
       # Create HSP objects for the given hit from the given ir.
       def extract_hsps(xml_ir, tsv_ir, hit)
         xml_ir.each_with_index do |n, i|
-          hsp_klass = HSP.const_get program.upcase
           n.insert(14, tsv_ir[i])
-          hsp = hsp_klass.new(*[hit, *n])
+          hsp = HSP.new(*[hit, *n])
           hit.hsps << hsp
         end
       end
