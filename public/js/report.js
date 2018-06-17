@@ -219,14 +219,13 @@ var Report = React.createClass({
             <div className="overview">
                 <pre className="pre-reset">{this.state.program_version}
                     <br/>
-                    <br/>
                     Databases: {
                         _.map(this.state.querydb, function (db) {
                             return db.title;
                         }).join(", ")
                     }
                     <br/>
-                    Total: {this.state.stats.nsequences} sequences, {this.state.stats.ncharacters} characters
+                    &nbsp;&nbsp;&nbsp;&nbsp;Total: {this.state.stats.nsequences} sequences, {this.state.stats.ncharacters} characters
                     <br/>
                     Parameters: {
                         _.map(this.state.params, function (val, key) {
@@ -234,7 +233,7 @@ var Report = React.createClass({
                         }).join(", ")
                     }
                     <br/>
-                    {this.state.submitted_at && `Submitted: ${this.state.submitted_at.split(' ')[0]}`}
+                    {this.state.submitted_at && `Submitted on: ${this.state.submitted_at.split(' ')[0]}`}
                 </pre>
             </div>
         );
