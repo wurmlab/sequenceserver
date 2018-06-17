@@ -365,7 +365,7 @@ input[name="advanced"] {
   margin: 20px 0;
 }
 .resultn {
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 .graphical-overview {
@@ -378,13 +378,16 @@ input[name="advanced"] {
 }
 
 .tabular-view {
-  margin-top: 21px;
+  margin-top: 14px;
   margin-bottom: 14px;
 }
 
 .hit {
   padding-top: 14px;
   margin-top: 4px;
+}
+.hit:first-child {
+  padding-top: 0;
 }
 .hit h4 {
   cursor: pointer;
@@ -404,6 +407,9 @@ input[name="advanced"] {
 }
 .hsp {
   padding-bottom: 14px;
+}
+.hsp:last-child {
+  padding-bottom: 0;
 }
 .hsp pre {
   font-size: 12px;
