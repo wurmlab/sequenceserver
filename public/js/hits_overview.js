@@ -207,13 +207,11 @@ class Graph {
 
   graphIt($queryDiv, $graphDiv, index, howMany, opts, inhits) {
     /* barHeight: Height of each hit track.
-     * barPadding: Padding around each hit track.
      * legend: Height reserved for the overview legend.
      * margin: Margin around the svg element.
      */
     var defaults = {
         barHeight: 3,
-        barPadding: 1,
         legend: inhits.length > 1 ? 3 : 0,
         margin: 20
     },
@@ -233,7 +231,7 @@ class Graph {
     var q_i = $queryDiv.attr('id');
 
     var width = $graphDiv.width();
-    var height = hits.length * (options.barHeight + options.barPadding) +
+    var height = hits.length * (options.barHeight) +
         2 * options.legend + 5 * options.margin;
     // var height = $graphDiv.height();
 
