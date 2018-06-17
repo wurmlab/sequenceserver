@@ -420,7 +420,8 @@ input[name="advanced"] {
 }
 .hsp .hsp-lines {
   margin-top: 5px;
-  letter-spacing: 1px;
+  font-size: 10px;
+  letter-spacing: 1.2px;
 }
 .hsp .hsp-coords {
   color: rgb(110, 110, 110);
