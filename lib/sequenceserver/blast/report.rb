@@ -37,7 +37,7 @@ module SequenceServer
       def to_json
         [:querydb, :program, :program_version, :params, :stats,
          :queries].inject({}) { |h, k| h[k] = send(k); h }.
-        update(search_id: job.id, submitted_at: job.submitted_at).to_json
+        update(search_id: job.id, submitted_at: job.submitted_at.utc).to_json
       end
 
       private

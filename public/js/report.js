@@ -217,23 +217,20 @@ var Report = React.createClass({
     overviewJSX: function () {
         return (
             <div className="overview">
-                <pre className="pre-reset">{this.state.program_version}
+                <pre className="pre-reset">
+                    {this.state.program_version}{this.state.submitted_at
+                            && `; query submitted on ${this.state.submitted_at}`}
                     <br/>
-                    Databases: {
-                        _.map(this.state.querydb, function (db) {
-                            return db.title;
-                        }).join(", ")
+                    Databases ({this.state.stats.nsequences} sequences,&nbsp;
+                    {this.state.stats.ncharacters} characters): {
+                        this.state.querydb.map((db) => { return db.title }).join(", ")
                     }
-                    <br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;Total: {this.state.stats.nsequences} sequences, {this.state.stats.ncharacters} characters
                     <br/>
                     Parameters: {
                         _.map(this.state.params, function (val, key) {
                             return key + " " + val;
                         }).join(", ")
                     }
-                    <br/>
-                    {this.state.submitted_at && `Submitted on: ${this.state.submitted_at.split(' ')[0]}`}
                 </pre>
             </div>
         );
