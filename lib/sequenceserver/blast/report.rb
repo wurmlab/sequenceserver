@@ -1,4 +1,5 @@
 require 'ox'
+Ox.default_options = {skip: :skip_none}
 
 require 'sequenceserver/report'
 require 'sequenceserver/links'
