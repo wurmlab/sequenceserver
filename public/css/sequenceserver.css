@@ -401,9 +401,7 @@ input[name="advanced"] {
 }
 
 .hsps {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 12px;
+  padding: 0 0 10px 10px;
 }
 .hsp {
   padding-bottom: 14px;
@@ -428,6 +426,7 @@ input[name="advanced"] {
 }
 
 .hit-links * {
+  padding-left: 3px;
   letter-spacing: 1px;
 }
 .btn-link {

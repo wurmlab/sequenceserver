@@ -59,7 +59,14 @@ svg .bar:hover {
 
 /* Graphical overview of HSP */
 .kablammo.grapher {
-  margin: 10px 0 15px 0;
+  margin: 10px 0 10px 0;
+  border: none;
+}
+.kablammo.grapher .caption {
+  padding-left: 5px;
+}
+.kablammo.grapher .graph-links {
+  padding-right: 7px;
 }
 .kablammo.svg-container {
   height: 150px;
