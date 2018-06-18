@@ -15,7 +15,7 @@ export default class HSP extends React.Component {
     }
 
     componentDidMount() {
-        this.chars = $(React.findDOMNode(this.refs.hsp)).width() / 7.3;
+        this.chars = $(React.findDOMNode(this.refs.hsp)).width() / 7.35;
         this.forceUpdate();
     }
 
