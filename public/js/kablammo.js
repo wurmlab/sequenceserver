@@ -19,7 +19,7 @@ import * as Helpers from './visualisation_helpers';
 
 class Graph {
   static name() {
-    return 'Matching region(s)';
+    return 'Graphical overview of aligning region(s)';
   }
 
   static className() {

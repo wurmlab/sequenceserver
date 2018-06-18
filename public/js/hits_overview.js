@@ -6,7 +6,7 @@ import * as Helpers from './visualisation_helpers';
 class Graph {
 
   static name() {
-    return 'Matching sequences';
+    return 'Graphical overview of hits';
   }
 
   static className() {
