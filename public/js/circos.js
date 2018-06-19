@@ -11,7 +11,7 @@ class Graph {
   }
 
   static className() {
-    return 'circos-distribution collapse';
+    return 'circos-distribution';
   }
 
   static collapseId(props) {
