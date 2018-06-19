@@ -114,9 +114,13 @@ $(window).resize(_.debounce(function () {
 // Swap-icon and toggle .graph-links on collapse.
 $('body').on('hidden.bs.collapse', ".collapse", function () {
     var component = Graphers[$(this).attr('id')];
-    component.setState({ collapsed: true });
+    if (component) {
+        component.setState({ collapsed: true });
+    }
 });
 $('body').on('shown.bs.collapse', ".collapse", function () {
     var component = Graphers[$(this).attr('id')];
-    component.setState({ collapsed: false });
+    if (component) {
+        component.setState({ collapsed: false });
+    }
 });
