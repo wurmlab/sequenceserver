@@ -4,6 +4,8 @@ import _ from 'underscore';
 import Utils from './utils';
 import * as Helpers from './visualisation_helpers';
 
+var HSPComponents = {};
+
 /**
  * Alignment viewer.
  */
@@ -12,11 +14,6 @@ export default class HSP extends React.Component {
     constructor(props) {
         super(props);
         this.hsp = props.hsp;
-    }
-
-    componentDidMount() {
-        this.chars = $(React.findDOMNode(this.refs.hsp)).width() / 7.35;
-        this.forceUpdate();
     }
 
     domID() {
@@ -34,6 +31,16 @@ export default class HSP extends React.Component {
                 {this.hspLines()}
             </div>
         );
+    }
+
+    componentDidMount () {
+        HSPComponents[this.domID()] = this;
+        this.draw();
+    }
+
+    draw () {
+        this.chars = $(React.findDOMNode(this.refs.hsp)).width() / 7.35;
+        this.forceUpdate();
     }
 
     /**
@@ -267,3 +274,10 @@ export default class HSP extends React.Component {
         return <span className="hsp-coords">{text}</span>
     }
 }
+
+// Redraw if window resized.
+$(window).resize(_.debounce(function () {
+    _.each(HSPComponents, (comp) => {
+        comp.draw();
+    });
+}, 100));
