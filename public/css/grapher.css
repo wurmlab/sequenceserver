@@ -8,13 +8,11 @@
   padding: 0 0 0 5px;
   margin: 0 0;
   cursor: pointer;
-  width: 82%;
 }
 .graph-links {
-  display: inline-block;
+  float: right;
   padding: 0 7px 0 0;
   text-align: right;
-  width: 18%;
 }
 
 /** Common SVG styles for all graphs. **/
