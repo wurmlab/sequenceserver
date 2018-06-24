@@ -367,23 +367,15 @@ var Report = React.createClass({
 
         var $hit = $(checkbox.data('target'));
 
-        // Highlight selected hit and sync checkboxes if sequence viewer is open.
+        // Highlight selected hit and enable 'Download FASTA/Alignment of
+        // selected' links.
         if (checkbox.is(":checked")) {
-            $hit
-            .addClass('glow')
-            .find(":checkbox").not(checkbox).check();
-            var $a = $('.download-fasta-of-selected');
-            var $b = $('.download-alignment-of-selected');
-            $b.enable()
-            var $n = $a.find('span');
-            $a
-            .enable()
+            $hit.find('.section-content').addClass('glow');
+            $('.download-alignment-of-selected').enable();
+            $('.download-fasta-of-selected').enable();
         }
-
         else {
-            $hit
-            .removeClass('glow')
-            .find(":checkbox").not(checkbox).uncheck();
+            $hit.find('.section-content').removeClass('glow');
         }
 
         if (num_checked >= 1)
@@ -673,8 +665,7 @@ var Hit = React.createClass({
                     className="section-content collapse in"
                     id={"Query_" + this.props.query.number + "_hit_"
                         + this.props.hit.number + "_alignment"}>
-                    <div
-                        className="hit-links">
+                    <div className="hit-links">
                         <label>
                             <input
                                 type="checkbox" id={this.domID() + "_checkbox"}

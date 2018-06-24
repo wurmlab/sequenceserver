@@ -471,10 +471,7 @@ input[name="advanced"] {
 }
 
 .glow {
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   border-left: 2px solid #f0ad4e;
-  padding-left: 16px;
-  padding-right: 16px;
 }
 
 .downloads a {
