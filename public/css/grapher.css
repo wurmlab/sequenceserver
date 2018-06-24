@@ -33,6 +33,10 @@ svg .axis path,
 
 /** Specific styles for each graph.  **/
 
+.grapher.circos .caption {
+  padding: 0;
+}
+
 /* Graphical overview of hits */
 .grapher.alignment-overview {
   margin-top: 10px;

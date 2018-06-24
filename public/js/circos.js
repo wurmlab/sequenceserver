@@ -408,7 +408,7 @@ class Graph {
       this.chordsHide = [];
       this.layoutHide = [];
       if (id) {
-        $(".circos-distribution .Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
+        $(".circos .Hit_"+this.clean_id(id)).attr('data-toggle','tooltip')
                     .attr('title',id)
                     .on('click', _.bind(function (event) {
                         event.stopPropagation();
