@@ -132,6 +132,18 @@ module SequenceServer
 
       def parse_xml(xml)
         node_to_array Ox.parse(xml).root
+      rescue Ox::ParseError
+        fail InputError, <<MSG
+BLAST generated incorrect XML output. This can happen if sequence ids in your
+databases are not unique across all files. As a temporary workaround, you can
+repeat the search with one database at a time. Proper fix is to recreate the
+following databases with unique sequence ids:
+
+    #{querydb.map(&:title).join(', ')}
+
+If you are not the one managing this server, try to let the manager know
+about this.
+MSG
       end
 
       PARSEABLE_AS_HASH  = %w(Parameters)
