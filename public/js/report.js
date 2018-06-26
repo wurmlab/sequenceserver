@@ -67,6 +67,7 @@ var Report = React.createClass({
             program:         '',
             program_version: '',
             submitted_at:    '',
+            num_queries:     0,
             queries:         [],
             querydb:         [],
             params:          [],
@@ -126,6 +127,7 @@ var Report = React.createClass({
             //return (numHits <= 500);
         //});
         responseJSON.queries = queries.splice(0, 50);
+        responseJSON.num_queries = queries.length;
         this.setState(responseJSON);
 
         // Render results for remaining queries.
@@ -201,8 +203,10 @@ var Report = React.createClass({
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
-                                <Query key={"Query_"+query.id} query={query} data={this.state}
-                                    selectHit={this.selectHit}/>
+                                <Query key={"Query_"+query.id}
+                                    program={this.state.program} querydb={this.state.querydb}
+                                    query={query} num_queries={this.state.num_queries}
+                                    veryBig={this.state.veryBig} selectHit={this.selectHit}/>
                                 );
                         }, this))
                     }
@@ -423,12 +427,10 @@ var Query = React.createClass({
 
     render: function () {
         return (
-            <div
-                className="resultn" id={this.domID()}
+            <div className="resultn" id={this.domID()}
                 data-query-len={this.props.query.length}
-                data-algorithm={this.props.data.program}>
-                <div
-                    className="section-header">
+                data-algorithm={this.props.program}>
+                <div className="section-header">
                     <h3>
                         Query= {this.props.query.id}
                         &nbsp;
@@ -440,14 +442,14 @@ var Query = React.createClass({
                         className="label label-reset pos-label"
                         title={"Query" + this.props.query.number + "."}
                         data-toggle="tooltip">
-                        {this.props.query.number + "/" + this.props.data.queries.length}
+                        {this.props.query.number + "/" + this.props.num_queries}
                     </span>
                 </div>
                 {this.numhits() &&
                     (
                         <div className="section-content">
-                            <HitsOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.data.program} collapsed={this.props.data.veryBig}/>
-                            <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.data.program} collapsed="true"/>
+                            <HitsOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.program} collapsed={this.props.veryBig}/>
+                            <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.program} collapsed="true"/>
                             <HitsTable key={"HT_"+this.props.query.number} query={this.props.query}/>
                             <div
                                 id="hits">
@@ -457,8 +459,8 @@ var Query = React.createClass({
                                             <Hit
                                                 hit={hit}
                                                 key={"HIT_"+hit.number}
-                                                algorithm={this.props.data.program}
-                                                querydb={this.props.data.querydb}
+                                                algorithm={this.props.program}
+                                                querydb={this.props.querydb}
                                                 query={this.props.query}
                                                 selectHit={this.props.selectHit}/>
                                         );
