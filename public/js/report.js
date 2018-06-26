@@ -485,6 +485,10 @@ var Query = React.createClass({
             </div>
         )
     },
+
+    shouldComponentUpdate: function (nextProps, nextState) {
+        if (!this.props.query) return true;
+    }
 });
 
 /**
