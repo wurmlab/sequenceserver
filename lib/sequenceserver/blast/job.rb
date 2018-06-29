@@ -34,30 +34,41 @@ module SequenceServer
       # Override Job#raise! to raise specific API errors based on exitstatus
       # and using contents of stderr to provide context about the error.
       def raise!
-        # Error in query sequence or options; see [1]
-        if exitstatus == 1
+        # Return true exit status is 0 and stdout is not empty.
+        return true if exitstatus == 0 && !File.zero?(stdout)
+
+        # Handle error. See [1].
+        case exitstatus
+        when 1
+          # Error in query sequence or options.
           error = IO.foreach(stderr).grep(ERROR_LINE).join
           error = File.read(stderr) if error.empty?
           fail InputError, error
-        end
-
-        # All other error are caught by this error block. Jobs are run using
-        # sys. sys ensures that job's stdout and stderr file will exist even
-        # if # empty. If stdout is empty, the program
-        # must have crashed.
-        if exitstatus >= 2 || File.zero?(stdout)
+        when 4
+          # Out of memory. User can retry with a shorter search, so raising
+          # InputError here instead of SystemError.
+          fail InputError, <<MSG
+Ran out of memory. Please try a smaller query, or searching fewer and smaller
+databases, or limiting the output by using advanced options.
+MSG
+        when 6
+          # Error creating output files. It can't be a permission issue as that
+          # would have been caught while creating job directory. But we can run
+          # out of storage after creating the job directory and while running
+          # the job. This is a SystemError.
+          fail SystemError, "Ran out of disk space."
+        else
+          # I am not sure what the exit codes 2 & 3 means and we should note
+          # encounter exit code 5. The only other error that I know can happen
+          # but is not yet handled is when BLAST+ binaries break such as after
+          # macOS updates. So raise SystemError, include the exit status in the
+          # message, and say that that the "most likely" reason is broken BLAST+
+          # binaries.
           fail SystemError, <<MSG
-BLAST failed abruptly. Exit status and stderr of the program are displayed
-below. Restart SequenceServer once the problem is fixed for the changes to
-take effect.
-
-exit status: #{ exitstatus }
-stderr: #{ File.read stderr }
+BLAST failed abruptly (exit status: #{exitstatus}). Most likely there is a
+problem with the BLAST+ binaries.
 MSG
         end
-
-        # We will reach here if exit status was 0 and stdout is not empty.
-        true
       end
 
       private
