@@ -65,9 +65,9 @@ module SequenceServer
       yield if block_given?
       save
     rescue Errno::ENOSPC
-      raise SystemError
+      raise SystemError, "Not enough disk space to start a new job"
     rescue Errno::EACCES
-      raise SystemError
+      raise SystemError, "Permission denied to write to #{DOTDIR}"
     rescue => e
       rm_rf dir
       raise e
