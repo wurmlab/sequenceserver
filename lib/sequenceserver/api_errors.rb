@@ -59,13 +59,13 @@ MSG
     end
 
     def title
-      'Job failed'
+      'System error'
     end
 
     def message
 <<MSG
-Sorry BLAST failed - please try again. If this message persists, there is a
-problem with the server. In this case, please report the bug on our
+Looks like there is a problem with the server. Try visiting the page again
+after a while. If this message persists, please report the problem on our
 <a href="https://github.com/wurmlab/sequenceserver/issues" target="_blank">
 issue tracker</a>.
 MSG
