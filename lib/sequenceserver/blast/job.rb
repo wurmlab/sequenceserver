@@ -31,18 +31,33 @@ module SequenceServer
                      " -query '#{qfile}' #{options}"
       end
 
-      # BLAST's exit status is not definitive of success or error, so we
-      # override success? to define custom criteria. :TODO:
+      # Override Job#raise! to raise specific API errors based on exitstatus
+      # and using contents of stderr to provide context about the error.
       def raise!
-        return true if exitstatus == 0
-
-        stderr = File.readlines(self.stderr)
-        if exitstatus == 1 # error in query sequence or options; see [1]
-          error = stderr.grep(ERROR_LINE)
-          error = stderr if error.empty?
-          fail InputError, error.join
+        # Error in query sequence or options; see [1]
+        if exitstatus == 1
+          error = IO.foreach(stderr).grep(ERROR_LINE).join
+          error = File.read(stderr) if error.empty?
+          fail InputError, error
         end
-        fail SystemError, stderr.join
+
+        # All other error are caught by this error block. Jobs are run using
+        # sys. sys ensures that job's stdout and stderr file will exist even
+        # if # empty. If stdout is empty, the program
+        # must have crashed.
+        if exitstatus >= 2 || File.zero?(stdout)
+          fail SystemError, <<MSG
+BLAST failed abruptly. Exit status and stderr of the program are displayed
+below. Restart SequenceServer once the problem is fixed for the changes to
+take effect.
+
+exit status: #{ exitstatus }
+stderr: #{ File.read stderr }
+MSG
+        end
+
+        # We will reach here if exit status was 0 and stdout is not empty.
+        true
       end
 
       private

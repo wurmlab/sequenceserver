@@ -16,7 +16,7 @@ module SequenceServer
         @format, @mime, @specifiers = OUTFMT[type]
         @type = type
 
-        validate && run
+        run
       end
 
       attr_reader :job, :type
@@ -43,12 +43,6 @@ module SequenceServer
         sys(command, path: config[:bin], dir: DOTDIR)
       rescue CommandFailed => e
         fail SystemError, e.stderr
-      end
-
-      def validate
-        fail SystemError if !File.exist?(job.stdout) ||
-          File.zero?(job.stdout)
-        true
       end
     end
   end

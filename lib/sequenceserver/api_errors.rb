@@ -49,6 +49,11 @@ MSG
 
   # Errors caused by everything other than invalid user input.
   class SystemError < APIError
+    def initialize(more_info = nil)
+      @more_info = more_info || backtrace
+      super
+    end
+
     def http_status
       500
     end
@@ -65,5 +70,7 @@ problem with the server. In this case, please report the bug on our
 issue tracker</a>.
 MSG
     end
+
+    attr_reader :more_info
   end
 end
