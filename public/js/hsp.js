@@ -59,8 +59,10 @@ export default class HSP extends React.Component {
         // Identity
         line.push([`Identities: ${Utils.inFraction(this.hsp.identity, this.hsp.length)} (${Utils.inPercentage(this.hsp.identity, this.hsp.length)}), `]);
 
-        // Positives (if this is a protein alignment).
+        // Positives (for protein alignment).
         if (this.props.algorithm === 'blastp' ||
+            this.props.algorithm === 'blastx' ||
+            this.props.algorithm === 'tblastn' ||
             this.props.algorithm === 'tblastx') {
             line.push(`Positives: ${Utils.inFraction(this.hsp.positives, this.hsp.length)} (${Utils.inPercentage(this.hsp.positives, this.hsp.length)}), `)
         }
