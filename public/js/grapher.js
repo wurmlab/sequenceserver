@@ -51,14 +51,12 @@ export default function Grapher(Graph) {
         graphLinksJSX () {
             return (
                 <div className="hit-links graph-links">
-                    <a href = "#" className="export-to-svg">
-                        <i className="fa fa-download"/>
-                        <span>{"  SVG  "}</span>
+                    <a href="#" className="export-to-svg">
+                        <i className="fa fa-download"/> SVG
                     </a>
-                    <span>{" | "}</span>
-                    <a href = "#" className="export-to-png">
-                        <i className="fa fa-download"/>
-                        <span>{"  PNG  "}</span>
+                    |
+                    <a href="#" className="export-to-png">
+                        <i className="fa fa-download"/> PNG
                     </a>
                 </div>
             );

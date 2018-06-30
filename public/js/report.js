@@ -451,8 +451,7 @@ var Query = React.createClass({
                             <HitsOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.program} collapsed={this.props.veryBig}/>
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.program} collapsed="true"/>
                             <HitsTable key={"HT_"+this.props.query.number} query={this.props.query}/>
-                            <div
-                                id="hits">
+                            <div id="hits">
                                 {
                                     _.map(this.props.query.hits, _.bind(function (hit) {
                                         return (
@@ -638,16 +637,12 @@ var Hit = React.createClass({
 
     render: function () {
         return (
-            <div
-                className="hit" id={this.domID()}
+            <div className="hit" id={this.domID()}
                 data-hit-def={this.props.hit.id} data-hit-evalue={this.props.hit.evalue}
                 data-hit-len={this.props.hit.length}>
-                <div
-                  className="section-header">
-                    <h4
-                      data-toggle="collapse"
-                      data-target={ "#Query_" + this.props.query.number + "_hit_"
-                                     + this.props.hit.number + "_alignment"} >
+                <div className="section-header">
+                    <h4 data-toggle="collapse"
+                        data-target={this.domID() + "_content"}>
                         <i className="fa fa-chevron-down"></i>
                         &nbsp;
                         <span>
@@ -658,59 +653,17 @@ var Hit = React.createClass({
                             </small>
                         </span>
                     </h4>
-                    <span
-                      className="label label-reset pos-label"
-                      title={"Query " + this.props.query.number + ". Hit "
+                    <span className="label label-reset pos-label"
+                        title={"Query " + this.props.query.number + ". Hit "
                               + this.props.hit.number + " of "
                               + this.props.query.hits.length + "."}
                       data-toggle="tooltip">
                       {this.props.hit.number + "/" + this.props.query.hits.length}
                     </span>
                 </div>
-                <div
-                    className="section-content collapse in"
-                    id={"Query_" + this.props.query.number + "_hit_"
-                        + this.props.hit.number + "_alignment"}>
-                    <div className="hit-links">
-                        <label>
-                            <input
-                                type="checkbox" id={this.domID() + "_checkbox"}
-                                value={this.accession()}
-                                data-target={"#Query_" + this.props.query.number
-                                             + "_hit_" + this.props.hit.number}
-                                onChange=
-                                {
-                                    _.bind(function () {
-                                        this.props.selectHit(this.domID() + "_checkbox");
-                                    }, this)
-                                }
-                            />
-                            <span>{" Select "}</span>
-                        </label>
-                        <span> | </span>
-                        { this.viewSequenceButton() }
-                        {
-                            this.state.showSequenceViewer && <SequenceViewer
-                                url={this.viewSequenceLink()} onHide={this.hideSequenceViewer}/>
-                        }
-                        <span> | </span>
-                        <button
-                            className='btn btn-link download-fa'
-                            onClick={this.downloadFASTA}>
-                            <i className="fa fa-download"></i> FASTA
-                        </button>
-                        <span> | </span>
-                        <button
-                            className='btn btn-link download-aln'
-                            onClick={this.downloadAlignment}>
-                            <i className="fa fa-download"></i> Alignment
-                        </button>
-                        {
-                            _.map(this.props.hit.links, _.bind(function (link) {
-                                return [<span> | </span>, this.a(link)];
-                            }, this))
-                        }
-                    </div>
+                <div id={this.domID() + "_content"}
+                    className="section-content collapse in">
+                    { this.hitLinks() }
                     <HSPOverview key={"kablammo"+this.props.query.id}
                         query={this.props.query} hit={this.props.hit}
                         algorithm={this.props.algorithm}/>
@@ -720,12 +673,50 @@ var Hit = React.createClass({
         );
     },
 
+    hitLinks: function () {
+        return (
+            <div className="hit-links">
+                <label>
+                    <input type="checkbox" id={this.domID() + "_checkbox"}
+                        value={this.accession()} onChange={function () {
+                            this.props.selectHit(this.domID() + "_checkbox");
+                        }.bind(this)} data-target={'#' + this.domID()}
+                    /> Select
+                </label>
+                |
+                { this.viewSequenceButton() }
+                {
+                    this.state.showSequenceViewer && <SequenceViewer
+                        url={this.viewSequenceLink()} onHide={this.hideSequenceViewer}/>
+                }
+                |
+                <button className='btn btn-link download-fa'
+                    onClick={this.downloadFASTA}>
+                    <i className="fa fa-download"></i> FASTA
+                </button>
+                |
+                <button className='btn btn-link download-aln'
+                    onClick={this.downloadAlignment}>
+                    <i className="fa fa-download"></i> Alignment
+                </button>
+                {
+                    _.map(this.props.hit.links, _.bind(function (link) {
+                        return [<span> | </span>, this.a(link)];
+                    }, this))
+                }
+            </div>
+        );
+    },
+
     hspListJSX: function () {
         return <div className="hsps">
             {
                 this.props.hit.hsps.map((hsp) => {
-                    return <HSP algorithm={this.props.algorithm} hsp={hsp}
-                        query={this.props.query} hit={this.props.hit}/>}, this)
+                    return <HSP key={hsp.number}
+                        algorithm={this.props.algorithm}
+                        queryNumber={this.props.query.number}
+                        hitNumber={this.props.hit.number} hsp={hsp}/>
+                }, this)
             }
         </div>
     }

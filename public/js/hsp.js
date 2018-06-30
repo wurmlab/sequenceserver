@@ -17,14 +17,14 @@ export default class HSP extends React.Component {
     }
 
     domID() {
-        return "Query_" + this.props.query.number + "_hit_" +
-            this.props.hit.number + "_" + this.props.hsp.number;
+        return "Query_" + this.props.queryNumber + "_hit_" +
+            this.props.hitNumber + "_" + this.hsp.number;
     }
 
     // Renders pretty formatted alignment.
     render () {
         return (
-            <div className="hsp" id={this.domID()} key={this.domID()} ref="hsp">
+            <div className="hsp" id={this.domID()} ref="hsp">
                 <pre className="pre-reset hsp-stats">
                     {Helpers.toLetters(this.hsp.number) + "."}&nbsp;{this.hspStats()}
                 </pre>
@@ -132,7 +132,8 @@ export default class HSP extends React.Component {
             line.push(this.spanCoords(' ' + lsend))
             line.push(<br/>);
 
-            pp.push((<pre className="pre-reset hsp-lines">{line}</pre>));
+            pp.push(<pre key={this.hsp.number + ',' + i}
+                className="pre-reset hsp-lines">{line}</pre>);
         }
 
         return pp;
