@@ -57,21 +57,21 @@ class Graph {
     this._svg.jq = $(this._svg.raw);
 
     this._scales = this._create_scales();
+    this.use_complement_coords = false;
     this._axis_ticks = 10;
 
-    this.use_complement_coords = false;
-    this.polygon_highlighting($svgContainer);
     this._initiate();
+    this.bindHoverHandler($svgContainer);
   }
 
-  polygon_highlighting(svgContainer) {
-    // Disable hover handlers and show alignment on selecting hsp.
-    $('polygon').hover(
-        function() {
-            var gnode = $(this).parent();
-            $(this).parent().parent().append(gnode);
-        }
-    )
+  bindHoverHandler ($svgContainer) {
+      // Raise polygon on hover.
+      $svgContainer.find('polygon').hover(
+          function () {
+              var $g = $(this).parent();
+              $g.parent().append($g);
+          }
+      );
   }
 
   _initiate() {
@@ -159,7 +159,7 @@ class Graph {
     this._svg.d3.selectAll('*').remove();
 
     this._polygons = this._svg.d3.selectAll('polygon')
-       .data(this._hsps)
+       .data(this._hsps.slice().reverse())
        .enter()
        .append('g')
        .attr('class','polygon')
