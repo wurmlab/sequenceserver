@@ -3,9 +3,8 @@ FROM debian:stretch-backports
 LABEL Description="Intuitive local web frontend for the BLAST bioinformatics tool"
 LABEL MailingList="https://groups.google.com/forum/#!forum/sequenceserver"
 LABEL Website="http://www.sequenceserver.com"
-LABEL Version="1.0.0"
+LABEL Version="1.1.0 beta"
 
-FROM debian:stretch-backports
 RUN apt-get update  && apt-get install -y --no-install-recommends \
         build-essential \
         ruby ruby-dev \
