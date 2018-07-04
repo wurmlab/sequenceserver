@@ -18,7 +18,7 @@ import showErrorModal from './error_modal';
  * Dynamically create form and submit.
  */
 var downloadFASTA = function (sequence_ids, database_ids) {
-    var form = $('<form/>').attr('method', 'post').attr('action', '/get_sequence');
+    var form = $('<form/>').attr('method', 'post').attr('action', 'get_sequence');
     addField("sequence_ids", sequence_ids);
     addField("database_ids", database_ids);
     form.appendTo('body').submit().remove();
