@@ -21,7 +21,7 @@ Please see http://sequenceserver.com.
 
 ## Develop and contribute
 
-You will need Ruby and RubyGems, Node and npm, and CodeClimate. Further, please
+You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubygems.org/), [Node and npm](https://nodejs.org/), and [CodeClimate](https://codeclimate.com/). Further, please
 note that **`1.0.x` branch contains the stable releases, while the `master`
 branch is a work in progress towards next release and may be buggy**.
 
