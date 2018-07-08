@@ -10,35 +10,41 @@
 
 # SequenceServer - BLAST searching made easy!
 
-SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
-interface for use locally or over the web.
+SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user interface for personal or group use. If you use SequenceServer, please cite our preprint:
 
-> Please cite: [Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W & Wurm Y. 2015. Sequenceserver: A modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142](http://www.biorxiv.org/content/early/2015/11/27/033142).
+> [Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W & Wurm Y. 2015. Sequenceserver: A modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142](http://www.biorxiv.org/content/early/2015/11/27/033142).
 
 ## Install and configure
 
-Please see http://sequenceserver.com.
+To install the old, stable version - 1.0.11 - please see
+http://sequenceserver.com.
+
+To get the latest 1.1.0-beta release, run:
+
+    gem install --pre sequenceserver
+
+Version 1.1.0-beta releases are announced on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver). Summary of changes can also be viewed on our [GitHub release
+page](https://github.com/wurmlab/sequenceserver/releases).
 
 ## Develop and contribute
 
-You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubygems.org/), [Node and npm](https://nodejs.org/), and [CodeClimate](https://codeclimate.com/). Further, please
-note that **`1.0.x` branch contains the stable releases, while the `master`
-branch is a work in progress towards next release and may be buggy**.
+You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubygems.org/), [Node and npm](https://nodejs.org/), and [CodeClimate](https://codeclimate.com/).
 
 ### Setup
 Get source code and install dependencies.
 
-```
-git clone https://github.com/wurmlab/sequenceserver
-gem install bundler
-cd sequenceserver
-npm install
-bundle
-```
+    git clone https://github.com/wurmlab/sequenceserver
+    gem install bundler
+    cd sequenceserver
+    npm install
+    bundle
 
-If you are deploying SequenceServer from git you can skip `npm install` step
-and skip installing gems used for testing (and `qt`), etc. by running:
+If you just want to install and use SequenceServer from source you can skip
+`npm install` step, and skip installing gems used for testing:
 
+    git clone https://github.com/wurmlab/sequenceserver
+    gem install bundler
+    cd sequenceserver
     bundle install --without=development
 
 ### Run, test, build
