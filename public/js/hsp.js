@@ -39,7 +39,8 @@ export default class HSP extends React.Component {
     }
 
     draw () {
-        this.chars = $(React.findDOMNode(this.refs.hsp)).width() / 7.35;
+        var $container = $(React.findDOMNode(this.refs.hsp));
+        this.chars = Math.floor($container.width() / 7.21);
         this.forceUpdate();
     }
 
@@ -92,13 +93,22 @@ export default class HSP extends React.Component {
     }
 
     hspLines () {
+        // Space reserved for showing coordinates
+        var width = this.width();
+
+        // Number of residues we can draw per line is the total number of
+        // characters we can have in a line minus space required to show left
+        // and right coordinates minus 10 characters reserved for displaying
+        // the words Query, Subject and three blank spaces per line.
+        var chars = this.chars - 2 * width - 10;
+
+        // Number of lines of pairwise-alignment (i.e., each line consists of 3
+        // lines). We draw as many pre tags.
+        var lines = Math.ceil(this.hsp.length / chars);
+
         var pp = [];
-        var lines = this.lines();
         var nqseq = this.nqseq();
         var nsseq = this.nsseq();
-        var width = this.width();
-        var chars = this.chars - 2 * width - 8;
-
         for (let i = 1; i <= lines; i++) {
             let line = [];
             let seq_start_index = chars * (i - 1);
@@ -137,12 +147,6 @@ export default class HSP extends React.Component {
         }
 
         return pp;
-    }
-
-    // Number of lines of pairwise-alignment (i.e., each line consists of 3
-    // lines). We draw as many pre tags.
-    lines() {
-        return Math.ceil(this.hsp.length / this.chars);
     }
 
     // Width of each line of alignment.
