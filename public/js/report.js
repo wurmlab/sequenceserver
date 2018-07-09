@@ -772,7 +772,7 @@ var SequenceViewer = (function () {
                 format: 'PRIDE',
                 columns: {
                     size: 40,
-                    spacedEach: 5
+                    spacedEach: 0
                 },
                 formatOptions: {
                     title: false,
