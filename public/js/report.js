@@ -956,7 +956,7 @@ var SideBar = React.createClass({
         console.log('check '+sequence_ids.toString());
         _.each(this.props.data.queries, _.bind(function (query) {
             _.each(query.hits, function (hit) {
-                if (_.indexOf(sequence_ids, hit.id) != -1) {
+                if (_.indexOf(sequence_ids, hit.accession) != -1) {
                     _.each(hit.hsps, function (hsp) {
                         hsp.hit_id = hit.id;
                         hsp.query_id = query.id;
