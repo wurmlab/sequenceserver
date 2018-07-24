@@ -285,7 +285,7 @@ module SequenceServer
 
     def server_url
       host = config[:host]
-      host = 'localhost' if host == '127.0.0.1' || host == '0.0.0.0'
+      host = 'localhost' if ['127.0.0.1', '0.0.0.0'].include?(host) 
       "http://#{host}:#{config[:port]}"
     end
 
