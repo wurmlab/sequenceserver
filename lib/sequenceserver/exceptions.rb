@@ -22,10 +22,10 @@ module SequenceServer
     attr_reader :ent, :err
 
     def to_s
-      <<MSG
-Error reading config file: #{ent}.
-#{err}
-MSG
+      <<~MSG
+        Error reading config file: #{ent}.
+          #{err}
+      MSG
     end
   end
 
@@ -95,10 +95,10 @@ MSG
     attr_reader :version
 
     def to_s
-      <<MSG
-Your BLAST+ version #{version} is incompatible.
-SequenceServer needs NCBI BLAST+ version #{BLAST_VERSION}.
-MSG
+      <<~MSG
+        Your BLAST+ version #{version} is incompatible.
+        SequenceServer needs NCBI BLAST+ version #{BLAST_VERSION}.
+      MSG
     end
   end
 
@@ -134,14 +134,14 @@ MSG
     attr_reader :cmd, :out
 
     def to_s
-      <<MSG
-Error obtaining BLAST databases.
-Tried: #{cmd}
-Error:
-#{out.strip}
-
-Please could you report this to 'https://groups.google.com/forum/#!forum/sequenceserver'?
-MSG
+      <<~MSG
+        Error obtaining BLAST databases.
+        Tried: #{cmd}
+        Error:
+          #{out.strip}
+        
+        Please could you report this to 'https://groups.google.com/forum/#!forum/sequenceserver'?
+      MSG
     end
   end
 

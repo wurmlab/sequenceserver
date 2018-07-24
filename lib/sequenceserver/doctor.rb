@@ -68,7 +68,7 @@ module SequenceServer
         when ERROR_PARSE_SEQIDS
           puts <<~MSG
             *** Doctor has found improperly formatted database:
-                #{bullet_list(values)}
+            #{bullet_list(values)}
             Please reformat your databases with -parse_seqids switch (or use
             sequenceserver -m) for using SequenceServer as the current format
             may cause problems.
@@ -79,7 +79,7 @@ module SequenceServer
         when ERROR_NUMERIC_IDS
           puts <<~MSG
             *** Doctor has found databases with numeric sequence ids:
-                #{bullet_list(values)}
+            #{bullet_list(values)}
             Note that this may cause problems with sequence retrieval.
           MSG
 

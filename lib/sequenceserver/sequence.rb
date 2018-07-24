@@ -233,21 +233,24 @@ module SequenceServer
         return [] if sequences.length == sequence_ids.length
         [
           ['ERROR: incorrect number of sequences found.',
-           <<MSG
-You requested #{sequence_ids.length} sequence(s) with the following identifiers:
-  #{sequence_ids.join(', ')}
-from the following databases:
-  #{database_titles.join(', ')}
-but we found #{sequences.length} sequence(s).
+           <<~MSG
+           You requested #{sequence_ids.length} sequence(s) with the following identifiers:
+             #{sequence_ids.join(', ')}
+             from the following databases:
+               #{database_titles.join(', ')}
+             but we found #{sequences.length} sequence(s).
 
-This is likley due to a problem with how databases are formatted.
-Please share this text with the person managing this website (or
-https://groups.google.com/forum/?fromgroups#!forum/sequenceserver
-if you are the admin) so that the issue can be resolved.
-
-If any sequences were retrieved, you can find them below
-(but some may be incorrect, so be careful!)
-MSG
+             This is likley due to a problem with how databases are formatted.
+             Please share this text with the person managing this website. 
+             
+             If you are the admin and are confident that your databases are 
+             correctly formatted, you have likely encountered a weird bug. 
+             In this case, please raise an issue at:
+             https://github.com/wurmlab/sequenceserver/issues
+             
+             If any sequences were retrieved, you can find them below
+             (but some may be incorrect, so be careful!)
+           MSG
           ]
         ]
       end
