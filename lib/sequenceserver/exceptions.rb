@@ -67,7 +67,7 @@ MSG
   # user's system.
   class BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE < StandardError
     def to_s
-      "BLAST not installed, or is not executable."
+      'BLAST not installed, or is not executable.'
     end
   end
 

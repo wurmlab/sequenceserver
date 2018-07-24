@@ -105,14 +105,14 @@ module SequenceServer
     # database's name, so it's safe).
     get '/get_sequence/' do
       sequence_ids = params[:sequence_ids].split(',')
-      database_ids = params[:database_ids].split(",")
+      database_ids = params[:database_ids].split(',')
       sequences = Sequence::Retriever.new(sequence_ids, database_ids)
       sequences.to_json
     end
 
     post '/get_sequence' do
-      sequence_ids = params["sequence_ids"].split(",")
-      database_ids = params["database_ids"].split(",")
+      sequence_ids = params['sequence_ids'].split(',')
+      database_ids = params['database_ids'].split(',')
       sequences = Sequence::Retriever.new(sequence_ids, database_ids, true)
       send_file(sequences.file.path,
                 :type     => sequences.mime,
