@@ -21,9 +21,12 @@ module SequenceServer
       end
 
       def to_json(*args)
-        [:number, :bit_score, :score, :evalue, :qstart, :qend,
-         :sstart, :send, :qframe, :sframe, :identity, :positives,
-         :gaps, :length, :qcovhsp, :qseq, :sseq, :midline].inject({}) { |h, k| h[k] = self[k]; h }.to_json(*args)
+        %i[number bit_score score evalue qstart qend
+           sstart send qframe sframe identity positives
+           gaps length qcovhsp qseq sseq midline].inject({}) { |h, k|
+          h[k] = self[k]
+          h
+        }.to_json(*args)
       end
     end
   end
