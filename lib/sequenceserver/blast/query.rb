@@ -22,8 +22,10 @@ module SequenceServer
       attr_reader :id, :title
 
       def to_json(*args)
-        [:number, :id, :title, :length, :hits]
-          .inject({}) { |h, k| h[k] = send(k); h }.to_json(*args)
+        %i[number id title length hits].inject({}) { |h, k|
+          h[k] = send(k)
+          h
+        }.to_json(*args)
       end
     end
   end

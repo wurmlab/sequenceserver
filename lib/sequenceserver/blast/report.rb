@@ -37,8 +37,10 @@ module SequenceServer
 
       def to_json
         [:querydb, :program, :program_version, :params, :stats,
-         :queries].inject({}) { |h, k| h[k] = send(k); h }.
-        update(search_id: job.id, submitted_at: job.submitted_at.utc).to_json
+         :queries].inject({}) { |h, k|
+          h[k] = send(k)
+          h
+        }.update(search_id: job.id, submitted_at: job.submitted_at.utc).to_json
       end
 
       private
@@ -146,10 +148,10 @@ module SequenceServer
         MSG
       end
 
-      PARSEABLE_AS_HASH  = %w(Parameters)
-      PARSEABLE_AS_ARRAY = %w(BlastOutput_param Iteration_stat Statistics
+      PARSEABLE_AS_HASH  = %w[Parameters]
+      PARSEABLE_AS_ARRAY = %w[BlastOutput_param Iteration_stat Statistics
                               Iteration_hits BlastOutput_iterations
-                              Iteration Hit Hit_hsps Hsp)
+                              Iteration Hit Hit_hsps Hsp]
 
       def node_to_hash(element)
         Hash[*element.nodes.map { |n| [n.name, node_to_value(n)] }.flatten]

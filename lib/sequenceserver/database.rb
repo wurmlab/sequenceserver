@@ -159,7 +159,7 @@ module SequenceServer
           next if Database.include? file
           next unless probably_fasta? file
           sequence_type = guess_sequence_type_in_fasta file
-          if [:protein, :nucleotide].include?(sequence_type)
+          if %i[protein nucleotide].include?(sequence_type)
             list << [file, sequence_type]
           end
         end
