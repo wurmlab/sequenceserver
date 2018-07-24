@@ -21,7 +21,7 @@ def download_from_url(url)
 end
 
 begin
-  Slop.parse!(:strict => true, :help => true) do
+  Slop.parse!(strict: true, help: true) do
     banner <<BANNER
 SUMMARY
 
@@ -69,35 +69,35 @@ BANNER
 
     on 'c', 'config_file=',
        'Use the given configuration file',
-       :argument => true
+       argument: true
 
     on 'config=',
        'Same as --config_file (deprecated)',
-       :argument => true
+       argument: true
 
     on 'b', 'bin=',
        'Load BLAST+ binaries from this directory',
-       :argument => true
+       argument: true
 
     on 'd', 'database_dir=',
        'Read FASTA and BLAST database from this directory',
-       :argument => true
+       argument: true
 
     on 'n', 'num_threads=',
        'Number of threads to use to run a BLAST search',
-       :argument => true
+       argument: true
 
     on 'r', 'require=',
        'Load extension from this file',
-       :argument => true
+       argument: true
 
     on 'H', 'host=',
        'Host to run SequenceServer on',
-       :argument => true
+       argument: true
 
     on 'p', 'port=',
        'Port to run SequenceServer on',
-       :argument => true
+       argument: true
 
     on 's', 'set',
        'Set configuration value in default or given config file'
