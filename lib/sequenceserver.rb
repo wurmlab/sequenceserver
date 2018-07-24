@@ -274,7 +274,7 @@ module SequenceServer
 
     def assert_blast_installed_and_compatible
       begin
-      out, _ = sys('blastdbcmd -version', path: config[:bin])
+      out, = sys('blastdbcmd -version', path: config[:bin])
       rescue
         fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE
       end
