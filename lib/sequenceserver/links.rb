@@ -8,8 +8,8 @@ module SequenceServer
     #
     alias_method :encode, :url_encode
 
-    NCBI_ID_PATTERN    = /gi\|(\d+)\|/
-    UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
+    NCBI_ID_PATTERN    = /gi\|(\d+)\|/.freeze
+    UNIPROT_ID_PATTERN = /sp\|(\w+)\|/.freeze
 
     # Link generators return a Hash like below.
     #

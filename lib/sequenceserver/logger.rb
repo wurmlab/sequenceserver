@@ -11,7 +11,7 @@ module SequenceServer
 
     # We change Logging format so that it is consistent with Sinatra's
     class Formatter < Formatter
-      FORMAT = "[%s] %s  %s\n"
+      FORMAT = "[%s] %s  %s\n".freeze
 
       def initialize
         self.datetime_format = '%Y-%m-%d %H:%M:%S'
