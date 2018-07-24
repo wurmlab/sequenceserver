@@ -7,11 +7,11 @@ module SequenceServer
   # Doctor detects inconsistencies likely to cause problems with Sequenceserver
   # operation.
   class Doctor
-    ERROR_PARSE_SEQIDS        = 1
-    ERROR_NUMERIC_IDS         = 2
-    ERROR_PROBLEMATIC_IDS     = 3
+    ERROR_PARSE_SEQIDS        = 1.freeze
+    ERROR_NUMERIC_IDS         = 2.freeze
+    ERROR_PROBLEMATIC_IDS     = 3.freeze
 
-    AVOID_ID_REGEX            = /^(?!gi|bbs)\w+\|\w*\|?/
+    AVOID_ID_REGEX            = /^(?!gi|bbs)\w+\|\w*\|?/.freeze
 
     class << self
       extend Forwardable

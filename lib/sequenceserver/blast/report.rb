@@ -148,10 +148,10 @@ module SequenceServer
         MSG
       end
 
-      PARSEABLE_AS_HASH  = %w[Parameters]
+      PARSEABLE_AS_HASH  = %w[Parameters].freeze
       PARSEABLE_AS_ARRAY = %w[BlastOutput_param Iteration_stat Statistics
                               Iteration_hits BlastOutput_iterations
-                              Iteration Hit Hit_hsps Hsp]
+                              Iteration Hit Hit_hsps Hsp].freeze
 
       def node_to_hash(element)
         Hash[*element.nodes.map { |n| [n.name, node_to_value(n)] }.flatten]

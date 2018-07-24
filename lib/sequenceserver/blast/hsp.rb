@@ -5,8 +5,8 @@ module SequenceServer
     HSP = Struct.new(:hit, :number, :bit_score, :score, :evalue, :qstart, :qend,
                      :sstart, :send, :qframe, :sframe, :identity, :positives,
                      :gaps, :length, :qcovhsp, :qseq, :sseq, :midline) do
-      INTEGER_ARGS = [1, 3].concat((5..15).to_a)
-      FLOAT_ARGS   = [2, 4]
+      INTEGER_ARGS = [1, 3].concat((5..15).to_a).freeze
+      FLOAT_ARGS   = [2, 4].freeze
 
       def initialize(*args)
         INTEGER_ARGS.each do |i|
