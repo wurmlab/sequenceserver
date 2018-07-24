@@ -84,13 +84,13 @@ module SequenceServer
       def extract_stats(ir)
         stats  = ir[8].first[5][0]
         @stats = {
-          :nsequences   => stats[0],
-          :ncharacters  => stats[1],
-          :hsp_length   => stats[2],
-          :search_space => stats[3],
-          :kappa        => stats[4],
-          :labmda       => stats[5],
-          :entropy      => stats[6]
+          nsequences:   stats[0],
+          ncharacters:  stats[1],
+          hsp_length:   stats[2],
+          search_space: stats[3],
+          kappa:        stats[4],
+          labmda:       stats[5],
+          entropy:      stats[6]
         }
       end
 

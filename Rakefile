@@ -5,4 +5,4 @@ task :build do
   sh 'gem build sequenceserver.gemspec'
 end
 
-task :default => [:build]
+task default: [:build]

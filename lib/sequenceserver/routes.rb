@@ -115,15 +115,15 @@ module SequenceServer
       database_ids = params['database_ids'].split(',')
       sequences = Sequence::Retriever.new(sequence_ids, database_ids, true)
       send_file(sequences.file.path,
-                :type     => sequences.mime,
-                :filename => sequences.filename)
+                type:     sequences.mime,
+                filename: sequences.filename)
     end
 
     # Download BLAST report in various formats.
     get '/download/:jid.:type' do |jid, type|
       job = Job.fetch(jid)
       out = BLAST::Formatter.new(job, type)
-      send_file out.file, :filename => out.filename, :type => out.mime
+      send_file out.file, filename: out.filename, type: out.mime
     end
 
     # Catches any exception raised within the app and returns JSON

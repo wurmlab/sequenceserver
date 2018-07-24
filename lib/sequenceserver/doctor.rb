@@ -34,8 +34,8 @@ module SequenceServer
 
           out = `blastdbcmd -entry all -db #{db.name} -outfmt "%i" 2> /dev/null`
           {
-            :db     => db,
-            :seqids => out.to_s.split
+            db:     db,
+            seqids: out.to_s.split
           }
         end.compact
       end
