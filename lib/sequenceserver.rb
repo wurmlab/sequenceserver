@@ -274,8 +274,8 @@ module SequenceServer
 
     def assert_blast_installed_and_compatible
       begin
-      out, = sys('blastdbcmd -version', path: config[:bin])
-      rescue
+        out, = sys('blastdbcmd -version', path: config[:bin])
+      rescue CommandFailed
         fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE
       end
       version = out.split[1]
@@ -299,7 +299,7 @@ module SequenceServer
       elsif RUBY_PLATFORM =~ /darwin/
         sys("open #{server_url}")
       end
-    rescue
+    rescue # rubocop:disable Lint/RescueException
       # fail silently
     end
 
