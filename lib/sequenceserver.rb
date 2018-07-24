@@ -92,7 +92,7 @@ module SequenceServer
     # :stderr => '/path/to/stderr_file')
     def sys(command, options = {})
       # Available output channels
-      channels = [:stdout, :stderr]
+      channels = %i[stdout stderr]
 
       # Make temporary files to store output from stdout and stderr.
       temp_files = {

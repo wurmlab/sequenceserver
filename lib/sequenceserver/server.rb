@@ -49,7 +49,7 @@ module SequenceServer
     private
 
     def setup_signal_handlers
-      [:INT, :TERM].each do |sig|
+      %i[INT TERM].each do |sig|
         trap sig do
           stop
         end
