@@ -6,7 +6,6 @@ module SequenceServer
   # Report is a generic superclass. Programs, like BLAST, must implement their
   # own report subclass.
   class Report
-
     class << self
       # Generates report for the given job. Returns generated report object.
       #

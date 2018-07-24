@@ -1,12 +1,10 @@
 require 'sequenceserver/job'
 
 module SequenceServer
-
   # BLAST module.
   module BLAST
     # Extends SequenceServer::Job to describe a BLAST job.
     class Job < Job
-
       def initialize(params)
         validate params
         super do
@@ -47,16 +45,16 @@ module SequenceServer
         when 4
           # Out of memory. User can retry with a shorter search, so raising
           # InputError here instead of SystemError.
-          fail InputError, <<MSG
-Ran out of memory. Please try a smaller query, or searching fewer and smaller
-databases, or limiting the output by using advanced options.
-MSG
+          fail InputError, <<~MSG
+            Ran out of memory. Please try a smaller query, or searching fewer and smaller
+            databases, or limiting the output by using advanced options.
+            MSG
         when 6
           # Error creating output files. It can't be a permission issue as that
           # would have been caught while creating job directory. But we can run
           # out of storage after creating the job directory and while running
           # the job. This is a SystemError.
-          fail SystemError, "Ran out of disk space."
+          fail SystemError, 'Ran out of disk space.'
         else
           # I am not sure what the exit codes 2 & 3 means and we should note
           # encounter exit code 5. The only other error that I know can happen
@@ -64,10 +62,10 @@ MSG
           # macOS updates. So raise SystemError, include the exit status in the
           # message, and say that that the "most likely" reason is broken BLAST+
           # binaries.
-          fail SystemError, <<MSG
-BLAST failed abruptly (exit status: #{exitstatus}). Most likely there is a
-problem with the BLAST+ binaries.
-MSG
+          fail SystemError, <<~MSG
+            BLAST failed abruptly (exit status: #{exitstatus}). Most likely there is a
+            problem with the BLAST+ binaries.
+            MSG
         end
       end
 

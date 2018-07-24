@@ -1,5 +1,5 @@
 require 'ox'
-Ox.default_options = {skip: :skip_none}
+Ox.default_options = { skip: :skip_none }
 
 require 'sequenceserver/report'
 require 'sequenceserver/links'
@@ -115,7 +115,7 @@ module SequenceServer
             n[2] = defline.join(' ')
           end
           hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4],
-                        tsv_ir[n[1]][0], tsv_ir[n[1]][1],[])
+                        tsv_ir[n[1]][0], tsv_ir[n[1]][1], [])
           extract_hsps(n[5], tsv_ir[n[1]][2], hit)
           query.hits << hit
         end
@@ -133,17 +133,17 @@ module SequenceServer
       def parse_xml(xml)
         node_to_array Ox.parse(xml).root
       rescue Ox::ParseError
-        fail InputError, <<MSG
-BLAST generated incorrect XML output. This can happen if sequence ids in your
-databases are not unique across all files. As a temporary workaround, you can
-repeat the search with one database at a time. Proper fix is to recreate the
-following databases with unique sequence ids:
+        fail InputError, <<~MSG
+          BLAST generated incorrect XML output. This can happen if sequence ids in your
+          databases are not unique across all files. As a temporary workaround, you can
+          repeat the search with one database at a time. Proper fix is to recreate the
+          following databases with unique sequence ids:
 
-    #{querydb.map(&:title).join(', ')}
+              #{querydb.map(&:title).join(', ')}
 
-If you are not the one managing this server, try to let the manager know
-about this.
-MSG
+          If you are not the one managing this server, try to let the manager know
+          about this.
+        MSG
       end
 
       PARSEABLE_AS_HASH  = %w(Parameters)

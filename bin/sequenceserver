@@ -117,8 +117,8 @@ BANNER
     on 'i', 'interactive',
        'Run SequenceServer in interactive mode'
 
-    #on 'doctor',
-       #'Run SequenceServer doctor'
+    # on 'doctor',
+       # 'Run SequenceServer doctor'
 
     on 'D', 'devel',
        'Start SequenceServer in development mode'
@@ -162,21 +162,17 @@ BANNER
       # working SequenceServer installation. We expect to land following
       # error scenarios either when creating a new SequenceServer (first
       # time or later), or updating config values using -s CLI option.
-
       rescue SequenceServer::CONFIG_FILE_ERROR,
              SequenceServer::BLAST_DATABASE_ERROR => e
 
         puts e
         exit!
-
       rescue SequenceServer::ENOENT => e
         puts e
 
-        puts "Please consult sequenceserver --help for instructions on how to set the correct values."
+        puts 'Please consult sequenceserver --help for instructions on how to set the correct values.''
         exit!
-
       rescue SequenceServer::NUM_THREADS_INCORRECT => e
-
         puts e
 
         unless num_threads?
@@ -187,7 +183,6 @@ BANNER
         end
 
         exit!
-
       rescue SequenceServer::BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE,
              SequenceServer::BLAST_NOT_INSTALLED,
              SequenceServer::BLAST_NOT_COMPATIBLE => e
@@ -264,7 +259,6 @@ ERR
           redo
         end
       rescue SequenceServer::DATABASE_DIR_NOT_SET => e
-
         # Show original error message.
         puts
         puts e
@@ -287,7 +281,6 @@ MSG
         response = Readline.readline('>> ').to_s.strip
         fetch_option(:database_dir).value = response
         redo
-
       rescue SequenceServer::NO_BLAST_DATABASE_FOUND => e
         unless list_databases? || list_unformatted_fastas? ||
                make_blast_databases?
@@ -321,7 +314,6 @@ MSG
             exit! unless set?
           end
         end
-
       rescue => e
         # This will catch any unhandled error and some very special errors.
         # Ideally we will never hit this block. If we do, there's a bug in
