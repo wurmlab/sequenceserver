@@ -4,18 +4,18 @@ module SequenceServer
   module BLAST
     ERROR_LINE = /Error:\s(.*)/
 
-    ALGORITHMS = %w(blastn blastp blastx tblastn tblastx)
+    ALGORITHMS = %w[blastn blastp blastx tblastn tblastx]
 
-    OUTFMT_SPECIFIERS = %w(qseqid qgi qacc sseqid sallseqid sgi sallgi sacc
+    OUTFMT_SPECIFIERS = %w[qseqid qgi qacc sseqid sallseqid sgi sallgi sacc
                            sallacc qstart qend sstart send qseq sseq evalue
                            bitscore score length length pident nident
                            mismatch positive gapopen gaps ppos frames
                            qframe hframe btop staxids sscinames scomnames
                            sblastnames sskingdoms stitle salltitles sstrand
-                           qcovs qcovhsp).join(' ')
+                           qcovs qcovhsp].join(' ')
 
-    STDREP = %w(qseqid sseqid sscinames pident length mismatch gapopen qstart qend
-                sstart send evalue bitscore qcovs qcovhsp).join(' ')
+    STDREP = %w[qseqid sseqid sscinames pident length mismatch gapopen qstart qend
+                sstart send evalue bitscore qcovs qcovhsp].join(' ')
     OUTFMT = {
       'pairwise'        => [0, :txt],
       'qa'              => [1, :txt],
