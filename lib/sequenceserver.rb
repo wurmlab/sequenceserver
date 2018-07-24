@@ -210,7 +210,7 @@ module SequenceServer
       if config[:bin]
         config[:bin] = File.expand_path config[:bin]
         unless File.exist?(config[:bin]) && File.directory?(config[:bin])
-          fail ENOENT.new("bin dir", config[:bin])
+          fail ENOENT.new('bin dir', config[:bin])
         end
         logger.debug("Will use NCBI BLAST+ at: #{config[:bin]}")
       else
@@ -227,7 +227,7 @@ module SequenceServer
       config[:database_dir] = File.expand_path(config[:database_dir])
       unless File.exist?(config[:database_dir]) &&
              File.directory?(config[:database_dir])
-        fail ENOENT.new("database dir", config[:database_dir])
+        fail ENOENT.new('database dir', config[:database_dir])
       end
 
       logger.debug("Will use BLAST+ databases at: #{config[:database_dir]}")
@@ -265,7 +265,7 @@ module SequenceServer
 
       config[:require] = File.expand_path config[:require]
       unless File.exist?(config[:require]) && File.file?(config[:require])
-        fail ENOENT.new("extension file", config[:require])
+        fail ENOENT.new('extension file', config[:require])
       end
 
       logger.debug("Loading extension: #{config[:require]}")
@@ -274,7 +274,7 @@ module SequenceServer
 
     def assert_blast_installed_and_compatible
       begin
-      out, _ = sys("blastdbcmd -version", path: config[:bin])
+      out, = sys('blastdbcmd -version', path: config[:bin])
       rescue
         fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE
       end

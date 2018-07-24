@@ -1,12 +1,10 @@
 require 'sequenceserver/job'
 
 module SequenceServer
-
   # BLAST module.
   module BLAST
     # Extends SequenceServer::Job to describe a BLAST job.
     class Job < Job
-
       def initialize(params)
         validate params
         super do
@@ -56,7 +54,7 @@ module SequenceServer
           # would have been caught while creating job directory. But we can run
           # out of storage after creating the job directory and while running
           # the job. This is a SystemError.
-          fail SystemError, "Ran out of disk space."
+          fail SystemError, 'Ran out of disk space.'
         else
           # I am not sure what the exit codes 2 & 3 means and we should note
           # encounter exit code 5. The only other error that I know can happen

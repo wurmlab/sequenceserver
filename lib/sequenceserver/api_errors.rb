@@ -1,5 +1,4 @@
 module SequenceServer
-
   # API errors have an http status, title, message, and additional information
   # like stacktrace or information from program output.
   class APIError < StandardError
