@@ -170,7 +170,7 @@ BANNER
       rescue SequenceServer::ENOENT => e
         puts e
 
-        puts 'Please consult sequenceserver --help for instructions on how to set the correct values.''
+        puts 'Please consult sequenceserver --help for instructions on how to set the correct values.'
         exit!
       rescue SequenceServer::NUM_THREADS_INCORRECT => e
         puts e

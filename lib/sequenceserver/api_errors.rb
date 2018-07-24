@@ -36,7 +36,8 @@ module SequenceServer
       'Input error'
     end
 
-    def message <<~MSG
+    def message
+      <<~MSG
       Looks like there's a problem with one of the query sequences, selected
       databases, or advanced parameters.
       MSG
@@ -60,7 +61,8 @@ module SequenceServer
       'System error'
     end
 
-    def message <<~MSG
+    def message
+      <<~MSG
       Looks like there is a problem with the server. Try visiting the page again
       after a while. If this message persists, please report the problem on our
       <a href="https://github.com/wurmlab/sequenceserver/issues" target="_blank">
