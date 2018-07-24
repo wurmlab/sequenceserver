@@ -66,10 +66,10 @@ module SequenceServer
       ncbi_id = encode ncbi_id
       url = "http://www.ncbi.nlm.nih.gov/#{querydb.first.type}/#{ncbi_id}"
       {
-        :order => 2,
-        :title => 'NCBI',
-        :url   => url,
-        :icon  => 'fa-external-link'
+        order: 2,
+        title: 'NCBI',
+        url:   url,
+        icon:  'fa-external-link'
       }
     end
 
@@ -79,10 +79,10 @@ module SequenceServer
       uniprot_id = encode uniprot_id
       url = "http://www.uniprot.org/uniprot/#{uniprot_id}"
       {
-        :order => 2,
-        :title => 'Uniprot',
-        :url   => url,
-        :icon  => 'fa-external-link'
+        order: 2,
+        title: 'Uniprot',
+        url:   url,
+        icon:  'fa-external-link'
       }
     end
   end

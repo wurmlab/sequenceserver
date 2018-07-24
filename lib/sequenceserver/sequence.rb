@@ -188,8 +188,8 @@ module SequenceServer
 
       def to_json
         {
-          :error_msgs => error_msgs,
-          :sequences  => sequences.map(&:info)
+          error_msgs: error_msgs,
+          sequences:  sequences.map(&:info)
         }.to_json
       end
 

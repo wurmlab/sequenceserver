@@ -84,9 +84,9 @@ module SequenceServer
     # Default configuration data.
     def defaults
       {
-        :num_threads  => 1,
-        :port         => 4567,
-        :host         => '0.0.0.0'
+        num_threads:  1,
+        port:         4567,
+        host:         '0.0.0.0'
       }
     end
   end
