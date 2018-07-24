@@ -8,7 +8,7 @@ module SequenceServer
   # be deleted as soon as they are done, or it can be Infinity in which case
   # jobs will never be deleted. Default is to delete finished jobs after 7 days.
   class JobRemover
-    DEFAULT_JOB_LIFETIME = 43200.freeze # minutes (i.e., 30 days)
+    DEFAULT_JOB_LIFETIME = 43200 # minutes (i.e., 30 days)
 
     def initialize(job_lifetime)
       @job_lifetime = job_lifetime || DEFAULT_JOB_LIFETIME
