@@ -117,7 +117,7 @@ BANNER
     on 'i', 'interactive',
        'Run SequenceServer in interactive mode'
 
-    #on 'doctor',
+    # on 'doctor',
        # 'Run SequenceServer doctor'
 
     on 'D', 'devel',
@@ -162,7 +162,6 @@ BANNER
       # working SequenceServer installation. We expect to land following
       # error scenarios either when creating a new SequenceServer (first
       # time or later), or updating config values using -s CLI option.
-
       rescue SequenceServer::CONFIG_FILE_ERROR,
              SequenceServer::BLAST_DATABASE_ERROR => e
 
@@ -173,7 +172,6 @@ BANNER
 
         puts 'Please consult sequenceserver --help for instructions on how to set the correct values.''
         exit!
-
       rescue SequenceServer::NUM_THREADS_INCORRECT => e
         puts e
 
@@ -261,7 +259,6 @@ ERR
           redo
         end
       rescue SequenceServer::DATABASE_DIR_NOT_SET => e
-
         # Show original error message.
         puts
         puts e
