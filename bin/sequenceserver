@@ -118,7 +118,7 @@ BANNER
        'Run SequenceServer in interactive mode'
 
     #on 'doctor',
-       #'Run SequenceServer doctor'
+       # 'Run SequenceServer doctor'
 
     on 'D', 'devel',
        'Start SequenceServer in development mode'
@@ -168,15 +168,13 @@ BANNER
 
         puts e
         exit!
-
       rescue SequenceServer::ENOENT => e
         puts e
 
-        puts "Please consult sequenceserver --help for instructions on how to set the correct values."
+        puts 'Please consult sequenceserver --help for instructions on how to set the correct values.''
         exit!
 
       rescue SequenceServer::NUM_THREADS_INCORRECT => e
-
         puts e
 
         unless num_threads?
@@ -187,7 +185,6 @@ BANNER
         end
 
         exit!
-
       rescue SequenceServer::BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE,
              SequenceServer::BLAST_NOT_INSTALLED,
              SequenceServer::BLAST_NOT_COMPATIBLE => e
@@ -287,7 +284,6 @@ MSG
         response = Readline.readline('>> ').to_s.strip
         fetch_option(:database_dir).value = response
         redo
-
       rescue SequenceServer::NO_BLAST_DATABASE_FOUND => e
         unless list_databases? || list_unformatted_fastas? ||
                make_blast_databases?
@@ -321,7 +317,6 @@ MSG
             exit! unless set?
           end
         end
-
       rescue => e
         # This will catch any unhandled error and some very special errors.
         # Ideally we will never hit this block. If we do, there's a bug in
