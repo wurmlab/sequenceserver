@@ -67,11 +67,12 @@ module SequenceServer
     # otherwise.
     def parse_config_file
       unless file? config_file
-        logger.debug "Configuration file not found: #{config_file}"
+        logger.info "Configuration file not found: #{config_file}" +
+                    "Using default settings instead."
         return {}
       end
 
-      logger.debug "Reading configuration file: #{config_file}."
+      logger.info "Reading configuration file: #{config_file}."
       normalize YAML.load_file(config_file)
     rescue => error
       raise CONFIG_FILE_ERROR.new(config_file, error)
