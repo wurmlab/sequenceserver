@@ -66,30 +66,30 @@ module SequenceServer
 
         case error
         when ERROR_PARSE_SEQIDS
-          puts <<MSG
-*** Doctor has found improperly formatted database:
-#{bullet_list(values)}
-    Please reformat your databases with -parse_seqids switch (or use
-    sequenceserver -m) for using SequenceServer as the current format
-    may cause problems.
+          puts <<~MSG
+            *** Doctor has found improperly formatted database:
+                #{bullet_list(values)}
+            Please reformat your databases with -parse_seqids switch (or use
+            sequenceserver -m) for using SequenceServer as the current format
+            may cause problems.
 
-    These databases are ignored in further checks.
-MSG
+            These databases are ignored in further checks.
+          MSG
 
         when ERROR_NUMERIC_IDS
-          puts <<MSG
-*** Doctor has found databases with numeric sequence ids:
-#{bullet_list(values)}
-    Note that this may cause problems with sequence retrieval.
-MSG
+          puts <<~MSG
+            *** Doctor has found databases with numeric sequence ids:
+                #{bullet_list(values)}
+            Note that this may cause problems with sequence retrieval.
+          MSG
 
         when ERROR_PROBLEMATIC_IDS
-          puts <<MSG
-*** Doctor has found databases with problematic sequence ids:
-#{bullet_list(values)}
-    This causes some sequence to contain extraneous words like `gnl|`
-    appended to their id string.
-MSG
+          puts <<~MSG
+            *** Doctor has found databases with problematic sequence ids:
+            #{bullet_list(values)}
+            This causes some sequence to contain extraneous words like `gnl|`
+            appended to their id string.
+          MSG
         end
       end
       # rubocop:disable Metrics/MethodLength
