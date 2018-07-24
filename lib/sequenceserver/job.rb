@@ -78,7 +78,7 @@ module SequenceServer
     # Returns shell command that will be executed. Subclass needs to provide a
     # concrete implementation.
     def command
-      raise "Not implemented."
+      raise 'Not implemented.'
     end
 
     # Shell out and execute the job.
