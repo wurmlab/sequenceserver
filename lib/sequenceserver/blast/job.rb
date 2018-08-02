@@ -31,6 +31,8 @@ module SequenceServer
 
       # Override Job#raise! to raise specific API errors based on exitstatus
       # and using contents of stderr to provide context about the error.
+      #
+      # rubocop:disable Metrics/CyclomaticComplexity
       def raise!
         # Return true exit status is 0 and stdout is not empty.
         return true if exitstatus.zero? && !File.zero?(stdout)
@@ -68,6 +70,7 @@ module SequenceServer
             MSG
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
 
       private
 

@@ -84,12 +84,10 @@ module SequenceServer
     #
     # Usage:
     #
-    # stdout, stderr = sys(command, :dir => '/path/to/directory',
-    # :path => '/path/to/directory')
+    # sys(command, dir: '/path/to/directory', path: '/path/to/directory',
+    #     stdout: '/path/to/stdout_file', stderr: '/path/to/stderr_file')
     #
-    # sys(command, :dir => '/path/to/directory',
-    # :path => '/path/to/directory', :stdout => '/path/to/stdout_file',
-    # :stderr => '/path/to/stderr_file')
+    # rubocop:disable Metrics/CyclomaticComplexity
     def sys(command, options = {})
       # Available output channels
       channels = %i[stdout stderr]
@@ -150,6 +148,7 @@ module SequenceServer
       return temp_files.values if status.success?
       raise CommandFailed.new(status.exitstatus, **temp_files)
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     # Run SequenceServer as a self-hosted server using Thin webserver.
     def run
@@ -291,6 +290,9 @@ module SequenceServer
     # Uses `open` on Mac or `xdg-open` on Linux to opens the search form in
     # user's default browser. This function is called when SequenceServer
     # is launched from the terminal. Errors, if any, are silenced.
+    #
+    # rubocop:disable Metrics/CyclomaticComplexity, Style/RescueStandardError,
+    # Lint/HandleExceptions
     def open_in_browser(server_url)
       return if using_ssh? || verbose?
       if RUBY_PLATFORM =~ /linux/ && xdg?
@@ -298,9 +300,11 @@ module SequenceServer
       elsif RUBY_PLATFORM =~ /darwin/
         sys("open #{server_url}")
       end
-    rescue # rubocop:disable Lint/HandleExceptions, Style/RescueStandardError
+    rescue
       # fail silently
     end
+    # rubocop:enable Metrics/CyclomaticComplexity, Style/RescueStandardError,
+    # Lint/HandleExceptions
 
     def using_ssh?
       true if ENV['SSH_CLIENT'] || ENV['SSH_TTY'] || ENV['SSH_CONNECTION']
