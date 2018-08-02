@@ -9,7 +9,7 @@ module SequenceServer
     # return saved ouput.
     class Formatter
       class << self
-        alias_method :run, :new
+        alias run new
       end
 
       extend Forwardable
@@ -41,13 +41,12 @@ module SequenceServer
         return if File.exist?(file)
         command = "blast_formatter -archive '#{job.stdout}'" \
           " -outfmt '#{format} #{specifiers}'"
-        sys(command, path: config[:bin], dir: DOTDIR,
-            stdout: file)
+        sys(command, path: config[:bin], dir: DOTDIR, stdout: file)
       rescue CommandFailed => e
         # Mostly we will never get here: empty archive file,
         # file permissions, broken BLAST binaries, etc. will
         # have been caught before reaching here.
-        fail SystemError, e.stderr
+        raise SystemError, e.stderr
       end
     end
   end

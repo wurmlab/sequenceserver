@@ -52,3 +52,11 @@ Style/EachWithObject:
 Style/AsciiComments:
   # Nothing wrong with non-ascii chars, like © in comments.
   Enabled: false
+Style/SignalException:
+  # Roughly, use fail to fail and raise to signal.
+  EnforcedStyle: semantic
+Style/FrozenStringLiteralComment:
+  # Immutability is good. Switching to immutable strings is like a paradigm
+  # shift and should be approached more carefully. Thus, disabling this cop
+  # for now.
+  Enabled: false

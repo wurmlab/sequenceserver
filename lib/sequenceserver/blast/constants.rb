@@ -2,7 +2,7 @@
 module SequenceServer
   # Define constanst used by BLAST module.
   module BLAST
-    ERROR_LINE = /Error:\s(.*)/.freeze
+    ERROR_LINE = /Error:\s(.*)/
 
     ALGORITHMS = %w[blastn blastp blastx tblastn tblastx].freeze
 
@@ -14,8 +14,8 @@ module SequenceServer
                            sblastnames sskingdoms stitle salltitles sstrand
                            qcovs qcovhsp].join(' ').freeze
 
-    STDREP = %w[qseqid sseqid sscinames pident length mismatch gapopen qstart qend
-                sstart send evalue bitscore qcovs qcovhsp].join(' ').freeze
+    STDREP = %w[qseqid sseqid sscinames pident length mismatch gapopen qstart
+                qend sstart send evalue bitscore qcovs qcovhsp].join(' ').freeze
     OUTFMT = {
       'pairwise'        => [0, :txt],
       'qa'              => [1, :txt],

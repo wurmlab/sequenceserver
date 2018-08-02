@@ -240,13 +240,12 @@ module SequenceServer
 
     def check_num_threads
       num_threads = Integer(config[:num_threads])
-      fail NUM_THREADS_INCORRECT unless num_threads > 0
-
+      fail NUM_THREADS_INCORRECT unless num_threads.positive?
       logger.debug "Will use #{num_threads} threads to run BLAST."
       if num_threads > 256
         logger.warn "Number of threads set at #{num_threads} is unusually high."
       end
-    rescue
+    rescue ArgumentError
       raise NUM_THREADS_INCORRECT
     end
 
@@ -285,7 +284,7 @@ module SequenceServer
 
     def server_url
       host = config[:host]
-      host = 'localhost' if ['127.0.0.1', '0.0.0.0'].include?(host) 
+      host = 'localhost' if ['127.0.0.1', '0.0.0.0'].include?(host)
       "http://#{host}:#{config[:port]}"
     end
 
@@ -299,7 +298,7 @@ module SequenceServer
       elsif RUBY_PLATFORM =~ /darwin/
         sys("open #{server_url}")
       end
-    rescue # rubocop:disable Lint/RescueException
+    rescue # rubocop:disable Lint/HandleExceptions, Style/RescueStandardError
       # fail silently
     end
 
