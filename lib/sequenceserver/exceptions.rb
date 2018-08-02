@@ -71,12 +71,6 @@ module SequenceServer
     end
   end
 
-  class BLAST_NOT_INSTALLED < StandardError
-    def to_s
-      'Could not locate BLAST+ binaries.'
-    end
-  end
-
   # Raised if SequenceServer could not successfully execute 'blastp -version'
   # on user's system (see #141).
   class BLAST_NOT_EXECUTABLE < StandardError
@@ -139,7 +133,7 @@ module SequenceServer
         Tried: #{cmd}
         Error:
           #{out.strip}
-        
+
         Please could you report this to 'https://groups.google.com/forum/#!forum/sequenceserver'?
       MSG
     end
@@ -147,7 +141,6 @@ module SequenceServer
 
   # Raised if the 'sys' method could not successfully execute a shell command.
   class CommandFailed < StandardError
-
     def initialize(exitstatus, stdout: nil, stderr: nil)
       @exitstatus = exitstatus
       @stdout = stdout

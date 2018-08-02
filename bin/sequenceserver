@@ -22,50 +22,50 @@ end
 
 begin
   Slop.parse!(strict: true, help: true) do
-    banner <<BANNER
-SUMMARY
+    banner <<~BANNER
+      SUMMARY
 
-custom, local, BLAST server
+      custom, local, BLAST server
 
-USAGE
+      USAGE
 
-sequenceserver [options]
+      sequenceserver [options]
 
-EXAMPLE
+      EXAMPLE
 
-  # Launch SequenceServer. This will read configuration from
-  # ~/.sequenceserver.conf, if present.
-  $ sequenceserver
+        # Launch SequenceServer. This will read configuration from
+        # ~/.sequenceserver.conf, if present.
+        $ sequenceserver
 
-  # Use a different config file.
-  $ sequenceserver -c ~/.sequenceserver.ants.conf
+        # Use a different config file.
+        $ sequenceserver -c ~/.sequenceserver.ants.conf
 
-  # Set number of threads to use. This will save the number
-  # of threads to use in config file.
-  $ sequenceserver -s -n 16
+        # Set number of threads to use. This will save the number
+        # of threads to use in config file.
+        $ sequenceserver -s -n 16
 
-  # See if you have FASTA files in database dir that haven't
-  # been converted into BLAST database.
-  $ sequenceserver -u
+        # See if you have FASTA files in database dir that haven't
+        # been converted into BLAST database.
+        $ sequenceserver -u
 
-  # Search for FASTA files in database dir that haven't been
-  # converted into BLAST database yet, and convert them.
-  $ sequenceserver -m
+        # Search for FASTA files in database dir that haven't been
+        # converted into BLAST database yet, and convert them.
+        $ sequenceserver -m
 
-DESCRIPTION
+      DESCRIPTION
 
-SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
-interface for use locally or over the web. If BLAST+ is not installed on your
-system, SequenceServer will offer to install BLAST+ for you.  You should only
-ever have to point it to a directory of FASTA files / BLAST+ databases.
+      SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
+      interface for use locally or over the web. If BLAST+ is not installed on your
+      system, SequenceServer will offer to install BLAST+ for you.  You should only
+      ever have to point it to a directory of FASTA files / BLAST+ databases.
 
-In a given directory, SequenceServer is able to tell FASTA files that are yet
-to be formatted for use with BLAST+ and format them, and FASTA files that are
-already formatted for use with BLAST+, heuristically skipping all other files
-in the directory. Directories are scanned recursively. Type of sequences in a
-FASTA file is detected automagically. `parse_seqids` and `hash_index` options
-of `makeblastdb` are used to create BLAST+ databases.
-BANNER
+      In a given directory, SequenceServer is able to tell FASTA files that are yet
+      to be formatted for use with BLAST+ and format them, and FASTA files that are
+      already formatted for use with BLAST+, heuristically skipping all other files
+      in the directory. Directories are scanned recursively. Type of sequences in a
+      FASTA file is detected automagically. `parse_seqids` and `hash_index` options
+      of `makeblastdb` are used to create BLAST+ databases.
+    BANNER
 
     on 'c', 'config_file=',
        'Use the given configuration file',
@@ -184,7 +184,6 @@ BANNER
 
         exit!
       rescue SequenceServer::BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE,
-             SequenceServer::BLAST_NOT_INSTALLED,
              SequenceServer::BLAST_NOT_COMPATIBLE => e
 
         # Show original error message first.
@@ -198,15 +197,15 @@ BANNER
         # Ask user if she already has BLAST+ downloaded or offer to download
         # BLAST+ for her.
         puts
-        puts <<MSG
-SequenceServer can use NCBI BLAST+ that you may have on your system already, or
-download the correct package for itself. A recent system update may have broken
-your NCBI BLAST+ installation.
+        puts <<~MSG
+          SequenceServer can use NCBI BLAST+ that you may have on your system already, or
+          download the correct package for itself. A recent system update may have broken
+          your NCBI BLAST+ installation.
 
-Please enter the path to NCBI BLAST+ or press Enter to download.
+          Please enter the path to NCBI BLAST+ or press Enter to download.
 
-Press Ctrl+C to quit.
-MSG
+          Press Ctrl+C to quit.
+        MSG
         puts
         response = Readline.readline('>> ').to_s.strip
         if response.empty?
@@ -226,18 +225,18 @@ MSG
                   "#{version.chop}/" \
                   "ncbi-blast-#{version}-x64-macosx.tar.gz"
                 else
-                  puts <<ERR
-------------------------------------------------------------------------
-FAILED!! to install NCBI BLAST+.
+                  puts <<~ERR
+                    ------------------------------------------------------------------------
+                    FAILED!! to install NCBI BLAST+.
 
-We currently support Linux and Mac only (64 bit). If you
-believe you are running a supported platform, please open a support
-ticket titled "#{RUBY_PLATFORM}" at:
+                    We currently support Linux and Mac only (64 bit). If you
+                    believe you are running a supported platform, please open a support
+                    ticket titled "#{RUBY_PLATFORM}" at:
 
-https://github.com/yannickwurm/sequenceserver/issues
-------------------------------------------------------------------------
+                    https://github.com/yannickwurm/sequenceserver/issues
+                    ------------------------------------------------------------------------
 
-ERR
+                  ERR
                 end
           download_from_url(url)
           unless $CHILD_STATUS.success?
@@ -249,15 +248,14 @@ ERR
           end
           fetch_option(:bin).value =
             "~/.sequenceserver/ncbi-blast-#{version}/bin/"
-          redo
         else
           unless File.basename(response) == 'bin'
             response = File.join(response, 'bin')
           end
           fetch_option(:bin).value = File.join(response)
           puts
-          redo
         end
+        redo
       rescue SequenceServer::DATABASE_DIR_NOT_SET => e
         # Show original error message.
         puts
@@ -270,12 +268,12 @@ ERR
         # Ask user for the directory containing sequences or BLAST+
         # databases.
         puts
-        puts <<MSG
-SequenceServer needs to know where your FASTA files or BLAST+ databases are.
-Please enter the path to the relevant directory (default: current directory).
+        puts <<~MSG
+          SequenceServer needs to know where your FASTA files or BLAST+ databases are.
+          Please enter the path to the relevant directory (default: current directory).
 
-Press Ctrl+C to quit.
-MSG
+          Press Ctrl+C to quit.
+        MSG
 
         puts
         response = Readline.readline('>> ').to_s.strip
@@ -292,14 +290,14 @@ MSG
           # Offer user to format the FASTA files.
           database_dir = SequenceServer.config[:database_dir]
           puts
-          puts <<MSG
-Search for FASTA files (.fa, .fasta, .fna) in '#{database_dir}' and try
-creating BLAST+ databases? [y/n] (Default: y).
-MSG
+          puts <<~MSG
+            Search for FASTA files (.fa, .fasta, .fna) in '#{database_dir}' and try
+            creating BLAST+ databases? [y/n] (Default: y).
+          MSG
           puts
           print '>> '
           response = STDIN.gets.to_s.strip
-          unless response.match(/^[n]$/i)
+          unless response =~ /^[n]$/i
             puts
             puts 'Searching ...'
             if SequenceServer::Database.unformatted_fastas.empty?
@@ -320,16 +318,16 @@ MSG
         # SequenceServer or something really weird going on. If we hit this
         # error block we show the stacktrace to the user requesting them to
         # post the same to our Google Group.
-        puts <<MSG
-Something went wonky
+        puts <<~MSG
+          Something went wonky
 
-Looks like you have encountered a bug in SequenceServer. Please could you
-report this incident to our Google Group -
-https://groups.google.com/forum/?fromgroups#!forum/sequenceserver
+          Looks like you have encountered a bug in SequenceServer. Please could you
+          report this incident to our Google Group -
+          https://groups.google.com/forum/?fromgroups#!forum/sequenceserver
 
-Error:
-#{e.backtrace.unshift(e.message).join("\n")}
-MSG
+          Error:
+            #{e.backtrace.unshift(e.message).join("\n")}
+        MSG
         exit
       end
 

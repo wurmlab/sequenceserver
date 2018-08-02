@@ -22,15 +22,14 @@ Metrics/ModuleLength:
     - 'lib/sequenceserver.rb'
     - 'spec/blast_spec.rb'
 Metrics/ClassLength:
-  Exclude:
-    # TODO:
-    #   Evaluate whether to make class smaller or to increase 'Max'.
-    - 'lib/sequenceserver/database.rb'
+  Max: 150
 Metrics/BlockNesting:
   Exclude:
-    # TODO:
-    #   Fix in bin/sequenceserver and re-enable.
     - 'bin/sequenceserver'
+Metrics/BlockLength:
+  Exclude:
+    - 'bin/sequenceserver'
+    - 'sequenceserver.gemspec'
 
 Style/UnlessElse:
   # TODO:
