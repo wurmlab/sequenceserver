@@ -24,7 +24,7 @@ module SequenceServer
     class << self
       # Creates and queues a job. Returns created job object.
       def create(params)
-        job = BLAST::Job.new(params)# TODO: Dynamic dispatch.
+        job = BLAST::Job.new(params) # TODO: Dynamic dispatch.
         SequenceServer.pool.queue { job.run }
         job
       end
@@ -43,8 +43,8 @@ module SequenceServer
 
       # Returns an Array of all jobs.
       def all
-        Dir["#{DOTDIR}/**/job.yaml"].
-          map { |f| fetch File.basename File.dirname f }
+        Dir["#{DOTDIR}/**/job.yaml"]
+          .map { |f| fetch File.basename File.dirname f }
       end
     end
 
@@ -58,14 +58,14 @@ module SequenceServer
     # of job data will be held, yields (if block given) and saves the job.
     #
     # Subclasses should extend `initialize` as per requirement.
-    def initialize(*args)
+    def initialize(*)
       @id = SecureRandom.uuid
       @submitted_at = Time.now
       mkdir_p dir
       yield if block_given?
       save
     rescue Errno::ENOSPC
-      raise SystemError, "Not enough disk space to start a new job"
+      raise SystemError, 'Not enough disk space to start a new job'
     rescue Errno::EACCES
       raise SystemError, "Permission denied to write to #{DOTDIR}"
     rescue => e
@@ -78,7 +78,7 @@ module SequenceServer
     # Returns shell command that will be executed. Subclass needs to provide a
     # concrete implementation.
     def command
-      raise 'Not implemented.'
+      fail 'Not implemented.'
     end
 
     # Shell out and execute the job.
@@ -145,7 +145,7 @@ module SequenceServer
     # NOTE: Not used.
     def fetch(key)
       filename = File.join(dir, key)
-      raise if !File.exist? filename
+      fail unless File.exist? filename
       filename
     end
 

@@ -11,7 +11,7 @@ module SequenceServer
     ERROR_NUMERIC_IDS         = 2
     ERROR_PROBLEMATIC_IDS     = 3
 
-    AVOID_ID_REGEX            = /^(?!gi|bbs)\w+\|\w*\|?/.freeze
+    AVOID_ID_REGEX            = /^(?!gi|bbs)\w+\|\w*\|?/
 
     class << self
       extend Forwardable
@@ -92,7 +92,7 @@ module SequenceServer
           MSG
         end
       end
-      # rubocop:disable Metrics/MethodLength
+      # rubocop:enable Metrics/MethodLength
     end
 
     def initialize

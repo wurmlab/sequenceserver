@@ -33,7 +33,7 @@ module SequenceServer
       # and using contents of stderr to provide context about the error.
       def raise!
         # Return true exit status is 0 and stdout is not empty.
-        return true if exitstatus == 0 && !File.zero?(stdout)
+        return true if exitstatus.zero? && !File.zero?(stdout)
 
         # Handle error. See [1].
         case exitstatus
@@ -71,7 +71,7 @@ module SequenceServer
 
       private
 
-      def parse_advanced param_line
+      def parse_advanced(param_line)
         param_list = (param_line || '').split(' ')
         res = {}
 

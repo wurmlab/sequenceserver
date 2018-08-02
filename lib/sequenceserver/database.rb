@@ -38,7 +38,7 @@ module SequenceServer
 
     def include?(accession)
       cmd = "blastdbcmd -entry '#{accession}' -db #{name}"
-      out, _ = sys(cmd, path: config[:bin])
+      out, = sys(cmd, path: config[:bin])
       !out.empty?
     end
 

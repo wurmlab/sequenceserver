@@ -42,7 +42,7 @@ module SequenceServer
       # 'ALLOW-FROM uri'.
       set :protection, lambda {
         frame_options = SequenceServer.config[:frame_options]
-        frame_options && { :frame_options => frame_options }
+        frame_options && { frame_options: frame_options }
       }
 
       # Serve compressed responses.
@@ -89,7 +89,7 @@ module SequenceServer
 
     # Returns base HTML. Rest happens client-side: polling for and rendering
     # the results.
-    get '/:jid' do |jid|
+    get '/:jid' do
       erb :report, layout: true
     end
 
@@ -155,13 +155,13 @@ module SequenceServer
       # All errors will have a message.
       error_data = { message: error.message }
 
-      # If error object has a title method, use that, or use error class for
-      # title.
-      if error.respond_to? :title
-        error_data[:title] = error.title
-      else
-        error_data[:title] = error.class.to_s
-      end
+      # If error object has a title method, use that, or use name of the
+      # error class as title.
+      error_data[:title] = if error.respond_to? :title
+                             error.title
+                           else
+                             error.class.name
+                           end
 
       # If error object has a more_info method, use that. If the error does
       # not have more_info and the error is not APIError, use backtrace as

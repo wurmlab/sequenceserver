@@ -67,7 +67,7 @@ module SequenceServer
     end
 
     def info
-      { :value => value, :id => id, :title => title }
+      { value: value, id: id, title: title }
     end
 
     # Returns FASTA formatted sequence.
@@ -97,7 +97,7 @@ module SequenceServer
         na_count = 0
         composition = composition(cleaned_sequence)
         composition.each do |character, count|
-          na_count += count if character.match(/[ACGTU]/i)
+          na_count += count if character =~ /[ACGTU]/i
         end
 
         na_count > (0.9 * cleaned_sequence.length) ? :nucleotide : :protein
@@ -200,7 +200,7 @@ module SequenceServer
                   " -db '#{database_names.join(' ')}'" \
                   " -entry '#{sequence_ids.join(',')}'"
 
-        out, _ = sys(command, path: config[:bin])
+        out, = sys(command, path: config[:bin])
 
         @sequences = out.each_line.map do |line|
           # Stop codons in amino acid sequence databases show up as invalid
@@ -234,20 +234,21 @@ module SequenceServer
         [
           ['ERROR: incorrect number of sequences found.',
            <<~MSG
-           You requested #{sequence_ids.length} sequence(s) with the following identifiers:
-             #{sequence_ids.join(', ')}
+             You requested #{sequence_ids.length} sequence(s) with the following
+             identifiers:
+               #{sequence_ids.join(', ')}
              from the following databases:
                #{database_titles.join(', ')}
              but we found #{sequences.length} sequence(s).
 
              This is likley due to a problem with how databases are formatted.
-             Please share this text with the person managing this website. 
-             
-             If you are the admin and are confident that your databases are 
-             correctly formatted, you have likely encountered a weird bug. 
+             Please share this text with the person managing this website.
+
+             If you are the admin and are confident that your databases are
+             correctly formatted, you have likely encountered a weird bug.
              In this case, please raise an issue at:
              https://github.com/wurmlab/sequenceserver/issues
-             
+
              If any sequences were retrieved, you can find them below
              (but some may be incorrect, so be careful!)
            MSG

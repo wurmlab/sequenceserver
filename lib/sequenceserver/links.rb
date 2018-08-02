@@ -1,15 +1,14 @@
+require 'erb'
+
 module SequenceServer
   # Module to contain methods for generating sequence retrieval links.
   module Links
-    require 'erb'
-
     # Provide a method to URL encode _query parameters_. See [1].
     include ERB::Util
-    #
-    alias_method :encode, :url_encode
+    alias encode url_encode
 
-    NCBI_ID_PATTERN    = /gi\|(\d+)\|/.freeze
-    UNIPROT_ID_PATTERN = /sp\|(\w+)\|/.freeze
+    NCBI_ID_PATTERN    = /gi\|(\d+)\|/
+    UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
 
     # Link generators return a Hash like below.
     #
