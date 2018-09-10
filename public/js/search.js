@@ -202,31 +202,6 @@ var Form = React.createClass({
 
     componentDidMount: function () {
         $.getJSON("searchdata.json", _.bind(function(data) {
-            // Set up search options by gracefully extending user provided
-            // values.
-            data.options = data.options || {};
-            ['blastn', 'blastp', 'blastx', 'tblastx', 'tblastn'].forEach(
-                function (algorithm) {
-                    data.options[algorithm] = data.options[algorithm] || [];
-
-                    // Convert data.options[algorithm] Array to String so we
-                    // can use indexOf to test for presence of an option.
-                    var opts = data.options[algorithm].join(' ');
-
-                    // Use evalue 1e-5 unless user provided an evalue to use.
-                    if (opts.indexOf('-evalue') == -1) {
-                        data.options[algorithm].push('-evalue 1e-5');
-                    }
-
-                    // Use -task blastn for BLASTN unless the user specified
-                    // -task option.
-                    if (algorithm == 'blastn' && opts.indexOf("-task") == -1) {
-                        data.options[algorithm].push("-task blastn");
-                    }
-                }
-            );
-
-            // Now update state.
             this.setState({
                 databases: data["database"], preDefinedOpts: data["options"]
             });
