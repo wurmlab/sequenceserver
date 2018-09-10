@@ -60,6 +60,19 @@ module SequenceServer
         data[:database_dir] ||= database_dir
       end
 
+      # We would like a persistent :options: key in the config file, explicitly
+      # stating the parameters to use. Recommended values are written to config
+      # file on the first run. However, existing users won't have :options: key
+      # available from before. For them, we retain the old behaviour of
+      # automatically adding `-task blastn` for BLASTN searches.
+      if blast_opts = data.dig(:options, :blastn)
+        unless blast_opts.join.match('-task')
+          # Issue a warning.
+          logger.info "blastn will be run using '-task blastn' option"
+          data[:options][:blastn].push '-task blastn'
+        end
+      end
+
       data
     end
 
@@ -67,8 +80,7 @@ module SequenceServer
     # otherwise.
     def parse_config_file
       unless file? config_file
-        logger.info "Configuration file not found: #{config_file}" +
-                    "Using default settings instead."
+        logger.info "Configuration file not found: #{config_file}"
         return {}
       end
 
@@ -85,9 +97,16 @@ module SequenceServer
     # Default configuration data.
     def defaults
       {
-        num_threads:  1,
-        port:         4567,
-        host:         '0.0.0.0'
+        host: '0.0.0.0',
+        port: 4567,
+        options: {
+          blastn:  ['-task blastn', '-evalue 1e-5'],
+          blastp:  ['-evalue 1e-5'],
+          blastx:  ['-evalue 1e-5'],
+          tblastx: ['-evalue 1e-5'],
+          tblastn: ['-evalue 1e-5']
+        },
+        num_threads: 1
       }
     end
   end
