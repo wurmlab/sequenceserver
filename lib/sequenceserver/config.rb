@@ -68,7 +68,8 @@ module SequenceServer
       if blast_opts = data.dig(:options, :blastn)
         unless blast_opts.join.match('-task')
           # Issue a warning.
-          logger.info "blastn will be run using '-task blastn' option"
+          logger.info "BLASTN will be run using '-task blastn' option." +
+                      " You can override this through configuration file."
           data[:options][:blastn].push '-task blastn'
         end
       end
@@ -83,7 +84,6 @@ module SequenceServer
         logger.info "Configuration file not found: #{config_file}"
         return {}
       end
-
       logger.info "Reading configuration file: #{config_file}."
       normalize YAML.load_file(config_file)
     rescue => error
