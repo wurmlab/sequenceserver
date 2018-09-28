@@ -107,10 +107,14 @@ module SequenceServer
       def extract_hits(xml_ir, tsv_ir, query)
         return if xml_ir == ["\n"] # => No hits.
         xml_ir.each do |n|
-          # If hit comes from a non -parse_seqids database, then
-          # we assign id to accession and process hit defline to
-          # obtain id and title.
-          if n[1] =~ /^gnl\|/
+          # If hit comes from a non -parse_seqids database, then id (n[1]) is a
+          # BLAST assigned internal id of the format 'gnl|BL_ORD_ID|serial'. We
+          # assign the id to accession (because we use accession for sequence
+          # retrieval and this id is what blastdbcmd expects for non
+          # -parse_seqids databases) and parse the hit defline to
+          # obtain id and title ourselves (we use id and title
+          # for display purposes).
+          if n[1] =~ /^gnl\|BL_ORD_ID\|\d+/
             n[3] = n[1]
             defline = n[2].split
             n[1] = defline.shift
