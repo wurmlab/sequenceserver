@@ -326,6 +326,10 @@ var Report = React.createClass({
                 if (event.type === 'mouseup') {
                     // user wants to toggle
                     $this.attr('data-toggle', 'collapse');
+                    // Get the element indicated in the data-target attribute
+                    // and toggle the 'in' class for collapsing/expanding.
+                    var target = $('#' + $this.attr('data-target'));
+                    target.toggleClass('in');
                     $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
                 } else {
                     // user wants to select
