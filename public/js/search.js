@@ -201,12 +201,25 @@ var Form = React.createClass({
     },
 
     componentDidMount: function () {
-        $.getJSON("searchdata.json", _.bind(function(data) {
+        /* Fetch data to initialise the search interface from the server. These
+         * include list of databases to search against, advanced options to
+         * apply when an algorithm is selected, and a query sequenced that
+         * the user may want to search in the databases.
+         */
+        $.getJSON("searchdata.json" + window.location.search, function(data) {
+            /* Update form state (i.e., list of databases and predefined
+             * advanced options.
+             */
             this.setState({
                 databases: data["database"], preDefinedOpts: data["options"]
             });
-        }, this));
 
+            /* Pre-populate the form with server sent query sequence.
+             */
+            this.refs.query.value(data["query"]);
+        }.bind(this));
+
+        /* Enable submitting form on Cmd+Enter */
        $(document).bind("keydown", _.bind(function (e) {
            if (e.ctrlKey && e.keyCode === 13 &&
                !$('#method').is(':disabled')) {
