@@ -62,10 +62,12 @@ module SequenceServer
     # Returns data that is used to render the search form client side. These
     # include available databases and user-defined search options.
     get '/searchdata.json' do
-      {
+      searchdata = {
         database: Database.all,
-        options:  SequenceServer.config[:options]
-      }.to_json
+        options: SequenceServer.config[:options],
+        query: Database.retrieve(params[:query])
+      }
+      searchdata.to_json
     end
 
     # Queues a search job and redirects to `/:jid`.
