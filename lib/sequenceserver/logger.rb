@@ -3,9 +3,9 @@ require 'logger'
 module SequenceServer
   # Extend stdlib's Logger class for custom initialization and log format.
   class Logger < Logger
-    def initialize(dev, verbose = false)
+    def initialize(dev, level = INFO)
       super dev
-      self.level     = verbose ? DEBUG : INFO
+      self.level = level
       self.formatter = Formatter.new
     end
 

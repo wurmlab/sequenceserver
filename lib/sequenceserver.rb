@@ -38,7 +38,14 @@ module SequenceServer
     end
 
     def logger
-      @logger ||= Logger.new(STDERR, verbose?)
+      @logger ||= case environment
+                    when 'development'
+                      Logger.new(STDERR, Logger::DEBUG)
+                    when 'test'
+                      Logger.new(STDERR, Logger::WARN)
+                    else
+                      Logger.new(STDERR, Logger::INFO)
+                    end
     end
 
     def pool
@@ -56,7 +63,10 @@ module SequenceServer
       init_database
       load_extension
       check_num_threads
-      @job_remover = JobRemover.new(@config[:job_lifetime])
+
+      unless environment == 'test'
+        @job_remover = JobRemover.new(@config[:job_lifetime])
+      end
 
       self
 
