@@ -133,19 +133,6 @@ module SequenceServer
       hsp.sseq.length.should eql(hsp.midline.length)
       hsp.midline.length.should eql(hsp.qseq.length)
     end
-
-    it 'have correct pretty printing' do
-      hsp = hits_report.queries.last.hits.last.hsps.first
-      pp  = hsp.pp
-
-      pp.should_not be_empty
-      pp.should be_a_kind_of(String)
-      (pp.lines.count % 3).should eql(0)
-
-      pp.should match(/^Query/)
-      pp.should match(/Subject/)
-    end
-
   end
 
   # Individually test different BLAST+ algorithms
@@ -159,9 +146,6 @@ module SequenceServer
     it 'have correct query and subject frame' do
       [1, -1].should include(hsp.qframe)
       [1, -1].should include(hsp.sframe)
-
-      hsp.qframe_unit.should eq(1)
-      hsp.sframe_unit.should eq(1)
     end
 
     it 'have correct qstart, qend, sstart, send' do
@@ -182,9 +166,6 @@ module SequenceServer
     it 'have correct query and subject frame' do
       hsp.qframe.should eql(0)
       hsp.sframe.should eql(0)
-
-      hsp.qframe_unit.should eq(1)
-      hsp.sframe_unit.should eq(1)
     end
 
     it 'have correct qstart, qend, sstart, send values' do
@@ -204,9 +185,6 @@ module SequenceServer
     it 'have correct query and subject frame' do
       hsp.qframe.should_not eql(0)
       hsp.sframe.should eql(0)
-
-      hsp.qframe_unit.should eq(3)
-      hsp.sframe_unit.should eq(1)
     end
 
     it 'have correct qstart, qend, sstart, send' do
@@ -224,9 +202,6 @@ module SequenceServer
     it 'have correct query and subject frame' do
       hsp.qframe.should_not eql(0)
       hsp.sframe.should_not eql(0)
-
-      hsp.qframe_unit.should eq(3)
-      hsp.sframe_unit.should eq(3)
     end
 
     it 'have correct qstart, qend, sstart, send' do
@@ -244,15 +219,11 @@ module SequenceServer
     it 'have correct query and subject frame' do
       hsp.qframe.should eql(0)
       hsp.sframe.should_not eql(0)
-
-      hsp.qframe_unit.should eq(1)
-      hsp.sframe_unit.should eq(3)
     end
 
     it 'have correct qstart, qend, sstart, send' do
       hsp.qstart.should be <= hsp.qend
       hsp.sstart.should be <= hsp.send
     end
-
   end
 end
