@@ -52,27 +52,43 @@ module SequenceServer
       @pool ||= Pool.new(config[:num_threads])
     end
 
+    # SequenceServer initialisation routine.
     def init(config = {})
       # Use default config file if caller didn't specify one.
       config[:config_file] ||= DEFAULT_CONFIG_FILE
+
+      # Initialise global configuration object from the above config hash.
       @config = Config.new(config)
 
-      Thread.abort_on_exception = true if ENV['RACK_ENV'] == 'development'
+      # When in development mode, cause SequenceServer to terminate if any
+      # thread spawned by the main process raises an unhandled exception. In
+      # production mode the expectation is to log at appropriate severity level
+      # and continue operating.
+      Thread.abort_on_exception = true if environment == 'development'
 
+      # Now locate binaries, scan databases directory, require any plugin files.
       init_binaries
       init_database
       load_extension
+
+      # The above methods validate bin dir, database dir, and path to plugin
+      # files. Port and host settings don't need to be validated: if running
+      # in self-hosted mode, WEBrick will handle incorrect values and if
+      # running via Apache+Passenger host and port settings are not used.
+      # Let's validate remaining configuration keys next.
+
+      # Validate number of threads to use with BLAST.
       check_num_threads
 
+      # Doesn't make sense to activate JobRemover when testing. It anyway
+      # keeps stumbling on the mock test jobs that miss a few keys.
       unless environment == 'test'
         @job_remover = JobRemover.new(@config[:job_lifetime])
       end
 
+      # 'self' is the most meaningful object that can be returned by this
+      # method.
       self
-
-      # We don't validate port and host settings. If SequenceServer is run
-      # self-hosted, bind will fail on incorrect values. If SequenceServer
-      # is run via Apache+Passenger, we don't need to worry.
     end
 
     attr_reader :config
