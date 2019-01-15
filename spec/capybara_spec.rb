@@ -10,6 +10,7 @@ end
 describe 'a browser', :js => true do
   before do |scenario|
     Capybara.app = SequenceServer.init
+    Capybara.server = :webrick
     Capybara.javascript_driver = :selenium
     Capybara.default_max_wait_time = 30
 
