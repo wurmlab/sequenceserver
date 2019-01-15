@@ -11,6 +11,7 @@ describe 'a browser', :js => true do
   before do |scenario|
     Capybara.app = SequenceServer.init
     Capybara.javascript_driver = :selenium
+    Capybara.default_max_wait_time = 30
 
     Capybara.register_driver :selenium do |app|
       capabilities = {
@@ -22,7 +23,7 @@ describe 'a browser', :js => true do
         'tunnel-identifier': ENV['TRAVIS_JOB_NUMBER']
       }
       url = "https://#{ENV['SAUCE_USERNAME']}:#{ENV['SAUCE_ACCESS_KEY']}" \
-        "@ondemand.saucelabs.com:443/wd/hub".strip
+            "@ondemand.saucelabs.com:443/wd/hub".strip
 
       Capybara::Selenium::Driver.new(app, browser: :remote, url: url,
                                      desired_capabilities: capabilities)
@@ -31,21 +32,21 @@ describe 'a browser', :js => true do
 
   before :each do |scenario|
     jobname = scenario.full_description
-    Capybara.session_name = "#{jobname} - #{ENV['platform']} - " +
-      "#{ENV['browserName']} - #{ENV['browserVersion']}"
+    Capybara.session_name = "#{jobname} - #{ENV['platform']} - " \
+                            "#{ENV['browserName']} - #{ENV['browserVersion']}"
 
-      @driver = Capybara.current_session.driver
+    @driver = Capybara.current_session.driver
 
-      # Output sessionId and jobname to std out for Sauce OnDemand Plugin to
-      # display embeded results
-      @session_id = @driver.browser.session_id
-      puts "SauceOnDemandSessionID=#{@session_id} job-name=#{jobname}"
+    # Output sessionId and jobname to std out for Sauce OnDemand Plugin to
+    # display embeded results
+    @session_id = @driver.browser.session_id
+    puts "SauceOnDemandSessionID=#{@session_id} job-name=#{jobname}"
   end
 
   it 'properly controls blast button' do
     visit '/'
 
-    fill_in('sequence', with: nucleotide_query, wait: 5)
+    fill_in('sequence', with: nucleotide_query)
     page.evaluate_script("$('#method').is(':disabled')").should eq(true)
 
     check(nucleotide_databases.first)
@@ -54,7 +55,7 @@ describe 'a browser', :js => true do
 
   it 'properly controls interaction with database listing' do
     visit '/'
-    fill_in('sequence', with: nucleotide_query, wait: 5)
+    fill_in('sequence', with: nucleotide_query)
     check(nucleotide_databases.first)
     page.evaluate_script("$('.protein .database').first().hasClass('disabled')")
       .should eq(true)
@@ -62,7 +63,7 @@ describe 'a browser', :js => true do
 
   it 'shows a dropdown menu when other blast methods are available' do
     visit '/'
-    fill_in('sequence', with: nucleotide_query, wait: 5)
+    fill_in('sequence', with: nucleotide_query)
     check(nucleotide_databases.first)
     page.save_screenshot('screenshot.png')
     page.has_css?('button.dropdown-toggle').should eq(true)
@@ -111,7 +112,7 @@ describe 'a browser', :js => true do
     visit '/'
 
     # Fill in query, select databases, submit form.
-    fill_in('sequence', with: query, wait: 5)
+    fill_in('sequence', with: query)
     databases.each { |db| check db }
     if method == 'tblastx'
       find('.dropdown-toggle').click
@@ -123,7 +124,7 @@ describe 'a browser', :js => true do
     page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
 
     # Check that results loaded.
-    page.should have_content('Query', wait: 10)
+    page.should have_content('Query')
   end
 
   def nucleotide_query

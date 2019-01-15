@@ -24,12 +24,12 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   - bundle exec rspec --exclude-pattern 'capybara*' # unit tests
-  - platform='macOS 10.13' browserName=safari browserVersion=11 bundle exec rspec spec/capybara_spec.rb
-  - platform='macOS 10.13' browserName=chrome browserVersion=65 bundle exec rspec spec/capybara_spec.rb
-  - platform='macOS 10.13' browserName=firefox browserVersion=59 bundle exec rspec spec/capybara_spec.rb
+  - platform='macOS 10.14' browserName=safari browserVersion=12 bundle exec rspec spec/capybara_spec.rb
+  - platform='macOS 10.14' browserName=chrome browserVersion=71 bundle exec rspec spec/capybara_spec.rb
+  - platform='macOS 10.14' browserName=firefox browserVersion=64 bundle exec rspec spec/capybara_spec.rb
   - platform='Windows 10' browserName=microsoftedge browserVersion='16.16299' bundle exec rspec spec/capybara_spec.rb
-  - platform='Windows 10' browserName=chrome browserVersion=65 bundle exec rspec spec/capybara_spec.rb
-  - platform='Windows 10' browserName=firefox browserVersion=59 bundle exec rspec spec/capybara_spec.rb
+  - platform='Windows 10' browserName=chrome browserVersion=71 bundle exec rspec spec/capybara_spec.rb
+  - platform='Windows 10' browserName=firefox browserVersion=64 bundle exec rspec spec/capybara_spec.rb
   - platform='Linux' browserName=chrome browserVersion=48 bundle exec rspec spec/capybara_spec.rb
   - platform='Linux' browserName=firefox browserVersion=45 bundle exec rspec spec/capybara_spec.rb
 after_script:
