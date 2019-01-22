@@ -214,9 +214,12 @@ var Form = React.createClass({
                 databases: data["database"], preDefinedOpts: data["options"]
             });
 
-            /* Pre-populate the form with server sent query sequence.
+            /* Pre-populate the form with server sent query sequences
+             * (if any).
              */
-            this.refs.query.value(data["query"]);
+            if (data["query"]) {
+                this.refs.query.value(data["query"]);
+            }
         }.bind(this));
 
         /* Enable submitting form on Cmd+Enter */
