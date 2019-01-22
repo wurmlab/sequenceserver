@@ -328,17 +328,24 @@ var Query = React.createClass({
     // Kind of public API. //
 
     /**
-     * Sets query to given value or returns current value. Returns `this` when
-     * used as a setter.
+     * Returns query sequence if no argument is provided (or null or undefined
+     * is provided as argument). Otherwise, sets query sequenced to the given
+     * value and returns `this`.
+     *
+     * Default/initial state of query sequence is an empty string. Caller must
+     * explicitly provide empty string as argument to "reset" query sequence.
      */
     value: function (val) {
-        if (val !== undefined) {
+        if (val == null) {
+            // i.e., val is null or undefined
+            return this.state.value;
+        }
+        else {
             this.setState({
                 value: val
             })
             return this;
         }
-        return this.state.value;
     },
 
     /**
