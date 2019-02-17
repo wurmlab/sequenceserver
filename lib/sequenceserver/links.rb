@@ -91,7 +91,6 @@ module SequenceServer
       pfam_id = Regexp.last_match[1]
       pfam_id = encode pfam_id
       url = "https://pfam.xfam.org/family/#{pfam_id}"
-      STDERR.puts url
       {
         order: 2,
         title: 'Pfam',
