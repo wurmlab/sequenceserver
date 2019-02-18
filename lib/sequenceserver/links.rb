@@ -10,6 +10,7 @@ module SequenceServer
     NCBI_ID_PATTERN    = /gi\|(\d+)\|/
     UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
     PFAM_ID_PATTERN = /(PF\d{5}\.?\d*)/
+    RFAM_ID_PATTERN = /(RF\d{5})/
 
     # Link generators return a Hash like below.
     #
@@ -98,6 +99,20 @@ module SequenceServer
         icon:  'fa-external-link'
       }
     end
+
+    def rfam
+      return nil unless id.match(RFAM_ID_PATTERN) or title.match(RFAM_ID_PATTERN)
+      rfam_id = Regexp.last_match[1]
+      rfam_id = encode rfam_id
+      url = "https://rfam.xfam.org/family/#{rfam_id}"
+      {
+        order: 2,
+        title: 'Rfam',
+        url:   url,
+        icon:  'fa-external-link'
+      }
+    end
+
   end
 end
 
