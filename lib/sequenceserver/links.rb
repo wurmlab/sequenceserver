@@ -9,7 +9,7 @@ module SequenceServer
 
     NCBI_ID_PATTERN    = /gi\|(\d+)\|/
     UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
-    PFAM_ID_PATTERN = /(PF\d+\.?\d*)/
+    PFAM_ID_PATTERN = /(PF\d{5}\.?\d*)/
 
     # Link generators return a Hash like below.
     #
