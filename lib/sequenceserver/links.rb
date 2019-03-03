@@ -9,6 +9,8 @@ module SequenceServer
 
     NCBI_ID_PATTERN    = /gi\|(\d+)\|/
     UNIPROT_ID_PATTERN = /sp\|(\w+)\|/
+    PFAM_ID_PATTERN = /(PF\d{5}\.?\d*)/
+    RFAM_ID_PATTERN = /(RF\d{5})/
 
     # Link generators return a Hash like below.
     #
@@ -60,10 +62,10 @@ module SequenceServer
     # See methods provided by default for an example implementation.
 
     def ncbi
-      return nil unless id.match(NCBI_ID_PATTERN)
+      return nil unless id.match(NCBI_ID_PATTERN) or title.match(NCBI_ID_PATTERN)
       ncbi_id = Regexp.last_match[1]
       ncbi_id = encode ncbi_id
-      url = "http://www.ncbi.nlm.nih.gov/#{querydb.first.type}/#{ncbi_id}"
+      url = "https://www.ncbi.nlm.nih.gov/#{querydb.first.type}/#{ncbi_id}"
       {
         order: 2,
         title: 'NCBI',
@@ -73,17 +75,44 @@ module SequenceServer
     end
 
     def uniprot
-      return nil unless id.match(UNIPROT_ID_PATTERN)
+      return nil unless id.match(UNIPROT_ID_PATTERN) or title.match(UNIPROT_ID_PATTERN)
       uniprot_id = Regexp.last_match[1]
       uniprot_id = encode uniprot_id
-      url = "http://www.uniprot.org/uniprot/#{uniprot_id}"
+      url = "https://www.uniprot.org/uniprot/#{uniprot_id}"
       {
         order: 2,
-        title: 'Uniprot',
+        title: 'UniProt',
         url:   url,
         icon:  'fa-external-link'
       }
     end
+ 
+    def pfam
+      return nil unless id.match(PFAM_ID_PATTERN) or title.match(PFAM_ID_PATTERN)
+      pfam_id = Regexp.last_match[1]
+      pfam_id = encode pfam_id
+      url = "https://pfam.xfam.org/family/#{pfam_id}"
+      {
+        order: 2,
+        title: 'Pfam',
+        url:   url,
+        icon:  'fa-external-link'
+      }
+    end
+
+    def rfam
+      return nil unless id.match(RFAM_ID_PATTERN) or title.match(RFAM_ID_PATTERN)
+      rfam_id = Regexp.last_match[1]
+      rfam_id = encode rfam_id
+      url = "https://rfam.xfam.org/family/#{rfam_id}"
+      {
+        order: 2,
+        title: 'Rfam',
+        url:   url,
+        icon:  'fa-external-link'
+      }
+    end
+
   end
 end
 
