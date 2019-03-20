@@ -1,5 +1,7 @@
 require 'English'
 require 'tempfile'
+require 'socket'
+require 'resolv'
 
 require 'sequenceserver/version'
 require 'sequenceserver/exceptions'
@@ -196,6 +198,9 @@ module SequenceServer
     def on_start
       puts '** SequenceServer is ready.'
       puts "   Go to #{server_url} in your browser and start BLASTing!"
+      puts '   Other available IPs: '
+      puts "     -  IP: http://#{ip_address}:#{config[:port]}"
+      puts "     -  Host name: #{hostname}:#{config[:port]}"
       puts '   Press CTRL+C to quit.'
       open_in_browser(server_url)
     end
@@ -311,6 +316,14 @@ module SequenceServer
       host = config[:host]
       host = 'localhost' if ['127.0.0.1', '0.0.0.0'].include?(host)
       "http://#{host}:#{config[:port]}"
+    end
+
+    def ip_address
+      Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
+    end
+
+    def hostname
+      Resolv.getname(ip_address)
     end
 
     # Uses `open` on Mac or `xdg-open` on Linux to opens the search form in
