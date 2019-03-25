@@ -77,7 +77,7 @@ module SequenceServer
         erb :layout
       else
         job = Job.create(params)
-        redirect "/#{job.id}"
+        redirect to("/#{job.id}")
       end
     end
 
