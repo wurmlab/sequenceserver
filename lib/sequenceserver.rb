@@ -198,9 +198,9 @@ module SequenceServer
     def on_start
       puts '** SequenceServer is ready.'
       puts "   Go to #{server_url} in your browser and start BLASTing!"
-      puts '   Other available IPs: '
-      puts "     -  IP: http://#{ip_address}:#{config[:port]}"
-      puts "     -  Host name: #{hostname}:#{config[:port]}"
+      puts '   To share your setup, please try one of the following: '
+      puts "     -  http://#{ip_address}:#{config[:port]}"
+      puts "     -  http://#{hostname}:#{config[:port]}"
       puts '   Press CTRL+C to quit.'
       open_in_browser(server_url)
     end
