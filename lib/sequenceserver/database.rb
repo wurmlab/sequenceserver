@@ -97,7 +97,16 @@ module SequenceServer
       end
 
       def all
+        rescan_databases_dir
         collection.values
+      end
+
+      # Re-scan the database dir if enabled in config file
+      def rescan_databases_dir
+        return unless config[:always_scan_databases]
+
+        @collection = {}
+        scan_databases_dir
       end
 
       def each(&block)

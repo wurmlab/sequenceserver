@@ -25,6 +25,7 @@ module SequenceServer
       config[:num_threads].should eq 1
       config[:host].should eq '0.0.0.0'
       config[:port].should eq 4567
+      config[:always_scan_databases].should be_falsey
     end
 
     it 'symbolizes keys' do
