@@ -14,8 +14,8 @@ def download_from_url(url)
   archive = File.join('/tmp', File.basename(url))
   # -ip4 is required  to avoid this curl bug http://sourceforge.net/p/curl/bugs/1424/?limit=25
   # see also https://github.com/yannickwurm/sequenceserver/issues/139
-  cmd = "curl -ip4 -C - #{url} -o #{archive} && " \
-        'mkdir -p ~/.sequenceserver && '          \
+  cmd = "curl --ipv4 -C - #{url} -o #{archive} && " \
+        'mkdir -p ~/.sequenceserver && ' \
         "tar xvf #{archive} -C ~/.sequenceserver"
   system(cmd)
 end
