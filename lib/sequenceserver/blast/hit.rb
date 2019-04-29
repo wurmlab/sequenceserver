@@ -60,7 +60,7 @@ module SequenceServer
 
       def to_json(*args)
         %i[number id accession title length score identity qcovs
-         sciname evalue hsps links].inject({}) { |h, k|
+         sciname evalue hsps links ].inject({}) { |h, k|
           h[k] = send(k)
           h
         }.to_json(*args)

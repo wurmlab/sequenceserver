@@ -200,7 +200,9 @@ module SequenceServer
       puts "   Go to #{server_url} in your browser and start BLASTing!"
       puts '   To share your setup, please try one of the following: '
       puts "     -  http://#{ip_address}:#{config[:port]}"
-      puts "     -  http://#{hostname}:#{config[:port]}"
+      if hostname
+        puts "     -  http://#{hostname}:#{config[:port]}"
+      end
       puts '   Press CTRL+C to quit.'
       open_in_browser(server_url)
     end
@@ -323,7 +325,7 @@ module SequenceServer
     end
 
     def hostname
-      Resolv.getname(ip_address)
+      Resolv.getname(ip_address) rescue nil
     end
 
     # Uses `open` on Mac or `xdg-open` on Linux to opens the search form in
