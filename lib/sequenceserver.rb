@@ -320,10 +320,12 @@ module SequenceServer
       "http://#{host}:#{config[:port]}"
     end
 
+    #Returns a local ip adress
     def ip_address
       Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
     end
 
+    #Returns machine's hostname based on the local ip
     def hostname
       Resolv.getname(ip_address) rescue nil
     end
