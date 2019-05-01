@@ -200,7 +200,7 @@ module SequenceServer
       puts "   Go to #{server_url} in your browser and start BLASTing!"
       puts '   To share your setup, please try one of the following: '
       puts "     -  http://#{ip_address}:#{config[:port]}"
-      puts "     -  http://#{hostname}:#{config[:port]}"
+      puts "     -  http://#{hostname}:#{config[:port]}" if hostname
       puts '   Press CTRL+C to quit.'
       open_in_browser(server_url)
     end
@@ -318,12 +318,15 @@ module SequenceServer
       "http://#{host}:#{config[:port]}"
     end
 
+    # Returns a local ip adress
     def ip_address
       Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
     end
 
+    # Returns machine's hostname based on the local ip;
+    # If hostname cannot be determined then print nothing
     def hostname
-      Resolv.getname(ip_address)
+      Resolv.getname(ip_address) rescue nil
     end
 
     # Uses `open` on Mac or `xdg-open` on Linux to opens the search form in
