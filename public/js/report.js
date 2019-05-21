@@ -206,7 +206,8 @@ var Report = React.createClass({
                                 <Query key={"Query_"+query.id}
                                     program={this.state.program} querydb={this.state.querydb}
                                     query={query} num_queries={this.state.num_queries}
-                                    veryBig={this.state.veryBig} selectHit={this.selectHit}/>
+                                    veryBig={this.state.veryBig} selectHit={this.selectHit}
+                                    imported_xml={this.state.imported_xml} />
                                 );
                         }, this))
                     }
@@ -238,7 +239,7 @@ var Report = React.createClass({
                 </pre>
             </div>
         );
-    },
+   },
 
 
     // Controller //
@@ -454,17 +455,17 @@ var Query = React.createClass({
                         <div className="section-content">
                             <HitsOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.program} collapsed={this.props.veryBig}/>
                             <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.program} collapsed="true"/>
-                            <HitsTable key={"HT_"+this.props.query.number} query={this.props.query}/>
+                            <HitsTable key={"HT_"+this.props.query.number} query={this.props.query} imported_xml={this.props.imported_xml} />
                             <div id="hits">
                                 {
                                     _.map(this.props.query.hits, _.bind(function (hit) {
                                         return (
-                                            <Hit
-                                                hit={hit}
+                                            <Hit hit={hit}
                                                 key={"HIT_"+hit.number}
                                                 algorithm={this.props.program}
                                                 querydb={this.props.querydb}
                                                 query={this.props.query}
+                                                imported_xml={this.props.imported_xml}
                                                 selectHit={this.props.selectHit}/>
                                         );
                                     }, this))
@@ -512,7 +513,7 @@ var HitsTable = React.createClass({
                     <th className="text-left">#</th>
                     <th>Similar sequences</th>
                     {hasName && <th className="text-left">Species</th>}
-                    <th className="text-right">Query coverage (%)</th>
+                    {!this.props.imported_xml && <th className="text-right">Query coverage (%)</th>}
                     <th className="text-right">Total score</th>
                     <th className="text-right">E value</th>
                     <th className="text-right" data-toggle="tooltip"
@@ -532,7 +533,7 @@ var HitsTable = React.createClass({
                                         </a>
                                     </td>
                                     {hasName && <td className="text-left">{hit.sciname}</td>}
-                                    <td className="text-right">{hit.qcovs}</td>
+                                    {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
                                     <td className="text-right">{hit.score}</td>
                                     <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
                                     <td className="text-right">{hit.identity}</td>
@@ -687,18 +688,24 @@ var Hit = React.createClass({
                         }.bind(this)} data-target={'#' + this.domID()}
                     /> Select
                 </label>
-                |
-                { this.viewSequenceButton() }
                 {
-                    this.state.showSequenceViewer && <SequenceViewer
-                        url={this.viewSequenceLink()} onHide={this.hideSequenceViewer}/>
+                    !this.props.imported_xml && [
+                        <span> | </span>,
+                        this.viewSequenceButton(),
+                        this.state.showSequenceViewer && <SequenceViewer
+                            url={this.viewSequenceLink()} onHide={this.hideSequenceViewer} />
+                    ]
                 }
-                |
-                <button className='btn btn-link download-fa'
-                    onClick={this.downloadFASTA}>
-                    <i className="fa fa-download"></i> FASTA
-                </button>
-                |
+                {
+                    !this.props.imported_xml && [
+                        <span> | </span>,
+                        <button className='btn btn-link download-fa'
+                            onClick={this.downloadFASTA}>
+                            <i className="fa fa-download"></i> FASTA
+                        </button>
+                    ]
+                }
+                <span> | </span>
                 <button className='btn btn-link download-aln'
                     onClick={this.downloadAlignment}>
                     <i className="fa fa-download"></i> Alignment
@@ -1028,72 +1035,74 @@ var SideBar = React.createClass({
     downloads: function () {
         return (
             <div className="downloads">
-                <div
-                    className="section-header">
+                <div className="section-header">
                     <h4>
                         Download FASTA, XML, TSV
                     </h4>
                 </div>
-                <ul
-                    className="nav">
-                    <li>
-                        <a
-                            className="download-fasta-of-all"
-                            onClick={this.downloadFastaOfAll}>
-                            FASTA of all hits
-                        </a>
-                    </li>
-                    <li>
+                <ul className="nav">
+                    {
+                        !this.props.data.imported_xml && <li>
+                            <a className="download-fasta-of-all"
+                                onClick={this.downloadFastaOfAll}>
+                                FASTA of all hits
+                            </a>
+                        </li>
+                    }
+                    {
+                       !this.props.data.imported_xml && <li>
                         <a
                             className="download-fasta-of-selected disabled"
                             onClick={this.downloadFastaOfSelected}>
                             FASTA of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
+                    }
                     <li>
-                        <a
-                            className="download-alignment-of-all"
+                        <a className="download-alignment-of-all"
                             onClick={this.downloadAlignmentOfAll}>
                             Alignment of all hits
                         </a>
                     </li>
                     <li>
-                        <a
-                            className="download-alignment-of-selected disabled"
+                        <a className="download-alignment-of-selected disabled"
                             onClick={this.downloadAlignmentOfSelected}>
                             Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
-                    <li>
-                        <a
-                            className="download" data-toggle="tooltip"
-                            title="15 columns: query and subject ID; scientific
-                            name, alignment length, mismatches, gaps, identity,
-                            start and end coordinates, e value, bitscore, query
-                            coverage per subject and per HSP."
-                            href={"download/" + this.props.data.search_id + ".std_tsv"}>
-                            Standard tabular report
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            className="download" data-toggle="tooltip"
-                            title="44 columns: query and subject ID, GI,
-                            accessions, and length; alignment details;
-                            taxonomy details of subject sequence(s) and
-                            query coverage per subject and per HSP."
-                            href={"download/" + this.props.data.search_id + ".full_tsv"}>
-                            Full tabular report
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            className="download" data-toggle="tooltip"
-                            title="Results in XML format."
-                            href={"download/" + this.props.data.search_id + ".xml"}>
-                            Full XML report
-                        </a>
-                    </li>
+                    {
+                        !this.props.data.imported_xml && <li>
+                            <a className="download" data-toggle="tooltip"
+                                title="15 columns: query and subject ID; scientific
+                                name, alignment length, mismatches, gaps, identity,
+                                start and end coordinates, e value, bitscore, query
+                                coverage per subject and per HSP."
+                                href={"download/" + this.props.data.search_id + ".std_tsv"}>
+                                Standard tabular report
+                            </a>
+                        </li>
+                    }
+                    {
+                        !this.props.data.imported_xml && <li>
+                            <a className="download" data-toggle="tooltip"
+                                title="44 columns: query and subject ID, GI,
+                                accessions, and length; alignment details;
+                                taxonomy details of subject sequence(s) and
+                                query coverage per subject and per HSP."
+                                href={"download/" + this.props.data.search_id + ".full_tsv"}>
+                                Full tabular report
+                            </a>
+                        </li>
+                    }
+                    {
+                        !this.props.data.imported_xml && <li>
+                            <a className="download" data-toggle="tooltip"
+                                title="Results in XML format."
+                                href={"download/" + this.props.data.search_id + ".xml"}>
+                                Full XML report
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         );
