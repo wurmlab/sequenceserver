@@ -117,6 +117,10 @@ begin
     on 'i', 'interactive',
        'Run SequenceServer in interactive mode'
 
+    on 'x', 'import=',
+       'Import the xml file',
+       argument: true
+
     # on 'doctor',
        # 'Run SequenceServer doctor'
 
@@ -154,6 +158,14 @@ begin
       end
 
       require 'sequenceserver'
+      require 'sequenceserver/blast'
+      if import?
+	xml_file = fetch_option(:import).value
+	params = {:xml => xml_file}
+	job = SequenceServer::BLAST::Job.new(params)
+	p job
+	exit
+      end 
 
       begin
         SequenceServer.init clean_opts[to_h]
