@@ -6,21 +6,32 @@ module SequenceServer
     # Extends SequenceServer::Job to describe a BLAST job.
     class Job < Job
       def initialize(params)
-        validate params
-        super do
-          @method    = params[:method]
-          @qfile     = store('query.fa', params[:sequence])
-          @databases = Database[params[:databases]]
-          @options   = params[:advanced].to_s.strip + defaults
-          @advanced_params = parse_advanced params[:advanced]
-        end
-      end
+        
+        if params.key?(:xml)
+	  super do	
+	    @xml_import = params[:xml]
+	    @advanced_params = {}
+	    @databases = []
+	    done!
+	  end   
+ 
+	else     
+	  validate params
+          super do
+            @method    = params[:method]
+            @qfile     = store('query.fa', params[:sequence])
+            @databases = Database[params[:databases]]
+            @options   = params[:advanced].to_s.strip + defaults
+            @advanced_params = parse_advanced params[:advanced]
+	  end 	
+	end
+      end 
 
       attr_reader :advanced_params
 
       # :nodoc:
       # Attributes used by us - should be considered private.
-      attr_reader :method, :qfile, :databases, :options
+      attr_reader :method, :qfile, :databases, :options, :xml_import
 
       # Returns the command that will be executed. Job super class takes care
       # of actual execution.
