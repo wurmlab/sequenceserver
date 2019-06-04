@@ -71,6 +71,18 @@ describe 'a browser', :js => true do
       databases: nucleotide_databases
   end
 
+  ### Test more aspects of the generated report.
+
+  it 'disables sequence viewer links if hits are longer than 10kb' do
+    # Do a BLASTN search.
+    perform_search query: nucleotide_query, databases: nucleotide_databases
+
+    # The above function has already tested that the report loaded.
+    # Additionally check that the sequence viewer links are disabled.
+    page.evaluate_script("$('.view-sequence').is(':disabled')").should eq(true)
+    page.evaluate_script("$('.view-sequence').is('.disabled')").should eq(true)
+  end
+
   ## Helpers ##
 
   def perform_search(query: , databases: , method: nil)
