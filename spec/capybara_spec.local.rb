@@ -14,8 +14,10 @@ describe 'a browser', :js => true do
     Capybara.javascript_driver = :selenium
     Capybara.default_max_wait_time = 10
 
+    options = ::Selenium::WebDriver::Firefox::Options.new
+    options.args << '--headless'
     Capybara.register_driver :selenium do |app|
-      Capybara::Selenium::Driver.new(app, browser: :firefox)
+      Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
     end
   end
 
