@@ -160,7 +160,9 @@ begin
       require 'sequenceserver'
       require 'sequenceserver/blast'
       if import?
+        xml_dir = ("spec/imported_xml_reports")
         xml_file = fetch_option(:import).value
+        FileUtils.cp(xml_file,xml_dir)
         params = {:xml => xml_file}
         job = SequenceServer::BLAST::Job.new(params)
         puts job.id

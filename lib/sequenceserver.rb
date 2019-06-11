@@ -24,7 +24,7 @@ module SequenceServer
   DEFAULT_CONFIG_FILE = '~/.sequenceserver.conf'.freeze
 
   # Constant for denoting the path ~/.sequenceserver
-  DOTDIR = File.expand_path('~/.sequenceserver').freeze
+  DOTDIR = File.expand_path('~/sequenceserver/spec/imported_xml_report').freeze
 
   class << self
     def environment
