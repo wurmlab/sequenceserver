@@ -8,7 +8,11 @@ module SequenceServer
       def initialize(params)
         if params.key?(:xml)
           super do
-            @imported_xml_file = params[:xml]
+            @imported_xml_file = File.basename params[:xml]
+            # Copy over the XML file to job directory so that a job dir in
+            # itself is self-contained. This will help with tests among
+            # other things.
+            FileUtils.cp(params[:xml], dir)
             @advanced_params = {}
             @databases = []
             done!
