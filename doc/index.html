@@ -821,6 +821,17 @@ location /sequenceserver/ {
         and <a
           href="https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-nginx-on-ubuntu-14-04">Nginx</a>.
       </p>
+      <p>
+        If you are using SequenceServer without Apache or Nginx, you can still
+        add password protection quite easily. Just add the following snippet at
+        line number 57 in <code>lib/sequenceserver/routes.rb</code>, change the
+        password ('admin') to something more and secure, and restart SequenceServer.
+      </p>
+{% highlight ruby %}
+use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  username == 'admin' and password == 'admin'
+end
+{% endhighlight %}
     </section>
 
     <!-- HPC -->
