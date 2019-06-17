@@ -530,7 +530,9 @@ sudo gem install sequenceserver
       </div>
       <p>
         Run the following in a terminal to configure and run SequenceServer. It
-        will automatically prompt you for anything that might be missing:
+        will automatically download NCBI BLAST+ if absent, ask for the location
+        of directory containing database sequences, format FASTA files for use
+        with BLAST+, and list them for use in the search form:
       </p>
 {% highlight shell %}
 sequenceserver
