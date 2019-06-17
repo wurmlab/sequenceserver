@@ -43,6 +43,12 @@ layout: page
         </li>
         <li
           role="presentation">
+          <a href="#jbrowse">
+            Integrating with JBrowse
+          </a>
+        </li>
+        <li
+          role="presentation">
           <a href="#plugin">
             Adding links to search hits
           </a>
@@ -113,7 +119,7 @@ layout: page
         </li>
         <li role="presentation">
           <a href="#faq">
-            Frequently asked questions
+            Other frequently asked questions
           </a>
         </li>
         <li
@@ -513,6 +519,23 @@ Proceed? [y/n] (Default: y):
 Enter a database title or will use 'SI 2.2.3 ':
 <strong>Enter taxid (optional): 13686</strong>
 </pre>
+    </section>
+
+    <!-- JBrowse -->
+    <section id="jbrowse">
+      <div class="page-header"
+        style="margin-top: 20px;">
+        <h2>
+          Integrating with JBrowse
+        </h2>
+      </div>
+      <p>
+        JBrowse's website has an excellent tutorial in this regard:
+          <a href="https://jbrowse.org/docs/faq.html#how-can-i-link-blast-results-to-jbrowse">
+          How can I link BLAST results to JBrowse</a>. The tutorial makes use
+        of SequenceServer's plugin architecture which is described briefly in
+        the next section.
+      </p>
     </section>
 
     <!-- Plugin -->
@@ -969,43 +992,39 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
       </ol>
     </section>
 
-    <!-- Frequently asked questions =============================================== -->
-    <section id="blast">
+    <!-- Other frequently asked questions =============================================== -->
+    <section id="faq">
       <div class="page-header" style="margin-top: 20px;">
         <h2>
-          Frequently asked questions (FAQ)
+          Other frequently asked questions (FAQ)
         </h2>
       </div>
       <p>
         <dl>
           <dt>
-            1. Does SequenceServer include a genome browser?
-          </dt>
-          <dd>
-          No, but any web based genome browser such as
-          <a href="https://jbrowse.org">JBrowse</a>,
-          <a href="http://www.biodalliance.org">Biodalliance</a>, or
-          <a href="https://github.com/igvteam/igv.js">igv.js</a> can be used.
-          </dd>
-          <dt>
-            2. How can I link BLAST results to the JBrowse genome browser?
-          </dt>
-          <dd>
-            Please see: <a href="#plugin">Adding links to search hits</a>.
-          </dd>
-          <dt>
-            3. Can I use SequenceServer as an access-point for a community
+            1. Can I use SequenceServer as an access-point for a community
             genome database?
           </dt>
           <dd>
             Yes. SequenceServer is used as data querying mechnism in over 30
-            public, <a href="/#users-and-citations/">community databases</a>.
+            <a href="/#users-and-citations/">community databases</a>.
             You can use SequenceServer as it is along with supporting pages
             describing the data and related resources (e.g., <a
               href="http://hopbase.org">HopBase</a>), customise it
             extensively (e.g., <a href="https://lotus.au.dk">Lotus Base</a>),
             or integrate it with InterMine (e.g., <a
               href="http://planmine.mpi-cbg.de/planmine">PlanMine</a>).
+          </dd>
+          <dt>
+            2. Does SequenceServer include a genome browser?
+          </dt>
+          <dd>
+          No, but any web based genome browser such as
+          <a href="https://jbrowse.org">JBrowse</a>,
+          <a href="http://www.biodalliance.org">Biodalliance</a>, or
+          <a href="https://github.com/igvteam/igv.js">igv.js</a> can be
+          used. Also see: <a href="#jbrowse">Integrating with JBrowse</a>
+          and <a href="#plugin">Adding links to search hits</a>.
           </dd>
         </dl>
       </p>
