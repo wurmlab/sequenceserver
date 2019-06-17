@@ -41,6 +41,11 @@ layout: page
             Getting taxonomy data from BLAST
           </a>
         </li>
+        <li role="presentation">
+          <a href="#advanced-params">
+            Advanced BLAST options
+          </a>
+        </li>
         <li
           role="presentation">
           <a href="#jbrowse">
@@ -519,6 +524,29 @@ Proceed? [y/n] (Default: y):
 Enter a database title or will use 'SI 2.2.3 ':
 <strong>Enter taxid (optional): 13686</strong>
 </pre>
+    </section>
+
+    <!-- Advanced BLAST options -->
+    <section id="advanced-params">
+      <div class="page-header"
+        style="margin-top: 20px;">
+        <h2>
+          Advanced BLAST options
+        </h2>
+      </div>
+      <p>
+        With a few exceptions, all command-line BLAST+ parameters can be
+        provided using the "Advanced params" textbox in the search form.
+        Options that change input/output behaviour (e.g.,
+        <code>-query</code>, <code>-db</code>, <code>-subject</code>,
+        <code>-outfmt</code>, <code>-import_search_strategy</code>) are
+        not allowed.
+      <p>
+
+      <p>
+        For security, only letters, numbers, space, hyphen, underscore,
+        and period are allowed in "Advanced params" textbox.
+      </p>
     </section>
 
     <!-- JBrowse -->
