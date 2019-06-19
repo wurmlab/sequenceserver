@@ -1,0 +1,42 @@
+.modal-backdrop {
+  z-index: 0;
+}
+.table .table {
+  background-color: inherit;
+}
+
+body.shepherd-active {
+  background-color: #f7f7f7;
+}
+.backdrop {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+.shepherd-element {
+  max-width: 24em !important;
+  z-index: 1070;
+}
+.shepherd-content {
+  font-size: 13px;
+  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+  -moz-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+  -o-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+  box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+  border-radius: 2px;
+}
+.tour-highlight {
+  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+  -moz-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+  -o-box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+  box-shadow: 0px 0px 7px 0px rgba(0, 241, 255, 0.701961);
+  background-color: white;
+  border-radius: 2px;
+}
+.index .active .tour-highlight {
+  padding: 8px 13px;
+  margin: 2px;
+}
