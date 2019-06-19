@@ -6,8 +6,8 @@
   <BlastOutput_reference>Benjamin Buchfink, Xie Chao, and Daniel Huson (2015), &quot;Fast and sensitive protein alignment using DIAMOND&quot;, Nature Methods 12:59-60.</BlastOutput_reference>
   <BlastOutput_db>nr.dmnd</BlastOutput_db>
   <BlastOutput_query-ID>Query_1</BlastOutput_query-ID>
-  <BlastOutput_query-def>SI2.2.0_13722 Si_gnF.scaffold06207[1925625..1928536].pep_1</BlastOutput_query-def>
-  <BlastOutput_query-len>558</BlastOutput_query-len>
+  <BlastOutput_query-def>NM_182523.2 Homo sapiens C-X9-C motif containing 1 (CMC1), transcript variant 4, mRNA</BlastOutput_query-def>
+  <BlastOutput_query-len>6009</BlastOutput_query-len>
   <BlastOutput_param>
     <Parameters>
       <Parameters_matrix>blosum62</Parameters_matrix>
@@ -21,25 +21,6 @@
 <Iteration>
   <Iteration_iter-num>1</Iteration_iter-num>
   <Iteration_query-ID>Query_1</Iteration_query-ID>
-  <Iteration_query-def>SI2.2.0_13722 Si_gnF.scaffold06207[1925625..1928536].pep_1</Iteration_query-def>
-  <Iteration_query-len>558</Iteration_query-len>
-<Iteration_hits>
-</Iteration_hits>
-  <Iteration_stat>
-    <Statistics>
-      <Statistics_db-num>459708</Statistics_db-num>
-      <Statistics_db-len>170771147</Statistics_db-len>
-      <Statistics_hsp-len>0</Statistics_hsp-len>
-      <Statistics_eff-space>0</Statistics_eff-space>
-      <Statistics_kappa>0.041000</Statistics_kappa>
-      <Statistics_lambda>0.267000</Statistics_lambda>
-      <Statistics_entropy>0</Statistics_entropy>
-    </Statistics>
-  </Iteration_stat>
-</Iteration>
-<Iteration>
-  <Iteration_iter-num>2</Iteration_iter-num>
-  <Iteration_query-ID>Query_2</Iteration_query-ID>
   <Iteration_query-def>NM_182523.2 Homo sapiens C-X9-C motif containing 1 (CMC1), transcript variant 4, mRNA</Iteration_query-def>
   <Iteration_query-len>6009</Iteration_query-len>
 <Iteration_hits>

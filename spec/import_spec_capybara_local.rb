@@ -23,34 +23,33 @@ describe 'report generated from imported XML', :js => true do
     end
   end
 
-
+  # Fasta files used for testing consist of TP53 and COX41 protein/nucleotide sequences for reproducibility.
   it 'loads BLASTP xml output' do
-    access_by_uuid('41355446-14d6-4dc8-b7c8-44e6277f236b')
-   # page.evaluate_script("$(':btn btn-link download-fa')").should eq(true)
+    access_by_uuid('ea347d79-6397-44e5-9048-c90e58c56200')
   end
 
   it 'loads BLASTX xml output' do
-    access_by_uuid('ba1fb30d-570d-4c91-8c03-eb0b293142e8')
+    access_by_uuid('e39d30a2-304f-4b85-ad1c-a114cc0b383f')
   end
 
   it 'loads BLASTN xml output' do
-    access_by_uuid('511fc8c9-fb8c-4e4b-8c94-1adfe331d177')
+    access_by_uuid('85ca3be1-b495-43d3-b267-2e50aced9cc7')
   end
 
   it 'loads TBLASTN xml output' do
-    access_by_uuid('ae8c9ee5-27e3-4459-a581-656af62b6a62')
+    access_by_uuid('148e0664-4ab8-41af-86cb-127ff19f2d33')
   end
 
   it 'loads TBLASTX xml output' do
-    access_by_uuid('59fa0278-6c33-4f79-8542-a29682993c97')
+    access_by_uuid('752b6b87-2670-47a0-aa57-d0dc8cdd7667')
   end
 
   it 'loads diamond_BLASTP xml output' do
-    access_by_uuid('813b1a82-b1c5-4c16-9f11-3cf80f062a46')
+    access_by_uuid('043110ae-faf9-4258-8098-3384fb16fbb1')
   end
 
   it 'loads diamond_BLASTX xml output' do
-    access_by_uuid('5411a2df-4e56-4c01-9236-5ee2bd12ae64')
+    access_by_uuid('8e400eed-4ef2-48e6-aee8-a55a45606e77')
   end
 
   ## Helpers ##

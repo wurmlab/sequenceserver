@@ -140,7 +140,7 @@ module SequenceServer
 
   describe 'diamond BLASTP' do
     let 'hsp' do
-      report = BLAST::Report.new(Job.fetch('5a1b4b34-70f7-4d42-842a-c14f22d92fa0'))
+      report = BLAST::Report.new(Job.fetch('043110ae-faf9-4258-8098-3384fb16fbb1'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -158,7 +158,7 @@ module SequenceServer
 
   describe 'diamond BLASTX' do
     let 'hsp' do
-      report = BLAST::Report.new(Job.fetch('e9a8712e-2f5a-4261-ab7a-e0ca6420f7e2'))
+      report = BLAST::Report.new(Job.fetch('8e400eed-4ef2-48e6-aee8-a55a45606e77'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -173,4 +173,3 @@ module SequenceServer
     end
   end
 end
-

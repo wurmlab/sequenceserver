@@ -1,0 +1,8 @@
+--- !ruby/object:SequenceServer::BLAST::Job
+id: 8e400eed-4ef2-48e6-aee8-a55a45606e77
+submitted_at: 2019-06-18 15:49:12.135304300 +01:00
+imported_xml_file: DIAMOND_BLASTX_MultipleQueries
+advanced_params: {}
+databases: []
+completed_at: 2019-06-18 15:49:12.144588000 +01:00
+exitstatus: 0
