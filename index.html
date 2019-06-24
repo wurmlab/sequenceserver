@@ -475,9 +475,7 @@ layout: page
           <p>
             <strong> Linux or Mac </strong> and <strong><a
                 href="http://ruby-lang.org">Ruby</a> (&ge;
-              1.8.7; preferably &ge; 2.0)</strong>.
-            Additionally, the <code>ruby-dev</code>
-            package on Ubuntu and Debian.
+              1.8.7; preferably &ge; 2.0)</strong>
           </p>
         </li>
         <li>
@@ -485,37 +483,34 @@ layout: page
             <a
               href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/">
               NCBI BLAST+
-            </a> (2.2.31+) is interactively downloaded if absent.
-          </p>
-        </li>
-        <li>
-          <p>
-            <img
-            src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/42.6.0/archive/chrome_12-48/chrome_12-48_32x32.png"
-            alt="Google Chrome"> or
-            <img
-            src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/42.6.0/archive/firefox_1/firefox_1_32x32.png"
-            alt="Mozilla Firefox"> or
-            <img
-            src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/42.6.0/archive/safari_1-7/safari_1-7_32x32.png"
-            alt="Safari"> 7+ or
-            <img
-            src="https://cdnjs.cloudflare.com/ajax/libs/browser-logos/42.6.0/archive/internet-explorer_9-11/internet-explorer_9-11_32x32.png"
-            alt="Internet Explorer"> 9+
+            </a> (2.2.31+) is interactively downloaded if absent
           </p>
         </li>
       </ul>
       <div
         class="page-header"
         style="border-top: 1px solid #eee">
-        <h3
-          id="quick-setup">
+        <h3 id="quick-setup">
           Install or update
         </h3>
       </div>
       <p>
-        Run the following in a terminal to install SequenceServer for the first time, or to update to the latest version:
+        One of SequenceServer's dependencies (the module used to parse BLAST's
+        XML output) compiles some C code as part of the installation process.
+        This means that the standard Unix build tools (e.g., <code>gcc</code>,
+        <code>make</code>) are required to install SequenceServer. On a Mac,
+        this means having Xcode and CLI tools for Xcode installed. On Ubuntu
+        and other Debian-based Linux systems, you would have to install the
+        <code>ruby-dev</code> and <code>build-essential</code> packages in
+        addition to <code>ruby</code>.
       </p>
+
+      <p>
+        Once you have Ruby and the build tools installed, the command below
+        can be used to install SequenceServer. Later on, the same command
+        can be used to update SequenceServer to the latest version:
+      </p>
+
 {% highlight shell %}
 sudo gem install sequenceserver
 {% endhighlight %}
@@ -538,12 +533,8 @@ sudo gem install sequenceserver
 sequenceserver
 {% endhighlight %}
       <p>
-        That's it! Open
-        <a
-          href="http://localhost:4567/">
-          http://localhost:4567/
-        </a>
-        and start BLAST-ing!
+        That's it! Open <a href="http://localhost:4567/">
+          http://localhost:4567</a> in your web-browser and start BLAST-ing!
       </p>
       <br>
       <div
