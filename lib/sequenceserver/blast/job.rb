@@ -36,10 +36,10 @@ module SequenceServer
       attr_reader :method, :qfile, :databases, :options
 
       # :nodoc:
-      # There are two modes: we either run the job or start from an imported
-      # xml file.
+      # Returns path to the imported xml file if the job was created using the
+      # --import switch. Returns nil otherwise.
       def imported_xml_file
-        File.join(dir, @imported_xml_file)
+        File.join(dir, @imported_xml_file) if @imported_xml_file
       end
 
       # Returns the command that will be executed. Job super class takes care
