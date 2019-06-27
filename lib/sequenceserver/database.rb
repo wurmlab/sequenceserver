@@ -36,7 +36,7 @@ module SequenceServer
 
     attr_reader :id
 
-    def [](accession, coords = nil)
+    def retrieve(accession, coords = nil)
       cmd = "blastdbcmd -db #{name} -entry '#{accession}'"
       if coords
         cmd << " -range #{coords}"
@@ -153,7 +153,7 @@ module SequenceServer
           each do |database|
             # Database lookup  will return a string if given accession is
             # present in the database, nil otherwise.
-            seq = database[accession, coords]
+            seq = database.retrieve(accession, coords)
             # Found a match! Terminate iteration returning the retrieved
             # sequence.
             break if seq
