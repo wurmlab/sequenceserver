@@ -65,7 +65,18 @@ module SequenceServer
       return nil unless id.match(NCBI_ID_PATTERN) or title.match(NCBI_ID_PATTERN)
       ncbi_id = Regexp.last_match[1]
       ncbi_id = encode ncbi_id
-      url = "https://www.ncbi.nlm.nih.gov/#{querydb.first.type}/#{ncbi_id}"
+
+      # Due to ability to import xml reports querydb can be
+      # empty, therefore database_type is established based on the
+      # algorithm used for query using helper function db_type.
+
+      database_type = if querydb.empty?
+        db_type
+      else
+        querydb.first.type
+      end
+
+      url = "https://www.ncbi.nlm.nih.gov/#{database_type}/#{ncbi_id}"
       {
         order: 2,
         title: 'NCBI',
