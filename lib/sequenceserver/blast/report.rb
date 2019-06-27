@@ -29,11 +29,29 @@ module SequenceServer
         end
       end
 
-      # :nodoc:
       # Attributes parsed out from XML output.
-      attr_reader :program, :program_version
-      attr_reader :queries, :querydb
-      attr_reader :params, :stats
+      attr_reader :program, :program_version, :params, :stats, :queries
+
+      # This is obtained from the job object.
+      attr_reader :querydb
+
+      # Returns database type (nucleotide or protein) used for running BLAST
+      # search. If we ran the BLAST search, this information is available
+      # from Job#databases. For imported XML, this is inferred from
+      # Report#program (i.e., the BLAST algorithm)
+      def dbtype
+        return @dbtype if @dbtype
+        @dbtype = if @querydb.empty?
+                    case program
+                    when /blastn|tblastn|tblastx/
+                      'nucleotide'
+                    when /blastp|blastx/
+                      'protein'
+                    end
+                  else
+                    @querydb.first.type
+                  end
+      end
 
       def to_json
         [:querydb, :program, :program_version, :params, :stats,

@@ -12,7 +12,7 @@ module SequenceServer
     PFAM_ID_PATTERN = /(PF\d{5}\.?\d*)/
     RFAM_ID_PATTERN = /(RF\d{5})/
 
-    # Link generators return a Hash like below.
+    # Link generators are methods that return a Hash as defined below.
     #
     # {
     #   # Required. Display title.
@@ -47,36 +47,29 @@ module SequenceServer
     #         sequence_id = encode sequence_id
     #         url = "http://www.ncbi.nlm.nih.gov/nucleotide/#{sequence_id}"
     #
-    #   querydb:
-    #     Returns an array of databases that were used for BLASTing.
+    #   dbtype:
+    #     Returns the database type (nucleotide or protein) that was used for
+    #     BLAST search.
     #
     #   whichdb:
-    #     Returns the database from which the given hit came from.
+    #     Returns the databases from which the hit could have originated. To
+    #     ensure that one and the correct database is returned, ensure that
+    #     your sequence ids are unique across different FASTA files.
+    #     NOTE: This method is slow.
     #
-    #     e.g:
+    #   coordinates:
+    #     Returns min alignment start and max alignment end coordinates for
+    #     query and hit sequences.
     #
-    #         hit_database = whichdb
-    #
-    # Examples:
-    # ---------
-    # See methods provided by default for an example implementation.
+    #     e.g.,
+    #     query_coords = coordinates[0]
+    #     hit_coords = coordinates[1]
 
     def ncbi
       return nil unless id.match(NCBI_ID_PATTERN) or title.match(NCBI_ID_PATTERN)
       ncbi_id = Regexp.last_match[1]
       ncbi_id = encode ncbi_id
-
-      # Due to ability to import xml reports querydb can be
-      # empty, therefore database_type is established based on the
-      # algorithm used for query using helper function db_type.
-
-      database_type = if querydb.empty?
-        db_type
-      else
-        querydb.first.type
-      end
-
-      url = "https://www.ncbi.nlm.nih.gov/#{database_type}/#{ncbi_id}"
+      url = "https://www.ncbi.nlm.nih.gov/#{dbtype}/#{ncbi_id}"
       {
         order: 2,
         title: 'NCBI',
@@ -123,7 +116,6 @@ module SequenceServer
         icon:  'fa-external-link'
       }
     end
-
   end
 end
 
