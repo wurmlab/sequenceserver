@@ -67,8 +67,8 @@ module SequenceServer
       ncbi_id = encode ncbi_id
 
       # Due to ability to import xml reports querydb can be
-      # empty,therefore database_type is established based on the
-      # algorithm used for query.
+      # empty, therefore database_type is established based on the
+      # algorithm used for query using helper function db_type.
 
       database_type = if querydb.empty?
         db_type
