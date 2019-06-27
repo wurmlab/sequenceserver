@@ -41,6 +41,16 @@ module SequenceServer
         querydb.select { |db| db.include? id }
       end
 
+      # Helper function to determine a database type based on given algorithm
+      # used, when query database is not available
+      def db_type
+        case report.program
+        when /blastn|tblastn|tblastx/
+          'nucleotide'
+        when /blastp|blastx/
+          'protein'
+        end
+      end
       # Returns tuple of tuple indicating start and end coordinates of matched
       # regions of query and hit sequences.
       def coordinates

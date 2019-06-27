@@ -66,13 +66,12 @@ module SequenceServer
       ncbi_id = Regexp.last_match[1]
       ncbi_id = encode ncbi_id
 
+      # Due to ability to import xml reports querydb can be
+      # empty,therefore database_type is established based on the
+      # algorithm used for query.
+
       database_type = if querydb.empty?
-        case report.program
-        when /blastn|tblastn|tblastx/
-          'nucleotide'
-        when /blastp|blastx/
-          'protein'
-        end
+        db_type
       else
         querydb.first.type
       end
