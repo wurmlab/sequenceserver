@@ -15,70 +15,108 @@
 
 # SequenceServer - BLAST searching made easy!
 
-SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user interface for personal or group use. If you use SequenceServer, please cite our preprint:
+SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user interface for personal or group use.
+
+## Version 1.0.11
+
+- Stable release
+- Release date: June 2017
+- Works with BLAST 2.2.30
+
+For installation instructions and how to use SequenceServer please see
+http://sequenceserver.com.
+
+If you want to install and use SequenceServer from source, we recommend the
+use of 'bundler' Ruby gem to install dependencies and to run SequenceServer:
+
+    # Install bundler gem
+    gem install bundler
+
+    # Use bundler to install dependencies
+    cd sequenceserver
+    bundle install --without=development
+
+    # Use bundler command to run SequenceServer
+    bundle exec bin/sequenceserver
+
+If you use SequenceServer, please cite our preprint:
 
 > [Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W & Wurm Y. 2015. Sequenceserver: A modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142](http://www.biorxiv.org/content/early/2015/11/27/033142).
 
-## Install and configure
+## Version 1.1.0-beta12
 
-To install the old, stable version - 1.0.11 - please see
-http://sequenceserver.com.
+This is a beta release of SequenceServer 2.0
+
+Here, we have changed the underlying architecture to persist jobs so that
+the results can be bookmarked or shared, and to support integration with
+grid engines such as qsub. Furthermore, the HTML report is now generated
+in the browser by fetching BLAST results in JSON format from the server.
+This facilitates the use of existing JavaScript libraries to visualise
+BLAST results.
+
+The new beta releases are announced on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver) and on the [GitHub release page](https://github.com/wurmlab/sequenceserver/releases).
+
+### Install and configure
 
 To get the latest 1.1.0-beta release, run:
 
     gem install --pre sequenceserver
 
-Version 1.1.0-beta releases are announced on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver). Summary of changes can also be viewed on our [GitHub release
-page](https://github.com/wurmlab/sequenceserver/releases).
+If you are new to the above command, please consult the 'Install or update'
+section on our website http://sequenceserver.com.
 
-## Develop and contribute
+If you want to install and use the beta versions from source, the process is
+the same as for the old stable release (instructions above).
 
-You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubygems.org/), [Node and npm](https://nodejs.org/), and [CodeClimate](https://codeclimate.com/).
+### Develop and contribute
 
-### Setup
-Get source code and install dependencies.
+In addition to [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubygems.org/), you will need [Node and npm](https://nodejs.org/) if you want to build JavaScript assets, and [CodeClimate](https://codeclimate.com/) to run static code analysis.
 
-    git clone https://github.com/wurmlab/sequenceserver
-    gem install bundler
-    cd sequenceserver
-    npm install
-    bundle
+If you want to submit a pull-request, you don't need to build JavaScript assets
+(we will do it) or to have run CodeClimate.
 
-If you just want to install and use SequenceServer from source you can skip
-`npm install` step, and skip installing gems used for testing:
+To develop and contribute, you will need to run SequenceServer from source (see
+previous section).
 
-    git clone https://github.com/wurmlab/sequenceserver
-    gem install bundler
-    cd sequenceserver
-    bundle install --without=development
-
-### Run, test, build
+#### Workflow commands
 
 Launch SequenceServer in development mode. In development mode SequenceServer
 logs verbosely and uses raw front-end files.
-```
-bundle exec bin/sequenceserver -D
-```
+
+    bundle exec bin/sequenceserver -D
 
 Run tests:
-```
-bundle exec rspec
-```
+
+    bundle exec rspec
 
 Run code style checkers (rubocop, csslint, eslint) -
-```
-codeclimate analyze
-```
 
-Build minifies JS and CSS bundles:
-```
-npm run-script build
-```
+    codeclimate analyze
 
-## Using Docker
-```bash
+To install JS dependencies to be build JS and CSS bundles:
+
+    npm install
+
+Build minified JS and CSS bundles:
+
+    npm run-script build
+
+## Docker builds
+
+Both the old stable and new beta versions of SequenceServer are available as
+Docker images.
+
+```
 # With database fasta files inside a folder named db
 docker run --rm -ti -p 4567:4567 -v $(pwd)/db:/db wurmlab/sequenceserver
+```
+
+This will use the new beta release of SequenceServer. To use the old stable
+release, add the version tag to the command:
+
+```
+# With database fasta files inside a folder named db
+docker run --rm -ti -p 4567:4567 -v $(pwd)/db:/db wurmlab/sequenceserver:1.0.11
 ```
 
 ## Contact
