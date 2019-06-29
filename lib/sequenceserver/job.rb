@@ -25,7 +25,7 @@ module SequenceServer
       # Creates and queues a job. Returns created job object.
       def create(params)
         job = BLAST::Job.new(params) # TODO: Dynamic dispatch.
-        SequenceServer.pool.queue { job.run }
+        pool.queue { job.run }
         job
       end
 
@@ -45,6 +45,13 @@ module SequenceServer
       def all
         Dir["#{DOTDIR}/**/job.yaml"]
           .map { |f| fetch File.basename File.dirname f }
+      end
+
+      private
+
+      # Thread pool used for running BLAST searches.
+      def pool
+        @pool ||= Pool.new(SequenceServer.config[:num_threads])
       end
     end
 

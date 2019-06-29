@@ -2,6 +2,12 @@ require 'json'
 require 'tilt/erb'
 require 'sinatra/base'
 
+require 'sequenceserver/job'
+require 'sequenceserver/blast'
+require 'sequenceserver/report'
+require 'sequenceserver/database'
+require 'sequenceserver/sequence'
+
 module SequenceServer
   # Controller.
   class Routes < Sinatra::Base
@@ -33,7 +39,7 @@ module SequenceServer
 
     configure do
       # Public, and views directory will be found here.
-      set :root, lambda { SequenceServer.root }
+      set :root, File.join(__dir__, '..', '..')
 
       # Allow :frame_options to be configured for Rack::Protection.
       #

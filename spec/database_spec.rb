@@ -5,11 +5,11 @@ require 'sequenceserver/database'
 module SequenceServer
   describe 'Database' do
     let 'root' do
-      SequenceServer.root
+      __dir__
     end
 
     let 'database_dir' do
-      File.join(root, 'spec', 'database')
+      File.join(root, 'database')
     end
 
     let 'database_dir_sample' do

@@ -1,19 +1,6 @@
 require 'English'
-require 'tempfile'
 require 'socket'
 require 'resolv'
-
-require 'sequenceserver/version'
-require 'sequenceserver/exceptions'
-require 'sequenceserver/config'
-require 'sequenceserver/logger'
-require 'sequenceserver/server'
-require 'sequenceserver/sequence'
-require 'sequenceserver/database'
-require 'sequenceserver/blast'
-require 'sequenceserver/routes'
-require 'sequenceserver/job_remover'
-require 'sequenceserver/doctor'
 
 # Top level module / namespace.
 module SequenceServer
@@ -26,32 +13,44 @@ module SequenceServer
   # Constant for denoting the path ~/.sequenceserver
   DOTDIR = File.expand_path('~/.sequenceserver').freeze
 
+  # Load nested class, modules, constants, and files that extend SequenceServer
+  # module (e.g. sys).
+  require 'sequenceserver/version'
+  require 'sequenceserver/logger'
+  require 'sequenceserver/config'
+  require 'sequenceserver/server'
+  require 'sequenceserver/routes'
+  require 'sequenceserver/job_remover'
+  require 'sequenceserver/exceptions'
+  require 'sequenceserver/sys'
+
+  # The singleton methods defined below constitute the "runtime" environment of
+  # SequenceServer.
   class << self
+    # Returns ENV['RACK_ENV']. This environment variable determines if we are
+    # in development on in production mode (default).
     def environment
       ENV['RACK_ENV']
     end
 
-    def verbose?
-      @verbose ||= (environment == 'development')
+    # Returns true if RACK_ENV is set to 'development'. Raw JS and CSS files
+    # are served in development mode and the logger is made more verbose.
+    def development?
+      environment == 'development'
     end
+    alias verbose? development?
 
-    def root
-      File.dirname(File.dirname(__FILE__))
-    end
-
+    # Logger object used in the initialisation routine and throughout the
+    # application.
     def logger
       @logger ||= case environment
-                    when 'development'
-                      Logger.new(STDERR, Logger::DEBUG)
-                    when 'test'
-                      Logger.new(STDERR, Logger::WARN)
-                    else
-                      Logger.new(STDERR, Logger::INFO)
-                    end
-    end
-
-    def pool
-      @pool ||= Pool.new(config[:num_threads])
+                  when 'development'
+                    Logger.new(STDERR, Logger::DEBUG)
+                  when 'test'
+                    Logger.new(STDERR, Logger::WARN)
+                  else
+                    Logger.new(STDERR, Logger::INFO)
+                  end
     end
 
     # SequenceServer initialisation routine.
@@ -66,7 +65,7 @@ module SequenceServer
       # thread spawned by the main process raises an unhandled exception. In
       # production mode the expectation is to log at appropriate severity level
       # and continue operating.
-      Thread.abort_on_exception = true if environment == 'development'
+      Thread.abort_on_exception = true if development?
 
       # Now locate binaries, scan databases directory, require any plugin files.
       init_binaries
@@ -93,92 +92,19 @@ module SequenceServer
       self
     end
 
+    # Holds SequenceServer configuration object for this process. This is
+    # available only after calling SequenceServer.init.
     attr_reader :config
 
-    # 'sys' executes a shell command.
+    # Rack-interface.
     #
-    # 'sys' can write the stdout and/or stderr from a shell command to files, or
-    #  return these values.
-    #
-    # 'sys' can get from a failed shell command stdout, stderr, and exit status.
-    #
-    # Supply 'sys' with the shell command and optionally:
-    # dir: A directory to change to for the duration of the execution of
-    # the shell command.
-    # path: A directory to change the PATH environment variable to for the
-    # duration of the execution of the shell command.
-    # stdout: A path to a file to store stdout.
-    # stderr: A path to a file to store stderr.
-    #
-    # Usage:
-    #
-    # sys(command, dir: '/path/to/directory', path: '/path/to/directory',
-    #     stdout: '/path/to/stdout_file', stderr: '/path/to/stderr_file')
-    #
-    # rubocop:disable Metrics/CyclomaticComplexity
-    def sys(command, options = {})
-      # Available output channels
-      channels = %i[stdout stderr]
-
-      # Make temporary files to store output from stdout and stderr.
-      temp_files = {
-        stdout: Tempfile.new('sequenceserver-sys'),
-        stderr: Tempfile.new('sequenceserver-sys')
-      }
-
-      # Log the command we are going to run - use -D option to view.
-      logger.debug("Executing: #{command}")
-
-      # Run command in a child process. This allows us to control PATH
-      # and pwd of the running process.
-      child_pid = fork do
-        # Set the PATH environment variable to the binary directory or
-        # safe directory.
-        ENV['PATH'] = options[:path] if options[:path]
-
-        # Change to the specified directory.
-        Dir.chdir(options[:dir]) if options[:dir] && Dir.exist?(options[:dir])
-
-        # Execute the shell command, redirect stdout and stderr to the
-        # temporary files.
-        exec("#{command} 1>#{temp_files[:stdout].path}" \
-             " 2>#{temp_files[:stderr].path}")
-      end
-
-      # Wait for the termination of the child process.
-      _, status = Process.wait2(child_pid)
-
-      # If a full path was given for stdout and stderr files, move the
-      # temporary files to this path. If the path given does not exist,
-      # create it.
-      channels.each do |channel|
-        filename = options[channel]
-        break unless filename
-
-        # If the given path has a directory component, ensure it exists.
-        file_dir = File.dirname(filename)
-        FileUtils.mkdir_p(file_dir) unless File.directory?(file_dir)
-
-        # Now move the temporary file to the given path.
-        # TODO: don't we need to explicitly close the temp file here?
-        FileUtils.mv(temp_files.delete(channel), filename)
-      end
-
-      # Read the remaining temp files into memory. For large outputs,
-      # the caller should supply a file path to prevent loading the
-      # output in memory.
-      temp_files.each do |channel, tempfile|
-        temp_files[channel] = tempfile.read
-      end
-
-      # Finally, return contents of the remaining temp files if the
-      # command completed successfully or raise CommandFailed error.
-      return temp_files.values if status.success?
-      raise CommandFailed.new(status.exitstatus, **temp_files)
+    # Add our logger to Rack env and let Routes do the rest.
+    def call(env)
+      env['rack.logger'] = logger
+      Routes.call(env)
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
 
-    # Run SequenceServer as a self-hosted server using Thin webserver.
+    # Run SequenceServer using WEBrick.
     def run
       check_host
       Server.run(self)
@@ -195,6 +121,8 @@ module SequenceServer
       puts '   Instructions available on http://sequenceserver.com.'
     end
 
+    # This method is called after WEBrick has bound to the host and port and is
+    # ready to accept connections.
     def on_start
       puts '** SequenceServer is ready.'
       puts "   Go to #{server_url} in your browser and start BLASTing!"
@@ -205,6 +133,7 @@ module SequenceServer
       open_in_browser(server_url)
     end
 
+    # This method is called when WEBrick is terminated.
     def on_stop
       puts
       puts '** Thank you for using SequenceServer :).'
@@ -215,16 +144,8 @@ module SequenceServer
       puts '       custom BLAST databases. biorxiv doi: 10.1101/033142.'
     end
 
-    # Rack-interface.
-    #
-    # Inject our logger in the env and dispatch request to our
-    # controller.
-    def call(env)
-      env['rack.logger'] = logger
-      Routes.call(env)
-    end
-
-    # Run SequenceServer interactively.
+    # This method is invoked by the -i switch to start an IRB shell with
+    # SequenceServer loaded.
     def irb
       ARGV.clear
       require 'irb'

@@ -5,7 +5,7 @@ require 'sequenceserver/config'
 module SequenceServer
   describe 'Config' do
     let 'sample_config_file' do
-      File.join(SequenceServer.root, 'spec', 'sample.conf')
+      File.join(__dir__, 'sample.conf')
     end
 
     it 'behaves like a Hash' do

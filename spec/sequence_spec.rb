@@ -41,8 +41,7 @@ module SequenceServer
   end
 
   describe 'Sequence retrieval' do
-    root = SequenceServer.root
-    database_dir = File.join(root, 'spec', 'database')
+    database_dir = File.join(__dir__, 'database')
 
     let 'a_normal_database_id' do
       Digest::MD5.hexdigest File.join(database_dir, 'sample', 'proteins',
