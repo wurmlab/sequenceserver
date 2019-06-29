@@ -260,7 +260,7 @@ module SequenceServer
         fail ENOENT.new('database dir', config[:database_dir])
       end
 
-      logger.debug("Will use BLAST+ databases at: #{config[:database_dir]}")
+      logger.debug("Will look for BLAST+ databases in: #{config[:database_dir]}")
       Database.scan_databases_dir
       Database.each do |database|
         logger.debug("Found #{database.type} database '#{database.title}'" \

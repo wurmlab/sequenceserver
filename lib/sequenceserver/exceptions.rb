@@ -61,21 +61,16 @@ module SequenceServer
     end
   end
 
-  ## BLAST NOT INSTALLED OR NOT COMPATIBLE ##
+  ## BLAST NOT INSTALLED, NOT EXECUTABLE, OR NOT COMPATIBLE ##
 
   # Raised if SequenceServer could not locate NCBI BLAST+ installation on
   # user's system.
   class BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE < StandardError
     def to_s
-      'BLAST not installed, or is not executable.'
-    end
-  end
-
-  # Raised if SequenceServer could not successfully execute 'blastp -version'
-  # on user's system (see #141).
-  class BLAST_NOT_EXECUTABLE < StandardError
-    def to_s
-      'Error executing BLAST+ binaries.'
+      <<~MSG
+        BLAST+ is either not installed, or there is a problem with the
+        installed version.
+      MSG
     end
   end
 

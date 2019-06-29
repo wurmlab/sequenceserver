@@ -158,14 +158,6 @@ begin
       end
 
       require 'sequenceserver'
-      require 'sequenceserver/blast'
-      if import?
-        xml_file = fetch_option(:import).value
-        params = {:xml => xml_file}
-        job = SequenceServer::BLAST::Job.new(params)
-        puts job.id
-        exit
-      end
 
       begin
         SequenceServer.init clean_opts[to_h]
@@ -174,27 +166,6 @@ begin
       # working SequenceServer installation. We expect to land following
       # error scenarios either when creating a new SequenceServer (first
       # time or later), or updating config values using -s CLI option.
-      rescue SequenceServer::CONFIG_FILE_ERROR,
-             SequenceServer::BLAST_DATABASE_ERROR => e
-
-        puts e
-        exit!
-      rescue SequenceServer::ENOENT => e
-        puts e
-
-        puts 'Please consult sequenceserver --help for instructions on how to set the correct values.'
-        exit!
-      rescue SequenceServer::NUM_THREADS_INCORRECT => e
-        puts e
-
-        unless num_threads?
-          puts 'You can set the correct value by running:'
-          puts
-          puts '  sequenceserver -s -n <value>'
-          puts
-        end
-
-        exit!
       rescue SequenceServer::BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE,
              SequenceServer::BLAST_NOT_COMPATIBLE => e
 
@@ -264,7 +235,7 @@ begin
           unless File.basename(response) == 'bin'
             response = File.join(response, 'bin')
           end
-          fetch_option(:bin).value = File.join(response)
+          fetch_option(:bin).value = response
           puts
         end
         redo
@@ -324,6 +295,14 @@ begin
             exit! unless set?
           end
         end
+      rescue SequenceServer::ENOENT,
+        SequenceServer::CONFIG_FILE_ERROR,
+        SequenceServer::BLAST_DATABASE_ERROR,
+        SequenceServer::NUM_THREADS_INCORRECT => e
+        # Known errors with clear error message are handled here.
+
+        puts e
+        exit!
       rescue => e
         # This will catch any unhandled error and some very special errors.
         # Ideally we will never hit this block. If we do, there's a bug in
@@ -340,7 +319,7 @@ begin
           Error:
             #{e.backtrace.unshift(e.message).join("\n")}
         MSG
-        exit
+        exit!
       end
 
       if doctor?
@@ -384,6 +363,14 @@ begin
                           'taxdb.tar.gz')
         puts
         puts 'taxdb downloaded!'
+        exit
+      end
+
+      if import?
+        xml_file = fetch_option(:import).value
+        params = {:xml => xml_file}
+        job = SequenceServer::BLAST::Job.new(params)
+        puts job.id
         exit
       end
 
