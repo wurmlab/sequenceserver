@@ -5,3 +5,6 @@ SimpleCov.start
 ENV['RACK_ENV'] = 'test'
 
 require 'sequenceserver'
+
+# For the purpose of testing, DOTDIR is set to spec/dotdir.
+SequenceServer::DOTDIR = File.join(__dir__, 'dotdir')

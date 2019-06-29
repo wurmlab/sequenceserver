@@ -2,11 +2,10 @@ require 'spec_helper'
 
 # Test BLAST module.
 module SequenceServer
-  SequenceServer::DOTDIR = File.join(__dir__, 'sample_reports')
+  init
+
   with_hits = Job.fetch('with_hits_sample')
   no_hits = Job.fetch('no_hits_sample')
-
-  init
 
   describe 'Report' do
     hits_report = BLAST::Report.new(with_hits)

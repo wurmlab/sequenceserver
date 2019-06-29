@@ -2,11 +2,10 @@ require 'spec_helper'
 
 # Test BLAST module.
 module SequenceServer
-  SequenceServer::DOTDIR = File.join(__dir__, 'imported_xml_reports')
+  init
+
   with_hits = Job.fetch('e9a8712e-2f5a-4261-ab7a-e0ca6420f7e2')
   no_hits = Job.fetch('6bad21d1-b544-494d-8248-2b8eb77c38a3')
-
-  init
 
   describe 'Report' do
     hits_report = BLAST::Report.new(with_hits)
