@@ -144,13 +144,12 @@ module SequenceServer
     # will be used as title. Otherwise name of the error class is used as
     # title.
     #
-    # If the error class defines `more_info` instance method, its return
-    # value will be used as more_info, otherwise `backtrace.join("\n")`
-    # is used as more_info. If an error class does not want to include
-    # more_info (like for NotFound), the error class must undefine
-    # `backtrace` method.
+    # All error classes should define `message` instance method that provides
+    # a short and simple explanation of the error.
     #
-    # All error classes should define `message` instance method.
+    # If the error class defines `more_info` instance method, its return value
+    # will be used as more_info, otherwise `backtrace.join("\n")` is used as
+    # more_info.
     error 400..500 do
       error = env['sinatra.error']
 
@@ -165,9 +164,8 @@ module SequenceServer
                              error.class.name
                            end
 
-      # If error object has a more_info method, use that. If the error does
-      # not have more_info and the error is not APIError, use backtrace as
-      # more_info.
+      # If error object has a more_info method, use that. If the error does not
+      # have more_info, use backtrace.join("\n") as more_info.
       if error.respond_to? :more_info
         error_data[:more_info] = error.more_info
       elsif error.respond_to? :backtrace
