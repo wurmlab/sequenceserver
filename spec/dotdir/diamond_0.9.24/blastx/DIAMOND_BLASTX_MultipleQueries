@@ -1,0 +1,1040 @@
+<?xml version="1.0"?>
+<!DOCTYPE BlastOutput PUBLIC "-//NCBI//NCBI BlastOutput/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd">
+<BlastOutput>
+  <BlastOutput_program>blastx</BlastOutput_program>
+  <BlastOutput_version>diamond 0.9.24</BlastOutput_version>
+  <BlastOutput_reference>Benjamin Buchfink, Xie Chao, and Daniel Huson (2015), &quot;Fast and sensitive protein alignment using DIAMOND&quot;, Nature Methods 12:59-60.</BlastOutput_reference>
+  <BlastOutput_db>nr.dmnd</BlastOutput_db>
+  <BlastOutput_query-ID>Query_1</BlastOutput_query-ID>
+  <BlastOutput_query-def>MH011443.1 Homo sapiens TP53 (TP53) gene, exon 5 and partial cds</BlastOutput_query-def>
+  <BlastOutput_query-len>123</BlastOutput_query-len>
+  <BlastOutput_param>
+    <Parameters>
+      <Parameters_matrix>blosum62</Parameters_matrix>
+      <Parameters_expect>0.001</Parameters_expect>
+      <Parameters_gap-open>11</Parameters_gap-open>
+      <Parameters_gap-extend>1</Parameters_gap-extend>
+      <Parameters_filter>F</Parameters_filter>
+    </Parameters>
+  </BlastOutput_param>
+<BlastOutput_iterations>
+<Iteration>
+  <Iteration_iter-num>1</Iteration_iter-num>
+  <Iteration_query-ID>Query_1</Iteration_query-ID>
+  <Iteration_query-def>MH011443.1 Homo sapiens TP53 (TP53) gene, exon 5 and partial cds</Iteration_query-def>
+  <Iteration_query-len>123</Iteration_query-len>
+<Iteration_hits>
+<Hit>
+  <Hit_num>1</Hit_num>
+  <Hit_id>sp|P04637|P53_HUMAN</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Homo sapiens OX=9606 GN=TP53 PE=1 SV=4</Hit_def>
+  <Hit_accession>P04637</Hit_accession>
+  <Hit_len>393</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>91.7</Hsp_bit-score>
+      <Hsp_score>226</Hsp_score>
+      <Hsp_evalue>1.8e-18</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>124</Hsp_query-to>
+      <Hsp_hit-from>146</Hsp_hit-from>
+      <Hsp_hit-to>186</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>40</Hsp_identity>
+      <Hsp_positive>41</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>41</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_qseq>
+         <Hsp_hseq>WVDSTPPPGTRVRAMAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_hseq>
+      <Hsp_midline>WVDSTPPPGTRVRA+AIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>2</Hit_num>
+  <Hit_id>sp|P56424|P53_MACMU</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Macaca mulatta OX=9544 GN=TP53 PE=2 SV=1</Hit_def>
+  <Hit_accession>P56424</Hit_accession>
+  <Hit_len>393</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>90.1</Hsp_bit-score>
+      <Hsp_score>222</Hsp_score>
+      <Hsp_evalue>5.2e-18</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>124</Hsp_query-to>
+      <Hsp_hit-from>146</Hsp_hit-from>
+      <Hsp_hit-to>186</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>39</Hsp_identity>
+      <Hsp_positive>41</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>41</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_qseq>
+         <Hsp_hseq>WVDSTPPPGSRVRAMAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_hseq>
+      <Hsp_midline>WVDSTPPPG+RVRA+AIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>3</Hit_num>
+  <Hit_id>sp|Q95330|P53_RABIT</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Oryctolagus cuniculus OX=9986 GN=TP53 PE=2 SV=1</Hit_def>
+  <Hit_accession>Q95330</Hit_accession>
+  <Hit_len>391</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>90.1</Hsp_bit-score>
+      <Hsp_score>222</Hsp_score>
+      <Hsp_evalue>5.2e-18</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>124</Hsp_query-to>
+      <Hsp_hit-from>143</Hsp_hit-from>
+      <Hsp_hit-to>183</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>39</Hsp_identity>
+      <Hsp_positive>41</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>41</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_qseq>
+         <Hsp_hseq>WVDSTPPPGTRVRAMAIYKKSQHMTEVVRRCPHHERCSDSD</Hsp_hseq>
+      <Hsp_midline>WVDSTPPPGTRVRA+AIYK+SQHMTEVVRRCPHHERCSDSD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>4</Hit_num>
+  <Hit_id>sp|Q9WUR6|P53_CAVPO</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Cavia porcellus OX=10141 GN=TP53 PE=2 SV=1</Hit_def>
+  <Hit_accession>Q9WUR6</Hit_accession>
+  <Hit_len>391</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>86.3</Hsp_bit-score>
+      <Hsp_score>212</Hsp_score>
+      <Hsp_evalue>7.5e-17</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>124</Hsp_query-to>
+      <Hsp_hit-from>144</Hsp_hit-from>
+      <Hsp_hit-to>184</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>37</Hsp_identity>
+      <Hsp_positive>40</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>41</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_qseq>
+         <Hsp_hseq>WVESPPPPGTRVRALAIYKKSQHMTEVVRRCPHHERCSDSD</Hsp_hseq>
+      <Hsp_midline>WV+S PPPGTRVRA+AIYK+SQHMTEVVRRCPHHERCSDSD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>5</Hit_num>
+  <Hit_id>sp|P10361|P53_RAT</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Rattus norvegicus OX=10116 GN=Tp53 PE=1 SV=1</Hit_def>
+  <Hit_accession>P10361</Hit_accession>
+  <Hit_len>391</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>85.9</Hsp_bit-score>
+      <Hsp_score>211</Hsp_score>
+      <Hsp_evalue>9.8e-17</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>124</Hsp_query-to>
+      <Hsp_hit-from>144</Hsp_hit-from>
+      <Hsp_hit-to>184</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>37</Hsp_identity>
+      <Hsp_positive>39</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>41</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_qseq>
+         <Hsp_hseq>WVTSTPPPGTRVRAMAIYKKSQHMTEVVRRCPHHERCSDGD</Hsp_hseq>
+      <Hsp_midline>WV STPPPGTRVRA+AIYK+SQHMTEVVRRCPHHERCSD D</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>6</Hit_num>
+  <Hit_id>sp|P02340|P53_MOUSE</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Mus musculus OX=10090 GN=Tp53 PE=1 SV=4</Hit_def>
+  <Hit_accession>P02340</Hit_accession>
+  <Hit_len>390</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>80.5</Hsp_bit-score>
+      <Hsp_score>197</Hsp_score>
+      <Hsp_evalue>4.1e-15</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>124</Hsp_query-to>
+      <Hsp_hit-from>143</Hsp_hit-from>
+      <Hsp_hit-to>183</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>34</Hsp_identity>
+      <Hsp_positive>38</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>41</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_qseq>
+         <Hsp_hseq>WVSATPPAGSRVRAMAIYKKSQHMTEVVRRCPHHERCSDGD</Hsp_hseq>
+      <Hsp_midline>WV +TPP G+RVRA+AIYK+SQHMTEVVRRCPHHERCSD D</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>7</Hit_num>
+  <Hit_id>sp|Q8SPZ3|P53_DELLE</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Delphinapterus leucas OX=9749 GN=TP53 PE=2 SV=1</Hit_def>
+  <Hit_accession>Q8SPZ3</Hit_accession>
+  <Hit_len>387</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>78.2</Hsp_bit-score>
+      <Hsp_score>191</Hsp_score>
+      <Hsp_evalue>2.0e-14</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>118</Hsp_query-to>
+      <Hsp_hit-from>139</Hsp_hit-from>
+      <Hsp_hit-to>177</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>33</Hsp_identity>
+      <Hsp_positive>37</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>39</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSD</Hsp_qseq>
+         <Hsp_hseq>WVSSPPPPGTRVRAMAIYKKSEYMTEVVRRCPHHERCSD</Hsp_hseq>
+      <Hsp_midline>WV S PPPGTRVRA+AIYK+S++MTEVVRRCPHHERCSD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>8</Hit_num>
+  <Hit_id>sp|P67939|P53_BOVIN</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Bos taurus OX=9913 GN=TP53 PE=2 SV=1</Hit_def>
+  <Hit_accession>P67939</Hit_accession>
+  <Hit_len>386</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>76.6</Hsp_bit-score>
+      <Hsp_score>187</Hsp_score>
+      <Hsp_evalue>5.9e-14</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>118</Hsp_query-to>
+      <Hsp_hit-from>138</Hsp_hit-from>
+      <Hsp_hit-to>176</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>33</Hsp_identity>
+      <Hsp_positive>36</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>39</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSD</Hsp_qseq>
+         <Hsp_hseq>WVDSPPPPGTRVRAMAIYKKLEHMTEVVRRCPHHERSSD</Hsp_hseq>
+      <Hsp_midline>WVDS PPPGTRVRA+AIYK+ +HMTEVVRRCPHHER SD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>9</Hit_num>
+  <Hit_id>sp|Q00366|P53_MESAU</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Mesocricetus auratus OX=10036 GN=TP53 PE=2 SV=1</Hit_def>
+  <Hit_accession>Q00366</Hit_accession>
+  <Hit_len>396</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>76.3</Hsp_bit-score>
+      <Hsp_score>186</Hsp_score>
+      <Hsp_evalue>7.8e-14</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>124</Hsp_query-to>
+      <Hsp_hit-from>149</Hsp_hit-from>
+      <Hsp_hit-to>189</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>33</Hsp_identity>
+      <Hsp_positive>37</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>41</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_qseq>
+         <Hsp_hseq>WVSSTPPPGTRVRAMAIYKKLQYMTEVVRRCPHHERSSEGD</Hsp_hseq>
+      <Hsp_midline>WV STPPPGTRVRA+AIYK+ Q+MTEVVRRCPHHER S+ D</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>10</Hit_num>
+  <Hit_id>sp|Q9TUB2|P53_PIG</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Sus scrofa OX=9823 GN=TP53 PE=2 SV=1</Hit_def>
+  <Hit_accession>Q9TUB2</Hit_accession>
+  <Hit_len>386</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>74.3</Hsp_bit-score>
+      <Hsp_score>181</Hsp_score>
+      <Hsp_evalue>3.0e-13</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>118</Hsp_query-to>
+      <Hsp_hit-from>138</Hsp_hit-from>
+      <Hsp_hit-to>176</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>32</Hsp_identity>
+      <Hsp_positive>36</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>39</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSD</Hsp_qseq>
+         <Hsp_hseq>WVSSPPPPGTRVRAMAIYKKSEYMTEVVRRCPHHERSSD</Hsp_hseq>
+      <Hsp_midline>WV S PPPGTRVRA+AIYK+S++MTEVVRRCPHHER SD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>11</Hit_num>
+  <Hit_id>sp|P79892|P53_HORSE</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 (Fragment) OS=Equus caballus OX=9796 GN=TP53 PE=2 SV=2</Hit_def>
+  <Hit_accession>P79892</Hit_accession>
+  <Hit_len>280</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>73.9</Hsp_bit-score>
+      <Hsp_score>180</Hsp_score>
+      <Hsp_evalue>3.9e-13</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>121</Hsp_query-to>
+      <Hsp_hit-from>97</Hsp_hit-from>
+      <Hsp_hit-to>135</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>33</Hsp_identity>
+      <Hsp_positive>36</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>39</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDS</Hsp_qseq>
+         <Hsp_hseq>VSSPPPPGTRVRAMAIYKKSEFMTEVVRRCPHHERCSDS</Hsp_hseq>
+      <Hsp_midline>V S PPPGTRVRA+AIYK+S+ MTEVVRRCPHHERCSDS</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>12</Hit_num>
+  <Hit_id>sp|P41685|P53_FELCA</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Felis catus OX=9685 GN=TP53 PE=2 SV=1</Hit_def>
+  <Hit_accession>P41685</Hit_accession>
+  <Hit_len>386</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>72.8</Hsp_bit-score>
+      <Hsp_score>177</Hsp_score>
+      <Hsp_evalue>8.6e-13</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>121</Hsp_query-to>
+      <Hsp_hit-from>138</Hsp_hit-from>
+      <Hsp_hit-to>177</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>32</Hsp_identity>
+      <Hsp_positive>35</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>40</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDS</Hsp_qseq>
+         <Hsp_hseq>WVRSPPPPGTCVRAMAIYKKSEFMTEVVRRCPHHERCPDS</Hsp_hseq>
+      <Hsp_midline>WV S PPPGT VRA+AIYK+S+ MTEVVRRCPHHERC DS</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>13</Hit_num>
+  <Hit_id>sp|P51664|P53_SHEEP</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Ovis aries OX=9940 GN=TP53 PE=2 SV=1</Hit_def>
+  <Hit_accession>P51664</Hit_accession>
+  <Hit_len>382</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>72.8</Hsp_bit-score>
+      <Hsp_score>177</Hsp_score>
+      <Hsp_evalue>8.6e-13</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>118</Hsp_query-to>
+      <Hsp_hit-from>134</Hsp_hit-from>
+      <Hsp_hit-to>172</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>32</Hsp_identity>
+      <Hsp_positive>35</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>39</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSD</Hsp_qseq>
+         <Hsp_hseq>WVDSPPPPGTRVRAMAIYKKLEHMTEVVRRSPHHERSSD</Hsp_hseq>
+      <Hsp_midline>WVDS PPPGTRVRA+AIYK+ +HMTEVVRR PHHER SD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>14</Hit_num>
+  <Hit_id>sp|Q29537|P53_CANLF</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Canis lupus familiaris OX=9615 GN=TP53 PE=2 SV=2</Hit_def>
+  <Hit_accession>Q29537</Hit_accession>
+  <Hit_len>381</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>71.6</Hsp_bit-score>
+      <Hsp_score>174</Hsp_score>
+      <Hsp_evalue>1.9e-12</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>121</Hsp_query-to>
+      <Hsp_hit-from>133</Hsp_hit-from>
+      <Hsp_hit-to>172</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>31</Hsp_identity>
+      <Hsp_positive>35</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>40</Hsp_align-len>
+         <Hsp_qseq>WVDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDS</Hsp_qseq>
+         <Hsp_hseq>WVSSPPPPNTCVRAMAIYKKSEFVTEVVRRCPHHERCSDS</Hsp_hseq>
+      <Hsp_midline>WV S PPP T VRA+AIYK+S+ +TEVVRRCPHHERCSDS</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>15</Hit_num>
+  <Hit_id>sp|O93379|P53_ICTPU</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Ictalurus punctatus OX=7998 GN=tp53 PE=2 SV=1</Hit_def>
+  <Hit_accession>O93379</Hit_accession>
+  <Hit_len>376</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>63.2</Hsp_bit-score>
+      <Hsp_score>152</Hsp_score>
+      <Hsp_evalue>6.8e-10</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>121</Hsp_query-to>
+      <Hsp_hit-from>122</Hsp_hit-from>
+      <Hsp_hit-to>160</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>26</Hsp_identity>
+      <Hsp_positive>34</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>39</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDS</Hsp_qseq>
+         <Hsp_hseq>VSSSPPPGSVLRATAVYKRSEHVAEVVRRCPHHERSNDS</Hsp_hseq>
+      <Hsp_midline>V S+PPPG+ +RA A+YK+S+H+ EVVRRCPHHER +DS</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>16</Hit_num>
+  <Hit_id>sp|P10360|P53_CHICK</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Gallus gallus OX=9031 GN=TP53 PE=1 SV=1</Hit_def>
+  <Hit_accession>P10360</Hit_accession>
+  <Hit_len>367</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>62.4</Hsp_bit-score>
+      <Hsp_score>150</Hsp_score>
+      <Hsp_evalue>1.2e-09</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>112</Hsp_query-to>
+      <Hsp_hit-from>132</Hsp_hit-from>
+      <Hsp_hit-to>167</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>25</Hsp_identity>
+      <Hsp_positive>31</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>36</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERC</Hsp_qseq>
+         <Hsp_hseq>VGVAPPPGSSLRAVAVYKKSEHVAEVVRRCPHHERC</Hsp_hseq>
+      <Hsp_midline>V   PPPG+ +RAVA+YK+S+H+ EVVRRCPHHERC</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>17</Hit_num>
+  <Hit_id>sp|P79734|P53_DANRE</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Danio rerio OX=7955 GN=tp53 PE=1 SV=1</Hit_def>
+  <Hit_accession>P79734</Hit_accession>
+  <Hit_len>373</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>61.2</Hsp_bit-score>
+      <Hsp_score>147</Hsp_score>
+      <Hsp_evalue>2.6e-09</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>124</Hsp_query-to>
+      <Hsp_hit-from>115</Hsp_hit-from>
+      <Hsp_hit-to>154</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>27</Hsp_identity>
+      <Hsp_positive>31</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>40</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_qseq>
+         <Hsp_hseq>VDVAPPQGSVVRATAIYKKSEHVAEVVRRCPHHERTPDGD</Hsp_hseq>
+      <Hsp_midline>VD  PP G+ VRA AIYK+S+H+ EVVRRCPHHER  D D</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>18</Hit_num>
+  <Hit_id>sp|O15350|P73_HUMAN</Hit_id>
+  <Hit_def>Tumor protein p73 OS=Homo sapiens OX=9606 GN=TP73 PE=1 SV=1</Hit_def>
+  <Hit_accession>O15350</Hit_accession>
+  <Hit_len>636</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>53.1</Hsp_bit-score>
+      <Hsp_score>126</Hsp_score>
+      <Hsp_evalue>7.0e-07</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>106</Hsp_query-to>
+      <Hsp_hit-from>165</Hsp_hit-from>
+      <Hsp_hit-to>198</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>19</Hsp_identity>
+      <Hsp_positive>30</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>34</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHE</Hsp_qseq>
+         <Hsp_hseq>VSTPPPPGTAIRAMPVYKKAEHVTDVVKRCPNHE</Hsp_hseq>
+      <Hsp_midline>V + PPPGT +RA+ +YK+++H+T+VV+RCP+HE</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>19</Hit_num>
+  <Hit_id>sp|Q9JJP2|P73_MOUSE</Hit_id>
+  <Hit_def>Tumor protein p73 OS=Mus musculus OX=10090 GN=Tp73 PE=1 SV=1</Hit_def>
+  <Hit_accession>Q9JJP2</Hit_accession>
+  <Hit_len>631</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>52.8</Hsp_bit-score>
+      <Hsp_score>125</Hsp_score>
+      <Hsp_evalue>9.2e-07</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>106</Hsp_query-to>
+      <Hsp_hit-from>157</Hsp_hit-from>
+      <Hsp_hit-to>190</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>18</Hsp_identity>
+      <Hsp_positive>30</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>34</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHE</Hsp_qseq>
+         <Hsp_hseq>VSTPPPPGTAIRAMPVYKKAEHVTDIVKRCPNHE</Hsp_hseq>
+      <Hsp_midline>V + PPPGT +RA+ +YK+++H+T++V+RCP+HE</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>20</Hit_num>
+  <Hit_id>sp|P79820|P53_ORYLA</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Oryzias latipes OX=8090 GN=tp53 PE=2 SV=2</Hit_def>
+  <Hit_accession>P79820</Hit_accession>
+  <Hit_len>352</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>48.5</Hsp_bit-score>
+      <Hsp_score>114</Hsp_score>
+      <Hsp_evalue>1.7e-05</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>106</Hsp_query-to>
+      <Hsp_hit-from>132</Hsp_hit-from>
+      <Hsp_hit-to>165</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>18</Hsp_identity>
+      <Hsp_positive>26</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>34</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHE</Hsp_qseq>
+         <Hsp_hseq>VSKEPPKGAILRATAVYKKTEHVADVVRRCPHHQ</Hsp_hseq>
+      <Hsp_midline>V   PP G  +RA A+YK+++H+ +VVRRCPHH+</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>21</Hit_num>
+  <Hit_id>sp|Q92143|P53_XIPMA</Hit_id>
+  <Hit_def>Cellular tumor antigen p53 OS=Xiphophorus maculatus OX=8083 GN=tp53 PE=2 SV=2</Hit_def>
+  <Hit_accession>Q92143</Hit_accession>
+  <Hit_len>342</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>48.1</Hsp_bit-score>
+      <Hsp_score>113</Hsp_score>
+      <Hsp_evalue>2.3e-05</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>124</Hsp_query-to>
+      <Hsp_hit-from>113</Hsp_hit-from>
+      <Hsp_hit-to>152</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>20</Hsp_identity>
+      <Hsp_positive>28</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>40</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHERCSDSD</Hsp_qseq>
+         <Hsp_hseq>VKEEPPQGAVIRATAVYKKTEHVGEVVKRCPHHQSEDLSD</Hsp_hseq>
+      <Hsp_midline>V   PP G  +RA A+YK+++H+ EVV+RCPHH+    SD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>22</Hit_num>
+  <Hit_id>sp|Q9H3D4|P63_HUMAN</Hit_id>
+  <Hit_def>Tumor protein 63 OS=Homo sapiens OX=9606 GN=TP63 PE=1 SV=1</Hit_def>
+  <Hit_accession>Q9H3D4</Hit_accession>
+  <Hit_len>680</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>47.4</Hsp_bit-score>
+      <Hsp_score>111</Hsp_score>
+      <Hsp_evalue>3.9e-05</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>106</Hsp_query-to>
+      <Hsp_hit-from>215</Hsp_hit-from>
+      <Hsp_hit-to>248</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>18</Hsp_identity>
+      <Hsp_positive>28</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>34</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHE</Hsp_qseq>
+         <Hsp_hseq>VMTPPPQGAVIRAMPVYKKAEHVTEVVKRCPNHE</Hsp_hseq>
+      <Hsp_midline>V + PP G  +RA+ +YK+++H+TEVV+RCP+HE</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>23</Hit_num>
+  <Hit_id>sp|Q9JJP6|P63_RAT</Hit_id>
+  <Hit_def>Tumor protein 63 OS=Rattus norvegicus OX=10116 GN=Tp63 PE=2 SV=1</Hit_def>
+  <Hit_accession>Q9JJP6</Hit_accession>
+  <Hit_len>680</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>47.4</Hsp_bit-score>
+      <Hsp_score>111</Hsp_score>
+      <Hsp_evalue>3.9e-05</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>106</Hsp_query-to>
+      <Hsp_hit-from>215</Hsp_hit-from>
+      <Hsp_hit-to>248</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>18</Hsp_identity>
+      <Hsp_positive>28</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>34</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHE</Hsp_qseq>
+         <Hsp_hseq>VMTPPPQGAVIRAMPVYKKAEHVTEVVKRCPNHE</Hsp_hseq>
+      <Hsp_midline>V + PP G  +RA+ +YK+++H+TEVV+RCP+HE</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>24</Hit_num>
+  <Hit_id>sp|O88898|P63_MOUSE</Hit_id>
+  <Hit_def>Tumor protein 63 OS=Mus musculus OX=10090 GN=Tp63 PE=1 SV=1</Hit_def>
+  <Hit_accession>O88898</Hit_accession>
+  <Hit_len>680</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>47.4</Hsp_bit-score>
+      <Hsp_score>111</Hsp_score>
+      <Hsp_evalue>3.9e-05</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>106</Hsp_query-to>
+      <Hsp_hit-from>215</Hsp_hit-from>
+      <Hsp_hit-to>248</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>18</Hsp_identity>
+      <Hsp_positive>28</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>34</Hsp_align-len>
+         <Hsp_qseq>VDSTPPPGTRVRAVAIYKQSQHMTEVVRRCPHHE</Hsp_qseq>
+         <Hsp_hseq>VMTPPPQGAVIRAMPVYKKAEHVTEVVKRCPNHE</Hsp_hseq>
+      <Hsp_midline>V + PP G  +RA+ +YK+++H+TEVV+RCP+HE</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+</Iteration_hits>
+  <Iteration_stat>
+    <Statistics>
+      <Statistics_db-num>459708</Statistics_db-num>
+      <Statistics_db-len>170771147</Statistics_db-len>
+      <Statistics_hsp-len>0</Statistics_hsp-len>
+      <Statistics_eff-space>0</Statistics_eff-space>
+      <Statistics_kappa>0.041000</Statistics_kappa>
+      <Statistics_lambda>0.267000</Statistics_lambda>
+      <Statistics_entropy>0</Statistics_entropy>
+    </Statistics>
+  </Iteration_stat>
+</Iteration>
+<Iteration>
+  <Iteration_iter-num>2</Iteration_iter-num>
+  <Iteration_query-ID>Query_2</Iteration_query-ID>
+  <Iteration_query-def>NM_001861.5 Homo sapiens cytochrome c oxidase subunit 4I1 (COX4I1), transcript variant 1, mRNA</Iteration_query-def>
+  <Iteration_query-len>749</Iteration_query-len>
+<Iteration_hits>
+<Hit>
+  <Hit_num>1</Hit_num>
+  <Hit_id>sp|P13073|COX41_HUMAN</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 1, mitochondrial OS=Homo sapiens OX=9606 GN=COX4I1 PE=1 SV=1</Hit_def>
+  <Hit_accession>P13073</Hit_accession>
+  <Hit_len>169</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>344.0</Hsp_bit-score>
+      <Hsp_score>881</Hsp_score>
+      <Hsp_evalue>1.2e-93</Hsp_evalue>
+      <Hsp_query-from>60</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>169</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>169</Hsp_identity>
+      <Hsp_positive>169</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>169</Hsp_align-len>
+         <Hsp_qseq>MLATRVFSLVGKRAISTSVCVRAHESVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>MLATRVFSLVGKRAISTSVCVRAHESVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_hseq>
+      <Hsp_midline>MLATRVFSLVGKRAISTSVCVRAHESVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>2</Hit_num>
+  <Hit_id>sp|P00423|COX41_BOVIN</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 1, mitochondrial OS=Bos taurus OX=9913 GN=COX4I1 PE=1 SV=1</Hit_def>
+  <Hit_accession>P00423</Hit_accession>
+  <Hit_len>169</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>300.8</Hsp_bit-score>
+      <Hsp_score>769</Hsp_score>
+      <Hsp_evalue>1.2e-80</Hsp_evalue>
+      <Hsp_query-from>60</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>169</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>140</Hsp_identity>
+      <Hsp_positive>163</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>169</Hsp_align-len>
+         <Hsp_qseq>MLATRVFSLVGKRAISTSVCVRAHESVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>MLATRVFSLIGRRAISTSVCVRAHGSVVKSEDYALPSYVDRRDYPLPDVAHVKNLSASQKALKEKEKASWSSLSIDEKVELYRLKFKESFAEMNRSTNEWKTVVGAAMFFIGFTALLLIWEKHYVYGPIPHTFEEEWVAKQTKRMLDMKVAPIQGFSAKWDYDKNEWKK</Hsp_hseq>
+      <Hsp_midline>MLATRVFSL+G+RAISTSVCVRAH SVVKSED++LP+Y+DRRD+PLP+VAHVK+LSASQKALKEKEKASWSSLS+DEKVELYR+KFKESFAEMNR +NEWKTVVG AMFFIGFTAL+++W+KHYVYGP+P +F++EWVAKQTKRMLDMKV PIQG ++KWDY+KNEWKK</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>3</Hit_num>
+  <Hit_id>sp|O46577|COX41_PANTR</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 1, mitochondrial (Fragment) OS=Pan troglodytes OX=9598 GN=COX4I1 PE=3 SV=1</Hit_def>
+  <Hit_accession>O46577</Hit_accession>
+  <Hit_len>144</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>298.5</Hsp_bit-score>
+      <Hsp_score>763</Hsp_score>
+      <Hsp_evalue>5.8e-80</Hsp_evalue>
+      <Hsp_query-from>135</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>144</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>144</Hsp_identity>
+      <Hsp_positive>144</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>144</Hsp_align-len>
+         <Hsp_qseq>SVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>SVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_hseq>
+      <Hsp_midline>SVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>4</Hit_num>
+  <Hit_id>sp|O46578|COX41_GORGO</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 1, mitochondrial (Fragment) OS=Gorilla gorilla gorilla OX=9595 GN=COX4I1 PE=3 SV=1</Hit_def>
+  <Hit_accession>O46578</Hit_accession>
+  <Hit_len>144</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>296.2</Hsp_bit-score>
+      <Hsp_score>757</Hsp_score>
+      <Hsp_evalue>2.9e-79</Hsp_evalue>
+      <Hsp_query-from>135</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>144</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>143</Hsp_identity>
+      <Hsp_positive>144</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>144</Hsp_align-len>
+         <Hsp_qseq>SVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>SVVKSEDFSLPAYMDRRDYPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_hseq>
+      <Hsp_midline>SVVKSEDFSLPAYMDRRD+PLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>5</Hit_num>
+  <Hit_id>sp|P10888|COX41_RAT</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 1, mitochondrial OS=Rattus norvegicus OX=10116 GN=Cox4i1 PE=1 SV=1</Hit_def>
+  <Hit_accession>P10888</Hit_accession>
+  <Hit_len>169</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>287.3</Hsp_bit-score>
+      <Hsp_score>734</Hsp_score>
+      <Hsp_evalue>1.3e-76</Hsp_evalue>
+      <Hsp_query-from>60</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>169</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>135</Hsp_identity>
+      <Hsp_positive>156</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>169</Hsp_align-len>
+         <Hsp_qseq>MLATRVFSLVGKRAISTSVCVRAHESVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>MLATRALSLIGKRAISTSVCLRAHGSVVKSEDYALPSYVDRRDYPLPDVAHVKLLSASQKALKEKEKADWSSLSRDEKVQLYRIQFNESFAEMNKGTNEWKTVVGLAMFFIGFTALVLIWEKSYVYGPIPHTFDRDWVAMQTKRMLDMKVNPIQGFSAKWDYNKNEWKK</Hsp_hseq>
+      <Hsp_midline>MLATR  SL+GKRAISTSVC+RAH SVVKSED++LP+Y+DRRD+PLP+VAHVK LSASQKALKEKEKA WSSLS DEKV+LYRI+F ESFAEMN+G+NEWKTVVG AMFFIGFTALV++W+K YVYGP+P +FD++WVA QTKRMLDMKVNPIQG ++KWDY KNEWKK</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>6</Hit_num>
+  <Hit_id>sp|P19783|COX41_MOUSE</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 1, mitochondrial OS=Mus musculus OX=10090 GN=Cox4i1 PE=1 SV=2</Hit_def>
+  <Hit_accession>P19783</Hit_accession>
+  <Hit_len>169</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>282.0</Hsp_bit-score>
+      <Hsp_score>720</Hsp_score>
+      <Hsp_evalue>5.7e-75</Hsp_evalue>
+      <Hsp_query-from>60</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>169</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>132</Hsp_identity>
+      <Hsp_positive>152</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>169</Hsp_align-len>
+         <Hsp_qseq>MLATRVFSLVGKRAISTSVCVRAHESVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>MLASRALSLIGKRAISTSVCLRAHGSVVKSEDYAFPTYADRRDYPLPDVAHVTMLSASQKALKEKEKADWSSLSRDEKVQLYRIQFNESFAEMNRGTNEWKTVVGMAMFFIGFTALVLIWEKSYVYGPIPHTFDRDWVAMQTKRMLDMKANPIQGFSAKWDYDKNEWKK</Hsp_hseq>
+      <Hsp_midline>MLA+R  SL+GKRAISTSVC+RAH SVVKSED++ P Y DRRD+PLP+VAHV  LSASQKALKEKEKA WSSLS DEKV+LYRI+F ESFAEMNRG+NEWKTVVG AMFFIGFTALV++W+K YVYGP+P +FD++WVA QTKRMLDMK NPIQG ++KWDY+KNEWKK</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>7</Hit_num>
+  <Hit_id>sp|Q9TTT8|COX41_RABIT</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 1, mitochondrial OS=Oryctolagus cuniculus OX=9986 GN=COX4I1 PE=2 SV=1</Hit_def>
+  <Hit_accession>Q9TTT8</Hit_accession>
+  <Hit_len>169</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>279.3</Hsp_bit-score>
+      <Hsp_score>713</Hsp_score>
+      <Hsp_evalue>3.7e-74</Hsp_evalue>
+      <Hsp_query-from>60</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>169</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>129</Hsp_identity>
+      <Hsp_positive>151</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>169</Hsp_align-len>
+         <Hsp_qseq>MLATRVFSLVGKRAISTSVCVRAHESVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>MLPTRLLSFSGSRAISTSFCLRAHGSVVKSEDYALPSYVDRRDYPLPDVAHVKQLSAGQKALKEKEKAPWGSLTRDEKVELYRIQFNESFAEMNRGTNEWKTVVGTALFFIGFTALILIWEKHYVYGPIPHTFDKEWVAMQTKRMLDMKVSPIQGFSAKWDYNKNEWRK</Hsp_hseq>
+      <Hsp_midline>ML TR+ S  G RAISTS C+RAH SVVKSED++LP+Y+DRRD+PLP+VAHVK LSA QKALKEKEKA W SL+ DEKVELYRI+F ESFAEMNRG+NEWKTVVG A+FFIGFTAL+++W+KHYVYGP+P +FDKEWVA QTKRMLDMKV+PIQG ++KWDY KNEW+K</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>8</Hit_num>
+  <Hit_id>sp|Q96KJ9|COX42_HUMAN</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 2, mitochondrial OS=Homo sapiens OX=9606 GN=COX4I2 PE=1 SV=2</Hit_def>
+  <Hit_accession>Q96KJ9</Hit_accession>
+  <Hit_len>171</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>164.5</Hsp_bit-score>
+      <Hsp_score>415</Hsp_score>
+      <Hsp_evalue>1.3e-39</Hsp_evalue>
+      <Hsp_query-from>180</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>43</Hsp_hit-from>
+      <Hsp_hit-to>171</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>78</Hsp_identity>
+      <Hsp_positive>98</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>129</Hsp_align-len>
+         <Hsp_qseq>RRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>QRYYPMPEEPFCTELNAEEQALKEKEKGSWTQLTHAEKVALYRLQFNETFAEMNRRSNEWKTVMGCVFFFIGFAALVIWWQRVYVFPPKPITLTDERKAQQLQRMLDMKVNPVQGLASRWDYEKKQWKK</Hsp_hseq>
+      <Hsp_midline>+R +P+PE      L+A ++ALKEKEK SW+ L+  EKV LYR++F E+FAEMNR SNEWKTV+G   FFIGF ALVI WQ+ YV+ P P +   E  A+Q +RMLDMKVNP+QGLAS+WDYEK +WKK</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>9</Hit_num>
+  <Hit_id>sp|Q95283|COX41_PIG</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 1, mitochondrial (Fragment) OS=Sus scrofa OX=9823 GN=COX4I1 PE=2 SV=1</Hit_def>
+  <Hit_accession>Q95283</Hit_accession>
+  <Hit_len>97</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>160.6</Hsp_bit-score>
+      <Hsp_score>405</Hsp_score>
+      <Hsp_evalue>1.9e-38</Hsp_evalue>
+      <Hsp_query-from>60</Hsp_query-from>
+      <Hsp_query-to>351</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>97</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>80</Hsp_identity>
+      <Hsp_positive>91</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>97</Hsp_align-len>
+         <Hsp_qseq>MLATRVFSLVGKRAISTSVCVRAHESVVKSEDFSLPAYMDRRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGS</Hsp_qseq>
+         <Hsp_hseq>MLATRVFNLIGRRAISTSVCVRAHGSXVKSEDYALPVYVDRRDYPLPDVAHVKNLSASQKAXKEKEKASWSSLSMDEKVELYRLKFNESFAEMNRST</Hsp_hseq>
+      <Hsp_midline>MLATRVF+L+G+RAISTSVCVRAH S VKSED++LP Y+DRRD+PLP+VAHVK+LSASQKA KEKEKASWSSLSMDEKVELYR+KF ESFAEMNR +</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>10</Hit_num>
+  <Hit_id>sp|Q91Y94|COX42_RAT</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 2, mitochondrial OS=Rattus norvegicus OX=10116 GN=Cox4i2 PE=2 SV=1</Hit_def>
+  <Hit_accession>Q91Y94</Hit_accession>
+  <Hit_len>172</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>159.1</Hsp_bit-score>
+      <Hsp_score>401</Hsp_score>
+      <Hsp_evalue>5.5e-38</Hsp_evalue>
+      <Hsp_query-from>135</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>26</Hsp_hit-from>
+      <Hsp_hit-to>172</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>79</Hsp_identity>
+      <Hsp_positive>101</Hsp_positive>
+      <Hsp_gaps>3</Hsp_gaps>
+      <Hsp_align-len>147</Hsp_align-len>
+         <Hsp_qseq>SVVKSEDFSLPAYMD---RRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>SAASSSQRRMTPYVDCYAQRSYPMPDEPYCTELSEEQRALKEKEKGSWAQLSQAEKVALYRLQFHETFAEMNHRSNEWKTVMGCVFFFIGFTALVIWWQRVYVFPKKVVTLTEERKAQQLQRLLDMKSNPIQGLSAHWDYEKKEWKK</Hsp_hseq>
+      <Hsp_midline>S   S    +  Y+D   +R +P+P+  +   LS  Q+ALKEKEK SW+ LS  EKV LYR++F E+FAEMN  SNEWKTV+G   FFIGFTALVI WQ+ YV+     +  +E  A+Q +R+LDMK NPIQGL++ WDYEK EWKK</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>11</Hit_num>
+  <Hit_id>sp|Q91W29|COX42_MOUSE</Hit_id>
+  <Hit_def>Cytochrome c oxidase subunit 4 isoform 2, mitochondrial OS=Mus musculus OX=10090 GN=Cox4i2 PE=1 SV=1</Hit_def>
+  <Hit_accession>Q91W29</Hit_accession>
+  <Hit_len>172</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>157.1</Hsp_bit-score>
+      <Hsp_score>396</Hsp_score>
+      <Hsp_evalue>2.1e-37</Hsp_evalue>
+      <Hsp_query-from>180</Hsp_query-from>
+      <Hsp_query-to>567</Hsp_query-to>
+      <Hsp_hit-from>44</Hsp_hit-from>
+      <Hsp_hit-to>172</Hsp_hit-to>
+      <Hsp_query-frame>3</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>76</Hsp_identity>
+      <Hsp_positive>94</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>129</Hsp_align-len>
+         <Hsp_qseq>RRDHPLPEVAHVKHLSASQKALKEKEKASWSSLSMDEKVELYRIKFKESFAEMNRGSNEWKTVVGGAMFFIGFTALVIMWQKHYVYGPLPQSFDKEWVAKQTKRMLDMKVNPIQGLASKWDYEKNEWKK</Hsp_qseq>
+         <Hsp_hseq>QRSYPMPDEPFCTELSEEQRALKEKEKGSWTQLSQAEKVALYRLQFHETFAEMNHRSNEWKTVMGCVFFFIGFTALVIWWQRVYVFPKKVVTLTEERKAQQLQRLLDMKSNPIQGLAAHWDYEKKEWKK</Hsp_hseq>
+      <Hsp_midline>+R +P+P+      LS  Q+ALKEKEK SW+ LS  EKV LYR++F E+FAEMN  SNEWKTV+G   FFIGFTALVI WQ+ YV+     +  +E  A+Q +R+LDMK NPIQGLA+ WDYEK EWKK</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+</Iteration_hits>
+  <Iteration_stat>
+    <Statistics>
+      <Statistics_db-num>459708</Statistics_db-num>
+      <Statistics_db-len>170771147</Statistics_db-len>
+      <Statistics_hsp-len>0</Statistics_hsp-len>
+      <Statistics_eff-space>0</Statistics_eff-space>
+      <Statistics_kappa>0.041000</Statistics_kappa>
+      <Statistics_lambda>0.267000</Statistics_lambda>
+      <Statistics_entropy>0</Statistics_entropy>
+    </Statistics>
+  </Iteration_stat>
+</Iteration>
+</BlastOutput_iterations>
+</BlastOutput>

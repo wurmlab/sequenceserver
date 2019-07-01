@@ -1,0 +1,8 @@
+--- !ruby/object:SequenceServer::BLAST::Job
+id: 68ec16d4-3520-4d65-8e0d-12c3491e1bd6
+submitted_at: 2019-06-23 13:25:58.025738700 +01:00
+imported_xml_file: TBLASTN_XML_2.6.0
+advanced_params: {}
+databases: []
+completed_at: 2019-06-23 13:25:58.044271800 +01:00
+exitstatus: 0

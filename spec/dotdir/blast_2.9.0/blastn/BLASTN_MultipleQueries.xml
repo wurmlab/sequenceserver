@@ -1,0 +1,2880 @@
+<?xml version="1.0"?>
+<!DOCTYPE BlastOutput PUBLIC "-//NCBI//NCBI BlastOutput/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd">
+<BlastOutput>
+  <BlastOutput_program>blastn</BlastOutput_program>
+  <BlastOutput_version>BLASTN 2.9.0+</BlastOutput_version>
+  <BlastOutput_reference>Zheng Zhang, Scott Schwartz, Lukas Wagner, and Webb Miller (2000), &quot;A greedy algorithm for aligning DNA sequences&quot;, J Comput Biol 2000; 7(1-2):203-14.</BlastOutput_reference>
+  <BlastOutput_db>nr</BlastOutput_db>
+  <BlastOutput_query-ID>Query_54314</BlastOutput_query-ID>
+  <BlastOutput_query-def>MH011443.1 Homo sapiens TP53 (TP53) gene, exon 5 and partial cds</BlastOutput_query-def>
+  <BlastOutput_query-len>123</BlastOutput_query-len>
+  <BlastOutput_param>
+    <Parameters>
+      <Parameters_expect>10</Parameters_expect>
+      <Parameters_sc-match>1</Parameters_sc-match>
+      <Parameters_sc-mismatch>-2</Parameters_sc-mismatch>
+      <Parameters_gap-open>0</Parameters_gap-open>
+      <Parameters_gap-extend>0</Parameters_gap-extend>
+      <Parameters_filter>L;m;</Parameters_filter>
+    </Parameters>
+  </BlastOutput_param>
+<BlastOutput_iterations>
+<Iteration>
+  <Iteration_iter-num>1</Iteration_iter-num>
+  <Iteration_query-ID>Query_54314</Iteration_query-ID>
+  <Iteration_query-def>MH011443.1 Homo sapiens TP53 (TP53) gene, exon 5 and partial cds</Iteration_query-def>
+  <Iteration_query-len>123</Iteration_query-len>
+<Iteration_hits>
+<Hit>
+  <Hit_num>1</Hit_num>
+  <Hit_id>gi|1486783306|gb|MH011443.1|</Hit_id>
+  <Hit_def>Homo sapiens TP53 (TP53) gene, exon 5 and partial cds</Hit_def>
+  <Hit_accession>MH011443</Hit_accession>
+  <Hit_len>123</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>228.258</Hsp_bit-score>
+      <Hsp_score>123</Hsp_score>
+      <Hsp_evalue>3.75085e-56</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>123</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>123</Hsp_identity>
+      <Hsp_positive>123</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>2</Hit_num>
+  <Hit_id>gi|1528997474|gb|MH447967.1|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53) gene, partial cds</Hit_def>
+  <Hit_accession>MH447967</Hit_accession>
+  <Hit_len>174</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>34</Hsp_hit-from>
+      <Hsp_hit-to>156</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>3</Hit_num>
+  <Hit_id>gi|1484127336|gb|MG595994.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate TWH-1698-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595994</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>4</Hit_num>
+  <Hit_id>gi|1484127334|gb|MG595993.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate TWH-0395-0-1 truncated tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595993</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>5</Hit_num>
+  <Hit_id>gi|1484127332|gb|MG595992.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate TWH-0602-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595992</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>6</Hit_num>
+  <Hit_id>gi|1484127330|gb|MG595991.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate TWH-1681-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595991</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>7</Hit_num>
+  <Hit_id>gi|1484127328|gb|MG595990.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate KWH-0019-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595990</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>8</Hit_num>
+  <Hit_id>gi|1484127326|gb|MG595989.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate TWH-0855-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595989</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>9</Hit_num>
+  <Hit_id>gi|1484127324|gb|MG595988.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate HKSH-0182-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595988</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>10</Hit_num>
+  <Hit_id>gi|1484127322|gb|MG595987.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate TWH-0104-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595987</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>11</Hit_num>
+  <Hit_id>gi|1484127320|gb|MG595986.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate TWH-1542-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595986</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>12</Hit_num>
+  <Hit_id>gi|1484127308|gb|MG595980.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate TWH-0571-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595980</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>13</Hit_num>
+  <Hit_id>gi|1484127306|gb|MG595979.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate TWH-1414-0-1 mutant tumor protein p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>MG595979</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>14</Hit_num>
+  <Hit_id>gi|1472901693|gb|MH366343.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 62F TP53 (TP53) gene, exon 5 and partial cds</Hit_def>
+  <Hit_accession>MH366343</Hit_accession>
+  <Hit_len>123</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>123</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>15</Hit_num>
+  <Hit_id>gi|1548994291|gb|CP034495.1|</Hit_id>
+  <Hit_def>Eukaryotic synthetic construct chromosome 17 &gt;gi|1549096955|gb|CP034520.1| Eukaryotic synthetic construct chromosome 17</Hit_def>
+  <Hit_accession>CP034495</Hit_accession>
+  <Hit_len>88299790</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>7578494</Hsp_hit-from>
+      <Hsp_hit-to>7578372</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+    <Hsp>
+      <Hsp_num>2</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>87758763</Hsp_hit-from>
+      <Hsp_hit-to>87758641</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>16</Hit_num>
+  <Hit_id>gi|1233272224|gb|KX710182.1|</Hit_id>
+  <Hit_def>Homo sapiens TP53 gene, complete cds</Hit_def>
+  <Hit_accession>KX710182</Hit_accession>
+  <Hit_len>3751</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>1038</Hsp_hit-from>
+      <Hsp_hit-to>1160</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>17</Hit_num>
+  <Hit_id>gi|1147690151|emb|LT739496.1|</Hit_id>
+  <Hit_def>Human ORFeome Gateway entry vector pENTR223-TP53, complete sequence</Hit_def>
+  <Hit_accession>LT739496</Hit_accession>
+  <Hit_len>3969</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>923</Hsp_hit-from>
+      <Hsp_hit-to>1045</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>18</Hit_num>
+  <Hit_id>gi|1049010735|gb|AH002919.2|</Hit_id>
+  <Hit_def>Homo sapiens phosphoprotein p53 (p53) gene, complete cds</Hit_def>
+  <Hit_accession>AH002919</Hit_accession>
+  <Hit_len>4127</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>1384</Hsp_hit-from>
+      <Hsp_hit-to>1506</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>19</Hit_num>
+  <Hit_id>gi|1046875959|ref|XM_003749209.4|</Hit_id>
+  <Hit_def>PREDICTED: Rattus norvegicus cellular tumor antigen p53-like (LOC100910954), mRNA</Hit_def>
+  <Hit_accession>XM_003749209</Hit_accession>
+  <Hit_len>894</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>73</Hsp_hit-from>
+      <Hsp_hit-to>195</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>20</Hit_num>
+  <Hit_id>gi|1036032387|gb|AH002918.2|</Hit_id>
+  <Hit_def>Homo sapiens phosphoprotein p53 (TP53) gene, complete cds</Hit_def>
+  <Hit_accession>AH002918</Hit_accession>
+  <Hit_len>3944</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>1392</Hsp_hit-from>
+      <Hsp_hit-to>1514</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>21</Hit_num>
+  <Hit_id>gi|1036030432|gb|AH007667.2|</Hit_id>
+  <Hit_def>Homo sapiens tumor suppressor protein p53 (P53) gene, complete cds</Hit_def>
+  <Hit_accession>AH007667</Hit_accession>
+  <Hit_len>5139</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>1615</Hsp_hit-from>
+      <Hsp_hit-to>1737</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>22</Hit_num>
+  <Hit_id>gi|1036030431|gb|AH007665.2|</Hit_id>
+  <Hit_def>Homo sapiens tumor suppressor protein p53 (p53) gene, complete cds</Hit_def>
+  <Hit_accession>AH007665</Hit_accession>
+  <Hit_len>5192</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>1631</Hsp_hit-from>
+      <Hsp_hit-to>1753</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>23</Hit_num>
+  <Hit_id>gi|1012955506|gb|JN214348.1|</Hit_id>
+  <Hit_def>Homo sapiens cell-line HCT116p53-/- nonfunctional delta40-P53 transcript variant (TP53) mRNA, complete sequence</Hit_def>
+  <Hit_accession>JN214348</Hit_accession>
+  <Hit_len>2418</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>481</Hsp_hit-from>
+      <Hsp_hit-to>603</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>24</Hit_num>
+  <Hit_id>gi|823670073|gb|KR709867.1|</Hit_id>
+  <Hit_def>Synthetic construct Homo sapiens clone CCSBHm_00007040 TP53 (TP53) mRNA, encodes complete protein</Hit_def>
+  <Hit_accession>KR709867</Hit_accession>
+  <Hit_len>1311</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>501</Hsp_hit-from>
+      <Hsp_hit-to>623</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>25</Hit_num>
+  <Hit_id>gi|823670071|gb|KR709866.1|</Hit_id>
+  <Hit_def>Synthetic construct Homo sapiens clone CCSBHm_00006983 TP53 (TP53) mRNA, encodes complete protein</Hit_def>
+  <Hit_accession>KR709866</Hit_accession>
+  <Hit_len>1311</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>501</Hsp_hit-from>
+      <Hsp_hit-to>623</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>26</Hit_num>
+  <Hit_id>gi|823670067|gb|KR709864.1|</Hit_id>
+  <Hit_def>Synthetic construct Homo sapiens clone CCSBHm_00006902 TP53 (TP53) mRNA, encodes complete protein</Hit_def>
+  <Hit_accession>KR709864</Hit_accession>
+  <Hit_len>1311</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>501</Hsp_hit-from>
+      <Hsp_hit-to>623</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>27</Hit_num>
+  <Hit_id>gi|649121645|gb|KJ897694.1|</Hit_id>
+  <Hit_def>Synthetic construct Homo sapiens clone ccsbBroadEn_07088 TP53 gene, encodes complete protein</Hit_def>
+  <Hit_accession>KJ897694</Hit_accession>
+  <Hit_len>1311</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>501</Hsp_hit-from>
+      <Hsp_hit-to>623</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>28</Hit_num>
+  <Hit_id>gi|631786534|tpe|HG975427.1|</Hit_id>
+  <Hit_def>TPA: Homo sapiens Processed transcript p53-mRNA (p53 gene)</Hit_def>
+  <Hit_accession>HG975427</Hit_accession>
+  <Hit_len>2586</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>633</Hsp_hit-from>
+      <Hsp_hit-to>755</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>29</Hit_num>
+  <Hit_id>gi|430767109|gb|JQ752241.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C142 nonfunctional tumor suppressor p53 (TP53) gene, partial sequence</Hit_def>
+  <Hit_accession>JQ752241</Hit_accession>
+  <Hit_len>466</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>380</Hsp_hit-from>
+      <Hsp_hit-to>258</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>30</Hit_num>
+  <Hit_id>gi|430767104|gb|JQ752236.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 94C-2 nonfunctional tumor suppressor p53 (TP53) gene, partial sequence</Hit_def>
+  <Hit_accession>JQ752236</Hit_accession>
+  <Hit_len>466</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>380</Hsp_hit-from>
+      <Hsp_hit-to>258</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>31</Hit_num>
+  <Hit_id>gi|430766197|gb|JQ751890.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate CN124 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751890</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>32</Hit_num>
+  <Hit_id>gi|430766119|gb|JQ751851.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C156 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766255|gb|JQ751919.1| Homo sapiens isolate CN156 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751851</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>33</Hit_num>
+  <Hit_id>gi|430766099|gb|JQ751841.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C146 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751841</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>34</Hit_num>
+  <Hit_id>gi|430766093|gb|JQ751838.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C143 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751838</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>35</Hit_num>
+  <Hit_id>gi|430766081|gb|JQ751832.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C134 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751832</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>36</Hit_num>
+  <Hit_id>gi|430766059|gb|JQ751821.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C121 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751821</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>37</Hit_num>
+  <Hit_id>gi|430766051|gb|JQ751817.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C116 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751817</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>38</Hit_num>
+  <Hit_id>gi|430766041|gb|JQ751812.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C111 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751812</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>39</Hit_num>
+  <Hit_id>gi|430766035|gb|JQ751809.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C107 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751809</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>40</Hit_num>
+  <Hit_id>gi|430766031|gb|JQ751807.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C104 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766039|gb|JQ751811.1| Homo sapiens isolate C110 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751807</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>41</Hit_num>
+  <Hit_id>gi|430766025|gb|JQ751804.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C100 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751804</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>42</Hit_num>
+  <Hit_id>gi|430766020|gb|JQ751801.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C097 nonfunctional tumor suppressor p53 (TP53) gene, partial sequence</Hit_def>
+  <Hit_accession>JQ751801</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>43</Hit_num>
+  <Hit_id>gi|430766010|gb|JQ751796.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C091 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766107|gb|JQ751845.1| Homo sapiens isolate C150 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751796</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>44</Hit_num>
+  <Hit_id>gi|430765962|gb|JQ751772.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate A106C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751772</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>45</Hit_num>
+  <Hit_id>gi|430765916|gb|JQ751749.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate A71C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751749</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>46</Hit_num>
+  <Hit_id>gi|430765724|gb|JQ751653.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 38C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751653</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>47</Hit_num>
+  <Hit_id>gi|430765716|gb|JQ751649.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 31C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751649</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>48</Hit_num>
+  <Hit_id>gi|430765674|gb|JQ751628.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 09B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765676|gb|JQ751629.1| Homo sapiens isolate 09C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751628</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>49</Hit_num>
+  <Hit_id>gi|430765666|gb|JQ751624.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 05B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765670|gb|JQ751626.1| Homo sapiens isolate 06B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765672|gb|JQ751627.1| Homo sapiens isolate 06C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765678|gb|JQ751630.1| Homo sapiens isolate 10B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765680|gb|JQ751631.1| Homo sapiens isolate 10C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765682|gb|JQ751632.1| Homo sapiens isolate 14C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765684|gb|JQ751633.1| Homo sapiens isolate 16B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765686|gb|JQ751634.1| Homo sapiens isolate 16C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765688|gb|JQ751635.1| Homo sapiens isolate 18B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765690|gb|JQ751636.1| Homo sapiens isolate 18C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765692|gb|JQ751637.1| Homo sapiens isolate 19B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765694|gb|JQ751638.1| Homo sapiens isolate 19C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765696|gb|JQ751639.1| Homo sapiens isolate 20B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765698|gb|JQ751640.1| Homo sapiens isolate 20C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765700|gb|JQ751641.1| Homo sapiens isolate 21B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765702|gb|JQ751642.1| Homo sapiens isolate 21C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765704|gb|JQ751643.1| Homo sapiens isolate 22B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765706|gb|JQ751644.1| Homo sapiens isolate 22C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765708|gb|JQ751645.1| Homo sapiens isolate 26B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765710|gb|JQ751646.1| Homo sapiens isolate 26C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765712|gb|JQ751647.1| Homo sapiens isolate 27B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765714|gb|JQ751648.1| Homo sapiens isolate 31B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765718|gb|JQ751650.1| Homo sapiens isolate 36B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765720|gb|JQ751651.1| Homo sapiens isolate 36C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765722|gb|JQ751652.1| Homo sapiens isolate 38B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765726|gb|JQ751654.1| Homo sapiens isolate 39B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765728|gb|JQ751655.1| Homo sapiens isolate 39C-1 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765730|gb|JQ751656.1| Homo sapiens isolate 41B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765732|gb|JQ751657.1| Homo sapiens isolate 41C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765734|gb|JQ751658.1| Homo sapiens isolate 47B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765736|gb|JQ751659.1| Homo sapiens isolate 47C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765738|gb|JQ751660.1| Homo sapiens isolate 61B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765740|gb|JQ751661.1| Homo sapiens isolate 61C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765742|gb|JQ751662.1| Homo sapiens isolate 62B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765744|gb|JQ751663.1| Homo sapiens isolate 62C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765746|gb|JQ751664.1| Homo sapiens isolate 63B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765748|gb|JQ751665.1| Homo sapiens isolate 63C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765750|gb|JQ751666.1| Homo sapiens isolate 64B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765752|gb|JQ751667.1| Homo sapiens isolate 64C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765754|gb|JQ751668.1| Homo sapiens isolate 65B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765756|gb|JQ751669.1| Homo sapiens isolate 65C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765760|gb|JQ751671.1| Homo sapiens isolate 67B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765762|gb|JQ751672.1| Homo sapiens isolate 67C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765764|gb|JQ751673.1| Homo sapiens isolate 68B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765766|gb|JQ751674.1| Homo sapiens isolate 68C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765768|gb|JQ751675.1| Homo sapiens isolate 69B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765770|gb|JQ751676.1| Homo sapiens isolate 69C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765772|gb|JQ751677.1| Homo sapiens isolate 72B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765774|gb|JQ751678.1| Homo sapiens isolate 72C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765780|gb|JQ751681.1| Homo sapiens isolate 74B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765782|gb|JQ751682.1| Homo sapiens isolate 74C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765784|gb|JQ751683.1| Homo sapiens isolate 75B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765786|gb|JQ751684.1| Homo sapiens isolate 75C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765788|gb|JQ751685.1| Homo sapiens isolate 76B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765790|gb|JQ751686.1| Homo sapiens isolate 76C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765792|gb|JQ751687.1| Homo sapiens isolate 83B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765794|gb|JQ751688.1| Homo sapiens isolate 83C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765796|gb|JQ751689.1| Homo sapiens isolate 84B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765798|gb|JQ751690.1| Homo sapiens isolate 84C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765800|gb|JQ751691.1| Homo sapiens isolate 85B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765802|gb|JQ751692.1| Homo sapiens isolate 85C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765816|gb|JQ751699.1| Homo sapiens isolate 94B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765818|gb|JQ751700.1| Homo sapiens isolate 94C-1 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765820|gb|JQ751701.1| Homo sapiens isolate 96B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765822|gb|JQ751702.1| Homo sapiens isolate 96C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765824|gb|JQ751703.1| Homo sapiens isolate 97B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765826|gb|JQ751704.1| Homo sapiens isolate 97C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765828|gb|JQ751705.1| Homo sapiens isolate 98B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765830|gb|JQ751706.1| Homo sapiens isolate 98C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765832|gb|JQ751707.1| Homo sapiens isolate 99B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765834|gb|JQ751708.1| Homo sapiens isolate 99C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765836|gb|JQ751709.1| Homo sapiens isolate A1C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765838|gb|JQ751710.1| Homo sapiens isolate A2C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765840|gb|JQ751711.1| Homo sapiens isolate A4C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765842|gb|JQ751712.1| Homo sapiens isolate A7C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765844|gb|JQ751713.1| Homo sapiens isolate A8C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765846|gb|JQ751714.1| Homo sapiens isolate A9CL tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765848|gb|JQ751715.1| Homo sapiens isolate A10C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765850|gb|JQ751716.1| Homo sapiens isolate A11C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765852|gb|JQ751717.1| Homo sapiens isolate A12C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765854|gb|JQ751718.1| Homo sapiens isolate A13C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765856|gb|JQ751719.1| Homo sapiens isolate A15C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765858|gb|JQ751720.1| Homo sapiens isolate A16C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765860|gb|JQ751721.1| Homo sapiens isolate A17C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765862|gb|JQ751722.1| Homo sapiens isolate A18C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765864|gb|JQ751723.1| Homo sapiens isolate A19C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765866|gb|JQ751724.1| Homo sapiens isolate A20C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765868|gb|JQ751725.1| Homo sapiens isolate A21C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765870|gb|JQ751726.1| Homo sapiens isolate A22C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765872|gb|JQ751727.1| Homo sapiens isolate A23C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765874|gb|JQ751728.1| Homo sapiens isolate A24C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765876|gb|JQ751729.1| Homo sapiens isolate A25C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765878|gb|JQ751730.1| Homo sapiens isolate A26C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765880|gb|JQ751731.1| Homo sapiens isolate A27C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765882|gb|JQ751732.1| Homo sapiens isolate A28C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765884|gb|JQ751733.1| Homo sapiens isolate A29C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765886|gb|JQ751734.1| Homo sapiens isolate A32C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765890|gb|JQ751736.1| Homo sapiens isolate A35C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765892|gb|JQ751737.1| Homo sapiens isolate A36C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765894|gb|JQ751738.1| Homo sapiens isolate A37C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765896|gb|JQ751739.1| Homo sapiens isolate A38C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765898|gb|JQ751740.1| Homo sapiens isolate A39C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765900|gb|JQ751741.1| Homo sapiens isolate A61C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765902|gb|JQ751742.1| Homo sapiens isolate A62C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765904|gb|JQ751743.1| Homo sapiens isolate A65C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765906|gb|JQ751744.1| Homo sapiens isolate A66C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765908|gb|JQ751745.1| Homo sapiens isolate A67C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765910|gb|JQ751746.1| Homo sapiens isolate A68C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765912|gb|JQ751747.1| Homo sapiens isolate A69C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765914|gb|JQ751748.1| Homo sapiens isolate A70C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765918|gb|JQ751750.1| Homo sapiens isolate A72C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765920|gb|JQ751751.1| Homo sapiens isolate A75C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765922|gb|JQ751752.1| Homo sapiens isolate A76C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765924|gb|JQ751753.1| Homo sapiens isolate A79C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765926|gb|JQ751754.1| Homo sapiens isolate A82C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765928|gb|JQ751755.1| Homo sapiens isolate A84C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765930|gb|JQ751756.1| Homo sapiens isolate A86C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765932|gb|JQ751757.1| Homo sapiens isolate A88C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765934|gb|JQ751758.1| Homo sapiens isolate A89C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765936|gb|JQ751759.1| Homo sapiens isolate A91C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765938|gb|JQ751760.1| Homo sapiens isolate A92C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765942|gb|JQ751762.1| Homo sapiens isolate A95C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765946|gb|JQ751764.1| Homo sapiens isolate A97C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765948|gb|JQ751765.1| Homo sapiens isolate A98C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765950|gb|JQ751766.1| Homo sapiens isolate A99C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765952|gb|JQ751767.1| Homo sapiens isolate A101C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765954|gb|JQ751768.1| Homo sapiens isolate A102C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765956|gb|JQ751769.1| Homo sapiens isolate A103C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765958|gb|JQ751770.1| Homo sapiens isolate A104C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765960|gb|JQ751771.1| Homo sapiens isolate A105C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765964|gb|JQ751773.1| Homo sapiens isolate A107C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765966|gb|JQ751774.1| Homo sapiens isolate A108C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765968|gb|JQ751775.1| Homo sapiens isolate A109C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765970|gb|JQ751776.1| Homo sapiens isolate A110C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765972|gb|JQ751777.1| Homo sapiens isolate A111C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765974|gb|JQ751778.1| Homo sapiens isolate A113C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765976|gb|JQ751779.1| Homo sapiens isolate A114C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765978|gb|JQ751780.1| Homo sapiens isolate A115C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765980|gb|JQ751781.1| Homo sapiens isolate A116C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765982|gb|JQ751782.1| Homo sapiens isolate A117C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765986|gb|JQ751784.1| Homo sapiens isolate A119C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765988|gb|JQ751785.1| Homo sapiens isolate A120C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765990|gb|JQ751786.1| Homo sapiens isolate A121C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765992|gb|JQ751787.1| Homo sapiens isolate A122C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765994|gb|JQ751788.1| Homo sapiens isolate A123C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765996|gb|JQ751789.1| Homo sapiens isolate CN160 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765998|gb|JQ751790.1| Homo sapiens isolate C085 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766000|gb|JQ751791.1| Homo sapiens isolate C086 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766002|gb|JQ751792.1| Homo sapiens isolate C087 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766004|gb|JQ751793.1| Homo sapiens isolate C088 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766006|gb|JQ751794.1| Homo sapiens isolate C089 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766008|gb|JQ751795.1| Homo sapiens isolate C090 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766012|gb|JQ751797.1| Homo sapiens isolate C092 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766014|gb|JQ751798.1| Homo sapiens isolate C093 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766016|gb|JQ751799.1| Homo sapiens isolate C094 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766018|gb|JQ751800.1| Homo sapiens isolate C095 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766021|gb|JQ751802.1| Homo sapiens isolate C098 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766023|gb|JQ751803.1| Homo sapiens isolate C099 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766027|gb|JQ751805.1| Homo sapiens isolate C101 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766029|gb|JQ751806.1| Homo sapiens isolate C102 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766037|gb|JQ751810.1| Homo sapiens isolate C108 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766043|gb|JQ751813.1| Homo sapiens isolate C112 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766045|gb|JQ751814.1| Homo sapiens isolate C113 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766047|gb|JQ751815.1| Homo sapiens isolate C114 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766049|gb|JQ751816.1| Homo sapiens isolate C115 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766053|gb|JQ751818.1| Homo sapiens isolate C118 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766055|gb|JQ751819.1| Homo sapiens isolate C119 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766061|gb|JQ751822.1| Homo sapiens isolate C122 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766065|gb|JQ751824.1| Homo sapiens isolate C125 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766067|gb|JQ751825.1| Homo sapiens isolate C126 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766069|gb|JQ751826.1| Homo sapiens isolate C127 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766071|gb|JQ751827.1| Homo sapiens isolate C128 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766073|gb|JQ751828.1| Homo sapiens isolate C129 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766075|gb|JQ751829.1| Homo sapiens isolate C130 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766079|gb|JQ751831.1| Homo sapiens isolate C133 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766083|gb|JQ751833.1| Homo sapiens isolate C136 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766085|gb|JQ751834.1| Homo sapiens isolate C138 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766087|gb|JQ751835.1| Homo sapiens isolate C139 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766089|gb|JQ751836.1| Homo sapiens isolate C140 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766095|gb|JQ751839.1| Homo sapiens isolate C144 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766101|gb|JQ751842.1| Homo sapiens isolate C147 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766103|gb|JQ751843.1| Homo sapiens isolate C148 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766105|gb|JQ751844.1| Homo sapiens isolate C149 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766111|gb|JQ751847.1| Homo sapiens isolate C152 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766113|gb|JQ751848.1| Homo sapiens isolate C153 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766115|gb|JQ751849.1| Homo sapiens isolate C154 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766117|gb|JQ751850.1| Homo sapiens isolate C155 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766123|gb|JQ751853.1| Homo sapiens isolate C158 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766125|gb|JQ751854.1| Homo sapiens isolate C159 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766127|gb|JQ751855.1| Homo sapiens isolate C160 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766129|gb|JQ751856.1| Homo sapiens isolate C161 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766133|gb|JQ751858.1| Homo sapiens isolate CN086 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766135|gb|JQ751859.1| Homo sapiens isolate CN087 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766137|gb|JQ751860.1| Homo sapiens isolate CN088 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766139|gb|JQ751861.1| Homo sapiens isolate CN089 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766141|gb|JQ751862.1| Homo sapiens isolate CN090 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766145|gb|JQ751864.1| Homo sapiens isolate CN092 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766147|gb|JQ751865.1| Homo sapiens isolate CN093 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766149|gb|JQ751866.1| Homo sapiens isolate CN094 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766151|gb|JQ751867.1| Homo sapiens isolate CN095 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766153|gb|JQ751868.1| Homo sapiens isolate CN097 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766155|gb|JQ751869.1| Homo sapiens isolate CN098 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766157|gb|JQ751870.1| Homo sapiens isolate CN099 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766159|gb|JQ751871.1| Homo sapiens isolate CN100 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766161|gb|JQ751872.1| Homo sapiens isolate CN101 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766163|gb|JQ751873.1| Homo sapiens isolate CN102 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766165|gb|JQ751874.1| Homo sapiens isolate CN104 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766169|gb|JQ751876.1| Homo sapiens isolate CN107 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766171|gb|JQ751877.1| Homo sapiens isolate CN108 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766173|gb|JQ751878.1| Homo sapiens isolate CN110 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766175|gb|JQ751879.1| Homo sapiens isolate CN111 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766177|gb|JQ751880.1| Homo sapiens isolate CN112 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766179|gb|JQ751881.1| Homo sapiens isolate CN113 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766181|gb|JQ751882.1| Homo sapiens isolate CN114 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766183|gb|JQ751883.1| Homo sapiens isolate CN115 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766185|gb|JQ751884.1| Homo sapiens isolate CN116 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766187|gb|JQ751885.1| Homo sapiens isolate CN118 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766189|gb|JQ751886.1| Homo sapiens isolate CN119 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766193|gb|JQ751888.1| Homo sapiens isolate CN121 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766195|gb|JQ751889.1| Homo sapiens isolate CN122 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766199|gb|JQ751891.1| Homo sapiens isolate CN125 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766201|gb|JQ751892.1| Homo sapiens isolate CN126 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766203|gb|JQ751893.1| Homo sapiens isolate CN127 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766205|gb|JQ751894.1| Homo sapiens isolate CN128 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766207|gb|JQ751895.1| Homo sapiens isolate CN129 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766209|gb|JQ751896.1| Homo sapiens isolate CN130 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766211|gb|JQ751897.1| Homo sapiens isolate CN132 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766213|gb|JQ751898.1| Homo sapiens isolate CN133 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766217|gb|JQ751900.1| Homo sapiens isolate CN136 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766219|gb|JQ751901.1| Homo sapiens isolate CN138 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766221|gb|JQ751902.1| Homo sapiens isolate CN139 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766223|gb|JQ751903.1| Homo sapiens isolate CN140 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766225|gb|JQ751904.1| Homo sapiens isolate CN141 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766227|gb|JQ751905.1| Homo sapiens isolate CN142 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766229|gb|JQ751906.1| Homo sapiens isolate CN143 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766231|gb|JQ751907.1| Homo sapiens isolate CN144 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766235|gb|JQ751909.1| Homo sapiens isolate CN146 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766237|gb|JQ751910.1| Homo sapiens isolate CN147 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766239|gb|JQ751911.1| Homo sapiens isolate CN148 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766241|gb|JQ751912.1| Homo sapiens isolate CN149 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766245|gb|JQ751914.1| Homo sapiens isolate CN151 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766247|gb|JQ751915.1| Homo sapiens isolate CN152 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766249|gb|JQ751916.1| Homo sapiens isolate CN153 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766251|gb|JQ751917.1| Homo sapiens isolate CN154 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766253|gb|JQ751918.1| Homo sapiens isolate CN155 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766259|gb|JQ751921.1| Homo sapiens isolate CN158 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766261|gb|JQ751922.1| Homo sapiens isolate CN159 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751624</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>50</Hit_num>
+  <Hit_id>gi|430765662|gb|JQ751622.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 04B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765664|gb|JQ751623.1| Homo sapiens isolate 04C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765758|gb|JQ751670.1| Homo sapiens isolate 66C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765804|gb|JQ751693.1| Homo sapiens isolate 86B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765806|gb|JQ751694.1| Homo sapiens isolate 86C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765808|gb|JQ751695.1| Homo sapiens isolate 88B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765810|gb|JQ751696.1| Homo sapiens isolate 88C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765940|gb|JQ751761.1| Homo sapiens isolate A93C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765944|gb|JQ751763.1| Homo sapiens isolate A96C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765984|gb|JQ751783.1| Homo sapiens isolate A118C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766033|gb|JQ751808.1| Homo sapiens isolate C106 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766057|gb|JQ751820.1| Homo sapiens isolate C120 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766097|gb|JQ751840.1| Homo sapiens isolate C145 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766121|gb|JQ751852.1| Homo sapiens isolate C157 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766131|gb|JQ751857.1| Homo sapiens isolate CN085 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766143|gb|JQ751863.1| Homo sapiens isolate CN091 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766167|gb|JQ751875.1| Homo sapiens isolate CN106 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766191|gb|JQ751887.1| Homo sapiens isolate CN120 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766215|gb|JQ751899.1| Homo sapiens isolate CN134 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766233|gb|JQ751908.1| Homo sapiens isolate CN145 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766243|gb|JQ751913.1| Homo sapiens isolate CN150 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430766257|gb|JQ751920.1| Homo sapiens isolate CN157 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751622</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>51</Hit_num>
+  <Hit_id>gi|430765660|gb|JQ751621.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate A125C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765776|gb|JQ751679.1| Homo sapiens isolate 73B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765778|gb|JQ751680.1| Homo sapiens isolate 73C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765812|gb|JQ751697.1| Homo sapiens isolate 90B tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765814|gb|JQ751698.1| Homo sapiens isolate 90C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|430765888|gb|JQ751735.1| Homo sapiens isolate A34C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751621</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>52</Hit_num>
+  <Hit_id>gi|395440630|gb|JQ694051.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate iPCH358_Col11 tumor suppressor p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>JQ694051</Hit_accession>
+  <Hit_len>1270</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>459</Hsp_hit-from>
+      <Hsp_hit-to>581</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>53</Hit_num>
+  <Hit_id>gi|395440626|gb|JQ694049.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate iPCH358_Col1 tumor suppressor p53 (TP53) mRNA, complete cds &gt;gi|395440628|gb|JQ694050.1| Homo sapiens isolate iPCH358_Col3 tumor suppressor p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>JQ694049</Hit_accession>
+  <Hit_len>1270</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>459</Hsp_hit-from>
+      <Hsp_hit-to>581</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>54</Hit_num>
+  <Hit_id>gi|384503081|gb|JQ026210.1|</Hit_id>
+  <Hit_def>Homo sapiens clone c.792_796del5 mutated tumor suppressor protein P53 mRNA sequence</Hit_def>
+  <Hit_accession>JQ026210</Hit_accession>
+  <Hit_len>1177</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>55</Hit_num>
+  <Hit_id>gi|384503080|gb|JQ026209.1|</Hit_id>
+  <Hit_def>Homo sapiens clone c.672_673ins5 mutated tumor suppressor protein P53 mRNA sequence</Hit_def>
+  <Hit_accession>JQ026209</Hit_accession>
+  <Hit_len>1170</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>56</Hit_num>
+  <Hit_id>gi|384503079|gb|JQ026208.1|</Hit_id>
+  <Hit_def>Homo sapiens clone c.398-399ins4 mutated tumor suppressor protein P53 mRNA sequence</Hit_def>
+  <Hit_accession>JQ026208</Hit_accession>
+  <Hit_len>1201</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>431</Hsp_hit-from>
+      <Hsp_hit-to>553</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>57</Hit_num>
+  <Hit_id>gi|384503078|gb|JQ026207.1|</Hit_id>
+  <Hit_def>Homo sapiens clone c.159del1 mutated tumor suppressor protein P53 mRNA sequence</Hit_def>
+  <Hit_accession>JQ026207</Hit_accession>
+  <Hit_len>1172</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>426</Hsp_hit-from>
+      <Hsp_hit-to>548</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>58</Hit_num>
+  <Hit_id>gi|383209646|ref|NG_017013.2|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53), RefSeqGene (LRG_321) on chromosome 17</Hit_def>
+  <Hit_accession>NG_017013</Hit_accession>
+  <Hit_len>32772</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>17375</Hsp_hit-from>
+      <Hsp_hit-to>17497</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>59</Hit_num>
+  <Hit_id>gi|379056361|dbj|AB699689.2|</Hit_id>
+  <Hit_def>Homo sapiens gene for p53 protein, partial cds</Hit_def>
+  <Hit_accession>AB699689</Hit_accession>
+  <Hit_len>302</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>98</Hsp_hit-from>
+      <Hsp_hit-to>220</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>60</Hit_num>
+  <Hit_id>gi|374082395|gb|JN601515.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate CMS mutant p53 protein mRNA, partial cds</Hit_def>
+  <Hit_accession>JN601515</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>61</Hit_num>
+  <Hit_id>gi|374082393|gb|JN601514.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate Kasumi-1 mutant p53 protein mRNA, partial cds</Hit_def>
+  <Hit_accession>JN601514</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>62</Hit_num>
+  <Hit_id>gi|374082391|gb|JN601513.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate MV4-11 mutant p53 protein mRNA, partial cds</Hit_def>
+  <Hit_accession>JN601513</Hit_accession>
+  <Hit_len>1182</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>63</Hit_num>
+  <Hit_id>gi|369762889|gb|JN900492.1|</Hit_id>
+  <Hit_def>Homo sapiens tumor suppressor TP53 (TP53) mRNA, complete cds, alternatively spliced</Hit_def>
+  <Hit_accession>JN900492</Hit_accession>
+  <Hit_len>2697</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>744</Hsp_hit-from>
+      <Hsp_hit-to>866</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>64</Hit_num>
+  <Hit_id>gi|371502118|ref|NM_001126118.1|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53), transcript variant 8, mRNA</Hit_def>
+  <Hit_accession>NM_001126118</Hit_accession>
+  <Hit_len>2708</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>755</Hsp_hit-from>
+      <Hsp_hit-to>877</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>65</Hit_num>
+  <Hit_id>gi|371502117|ref|NM_001126114.2|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53), transcript variant 3, mRNA &gt;gi|454544285|ref|NM_001276696.1| Homo sapiens tumor protein p53 (TP53), transcript variant 3, mRNA</Hit_def>
+  <Hit_accession>NM_001126114</Hit_accession>
+  <Hit_len>2724</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>638</Hsp_hit-from>
+      <Hsp_hit-to>760</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>66</Hit_num>
+  <Hit_id>gi|371502116|ref|NM_001126113.2|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53), transcript variant 4, mRNA &gt;gi|454543596|ref|NM_001276695.1| Homo sapiens tumor protein p53 (TP53), transcript variant 4, mRNA</Hit_def>
+  <Hit_accession>NM_001126113</Hit_accession>
+  <Hit_len>2651</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>638</Hsp_hit-from>
+      <Hsp_hit-to>760</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>67</Hit_num>
+  <Hit_id>gi|371502115|ref|NM_001126112.2|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53), transcript variant 2, mRNA &gt;gi|454521556|ref|NM_001276761.1| Homo sapiens tumor protein p53 (TP53), transcript variant 2, mRNA</Hit_def>
+  <Hit_accession>NM_001126112</Hit_accession>
+  <Hit_len>2588</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>635</Hsp_hit-from>
+      <Hsp_hit-to>757</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>68</Hit_num>
+  <Hit_id>gi|371502114|ref|NM_000546.5|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53), transcript variant 1, mRNA &gt;gi|454520872|ref|NM_001276760.1| Homo sapiens tumor protein p53 (TP53), transcript variant 1, mRNA</Hit_def>
+  <Hit_accession>NM_000546</Hit_accession>
+  <Hit_len>2591</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>638</Hsp_hit-from>
+      <Hsp_hit-to>760</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>69</Hit_num>
+  <Hit_id>gi|349734065|gb|JF923570.1|</Hit_id>
+  <Hit_def>Homo sapiens p53 (p53) gene, exon 5 and partial cds</Hit_def>
+  <Hit_accession>JF923570</Hit_accession>
+  <Hit_len>183</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>61</Hsp_hit-from>
+      <Hsp_hit-to>183</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>70</Hit_num>
+  <Hit_id>gi|316997128|dbj|AB511810.1|</Hit_id>
+  <Hit_def>Homo sapiens TP53 gene for tumor suppressor gene p53, complete cds</Hit_def>
+  <Hit_accession>AB511810</Hit_accession>
+  <Hit_len>2082</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>736</Hsp_hit-from>
+      <Hsp_hit-to>858</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>71</Hit_num>
+  <Hit_id>gi|307333897|gb|HM236157.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 39 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>HM236157</Hit_accession>
+  <Hit_len>429</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>71</Hsp_hit-from>
+      <Hsp_hit-to>193</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>72</Hit_num>
+  <Hit_id>gi|261857817|dbj|AB527267.1|</Hit_id>
+  <Hit_def>Synthetic construct DNA, clone: pF1KB8730, Homo sapiens TP53 gene for tumor protein p53, without stop codon, in Flexi system</Hit_def>
+  <Hit_accession>AB527267</Hit_accession>
+  <Hit_len>1196</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>445</Hsp_hit-from>
+      <Hsp_hit-to>567</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>73</Hit_num>
+  <Hit_id>gi|208342285|gb|FJ207420.1|</Hit_id>
+  <Hit_def>Homo sapiens mutant p53 mRNA, complete cds</Hit_def>
+  <Hit_accession>FJ207420</Hit_accession>
+  <Hit_len>2513</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>571</Hsp_hit-from>
+      <Hsp_hit-to>693</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>74</Hit_num>
+  <Hit_id>gi|157086934|gb|EF680843.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate LPA001 p53 (TP53) gene, exon 5 and partial cds</Hit_def>
+  <Hit_accession>EF680843</Hit_accession>
+  <Hit_len>184</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>61</Hsp_hit-from>
+      <Hsp_hit-to>183</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>75</Hit_num>
+  <Hit_id>gi|194388551|dbj|AK297927.1|</Hit_id>
+  <Hit_def>Homo sapiens cDNA FLJ54299 complete cds, highly similar to Cellular tumor antigen p53</Hit_def>
+  <Hit_accession>AK297927</Hit_accession>
+  <Hit_len>1801</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>548</Hsp_hit-from>
+      <Hsp_hit-to>670</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>76</Hit_num>
+  <Hit_id>gi|194387035|dbj|AK297462.1|</Hit_id>
+  <Hit_def>Homo sapiens cDNA FLJ54297 complete cds, highly similar to Cellular tumor antigen p53</Hit_def>
+  <Hit_accession>AK297462</Hit_accession>
+  <Hit_len>1678</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>503</Hsp_hit-from>
+      <Hsp_hit-to>625</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>77</Hit_num>
+  <Hit_id>gi|187830908|ref|NM_001126117.1|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53), transcript variant 7, mRNA &gt;gi|454545706|ref|NM_001276699.1| Homo sapiens tumor protein p53 (TP53), transcript variant 7, mRNA</Hit_def>
+  <Hit_accession>NM_001126117</Hit_accession>
+  <Hit_len>2331</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>318</Hsp_hit-from>
+      <Hsp_hit-to>440</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>78</Hit_num>
+  <Hit_id>gi|187830900|ref|NM_001126116.1|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53), transcript variant 6, mRNA &gt;gi|454545206|ref|NM_001276698.1| Homo sapiens tumor protein p53 (TP53), transcript variant 6, mRNA</Hit_def>
+  <Hit_accession>NM_001126116</Hit_accession>
+  <Hit_len>2404</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>318</Hsp_hit-from>
+      <Hsp_hit-to>440</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>79</Hit_num>
+  <Hit_id>gi|187830893|ref|NM_001126115.1|</Hit_id>
+  <Hit_def>Homo sapiens tumor protein p53 (TP53), transcript variant 5, mRNA &gt;gi|454544714|ref|NM_001276697.1| Homo sapiens tumor protein p53 (TP53), transcript variant 5, mRNA</Hit_def>
+  <Hit_accession>NM_001126115</Hit_accession>
+  <Hit_len>2271</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>318</Hsp_hit-from>
+      <Hsp_hit-to>440</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>80</Hit_num>
+  <Hit_id>gi|168152393|emb|CU678522.1|</Hit_id>
+  <Hit_def>Synthetic construct Homo sapiens gateway clone IMAGE:100019213 5&apos; read TP53 mRNA</Hit_def>
+  <Hit_accession>CU678522</Hit_accession>
+  <Hit_len>1343</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>452</Hsp_hit-from>
+      <Hsp_hit-to>574</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>81</Hit_num>
+  <Hit_id>gi|164690367|dbj|AK312568.1|</Hit_id>
+  <Hit_def>Homo sapiens cDNA, FLJ92943, Homo sapiens tumor protein p53 (Li-Fraumeni syndrome) (TP53), mRNA</Hit_def>
+  <Hit_accession>AK312568</Hit_accession>
+  <Hit_len>1326</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>580</Hsp_hit-from>
+      <Hsp_hit-to>702</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>82</Hit_num>
+  <Hit_id>gi|127461478|gb|EF445621.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 5623 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>EF445621</Hit_accession>
+  <Hit_len>404</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>75</Hsp_hit-from>
+      <Hsp_hit-to>197</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>83</Hit_num>
+  <Hit_id>gi|127461470|gb|EF445617.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 5619 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461476|gb|EF445620.1| Homo sapiens isolate 5622 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461480|gb|EF445622.1| Homo sapiens isolate 5624 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>EF445617</Hit_accession>
+  <Hit_len>407</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>75</Hsp_hit-from>
+      <Hsp_hit-to>197</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>84</Hit_num>
+  <Hit_id>gi|127461466|gb|EF445615.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 5617 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>EF445615</Hit_accession>
+  <Hit_len>407</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>76</Hsp_hit-from>
+      <Hsp_hit-to>198</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>85</Hit_num>
+  <Hit_id>gi|127461464|gb|EF445614.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 5616 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>EF445614</Hit_accession>
+  <Hit_len>364</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>76</Hsp_hit-from>
+      <Hsp_hit-to>198</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>86</Hit_num>
+  <Hit_id>gi|127461446|gb|EF445605.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 567 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>EF445605</Hit_accession>
+  <Hit_len>398</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>76</Hsp_hit-from>
+      <Hsp_hit-to>198</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>87</Hit_num>
+  <Hit_id>gi|127461440|gb|EF445602.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 564 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>EF445602</Hit_accession>
+  <Hit_len>360</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>76</Hsp_hit-from>
+      <Hsp_hit-to>198</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>88</Hit_num>
+  <Hit_id>gi|127461434|gb|EF445599.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 561 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461436|gb|EF445600.1| Homo sapiens isolate 562 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461438|gb|EF445601.1| Homo sapiens isolate 563 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461442|gb|EF445603.1| Homo sapiens isolate 565 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461444|gb|EF445604.1| Homo sapiens isolate 566 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461448|gb|EF445606.1| Homo sapiens isolate 568 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461450|gb|EF445607.1| Homo sapiens isolate 569 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461452|gb|EF445608.1| Homo sapiens isolate 5610 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461454|gb|EF445609.1| Homo sapiens isolate 5611 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461456|gb|EF445610.1| Homo sapiens isolate 5612 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461458|gb|EF445611.1| Homo sapiens isolate 5613 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461460|gb|EF445612.1| Homo sapiens isolate 5614 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461462|gb|EF445613.1| Homo sapiens isolate 5615 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461468|gb|EF445616.1| Homo sapiens isolate 5618 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461472|gb|EF445618.1| Homo sapiens isolate 5620 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461474|gb|EF445619.1| Homo sapiens isolate 5621 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461482|gb|EF445623.1| Homo sapiens isolate 5625 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461484|gb|EF445624.1| Homo sapiens isolate 5626 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461486|gb|EF445625.1| Homo sapiens isolate 5627 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds &gt;gi|127461488|gb|EF445626.1| Homo sapiens isolate 5628 tumor protein p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>EF445599</Hit_accession>
+  <Hit_len>408</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>76</Hsp_hit-from>
+      <Hsp_hit-to>198</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>89</Hit_num>
+  <Hit_id>gi|123998056|gb|DQ895704.2|</Hit_id>
+  <Hit_def>Synthetic construct Homo sapiens clone IMAGE:100010164; FLH186805.01L; RZPDo839A0962D tumor protein p53 (Li-Fraumeni syndrome) (TP53) gene, encodes complete protein</Hit_def>
+  <Hit_accession>DQ895704</Hit_accession>
+  <Hit_len>1222</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>458</Hsp_hit-from>
+      <Hsp_hit-to>580</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>90</Hit_num>
+  <Hit_id>gi|123983353|gb|DQ892492.2|</Hit_id>
+  <Hit_def>Synthetic construct clone IMAGE:100005122; FLH186809.01X; RZPDo839A0972D tumor protein p53 (Li-Fraumeni syndrome) (TP53) gene, encodes complete protein</Hit_def>
+  <Hit_accession>DQ892492</Hit_accession>
+  <Hit_len>1222</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>458</Hsp_hit-from>
+      <Hsp_hit-to>580</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>91</Hit_num>
+  <Hit_id>gi|118640557|gb|EF101869.1|</Hit_id>
+  <Hit_def>Homo sapiens cell-line HDLM2 nonfunctional tumor suppressor p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>EF101869</Hit_accession>
+  <Hit_len>1018</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>92</Hit_num>
+  <Hit_id>gi|118640555|gb|EF101868.1|</Hit_id>
+  <Hit_def>Homo sapiens cell-line L1236 nonfunctional tumor suppressor p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>EF101868</Hit_accession>
+  <Hit_len>1153</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>93</Hit_num>
+  <Hit_id>gi|110164963|gb|DQ648885.1|</Hit_id>
+  <Hit_def>Homo sapiens p53-Ex(2-4) isoform (TP53) mRNA, partial cds, alternatively spliced</Hit_def>
+  <Hit_accession>DQ648885</Hit_accession>
+  <Hit_len>422</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>112</Hsp_hit-from>
+      <Hsp_hit-to>234</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>94</Hit_num>
+  <Hit_id>gi|99031287|gb|DQ485151.1|</Hit_id>
+  <Hit_def>Homo sapiens cell-line Hec50co truncated p53 (TP53) gene, partial cds</Hit_def>
+  <Hit_accession>DQ485151</Hit_accession>
+  <Hit_len>400</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>13</Hsp_hit-from>
+      <Hsp_hit-to>135</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>95</Hit_num>
+  <Hit_id>gi|94442888|emb|AM076972.1|</Hit_id>
+  <Hit_def>Homo sapiens partial mRNA for tumor protein p53 mutant form (TP53 gene), classical Hodgkin Lymphoma cell line L1236</Hit_def>
+  <Hit_accession>AM076972</Hit_accession>
+  <Hit_len>1032</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>96</Hit_num>
+  <Hit_id>gi|94442886|emb|AM076971.1|</Hit_id>
+  <Hit_def>Homo sapiens partial mRNA for tumor protein p53 mutant form (TP53 gene), classical Hodgkin Lymphoma cell line HDLM-2</Hit_def>
+  <Hit_accession>AM076971</Hit_accession>
+  <Hit_len>858</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>436</Hsp_hit-from>
+      <Hsp_hit-to>558</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>97</Hit_num>
+  <Hit_id>gi|94442884|emb|AM076970.1|</Hit_id>
+  <Hit_def>Homo sapiens partial mRNA for tumor protein p53 mutant form (TP53 gene), classical Hodgkin Lymphoma cell line L428 &gt;gi|118640553|gb|EF101867.1| Homo sapiens cell-line L428 nonfunctional tumor suppressor p53 (TP53) mRNA, complete cds</Hit_def>
+  <Hit_accession>AM076970</Hit_accession>
+  <Hit_len>1149</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>222.718</Hsp_bit-score>
+      <Hsp_score>120</Hsp_score>
+      <Hsp_evalue>1.7451e-54</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>403</Hsp_hit-from>
+      <Hsp_hit-to>525</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>122</Hsp_identity>
+      <Hsp_positive>122</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>98</Hit_num>
+  <Hit_id>gi|430766091|gb|JQ751837.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C141 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751837</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>219.025</Hsp_bit-score>
+      <Hsp_score>118</Hsp_score>
+      <Hsp_evalue>2.25743e-53</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>121</Hsp_identity>
+      <Hsp_positive>121</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCRCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>99</Hit_num>
+  <Hit_id>gi|430766077|gb|JQ751830.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate C132 tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751830</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>219.025</Hsp_bit-score>
+      <Hsp_score>118</Hsp_score>
+      <Hsp_evalue>2.25743e-53</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>121</Hsp_identity>
+      <Hsp_positive>121</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTKCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>100</Hit_num>
+  <Hit_id>gi|430765668|gb|JQ751625.1|</Hit_id>
+  <Hit_def>Homo sapiens isolate 05C tumor suppressor p53 (TP53) gene, exons 5, 6 and partial cds</Hit_def>
+  <Hit_accession>JQ751625</Hit_accession>
+  <Hit_len>468</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>219.025</Hsp_bit-score>
+      <Hsp_score>118</Hsp_score>
+      <Hsp_evalue>2.25743e-53</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>123</Hsp_query-to>
+      <Hsp_hit-from>382</Hsp_hit-from>
+      <Hsp_hit-to>260</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>-1</Hsp_hit-frame>
+      <Hsp_identity>121</Hsp_identity>
+      <Hsp_positive>121</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>123</Hsp_align-len>
+      <Hsp_qseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCGTGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCATGAGCGCTGCTCAGATAGCGAT</Hsp_qseq>
+      <Hsp_hseq>TGGGTTGATTCCACACCCCCGCCCGGCACCCGCGTCCGCGCCATGGCCATCTACAAGCAGTCACAGCACATGACGGAGGTTGTGAGGCGCTGCCCCCACCRTGAGCGCTGCTCAGATAGCGAT</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+</Iteration_hits>
+  <Iteration_stat>
+    <Statistics>
+      <Statistics_db-num>52084478</Statistics_db-num>
+      <Statistics_db-len>214310749721</Statistics_db-len>
+      <Statistics_hsp-len>0</Statistics_hsp-len>
+      <Statistics_eff-space>0</Statistics_eff-space>
+      <Statistics_kappa>0.46</Statistics_kappa>
+      <Statistics_lambda>1.28</Statistics_lambda>
+      <Statistics_entropy>0.85</Statistics_entropy>
+    </Statistics>
+  </Iteration_stat>
+</Iteration>
+<Iteration>
+  <Iteration_iter-num>2</Iteration_iter-num>
+  <Iteration_query-ID>Query_54315</Iteration_query-ID>
+  <Iteration_query-def>NM_001861.5 Homo sapiens cytochrome c oxidase subunit 4I1 (COX4I1), transcript variant 1, mRNA</Iteration_query-def>
+  <Iteration_query-len>749</Iteration_query-len>
+<Iteration_hits>
+</Iteration_hits>
+  <Iteration_stat>
+    <Statistics>
+      <Statistics_db-num>52084478</Statistics_db-num>
+      <Statistics_db-len>214310749721</Statistics_db-len>
+      <Statistics_hsp-len>0</Statistics_hsp-len>
+      <Statistics_eff-space>0</Statistics_eff-space>
+      <Statistics_kappa>0.46</Statistics_kappa>
+      <Statistics_lambda>1.28</Statistics_lambda>
+      <Statistics_entropy>0.85</Statistics_entropy>
+    </Statistics>
+  </Iteration_stat>
+</Iteration>
+</BlastOutput_iterations>
+</BlastOutput>

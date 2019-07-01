@@ -1,0 +1,8 @@
+--- !ruby/object:SequenceServer::BLAST::Job
+id: d9e0fbe6-2eb4-42ae-84c3-ff8e0f391c6a
+submitted_at: 2019-06-23 13:20:17.833003200 +01:00
+imported_xml_file: BLASTP_XML_2.4.0
+advanced_params: {}
+databases: []
+completed_at: 2019-06-23 13:20:17.842535700 +01:00
+exitstatus: 0
