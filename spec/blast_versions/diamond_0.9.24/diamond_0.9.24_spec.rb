@@ -3,8 +3,8 @@ require 'spec_helper'
 # Test BLAST module.
 module SequenceServer
 
-  with_hits = Job.fetch_xml('diamond_0.9.24/blastx')
-  no_hits = Job.fetch_xml('diamond_0.9.24/blastx_nohits')
+  with_hits = Job.fetch('diamond_0.9.24/blastx')
+  no_hits = Job.fetch('diamond_0.9.24/blastx_nohits')
 
   init
 
@@ -140,7 +140,7 @@ module SequenceServer
 
   describe 'diamond BLASTP' do
     let 'hsp' do
-      report = BLAST::Report.new(Job.fetch_xml('diamond_0.9.24/blastp'))
+      report = BLAST::Report.new(Job.fetch('diamond_0.9.24/blastp'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -158,7 +158,7 @@ module SequenceServer
 
   describe 'diamond BLASTX' do
     let 'hsp' do
-      report = BLAST::Report.new(Job.fetch_xml('diamond_0.9.24/blastx'))
+      report = BLAST::Report.new(Job.fetch('diamond_0.9.24/blastx'))
       report.queries.first.hits.last.hsps.first
     end
 

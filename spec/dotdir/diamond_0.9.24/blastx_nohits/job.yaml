@@ -1,7 +1,7 @@
 --- !ruby/object:SequenceServer::BLAST::Job
-id: 435170ee-3a22-412d-9108-85b963ad66de
+id: 'diamond_0.9.24/blastx_nohits'
 submitted_at: 2019-07-01 14:20:40.624064600 +01:00
-imported_xml_file: diamond_blastx_nohits_0.9.24.xml
+imported_xml_file: DIAMOND_BLASTX_NOHITS_0.9.24.xml
 advanced_params: {}
 databases: []
 completed_at: 2019-07-01 14:20:40.627058200 +01:00

@@ -1,7 +1,7 @@
 --- !ruby/object:SequenceServer::BLAST::Job
-id: ef3d00a6-03b5-4143-be0a-6851bbab492c
+id: 'blast_2.4.0/blastn'
 submitted_at: 2019-06-23 13:19:11.938970700 +01:00
-imported_xml_file: BLASTN_XML_2.4.0
+imported_xml_file: BLASTN_XML_2.4.0.xml
 advanced_params: {}
 databases: []
 completed_at: 2019-06-23 13:19:11.955463200 +01:00
