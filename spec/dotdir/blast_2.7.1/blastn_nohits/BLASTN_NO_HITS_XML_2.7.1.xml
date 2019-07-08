@@ -1,0 +1,866 @@
+<?xml version="1.0"?>
+<!DOCTYPE BlastOutput PUBLIC "-//NCBI//NCBI BlastOutput/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd">
+<BlastOutput>
+  <BlastOutput_program>blastn</BlastOutput_program>
+  <BlastOutput_version>BLASTN 2.7.1+</BlastOutput_version>
+  <BlastOutput_reference>Zheng Zhang, Scott Schwartz, Lukas Wagner, and Webb Miller (2000), &quot;A greedy algorithm for aligning DNA sequences&quot;, J Comput Biol 2000; 7(1-2):203-14.</BlastOutput_reference>
+  <BlastOutput_db>nt_db/nt</BlastOutput_db>
+  <BlastOutput_query-ID>Query_1</BlastOutput_query-ID>
+  <BlastOutput_query-def>No definition line</BlastOutput_query-def>
+  <BlastOutput_query-len>703</BlastOutput_query-len>
+  <BlastOutput_param>
+    <Parameters>
+      <Parameters_expect>10</Parameters_expect>
+      <Parameters_sc-match>1</Parameters_sc-match>
+      <Parameters_sc-mismatch>-2</Parameters_sc-mismatch>
+      <Parameters_gap-open>0</Parameters_gap-open>
+      <Parameters_gap-extend>0</Parameters_gap-extend>
+      <Parameters_filter>L;m;</Parameters_filter>
+    </Parameters>
+  </BlastOutput_param>
+<BlastOutput_iterations>
+<Iteration>
+  <Iteration_iter-num>1</Iteration_iter-num>
+  <Iteration_query-ID>Query_1</Iteration_query-ID>
+  <Iteration_query-def>No definition line</Iteration_query-def>
+  <Iteration_query-len>703</Iteration_query-len>
+<Iteration_hits>
+</Iteration_hits>
+  <Iteration_stat>
+    <Statistics>
+      <Statistics_db-num>52085306</Statistics_db-num>
+      <Statistics_db-len>214274604493</Statistics_db-len>
+      <Statistics_hsp-len>35</Statistics_hsp-len>
+      <Statistics_eff-space>141917681347044</Statistics_eff-space>
+      <Statistics_kappa>0.46</Statistics_kappa>
+      <Statistics_lambda>1.28</Statistics_lambda>
+      <Statistics_entropy>0.85</Statistics_entropy>
+    </Statistics>
+  </Iteration_stat>
+  <Iteration_message>No hits found</Iteration_message>
+</Iteration>
+<Iteration>
+  <Iteration_iter-num>2</Iteration_iter-num>
+  <Iteration_query-ID>Query_2</Iteration_query-ID>
+  <Iteration_query-def>SI2.2.0_13722 Si_gnF.scaffold06207[1925625..1928536].pep_1</Iteration_query-def>
+  <Iteration_query-len>558</Iteration_query-len>
+<Iteration_hits>
+<Hit>
+  <Hit_num>1</Hit_num>
+  <Hit_id>gi|1465601839|ref|XM_011168454.2|</Hit_id>
+  <Hit_def>PREDICTED: Solenopsis invicta LIRP (LOC105200753), mRNA</Hit_def>
+  <Hit_accession>XM_011168454</Hit_accession>
+  <Hit_len>3851</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>409.23</Hsp_bit-score>
+      <Hsp_score>221</Hsp_score>
+      <Hsp_evalue>7.18179e-110</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>221</Hsp_query-to>
+      <Hsp_hit-from>1018</Hsp_hit-from>
+      <Hsp_hit-to>1238</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>221</Hsp_identity>
+      <Hsp_positive>221</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>221</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAGA</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAGA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+    <Hsp>
+      <Hsp_num>2</Hsp_num>
+      <Hsp_bit-score>368.604</Hsp_bit-score>
+      <Hsp_score>199</Hsp_score>
+      <Hsp_evalue>1.21889e-97</Hsp_evalue>
+      <Hsp_query-from>360</Hsp_query-from>
+      <Hsp_query-to>558</Hsp_query-to>
+      <Hsp_hit-from>1236</Hsp_hit-from>
+      <Hsp_hit-to>1434</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>199</Hsp_identity>
+      <Hsp_positive>199</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>199</Hsp_align-len>
+      <Hsp_qseq>AGAGATGGAAATGGCCGATTACCCGCTCGCCTATGATATTTCCCCGTATCTTCCGCCGTTCCTGTCGCGAGCGAGGGCACGGGGAATGTTAGACGGTCGCTTCGCCGGCAGACGCTACCGAAGGGAGTCGCGGGGCATTCACGAGGAGTGTTGCATCAACGGATGTACGATAAACGAATTGACCAGCTACTGCGGCCCC</Hsp_qseq>
+      <Hsp_hseq>AGAGATGGAAATGGCCGATTACCCGCTCGCCTATGATATTTCCCCGTATCTTCCGCCGTTCCTGTCGCGAGCGAGGGCACGGGGAATGTTAGACGGTCGCTTCGCCGGCAGACGCTACCGAAGGGAGTCGCGGGGCATTCACGAGGAGTGTTGCATCAACGGATGTACGATAAACGAATTGACCAGCTACTGCGGCCCC</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>2</Hit_num>
+  <Hit_id>gi|1580165348|ref|XM_012674223.2|</Hit_id>
+  <Hit_def>PREDICTED: Monomorium pharaonis LIRP (LOC105832901), transcript variant X2, mRNA</Hit_def>
+  <Hit_accession>XM_012674223</Hit_accession>
+  <Hit_len>2896</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>364.91</Hsp_bit-score>
+      <Hsp_score>197</Hsp_score>
+      <Hsp_evalue>1.57674e-96</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>221</Hsp_query-to>
+      <Hsp_hit-from>152</Hsp_hit-from>
+      <Hsp_hit-to>372</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>213</Hsp_identity>
+      <Hsp_positive>213</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>221</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAGA</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCCCCAATTCAATCTGAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAGAAGCTCTCCAATGCTCTACAGATTATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAGA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||| |  ||||||||||||||||||||||||||||||||||||||||| ||||| || |||||||||||||| |||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>3</Hit_num>
+  <Hit_id>gi|1580165347|ref|XM_012674224.2|</Hit_id>
+  <Hit_def>PREDICTED: Monomorium pharaonis LIRP (LOC105832901), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_012674224</Hit_accession>
+  <Hit_len>2810</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>364.91</Hsp_bit-score>
+      <Hsp_score>197</Hsp_score>
+      <Hsp_evalue>1.57674e-96</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>221</Hsp_query-to>
+      <Hsp_hit-from>66</Hsp_hit-from>
+      <Hsp_hit-to>286</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>213</Hsp_identity>
+      <Hsp_positive>213</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>221</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAGA</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCCCCAATTCAATCTGAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAGAAGCTCTCCAATGCTCTACAGATTATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAGA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ||||||||| |  ||||||||||||||||||||||||||||||||||||||||| ||||| || |||||||||||||| |||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>4</Hit_num>
+  <Hit_id>gi|1069706636|ref|XM_018455917.1|</Hit_id>
+  <Hit_def>PREDICTED: Trachymyrmex zeteki LIRP (LOC108727709), mRNA</Hit_def>
+  <Hit_accession>XM_018455917</Hit_accession>
+  <Hit_len>1151</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>329.824</Hsp_bit-score>
+      <Hsp_score>178</Hsp_score>
+      <Hsp_evalue>5.75176e-86</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>354</Hsp_hit-from>
+      <Hsp_hit-to>573</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>206</Hsp_identity>
+      <Hsp_positive>206</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTAAACGTGCTGGTGATCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAACGCACAGGTGGATGGCTATCCGCAATTCGGCTCGAAGCGATCCGCCGTGAGTGCGCCGCAGAAATATTGCGGCAAGAAGCTTTCCAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||| ||||||||||||| |||||||||||||||||||||||||||||||||||||||||| |||||||||||||||||||  ||||||  | | |||||||||||||||||  |||||||||| ||||||||||| |||||||| |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>5</Hit_num>
+  <Hit_id>gi|746853074|ref|XM_011058818.1|</Hit_id>
+  <Hit_def>PREDICTED: Acromyrmex echinatior LIRP (LOC105147653), transcript variant X5, mRNA</Hit_def>
+  <Hit_accession>XM_011058818</Hit_accession>
+  <Hit_len>2481</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>318.744</Hsp_bit-score>
+      <Hsp_score>172</Hsp_score>
+      <Hsp_evalue>1.24504e-82</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>37</Hsp_hit-from>
+      <Hsp_hit-to>256</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>204</Hsp_identity>
+      <Hsp_positive>204</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTAAACGTGCTGGTGACCCTGCTGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAACGCACAGGTAGATGGTTATCCCCAATTCAGCTCGAAGCGATCTGCCGTGAGTGCGCCGCAGAAGTATTGCGGCAAGAAGCTTTCGAATGCTCTACAAATAATCTGTGATGGCGTGTACAACTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||| |||||||||||||||||| ||||||||||||||||||||||||||||||||||||| |||||||| ||||| |||| |||||||| | | |||||||| ||||||||  |||||||||||||||||||||| |||||||| ||||||||||| ||||||||||||||||||||||| |||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>6</Hit_num>
+  <Hit_id>gi|746853072|ref|XM_011058817.1|</Hit_id>
+  <Hit_def>PREDICTED: Acromyrmex echinatior LIRP (LOC105147653), transcript variant X4, mRNA</Hit_def>
+  <Hit_accession>XM_011058817</Hit_accession>
+  <Hit_len>2523</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>318.744</Hsp_bit-score>
+      <Hsp_score>172</Hsp_score>
+      <Hsp_evalue>1.24504e-82</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>79</Hsp_hit-from>
+      <Hsp_hit-to>298</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>204</Hsp_identity>
+      <Hsp_positive>204</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTAAACGTGCTGGTGACCCTGCTGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAACGCACAGGTAGATGGTTATCCCCAATTCAGCTCGAAGCGATCTGCCGTGAGTGCGCCGCAGAAGTATTGCGGCAAGAAGCTTTCGAATGCTCTACAAATAATCTGTGATGGCGTGTACAACTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||| |||||||||||||||||| ||||||||||||||||||||||||||||||||||||| |||||||| ||||| |||| |||||||| | | |||||||| ||||||||  |||||||||||||||||||||| |||||||| ||||||||||| ||||||||||||||||||||||| |||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>7</Hit_num>
+  <Hit_id>gi|746853070|ref|XM_011058815.1|</Hit_id>
+  <Hit_def>PREDICTED: Acromyrmex echinatior LIRP (LOC105147653), transcript variant X3, mRNA</Hit_def>
+  <Hit_accession>XM_011058815</Hit_accession>
+  <Hit_len>3284</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>318.744</Hsp_bit-score>
+      <Hsp_score>172</Hsp_score>
+      <Hsp_evalue>1.24504e-82</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>840</Hsp_hit-from>
+      <Hsp_hit-to>1059</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>204</Hsp_identity>
+      <Hsp_positive>204</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTAAACGTGCTGGTGACCCTGCTGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAACGCACAGGTAGATGGTTATCCCCAATTCAGCTCGAAGCGATCTGCCGTGAGTGCGCCGCAGAAGTATTGCGGCAAGAAGCTTTCGAATGCTCTACAAATAATCTGTGATGGCGTGTACAACTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||| |||||||||||||||||| ||||||||||||||||||||||||||||||||||||| |||||||| ||||| |||| |||||||| | | |||||||| ||||||||  |||||||||||||||||||||| |||||||| ||||||||||| ||||||||||||||||||||||| |||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>8</Hit_num>
+  <Hit_id>gi|746853068|ref|XM_011058814.1|</Hit_id>
+  <Hit_def>PREDICTED: Acromyrmex echinatior LIRP (LOC105147653), transcript variant X2, mRNA</Hit_def>
+  <Hit_accession>XM_011058814</Hit_accession>
+  <Hit_len>3262</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>318.744</Hsp_bit-score>
+      <Hsp_score>172</Hsp_score>
+      <Hsp_evalue>1.24504e-82</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>818</Hsp_hit-from>
+      <Hsp_hit-to>1037</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>204</Hsp_identity>
+      <Hsp_positive>204</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTAAACGTGCTGGTGACCCTGCTGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAACGCACAGGTAGATGGTTATCCCCAATTCAGCTCGAAGCGATCTGCCGTGAGTGCGCCGCAGAAGTATTGCGGCAAGAAGCTTTCGAATGCTCTACAAATAATCTGTGATGGCGTGTACAACTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||| |||||||||||||||||| ||||||||||||||||||||||||||||||||||||| |||||||| ||||| |||| |||||||| | | |||||||| ||||||||  |||||||||||||||||||||| |||||||| ||||||||||| ||||||||||||||||||||||| |||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>9</Hit_num>
+  <Hit_id>gi|746853066|ref|XM_011058813.1|</Hit_id>
+  <Hit_def>PREDICTED: Acromyrmex echinatior LIRP (LOC105147653), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_011058813</Hit_accession>
+  <Hit_len>3057</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>318.744</Hsp_bit-score>
+      <Hsp_score>172</Hsp_score>
+      <Hsp_evalue>1.24504e-82</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>613</Hsp_hit-from>
+      <Hsp_hit-to>832</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>204</Hsp_identity>
+      <Hsp_positive>204</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTAAACGTGCTGGTGACCCTGCTGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAACGCACAGGTAGATGGTTATCCCCAATTCAGCTCGAAGCGATCTGCCGTGAGTGCGCCGCAGAAGTATTGCGGCAAGAAGCTTTCGAATGCTCTACAAATAATCTGTGATGGCGTGTACAACTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||| |||||||||||||||||| ||||||||||||||||||||||||||||||||||||| |||||||| ||||| |||| |||||||| | | |||||||| ||||||||  |||||||||||||||||||||| |||||||| ||||||||||| ||||||||||||||||||||||| |||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>10</Hit_num>
+  <Hit_id>gi|1070595389|ref|XM_018539340.1|</Hit_id>
+  <Hit_def>PREDICTED: Cyphomyrmex costatus LIRP (LOC108773507), mRNA</Hit_def>
+  <Hit_accession>XM_018539340</Hit_accession>
+  <Hit_len>486</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>307.664</Hsp_bit-score>
+      <Hsp_score>166</Hsp_score>
+      <Hsp_evalue>2.69503e-79</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>220</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>202</Hsp_identity>
+      <Hsp_positive>202</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCAAACCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGATGGAATCGGGAAACGCACAGGTGGATGGCTATCCCCAATTCGGCTCGAAGCGATCCGCCGTAAATGCGCCACAGAAATATTGCGGCAAGAAGCTTTCCAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>|||||||| || ||||||||||||||||||||||||||||||||||||||||||||||||| |||||| ||||| ||||||||||||||||||| |||||||  | | |||||||||||||| |   |||| ||||| ||||||||||| |||||||| |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>11</Hit_num>
+  <Hit_id>gi|1070193583|ref|XM_018497470.1|</Hit_id>
+  <Hit_def>PREDICTED: Trachymyrmex septentrionalis LIRP (LOC108754847), mRNA</Hit_def>
+  <Hit_accession>XM_018497470</Hit_accession>
+  <Hit_len>1163</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>307.664</Hsp_bit-score>
+      <Hsp_score>166</Hsp_score>
+      <Hsp_evalue>2.69503e-79</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>359</Hsp_hit-from>
+      <Hsp_hit-to>578</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>202</Hsp_identity>
+      <Hsp_positive>202</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTAAACGTGCTGGTGAGCCTGCTGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAACGCACAGGTAGATGGTTATCCCCAATTCAGCTCGAAGCGATCTGCCGTGAGTGCGCCGCAGAAATATTGCGGCAAGAAGCTTTCGAATGCTCTACAAATAATCTGTGATGGCGTGTACAACTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||| ||||||||||||| |||| ||||||||||||||||||||||||||||||||||||| |||||||| ||||| |||| |||||||| | | |||||||| ||||||||  |||||||||| ||||||||||| |||||||| ||||||||||| ||||||||||||||||||||||| |||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>12</Hit_num>
+  <Hit_id>gi|1068419306|ref|XM_018199314.1|</Hit_id>
+  <Hit_def>PREDICTED: Atta colombica LIRP (LOC108691535), mRNA</Hit_def>
+  <Hit_accession>XM_018199314</Hit_accession>
+  <Hit_len>805</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>302.124</Hsp_bit-score>
+      <Hsp_score>163</Hsp_score>
+      <Hsp_evalue>1.25388e-77</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>220</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>201</Hsp_identity>
+      <Hsp_positive>201</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTAAACGTGCTGGTGACTCTGCTGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAACGCACAGGTAGATGGTTATCCCCAATTCAGCTCGAAGCGATCTGCTGTGAGTGCGCCGCAGAAATATTGCGGCAAGAAGCTTTCGAATGCTCTACAAATAATCTGTGATGGCGTGTACAACTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||| |||||||||||||| ||| ||||||||||||||||||||||||||||||||||||| |||||||| ||||| |||| |||||||| | | |||||||| || |||||  |||||||||| ||||||||||| |||||||| ||||||||||| ||||||||||||||||||||||| |||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>13</Hit_num>
+  <Hit_id>gi|801371229|ref|XM_012206899.1|</Hit_id>
+  <Hit_def>PREDICTED: Atta cephalotes LIRP (LOC105625577), mRNA</Hit_def>
+  <Hit_accession>XM_012206899</Hit_accession>
+  <Hit_len>486</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>302.124</Hsp_bit-score>
+      <Hsp_score>163</Hsp_score>
+      <Hsp_evalue>1.25388e-77</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>220</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>201</Hsp_identity>
+      <Hsp_positive>201</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTAAACGTGCTGGTGACTCTGCTGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAACGCACAGGTAGATGGTTATCCCCAATTCAGCTCGAAGCGATCTGCTGTGAGTGCGCCGCAGAAATATTGCGGCAAGAAGCTTTCGAATGCTCTACAAATAATCTGTGATGGCGTGTACAACTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||| |||||||||||||| ||| ||||||||||||||||||||||||||||||||||||| |||||||| ||||| |||| |||||||| | | |||||||| || |||||  |||||||||| ||||||||||| |||||||| ||||||||||| ||||||||||||||||||||||| |||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>14</Hit_num>
+  <Hit_id>gi|815796215|ref|XM_012363353.1|</Hit_id>
+  <Hit_def>PREDICTED: Linepithema humile LIRP (LOC105670049), transcript variant X2, mRNA</Hit_def>
+  <Hit_accession>XM_012363353</Hit_accession>
+  <Hit_len>1354</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>248.571</Hsp_bit-score>
+      <Hsp_score>134</Hsp_score>
+      <Hsp_evalue>1.65678e-61</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>221</Hsp_query-to>
+      <Hsp_hit-from>235</Hsp_hit-from>
+      <Hsp_hit-to>455</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>192</Hsp_identity>
+      <Hsp_positive>192</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>221</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAGA</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGGTCGTGACCCTGGTGCTCGCCGTCGCGTTTCTCGCGGCGGAATCGGGGAACGCACAGGCGGATGGCTATCCGCAATTCGGCCCGAAACGACCCTCCATGAGCGCGCCGCAAAAATATTGCGGCAAGAAGCTATCCAATGCTCTACAGATAATCTGTGATGGCGTGTATAATTCCATGTTTAAAAAGAGTGTTCAAGA</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||| | ||||||||| |||||||||||||| |||| | | ||||||| || || ||||||| |||||||||||  ||||||  ||| || ||| || || ||||| ||||||| || ||||||||||| ||||| || |||||||||||||||||||||||||||||||| |||||||||||||| ||||||| ||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>15</Hit_num>
+  <Hit_id>gi|815796221|ref|XM_012363356.1|</Hit_id>
+  <Hit_def>PREDICTED: Linepithema humile LIRP (LOC105670049), transcript variant X5, mRNA</Hit_def>
+  <Hit_accession>XM_012363356</Hit_accession>
+  <Hit_len>1248</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>246.725</Hsp_bit-score>
+      <Hsp_score>133</Hsp_score>
+      <Hsp_evalue>5.95886e-61</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>69</Hsp_hit-from>
+      <Hsp_hit-to>288</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>191</Hsp_identity>
+      <Hsp_positive>191</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGGTCGTGACCCTGGTGCTCGCCGTCGCGTTTCTCGCGGCGGAATCGGGGAACGCACAGGCGGATGGCTATCCGCAATTCGGCCCGAAACGACCCTCCATGAGCGCGCCGCAAAAATATTGCGGCAAGAAGCTATCCAATGCTCTACAGATAATCTGTGATGGCGTGTATAATTCCATGTTTAAAAAGAGTGTTCAAG</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||| | ||||||||| |||||||||||||| |||| | | ||||||| || || ||||||| |||||||||||  ||||||  ||| || ||| || || ||||| ||||||| || ||||||||||| ||||| || |||||||||||||||||||||||||||||||| |||||||||||||| ||||||| |||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>16</Hit_num>
+  <Hit_id>gi|815796219|ref|XM_012363355.1|</Hit_id>
+  <Hit_def>PREDICTED: Linepithema humile LIRP (LOC105670049), transcript variant X4, mRNA</Hit_def>
+  <Hit_accession>XM_012363355</Hit_accession>
+  <Hit_len>1514</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>246.725</Hsp_bit-score>
+      <Hsp_score>133</Hsp_score>
+      <Hsp_evalue>5.95886e-61</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>335</Hsp_hit-from>
+      <Hsp_hit-to>554</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>191</Hsp_identity>
+      <Hsp_positive>191</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGGTCGTGACCCTGGTGCTCGCCGTCGCGTTTCTCGCGGCGGAATCGGGGAACGCACAGGCGGATGGCTATCCGCAATTCGGCCCGAAACGACCCTCCATGAGCGCGCCGCAAAAATATTGCGGCAAGAAGCTATCCAATGCTCTACAGATAATCTGTGATGGCGTGTATAATTCCATGTTTAAAAAGAGTGTTCAAG</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||| | ||||||||| |||||||||||||| |||| | | ||||||| || || ||||||| |||||||||||  ||||||  ||| || ||| || || ||||| ||||||| || ||||||||||| ||||| || |||||||||||||||||||||||||||||||| |||||||||||||| ||||||| |||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>17</Hit_num>
+  <Hit_id>gi|815796217|ref|XM_012363354.1|</Hit_id>
+  <Hit_def>PREDICTED: Linepithema humile LIRP (LOC105670049), transcript variant X3, mRNA</Hit_def>
+  <Hit_accession>XM_012363354</Hit_accession>
+  <Hit_len>2238</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>246.725</Hsp_bit-score>
+      <Hsp_score>133</Hsp_score>
+      <Hsp_evalue>5.95886e-61</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>1059</Hsp_hit-from>
+      <Hsp_hit-to>1278</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>191</Hsp_identity>
+      <Hsp_positive>191</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGGTCGTGACCCTGGTGCTCGCCGTCGCGTTTCTCGCGGCGGAATCGGGGAACGCACAGGCGGATGGCTATCCGCAATTCGGCCCGAAACGACCCTCCATGAGCGCGCCGCAAAAATATTGCGGCAAGAAGCTATCCAATGCTCTACAGATAATCTGTGATGGCGTGTATAATTCCATGTTTAAAAAGAGTGTTCAAG</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||| | ||||||||| |||||||||||||| |||| | | ||||||| || || ||||||| |||||||||||  ||||||  ||| || ||| || || ||||| ||||||| || ||||||||||| ||||| || |||||||||||||||||||||||||||||||| |||||||||||||| ||||||| |||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>18</Hit_num>
+  <Hit_id>gi|815796213|ref|XM_012363352.1|</Hit_id>
+  <Hit_def>PREDICTED: Linepithema humile LIRP (LOC105670049), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_012363352</Hit_accession>
+  <Hit_len>1406</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>246.725</Hsp_bit-score>
+      <Hsp_score>133</Hsp_score>
+      <Hsp_evalue>5.95886e-61</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>227</Hsp_hit-from>
+      <Hsp_hit-to>446</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>191</Hsp_identity>
+      <Hsp_positive>191</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>220</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGGTCGTGACCCTGGTGCTCGCCGTCGCGTTTCTCGCGGCGGAATCGGGGAACGCACAGGCGGATGGCTATCCGCAATTCGGCCCGAAACGACCCTCCATGAGCGCGCCGCAAAAATATTGCGGCAAGAAGCTATCCAATGCTCTACAGATAATCTGTGATGGCGTGTATAATTCCATGTTTAAAAAGAGTGTTCAAG</Hsp_hseq>
+      <Hsp_midline>|||||||||||||||||||||||| | ||||||||| |||||||||||||| |||| | | ||||||| || || ||||||| |||||||||||  ||||||  ||| || ||| || || ||||| ||||||| || ||||||||||| ||||| || |||||||||||||||||||||||||||||||| |||||||||||||| ||||||| |||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>19</Hit_num>
+  <Hit_id>gi|795032174|ref|XM_012008454.1|</Hit_id>
+  <Hit_def>PREDICTED: Vollenhovia emeryi LIRP-like (LOC105559845), transcript variant X2, mRNA</Hit_def>
+  <Hit_accession>XM_012008454</Hit_accession>
+  <Hit_len>3017</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>235.645</Hsp_bit-score>
+      <Hsp_score>127</Hsp_score>
+      <Hsp_evalue>1.28987e-57</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>211</Hsp_query-to>
+      <Hsp_hit-from>153</Hsp_hit-from>
+      <Hsp_hit-to>363</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>184</Hsp_identity>
+      <Hsp_positive>184</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>212</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTA-TCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGA</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTCCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCGGGAAACGCACAGATGAACGGCAACTCTC-AATCCAGATCGGCGGGATCCGCCAGAAGCCCGCCGCAGAGATATTGCGGCAAGAAGCTCTCCAATGCTCTACAGTTAATCTGTGATGGCGTGTACAATTCGATGTTTAAGAAGA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||| |||||||||||||||||||||||||||||||||||||||||||| ||||| |||||| || | ||| | |||| ||| ||   |   | ||||||||   ||| |||||||||  ||||||||||| ||||| || |||||||||||| ||||||||||||||||||||||||| |||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>20</Hit_num>
+  <Hit_id>gi|795032171|ref|XM_012008453.1|</Hit_id>
+  <Hit_def>PREDICTED: Vollenhovia emeryi LIRP-like (LOC105559845), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_012008453</Hit_accession>
+  <Hit_len>2942</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>235.645</Hsp_bit-score>
+      <Hsp_score>127</Hsp_score>
+      <Hsp_evalue>1.28987e-57</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>211</Hsp_query-to>
+      <Hsp_hit-from>78</Hsp_hit-from>
+      <Hsp_hit-to>288</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>184</Hsp_identity>
+      <Hsp_positive>184</Hsp_positive>
+      <Hsp_gaps>2</Hsp_gaps>
+      <Hsp_align-len>212</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTA-TCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGA</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTCCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCGGGAAACGCACAGATGAACGGCAACTCTC-AATCCAGATCGGCGGGATCCGCCAGAAGCCCGCCGCAGAGATATTGCGGCAAGAAGCTCTCCAATGCTCTACAGTTAATCTGTGATGGCGTGTACAATTCGATGTTTAAGAAGA</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||| |||||||||||||||||||||||||||||||||||||||||||| ||||| |||||| || | ||| | |||| ||| ||   |   | ||||||||   ||| |||||||||  ||||||||||| ||||| || |||||||||||| ||||||||||||||||||||||||| |||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>21</Hit_num>
+  <Hit_id>gi|780720041|ref|XM_011708386.1|</Hit_id>
+  <Hit_def>PREDICTED: Wasmannia auropunctata LIRP (LOC105461874), transcript variant X4, mRNA</Hit_def>
+  <Hit_accession>XM_011708386</Hit_accession>
+  <Hit_len>747</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>209.792</Hsp_bit-score>
+      <Hsp_score>113</Hsp_score>
+      <Hsp_evalue>7.81811e-50</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>56</Hsp_hit-from>
+      <Hsp_hit-to>284</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>192</Hsp_identity>
+      <Hsp_positive>192</Hsp_positive>
+      <Hsp_gaps>9</Hsp_gaps>
+      <Hsp_align-len>229</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTC-AACCCA-A-AG---CGATCCGCCGTGAGCT--CGCC-GCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGCTGATGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAAGAAACGCACAGGTGGATGGCTATTCCCAATACGAATCAATAGAGAATCGAGCCGCCGCGAGAAAACCCCAGCACAAGTATTGCGGCATGAGGCTCTCCAGTGCTCTACAGATAGTCTGTGCGGGCAATTACAATGCCATGTTTAAGAAGAATGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||| |||| ||||||||||||||||||  ||||| | || | | | ||   ||| |||||| |||    | || ||| |||||||||||||  | ||| || | ||||||||||||| ||||||  |||   |||||| ||||||||||||||| ||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>22</Hit_num>
+  <Hit_id>gi|780720036|ref|XM_011708385.1|</Hit_id>
+  <Hit_def>PREDICTED: Wasmannia auropunctata LIRP (LOC105461874), transcript variant X3, mRNA</Hit_def>
+  <Hit_accession>XM_011708385</Hit_accession>
+  <Hit_len>1679</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>209.792</Hsp_bit-score>
+      <Hsp_score>113</Hsp_score>
+      <Hsp_evalue>7.81811e-50</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>988</Hsp_hit-from>
+      <Hsp_hit-to>1216</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>192</Hsp_identity>
+      <Hsp_positive>192</Hsp_positive>
+      <Hsp_gaps>9</Hsp_gaps>
+      <Hsp_align-len>229</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTC-AACCCA-A-AG---CGATCCGCCGTGAGCT--CGCC-GCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGCTGATGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAAGAAACGCACAGGTGGATGGCTATTCCCAATACGAATCAATAGAGAATCGAGCCGCCGCGAGAAAACCCCAGCACAAGTATTGCGGCATGAGGCTCTCCAGTGCTCTACAGATAGTCTGTGCGGGCAATTACAATGCCATGTTTAAGAAGAATGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||| |||| ||||||||||||||||||  ||||| | || | | | ||   ||| |||||| |||    | || ||| |||||||||||||  | ||| || | ||||||||||||| ||||||  |||   |||||| ||||||||||||||| ||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>23</Hit_num>
+  <Hit_id>gi|780720032|ref|XM_011708383.1|</Hit_id>
+  <Hit_def>PREDICTED: Wasmannia auropunctata LIRP (LOC105461874), transcript variant X2, mRNA</Hit_def>
+  <Hit_accession>XM_011708383</Hit_accession>
+  <Hit_len>837</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>209.792</Hsp_bit-score>
+      <Hsp_score>113</Hsp_score>
+      <Hsp_evalue>7.81811e-50</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>209</Hsp_hit-from>
+      <Hsp_hit-to>437</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>192</Hsp_identity>
+      <Hsp_positive>192</Hsp_positive>
+      <Hsp_gaps>9</Hsp_gaps>
+      <Hsp_align-len>229</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTC-AACCCA-A-AG---CGATCCGCCGTGAGCT--CGCC-GCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGCTGATGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAAGAAACGCACAGGTGGATGGCTATTCCCAATACGAATCAATAGAGAATCGAGCCGCCGCGAGAAAACCCCAGCACAAGTATTGCGGCATGAGGCTCTCCAGTGCTCTACAGATAGTCTGTGCGGGCAATTACAATGCCATGTTTAAGAAGAATGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||| |||| ||||||||||||||||||  ||||| | || | | | ||   ||| |||||| |||    | || ||| |||||||||||||  | ||| || | ||||||||||||| ||||||  |||   |||||| ||||||||||||||| ||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>24</Hit_num>
+  <Hit_id>gi|780720028|ref|XM_011708382.1|</Hit_id>
+  <Hit_def>PREDICTED: Wasmannia auropunctata LIRP (LOC105461874), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_011708382</Hit_accession>
+  <Hit_len>900</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>209.792</Hsp_bit-score>
+      <Hsp_score>113</Hsp_score>
+      <Hsp_evalue>7.81811e-50</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>209</Hsp_hit-from>
+      <Hsp_hit-to>437</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>192</Hsp_identity>
+      <Hsp_positive>192</Hsp_positive>
+      <Hsp_gaps>9</Hsp_gaps>
+      <Hsp_align-len>229</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTC-AACCCA-A-AG---CGATCCGCCGTGAGCT--CGCC-GCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>ATGTCCGCGAATCGATTGAACGTGCTGATGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAAGAAACGCACAGGTGGATGGCTATTCCCAATACGAATCAATAGAGAATCGAGCCGCCGCGAGAAAACCCCAGCACAAGTATTGCGGCATGAGGCTCTCCAGTGCTCTACAGATAGTCTGTGCGGGCAATTACAATGCCATGTTTAAGAAGAATGGTCAAG</Hsp_hseq>
+      <Hsp_midline>||||||||||||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||| |||| ||||||||||||||||||  ||||| | || | | | ||   ||| |||||| |||    | || ||| |||||||||||||  | ||| || | ||||||||||||| ||||||  |||   |||||| ||||||||||||||| ||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>25</Hit_num>
+  <Hit_id>gi|1418076167|ref|XM_025411542.1|</Hit_id>
+  <Hit_def>PREDICTED: Camponotus floridanus LIRP (LOC105257206), transcript variant X2, mRNA</Hit_def>
+  <Hit_accession>XM_025411542</Hit_accession>
+  <Hit_len>821</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>172.859</Hsp_bit-score>
+      <Hsp_score>93</Hsp_score>
+      <Hsp_evalue>1.02575e-38</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>213</Hsp_query-to>
+      <Hsp_hit-from>25</Hsp_hit-from>
+      <Hsp_hit-to>231</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>174</Hsp_identity>
+      <Hsp_positive>174</Hsp_positive>
+      <Hsp_gaps>6</Hsp_gaps>
+      <Hsp_align-len>213</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGT</Hsp_qseq>
+      <Hsp_hseq>ATGTCCACGAACCATTTGAACGTGTTTGTGAGCTTGATGATCGCCATCGCGTTTCTTGTGTCGGAATCAAGAAACGCACAAGCGAACGGCTACCCCCAATTTAACC---AGAAACCTG-CG-G-GCGTGCCCCAGAAATATTGTGGCAAGAAGCTTTCTAATGCTCTACAGATAGTCTGTGATGGCGTGTACAATTCCATGTTTAAAAAGAGT</Hsp_hseq>
+      <Hsp_midline>|||||| |||| |  ||||||||| | |||| | ||||| ||||| ||||| |||||||| |||||||| |||| ||||| | | | ||||| | |||||| ||||   ||  | | | || | ||  ||| ||||| ||||| ||||| |||||||||||||||||||||||| ||||||||||||||||||||||||||||||| ||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>26</Hit_num>
+  <Hit_id>gi|1418076166|ref|XM_011267669.3|</Hit_id>
+  <Hit_def>PREDICTED: Camponotus floridanus LIRP (LOC105257206), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_011267669</Hit_accession>
+  <Hit_len>1722</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>172.859</Hsp_bit-score>
+      <Hsp_score>93</Hsp_score>
+      <Hsp_evalue>1.02575e-38</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>213</Hsp_query-to>
+      <Hsp_hit-from>926</Hsp_hit-from>
+      <Hsp_hit-to>1132</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>174</Hsp_identity>
+      <Hsp_positive>174</Hsp_positive>
+      <Hsp_gaps>6</Hsp_gaps>
+      <Hsp_align-len>213</Hsp_align-len>
+      <Hsp_qseq>ATGTCCGCGAATCGATTGAACGTGCTGGTGACCCTGATGCTCGCCGTCGCGCTTCTTGTGACGGAATCAGGAAATGCACAGGTGGATGGCTATCTCCAATTCAACCCAAAGCGATCCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGT</Hsp_qseq>
+      <Hsp_hseq>ATGTCCACGAACCATTTGAACGTGTTTGTGAGCTTGATGATCGCCATCGCGTTTCTTGTGTCGGAATCAAGAAACGCACAAGCGAACGGCTACCCCCAATTTAACC---AGAAACCTG-CG-G-GCGTGCCCCAGAAATATTGTGGCAAGAAGCTTTCTAATGCTCTACAGATAGTCTGTGATGGCGTGTACAATTCCATGTTTAAAAAGAGT</Hsp_hseq>
+      <Hsp_midline>|||||| |||| |  ||||||||| | |||| | ||||| ||||| ||||| |||||||| |||||||| |||| ||||| | | | ||||| | |||||| ||||   ||  | | | || | ||  ||| ||||| ||||| ||||| |||||||||||||||||||||||| ||||||||||||||||||||||||||||||| ||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>27</Hit_num>
+  <Hit_id>gi|1398058614|ref|XM_011647420.2|</Hit_id>
+  <Hit_def>PREDICTED: Pogonomyrmex barbatus LIRP-like (LOC105432563), transcript variant X2, mRNA</Hit_def>
+  <Hit_accession>XM_011647420</Hit_accession>
+  <Hit_len>5348</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>150.699</Hsp_bit-score>
+      <Hsp_score>81</Hsp_score>
+      <Hsp_evalue>4.80622e-32</Hsp_evalue>
+      <Hsp_query-from>116</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>1096</Hsp_hit-from>
+      <Hsp_hit-to>1200</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>97</Hsp_identity>
+      <Hsp_positive>97</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>105</Hsp_align-len>
+      <Hsp_qseq>CCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>CCCCCGTGAATGCGCCGCAGAAATATTGCGGCAAAAAGCTGTCCAATGCTCTACAGATAATCTGTGATGGCGTGTATAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>|| ||||||   |||||||||| ||||||||||||||||| || |||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>28</Hit_num>
+  <Hit_id>gi|769867415|ref|XM_011647419.1|</Hit_id>
+  <Hit_def>PREDICTED: Pogonomyrmex barbatus LIRP-like (LOC105432563), transcript variant X1, mRNA</Hit_def>
+  <Hit_accession>XM_011647419</Hit_accession>
+  <Hit_len>4478</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>150.699</Hsp_bit-score>
+      <Hsp_score>81</Hsp_score>
+      <Hsp_evalue>4.80622e-32</Hsp_evalue>
+      <Hsp_query-from>116</Hsp_query-from>
+      <Hsp_query-to>220</Hsp_query-to>
+      <Hsp_hit-from>226</Hsp_hit-from>
+      <Hsp_hit-to>330</Hsp_hit-to>
+      <Hsp_query-frame>1</Hsp_query-frame>
+      <Hsp_hit-frame>1</Hsp_hit-frame>
+      <Hsp_identity>97</Hsp_identity>
+      <Hsp_positive>97</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>105</Hsp_align-len>
+      <Hsp_qseq>CCGCCGTGAGCTCGCCGCAGAAGTATTGCGGCAAAAAGCTTTCTAATGCTCTACAGATAATCTGTGATGGCGTGTACAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_qseq>
+      <Hsp_hseq>CCCCCGTGAATGCGCCGCAGAAATATTGCGGCAAAAAGCTGTCCAATGCTCTACAGATAATCTGTGATGGCGTGTATAATTCCATGTTTAAGAAGAGTGGTCAAG</Hsp_hseq>
+      <Hsp_midline>|| ||||||   |||||||||| ||||||||||||||||| || |||||||||||||||||||||||||||||||| ||||||||||||||||||||||||||||</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+</Iteration_hits>
+  <Iteration_stat>
+    <Statistics>
+      <Statistics_db-num>52085306</Statistics_db-num>
+      <Statistics_db-len>214274604493</Statistics_db-len>
+      <Statistics_hsp-len>34</Statistics_hsp-len>
+      <Statistics_eff-space>111351940942636</Statistics_eff-space>
+      <Statistics_kappa>0.46</Statistics_kappa>
+      <Statistics_lambda>1.28</Statistics_lambda>
+      <Statistics_entropy>0.85</Statistics_entropy>
+    </Statistics>
+  </Iteration_stat>
+</Iteration>
+</BlastOutput_iterations>
+</BlastOutput>
+

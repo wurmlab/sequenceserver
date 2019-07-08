@@ -1,8 +1,0 @@
---- !ruby/object:SequenceServer::BLAST::Job
-id: 6bad21d1-b544-494d-8248-2b8eb77c38a3
-submitted_at: 2019-06-17 11:35:50.370802300 +01:00
-imported_xml_file: BLASTX_NO_HITS_SINGLE.xml
-advanced_params: {}
-databases: []
-completed_at: 2019-06-17 11:35:50.399731400 +01:00
-exitstatus: 0

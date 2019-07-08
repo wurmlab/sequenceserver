@@ -1,0 +1,8 @@
+--- !ruby/object:SequenceServer::BLAST::Job
+id: 'blast_2.4.0/blastn_nohits'
+submitted_at: 2019-06-25 15:19:06.628812900 +01:00
+imported_xml_file: BLASTN_NO_HITS_XML_2.4.0.xml
+advanced_params: {}
+databases: []
+completed_at: 2019-06-25 15:19:06.637736200 +01:00
+exitstatus: 0

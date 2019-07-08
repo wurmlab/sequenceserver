@@ -1,0 +1,8 @@
+--- !ruby/object:SequenceServer::BLAST::Job
+id: 'blast_2.9.0/blastx'
+submitted_at: 2019-06-18 15:46:52.812514800 +01:00
+imported_xml_file: BLASTX_XML_2.9.0.xml
+advanced_params: {}
+databases: []
+completed_at: 2019-06-18 15:46:52.824739400 +01:00
+exitstatus: 0
