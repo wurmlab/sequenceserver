@@ -108,11 +108,11 @@ describe 'a browser', :js => true do
   end
 
   def nucleotide_query
-    File.read File.join __dir__, 'nucleotide_query.fa'
+    File.read File.join(__dir__, 'query_files', 'nucleotide_query.fa')
   end
 
   def protein_query
-    File.read File.join __dir__, 'protein_query.fa'
+    File.read File.join(__dir__, 'query_files', 'protein_query.fa')
   end
 
   def nucleotide_databases
