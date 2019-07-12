@@ -14,3 +14,6 @@ RSpec.configure do |config|
     expectations.syntax = [:should, :expect]
   end
 end
+
+# To use url_encode function import_spec.
+include ERB::Util

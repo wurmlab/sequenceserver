@@ -14,10 +14,10 @@ describe 'report generated from imported XML', :js => true do
     Capybara.javascript_driver = :selenium
     Capybara.default_max_wait_time = 10
 
+   Capybara.register_driver :selenium do |app|
     options = ::Selenium::WebDriver::Firefox::Options.new
     options.args << '--headless'
-    Capybara.register_driver :selenium do |app|
-      Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
+       Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
     end
   end
 
@@ -45,7 +45,8 @@ describe 'report generated from imported XML', :js => true do
   ## Helpers ##
 
   def access_by_uuid(id)
-    visit "/#{id}"
+    url = url_encode(id)
+    visit "/#{url}"
     page.should have_content('Query')
   end
 end

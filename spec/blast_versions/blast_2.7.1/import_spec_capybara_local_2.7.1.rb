@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'sauce_whisk'
-#require 'capybara/rspec'
+require 'capybara/rspec'
 require 'selenium-webdriver'
 
 RSpec.configure do |config|
@@ -12,15 +12,18 @@ describe 'report generated from imported XML', :js => true do
     Capybara.app = SequenceServer.init
     Capybara.server = :webrick
     Capybara.javascript_driver = :selenium
-    Capybara.default_max_wait_time = 10
+    Capybara.default_max_wait_time = 120
 
    Capybara.register_driver :selenium do |app|
       capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(
       takesScreenshot: true,
       firefox_options: {args: ["--headless","disable-gpu" "window-size=1024,768"]})
-      Capybara::Selenium::Driver.new(app, browser: :firefox, desired_capabilities: capabilities)
+      client = Selenium::WebDriver::Remote::Http::Default.new
+      client.read_timeout = 120
+      Capybara::Selenium::Driver.new(app, browser: :firefox, desired_capabilities: capabilities, http_client: client)
     end
   end
+
 
   # Fasta files used for testing consist of TP53 and COX41 protein/nucleotide sequences for reproducibility.
   it 'loads BLASTP xml output' do
@@ -46,8 +49,8 @@ describe 'report generated from imported XML', :js => true do
   ## Helpers ##
 
   def access_by_uuid(id)
-    visit "/#{id}"
+    url = url_encode(id)
+    visit "/#{url}"
     page.should have_content('Query')
-    screenshot_and_save_page
   end
-end
+end 

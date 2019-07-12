@@ -12,7 +12,7 @@ describe 'report generated from imported XML', :js => true do
     Capybara.app = SequenceServer.init
     Capybara.server = :webrick
     Capybara.javascript_driver = :selenium
-    Capybara.default_max_wait_time = 10
+    Capybara.default_max_wait_time = 20
 
     options = ::Selenium::WebDriver::Firefox::Options.new
     options.args << '--headless'
@@ -46,7 +46,8 @@ describe 'report generated from imported XML', :js => true do
   ## Helpers ##
 
   def access_by_uuid(id)
-    visit "/#{id}"
+    url = url_encode(id)
+    visit "/#{url}"
     page.should have_content('Query')
   end
 end
