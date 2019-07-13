@@ -181,19 +181,17 @@ begin
         # BLAST+ for her.
         puts
         puts <<~MSG
-          SequenceServer can use NCBI BLAST+ that you may have on your system already, or
-          download the correct package for itself. A recent system update may have broken
-          your NCBI BLAST+ installation.
+          If you have downloaded NCBI BLAST+ already, please enter the path
+          below. Otherwise just press Enter and SequenceServer will download
+          a copy of NCBI BLAST+ for itself.
 
-          Please enter the path to NCBI BLAST+ or press Enter to download.
-
-          Press Ctrl+C to quit.
+          Press Ctrl+C to abort setup.
         MSG
         puts
         response = Readline.readline('>> ').to_s.strip
         if response.empty?
           puts
-          puts 'Installing NCBI BLAST+.'
+          puts 'Downloading NCBI BLAST+.'
           puts "RUBY_PLATFORM #{RUBY_PLATFORM}"
           puts 'Archive will be extracted in ~/.sequenceserver directory.'
           puts
