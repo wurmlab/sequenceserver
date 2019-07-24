@@ -1,4 +1,4 @@
 # Define version number.
 module SequenceServer
-  VERSION = '1.1.0.beta12'.freeze
+  VERSION = '2.0.0.beta1'.freeze
 end
