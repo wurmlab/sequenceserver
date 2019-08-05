@@ -926,6 +926,7 @@ var SideBar = React.createClass({
         }).get();
         var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
         downloadFASTA(sequence_ids, database_ids);
+        return false;
     },
 
     /**
@@ -937,6 +938,7 @@ var SideBar = React.createClass({
         }).get();
         var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
         downloadFASTA(sequence_ids, database_ids);
+        return false;
     },
 
     downloadAlignmentOfAll: function() {
@@ -956,6 +958,7 @@ var SideBar = React.createClass({
         }, this));
         console.log('len '+hsps_arr.length);
         aln_exporter.export_alignments(hsps_arr, "alignment-"+sequence_ids.length+"_hits");
+        return false;
     },
 
     downloadAlignmentOfSelected: function () {
@@ -977,6 +980,7 @@ var SideBar = React.createClass({
             });
         }, this));
         aln_exporter.export_alignments(hsps_arr, "alignment-"+sequence_ids.length+"_hits");
+        return false;
     },
 
 
@@ -1043,29 +1047,28 @@ var SideBar = React.createClass({
                 <ul className="nav">
                     {
                         !this.props.data.imported_xml && <li>
-                            <a className="download-fasta-of-all"
+                            <a href="#" className="btn-link download-fasta-of-all"
                                 onClick={this.downloadFastaOfAll}>
                                 FASTA of all hits
                             </a>
                         </li>
                     }
                     {
-                       !this.props.data.imported_xml && <li>
-                        <a
-                            className="download-fasta-of-selected disabled"
-                            onClick={this.downloadFastaOfSelected}>
-                            FASTA of <span className="text-bold"></span> selected hit(s)
-                        </a>
-                    </li>
+                        !this.props.data.imported_xml && <li>
+                            <a href="#" className="btn-link download-fasta-of-selected disabled"
+                                onClick={this.downloadFastaOfSelected}>
+                                FASTA of <span className="text-bold"></span> selected hit(s)
+                            </a>
+                        </li>
                     }
                     <li>
-                        <a className="download-alignment-of-all"
+                        <a href="#" className="btn-link download-alignment-of-all"
                             onClick={this.downloadAlignmentOfAll}>
                             Alignment of all hits
                         </a>
                     </li>
                     <li>
-                        <a className="download-alignment-of-selected disabled"
+                        <a href="#" className="btn-link download-alignment-of-selected disabled"
                             onClick={this.downloadAlignmentOfSelected}>
                             Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>

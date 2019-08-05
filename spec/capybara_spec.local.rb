@@ -58,6 +58,101 @@ describe 'a browser', type: :feature, js: true do
 
   ### Test aspects of the generated report.
 
+  it "can download FASTA of each hit" do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    # Click on the first FASTA download button on the page and wait for the
+    # download to finish.
+    page.execute_script("$('.download-fa:eq(0)').click()")
+    wait_for_download
+
+    # Test name and content of the downloaded file.
+    expect(File.basename(downloaded_file)).
+      to eq('sequenceserver-SI2.2.0_06267.fa')
+    expect(File.read(downloaded_file)).
+      to eq(File.read("#{__dir__}/sequences/sequenceserver-SI2.2.0_06267.fa"))
+  end
+
+  it "can download FASTA of selected hits" do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    # Select first hit for each query and click 'FASTA of 2 selected hits'.
+    page.check('Query_1_hit_1_checkbox')
+    page.check('Query_2_hit_1_checkbox')
+    page.click_link('FASTA of 2 selected hit(s)')
+    wait_for_download
+
+    expect(File.basename(downloaded_file)).to eq('sequenceserver-2_hits.fa')
+    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/sequenceserver-2_hits.fa"))
+  end
+
+  it "can download FASTA of all hits" do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    # Click 'FASTA of all hits'.
+    page.click_link('FASTA of all hits')
+    wait_for_download
+
+    expect(File.basename(downloaded_file)).to eq('sequenceserver-2_hits.fa')
+    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/sequenceserver-2_hits.fa"))
+  end
+
+  it "can download alignment for each hit" do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    # Click on the first Alignment download button on the page and wait for the
+    # download to finish.
+    page.execute_script("$('.download-aln:eq(0)').click()")
+    wait_for_download
+
+    # Test name and content of the downloaded file.
+    expect(File.basename(downloaded_file)).to eq('Query_1_SI2_2_0_06267.txt')
+    expect(File.read(downloaded_file)).
+      to eq(File.read("#{__dir__}/sequences/Query_1_SI2_2_0_06267.txt"))
+  end
+
+  it "can download Alignment of selected hits" do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    # Select first hit for each query and click 'Alignment of 2 selected hits'.
+    page.check('Query_1_hit_1_checkbox')
+    page.check('Query_2_hit_1_checkbox')
+    page.click_link('Alignment of 2 selected hit(s)')
+    wait_for_download
+
+    expect(File.basename(downloaded_file)).to eq('alignment-2_hits.txt')
+    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-2_hits.txt"))
+  end
+
+  it "can download Alignment of all hits" do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    # Click 'Alignment of all hits'.
+    page.click_link('Alignment of all hits')
+    wait_for_download
+
+    expect(File.basename(downloaded_file)).to eq('alignment-2_hits.txt')
+    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-2_hits.txt"))
+  end
+
   it 'can show hit sequences in a modal' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
@@ -94,41 +189,6 @@ describe 'a browser', type: :feature, js: true do
         RESRGIHEECCINGCTINELTSYCGP
       SEQ
     end
-  end
-
-  it "can download hit sequences" do
-    # Do a BLASTP search. protein_query refers to the first two sequence in
-    # protein_databases[0], so the top hits are the query sequences themselves.
-    perform_search(query: protein_query,
-                   databases: protein_databases.values_at(0))
-
-    # Click on the first FASTA download button on the page and wait for the
-    # download to finish.
-    page.execute_script("$('.download-fa:eq(0)').click()")
-    wait_for_download
-
-    # Test name and content of the downloaded file.
-    expect(File.basename(downloaded_file)).
-      to eq('sequenceserver-SI2.2.0_06267.fa')
-    expect(File.read(downloaded_file)).
-      to eq(File.read("#{__dir__}/sequences/sequenceserver-SI2.2.0_06267.fa"))
-  end
-
-  it "can download alignment for each hit" do
-    # Do a BLASTP search. protein_query refers to the first two sequence in
-    # protein_databases[0], so the top hits are the query sequences themselves.
-    perform_search(query: protein_query,
-                   databases: protein_databases.values_at(0))
-
-    # Click on the first Alignment download button on the page and wait for the
-    # download to finish.
-    page.execute_script("$('.download-aln:eq(0)').click()")
-    wait_for_download
-
-    # Test name and content of the downloaded file.
-    expect(File.basename(downloaded_file)).to eq('Query_1_SI2_2_0_06267.txt')
-    expect(File.read(downloaded_file)).
-      to eq(File.read("#{__dir__}/sequences/Query_1_SI2_2_0_06267.txt"))
   end
 
   it 'disables sequence viewer links if hits are longer than 10kb' do
