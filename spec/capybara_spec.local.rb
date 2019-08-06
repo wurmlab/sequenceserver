@@ -153,6 +153,28 @@ describe 'a browser', type: :feature, js: true do
     expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-2_hits.txt"))
   end
 
+  it 'can download BLAST results in XML and tabular formats' do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    page.click_link('Standard tabular report')
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('sequenceserver-std_tsv_report.tsv')
+    clear_downloads
+
+    page.click_link('Full tabular report')
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('sequenceserver-full_tsv_report.tsv')
+    clear_downloads
+
+    page.click_link('Full XML report')
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('sequenceserver-xml_report.xml')
+    clear_downloads
+  end
+
   it 'can show hit sequences in a modal' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
