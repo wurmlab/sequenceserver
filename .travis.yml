@@ -5,40 +5,32 @@ rvm:
   - 2.4
   - 2.5
 
-addons:
-  sauce_connect: true
-
 branches:
   only:
     - 1.0.x  # stable
     - master
 
 install:
-  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.6.0/ncbi-blast-2.6.0+-x64-linux.tar.gz"
+  - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz"
+  - mkdir geckodriver && tar xvf geckodriver-*.tar.gz -C geckodriver
+  - export PATH="geckodriver:$PATH"
+  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.9.0/ncbi-blast-2.9.0+-x64-linux.tar.gz"
   - tar xvf ncbi-blast-*.tar.gz
   - gem install bundler && bundle
-  - bundle exec bin/sequenceserver -s -b ncbi-blast-2.6.0+/bin -d spec/database/sample
+  - bundle exec bin/sequenceserver -s -b ncbi-blast-2.9.0+/bin -d spec/database/sample
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter && chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - bundle exec rspec --exclude-pattern 'capybara*' # unit tests
-  - platform='macOS 10.14' browserName=safari browserVersion=12 bundle exec rspec spec/capybara_spec.rb
-  - platform='macOS 10.14' browserName=chrome browserVersion=71 bundle exec rspec spec/capybara_spec.rb
-  - platform='macOS 10.14' browserName=firefox browserVersion=64 bundle exec rspec spec/capybara_spec.rb
-  - platform='Windows 10' browserName=microsoftedge browserVersion='16.16299' bundle exec rspec spec/capybara_spec.rb
-  - platform='Windows 10' browserName=chrome browserVersion=71 bundle exec rspec spec/capybara_spec.rb
-  - platform='Windows 10' browserName=firefox browserVersion=64 bundle exec rspec spec/capybara_spec.rb
-  - platform='Linux' browserName=chrome browserVersion=48 bundle exec rspec spec/capybara_spec.rb
-  - platform='Linux' browserName=firefox browserVersion=45 bundle exec rspec spec/capybara_spec.rb
+  - bundle exec rspec
 after_script:
   - ./cc-test-reporter after-build # --exit-code $TRAVIS_TEST_RESULT
 
 cache:
   directories:
     - vendor/bundle
-    - ncbi-blast-2.6.0+
+    - ncbi-blast-2.9.0+
 
 sudo: false
 

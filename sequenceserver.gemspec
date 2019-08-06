@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake', '~> 10.3', '>= 10.3.2')
   s.add_development_dependency('rspec', '~> 3.7', '>= 3.7.0')
   s.add_development_dependency('sauce_whisk', '~> 0.0', '>= 0.0.19')
-  s.add_development_dependency('selenium-webdriver', '~> 3.141', '>= 3.141.0')
+  s.add_development_dependency('selenium-webdriver', '~> 3.142', '>= 3.142.3')
 
   # gem
   s.files         = `git ls-files`.split("\n") - ['Gemfile', 'Gemfile.lock']
