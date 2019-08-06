@@ -45,7 +45,7 @@ RSpec.configure do |config|
 
       # Suppress "open with / save" dialog for FASTA, XML, and TSV file types.
       options.profile['browser.helperApps.neverAsk.saveToDisk'] =
-        'text/fasta,text/xml,text/tsv'
+        'text/fasta,text/xml,text/tsv,image/png'
 
       Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
     end

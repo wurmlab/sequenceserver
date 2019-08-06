@@ -203,6 +203,71 @@ describe 'a browser', type: :feature, js: true do
     page.evaluate_script("$('.view-sequence').is(':disabled')").should eq(true)
   end
 
+  it 'can download visualisations in svg and png format' do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    ## Check that there is a circos vis and unfold it.
+    page.should have_content('Circos')
+    page.execute_script("$('.circos > .grapher-header > h5').click()")
+    sleep 1
+
+    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Circos-visualisation.svg')
+    clear_downloads
+
+    page.execute_script("$('.export-to-png:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Circos-visualisation.png')
+    clear_downloads
+
+
+    ## Check that there is a graphical overview of hits.
+    page.should have_content('Graphical overview of hits')
+
+    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-Query_1.svg')
+    clear_downloads
+
+    page.execute_script("$('.export-to-png:eq(1)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-Query_1.png')
+    clear_downloads
+
+
+    ## Check that there is a length distribution of hits.
+    page.should have_content('Length distribution of hits')
+    page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
+    sleep 1
+
+    page.execute_script("$('.export-to-svg:eq(2)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('length-distribution-Query_1.svg')
+    clear_downloads
+
+    page.execute_script("$('.export-to-png:eq(2)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('length-distribution-Query_1.png')
+    clear_downloads
+
+    ## Check that there is a kablammo vis of query vs hit.
+    page.should have_content('Graphical overview of aligning region(s)')
+
+    page.execute_script("$('.export-to-svg:eq(3)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.svg')
+    clear_downloads
+
+    page.execute_script("$('.export-to-png:eq(3)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.png')
+    clear_downloads
+  end
+
   ## Helpers ##
 
   def perform_search(query: , databases: , method: nil)
