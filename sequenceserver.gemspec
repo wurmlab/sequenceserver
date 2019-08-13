@@ -26,8 +26,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency('capybara', '~> 3.12', '>= 3.12.0')
   s.add_development_dependency('capybara-screenshot', '~> 1.0', '>= 1.0.23')
-  s.add_development_dependency('codeclimate-test-reporter',
-                               '~> 1.0', '>= 1.0.8')
   s.add_development_dependency('rack-test', '~> 1.0', '>= 1.0.0')
   s.add_development_dependency('rake', '~> 10.3', '>= 10.3.2')
   s.add_development_dependency('rspec', '~> 3.7', '>= 3.7.0')
