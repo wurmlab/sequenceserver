@@ -45,9 +45,9 @@ If you use SequenceServer, please cite:
   databases. Molecular Biology and Evolution
   (2019).](https://doi.org/10.1093/molbev/msz185)
 
-## Version 1.1.0-beta12
+## Version 2.0 (beta)
 
-This is a beta release of SequenceServer 2.0
+Beta release of SequenceServer version 2.0.
 
 Here, we have changed the underlying architecture to persist jobs so that
 the results can be bookmarked or shared, and to support integration with
@@ -60,15 +60,15 @@ The new beta releases are announced on [Google Group](https://groups.google.com/
 
 ### Install and configure
 
-To get the latest 1.1.0-beta release, run:
+To get the latest 2.0 (beta) release, run:
 
     gem install --pre sequenceserver
 
 If you are new to the above command, please consult the 'Install or update'
 section on our website http://sequenceserver.com.
 
-If you want to install and use the beta versions from source, the process is
-the same as for the old stable release (instructions above).
+If you want to install and use the beta versions from source, the process
+is the same as for the old stable release (instructions above).
 
 ### Develop and contribute
 
