@@ -41,7 +41,9 @@ use of 'bundler' Ruby gem to install dependencies and to run SequenceServer:
 
 If you use SequenceServer, please cite our preprint:
 
-> [Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W & Wurm Y. 2015. Sequenceserver: A modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142](http://www.biorxiv.org/content/early/2015/11/27/033142).
+> [Sequenceserver: a modern graphical user interface for custom BLAST
+  databases. Molecular Biology and Evolution
+  (2019).](https://doi.org/10.1093/molbev/msz185).
 
 ## Version 1.1.0-beta12
 
