@@ -39,11 +39,11 @@ use of 'bundler' Ruby gem to install dependencies and to run SequenceServer:
     # Use bundler command to run SequenceServer
     bundle exec bin/sequenceserver
 
-If you use SequenceServer, please cite our preprint:
+If you use SequenceServer, please cite:
 
-> [Sequenceserver: a modern graphical user interface for custom BLAST
+> [Sequenceserver: A modern graphical user interface for custom BLAST
   databases. Molecular Biology and Evolution
-  (2019).](https://doi.org/10.1093/molbev/msz185).
+  (2019).](https://doi.org/10.1093/molbev/msz185)
 
 ## Version 1.1.0-beta12
 
