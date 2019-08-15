@@ -126,7 +126,3 @@ docker run --rm -ti -p 4567:4567 -v $(pwd)/db:/db wurmlab/sequenceserver:1.0.11
 * Anurag Priyam (architect) - [email](mailto:anurag08priyam@gmail.com) | [@yeban](//twitter.com/yeban)
 * Yannick Wurm  (PI) - [email](mailto:yannickwurm@gmail.com) | [@yannick\_\_](//twitter.com/yannick__)
 * [Mailing list / forum](https://groups.google.com/forum/#!forum/sequenceserver)
-
-## Big Thanks
-
-Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com)
