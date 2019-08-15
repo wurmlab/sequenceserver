@@ -11,18 +11,13 @@ RUN apt-get update  && apt-get install -y --no-install-recommends \
         curl wget \
         gnupg \
         git \
-        ncbi-blast+ \
         zlib1g-dev
-
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
-        apt-get update  && apt-get install -y --no-install-recommends \
-        nodejs npm && \
-        rm -rf /var/lib/apt/lists/*
 
 VOLUME ["/db"]
 EXPOSE 4567
 
 COPY . /sequenceserver
 WORKDIR /sequenceserver
-RUN gem install bundler && bundle && npm install
+RUN gem install bundler && bundle install --without=development
+RUN yes '' | bundle exec bin/sequenceserver -s
 ENTRYPOINT ["bundle", "exec", "bin/sequenceserver", "-d", "/db"]
