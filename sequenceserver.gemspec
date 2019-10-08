@@ -24,13 +24,14 @@ Gem::Specification.new do |s|
   s.add_dependency('sinatra',   '~> 2.0',  '>= 2.0.0')
   s.add_dependency('slop',      '~> 3.6',  '>= 3.6.0')
 
-  s.add_development_dependency('capybara', '~> 3.12', '>= 3.12.0')
+  s.add_development_dependency('capybara', '~> 3.15', '>= 3.15.1')
   s.add_development_dependency('capybara-screenshot', '~> 1.0', '>= 1.0.23')
   s.add_development_dependency('rack-test', '~> 1.0', '>= 1.0.0')
   s.add_development_dependency('rake', '~> 10.3', '>= 10.3.2')
   s.add_development_dependency('rspec', '~> 3.7', '>= 3.7.0')
   s.add_development_dependency('sauce_whisk', '~> 0.0', '>= 0.0.19')
   s.add_development_dependency('selenium-webdriver', '~> 3.142', '>= 3.142.3')
+  s.add_development_dependency('simplecov', '~> 0.17.0', '>= 0.17.0')
 
   # gem
   s.files         = `git ls-files`.split("\n") - ['Gemfile', 'Gemfile.lock']

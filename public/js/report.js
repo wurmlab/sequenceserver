@@ -112,22 +112,14 @@ var Report = React.createClass({
     },
 
     /**
-     * Incrementally update state so that the rendering process is
-     * not overwhelemed when there are too many queries.
+     * Incrementally update state (50 queries at a time) so that the rendering
+     * process is not overwhelemed when there are too many queries.
      */
     updateState: function(responseJSON) {
         var queries = responseJSON.queries;
-
-        // Render results for first 50 queries and set flag if total queries is
-        // more than 250.
-        var numHits = 0;
-        responseJSON.veryBig = queries.length > 250;
-        //responseJSON.veryBig = !_.every(queries, (query) => {
-            //numHits += query.hits.length;
-            //return (numHits <= 500);
-        //});
-        responseJSON.queries = queries.splice(0, 50);
         responseJSON.num_queries = queries.length;
+        responseJSON.veryBig = queries.length > 250;
+        responseJSON.queries = queries.splice(0, 50);
         this.setState(responseJSON);
 
         // Render results for remaining queries.
@@ -305,10 +297,6 @@ var Report = React.createClass({
         // results DOM.
         if (this.updateCycle === 1 ) this.affixSidebar();
     },
-
-    /**
-     * Prevents folding of hits during text-selection, etc.
-     */
 
     /**
      * Called after all results have been rendered.
