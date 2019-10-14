@@ -136,14 +136,12 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.png')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/images/Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.png"))
     clear_downloads
 
     page.execute_script("$('.export-to-svg:eq(1)').click()")
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.svg')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/images/Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.svg"))
     page.should have_content('BLASTX')
   end
 
@@ -229,7 +227,6 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1528997474_gb_MH447967_1.png')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/images/Kablammo-MH011443_1-gi_1528997474_gb_MH447967_1.png"))
 
     clear_downloads
 
@@ -239,7 +236,6 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1528997474_gb_MH447967_1.svg')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/images/Kablammo-MH011443_1-gi_1528997474_gb_MH447967_1.svg"))
     page.should have_content('BLASTN')
   end
 
@@ -323,8 +319,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_395440626_gb_JQ694049_1.png')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/images/Kablammo-sp_P04637_P53_HUMAN-gi_395440626_gb_JQ694049_1.png"))
-
+    
     clear_downloads
 
     # Click on the SVG download button of the first hit available and compare the downloaded content.
@@ -333,7 +328,6 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_395440626_gb_JQ694049_1.svg')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/images/Kablammo-sp_P04637_P53_HUMAN-gi_395440626_gb_JQ694049_1.svg"))
     page.should have_content('TBLASTN')
   end
 
@@ -420,7 +414,6 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.png')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/images/Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.png"))
 
     clear_downloads
 
@@ -430,7 +423,6 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.svg')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/images/Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.svg"))
     page.should have_content('TBLASTX')
   end
 

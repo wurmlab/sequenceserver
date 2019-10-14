@@ -54,13 +54,13 @@ describe 'report generated from imported XML',type: :feature, js: true do
     # Click on the PNG/SVG download button of the first hit available and compare the downloaded content.
     page.execute_script("$('.export-to-png:eq(1)').click()")
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_1099170394_ref_XP_018868681_1.png')
+    expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-sp_P04637_P53_HUMAN.png')
 
     clear_downloads
 
     page.execute_script("$('.export-to-svg:eq(1)').click()")
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_1099170394_ref_XP_018868681_1.svg')
+    expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-sp_P04637_P53_HUMAN.svg')
     page.should have_content('BLASTP')
   end
 
@@ -123,8 +123,8 @@ describe 'report generated from imported XML',type: :feature, js: true do
     page.click_link('Alignment of all hits')
     wait_for_download
 
-    expect(File.basename(downloaded_file)).to eq('alignment-40_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-40_hits_diamond_blastx.txt"))
+    expect(File.basename(downloaded_file)).to eq('alignment-35_hits.txt')
+    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-35_hits_diamond_blastx.txt"))
     clear_downloads
 
     # Select four hit checkboxes and click on the Alignment of selected hits. Compare the downloaded content.

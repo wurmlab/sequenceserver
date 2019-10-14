@@ -32,7 +32,7 @@ RSpec.configure do |config|
   config.before :context, type: :feature do
     Capybara.app = SequenceServer.init
     Capybara.server = :webrick
-    Capybara.default_max_wait_time = 10
+    Capybara.default_max_wait_time = 25
 
     Capybara.register_driver :selenium do |app|
       options = Selenium::WebDriver::Firefox::Options.new
