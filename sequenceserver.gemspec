@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rubocop', '~> 0.75', '>= 0.75.1')
   s.add_development_dependency('selenium-webdriver', '~> 3.142', '>= 3.142.3')
   s.add_development_dependency('simplecov', '~> 0.17.0', '>= 0.17.0')
+  s.add_development_dependency('travis', '~> 1.8', '>= 1.8.10')
 
   # gem
   s.files         = `git ls-files`.split("\n") - ['Gemfile', 'Gemfile.lock']
