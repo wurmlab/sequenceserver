@@ -1,5 +1,6 @@
 require 'simplecov'
 require 'capybara/rspec'
+require 'capybara-screenshot'
 require 'selenium-webdriver'
 
 require_relative 'download_helper'
@@ -18,6 +19,7 @@ RSpec.configure do |config|
   # Explicitly enable should syntax of rspec.
   config.expect_with :rspec do |expectations|
     expectations.syntax = [:should, :expect]
+  config.pattern += ',*/*/*spec*'
   end
 
   # To use url_encode function in import_spec.
@@ -43,10 +45,9 @@ RSpec.configure do |config|
       options.profile['browser.download.dir'] = downloads_dir
       options.profile['browser.download.folderList'] = 2
 
-      # Suppress "open with / save" dialog for FASTA, XML, and TSV file types.
+      # Suppress "open with / save" dialog for FASTA, XML, TSV and PNG file types.
       options.profile['browser.helperApps.neverAsk.saveToDisk'] =
         'text/fasta,text/xml,text/tsv,image/png'
-
       Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
     end
 
