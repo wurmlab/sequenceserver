@@ -25,7 +25,7 @@ install:
   - cd ..
   # Add opt/bin/ containing geckodriver and codeclimate test reporter, and
   # opt/ncbi-blast-2.9.0+/bin containing BLAST+ binaries to PATH.
-  - export PATH="opt/bin:opt/ncbi-blast-2.9.0+/bin:$PATH"
+  - export PATH="$PWD/opt/bin:$PWD/opt/ncbi-blast-2.9.0+/bin:$PATH"
   # Install bundler and gem dependencies.
   - gem install bundler && bundle
   # Create configuration file for SequenceServer.
