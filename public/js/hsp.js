@@ -45,10 +45,15 @@ export default class HSP extends React.Component {
     }
 
     /**
-     * Return prettified stats for the given hsp and based on the BLAST
-     * algorithm.
+     * Returns an array of span elements or plain strings (React automatically
+     * adds span tag around strings). This array is passed as it is to JSX to be
+     * rendered just above the pairwise alignment (see render method).
+     *
+     * We cannot return a string from this method otherwise we wouldn't be able
+     * to use JSX elements to format text (like, superscript).
      */
     hspStats () {
+        // An array to hold text or span elements that make up the line.
         let line = [];
 
         // Bit score and total score.
@@ -69,23 +74,23 @@ export default class HSP extends React.Component {
         }
 
         // Gaps
-        line.push(`Gaps: ${Utils.inFraction(this.hsp.gaps, this.hsp.length)} (${Utils.inPercentage(this.hsp.gaps, this.hsp.length)}), `);
+        line.push(`Gaps: ${Utils.inFraction(this.hsp.gaps, this.hsp.length)} (${Utils.inPercentage(this.hsp.gaps, this.hsp.length)})`);
 
         // Query coverage
         //line.push(`Query coverage: ${this.hsp.qcovhsp}%, `)
 
         switch (this.props.algorithm) {
             case 'tblastx':
-                line.push(`Frame: ${Utils.inFraction(this.hsp.qframe, this.hsp.sframe)}`)
+                line.push(`, Frame: ${Utils.inFraction(this.hsp.qframe, this.hsp.sframe)}`)
                 break;
             case 'blastn':
-                line.push(`Strand: ${(this.hsp.qframe > 0 ? '+' : '-')} / ${(this.hsp.sframe > 0 ? '+' : '-')}`)
+                line.push(`, Strand: ${(this.hsp.qframe > 0 ? '+' : '-')} / ${(this.hsp.sframe > 0 ? '+' : '-')}`)
                 break;
             case 'blastx':
-                line.push(`Query Frame: ${this.hsp.qframe}`)
+                line.push(`, Query Frame: ${this.hsp.qframe}`)
                 break;
             case 'tblastn':
-                line.push(`Hit Frame: ${this.hsp.sframe}`)
+                line.push(`, Hit Frame: ${this.hsp.sframe}`)
                 break;
         }
 
