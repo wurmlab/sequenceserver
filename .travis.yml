@@ -9,14 +9,29 @@ branches:
     - 1.0.x  # stable
     - master
 
+cache:
+  directories:
+    - opt
+    - vendor/bundle
+
 install:
-  - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz"
-  - mkdir geckodriver && tar xvf geckodriver-*.tar.gz -C geckodriver
-  - export PATH="geckodriver:$PATH"
-  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.9.0/ncbi-blast-2.9.0+-x64-linux.tar.gz"
-  - tar xvf ncbi-blast-*.tar.gz
+  - mkdir -p opt/bin && cd opt
+  # Download geckodriver and extract to bin
+  - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz" && tar xvf geckodriver-*.tar.gz -C bin
+  # Download codeclimate tesst reporter to bin and make it executable
+  - wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
+  # Download and extract NCBI BLAST+ 2.9
+  - wget -c "http://mirrors.vbi.vt.edu/mirrors/ftp.ncbi.nih.gov/blast/executables/LATEST/ncbi-blast-2.9.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
+  - cd ..
+  # Add opt/bin/ containing geckodriver and codeclimate test reporter, and
+  # opt/ncbi-blast-2.9.0+/bin containing BLAST+ binaries to PATH.
+  - export PATH="opt/bin:opt/ncbi-blast-2.9.0+/bin:$PATH"
+  # Install bundler and gem dependencies.
   - gem install bundler && bundle
-  - bundle exec bin/sequenceserver -s -b ncbi-blast-2.9.0+/bin -d spec/database/sample
+  # Create configuration file for SequenceServer.
+  # FIXME: this should not really be required for running test sutie, but
+  # it is at the moment
+  - bundle exec bin/sequenceserver -s -d spec/database/sample
 
 env:
   global:
@@ -37,14 +52,8 @@ env:
   - TEST_SUITE=spec/blast_versions/blast_2.2.30/*
   - TEST_SUITE=spec/blast_versions/diamond_0.9.24/*
 before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter && chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+  - cc-test-reporter before-build
 script:
   - bundle exec rspec $TEST_SUITE
 after_script:
-  - ./cc-test-reporter after-build # --exit-code $TRAVIS_TEST_RESULT
-
-cache:
-  directories:
-    - vendor/bundle
-    - ncbi-blast-2.9.0+
+  - cc-test-reporter after-build # --exit-code $TRAVIS_TEST_RESULT
