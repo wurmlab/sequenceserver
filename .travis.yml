@@ -48,5 +48,3 @@ cache:
   directories:
     - vendor/bundle
     - ncbi-blast-2.9.0+
-
-sudo: false
