@@ -18,11 +18,29 @@ install:
   - gem install bundler && bundle
   - bundle exec bin/sequenceserver -s -b ncbi-blast-2.9.0+/bin -d spec/database/sample
 
+env:
+  global:
+    - CC_TEST_REPORTER_ID=ec48bb03c72db6b43ce71fd488110b4707abfde4386c144d886d711378d8db64
+  jobs:
+  # We use a glob pattern here to avoid running spec files in subdirectories.
+  - TEST_SUITE=spec/*_spec.rb
+  # We use a glob pattern here to because capybara spec files in subfolders
+  # don't end with _spec.rb.
+  - TEST_SUITE=spec/blast_versions/blast_2.9.0/*
+  - TEST_SUITE=spec/blast_versions/blast_2.8.1/*
+  - TEST_SUITE=spec/blast_versions/blast_2.7.1/*
+  - TEST_SUITE=spec/blast_versions/blast_2.6.0/*
+  - TEST_SUITE=spec/blast_versions/blast_2.5.0/*
+  - TEST_SUITE=spec/blast_versions/blast_2.4.0/*
+  - TEST_SUITE=spec/blast_versions/blast_2.3.0/*
+  - TEST_SUITE=spec/blast_versions/blast_2.2.31/*
+  - TEST_SUITE=spec/blast_versions/blast_2.2.30/*
+  - TEST_SUITE=spec/blast_versions/diamond_0.9.24/*
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter && chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - bundle exec rspec
+  - bundle exec rspec $TEST_SUITE
 after_script:
   - ./cc-test-reporter after-build # --exit-code $TRAVIS_TEST_RESULT
 
@@ -32,7 +50,3 @@ cache:
     - ncbi-blast-2.9.0+
 
 sudo: false
-
-env:
-  global:
-    - CC_TEST_REPORTER_ID=ec48bb03c72db6b43ce71fd488110b4707abfde4386c144d886d711378d8db64
