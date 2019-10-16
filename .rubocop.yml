@@ -35,7 +35,7 @@ Style/UnlessElse:
   # TODO:
   #   Fix in bin/sequenceserver and re-enable.
   Enabled: false
-Style/ClassAndModuleCamelCase:
+Naming/ClassAndModuleCamelCase:
   Exclude:
     # TODO:
     #   Revisit later.
