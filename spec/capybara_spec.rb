@@ -14,7 +14,7 @@ describe 'a browser', type: :feature, js: true do
     fill_in('sequence', with: nucleotide_query)
     check(nucleotide_databases.first)
     page.evaluate_script("$('.protein .database').first().hasClass('disabled')")
-      .should eq(true)
+        .should eq(true)
   end
 
   it 'shows a dropdown menu when other blast methods are available' do
@@ -27,38 +27,38 @@ describe 'a browser', type: :feature, js: true do
 
   it 'can run a simple blastn search' do
     perform_search query: nucleotide_query,
-      databases: nucleotide_databases
+                   databases: nucleotide_databases
     page.should have_content('BLASTN')
   end
 
   it 'can run a simple blastp search' do
     perform_search query: protein_query,
-      databases: protein_databases
+                   databases: protein_databases
     page.should have_content('BLASTP')
   end
 
   it 'can run a simple blastx search' do
     perform_search query: nucleotide_query,
-      databases: protein_databases
+                   databases: protein_databases
     page.should have_content('BLASTX')
   end
 
   it 'can run a simple tblastx search' do
     perform_search query: nucleotide_query,
-      databases: nucleotide_databases,
-      method: 'tblastx'
+                   databases: nucleotide_databases,
+                   method: 'tblastx'
     page.should have_content('TBLASTX')
   end
 
   it 'can run a simple tblastn search' do
     perform_search query: protein_query,
-      databases: nucleotide_databases
+                   databases: nucleotide_databases
     page.should have_content('TBLASTN')
   end
 
   ### Test aspects of the generated report.
 
-  it "can download FASTA of each hit" do
+  it 'can download FASTA of each hit' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
     perform_search(query: protein_query,
@@ -70,13 +70,13 @@ describe 'a browser', type: :feature, js: true do
     wait_for_download
 
     # Test name and content of the downloaded file.
-    expect(File.basename(downloaded_file)).
-      to eq('sequenceserver-SI2.2.0_06267.fa')
-    expect(File.read(downloaded_file)).
-      to eq(File.read("#{__dir__}/sequences/sequenceserver-SI2.2.0_06267.fa"))
+    expect(File.basename(downloaded_file))
+      .to eq('sequenceserver-SI2.2.0_06267.fa')
+    expect(File.read(downloaded_file))
+      .to eq(File.read("#{__dir__}/sequences/sequenceserver-SI2.2.0_06267.fa"))
   end
 
-  it "can download FASTA of selected hits" do
+  it 'can download FASTA of selected hits' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
     perform_search(query: protein_query,
@@ -89,10 +89,10 @@ describe 'a browser', type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('sequenceserver-2_hits.fa')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/sequenceserver-2_hits.fa"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/sequenceserver-2_hits.fa'))
   end
 
-  it "can download FASTA of all hits" do
+  it 'can download FASTA of all hits' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
     perform_search(query: protein_query,
@@ -103,10 +103,10 @@ describe 'a browser', type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('sequenceserver-2_hits.fa')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/sequenceserver-2_hits.fa"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/sequenceserver-2_hits.fa'))
   end
 
-  it "can download alignment for each hit" do
+  it 'can download alignment for each hit' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
     perform_search(query: protein_query,
@@ -119,11 +119,11 @@ describe 'a browser', type: :feature, js: true do
 
     # Test name and content of the downloaded file.
     expect(File.basename(downloaded_file)).to eq('Query_1_SI2_2_0_06267.txt')
-    expect(File.read(downloaded_file)).
-      to eq(File.read("#{__dir__}/sequences/Query_1_SI2_2_0_06267.txt"))
+    expect(File.read(downloaded_file))
+      .to eq(File.read("#{__dir__}/sequences/Query_1_SI2_2_0_06267.txt"))
   end
 
-  it "can download Alignment of selected hits" do
+  it 'can download Alignment of selected hits' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
     perform_search(query: protein_query,
@@ -136,10 +136,10 @@ describe 'a browser', type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-2_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-2_hits.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-2_hits.txt'))
   end
 
-  it "can download Alignment of all hits" do
+  it 'can download Alignment of all hits' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
     perform_search(query: protein_query,
@@ -150,7 +150,7 @@ describe 'a browser', type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-2_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-2_hits.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-2_hits.txt'))
   end
 
   it 'can download BLAST results in XML and tabular formats' do
@@ -246,7 +246,6 @@ describe 'a browser', type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.png')
     clear_downloads
 
-
     ## Check that there is a graphical overview of hits.
     page.should have_content('Graphical overview of hits')
 
@@ -259,7 +258,6 @@ describe 'a browser', type: :feature, js: true do
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-Query_1.png')
     clear_downloads
-
 
     ## Check that there is a length distribution of hits.
     page.should have_content('Length distribution of hits')
@@ -292,7 +290,7 @@ describe 'a browser', type: :feature, js: true do
 
   ## Helpers ##
 
-  def perform_search(query: , databases: , method: nil)
+  def perform_search(query:, databases:, method: nil)
     # Load search form.
     visit '/'
 

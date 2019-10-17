@@ -27,6 +27,6 @@ module DownloadHelpers
   end
 
   def downloads
-    Dir[File.join(downloads_dir, "*")]
+    Dir[File.join(downloads_dir, '*')]
   end
 end
