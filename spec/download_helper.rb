@@ -5,9 +5,11 @@ module DownloadHelpers
   end
 
   def wait_for_download
-    sleep 1
     Timeout.timeout(Capybara.default_max_wait_time) do
-      sleep 1 until downloaded?
+      loop do
+        sleep 1
+        break if downloaded?
+      end
     end
   end
 
