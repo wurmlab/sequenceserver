@@ -73,7 +73,7 @@ You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubyg
     # Install bundler gem to install Ruby dependencies
     gem install bundler
 
-    # Move to where you downloaded or clone seqserv
+    # Move to where you downloaded or cloned seqserv
     cd sequenceserver
 
     # Use bundler to install Ruby dependencies
@@ -98,6 +98,9 @@ You will need [Node and npm](https://nodejs.org/) if you want to modify and buil
     # Install frontend dependencies
     npm install
 
+    # Build minified JS and CSS bundles
+    npm run-script build
+
 #### Testing
 
 We use RSpec and Capybara for testing. Our test suite covers 95% of the codebase. Running all tests can take considerable time (~2 hrs). We recommend using Travis to automatically run all tests when you push your code to your fork. Tests are also run automatically when you open a pull-request (see Getting code merged section below). Although, it may be desirable sometimes to run a single test, whole file, or all tests locally.
@@ -119,11 +122,6 @@ To run all tests:
 Please open a pull-request on GitHub to get code merged. Our test suite and the CodeClimate static code analysis system will be automatically run on your pull-request. These should pass for your code to be merged. If you want to add a new feature to SequenceServer, please also add tests. In addition, code should be `rubocop` and `eslint` compliant, and hard-wrapped to 80 chars per line.
 
 If you change frontend code (JavaScript and CSS), please build (i.e., minify and compress) and commit the resulting JS and CSS bundles before opening a pull-request. This is because SequenceServer is run in production mode by the test suite.
-
-```
-# Build minified JS and CSS bundles
-npm run-script build
-```
 
 ## Docker builds
 
