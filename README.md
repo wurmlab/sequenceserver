@@ -68,18 +68,23 @@ To develop and contribute, you will need to run SequenceServer from source.
 
 #### Run SequenceServer from source code
 
-If you want to install and use SequenceServer from source, we recommend the
-use of 'bundler' Ruby gem to install dependencies and to run SequenceServer:
+You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubygems.org/):
 
-    # Install bundler gem
+    # Install bundler gem to install Ruby dependencies
     gem install bundler
 
-    # Use bundler to install dependencies
+    # Move to where you downloaded or clone seqserv
     cd sequenceserver
-    bundle install --without=development
 
-    # Use bundler command to run SequenceServer
+    # Use bundler to install Ruby dependencies
+    bundle install
+
+    # Use bundler to run SequenceServer
     bundle exec bin/sequenceserver
+
+
+If you do not plan to develop, you can skip installing development dependencies
+by running `bundle install --without=development`.
 
 #### Making changes to the code
 
@@ -95,7 +100,7 @@ You will need [Node and npm](https://nodejs.org/) if you want to modify and buil
 
 #### Testing
 
-We use RSpec, Capybara, and Travis for testing. Our test suite covers 95% of the codebase.
+We use RSpec and Capybara for testing. Our test suite covers 95% of the codebase. Running all tests can take considerable time (~2 hrs). We recommend using Travis to automatically run all tests when you push your code to your fork. Tests are also run automatically when you open a pull-request (see Getting code merged section below). Although, it may be desirable sometimes to run a single test, whole file, or all tests locally.
 
 To run a single test (a.k.a, scenario):
 
@@ -108,8 +113,6 @@ To run all tests in a single file:
 To run all tests:
 
     bundle exec rspec spec/**/*spec*
-
-Running all tests can take considerable time (~2 hrs). We recommend using Travis to automatically run all tests when you push your code to your fork.
 
 #### Getting code merged
 
