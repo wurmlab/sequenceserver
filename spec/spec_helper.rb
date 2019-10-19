@@ -19,7 +19,6 @@ RSpec.configure do |config|
   # Explicitly enable should syntax of rspec.
   config.expect_with :rspec do |expectations|
     expectations.syntax = [:should, :expect]
-  config.pattern += ',*/*/*spec*'
   end
 
   # To use url_encode function in import_spec.
