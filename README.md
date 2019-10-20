@@ -24,9 +24,8 @@ If you use SequenceServer, please cite:
   (2019).](https://doi.org/10.1093/molbev/msz185)
 
 
-## Version 1.0.11
+## Version 1.0.11 (old stable)
 
-- Stable release
 - Release date: June 2017
 - Works with BLAST 2.2.30
 
@@ -38,16 +37,28 @@ If you want to run SequenceServer directly from source code, please see
 
 ## Version 2.0 (beta)
 
-Beta release of SequenceServer version 2.0.
+We have changed the underlying architecture so that BLAST jobs submisions are asynchronous and so that raw BLAST results are available in the browser in JSON format. Asynchronous job submission facilitates handling of BLAST searches that take a while to compute. For SequenceServer instances running on PCs or fat servers, this means not having to worry about network timeouts when running searches that take more than 5-10 minutes. However, asynchronous job architecture also facilitates hooking SequenceServer to grid engines (e.g., qsub) to run BLAST searches that will take hours or even days. Availability of raw BLAST results (details about each query, hit, and hsps) in the browser in JSON format means that the rich ecosystem of JavaScript visualisation libraries can be used.
 
-Here, we have changed the underlying architecture to persist jobs so that
-the results can be bookmarked or shared, and to support integration with
-grid engines such as qsub. Furthermore, the HTML report is now generated
-in the browser by fetching BLAST results in JSON format from the server.
-This facilitates the use of existing JavaScript libraries to visualise
-BLAST results.
+** Key features **
+* Supports BLAST 2.9.0 and the new v5 BLAST database format
+* Ability to import and visualise XML output from DIAMOND
+   and older versions of BLAST+ (till 2.2.30)
+* Ability to bookmark and share the results page
+* Visualisations for each level of results:
+    - Summary overview of top hits in a circos plot 
+    - Length distribution of hits per query
+    - Relative length and position of matching regions for
+      each query-hit pair (Kablammo)
+* Ability to pre-set advanced parameters for different BLAST algorithms
+
+** Beta to stable **
+1. Fix visual bugs in reports page
+2. Performance optimisation
+3. User reported bug fixes
 
 The new beta releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver)/
+
+Development priorities are being coordinated through the following Google Doc: [SequenceServer 2.0 roadmap](https://docs.google.com/document/d/1Vt2MmaD5h5oN8XrmokLVnjUfRLWqKVWeEja3w9SIeBw) (comments welcome)
 
 ### Install and configure
 
