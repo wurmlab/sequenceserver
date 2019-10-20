@@ -12,26 +12,26 @@ branches:
 cache:
   directories:
     - opt
-    - vendor/bundle
+  bundler: true
 
-install:
+before_install:
+  # We will download geckodriver, codeclimate test reporter, and NCBI BLAST+ to
+  # opt/. opt/ is cached to speed up subsequent runs. codeclimate test reporter
+  # and geckodriver contain a single executable and are thus placed in opt/bin,
+  # instead of in their own directory like NCBI BLAST+
   - mkdir -p opt/bin && cd opt
   # Download geckodriver and extract to bin
   - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz" && tar xvf geckodriver-*.tar.gz -C bin
-  # Download codeclimate tesst reporter to bin and make it executable
+  # Download codeclimate test reporter to bin and make it executable
   - wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
-  # Download and extract NCBI BLAST+ 2.9
+  # Download and extract NCBI BLAST+ 2.9.0
   - wget -c "http://mirrors.vbi.vt.edu/mirrors/ftp.ncbi.nih.gov/blast/executables/LATEST/ncbi-blast-2.9.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
+  # Conclude installation by adding opt/bin/ containing codeclimate test reporter
+  # and geckodriver, and opt/ncbi-blast-2.9.0+/bin containing BLAST+ binaries to
+  # PATH.
+  - export PATH="$PWD/bin:$PWD/ncbi-blast-2.9.0+/bin:$PATH"
+  # Reset working directory or subsequent steps may fail.
   - cd ..
-  # Add opt/bin/ containing geckodriver and codeclimate test reporter, and
-  # opt/ncbi-blast-2.9.0+/bin containing BLAST+ binaries to PATH.
-  - export PATH="$PWD/opt/bin:$PWD/opt/ncbi-blast-2.9.0+/bin:$PATH"
-  # Install bundler and gem dependencies.
-  - gem install bundler && bundle
-  # Create configuration file for SequenceServer.
-  # FIXME: this should not really be required for running test sutie, but
-  # it is at the moment
-  - bundle exec bin/sequenceserver -s -d spec/database/sample
 
 env:
   global:
@@ -52,6 +52,10 @@ env:
   - TEST_SUITE=spec/blast_versions/blast_2.2.30/*
   - TEST_SUITE=spec/blast_versions/diamond_0.9.24/*
 before_script:
+  # Create configuration file for SequenceServer. FIXME: this should not
+  # really be required for running test suite, but it is at the moment
+  - bundle exec bin/sequenceserver -s -d spec/database/sample
+  # Run codeclimate test reporter's before-build hook.
   - cc-test-reporter before-build
 script:
   - bundle exec rspec $TEST_SUITE
