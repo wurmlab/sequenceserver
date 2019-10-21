@@ -21,7 +21,6 @@ describe 'a browser', type: :feature, js: true do
     visit '/'
     fill_in('sequence', with: nucleotide_query)
     check(nucleotide_databases.first)
-    page.save_screenshot('screenshot.png')
     page.has_css?('button.dropdown-toggle').should eq(true)
   end
 
