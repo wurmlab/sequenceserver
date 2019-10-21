@@ -1,6 +1,6 @@
 require 'simplecov'
 require 'capybara/rspec'
-require 'capybara-screenshot'
+require 'capybara-screenshot/rspec'
 require 'selenium-webdriver'
 
 require_relative 'download_helper'
