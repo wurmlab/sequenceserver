@@ -689,7 +689,7 @@ var Databases = React.createClass({
 
         // JSX.
         return (
-            <div className={columnClass}>
+            <div className={columnClass} key={"DB_"+category}>
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <h4 style={{display: "inline"}}>{panelTitle}</h4> &nbsp;&nbsp;
@@ -700,9 +700,9 @@ var Databases = React.createClass({
                     </div>
                     <ul className={"list-group databases " + category}>
                         {
-                            _.map(this.databases(category), _.bind(function (database) {
+                            _.map(this.databases(category), _.bind(function (database,index) {
                                 return (
-                                    <li className="list-group-item">
+                                    <li className="list-group-item" key={"DB_"+category+index}>
                                         { this.renderDatabase(database) }
                                     </li>
                                 );
