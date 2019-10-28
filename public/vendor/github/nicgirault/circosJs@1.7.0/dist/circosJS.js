@@ -1,3 +1,22 @@
+function prettify_evalue(evalue) {
+  var matches = evalue.toString().split("e");
+  var base  = matches[0];
+  var power = matches[1];
+
+  if (power)
+  {
+      var s = parseFloat(base).toFixed(2);
+      var element = '<span>'+s+' &times; 10<sup>'+power+'</sup></span>';
+      return element;
+  }
+  else {
+      if (!(base % 1==0))
+          return parseFloat(base).toFixed(2);
+      else
+          return base;
+  }
+}
+
 var circosJS,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
@@ -624,7 +643,7 @@ circosJS.Chord = function() {
     })).attr('opacity', function(d) {
         return conf.opacity;
     }).attr('data-toggle','tooltip').attr('title',function(d) {
-      return 'Identity '+d.hsp.identity+'<br> Evalue '+d.hsp.evalue;
+      return 'Identity ' + d.hsp.identity + '<br> E Value ' + prettify_evalue(d.hsp.evalue);
     }).attr('id',function (d) {
       var slen = d.source.start + d.source.end;
       var tlen = d.target.start + d.target.end;
