@@ -1,4 +1,4 @@
-import './sequenceserver' // for custom $.tooltip function
+import './sequenceserver'; // for custom $.tooltip function
 import React from 'react';
 import _ from 'underscore';
 

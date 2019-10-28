@@ -17,8 +17,8 @@ export default class HSP extends React.Component {
     }
 
     domID() {
-        return "Query_" + this.props.queryNumber + "_hit_" +
-            this.props.hitNumber + "_" + this.hsp.number;
+        return 'Query_' + this.props.queryNumber + '_hit_' +
+            this.props.hitNumber + '_' + this.hsp.number;
     }
 
     // Renders pretty formatted alignment.
@@ -26,7 +26,7 @@ export default class HSP extends React.Component {
         return (
             <div className="hsp" id={this.domID()} ref="hsp">
                 <pre className="pre-reset hsp-stats">
-                    {Helpers.toLetters(this.hsp.number) + "."}&nbsp;{this.hspStats()}
+                    {Helpers.toLetters(this.hsp.number) + '.'}&nbsp;{this.hspStats()}
                 </pre>
                 {this.hspLines()}
             </div>
@@ -49,13 +49,14 @@ export default class HSP extends React.Component {
      * algorithm.
      */
     hspStats () {
+        // An array to hold text or span elements that make up the line.
         let line = [];
 
         // Bit score and total score.
         line.push(`Score: ${Utils.inTwoDecimal(this.hsp.bit_score)} (${this.hsp.score}), `);
 
         // E value
-        line.push(`E value: `); line.push(Utils.inExponential(this.hsp.evalue)); line.push(', ');
+        line.push('E value: '); line.push(Utils.inExponential(this.hsp.evalue)); line.push(', ');
 
         // Identity
         line.push([`Identities: ${Utils.inFraction(this.hsp.identity, this.hsp.length)} (${Utils.inPercentage(this.hsp.identity, this.hsp.length)}), `]);
@@ -65,28 +66,28 @@ export default class HSP extends React.Component {
             this.props.algorithm === 'blastx' ||
             this.props.algorithm === 'tblastn' ||
             this.props.algorithm === 'tblastx') {
-            line.push(`Positives: ${Utils.inFraction(this.hsp.positives, this.hsp.length)} (${Utils.inPercentage(this.hsp.positives, this.hsp.length)}), `)
+            line.push(`Positives: ${Utils.inFraction(this.hsp.positives, this.hsp.length)} (${Utils.inPercentage(this.hsp.positives, this.hsp.length)}), `);
         }
 
         // Gaps
-        line.push(`Gaps: ${Utils.inFraction(this.hsp.gaps, this.hsp.length)} (${Utils.inPercentage(this.hsp.gaps, this.hsp.length)}), `);
+        line.push(`Gaps: ${Utils.inFraction(this.hsp.gaps, this.hsp.length)} (${Utils.inPercentage(this.hsp.gaps, this.hsp.length)})`);
 
         // Query coverage
         //line.push(`Query coverage: ${this.hsp.qcovhsp}%, `)
 
         switch (this.props.algorithm) {
-            case 'tblastx':
-                line.push(`Frame: ${Utils.inFraction(this.hsp.qframe, this.hsp.sframe)}`)
-                break;
-            case 'blastn':
-                line.push(`Strand: ${(this.hsp.qframe > 0 ? '+' : '-')} / ${(this.hsp.sframe > 0 ? '+' : '-')}`)
-                break;
-            case 'blastx':
-                line.push(`Query Frame: ${this.hsp.qframe}`)
-                break;
-            case 'tblastn':
-                line.push(`Hit Frame: ${this.hsp.sframe}`)
-                break;
+        case 'tblastx':
+            line.push(`, Frame: ${Utils.inFraction(this.hsp.qframe, this.hsp.sframe)}`);
+            break;
+        case 'blastn':
+            line.push(`, Strand: ${(this.hsp.qframe > 0 ? '+' : '-')} / ${(this.hsp.sframe > 0 ? '+' : '-')}`);
+            break;
+        case 'blastx':
+            line.push(`, Query Frame: ${this.hsp.qframe}`);
+            break;
+        case 'tblastn':
+            line.push(`, Hit Frame: ${this.hsp.sframe}`);
+            break;
         }
 
         return line;
@@ -139,7 +140,7 @@ export default class HSP extends React.Component {
 
             line.push(this.spanCoords('Subject ' + this.formatCoords(lsstart, width) + ' '));
             line.push(lsseq);
-            line.push(this.spanCoords(' ' + lsend))
+            line.push(this.spanCoords(' ' + lsend));
             line.push(<br/>);
 
             pp.push(<pre key={this.hsp.number + ',' + i}
@@ -152,8 +153,8 @@ export default class HSP extends React.Component {
     // Width of each line of alignment.
     width() {
         return _.max(_.map([this.hsp.qstart, this.hsp.qend,
-                                this.hsp.sstart, this.hsp.send],
-                                (n) => { return n.toString().length }));
+            this.hsp.sstart, this.hsp.send],
+        (n) => { return n.toString().length; }));
     }
 
     // Alignment start coordinate for query sequence.
@@ -162,16 +163,16 @@ export default class HSP extends React.Component {
     // (translated) query sequence aligned.
     nqseq () {
         switch (this.props.algorithm) {
-            case 'blastp':
-            case 'blastx':
-            case 'tblastn':
-            case 'tblastx':
-                return this.hsp.qframe >= 0 ? this.hsp.qstart : this.hsp.qend;
-            case 'blastn':
-                // BLASTN is a bit weird in that, no matter which direction the query
-                // sequence aligned in, qstart is taken as alignment start coordinate
-                // for query.
-                return this.hsp.qstart;
+        case 'blastp':
+        case 'blastx':
+        case 'tblastn':
+        case 'tblastx':
+            return this.hsp.qframe >= 0 ? this.hsp.qstart : this.hsp.qend;
+        case 'blastn':
+            // BLASTN is a bit weird in that, no matter which direction the query
+            // sequence aligned in, qstart is taken as alignment start coordinate
+            // for query.
+            return this.hsp.qstart;
         }
     }
 
@@ -181,16 +182,16 @@ export default class HSP extends React.Component {
     // (translated) subject sequence aligned.
     nsseq () {
         switch (this.props.algorithm) {
-            case 'blastp':
-            case 'blastx':
-            case 'tblastn':
-            case 'tblastx':
-                return this.hsp.sframe >= 0 ? this.hsp.sstart : this.hsp.send;
-            case 'blastn':
-                // BLASTN is a bit weird in that, no matter which direction the
-                // subject sequence aligned in, sstart is taken as alignment
-                // start coordinate for subject.
-                return this.hsp.sstart
+        case 'blastp':
+        case 'blastx':
+        case 'tblastn':
+        case 'tblastx':
+            return this.hsp.sframe >= 0 ? this.hsp.sstart : this.hsp.send;
+        case 'blastn':
+            // BLASTN is a bit weird in that, no matter which direction the
+            // subject sequence aligned in, sstart is taken as alignment
+            // start coordinate for subject.
+            return this.hsp.sstart;
         }
     }
 
@@ -204,16 +205,16 @@ export default class HSP extends React.Component {
     // translated or not.
     qframe_unit () {
         switch (this.props.algorithm) {
-            case 'blastp':
-            case 'blastn':
-            case 'tblastn':
-                return 1;
-            case 'blastx':
-                // _Translated_ nucleotide query against protein database.
-            case 'tblastx':
-                // _Translated_ nucleotide query against translated
-                // nucleotide database.
-                return 3;
+        case 'blastp':
+        case 'blastn':
+        case 'tblastn':
+            return 1;
+        case 'blastx':
+            // _Translated_ nucleotide query against protein database.
+        case 'tblastx':
+            // _Translated_ nucleotide query against translated
+            // nucleotide database.
+            return 3;
         }
     }
 
@@ -227,17 +228,17 @@ export default class HSP extends React.Component {
     // translated or not.
     sframe_unit () {
         switch (this.props.algorithm) {
-            case 'blastp':
-            case 'blastx':
-            case 'blastn':
-                return 1;
-            case 'tblastn':
-                // Protein query against _translated_ nucleotide database.
-                return 3;
-            case 'tblastx':
-                // Translated nucleotide query against _translated_
-                // nucleotide database.
-                return 3;
+        case 'blastp':
+        case 'blastx':
+        case 'blastn':
+            return 1;
+        case 'tblastn':
+            // Protein query against _translated_ nucleotide database.
+            return 3;
+        case 'tblastx':
+            // Translated nucleotide query against _translated_
+            // nucleotide database.
+            return 3;
         }
     }
 
@@ -278,7 +279,7 @@ export default class HSP extends React.Component {
     }
 
     spanCoords (text) {
-        return <span className="hsp-coords">{text}</span>
+        return <span className="hsp-coords">{text}</span>;
     }
 }
 
