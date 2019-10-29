@@ -25,7 +25,7 @@ before_install:
   # Download codeclimate test reporter to bin and make it executable
   - wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
   # Download and extract NCBI BLAST+ 2.9.0
-  - wget -c "http://mirrors.vbi.vt.edu/mirrors/ftp.ncbi.nih.gov/blast/executables/LATEST/ncbi-blast-2.9.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
+  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.9.0/ncbi-blast-2.9.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
   # Conclude installation by adding opt/bin/ containing codeclimate test reporter
   # and geckodriver, and opt/ncbi-blast-2.9.0+/bin containing BLAST+ binaries to
   # PATH.
@@ -36,28 +36,36 @@ before_install:
 env:
   global:
     - CC_TEST_REPORTER_ID=ec48bb03c72db6b43ce71fd488110b4707abfde4386c144d886d711378d8db64
-  jobs:
-  # We use a glob pattern here to avoid running spec files in subdirectories.
-  - TEST_SUITE=spec/*_spec.rb
-  # We use a glob pattern here to because capybara spec files in subfolders
-  # don't end with _spec.rb.
-  - TEST_SUITE=spec/blast_versions/blast_2.9.0/*
-  - TEST_SUITE=spec/blast_versions/blast_2.8.1/*
-  - TEST_SUITE=spec/blast_versions/blast_2.7.1/*
-  - TEST_SUITE=spec/blast_versions/blast_2.6.0/*
-  - TEST_SUITE=spec/blast_versions/blast_2.5.0/*
-  - TEST_SUITE=spec/blast_versions/blast_2.4.0/*
-  - TEST_SUITE=spec/blast_versions/blast_2.3.0/*
-  - TEST_SUITE=spec/blast_versions/blast_2.2.31/*
-  - TEST_SUITE=spec/blast_versions/blast_2.2.30/*
-  - TEST_SUITE=spec/blast_versions/diamond_0.9.24/*
 before_script:
   # Create configuration file for SequenceServer. FIXME: this should not
   # really be required for running test suite, but it is at the moment
   - bundle exec bin/sequenceserver -s -d spec/database/sample
   # Run codeclimate test reporter's before-build hook.
-  - cc-test-reporter before-build
+  - if [ "${TRAVIS_BUILD_STAGE_NAME}" = "Test" ]; then
+      cc-test-reporter before-build;
+    fi
 script:
-  - bundle exec rspec $TEST_SUITE
+  # Run main specs and import spec for BLAST 2.9.0+
+  - bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
 after_script:
-  - cc-test-reporter after-build # --exit-code $TRAVIS_TEST_RESULT
+  - if [ "${TRAVIS_BUILD_STAGE_NAME}" = "Test" ]; then
+      cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
+    fi
+
+jobs:
+  include:
+  # Each script listed below is automatically run by Travis in parallel, and only
+  # against Ruby 2.3 (because it is listed first in the rvm key), and after the
+  # main test stage. We use a glob pattern here instead of specifying just the
+  # directory name because capybara spec files in subfolders don't end with
+  # _spec.rb.
+  - stage: compatibility
+    script: bundle exec rspec spec/blast_versions/diamond_0.9.24/*
+  - script: bundle exec rspec spec/blast_versions/blast_2.2.30/*
+  - script: bundle exec rspec spec/blast_versions/blast_2.2.31/*
+  - script: bundle exec rspec spec/blast_versions/blast_2.3.0/*
+  - script: bundle exec rspec spec/blast_versions/blast_2.4.0/*
+  - script: bundle exec rspec spec/blast_versions/blast_2.5.0/*
+  - script: bundle exec rspec spec/blast_versions/blast_2.6.0/*
+  - script: bundle exec rspec spec/blast_versions/blast_2.7.1/*
+  - script: bundle exec rspec spec/blast_versions/blast_2.8.1/*
