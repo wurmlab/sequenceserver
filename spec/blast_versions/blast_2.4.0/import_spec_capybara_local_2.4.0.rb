@@ -1,5 +1,4 @@
-describe 'report generated from imported XML',type: :feature, js: true do
-
+describe 'report generated from imported XML', type: :feature, js: true do
   # Test suite to test features of imported XML report.
   # Fasta files used for testing consist of TP53 and COX41 protein/nucleotide sequences for reproducibility. Each query was limited to 20 hits to not to overload the test suite.
 
@@ -12,7 +11,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('sp_P04637_P53_HUMAN_gi_1099170394_ref_XP_018868681_1.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/sp_P04637_P53_HUMAN_gi_1099170394_ref_XP_018868681_1.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/sp_P04637_P53_HUMAN_gi_1099170394_ref_XP_018868681_1.txt'))
 
     clear_downloads
 
@@ -22,7 +21,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-40_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-40_hits_blastp.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-40_hits_blastp.txt'))
     clear_downloads
 
     # Check the cheboxes of indicted hits and click on the download of Alignment of selected hits and compare the downloaded content
@@ -35,12 +34,25 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-4_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-4_hits_blastp.txt"))
-
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-4_hits_blastp.txt'))
   end
 
-  it 'loads BLASTP XML and tests hit PNG/SVG download' do
+  it 'loads BLASTP XML and tests alignment overview and hit PNG/SVG download' do
     access_by_uuid('blast_2.4.0/blastp')
+
+    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+
+    page.execute_script("$('.export-to-png:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.png')
+
+    clear_downloads
+
+    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.svg')
+
+    clear_downloads
 
     # Click on the PNG/SVG download button of the first hit available and compare the downloaded content.
     page.execute_script("$('.export-to-png:eq(1)').click()")
@@ -92,7 +104,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('length-distribution-sp_P04637_P53_HUMAN.svg')
   end
 
-#BLASTX test scenarios
+  # BLASTX test scenarios
 
   it 'loads BLASTX XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('blast_2.4.0/blastx')
@@ -102,7 +114,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1486783307_gb_AYF55702_1.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/MH011443_1_gi_1486783307_gb_AYF55702_1.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/MH011443_1_gi_1486783307_gb_AYF55702_1.txt'))
 
     clear_downloads
 
@@ -112,7 +124,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-40_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-40_hits_blastx.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-40_hits_blastx.txt'))
     clear_downloads
 
     # Select four hit checkboxes and click on the Alignment of selected hits. Compare the downloaded content.
@@ -124,13 +136,26 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-4_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-4_hits_blastx.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-4_hits_blastx.txt'))
 
     page.should have_content('BLASTX')
   end
 
   it 'loads BLASTX XML and tests hit PNG/SVG download' do
     access_by_uuid('blast_2.4.0/blastx')
+
+    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    page.execute_script("$('.export-to-png:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
+
+    clear_downloads
+
+    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
+
+    clear_downloads
     # Click on the PNG/SVG download button of the first hit available and compare the downloaded content.
     page.execute_script("$('.export-to-png:eq(1)').click()")
 
@@ -182,7 +207,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('length-distribution-MH011443_1.svg')
   end
 
-#BLASTN Test scenarios
+  # BLASTN Test scenarios
 
   it 'loads BLASTN XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('blast_2.4.0/blastn')
@@ -192,7 +217,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1486783306_gb_MH011443_1.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/MH011443_1_gi_1486783306_gb_MH011443_1.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/MH011443_1_gi_1486783306_gb_MH011443_1.txt'))
 
     clear_downloads
 
@@ -202,7 +227,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-40_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-40_hits_blastn.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-40_hits_blastn.txt'))
 
     clear_downloads
 
@@ -215,12 +240,25 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-4_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-4_hits_blastn.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-4_hits_blastn.txt'))
     page.should have_content('BLASTN')
   end
 
   it 'loads BLASTN XML and tests hit PNG/SVG download' do
     access_by_uuid('blast_2.4.0/blastn')
+
+    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    page.execute_script("$('.export-to-png:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
+
+    clear_downloads
+
+    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
+
+    clear_downloads
     # Click on the PNG download button of the first hit available and compare the downloaded content.
 
     page.execute_script("$('.export-to-png:eq(2)').click()")
@@ -274,7 +312,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('length-distribution-MH011443_1.svg')
   end
 
-  #TBLASTN Test scenarios
+  # TBLASTN Test scenarios
 
   it 'loads TBLASTN XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('blast_2.4.0/tblastn')
@@ -284,7 +322,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('sp_P04637_P53_HUMAN_gi_395440626_gb_JQ694049_1.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/sp_P04637_P53_HUMAN_gi_395440626_gb_JQ694049_1.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/sp_P04637_P53_HUMAN_gi_395440626_gb_JQ694049_1.txt'))
 
     clear_downloads
 
@@ -313,6 +351,19 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
   it 'loads TBLASTN XML and tests hit PNG/SVG download' do
     access_by_uuid('blast_2.4.0/tblastn')
+
+   # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    page.execute_script("$('.export-to-png:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.png')
+ 
+    clear_downloads
+ 
+    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.svg')
+
+    clear_downloads
     # Click on the PNG download button of the first hit available and compare the downloaded content.
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
@@ -408,6 +459,19 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
   it 'loads TBLASTX XML and tests hit PNG/SVG download' do
     access_by_uuid('blast_2.4.0/tblastx')
+
+    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    page.execute_script("$('.export-to-png:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
+
+    clear_downloads
+
+    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
+
+    clear_downloads  
     # Click on the PNG download button of the first hit available and compare the downloaded content.
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
