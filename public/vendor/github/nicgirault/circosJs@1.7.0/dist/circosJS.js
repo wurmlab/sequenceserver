@@ -1,3 +1,22 @@
+function prettify_evalue(evalue) {
+  var matches = evalue.toString().split("e");
+  var base  = matches[0];
+  var power = matches[1];
+
+  if (power)
+  {
+      var s = parseFloat(base).toFixed(2);
+      var element = '<span>'+s+' &times; 10<sup>'+power+'</sup></span>';
+      return element;
+  }
+  else {
+      if (!(base % 1==0))
+          return parseFloat(base).toFixed(2);
+      else
+          return base;
+  }
+}
+
 var circosJS,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
@@ -588,7 +607,7 @@ circosJS.Chord = function() {
         endAngle: endAngle
       };
     };
-  })(this);
+  }(this));
   this.getTarget = (function(_this) {
     return function(d, layout) {
       var block, endAngle, result, startAngle;
@@ -602,7 +621,7 @@ circosJS.Chord = function() {
         endAngle: endAngle
       };
     };
-  })(this);
+  }(this));
   this.dimChords = function (parentElement, d, conf, index) {
     parentElement.selectAll('path').style('opacity', function (p, i) {
       if (index == i) {
@@ -624,7 +643,7 @@ circosJS.Chord = function() {
     })).attr('opacity', function(d) {
         return conf.opacity;
     }).attr('data-toggle','tooltip').attr('title',function(d) {
-      return 'Identity '+d.hsp.identity+'<br> Evalue '+d.hsp.evalue;
+      return 'Identity ' + d.hsp.identity + '<br> E value ' + prettify_evalue(d.hsp.evalue);
     }).attr('id',function (d) {
       var slen = d.source.start + d.source.end;
       var tlen = d.target.start + d.target.end;
@@ -634,12 +653,12 @@ circosJS.Chord = function() {
         _this.dimChords(track, d, conf, i);
         return _this.dispatch.mouseover(d, i, j);
       };
-    })(this)).on('mouseout', (function(_this) {
+    }(this))).on('mouseout', (function(_this) {
       return function(d, i, j) {
         _this.resetChords(track,conf);
         return _this.dispatch.mouseout(d, i, j);
       };
-    })(this));
+    }(this)));
     if (conf.usePalette) {
       link.attr('class', function(d) {
         return 'q' + ratio(d.value, conf.cmin, conf.cmax, conf.colorPaletteSize, conf.colorPaletteReverse, conf.logScale) + '-' + conf.colorPaletteSize;
@@ -661,7 +680,7 @@ circosJS.Chord = function() {
         return circosJS.registerTooltip(instance, _this, selection, _this.conf);
       }
     };
-  })(this);
+  }(this));
   return this;
 };
 
@@ -674,7 +693,7 @@ circosJS.Heatmap = function() {
       track = parentElement.append('g').attr('class', conf.colorPalette);
       return group = _this.renderBlock(track, data, instance._layout, conf);
     };
-  })(this);
+  }(this));
   this.renderDatum = function(parentElement, conf, layout, utils) {
     return parentElement.selectAll('tile').data(function(d) {
       return d.values;
@@ -699,7 +718,7 @@ circosJS.Highlight = function() {
       var group;
       return group = _this.renderBlock(parentElement, data, instance._layout, conf);
     };
-  })(this);
+  }(this));
   this.renderDatum = function(parentElement, conf, layout, utils) {
     return parentElement.selectAll('tile').data(function(d) {
       return d.values;
@@ -729,7 +748,7 @@ circosJS.Histogram = function() {
       track = parentElement.append('g').attr('class', _this.conf.colorPalette);
       return group = _this.renderBlock(track, data, instance._layout, conf);
     };
-  })(this);
+  }(this));
   this.renderDatum = function(parentElement, conf, layout, utils) {
     var bin;
     bin = parentElement.selectAll('.bin').data(function(d) {
@@ -778,7 +797,7 @@ circosJS.Line = function() {
       track = parentElement.append('g').attr('class', name);
       return group = _this.renderBlock(track, data, instance._layout, conf);
     };
-  })(this);
+  }(this));
   this.renderDatum = function(parentElement, conf, layout, utils) {
     var line;
     line = d3.svg.line().x(function(d) {
@@ -817,7 +836,7 @@ circosJS.Scatter = function() {
       track = parentElement.append('g').attr('class', name);
       return group = _this.renderBlock(track, data, instance._layout, conf);
     };
-  })(this);
+  }(this));
   this.renderDatum = function(parentElement, conf, layout, utils) {
     var point;
     point = parentElement.selectAll('.point').data(function(d) {
@@ -828,7 +847,7 @@ circosJS.Scatter = function() {
       return function(d) {
         return 'translate(' + utils.x(d, layout, conf) + ',' + utils.y(d, layout, conf) + ') rotate(' + utils.theta(d.position, layout.blocks[d.block_id]) * 360 / (2 * Math.PI) + ')';
       };
-    })(this)).attr('stroke', function(d) {
+    }(this))).attr('stroke', function(d) {
       return d.glyph_strokeColor || conf.glyph.strokeColor;
     }).attr('stroke-width', function(d) {
       return d.glyph_strokeWidth || conf.glyph.strokeWidth;
@@ -957,24 +976,24 @@ circosJS.Stack = function() {
         }
       }
     };
-  })(this);
+  }(this));
   this.datumInnerRadius = (function(_this) {
     return function(d, i, j) {
       return _this.datumRadialPosition(d, i, j)[0];
     };
-  })(this);
+  }(this));
   this.datumOuterRadius = (function(_this) {
     return function(d, i, j) {
       return _this.datumRadialPosition(d, i, j)[1];
     };
-  })(this);
+  }(this));
   this.renderDatumContainer = (function(_this) {
     return function(instance, parentElement, name, data, conf) {
       var group, track;
       track = parentElement.append('g').attr('class', conf.colorPalette);
       return group = _this.renderBlock(track, data, instance._layout, conf);
     };
-  })(this);
+  }(this));
   this.renderDatum = function(parentElement, conf, layout, utils) {
     var tile;
     tile = parentElement.selectAll('.tile').data(function(d) {
@@ -1017,7 +1036,7 @@ circosJS.Text = function() {
       track = parentElement.append('g').attr('class', name);
       return group = _this.renderBlock(track, data, instance._layout, conf);
     };
-  })(this);
+  }(this));
   this.renderDatum = function(parentElement, conf, layout, utils) {
     var key, ref, text, value;
     text = parentElement.selectAll('g').data(function(d) {
@@ -1141,7 +1160,7 @@ circosJS.Track = function() {
         return _this.dispatch.mouseout(d, i, j);
       });
     };
-  })(this);
+  }(this));
   this.renderBlock = function(parentElement, data, layout, conf) {
     var block, scope;
     scope = conf.outerRadius - conf.innerRadius;
@@ -1183,7 +1202,7 @@ circosJS.Track = function() {
           results.push(x);
         }
         return results;
-      })();
+      }());
     }
     axis = d3.svg.arc().innerRadius(function(d) {
       return d;
@@ -1223,7 +1242,7 @@ circosJS.Track = function() {
       angle = _this.theta(d.position, layout.blocks[d.block_id]) - Math.PI / 2;
       return r * Math.cos(angle);
     };
-  })(this);
+  }(this));
   this.y = (function(_this) {
     return function(d, layout, conf) {
       var angle, height, r;
@@ -1236,7 +1255,7 @@ circosJS.Track = function() {
       angle = _this.theta(d.position, layout.blocks[d.block_id]) - Math.PI / 2;
       return r * Math.sin(angle);
     };
-  })(this);
+  }(this));
   this.ratio = function(value, min, max, scope, reverse, logScale) {
     var fraction, scaleLogBase, x;
     scaleLogBase = logScale ? 2.3 : 1;
