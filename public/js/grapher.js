@@ -3,8 +3,15 @@ import React from 'react';
 
 import './svgExporter'; // create handlers for SVG and PNG download buttons
 
+// Each instance of Grapher is added to this object once the component has been
+// mounted. This is so that grapher can be iterated over and redrawn on window
+// resize event.
 var Graphers = {};
 
+// Grapher is a function that takes a Graph class and returns a React component.
+// This React component provides HTML boilerplate to add heading, to make the
+// graphs collapsible, to redraw graphs when window is resized, and SVG and PNG
+// export buttons and functionality.
 export default function Grapher(Graph) {
 
     return class extends React.Component {
@@ -23,7 +30,7 @@ export default function Grapher(Graph) {
                 <div ref="grapher" className={cssClasses}>
                     <div className="grapher-header">
                         <h5 className="caption" data-toggle="collapse"
-                            data-target={"#"+this.collapseId()}>
+                            data-target={'#'+this.collapseId()}>
                             { this.state.collapsed ?
                                 this.plusIcon() : this.minusIcon() }
                             &nbsp;&nbsp;
@@ -66,8 +73,7 @@ export default function Grapher(Graph) {
             var cssClasses = Graph.className() + ' svg-container collapse';
             if (!this.state.collapsed) cssClasses += ' in';
             return (
-                <div ref="svgContainer" id={this.collapseId()}
-                    className={cssClasses}>
+                <div ref="svgContainer" id={this.collapseId()} className={cssClasses}>
                 </div>
             );
         }
@@ -95,7 +101,7 @@ export default function Grapher(Graph) {
             this.graph = null;
 
             // Draw if uncollapsed.
-            if (this.state.collapsed) { return }
+            if (this.state.collapsed) { return; }
             this.graph = new Graph(this.svgContainer(), this.props);
             this.svgContainer().find('svg').attr('data-name', Graph.dataName(this.props));
         }
@@ -110,13 +116,13 @@ $(window).resize(_.debounce(function () {
 }, 125));
 
 // Swap-icon and toggle .graph-links on collapse.
-$('body').on('hidden.bs.collapse', ".collapse", function () {
+$('body').on('hidden.bs.collapse', '.collapse', function () {
     var component = Graphers[$(this).attr('id')];
     if (component) {
         component.setState({ collapsed: true });
     }
 });
-$('body').on('shown.bs.collapse', ".collapse", function () {
+$('body').on('shown.bs.collapse', '.collapse', function () {
     var component = Graphers[$(this).attr('id')];
     if (component) {
         component.setState({ collapsed: false });

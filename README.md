@@ -17,46 +17,48 @@
 
 SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user interface for personal or group use.
 
-## Version 1.0.11
-
-- Stable release
-- Release date: June 2017
-- Works with BLAST 2.2.30
-
-For installation instructions and how to use SequenceServer please see
-http://sequenceserver.com.
-
-If you want to install and use SequenceServer from source, we recommend the
-use of 'bundler' Ruby gem to install dependencies and to run SequenceServer:
-
-    # Install bundler gem
-    gem install bundler
-
-    # Use bundler to install dependencies
-    cd sequenceserver
-    bundle install --without=development
-
-    # Use bundler command to run SequenceServer
-    bundle exec bin/sequenceserver
-
 If you use SequenceServer, please cite:
 
 > [Sequenceserver: A modern graphical user interface for custom BLAST
   databases. Molecular Biology and Evolution
   (2019).](https://doi.org/10.1093/molbev/msz185)
 
+
+## Version 1.0.11 (old stable)
+
+- Release date: June 2017
+- Works with BLAST 2.2.30
+
+For installation instructions and how to use SequenceServer please see
+http://sequenceserver.com.
+
+If you want to run SequenceServer directly from source code, please see
+'Develop and contribute' section below.
+
 ## Version 2.0 (beta)
 
-Beta release of SequenceServer version 2.0.
+We have changed the underlying architecture so that BLAST jobs submisions are asynchronous and so that raw BLAST results are available in the browser in JSON format. Asynchronous job submission facilitates handling of BLAST searches that take a while to compute. For SequenceServer instances running on PCs or fat servers, this means not having to worry about network timeouts when running searches that take more than 5-10 minutes. However, asynchronous job architecture also facilitates hooking SequenceServer to grid engines (e.g., qsub) to run BLAST searches that will take hours or even days. Availability of raw BLAST results (details about each query, hit, and hsps) in the browser in JSON format means that the rich ecosystem of JavaScript visualisation libraries can be used.
 
-Here, we have changed the underlying architecture to persist jobs so that
-the results can be bookmarked or shared, and to support integration with
-grid engines such as qsub. Furthermore, the HTML report is now generated
-in the browser by fetching BLAST results in JSON format from the server.
-This facilitates the use of existing JavaScript libraries to visualise
-BLAST results.
+** Key features **
+* Supports BLAST 2.9.0 and the new v5 BLAST database format
+* Ability to import and visualise XML output from DIAMOND
+   and older versions of BLAST+ (till 2.2.30)
+* Ability to bookmark and share the results page
+* Visualisations for each level of results:
+    - Summary overview of top hits in a circos plot 
+    - Length distribution of hits per query
+    - Relative length and position of matching regions for
+      each query-hit pair (Kablammo)
+* Ability to pre-set advanced parameters for different BLAST algorithms
 
-The new beta releases are announced on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver) and on the [GitHub release page](https://github.com/wurmlab/sequenceserver/releases).
+** Beta to stable **
+1. Fix visual bugs in reports page
+2. Performance optimisation
+3. User reported bug fixes
+
+The new beta releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver)/
+
+Development priorities are being coordinated through the following Google Doc: [SequenceServer 2.0 roadmap](https://docs.google.com/document/d/1Vt2MmaD5h5oN8XrmokLVnjUfRLWqKVWeEja3w9SIeBw) (comments welcome)
 
 ### Install and configure
 
@@ -67,41 +69,70 @@ To get the latest 2.0 (beta) release, run:
 If you are new to the above command, please consult the 'Install or update'
 section on our website http://sequenceserver.com.
 
-If you want to install and use the beta versions from source, the process
-is the same as for the old stable release (instructions above).
+If you want to run SequenceServer beta directly from source code, please see
+'Develop and contribute' section below.
+
 
 ### Develop and contribute
 
-In addition to [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubygems.org/), you will need [Node and npm](https://nodejs.org/) if you want to build JavaScript assets, and [CodeClimate](https://codeclimate.com/) to run static code analysis.
+To develop and contribute, you will need to run SequenceServer from source.
 
-If you want to submit a pull-request, you don't need to build JavaScript assets
-(we will do it) or to have run CodeClimate.
+#### Run SequenceServer from source code
 
-To develop and contribute, you will need to run SequenceServer from source (see
-previous section).
+You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubygems.org/):
 
-#### Workflow commands
+    # Install bundler gem to install Ruby dependencies
+    gem install bundler
 
-Launch SequenceServer in development mode. In development mode SequenceServer
-logs verbosely and uses raw front-end files.
+    # Move to where you downloaded or cloned seqserv
+    cd sequenceserver
 
+    # Use bundler to install Ruby dependencies
+    bundle install
+
+    # Use bundler to run SequenceServer
+    bundle exec bin/sequenceserver
+
+
+If you do not plan to develop, you can skip installing development dependencies
+by running `bundle install --without=development`.
+
+#### Making changes to the code
+
+During development, you should use `-D` option to run SequenceServer in development mode. In this mode, SequenceServer logs verbosely and uses raw front-end files.
+
+    # Run SequenceServer in development mode
     bundle exec bin/sequenceserver -D
 
-Run tests:
+You will need [Node and npm](https://nodejs.org/) if you want to modify and build frontend code:
 
-    bundle exec rspec
-
-Run code style checkers (rubocop, csslint, eslint) -
-
-    codeclimate analyze
-
-To install JS dependencies to be build JS and CSS bundles:
-
+    # Install frontend dependencies
     npm install
 
-Build minified JS and CSS bundles:
-
+    # Build minified JS and CSS bundles
     npm run-script build
+
+#### Testing
+
+We use RSpec and Capybara for testing. Our test suite covers 95% of the codebase. Running all tests can take considerable time (~2 hrs). We recommend using Travis to automatically run all tests when you push your code to your fork. Tests are also run automatically when you open a pull-request (see Getting code merged section below). Although, it may be desirable sometimes to run a single test, whole file, or all tests locally.
+
+To run a single test (a.k.a, scenario):
+
+    bundle exec rspec spec/foo_spec.rb -e 'bar'
+
+To run all tests in a single file:
+
+    bundle exec rspec spec/foo_spec.rb
+
+To run all tests:
+
+    bundle exec rspec spec/**/*spec*
+
+#### Getting code merged
+
+Please open a pull-request on GitHub to get code merged. Our test suite and the CodeClimate static code analysis system will be automatically run on your pull-request. These should pass for your code to be merged. If you want to add a new feature to SequenceServer, please also add tests. In addition, code should be `rubocop` and `eslint` compliant, and hard-wrapped to 80 chars per line.
+
+If you change frontend code (JavaScript and CSS), please build (i.e., minify and compress) and commit the resulting JS and CSS bundles before opening a pull-request. This is because SequenceServer is run in production mode by the test suite.
 
 ## Docker builds
 
