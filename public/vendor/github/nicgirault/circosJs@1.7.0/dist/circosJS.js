@@ -643,7 +643,7 @@ circosJS.Chord = function() {
     })).attr('opacity', function(d) {
         return conf.opacity;
     }).attr('data-toggle','tooltip').attr('title',function(d) {
-      return 'Identity ' + d.hsp.identity + '<br> E Value ' + prettify_evalue(d.hsp.evalue);
+      return 'Identity ' + d.hsp.identity + '<br> E value ' + prettify_evalue(d.hsp.evalue);
     }).attr('id',function (d) {
       var slen = d.source.start + d.source.end;
       var tlen = d.target.start + d.target.end;
