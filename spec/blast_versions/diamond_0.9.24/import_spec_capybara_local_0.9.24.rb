@@ -1,5 +1,4 @@
-describe 'report generated from imported XML',type: :feature, js: true do
-
+describe 'report generated from imported XML', type: :feature, js: true do
   # Fasta files used for testing consist of TP53 and COX41 protein/nucleotide sequences for reproducibility.
   it 'loads diamond BLASTP xml and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('diamond_0.9.24/blastp')
@@ -7,7 +6,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     page.execute_script("$('.download-aln:eq(0)').click()")
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('sp_P04637_P53_HUMAN_sp_P04637_P53_HUMAN.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/sp_P04637_P53_HUMAN_sp_P04637_P53_HUMAN.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/sp_P04637_P53_HUMAN_sp_P04637_P53_HUMAN.txt'))
 
     clear_downloads
 
@@ -17,7 +16,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-35_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-35_hits_diamond_blastp.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-35_hits_diamond_blastp.txt'))
     clear_downloads
 
     # Check the cheboxes of indicted hits and click on the download of Alignment of selected hits and compare the downloaded content
@@ -30,7 +29,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-4_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-4_hits_diamond_blastp.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-4_hits_diamond_blastp.txt'))
     page.should have_content('BLASTP')
   end
 
@@ -104,7 +103,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('length-distribution-sp_P04637_P53_HUMAN.svg')
   end
 
-  #BLASTX test scenarios
+  # BLASTX test scenarios
 
   it 'loads diamond BLASTX XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('diamond_0.9.24/blastx')
@@ -114,7 +113,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('MH011443_1_sp_P04637_P53_HUMAN.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/MH011443_1_sp_P04637_P53_HUMAN.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/MH011443_1_sp_P04637_P53_HUMAN.txt'))
 
     clear_downloads
 
@@ -124,7 +123,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-35_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-35_hits_diamond_blastx.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-35_hits_diamond_blastx.txt'))
     clear_downloads
 
     # Select four hit checkboxes and click on the Alignment of selected hits. Compare the downloaded content.
@@ -136,7 +135,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-4_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-4_hits_diamond_blastx.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-4_hits_diamond_blastx.txt'))
 
     page.should have_content('BLASTX')
   end
