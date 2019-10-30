@@ -45,8 +45,12 @@ export default class HSP extends React.Component {
     }
 
     /**
-     * Return prettified stats for the given hsp and based on the BLAST
-     * algorithm.
+     * Returns an array of span elements or plain strings (React automatically
+     * adds span tag around strings). This array is passed as it is to JSX to be
+     * rendered just above the pairwise alignment (see render method).
+     *
+     * We cannot return a string from this method otherwise we wouldn't be able
+     * to use JSX elements to format text (like, superscript).
      */
     hspStats () {
         // An array to hold text or span elements that make up the line.

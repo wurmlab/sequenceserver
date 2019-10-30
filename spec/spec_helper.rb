@@ -1,6 +1,6 @@
 require 'simplecov'
 require 'capybara/rspec'
-require 'capybara-screenshot'
+require 'capybara-screenshot/rspec'
 require 'selenium-webdriver'
 
 require_relative 'download_helper'
@@ -19,7 +19,6 @@ RSpec.configure do |config|
   # Explicitly enable should syntax of rspec.
   config.expect_with :rspec do |expectations|
     expectations.syntax = [:should, :expect]
-  config.pattern += ',*/*/*spec*'
   end
 
   # To use url_encode function in import_spec.
@@ -32,7 +31,7 @@ RSpec.configure do |config|
   config.before :context, type: :feature do
     Capybara.app = SequenceServer.init
     Capybara.server = :webrick
-    Capybara.default_max_wait_time = 10
+    Capybara.default_max_wait_time = 30
 
     Capybara.register_driver :selenium do |app|
       options = Selenium::WebDriver::Firefox::Options.new

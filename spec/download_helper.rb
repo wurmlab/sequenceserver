@@ -6,7 +6,10 @@ module DownloadHelpers
 
   def wait_for_download
     Timeout.timeout(Capybara.default_max_wait_time) do
-      sleep 1 until downloaded?
+      loop do
+        sleep 1
+        break if downloaded?
+      end
     end
   end
 
@@ -15,7 +18,7 @@ module DownloadHelpers
   end
 
   def clear_downloads
-    FileUtils.rm_f(downloads)
+    FileUtils.rm(downloads)
   end
 
   def downloaded?
@@ -27,6 +30,6 @@ module DownloadHelpers
   end
 
   def downloads
-    Dir[File.join(downloads_dir, "*")]
+    Dir[File.join(downloads_dir, '*')]
   end
 end
