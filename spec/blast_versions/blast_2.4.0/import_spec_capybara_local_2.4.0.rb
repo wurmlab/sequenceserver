@@ -332,7 +332,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-40_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-40_hits_tblastn.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-40_hits_tblastn.txt'))
 
     clear_downloads
 
@@ -345,20 +345,20 @@ describe 'report generated from imported XML', type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-4_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-4_hits_tblastn.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-4_hits_tblastn.txt'))
     page.should have_content('TBLASTN')
   end
 
   it 'loads TBLASTN XML and tests hit PNG/SVG download' do
     access_by_uuid('blast_2.4.0/tblastn')
 
-   # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
     page.execute_script("$('.export-to-png:eq(0)').click()")
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.png')
- 
+
     clear_downloads
- 
+
     page.execute_script("$('.export-to-svg:eq(0)').click()")
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.svg')
@@ -370,7 +370,6 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_395440626_gb_JQ694049_1.png')
-    
     clear_downloads
 
     # Click on the SVG download button of the first hit available and compare the downloaded content.
@@ -420,7 +419,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('length-distribution-sp_P04637_P53_HUMAN.svg')
   end
 
-  #TBLASTX Test scenarios
+  # TBLASTX Test scenarios
 
   it 'loads TBLASTX XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('blast_2.4.0/tblastx')
@@ -430,7 +429,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1528997474_gb_MH447967_1.txt')
-    expect(File.read(downloaded_file)). to eq(File.read("spec/sequences/MH011443_1_gi_1528997474_gb_MH447967_1.txt"))
+    expect(File.read(downloaded_file)). to eq(File.read('spec/sequences/MH011443_1_gi_1528997474_gb_MH447967_1.txt'))
 
     clear_downloads
 
@@ -440,7 +439,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-40_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-40_hits_tblastx.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-40_hits_tblastx.txt'))
 
     clear_downloads
 
@@ -453,7 +452,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('alignment-4_hits.txt')
-    expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/alignment-4_hits_tblastx.txt"))
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/alignment-4_hits_tblastx.txt'))
     page.should have_content('TBLASTX')
   end
 
@@ -471,7 +470,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
 
-    clear_downloads  
+    clear_downloads
     # Click on the PNG download button of the first hit available and compare the downloaded content.
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
