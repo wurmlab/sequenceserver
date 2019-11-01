@@ -41,7 +41,7 @@ class Graph {
         this.chords_arr = [];
         // this.max_length = 0;
         this.hsp_count = 50;
-        this.denominator = 100;
+        this.denominator = 1;
         this.spacing = 20;
         this.labelSpacing = 10;
         var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
