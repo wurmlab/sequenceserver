@@ -163,6 +163,7 @@ class Graph {
       console.log('no record found '+id);
       this.delete_arr.push(index);
     }
+<<<<<<< HEAD
   }
 
   // get index of hit_arr based on id
@@ -173,6 +174,71 @@ class Graph {
         var check_id = 'Hit_'+this.clean_id(hit.id)
         if (id == check_id) {
           found = hit.id;
+||||||| parent of f244294... Fixed display of the label ticks in the >1000 scale, where labels displayed 2.3 aa instead 23 aa on the scale.
+
+    initiate() {
+    // this.width = 700;
+        this.width = this.svgContainer.width();
+        this.height = 600;
+        this.innerRadius = 200;
+        this.outerRadius = 230;
+        this.query_arr = [];
+        this.hit_arr = [];
+        this.layout_arr = [];
+        this.chords_arr = [];
+        // this.max_length = 0;
+        this.hsp_count = 50;
+        this.denominator = 100;
+        this.spacing = 20;
+        this.labelSpacing = 10;
+        var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
+        this.construct_layout();
+        this.iterator_for_edits();
+        this.hit_arr = _.uniq(this.hit_arr);
+        this.handle_spacing();
+        var prefix = d3.formatPrefix(this.max_length);
+        this.suffix = ' '+prefix.symbol+suffixes[this.seq_type.subject_seq_type];
+        if (prefix.symbol == 'k') {
+            this.denominator = 1000;
+        } else if (prefix.symbol == 'M') {
+            this.denominator = 1000000;
+            this.spacing = 1000000;
+            this.labelSpacing = 200000;
+        } else if (prefix.symbol == 'g') {
+            this.denominator = 1000000000;
+=======
+
+    initiate() {
+    // this.width = 700;
+        this.width = this.svgContainer.width();
+        this.height = 600;
+        this.innerRadius = 200;
+        this.outerRadius = 230;
+        this.query_arr = [];
+        this.hit_arr = [];
+        this.layout_arr = [];
+        this.chords_arr = [];
+        // this.max_length = 0;
+        this.hsp_count = 50;
+        this.denominator = 1;
+        this.spacing = 20;
+        this.labelSpacing = 10;
+        var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
+        this.construct_layout();
+        this.iterator_for_edits();
+        this.hit_arr = _.uniq(this.hit_arr);
+        this.handle_spacing();
+        var prefix = d3.formatPrefix(this.max_length);
+        this.suffix = ' '+prefix.symbol+suffixes[this.seq_type.subject_seq_type];
+        if (prefix.symbol == 'k') {
+            this.denominator = 1000;
+        } else if (prefix.symbol == 'M') {
+            this.denominator = 1000000;
+            this.spacing = 1000000;
+            this.labelSpacing = 200000;
+        } else if (prefix.symbol == 'g') {
+            this.denominator = 1000000000;
+>>>>>>> f244294... Fixed display of the label ticks in the >1000 scale, where labels displayed 2.3 aa instead 23 aa on the scale.
         }
       }, this))
     }, this));
