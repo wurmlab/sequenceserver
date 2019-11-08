@@ -385,13 +385,13 @@ class Graph {
             this.chordsHide = [];
             this.layoutHide = [];
             if (id) {
-                $('.circos-distribution .Query_'+this.clean_id(id)).attr('data-toggle','tooltip')
+                $('.circos .Query_'+this.clean_id(id)).attr('data-toggle','tooltip')
                     .attr('title',id)
                     .on('click', _.bind(function (event) {
                         event.stopPropagation();
                         if (selected[index] != id) {
                             selected[index] = id;
-                            var cleaned_id = 'Query_'+this.clean_id(id);
+                            var cleaned_id = 'Query_' + this.clean_id(id);
                             this.layoutHide.push(cleaned_id);
                             this.chordsCheck(cleaned_id, 'Que');
                             this.chordsClean();
@@ -414,7 +414,7 @@ class Graph {
                         event.stopPropagation();
                         if (selected[index] != id) {
                             selected[index] = id;
-                            var cleaned_id = 'Hit_'+this.clean_id(id);
+                            var cleaned_id = 'Hit_' + this.clean_id(id);
                             this.layoutHide.push(cleaned_id);
                             this.chordsCheck(cleaned_id, 'Hit');
                             this.chordsClean();
@@ -427,6 +427,10 @@ class Graph {
                     }, this));
             }
         }, this));
+        _.each(this.chords_arr, function (obj) {
+            $('#' + obj[0] + '_' + obj[3]).attr('data-toggle', 'tooltip')
+                .attr('title', 'Identity ' + obj[7].identity + '<br> E value ' + Helpers.prettify_evalue(obj[7].evalue));
+        });
         $('[data-toggle="tooltip"]').tooltip({
             'placement': 'top',
             'container': 'body',
