@@ -1,21 +1,3 @@
-function prettify_evalue(evalue) {
-  var matches = evalue.toString().split("e");
-  var base  = matches[0];
-  var power = matches[1];
-
-  if (power)
-  {
-      var s = parseFloat(base).toFixed(2);
-      var element = '<span>'+s+' &times; 10<sup>'+power+'</sup></span>';
-      return element;
-  }
-  else {
-      if (!(base % 1==0))
-          return parseFloat(base).toFixed(2);
-      else
-          return base;
-  }
-}
 
 var circosJS,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
@@ -621,6 +603,7 @@ circosJS.Chord = function() {
         endAngle: endAngle
       };
     };
+<<<<<<< HEAD
   })(this);
   this.dimChords = function (parentElement, d, conf, index) {
     parentElement.selectAll('path').style('opacity', function (p, i) {
@@ -679,6 +662,99 @@ circosJS.Chord = function() {
       if (_this.conf.tooltipContent != null) {
         return circosJS.registerTooltip(instance, _this, selection, _this.conf);
       }
+||||||| parent of 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
+  }(this));
+  this.dimChords = function (parentElement, d, conf, index) {
+    parentElement.selectAll('path').style('opacity', function (p, i) {
+      if (index == i) {
+        return 1;
+      }
+      return 0;
+    });
+  };
+  this.resetChords = function (parentElement,conf) {
+    parentElement.selectAll('path').style('opacity',conf.opacity);
+  };
+  this.renderChords = function(parentElement, name, conf, data, layout, ratio, getSource, getTarget) {
+    var link, track;
+    track = parentElement.append('g').attr('class', conf.colorPalette);
+    link = track.selectAll('.chord').data(data).enter().append('path').attr('class', 'chord').attr('d', d3.svg.chord().source(function(d) {
+      return getSource(d, layout);
+    }).target(function(d) {
+      return getTarget(d, layout);
+    })).attr('opacity', function(d) {
+        return conf.opacity;
+    }).attr('data-toggle','tooltip').attr('title',function(d) {
+      return 'Identity ' + d.hsp.identity + '<br> E value ' + prettify_evalue(d.hsp.evalue);
+    }).attr('id',function (d) {
+      var slen = d.source.start + d.source.end;
+      var tlen = d.target.start + d.target.end;
+      return d.source.id+'_'+slen+'_'+d.target.id+'_'+tlen;
+    }).on('mouseover', (function(_this) {
+      return function(d, i, j) {
+        _this.dimChords(track, d, conf, i);
+        return _this.dispatch.mouseover(d, i, j);
+      };
+    }(this))).on('mouseout', (function(_this) {
+      return function(d, i, j) {
+        _this.resetChords(track,conf);
+        return _this.dispatch.mouseout(d, i, j);
+      };
+    }(this)));
+    if (conf.usePalette) {
+      link.attr('class', function(d) {
+        return 'q' + ratio(d.value, conf.cmin, conf.cmax, conf.colorPaletteSize, conf.colorPaletteReverse, conf.logScale) + '-' + conf.colorPaletteSize;
+      });
+    } else {
+      link.attr('fill', function(d) {
+        return d.color || conf.color;
+      });
+    }
+    return link;
+  };
+  this.render = (function(_this) {
+    return function(instance, parentElement, name) {
+      var selection, track;
+      parentElement.select('.' + name).remove();
+      track = parentElement.append('g').attr('class', name).attr('z-index', _this.conf.zIndex);
+      selection = _this.renderChords(track, name, _this.conf, _this.data, instance._layout, _this.ratio, _this.getSource, _this.getTarget);
+      if (_this.conf.tooltipContent != null) {
+        return circosJS.registerTooltip(instance, _this, selection, _this.conf);
+      }
+=======
+    this.renderChords = function(parentElement, name, conf, data, layout, ratio, getSource, getTarget) {
+        var link, track;
+        track = parentElement.append('g').attr('class', conf.colorPalette);
+        link = track.selectAll('.chord').data(data).enter().append('path').attr('class', 'chord').attr('d', d3.svg.chord().source(function(d) {
+            return getSource(d, layout);
+        }).target(function(d) {
+            return getTarget(d, layout);
+        })).attr('opacity', function(d) {
+            return conf.opacity;
+        }).attr('id',function (d) {
+            return d.source.id+'_'+d.target.id;
+        }).on('mouseover', (function(_this) {
+            return function(d, i, j) {
+                _this.dimChords(track, d, conf, i);
+                return _this.dispatch.mouseover(d, i, j);
+            };
+        }(this))).on('mouseout', (function(_this) {
+            return function(d, i, j) {
+                _this.resetChords(track,conf);
+                return _this.dispatch.mouseout(d, i, j);
+            };
+        }(this)));
+        if (conf.usePalette) {
+            link.attr('class', function(d) {
+                return 'q' + ratio(d.value, conf.cmin, conf.cmax, conf.colorPaletteSize, conf.colorPaletteReverse, conf.logScale) + '-' + conf.colorPaletteSize;
+            });
+        } else {
+            link.attr('fill', function(d) {
+                return d.color || conf.color;
+            });
+        }
+        return link;
+>>>>>>> 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
     };
   })(this);
   return this;

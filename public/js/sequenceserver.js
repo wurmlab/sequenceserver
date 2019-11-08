@@ -52,14 +52,14 @@ import 'webshim';
     $.fn._tooltip = $.fn.tooltip;
     $.fn.tooltip  = function (options) {
         return this
-        ._tooltip('destroy')
-        ._tooltip($.extend({
-            container: 'body',
-            placement: 'left',
-            delay: {
-                show: 1000
-            }
-        }, options));
+            ._tooltip('destroy')
+            ._tooltip($.extend({
+                container: 'body',
+                placement: 'left',
+                delay: {
+                    show: 1000
+                }
+            }, options));
     };
 
     /**
@@ -84,7 +84,7 @@ import 'webshim';
      * Used for wiggling BLAST button.
      */
     $.fn.wiggle = function () {
-        this.finish().effect("bounce", {
+        this.finish().effect('bounce', {
             direction: 'left',
             distance: 24,
             times: 4,

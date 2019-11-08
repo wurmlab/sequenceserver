@@ -417,6 +417,7 @@ class Graph {
           this.chordsHide.push(index);
           this.layoutHide.push(obj[0]);
         }
+<<<<<<< HEAD
       }
     }, this))
   }
@@ -455,13 +456,282 @@ class Graph {
                       .attr('title',id)
                       .on('click', _.bind(function (event) {
                           event.stopPropagation();
+||||||| parent of 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
+        return {
+            usePalette: true,
+            colorPaletteSize: this.paletteSize,
+            // color: 'rgb(0,0,0)',
+            colorPalette: 'RdYlBu', // colors of chords based on last value in chords
+            // tooltipContent: 'Hiten',
+            opacity: 0.85 // add opacity to ribbons
+        };
+    }
+
+    instance_layout() {
+        return {
+            innerRadius: this.innerRadius,
+            outerRadius: this.outerRadius,
+            cornerRadius: 1, // rounding at edges of karyotypes
+            labels: {
+                display: true,
+                size: '10px',
+                radialOffset: 10
+            },
+            ticks: {
+                display: true,
+                spacing: this.spacing, // the ticks values to display
+                labelSpacing: this.labelSpacing, // ticks value apper in interval
+                labelDenominator: this.denominator, // divide the value by this value
+                labelSuffix: this.suffix,
+                labelSize: '10px',
+                majorSpacing: this.labelSpacing, // major ticks apper in interval
+                size: {
+                    minor: 0, // to remove minor ticks
+                    major: 4
+                }
+            }
+        };
+    }
+
+    instance_render() {
+        this.instance.layout(this.instance_layout(),this.layout_arr);
+        this.instance.chord('chord1',this.chord_layout(),this.chords_arr);
+        this.instance.render();
+    }
+
+    render_error() {
+        this.svgContainer.find('svg').remove();
+        this.svg = d3.select(this.svgContainer[0]).insert('svg',':first-child')
+            .attr('width', this.svgContainer.width())
+            .attr('height', this.svgContainer.height())
+            .append('g')
+            .attr('class', 'circos-error')
+            .attr('transform','translate('+this.svgContainer.width() / 2+','+this.svgContainer.height()/2+')')
+            .append('text')
+            .attr('text-anchor','start')
+            .attr('dy','-0.25em')
+            .attr('x', -175)
+            .style('font-size', '14px')
+            .text('Circos looks great with less than 16 queries');
+    }
+
+    layoutReset() {
+        this.layoutHide = [];
+        _.each(this.layout_arr, function(obj) {
+            $('.'+obj.id).css('opacity', 1);
+        });
+    }
+
+    chordsReset() {
+        this.chordsHide = [];
+        _.each(this.chords_arr, function (obj) {
+            var slen = obj[1] + obj[2];
+            var tlen = obj[4] + obj[5];
+            $('#'+obj[0]+'_'+slen+'_'+obj[3]+'_'+tlen).show();
+        });
+    }
+
+    chordsCheck(id, type) {
+        _.each(this.chords_arr, _.bind(function (obj, index) {
+            if (type == 'Que') {
+                if (obj[0] == id) {
+                    this.chordsHide.push(index);
+                    this.layoutHide.push(obj[3]);
+                }
+            }
+            if (type == 'Hit') {
+                if (obj[3] == id) {
+                    this.chordsHide.push(index);
+                    this.layoutHide.push(obj[0]);
+                }
+            }
+        }, this));
+    }
+
+    chordsClean() {
+        _.each(this.chords_arr, _.bind(function (obj, index) {
+            if (_.indexOf(this.chordsHide, index) == -1) {
+                var slen = obj[1] + obj[2];
+                var tlen = obj[4] + obj[5];
+                $('#'+obj[0]+'_'+slen+'_'+obj[3]+'_'+tlen).hide();
+            }
+        }, this));
+    }
+
+    layoutClean() {
+        _.each(this.layout_arr, _.bind(function(obj, index) {
+            if(_.indexOf(this.layoutHide, obj.id) == -1) {
+                $('.'+obj.id).css('opacity',0.1);
+            }
+        }, this));
+    }
+
+    setupTooltip() {
+        var selected = {};
+        $('.circos-distribution').on('click', _.bind(function(event) {
+            event.stopPropagation();
+            this.layoutReset();
+            this.chordsReset();
+            selected = {};
+        }, this));
+        _.each(this.query_arr, _.bind(function (id, index) {
+            this.chordsHide = [];
+            this.layoutHide = [];
+            if (id) {
+                $('.circos-distribution .Query_'+this.clean_id(id)).attr('data-toggle','tooltip')
+                    .attr('title',id)
+                    .on('click', _.bind(function (event) {
+                        event.stopPropagation();
+=======
+        return {
+            usePalette: true,
+            colorPaletteSize: this.paletteSize,
+            // color: 'rgb(0,0,0)',
+            colorPalette: 'RdYlBu', // colors of chords based on last value in chords
+            // tooltipContent: 'Hiten',
+            opacity: 0.85 // add opacity to ribbons
+        };
+    }
+
+    instance_layout() {
+        return {
+            innerRadius: this.innerRadius,
+            outerRadius: this.outerRadius,
+            cornerRadius: 1, // rounding at edges of karyotypes
+            labels: {
+                display: true,
+                size: '10px',
+                radialOffset: 10
+            },
+            ticks: {
+                display: true,
+                spacing: this.spacing, // the ticks values to display
+                labelSpacing: this.labelSpacing, // ticks value apper in interval
+                labelDenominator: this.denominator, // divide the value by this value
+                labelSuffix: this.suffix,
+                labelSize: '10px',
+                majorSpacing: this.labelSpacing, // major ticks apper in interval
+                size: {
+                    minor: 0, // to remove minor ticks
+                    major: 4
+                }
+            }
+        };
+    }
+
+    instance_render() {
+        this.instance.layout(this.instance_layout(),this.layout_arr);
+        this.instance.chord('chord1',this.chord_layout(),this.chords_arr);
+        this.instance.render();
+    }
+
+    render_error() {
+        this.svgContainer.find('svg').remove();
+        this.svg = d3.select(this.svgContainer[0]).insert('svg',':first-child')
+            .attr('width', this.svgContainer.width())
+            .attr('height', this.svgContainer.height())
+            .append('g')
+            .attr('class', 'circos-error')
+            .attr('transform','translate('+this.svgContainer.width() / 2+','+this.svgContainer.height()/2+')')
+            .append('text')
+            .attr('text-anchor','start')
+            .attr('dy','-0.25em')
+            .attr('x', -175)
+            .style('font-size', '14px')
+            .text('Circos looks great with less than 16 queries');
+    }
+
+    layoutReset() {
+        this.layoutHide = [];
+        _.each(this.layout_arr, function(obj) {
+            $('.'+obj.id).css('opacity', 1);
+        });
+    }
+
+    chordsReset() {
+        this.chordsHide = [];
+        _.each(this.chords_arr, function (obj) {
+            var slen = obj[1] + obj[2];
+            var tlen = obj[4] + obj[5];
+            $('#'+obj[0]+'_'+slen+'_'+obj[3]+'_'+tlen).show();
+        });
+    }
+
+    chordsCheck(id, type) {
+        _.each(this.chords_arr, _.bind(function (obj, index) {
+            if (type == 'Que') {
+                if (obj[0] == id) {
+                    this.chordsHide.push(index);
+                    this.layoutHide.push(obj[3]);
+                }
+            }
+            if (type == 'Hit') {
+                if (obj[3] == id) {
+                    this.chordsHide.push(index);
+                    this.layoutHide.push(obj[0]);
+                }
+            }
+        }, this));
+    }
+
+    chordsClean() {
+        _.each(this.chords_arr, _.bind(function (obj, index) {
+            if (_.indexOf(this.chordsHide, index) == -1) {
+                var slen = obj[1] + obj[2];
+                var tlen = obj[4] + obj[5];
+                $('#'+obj[0]+'_'+slen+'_'+obj[3]+'_'+tlen).hide();
+            }
+        }, this));
+    }
+
+    layoutClean() {
+        _.each(this.layout_arr, _.bind(function(obj, index) {
+            if(_.indexOf(this.layoutHide, obj.id) == -1) {
+                $('.'+obj.id).css('opacity',0.1);
+            }
+        }, this));
+    }
+
+    setupTooltip() {
+        var selected = {};
+        $('.circos-distribution').on('click', _.bind(function(event) {
+            event.stopPropagation();
+            this.layoutReset();
+            this.chordsReset();
+            selected = {};
+        }, this));
+        _.each(this.query_arr, _.bind(function (id, index) {
+            this.chordsHide = [];
+            this.layoutHide = [];
+            if (id) {
+                $('.circos .Query_'+this.clean_id(id)).attr('data-toggle','tooltip')
+                    .attr('title',id)
+                    .on('click', _.bind(function (event) {
+                        event.stopPropagation();
+>>>>>>> 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
                         if (selected[index] != id) {
+<<<<<<< HEAD
                           selected[index] = id;
                           var cleaned_id = "Query_"+this.clean_id(id);
                           this.layoutHide.push(cleaned_id);
                           this.chordsCheck(cleaned_id, "Que");
                           this.chordsClean();
                           this.layoutClean();
+||||||| parent of 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
+                            selected[index] = id;
+                            var cleaned_id = 'Query_'+this.clean_id(id);
+                            this.layoutHide.push(cleaned_id);
+                            this.chordsCheck(cleaned_id, 'Que');
+                            this.chordsClean();
+                            this.layoutClean();
+=======
+                            selected[index] = id;
+                            var cleaned_id = 'Query_' + this.clean_id(id);
+                            this.layoutHide.push(cleaned_id);
+                            this.chordsCheck(cleaned_id, 'Que');
+                            this.chordsClean();
+                            this.layoutClean();
+>>>>>>> 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
                         } else {
                           selected[index] = 0;
                           this.layoutReset();
@@ -478,6 +748,7 @@ class Graph {
                     .attr('title',id)
                     .on('click', _.bind(function (event) {
                         event.stopPropagation();
+<<<<<<< HEAD
                       if (selected[index] != id) {
                         selected[index] = id;
                         var cleaned_id = "Hit_"+this.clean_id(id);
@@ -490,7 +761,35 @@ class Graph {
                         this.layoutReset();
                         this.chordsReset();
                       }
+||||||| parent of 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
+                        if (selected[index] != id) {
+                            selected[index] = id;
+                            var cleaned_id = 'Hit_'+this.clean_id(id);
+                            this.layoutHide.push(cleaned_id);
+                            this.chordsCheck(cleaned_id, 'Hit');
+                            this.chordsClean();
+                            this.layoutClean();
+                        } else {
+                            selected[index] = 0;
+                            this.layoutReset();
+                            this.chordsReset();
+                        }
+=======
+                        if (selected[index] != id) {
+                            selected[index] = id;
+                            var cleaned_id = 'Hit_' + this.clean_id(id);
+                            this.layoutHide.push(cleaned_id);
+                            this.chordsCheck(cleaned_id, 'Hit');
+                            this.chordsClean();
+                            this.layoutClean();
+                        } else {
+                            selected[index] = 0;
+                            this.layoutReset();
+                            this.chordsReset();
+                        }
+>>>>>>> 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
                     }, this));
+<<<<<<< HEAD
       }
     }, this));
     $('[data-toggle="tooltip"]').tooltip({
@@ -507,6 +806,31 @@ class Graph {
     scaleLogBase = logScale ? 2.3 : 1;
     if (min === max || (value === min && !reverse) || (value === max && reverse)) {
       return 0;
+||||||| parent of 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
+            }
+        }, this));
+        $('[data-toggle="tooltip"]').tooltip({
+            'placement': 'top',
+            'container': 'body',
+            'html': 'true',
+            'delay': 0,
+            'white-space': 'nowrap'
+        });
+=======
+            }
+        }, this));
+        _.each(this.chords_arr, function (obj) {
+            $('#' + obj[0] + '_' + obj[3]).attr('data-toggle', 'tooltip')
+                .attr('title', 'Identity ' + obj[7].identity + '<br> E value ' + Helpers.prettify_evalue(obj[7].evalue));
+        });
+        $('[data-toggle="tooltip"]').tooltip({
+            'placement': 'top',
+            'container': 'body',
+            'html': 'true',
+            'delay': 0,
+            'white-space': 'nowrap'
+        });
+>>>>>>> 4e15847... Moved setting up the tooltips for the chords from circosjs.js to
     }
     if (value === max || (value === min && reverse)) {
       return scope - 1;
