@@ -623,12 +623,8 @@ circosJS.Chord = function() {
       return getTarget(d, layout);
     })).attr('opacity', function(d) {
         return conf.opacity;
-    }).attr('data-toggle','tooltip').attr('title',function(d) {
-      return 'Identity '+d.hsp.identity+'<br> Evalue '+d.hsp.evalue;
     }).attr('id',function (d) {
-      var slen = d.source.start + d.source.end;
-      var tlen = d.target.start + d.target.end;
-      return d.source.id+'_'+slen+'_'+d.target.id+'_'+tlen;
+      return d.source.id+'_'+d.target.id
     }).on('mouseover', (function(_this) {
       return function(d, i, j) {
         _this.dimChords(track, d, conf, i);
