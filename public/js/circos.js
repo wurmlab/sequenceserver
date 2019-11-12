@@ -429,7 +429,7 @@ class Graph {
         }, this));
         _.each(this.chords_arr, function (obj) {
             $('#' + obj[0] + '_' + obj[3]).attr('data-toggle', 'tooltip')
-                .attr('title', 'Identity: ' + obj[7].identity + '<br> E value: ' + Helpers.prettify_evalue(obj[7].evalue));
+                .attr('title', 'Identity: ' + obj[7].identity + '%' + '<br> E value: ' + Helpers.prettify_evalue(obj[7].evalue));
         });
         $('[data-toggle="tooltip"]').tooltip({
             'placement': 'top',

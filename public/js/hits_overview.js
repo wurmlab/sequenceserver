@@ -355,7 +355,7 @@ class Graph {
                         .attr('xlink:href', '#' + q_i + '_hit_' + (i+1))
                         .append('rect')
                             .attr('data-toggle', 'tooltip')
-                            .attr('title', d.hitId + '<br><strong>E value:</strong> '+Helpers.prettify_evalue(v.hspEvalue))
+                            .attr('title', d.hitId + '<br>E value: '+Helpers.prettify_evalue(v.hspEvalue))
                             .attr('class','bar')
                             .attr('x', function (d) {
                                 return x(d.hspStart);
