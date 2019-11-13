@@ -412,12 +412,9 @@ input[name="advanced"] {
 .hsp:last-child {
   padding-bottom: 0;
 }
-.hsp pre {
-  font-size: 12px;
-}
+
 .hsp-stats {
-  word-break: normal;
-  white-space: pre-wrap;
+  font-size: 12px;
 }
 .hsp .hsp-lines {
   margin-top: 5px;
