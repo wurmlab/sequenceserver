@@ -235,6 +235,8 @@ a.disabled:hover,
   padding: 0;
   border-radius: 0;
   background-color: inherit;
+  white-space: pre-wrap;
+  word-break: keep-all;
 }
 
 /***************************
