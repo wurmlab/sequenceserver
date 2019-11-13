@@ -158,7 +158,7 @@ class Graph {
         .attr('class','bar')
         .attr('data-toggle','tooltip')
         .attr('title', function(i) {
-          return i.id+' '+'<br>E Value: '+Helpers.prettify_evalue(i.evalue)+'<br>Length: '+i.value;
+          return i.id+' '+'<br>E value: '+Helpers.prettify_evalue(i.evalue)+'<br>Length: '+i.value;
         })
         .attr('x', 1)
         .attr('y', function(i) { return (self._scale_y(i.y0)); })
