@@ -216,13 +216,13 @@ var Report = React.createClass({
             <div className="overview">
                 <p className="text-monospace">
                     {this.state.program_version}{this.state.submitted_at
-                        && `; query submitted on ${this.state.submitted_at}`}
+                        && `, query submitted on ${this.state.submitted_at}`}
                 </p>
                 <p className="text-monospace">
-                    Databases ({this.state.stats.nsequences} sequences,&nbsp;
-                    {this.state.stats.ncharacters} characters): {
+                    Databases: {
                         this.state.querydb.map((db) => { return db.title; }).join(', ')
-                    }
+                    } ({this.state.stats.nsequences} sequences,&nbsp;
+                    {this.state.stats.ncharacters} characters)
                 </p>
                 <p className="text-monospace">
                     Parameters: {
