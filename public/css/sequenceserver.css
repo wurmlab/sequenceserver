@@ -177,7 +177,14 @@ a.disabled:hover,
  * Use monospace font.
  */
 .text-monospace {
-  font-family: monospace;
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    Courier,
+    monospace;
+  font-size: 12px;
 }
 
 /**
