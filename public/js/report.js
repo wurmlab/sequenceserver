@@ -214,24 +214,26 @@ var Report = React.createClass({
     overviewJSX: function () {
         return (
             <div className="overview">
-                <pre className="pre-reset">
+                <p className="text-monospace">
                     {this.state.program_version}{this.state.submitted_at
-                            && `; query submitted on ${this.state.submitted_at}`}
-                    <br/>
-                    Databases ({this.state.stats.nsequences} sequences,&nbsp;
-                    {this.state.stats.ncharacters} characters): {
-                        this.state.querydb.map((db) => { return db.title }).join(", ")
-                    }
-                    <br/>
+                        && `, query submitted on ${this.state.submitted_at}`}
+                </p>
+                <p className="text-monospace">
+                    Databases: {
+                        this.state.querydb.map((db) => { return db.title; }).join(', ')
+                    } ({this.state.stats.nsequences} sequences,&nbsp;
+                    {this.state.stats.ncharacters} characters)
+                </p>
+                <p className="text-monospace">
                     Parameters: {
                         _.map(this.state.params, function (val, key) {
-                            return key + " " + val;
-                        }).join(", ")
+                            return key + ' ' + val;
+                        }).join(', ')
                     }
-                </pre>
+                </p>
             </div>
         );
-   },
+    },
 
 
     // Controller //
