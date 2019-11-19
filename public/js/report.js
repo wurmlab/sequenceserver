@@ -1,4 +1,4 @@
-import './sequenceserver' // for custom $.tooltip function
+import './sequenceserver'; // for custom $.tooltip function
 import React from 'react';
 import _ from 'underscore';
 
@@ -19,8 +19,8 @@ import showErrorModal from './error_modal';
  */
 var downloadFASTA = function (sequence_ids, database_ids) {
     var form = $('<form/>').attr('method', 'post').attr('action', 'get_sequence');
-    addField("sequence_ids", sequence_ids);
-    addField("database_ids", database_ids);
+    addField('sequence_ids', sequence_ids);
+    addField('database_ids', database_ids);
     form.appendTo('body').submit().remove();
 
     function addField(name, val) {
@@ -28,7 +28,7 @@ var downloadFASTA = function (sequence_ids, database_ids) {
             $('<input>').attr('type', 'hidden').attr('name', name).val(val)
         );
     }
-}
+};
 
 /**
  * Base component of report page. This component is later rendered into page's
@@ -86,24 +86,24 @@ var Report = React.createClass({
             $.getJSON(location.pathname + '.json')
                 .complete(function (jqXHR) {
                     switch (jqXHR.status) {
-                        case 202:
-                            var interval;
-                            if (intervals.length === 1) {
-                                interval = intervals[0];
-                            }
-                            else {
-                                interval = intervals.shift();
-                            }
-                            setTimeout(poll, interval);
-                            break;
-                        case 200:
-                            component.updateState(jqXHR.responseJSON);
-                            break;
-                        case 404:
-                        case 400:
-                        case 500:
-                            showErrorModal(jqXHR.responseJSON);
-                            break;
+                    case 202:
+                        var interval;
+                        if (intervals.length === 1) {
+                            interval = intervals[0];
+                        }
+                        else {
+                            interval = intervals.shift();
+                        }
+                        setTimeout(poll, interval);
+                        break;
+                    case 200:
+                        component.updateState(jqXHR.responseJSON);
+                        break;
+                    case 404:
+                    case 400:
+                    case 500:
+                        showErrorModal(jqXHR.responseJSON);
+                        break;
                     }
                 });
         }
@@ -189,18 +189,18 @@ var Report = React.createClass({
                     'col-md-9' : 'col-md-12'}>
                     { this.overviewJSX() }
                     { this.isHitsAvailable() 
-                    ? <Circos queries={this.state.queries}
-                        program={this.state.program} collapsed="true"/> 
-                    : <span></span> }
+                        ? <Circos queries={this.state.queries}
+                            program={this.state.program} collapsed="true"/> 
+                        : <span></span> }
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
-                                <Query key={"Query_"+query.id}
+                                <Query key={'Query_'+query.id}
                                     program={this.state.program} querydb={this.state.querydb}
                                     query={query} num_queries={this.state.num_queries}
                                     veryBig={this.state.veryBig} selectHit={this.selectHit}
                                     imported_xml={this.state.imported_xml} />
-                                );
+                            );
                         }, this))
                     }
                 </div>
@@ -216,15 +216,13 @@ var Report = React.createClass({
             <div className="overview">
                 <p className="text-monospace">
                     {this.state.program_version}{this.state.submitted_at
-                        && `, query submitted on ${this.state.submitted_at}`}
-                </p>
-                <p className="text-monospace">
-                    Databases: {
+                            && `; query submitted on ${this.state.submitted_at}`}
+                    <br/>
+                    Databases ({this.state.stats.nsequences} sequences,&nbsp;
+                    {this.state.stats.ncharacters} characters): {
                         this.state.querydb.map((db) => { return db.title; }).join(', ')
-                    } ({this.state.stats.nsequences} sequences,&nbsp;
-                    {this.state.stats.ncharacters} characters)
-                </p>
-                <p className="text-monospace">
+                    }
+                    <br/>
                     Parameters: {
                         _.map(this.state.params, function (val, key) {
                             return key + ' ' + val;
@@ -311,7 +309,7 @@ var Report = React.createClass({
      * Prevents folding of hits during text-selection.
      */
     preventCollapseOnSelection: function () {
-        $('body').on('mousedown', ".hit > .section-header > h4", function (event) {
+        $('body').on('mousedown', '.hit > .section-header > h4', function (event) {
             var $this = $(this);
             $this.on('mouseup mousemove', function handler(event) {
                 if (event.type === 'mouseup') {
@@ -357,7 +355,7 @@ var Report = React.createClass({
      */
     selectHit: function (id) {
 
-        var checkbox = $("#" + id);
+        var checkbox = $('#' + id);
         var num_checked  = $('.hit-links :checkbox:checked').length;
 
         if (!checkbox || !checkbox.val()) {
@@ -368,7 +366,7 @@ var Report = React.createClass({
 
         // Highlight selected hit and enable 'Download FASTA/Alignment of
         // selected' links.
-        if (checkbox.is(":checked")) {
+        if (checkbox.is(':checked')) {
             $hit.find('.section-content').addClass('glow');
             $('.download-alignment-of-selected').enable();
             $('.download-fasta-of-selected').enable();
@@ -408,7 +406,7 @@ var Query = React.createClass({
      * Returns the id of query.
      */
     domID: function () {
-        return "Query_" + this.props.query.number;
+        return 'Query_' + this.props.query.number;
     },
 
     /**
@@ -435,23 +433,23 @@ var Query = React.createClass({
                     </h3>
                     <span
                         className="label label-reset pos-label"
-                        title={"Query" + this.props.query.number + "."}
+                        title={'Query' + this.props.query.number + '.'}
                         data-toggle="tooltip">
-                        {this.props.query.number + "/" + this.props.num_queries}
+                        {this.props.query.number + '/' + this.props.num_queries}
                     </span>
                 </div>
                 {this.numhits() &&
                     (
                         <div className="section-content">
-                            <HitsOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.program} collapsed={this.props.veryBig}/>
-                            <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.program} collapsed="true"/>
-                            <HitsTable key={"HT_"+this.props.query.number} query={this.props.query} imported_xml={this.props.imported_xml} />
+                            <HitsOverview key={'GO_'+this.props.query.number} query={this.props.query} program={this.props.program} collapsed={this.props.veryBig}/>
+                            <LengthDistribution key={'LD_'+this.props.query.id} query={this.props.query} algorithm={this.props.program} collapsed="true"/>
+                            <HitsTable key={'HT_'+this.props.query.number} query={this.props.query} imported_xml={this.props.imported_xml} />
                             <div id="hits">
                                 {
                                     _.map(this.props.query.hits, _.bind(function (hit) {
                                         return (
                                             <Hit hit={hit}
-                                                key={"HIT_"+hit.number}
+                                                key={'HIT_'+hit.number}
                                                 algorithm={this.props.program}
                                                 querydb={this.props.querydb}
                                                 query={this.props.query}
@@ -463,21 +461,21 @@ var Query = React.createClass({
                             </div>
                         </div>
                     ) || (
-                        <div
-                            className="section-content">
-                            <p>
+                    <div
+                        className="section-content">
+                        <p>
                                 Query length: {this.props.query.length}
-                            </p>
-                            <br/>
-                            <br/>
-                            <p>
-                                <strong> ****** No hits found ****** </strong>
-                            </p>
-                        </div>
-                    )
+                        </p>
+                        <br/>
+                        <br/>
+                        <p>
+                            <strong> ****** No hits found ****** </strong>
+                        </p>
+                    </div>
+                )
                 }
             </div>
-        )
+        );
     },
 
     shouldComponentUpdate: function (nextProps, nextState) {
@@ -492,9 +490,9 @@ var HitsTable = React.createClass({
     mixins: [Utils],
     render: function () {
         var count = 0,
-          hasName = _.every(this.props.query.hits, function(hit) {
-            return hit.sciname !== '';
-          });
+            hasName = _.every(this.props.query.hits, function(hit) {
+                return hit.sciname !== '';
+            });
 
         return (
             <table
@@ -516,9 +514,9 @@ var HitsTable = React.createClass({
                         _.map(this.props.query.hits, _.bind(function (hit) {
                             return (
                                 <tr key={hit.number}>
-                                    <td className="text-left">{hit.number + "."}</td>
+                                    <td className="text-left">{hit.number + '.'}</td>
                                     <td>
-                                        <a href={"#Query_" + this.props.query.number + "_hit_" + hit.number}>
+                                        <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}>
                                             {hit.id}
                                         </a>
                                     </td>
@@ -528,7 +526,7 @@ var HitsTable = React.createClass({
                                     <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
                                     <td className="text-right">{hit.identity}</td>
                                 </tr>
-                            )
+                            );
                         }, this))
                     }
                 </tbody>
@@ -563,7 +561,7 @@ var Hit = React.createClass({
      * Returns id that will be used for the DOM node corresponding to the hit.
      */
     domID: function () {
-        return "Query_" + this.props.query.number + "_hit_" + this.props.hit.number;
+        return 'Query_' + this.props.query.number + '_hit_' + this.props.hit.number;
     },
 
     databaseIDs: function () {
@@ -595,10 +593,10 @@ var Hit = React.createClass({
             hsp.query_id = this.props.query.id;
             hsp.hit_id = this.props.hit.id;
             return hsp;
-        }, this))
+        }, this));
 
         var aln_exporter = new AlignmentExporter();
-        aln_exporter.export_alignments(hsps, this.props.query.id+"_"+this.props.hit.id);
+        aln_exporter.export_alignments(hsps, this.props.query.id+'_'+this.props.hit.id);
     },
 
 
@@ -637,7 +635,7 @@ var Hit = React.createClass({
                 data-hit-len={this.props.hit.length}>
                 <div className="section-header">
                     <h4 data-toggle="collapse"
-                        data-target={this.domID() + "_content"}>
+                        data-target={this.domID() + '_content'}>
                         <i className="fa fa-chevron-down"></i>
                         &nbsp;
                         <span>
@@ -649,17 +647,17 @@ var Hit = React.createClass({
                         </span>
                     </h4>
                     <span className="label label-reset pos-label"
-                        title={"Query " + this.props.query.number + ". Hit "
-                              + this.props.hit.number + " of "
-                              + this.props.query.hits.length + "."}
-                      data-toggle="tooltip">
-                      {this.props.hit.number + "/" + this.props.query.hits.length}
+                        title={'Query ' + this.props.query.number + '. Hit '
+                              + this.props.hit.number + ' of '
+                              + this.props.query.hits.length + '.'}
+                        data-toggle="tooltip">
+                        {this.props.hit.number + '/' + this.props.query.hits.length}
                     </span>
                 </div>
-                <div id={this.domID() + "_content"}
+                <div id={this.domID() + '_content'}
                     className="section-content collapse in">
                     { this.hitLinks() }
-                    <HSPOverview key={"kablammo"+this.props.query.id}
+                    <HSPOverview key={'kablammo'+this.props.query.id}
                         query={this.props.query} hit={this.props.hit}
                         algorithm={this.props.algorithm}/>
                     { this.hspListJSX() }
@@ -672,9 +670,9 @@ var Hit = React.createClass({
         return (
             <div className="hit-links">
                 <label>
-                    <input type="checkbox" id={this.domID() + "_checkbox"}
+                    <input type="checkbox" id={this.domID() + '_checkbox'}
                         value={this.accession()} onChange={function () {
-                            this.props.selectHit(this.domID() + "_checkbox");
+                            this.props.selectHit(this.domID() + '_checkbox');
                         }.bind(this)} data-target={'#' + this.domID()}
                     /> Select
                 </label>
@@ -716,10 +714,10 @@ var Hit = React.createClass({
                     return <HSP key={hsp.number}
                         algorithm={this.props.algorithm}
                         queryNumber={this.props.query.number}
-                        hitNumber={this.props.hit.number} hsp={hsp}/>
+                        hitNumber={this.props.hit.number} hsp={hsp}/>;
                 }, this)
             }
-        </div>
+        </div>;
     }
 });
 
@@ -888,7 +886,7 @@ var SequenceViewer = (function () {
                         sequences: response.sequences,
                         error_msgs: response.error_msgs,
                         requestCompleted: true
-                    })
+                    });
                 }, this))
                 .fail(function (jqXHR, status, error) {
                     showErrorModal(jqXHR, function () {
@@ -943,11 +941,11 @@ var SideBar = React.createClass({
                     hsp.hit_id = hit.id;
                     hsp.query_id = query.id;
                     hsps_arr.push(hsp);
-                })
-            })
+                });
+            });
         }, this));
         console.log('len '+hsps_arr.length);
-        aln_exporter.export_alignments(hsps_arr, "alignment-"+sequence_ids.length+"_hits");
+        aln_exporter.export_alignments(hsps_arr, 'alignment-'+sequence_ids.length+'_hits');
         return false;
     },
 
@@ -969,7 +967,7 @@ var SideBar = React.createClass({
                 }
             });
         }, this));
-        aln_exporter.export_alignments(hsps_arr, "alignment-"+sequence_ids.length+"_hits");
+        aln_exporter.export_alignments(hsps_arr, 'alignment-'+sequence_ids.length+'_hits');
         return false;
     },
 
@@ -981,29 +979,29 @@ var SideBar = React.createClass({
                 { this.props.shouldShowIndex && this.index() }
                 { this.downloads() }
             </div>
-        )
+        );
     },
 
     index: function () {
         return (
             <div className="index">
                 <div
-                  className="section-header">
-                  <h4>
-                      { this.summary() }
-                  </h4>
+                    className="section-header">
+                    <h4>
+                        { this.summary() }
+                    </h4>
                 </div>
                 <ul
                     className="nav hover-reset active-bold">
                     {
                         _.map(this.props.data.queries, _.bind(function (query) {
                             return (
-                                <li key={"Side_bar_"+query.id}>
+                                <li key={'Side_bar_'+query.id}>
                                     <a
                                         className="nowrap-ellipsis hover-bold"
-                                        href={"#Query_" + query.number}
-                                        title={"Query= " + query.id + ' ' + query.title}>
-                                        {"Query= " + query.id}
+                                        href={'#Query_' + query.number}
+                                        title={'Query= ' + query.id + ' ' + query.title}>
+                                        {'Query= ' + query.id}
                                     </a>
                                 </li>
                             );
@@ -1021,7 +1019,7 @@ var SideBar = React.createClass({
 
         return (
             program.toUpperCase() + ': ' +
-            numqueries + ' ' + (numqueries > 1 ? 'queries' : 'query') + ", " +
+            numqueries + ' ' + (numqueries > 1 ? 'queries' : 'query') + ', ' +
             numquerydb + ' ' + (numquerydb > 1 ? 'databases' : 'database')
         );
     },
@@ -1070,7 +1068,7 @@ var SideBar = React.createClass({
                                 name, alignment length, mismatches, gaps, identity,
                                 start and end coordinates, e value, bitscore, query
                                 coverage per subject and per HSP."
-                                href={"download/" + this.props.data.search_id + ".std_tsv"}>
+                                href={'download/' + this.props.data.search_id + '.std_tsv'}>
                                 Standard tabular report
                             </a>
                         </li>
@@ -1082,7 +1080,7 @@ var SideBar = React.createClass({
                                 accessions, and length; alignment details;
                                 taxonomy details of subject sequence(s) and
                                 query coverage per subject and per HSP."
-                                href={"download/" + this.props.data.search_id + ".full_tsv"}>
+                                href={'download/' + this.props.data.search_id + '.full_tsv'}>
                                 Full tabular report
                             </a>
                         </li>
@@ -1091,7 +1089,7 @@ var SideBar = React.createClass({
                         !this.props.data.imported_xml && <li>
                             <a className="download" data-toggle="tooltip"
                                 title="Results in XML format."
-                                href={"download/" + this.props.data.search_id + ".xml"}>
+                                href={'download/' + this.props.data.search_id + '.xml'}>
                                 Full XML report
                             </a>
                         </li>

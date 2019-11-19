@@ -58,7 +58,7 @@ class Graph {
         this._scale_x = d3.scale.linear()
             .domain([
                 0,
-                (d3.max([this.query.length,d3.max(this._data)]) * 1.05)
+                (d3.max([ this.query_length,d3.max(this._data)])* 1.05 )
             ])
             .range([0, this._width]);
         this._bins = d3.layout.histogram()
@@ -98,7 +98,7 @@ class Graph {
         var ticks = this._scale_x.ticks();
         var format = d3.format('.1f');
         var prefix = d3.formatPrefix(ticks[ticks.length - 1]);
-        var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
+        var suffixes = { amino_acid: 'aa', nucleic_acid: 'bp' };
         return function (d) {
             if (d === 0) { return ; }
             if (_.indexOf(ticks,d) >= 0) {
@@ -122,7 +122,7 @@ class Graph {
             var y0 = bin.length;
             bin.map(function (d,i) {
                 var y1 = bin.length - (i+1);
-                var len_index = _.findIndex(self.query.hits, {length: d});
+                var len_index = _.findIndex(self.query.hits, { length: d });
                 var item = {
                     value: d,
                     id: self.query.hits[len_index].id,
@@ -172,7 +172,7 @@ class Graph {
     draw_query_line() {
         var query_line = this.svg.append('g')
             .attr('class','query_line')
-            .attr('transform','translate('+(this._margin.left+this._scale_x(this.query.length))+',0)');
+            .attr('transform','translate('+(this._margin.left+this._scale_x(this.query_length))+',0)');
 
         query_line.append('rect')
             .attr('x',1)
