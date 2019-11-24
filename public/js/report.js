@@ -188,10 +188,7 @@ var Report = React.createClass({
                 <div className={this.shouldShowSidebar() ?
                     'col-md-9' : 'col-md-12'}>
                     { this.overviewJSX() }
-                    { this.atLeastOneHit()
-                        ? <Circos queries={this.state.queries}
-                            program={this.state.program} collapsed="true"/>
-                        : <span></span> }
+                    { this.circosJSX() }
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
@@ -235,6 +232,15 @@ var Report = React.createClass({
         );
     },
 
+    /**
+     * Return JSX for circos if we have at least one hit.
+     */
+    circosJSX: function () {
+        return this.atLeastOneHit()
+            ? <Circos queries={this.state.queries}
+                program={this.state.program} collapsed="true"/>
+            : <span></span>;
+    },
 
     // Controller //
 
