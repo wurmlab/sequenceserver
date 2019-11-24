@@ -86,24 +86,24 @@ var Report = React.createClass({
             $.getJSON(location.pathname + '.json')
                 .complete(function (jqXHR) {
                     switch (jqXHR.status) {
-                        case 202:
-                            var interval;
-                            if (intervals.length === 1) {
-                                interval = intervals[0];
-                            }
-                            else {
-                                interval = intervals.shift();
-                            }
-                            setTimeout(poll, interval);
-                            break;
-                        case 200:
-                            component.updateState(jqXHR.responseJSON);
-                            break;
-                        case 404:
-                        case 400:
-                        case 500:
-                            showErrorModal(jqXHR.responseJSON);
-                            break;
+                    case 202:
+                        var interval;
+                        if (intervals.length === 1) {
+                            interval = intervals[0];
+                        }
+                        else {
+                            interval = intervals.shift();
+                        }
+                        setTimeout(poll, interval);
+                        break;
+                    case 200:
+                        component.updateState(jqXHR.responseJSON);
+                        break;
+                    case 404:
+                    case 400:
+                    case 500:
+                        showErrorModal(jqXHR.responseJSON);
+                        break;
                     }
                 });
         }
@@ -189,18 +189,18 @@ var Report = React.createClass({
                     'col-md-9' : 'col-md-12'}>
                     { this.overviewJSX() }
                     { this.isHitsAvailable() 
-                    ? <Circos queries={this.state.queries}
-                        program={this.state.program} collapsed="true"/> 
-                    : <span></span> }
+                        ? <Circos queries={this.state.queries}
+                            program={this.state.program} collapsed="true"/>
+                        : <span></span> }
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
-                                <Query key={"Query_"+query.id}
+                                <Query key={'Query_'+query.id}
                                     program={this.state.program} querydb={this.state.querydb}
                                     query={query} num_queries={this.state.num_queries}
                                     veryBig={this.state.veryBig} selectHit={this.selectHit}
                                     imported_xml={this.state.imported_xml} />
-                                );
+                            );
                         }, this))
                     }
                 </div>
