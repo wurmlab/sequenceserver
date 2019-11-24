@@ -267,13 +267,12 @@ var Report = React.createClass({
     },
 
     /**
-     * Returns true if index should be shown in the sidebar.
-     *
-     * Index is not shown in the sidebar if there are more than eight queries
-     * in total.
+     * Returns true if index should be shown in the sidebar. Index is shown
+     * only for 2 and 8 queries.
      */
     shouldShowIndex: function () {
-        return this.state.queries.length <= 8;
+        var num_queries = this.state.queries.length;
+        return num_queries >= 2 && num_queries <= 8;
     },
 
     /**
