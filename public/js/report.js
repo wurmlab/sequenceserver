@@ -192,11 +192,9 @@ var Report = React.createClass({
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
-                                <Query key={'Query_'+query.id}
-                                    program={this.state.program} querydb={this.state.querydb}
-                                    query={query} num_queries={this.state.num_queries}
-                                    veryBig={this.state.veryBig} selectHit={this.selectHit}
-                                    imported_xml={this.state.imported_xml} />
+                                <Query key={'Query_'+query.id} query={query} showQueryCrumbs={this.state.num_queries > 1}
+                                    selectHit={this.selectHit} program={this.state.program} querydb={this.state.querydb}
+                                    veryBig={this.state.veryBig} imported_xml={this.state.imported_xml} />
                             );
                         }, this))
                     }
@@ -415,6 +413,10 @@ var Query = React.createClass({
         return "Query_" + this.props.query.number;
     },
 
+    queryLength: function () {
+        return this.props.query.length;
+    },
+
     /**
      * Returns number of hits.
      */
@@ -436,16 +438,16 @@ var Query = React.createClass({
     },
 
     headerJSX: function () {
+        var meta = `length: ${this.queryLength().toLocaleString()}`;
+        if (this.props.showQueryCrumbs) {
+            meta = `query ${this.props.query.number}, ` + meta;
+        }
         return <div className="section-header">
             <h3>
                 Query= {this.props.query.id}&nbsp;
                 <small>{this.props.query.title}</small>
             </h3>
-            <span className="label label-reset pos-label"
-                title={'Query' + this.props.query.number + '.'}
-                data-toggle="tooltip">
-                {this.props.query.number + '/' + this.props.num_queries}
-            </span>
+            <span className="label label-reset pos-label">{ meta }</span>
         </div>;
     },
 
@@ -458,13 +460,14 @@ var Query = React.createClass({
                 {
                     _.map(this.props.query.hits, _.bind(function (hit) {
                         return (
-                            <Hit hit={hit}
-                                key={'HIT_' + hit.number}
+                            <Hit key={'HIT_' + hit.number} hit={hit}
                                 algorithm={this.props.program}
                                 querydb={this.props.querydb}
                                 query={this.props.query}
                                 imported_xml={this.props.imported_xml}
-                                selectHit={this.props.selectHit} />
+                                selectHit={this.props.selectHit}
+                                showHitCrumbs={this.numhits() > 1}
+                                showQueryCrumbs={this.props.showQueryCrumbs} />
                         );
                     }, this))
                 }
@@ -474,10 +477,6 @@ var Query = React.createClass({
 
     noHitsJSX: function () {
         return <div className="section-content">
-            <p>
-                Query length: {this.props.query.length}
-            </p>
-            <br />
             <br />
             <p>
                 <strong> ****** No hits found ****** </strong>
@@ -558,7 +557,7 @@ var Hit = React.createClass({
     /**
      * Returns length of the hit sequence.
      */
-    length: function () {
+    hitLength: function () {
         return this.props.hit.length;
     },
 
@@ -615,7 +614,7 @@ var Hit = React.createClass({
 
     // Return JSX for view sequence button.
     viewSequenceButton: function () {
-        if (this.length() > 10000) {
+        if (this.hitLength() > 10000) {
             return (
                 <button
                     className="btn btn-link view-sequence disabled"
@@ -645,22 +644,30 @@ var Hit = React.createClass({
     },
 
     headerJSX: function () {
+        var meta = `length: ${this.hitLength().toLocaleString()}`;
+
+        if (this.props.showQueryCrumbs && this.props.showHitCrumbs) {
+            // Multiper queries, multiple hits
+            meta = `hit ${this.props.hit.number} of query ${this.props.query.number}, ` + meta;
+        }
+        else if (this.props.showQueryCrumbs && !this.props.showHitCrumbs) {
+            // Multiple queries, single hit
+            meta = `the only hit of query ${this.props.query.number}, ` + meta;
+        }
+        else if (!this.props.showQueryCrumbs && this.props.showHitCrumbs) {
+            // Single query, multiple hits
+            meta = `hit ${this.props.hit.number}, ` + meta;
+        }
+
         return <div className="section-header">
-            <h4 data-toggle="collapse"
-                data-target={this.domID() + '_content'}>
+            <h4 data-toggle="collapse" data-target={this.domID() + '_content'}>
                 <i className="fa fa-chevron-down"></i>&nbsp;
                 <span>
                     {this.props.hit.id}&nbsp;
                     <small>{this.props.hit.title}</small>
                 </span>
             </h4>
-            <span className="label label-reset pos-label"
-                title={'Query ' + this.props.query.number + '. Hit '
-                    + this.props.hit.number + ' of '
-                    + this.props.query.hits.length + '.'}
-                data-toggle="tooltip">
-                {this.props.hit.number + '/' + this.props.query.hits.length}
-            </span>
+            <span className="label label-reset pos-label">{ meta }</span>
         </div>;
     },
 
