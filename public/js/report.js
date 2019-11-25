@@ -429,59 +429,60 @@ var Query = React.createClass({
             <div className="resultn" id={this.domID()}
                 data-query-len={this.props.query.length}
                 data-algorithm={this.props.program}>
-                <div className="section-header">
-                    <h3>
-                        Query= {this.props.query.id}
-                        &nbsp;
-                        <small>
-                            {this.props.query.title}
-                        </small>
-                    </h3>
-                    <span
-                        className="label label-reset pos-label"
-                        title={"Query" + this.props.query.number + "."}
-                        data-toggle="tooltip">
-                        {this.props.query.number + "/" + this.props.num_queries}
-                    </span>
-                </div>
-                {this.numhits() &&
-                    (
-                        <div className="section-content">
-                            <HitsOverview key={"GO_"+this.props.query.number} query={this.props.query} program={this.props.program} collapsed={this.props.veryBig}/>
-                            <LengthDistribution key={"LD_"+this.props.query.id} query={this.props.query} algorithm={this.props.program} collapsed="true"/>
-                            <HitsTable key={"HT_"+this.props.query.number} query={this.props.query} imported_xml={this.props.imported_xml} />
-                            <div id="hits">
-                                {
-                                    _.map(this.props.query.hits, _.bind(function (hit) {
-                                        return (
-                                            <Hit hit={hit}
-                                                key={"HIT_"+hit.number}
-                                                algorithm={this.props.program}
-                                                querydb={this.props.querydb}
-                                                query={this.props.query}
-                                                imported_xml={this.props.imported_xml}
-                                                selectHit={this.props.selectHit}/>
-                                        );
-                                    }, this))
-                                }
-                            </div>
-                        </div>
-                    ) || (
-                        <div
-                            className="section-content">
-                            <p>
-                                Query length: {this.props.query.length}
-                            </p>
-                            <br/>
-                            <br/>
-                            <p>
-                                <strong> ****** No hits found ****** </strong>
-                            </p>
-                        </div>
-                    )
+                { this.headerJSX() }
+                { this.numhits() && this.hitsListJSX() || this.noHitsJSX() }
+            </div>
+        );
+    },
+
+    headerJSX: function () {
+        return <div className="section-header">
+            <h3>
+                Query= {this.props.query.id}&nbsp;
+                <small>{this.props.query.title}</small>
+            </h3>
+            <span className="label label-reset pos-label"
+                title={'Query' + this.props.query.number + '.'}
+                data-toggle="tooltip">
+                {this.props.query.number + '/' + this.props.num_queries}
+            </span>
+        </div>;
+    },
+
+    hitsListJSX: function () {
+        return <div className="section-content">
+            <HitsOverview key={'GO_' + this.props.query.number} query={this.props.query} program={this.props.program} collapsed={this.props.veryBig} />
+            <LengthDistribution key={'LD_' + this.props.query.id} query={this.props.query} algorithm={this.props.program} collapsed="true" />
+            <HitsTable key={'HT_' + this.props.query.number} query={this.props.query} imported_xml={this.props.imported_xml} />
+            <div id="hits">
+                {
+                    _.map(this.props.query.hits, _.bind(function (hit) {
+                        return (
+                            <Hit hit={hit}
+                                key={'HIT_' + hit.number}
+                                algorithm={this.props.program}
+                                querydb={this.props.querydb}
+                                query={this.props.query}
+                                imported_xml={this.props.imported_xml}
+                                selectHit={this.props.selectHit} />
+                        );
+                    }, this))
                 }
             </div>
-        )
+        </div>;
+    },
+
+    noHitsJSX: function () {
+        return <div className="section-content">
+            <p>
+                Query length: {this.props.query.length}
+            </p>
+            <br />
+            <br />
+            <p>
+                <strong> ****** No hits found ****** </strong>
+            </p>
+        </div>;
     },
 
     shouldComponentUpdate: function (nextProps, nextState) {
