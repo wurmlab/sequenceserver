@@ -28,7 +28,10 @@ class Graph {
         this.query = props.query;
         this._seq_type = Helpers.get_seq_type(props.algorithm);
         this.svg_container = $svg_container;
-
+        this.query_length = this.query.length;
+        if (props.algorithm == 'blastx') {
+            this.query_length = this.query.length / 3;
+        }
         this._margin = {top: 30, right: 25, bottom: 55, left: 12.5};
         this.initiate($svg_container.width(), $svg_container.height());
     }
