@@ -28,7 +28,10 @@ class Graph {
         this.query = props.query;
         this._seq_type = Helpers.get_seq_type(props.algorithm);
         this.svg_container = $svg_container;
-
+        this.query_length = this.query.length;
+        if (props.algorithm == 'blastx') {
+            this.query_length = this.query.length / 3;
+        }
         this._margin = {top: 30, right: 25, bottom: 55, left: 12.5};
         this.initiate($svg_container.width(), $svg_container.height());
     }
@@ -58,7 +61,7 @@ class Graph {
         this._scale_x = d3.scale.linear()
             .domain([
                 0,
-                (d3.max([this.query.length,d3.max(this._data)]) * 1.05)
+                (d3.max([this.query_length,d3.max(this._data)]) * 1.05)
             ])
             .range([0, this._width]);
         this._bins = d3.layout.histogram()
@@ -172,7 +175,7 @@ class Graph {
     draw_query_line() {
         var query_line = this.svg.append('g')
             .attr('class','query_line')
-            .attr('transform','translate('+(this._margin.left+this._scale_x(this.query.length))+',0)');
+            .attr('transform','translate('+(this._margin.left+this._scale_x(this.query_length))+',0)');
 
         query_line.append('rect')
             .attr('x',1)
