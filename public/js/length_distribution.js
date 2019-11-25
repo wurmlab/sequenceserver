@@ -194,8 +194,8 @@ class Graph {
     draw_axes() {
         var space, len;
         len = this._scale_y.ticks().length;
-        if (len >= 8) {
-            space = 8;
+        if (len >= 5) {
+            space = 5;
         } else {
             space = len;
         }
