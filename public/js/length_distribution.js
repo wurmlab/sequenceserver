@@ -202,11 +202,20 @@ class Graph {
         } else {
             space = len;
         }
+        var x = this._scale_x.ticks();
+        var tick_difference = (x[x.length - 1]) / (x.length - 1);
+        var last_tick = Math.ceil((d3.max([this.query_length, d3.max(this._data)])) / tick_difference) * tick_difference;
+        var ticks_arr = [];
+        var t_diff = Math.ceil((last_tick / 20) / 5) * 5;
+        for (i = 0; i <= last_tick; i += t_diff) {
+            ticks_arr.push(i);
+        }
         var formatter = this.tick_formatter(this._seq_type.subject_seq_type);
         var x_axis = d3.svg.axis()
             .scale(this._scale_x)
             .orient('bottom')
             .ticks(50)
+            .tickValues(ticks_arr)
             .tickFormat(formatter);
         var y_axis = d3.svg.axis()
             .scale(this._scale_y)
