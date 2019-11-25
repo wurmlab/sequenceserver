@@ -637,40 +637,40 @@ var Hit = React.createClass({
 
     render: function () {
         return (
-            <div className="hit" id={this.domID()}
-                data-hit-def={this.props.hit.id} data-hit-evalue={this.props.hit.evalue}
-                data-hit-len={this.props.hit.length}>
-                <div className="section-header">
-                    <h4 data-toggle="collapse"
-                        data-target={this.domID() + "_content"}>
-                        <i className="fa fa-chevron-down"></i>
-                        &nbsp;
-                        <span>
-                            {this.props.hit.id}
-                            &nbsp;
-                            <small>
-                                {this.props.hit.title}
-                            </small>
-                        </span>
-                    </h4>
-                    <span className="label label-reset pos-label"
-                        title={"Query " + this.props.query.number + ". Hit "
-                              + this.props.hit.number + " of "
-                              + this.props.query.hits.length + "."}
-                      data-toggle="tooltip">
-                      {this.props.hit.number + "/" + this.props.query.hits.length}
-                    </span>
-                </div>
-                <div id={this.domID() + "_content"}
-                    className="section-content collapse in">
-                    { this.hitLinks() }
-                    <HSPOverview key={"kablammo"+this.props.query.id}
-                        query={this.props.query} hit={this.props.hit}
-                        algorithm={this.props.algorithm}/>
-                    { this.hspListJSX() }
-                </div>
+            <div className="hit" id={this.domID()} data-hit-def={this.props.hit.id}
+                data-hit-len={this.props.hit.length} data-hit-evalue={this.props.hit.evalue}>
+                { this.headerJSX() } { this.contentJSX() }
             </div>
         );
+    },
+
+    headerJSX: function () {
+        return <div className="section-header">
+            <h4 data-toggle="collapse"
+                data-target={this.domID() + '_content'}>
+                <i className="fa fa-chevron-down"></i>&nbsp;
+                <span>
+                    {this.props.hit.id}&nbsp;
+                    <small>{this.props.hit.title}</small>
+                </span>
+            </h4>
+            <span className="label label-reset pos-label"
+                title={'Query ' + this.props.query.number + '. Hit '
+                    + this.props.hit.number + ' of '
+                    + this.props.query.hits.length + '.'}
+                data-toggle="tooltip">
+                {this.props.hit.number + '/' + this.props.query.hits.length}
+            </span>
+        </div>;
+    },
+
+    contentJSX: function () {
+        return <div id={this.domID() + '_content'} className="section-content collapse in">
+            { this.hitLinks() }
+            <HSPOverview key={'kablammo' + this.props.query.id} query={this.props.query}
+                hit={this.props.hit} algorithm={this.props.algorithm} />
+            { this.hspListJSX() }
+        </div>;
     },
 
     hitLinks: function () {
