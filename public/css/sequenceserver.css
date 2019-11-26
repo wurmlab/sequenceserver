@@ -317,6 +317,10 @@ input[name="advanced"] {
   border-bottom-left-radius: 4px !important;
 }
 
+input[type=checkbox] {
+  vertical-align: top;
+}
+
 #method {
   letter-spacing: 1px;
 }
@@ -435,6 +439,7 @@ input[name="advanced"] {
 .hit-links * {
   padding-left: 3px;
   letter-spacing: 1px;
+  vertical-align: baseline;
 }
 .btn-link {
   border: none;
