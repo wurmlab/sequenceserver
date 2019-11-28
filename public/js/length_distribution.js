@@ -64,8 +64,8 @@ class Graph {
         this._scale_x = d3.scale.linear()
             .domain([
                 0,
-                (d3.max([this.query_length,d3.max(this._data)]) * 1.05)
-            ])
+                (d3.max([this.query_length, d3.max(this._data)]) * 1.01)
+            ]).nice()
             .range([0, this._width]);
         this._bins = d3.layout.histogram()
             .range(this._scale_x.domain())
@@ -73,7 +73,7 @@ class Graph {
             (this._data);
         this._scale_y = d3.scale.linear()
             .domain([0, d3.max(this._bins, function(d) { return d.length; })])
-            .range([this._height, 0]);
+            .range([this._height, 0]).nice();
     }
 
     hit_lengths() {
@@ -215,6 +215,7 @@ class Graph {
             .scale(this._scale_y)
             .orient('left')
             .tickValues(this._scale_y.ticks(space))
+            .outerTickSize(0)
             .tickFormat(function (e) {
                 if (Math.floor(e) != e) {
                     return ;
