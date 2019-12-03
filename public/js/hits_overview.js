@@ -39,7 +39,10 @@ class Graph {
                 _hsp.hspStart = hsp.qstart;
                 _hsp.hspEnd = hsp.qend;
                 _hsp.hspFrame = hsp.sframe;
-                _hsp.hspId = 'Query_'+number+'_hit_'+hit.number+'_hsp_'+hsp.number;
+                _hsp.hspId = 'Query_' + number + '_hit_' + hit.number + '_hsp_' + hsp.number;
+                _hsp.hspIdentity = hsp.identity;
+                _hsp.hspGaps = hsp.gaps;
+                _hsp.hspPositives = hsp.positives;
                 _hsps.push(_hsp);
             });
             _hsps.hitId = hit.id;
@@ -355,7 +358,9 @@ class Graph {
                             .attr('xlink:href', '#' + q_i + '_hit_' + (i+1))
                             .append('rect')
                             .attr('data-toggle', 'tooltip')
-                            .attr('title', d.hitId + '<br>E value: '+Helpers.prettify_evalue(v.hspEvalue))
+                            .attr('title', d.hitId + '<br>E value: ' + Helpers.prettify_evalue(v.hspEvalue) +
+                                '<br>Identity: ' + v.hspIdentity + '<br>Gaps: ' + v.hspGaps +
+                            '<br>Positives: ' + v.hspPositives )
                             .attr('class','bar')
                             .attr('x', function (d) {
                                 return x(d.hspStart);
