@@ -429,8 +429,8 @@ class Graph {
         }, this));
         _.each(this.chords_arr, function (obj) {
             $('#' + obj[0] + '_' + obj[3]).attr('data-toggle', 'tooltip')
-                .attr('title', 'Identity: ' + ((obj[7].identity / obj[7].length) * 100).toFixed(2) + '%'
-                    + '<br> E value: ' + Helpers.prettify_evalue(obj[7].evalue));
+                .attr('title', 'Identity: ' + ((obj[7].identity / obj[7].length) * 100).toFixed(2) + '%' + '<br>E value: ' + Helpers.prettify_evalue(obj[7].evalue) +
+                    '<br>Gaps: ' + obj[7].gaps + '<br>Positives: ' + obj[7].positives);
         });
         $('[data-toggle="tooltip"]').tooltip({
             'placement': 'top',
