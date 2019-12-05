@@ -2,6 +2,7 @@ import d3 from 'd3';
 import _ from 'underscore';
 import Grapher from './grapher';
 import * as Helpers from './visualisation_helpers';
+import Utils from './utils';
 
 class Graph {
 
@@ -354,14 +355,19 @@ class Graph {
                             }
                         }
 
+                        var alt_tooltip = d.hitId + '<br>E value: ' + Helpers.prettify_evalue(v.hspEvalue) +
+                            '<br>Identity: ' + Utils.inPercentage(v.hspIdentity, v.hspLength) + '<br>Gaps: '
+                            + v.hspGaps;
+                        if (algorithm == 'blastp' || algorithm == 'tblastn' || algorithm == 'blastx') {
+                            alt_tooltip = alt_tooltip + `<br>Positives: ${Utils.inPercentage(v.hspPositives, v.hspLength)}`;
+                        }
+
                         // Draw the rectangular hit tracks itself.
                         d3.select(this)
                             .attr('xlink:href', '#' + q_i + '_hit_' + (i+1))
                             .append('rect')
                             .attr('data-toggle', 'tooltip')
-                            .attr('title', d.hitId + '<br>E value: ' + Helpers.prettify_evalue(v.hspEvalue) +
-                            '<br>Identity: ' + ((v.hspIdentity / v.hspLength) * 100).toFixed(2) + '%' + '<br>Gaps: '
-                            + v.hspGaps + '<br>Positives: ' + v.hspPositives)
+                            .attr('title', alt_tooltip)
                             .attr('class','bar')
                             .attr('x', function (d) {
                                 return x(d.hspStart);
