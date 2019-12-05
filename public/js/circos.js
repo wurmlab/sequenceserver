@@ -4,6 +4,7 @@ import circosJs from 'nicgirault/circosJs';
 
 import Grapher from './grapher';
 import * as Helpers from './visualisation_helpers';
+import Utils from './utils';
 
 class Graph {
     static name() {
@@ -26,6 +27,7 @@ class Graph {
         this.queries = props.queries;
         this.svgContainer = $svgContainer;
         this.seq_type = Helpers.get_seq_type(props.program);
+        this.algorithm = props.program;
         this.initiate();
     }
 
@@ -427,10 +429,20 @@ class Graph {
                     }, this));
             }
         }, this));
+        var algorithm = this.algorithm;
         _.each(this.chords_arr, function (obj) {
             $('#' + obj[0] + '_' + obj[3]).attr('data-toggle', 'tooltip')
-                .attr('title', 'Identity: ' + ((obj[7].identity / obj[7].length) * 100).toFixed(2) + '%' + '<br>E value: ' + Helpers.prettify_evalue(obj[7].evalue) +
-                    '<br>Gaps: ' + obj[7].gaps + '<br>Positives: ' + obj[7].positives);
+                .attr('title', function () {
+                    var alt_tooltip = 'Identity: ' + Utils.inPercentage(obj[7].identity, obj[7].length) +
+                        '<br>E value: ' + Helpers.prettify_evalue(obj[7].evalue) +
+                        '<br>Gaps: ' + obj[7].gaps;
+                    if (algorithm == 'blastp' || algorithm == 'tblastn' || algorithm == 'blastx') {
+                        return alt_tooltip = alt_tooltip +
+                            `<br>Positives: ${Utils.inPercentage(obj[7].positives, obj[7].length)}`;
+                    } else {
+                        return alt_tooltip;
+                    }
+                });
         });
         $('[data-toggle="tooltip"]').tooltip({
             'placement': 'top',
