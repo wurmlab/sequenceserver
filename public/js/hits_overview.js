@@ -356,11 +356,12 @@ class Graph {
                         }
 
                         var alt_tooltip = d.hitId + '<br>E value: ' + Helpers.prettify_evalue(v.hspEvalue) +
-                            '<br>Identity: ' + Utils.inPercentage(v.hspIdentity, v.hspLength) + '<br>Gaps: '
-                            + v.hspGaps;
-                        if (algorithm == 'blastp' || algorithm == 'tblastn' || algorithm == 'blastx') {
-                            alt_tooltip = alt_tooltip + `<br>Positives: ${Utils.inPercentage(v.hspPositives, v.hspLength)}`;
+                            `<br>Identities: ${Utils.inPercentage(v.hspIdentity, v.hspLength)}`;
+                        // if chosen algorithm was blastn, the tooltip won't show the Positives% value in the tooltip
+                        if (algorithm != 'blastn'){
+                            alt_tooltip += `<br>Positives: ${Utils.inPercentage(v.hspPositives, v.hspLength)}`;
                         }
+                        alt_tooltip += `, Gaps: ${Utils.inPercentage(v.hspGaps, v.hspLength)}`;
 
                         // Draw the rectangular hit tracks itself.
                         d3.select(this)
