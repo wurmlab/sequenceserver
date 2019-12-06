@@ -438,8 +438,7 @@ class Graph {
                     var alt_tooltip = 'E value: ' + Helpers.prettify_evalue(obj[7].evalue) +
                     `, Identities: ${Utils.inPercentage(obj[7].identity, obj[7].length)}`;
                     // Positives (for protein alignment).
-                    if (algorithm == 'blastp' || algorithm == 'blastx' ||
-                        algorithm == 'tblastn' || algorithm == 'tblastx') {
+                    if (algorithm != 'blastn') {
                         alt_tooltip += `<br>Positives: ${Utils.inPercentage(obj[7].positives, obj[7].length)}`;
                     }
                     // Gaps. My understanding is that identities and gaps should add up to 100%.
