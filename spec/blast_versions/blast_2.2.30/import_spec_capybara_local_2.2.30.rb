@@ -1,12 +1,16 @@
 describe 'report generated from imported XML', type: :feature, js: true do
-  # Test suite to test features of imported XML report.
-  # Fasta files used for testing consist of TP53 and COX41 protein/nucleotide sequences for reproducibility. Each query was limited to 20 hits to not to overload the test suite.
-  # BLAST 2.2.30 displays hits in a different order than versions 2.2.31 upwards for protein queries (BLASTP, TBLASTN), hence the test takes different files for comparison.
+  # Test suite to test features of imported XML report. Fasta files used for
+  # testing consist of TP53 and COX41 protein/nucleotide sequences for
+  # reproducibility. Each query was limited to 20 hits to not to overload the
+  # test suite. BLAST 2.2.30 displays hits in a different order than versions
+  # 2.2.31 upwards for protein queries (BLASTP, TBLASTN), hence the test takes
+  # different files for comparison.
 
   # BLASTP test scenarios
   it 'loads BLASTP XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('blast_2.2.30/blastp')
-    # Click on the first hit Alignment download button on the page and wait for the download to finish.
+    # Click on the first hit Alignment download button on the page and wait for
+    # the download to finish.
 
     page.execute_script("$('.download-aln:eq(0)').click()")
     wait_for_download
@@ -15,7 +19,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the Alignment of all hits download and compare the downloaded content
+    # Click on the Alignment of all hits download and compare the downloaded
+    # content
 
     page.click_link('Alignment of all hits')
     wait_for_download
@@ -24,7 +29,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Check the cheboxes of indicted hits and click on the download of Alignment of selected hits and compare the downloaded content
+    # Check the cheboxes of indicted hits and click on the download of Alignment
+    # of selected hits and compare the downloaded content
 
     page.check('Query_1_hit_1_checkbox')
     page.check('Query_1_hit_2_checkbox')
@@ -40,7 +46,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads BLASTP XML and tests alignment overiview and hit PNG/SVG download' do
     access_by_uuid('blast_2.2.30/blastp')
 
-    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    # Click on the PNG/SVG download button of the alignment overview and compare
+    # the downloaded content.
 
     page.execute_script("$('.export-to-png:eq(0)').click()")
     wait_for_download
@@ -54,7 +61,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the PNG/SVG download button of the first hit available and compare the downloaded content.
+    # Click on the PNG/SVG download button of the first hit available and
+    # compare the downloaded content.
     page.execute_script("$('.export-to-png:eq(1)').click()")
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_120407068_ref_NP_000537_3.png')
@@ -70,8 +78,10 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads BLASTP XML and tests Circos download' do
     access_by_uuid('blast_2.2.30/blastp')
 
-    # Click on the Circos expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
-    page.should have_content('Circos')
+    # Click on the Circos expanding button, wait for animation, click on the
+    # download of PNG/SVG file and test that it initiated a file download in a
+    # right format.
+    page.should have_content('Chord diagram: queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
@@ -88,7 +98,9 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads BLASTP XML and tests Length distribution download' do
     access_by_uuid('blast_2.2.30/blastp')
 
-    # Click on the Length distribution expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
+    # Click on the Length distribution expanding button, wait for animation,
+    # click on the download of PNG/SVG file and test that it initiated a file
+    # download in a right format.
     page.should have_content('Length distribution of hits')
     page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
     sleep 1
@@ -109,7 +121,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads BLASTX XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('blast_2.2.30/blastx')
 
-    # Click on the first Alignment download button on the page and wait for the download to finish.
+    # Click on the first Alignment download button on the page and wait for the
+    # download to finish.
     page.execute_script("$('.download-aln:eq(0)').click()")
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1486783307_gb_AYF55702_1.txt')
@@ -117,7 +130,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the Alignment of all hits download and compare the downloaded content
+    # Click on the Alignment of all hits download and compare the downloaded
+    # content
 
     page.click_link('Alignment of all hits')
     wait_for_download
@@ -126,7 +140,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Select four hit checkboxes and click on the Alignment of selected hits. Compare the downloaded content.
+    # Select four hit checkboxes and click on the Alignment of selected hits.
+    # Compare the downloaded content.
     page.check('Query_1_hit_3_checkbox')
     page.check('Query_1_hit_4_checkbox')
     page.check('Query_2_hit_3_checkbox')
@@ -143,7 +158,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads BLASTX XML and tests hit PNG/SVG download' do
     access_by_uuid('blast_2.2.30/blastx')
 
-    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    # Click on the PNG/SVG download button of the alignment overview and compare
+    # the downloaded content.
     page.execute_script("$('.export-to-png:eq(0)').click()")
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
@@ -156,7 +172,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the PNG/SVG download button of the first hit available and compare the downloaded content.
+    # Click on the PNG/SVG download button of the first hit available and
+    # compare the downloaded content.
     page.execute_script("$('.export-to-png:eq(1)').click()")
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.png')
@@ -171,9 +188,11 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
   it 'loads BLASTX XML and tests Circos download' do
     access_by_uuid('blast_2.2.30/blastx')
-    # Click on the Circos expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
+    # Click on the Circos expanding button, wait for animation, click on the
+    # download of PNG/SVG file and test that it initiated a file download in a
+    # right format.
 
-    page.should have_content('Circos')
+    page.should have_content('Chord diagram: queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
@@ -189,7 +208,9 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
   it 'loads BLASTX XML and tests Length distribution download' do
     access_by_uuid('blast_2.2.30/blastx')
-    # Click on the Length distribution expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
+    # Click on the Length distribution expanding button, wait for animation,
+    # click on the download of PNG/SVG file and test that it initiated a file
+    # download in a right format.
 
     page.should have_content('Length distribution of hits')
     page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
@@ -211,7 +232,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads BLASTN XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('blast_2.2.30/blastn')
 
-    # Click on the first Alignment download button on the page and wait for the download to finish.
+    # Click on the first Alignment download button on the page and wait for the
+    # download to finish.
 
     page.execute_script("$('.download-aln:eq(0)').click()")
     wait_for_download
@@ -220,7 +242,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the Alignment of all hits download and compare the downloaded content
+    # Click on the Alignment of all hits download and compare the downloaded
+    # content
 
     page.click_link('Alignment of all hits')
     wait_for_download
@@ -229,7 +252,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Select four hit checkboxes and click on the Alignment of selected hits. Compare the downloaded content.
+    # Select four hit checkboxes and click on the Alignment of selected hits.
+    # Compare the downloaded content.
     page.check('Query_1_hit_5_checkbox')
     page.check('Query_1_hit_6_checkbox')
     page.check('Query_2_hit_5_checkbox')
@@ -245,7 +269,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads BLASTN XML and tests alignment overview and hit PNG/SVG download' do
     access_by_uuid('blast_2.2.30/blastn')
 
-    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    # Click on the PNG/SVG download button of the alignment overview and compare
+    # the downloaded content.
     page.execute_script("$('.export-to-png:eq(0)').click()")
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
@@ -257,7 +282,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
 
     clear_downloads
-    # Click on the PNG download button of the first hit available and compare the downloaded content.
+    # Click on the PNG download button of the first hit available and compare
+    # the downloaded content.
 
     page.execute_script("$('.export-to-png:eq(2)').click()")
     wait_for_download
@@ -265,7 +291,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the SVG download button of the first hit available and compare the downloaded content.
+    # Click on the SVG download button of the first hit available and compare
+    # the downloaded content.
 
     page.execute_script("$('.export-to-svg:eq(2)').click()")
     wait_for_download
@@ -275,9 +302,11 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
   it 'loads BLASTN XML and tests Circos download' do
     access_by_uuid('blast_2.2.30/blastn')
-    # Click on the Circos expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
+    # Click on the Circos expanding button, wait for animation, click on the
+    # download of PNG/SVG file and test that it initiated a file download in a
+    # right format.
 
-    page.should have_content('Circos')
+    page.should have_content('Chord diagram: queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
@@ -293,7 +322,9 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
   it 'loads BLASTN XML and tests Length distribution download' do
     access_by_uuid('blast_2.2.30/blastn')
-    # Click on the Length distribution expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
+    # Click on the Length distribution expanding button, wait for animation,
+    # click on the download of PNG/SVG file and test that it initiated a file
+    # download in a right format.
 
     page.should have_content('Length distribution of hits')
     page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
@@ -314,7 +345,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads TBLASTN XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('blast_2.2.30/tblastn')
 
-    # Click on the first Alignment download button on the page and wait for the download to finish.
+    # Click on the first Alignment download button on the page and wait for the
+    # download to finish.
 
     page.execute_script("$('.download-aln:eq(0)').click()")
     wait_for_download
@@ -323,7 +355,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the Alignment of all hits download and compare the downloaded content
+    # Click on the Alignment of all hits download and compare the downloaded
+    # content
 
     page.click_link('Alignment of all hits')
     wait_for_download
@@ -332,7 +365,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Select four hit checkboxes and click on the Alignment of selected hits. Compare the downloaded content.
+    # Select four hit checkboxes and click on the Alignment of selected hits.
+    # Compare the downloaded content.
     page.check('Query_1_hit_7_checkbox')
     page.check('Query_1_hit_8_checkbox')
     page.check('Query_2_hit_7_checkbox')
@@ -348,7 +382,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads TBLASTN XML and tests alignment overview and hit PNG/SVG download' do
     access_by_uuid('blast_2.2.30/tblastn')
 
-    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    # Click on the PNG/SVG download button of the alignment overview and compare
+    # the downloaded content.
 
     page.execute_script("$('.export-to-png:eq(0)').click()")
     wait_for_download
@@ -362,7 +397,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the PNG download button of the first hit available and compare the downloaded content.
+    # Click on the PNG download button of the first hit available and compare
+    # the downloaded content.
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
     wait_for_download
@@ -370,7 +406,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the SVG download button of the first hit available and compare the downloaded content.
+    # Click on the SVG download button of the first hit available and compare
+    # the downloaded content.
 
     page.execute_script("$('.export-to-svg:eq(1)').click()")
     wait_for_download
@@ -380,9 +417,11 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
   it 'loads TBLASTN XML and tests Circos download' do
     access_by_uuid('blast_2.2.30/tblastn')
-    # Click on the Circos expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
+    # Click on the Circos expanding button, wait for animation, click on the
+    # download of PNG/SVG file and test that it initiated a file download in a
+    # right format.
 
-    page.should have_content('Circos')
+    page.should have_content('Chord diagram: queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
@@ -399,7 +438,9 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
   it 'loads TBLASTN XML and tests Length distribution download' do
     access_by_uuid('blast_2.2.30/tblastn')
-    # Click on the Length distribution expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
+    # Click on the Length distribution expanding button, wait for animation,
+    # click on the download of PNG/SVG file and test that it initiated a file
+    # download in a right format.
 
     page.should have_content('Length distribution of hits')
     page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
@@ -420,7 +461,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
   it 'loads TBLASTX XML and tests hit alignment and sidebar Alignment download' do
     access_by_uuid('blast_2.2.30/tblastx')
-    # Click on the first Alignment download button on the page and wait for the download to finish.
+    # Click on the first Alignment download button on the page and wait for the
+    # download to finish.
 
     page.execute_script("$('.download-aln:eq(1)').click()")
     wait_for_download
@@ -429,7 +471,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the Alignment of all hits download and compare the downloaded content
+    # Click on the Alignment of all hits download and compare the downloaded
+    # content
 
     page.click_link('Alignment of all hits')
     wait_for_download
@@ -438,7 +481,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Select four hit checkboxes and click on the Alignment of selected hits. Compare the downloaded content.
+    # Select four hit checkboxes and click on the Alignment of selected hits.
+    # Compare the downloaded content.
     page.check('Query_1_hit_9_checkbox')
     page.check('Query_1_hit_10_checkbox')
     page.check('Query_2_hit_9_checkbox')
@@ -454,7 +498,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
   it 'loads TBLASTX XML and tests hit PNG/SVG download' do
     access_by_uuid('blast_2.2.30/tblastx')
 
-    # Click on the PNG/SVG download button of the alignment overview and compare the downloaded content.
+    # Click on the PNG/SVG download button of the alignment overview and compare
+    # the downloaded content.
     page.execute_script("$('.export-to-png:eq(0)').click()")
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
@@ -467,7 +512,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the PNG download button of the first hit available and compare the downloaded content.
+    # Click on the PNG download button of the first hit available and compare
+    # the downloaded content.
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
     wait_for_download
@@ -475,7 +521,8 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     clear_downloads
 
-    # Click on the SVG download button of the first hit available and compare the downloaded content.
+    # Click on the SVG download button of the first hit available and compare
+    # the downloaded content.
 
     page.execute_script("$('.export-to-svg:eq(1)').click()")
     wait_for_download
@@ -485,9 +532,11 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
   it 'loads TBLASTX XML and tests Circos download' do
     access_by_uuid('blast_2.2.30/tblastx')
-    # Click on the Circos expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
+    # Click on the Circos expanding button, wait for animation, click on the
+    # download of PNG/SVG file and test that it initiated a file download in a
+    # right format.
 
-    page.should have_content('Circos')
+    page.should have_content('Chord diagram: queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
@@ -504,7 +553,9 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
   it 'loads TBLASTX XML and tests Length distribution download' do
     access_by_uuid('blast_2.2.30/tblastx')
-    # Click on the Length distribution expanding button, wait for animation, click on the download of PNG/SVG file and test that it initiated a file download in a right format.
+    # Click on the Length distribution expanding button, wait for animation,
+    # click on the download of PNG/SVG file and test that it initiated a file
+    # download in a right format.
 
     page.should have_content('Length distribution of hits')
     page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
