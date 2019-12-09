@@ -8,7 +8,7 @@ import Utils from './utils';
 
 class Graph {
     static name() {
-        return 'Circos';
+        return 'Chord diagram: queries and their top hits';
     }
 
     static className() {
