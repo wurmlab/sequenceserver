@@ -4,10 +4,11 @@ import circosJs from 'nicgirault/circosJs';
 
 import Grapher from './grapher';
 import * as Helpers from './visualisation_helpers';
+import Utils from './utils';
 
 class Graph {
     static name() {
-        return 'Circos';
+        return 'Chord diagram: queries and their top hits';
     }
 
     static className() {
@@ -26,6 +27,7 @@ class Graph {
         this.queries = props.queries;
         this.svgContainer = $svgContainer;
         this.seq_type = Helpers.get_seq_type(props.program);
+        this.algorithm = props.program;
         this.initiate();
     }
 
@@ -427,10 +429,22 @@ class Graph {
                     }, this));
             }
         }, this));
+        var algorithm = this.algorithm;
         _.each(this.chords_arr, function (obj) {
-            $('#' + obj[0] + '_' + obj[3]).attr('data-toggle', 'tooltip')
-                .attr('title', 'Identity: ' + ((obj[7].identity / obj[7].length) * 100).toFixed(2) + '%'
-                    + '<br> E value: ' + Helpers.prettify_evalue(obj[7].evalue));
+            $('#' + obj[0] + '_' + obj[3])
+                .attr('data-toggle', 'tooltip')
+                .attr('title', function () {
+                    // E value and identity.
+                    var alt_tooltip = 'E value: ' + Helpers.prettify_evalue(obj[7].evalue) +
+                    `, Identities: ${Utils.inPercentage(obj[7].identity, obj[7].length)}`;
+                    // Positives (for protein alignment).
+                    if (algorithm != 'blastn') {
+                        alt_tooltip += `<br>Positives: ${Utils.inPercentage(obj[7].positives, obj[7].length)}`;
+                    }
+                    // Gaps. My understanding is that identities and gaps should add up to 100%.
+                    alt_tooltip += `, Gaps: ${Utils.inPercentage(obj[7].gaps, obj[7].length)}`;
+                    return alt_tooltip;
+                });
         });
         $('[data-toggle="tooltip"]').tooltip({
             'placement': 'top',
