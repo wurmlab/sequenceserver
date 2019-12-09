@@ -234,7 +234,7 @@ var Report = React.createClass({
      * Return JSX for circos if we have at least one hit.
      */
     circosJSX: function () {
-        return this.atLeastOneHit()
+        return this.atLeastTwoHits()
             ? <Circos queries={this.state.queries}
                 program={this.state.program} collapsed="true"/>
             : <span></span>;
@@ -254,8 +254,8 @@ var Report = React.createClass({
     /**
      * Returns true if we have at least one hit.
      */
-    atLeastOneHit: function () {
-        return this.state.queries.some(query => query.hits.length > 0);
+    atLeastTwoHits: function () {
+        return this.state.queries.some(query => query.hits.length > 1);
     },
 
     /**
