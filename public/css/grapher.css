@@ -74,6 +74,9 @@ svg .bar:hover {
  * These are taken from Kablammo project I think and are necessary for
  * downloading functionality.
  */
+svg .RdYlBu .q0-2{fill:rgb(252,141,89)}
+svg .RdYlBu .q1-2{fill:rgb(255,255,191)}
+
 svg .RdYlBu .q0-3{fill:rgb(252,141,89)}
 svg .RdYlBu .q1-3{fill:rgb(255,255,191)}
 svg .RdYlBu .q2-3{fill:rgb(145,191,219)}
