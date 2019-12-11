@@ -259,8 +259,17 @@ var Report = React.createClass({
     },
 
     atLeastTwoHits: function () {
-        var hit_num = (this.state.queries[this.state.queries.length - 1]).number;
-        return (this.state.queries.length >= 1 && hit_num > 1);
+        var hit_arr = [];
+        var hit_num = 0;
+        _.each(this.state.queries, (function (obj) {
+            if (obj.hits.length > 0) {
+                hit_arr.push(obj.hits.length);
+            }
+        }));
+        for (var i = 0; i < hit_arr.length; i++) {
+            hit_num += hit_arr[i];
+        }
+        return (this.state.queries.length > 0 && hit_num > 1);
     },
 
     /**
