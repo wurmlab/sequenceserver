@@ -24,7 +24,12 @@ class Graph {
     }
 
     constructor($svgContainer, props) {
-        this.queries = props.queries;
+        this.queries = [];
+        props.queries.forEach(query => {
+            if (query.hits.length > 0) {
+                this.queries.push(query);
+            }
+        });
         this.svgContainer = $svgContainer;
         this.seq_type = Helpers.get_seq_type(props.program);
         this.algorithm = props.program;
