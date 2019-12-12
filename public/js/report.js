@@ -259,8 +259,15 @@ var Report = React.createClass({
     },
 
     atLeastTwoHits: function () {
-        return this.state.queries.some(query => query.hits.length > 1);
+        var hit_num = 0;
+        return this.state.queries.some(query => {
+            hit_num += query.hits.length;
+            return hit_num > 1;
+        });
     },
+
+
+
 
     /**
      * Returns true if sidebar should be shown.
