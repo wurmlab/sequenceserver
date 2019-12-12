@@ -259,7 +259,11 @@ var Report = React.createClass({
     },
 
     atLeastTwoHits: function () {
-        return this.state.queries.some(query => query.hits.length > 1);
+        var hit_num = 0;
+        _.some(this.state.queries, (function (obj) {
+            hit_num += obj.hits.length
+            return hit_num > 1;
+        }))
     },
 
     /**
