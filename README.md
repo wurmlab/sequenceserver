@@ -24,22 +24,24 @@ If you use SequenceServer, please cite:
   (2019).](https://doi.org/10.1093/molbev/msz185)
 
 
-## Version 1.0.11 (old stable)
+## Stable (version 1.0.11)
 
 - Release date: June 2017
 - Works with BLAST 2.2.30
 
+### Installation
+
 For installation instructions and how to use SequenceServer please see
-http://sequenceserver.com.
+https://sequenceserver.com/#installation.
 
 If you want to run SequenceServer directly from source code, please see
 'Develop and contribute' section below.
 
-## Version 2.0 (beta)
+## Beta (version 2.0)
 
 We have changed the underlying architecture so that BLAST jobs submisions are asynchronous and so that raw BLAST results are available in the browser in JSON format. Asynchronous job submission facilitates handling of BLAST searches that take a while to compute. For SequenceServer instances running on PCs or fat servers, this means not having to worry about network timeouts when running searches that take more than 5-10 minutes. However, asynchronous job architecture also facilitates hooking SequenceServer to grid engines (e.g., qsub) to run BLAST searches that will take hours or even days. Availability of raw BLAST results (details about each query, hit, and hsps) in the browser in JSON format means that the rich ecosystem of JavaScript visualisation libraries can be used.
 
-** Key features **
+**Key features**
 * Supports BLAST 2.9.0 and the new v5 BLAST database format
 * Ability to import and visualise XML output from DIAMOND
    and older versions of BLAST+ (till 2.2.30)
@@ -51,7 +53,7 @@ We have changed the underlying architecture so that BLAST jobs submisions are as
       each query-hit pair (Kablammo)
 * Ability to pre-set advanced parameters for different BLAST algorithms
 
-** Beta to stable **
+**Beta to stable**
 1. Fix visual bugs in reports page
 2. Performance optimisation
 3. User reported bug fixes
