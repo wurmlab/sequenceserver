@@ -1,0 +1,15 @@
+app: sequenceserver
+
+ingredients:
+  dist: xenial
+  sources:
+    - deb http://us.archive.ubuntu.com/ubuntu/ xenial xenial-updates xenial-security main universe
+  packages:
+    - ruby
+    - ruby-dev
+    - build-essential
+script:
+  - usr/bin/gem install --pre --install-dir var/lib/gems/2.3.0 sequenceserver
+  - cp ${PWD}/../../../AppImage/sequenceserver.sh usr/bin/sequenceserver
+  - cp ${PWD}/../../../AppImage/sequenceserver.desktop .
+  - cp ${PWD}/../../../AppImage/sequenceserver.png .

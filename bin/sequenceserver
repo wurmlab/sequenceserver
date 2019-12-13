@@ -11,12 +11,12 @@ $PROGRAM_NAME = 'sequenceserver'
 # Given a url, downloads the archive into a temporary file
 # and and extracts it into ~/.sequenceserver.
 def download_from_url(url)
-  archive = File.join('/tmp', File.basename(url))
+  archive = File.join('~/.sequenceserver', File.basename(url))
   # -ip4 is required  to avoid this curl bug http://sourceforge.net/p/curl/bugs/1424/?limit=25
   # see also https://github.com/yannickwurm/sequenceserver/issues/139
-  cmd = "curl --ipv4 -C - #{url} -o #{archive} && " \
-        'mkdir -p ~/.sequenceserver && ' \
-        "tar xvf #{archive} -C ~/.sequenceserver"
+  cmd = 'mkdir -p ~/.sequenceserver' \
+        " && curl --ipv4 -C - #{url} -o #{archive}" \
+        " && tar xvf #{archive} -C ~/.sequenceserver"
   system(cmd)
 end
 
