@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SequenceServer
+Icon=sequenceserver
+Exec=sequenceserver
+Terminal=true
+Categories=ConsoleOnly;Science;
