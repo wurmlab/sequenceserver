@@ -142,10 +142,10 @@ module SequenceServer
       puts '       Chowdhary H, Pieniak I, Maynard LJ, Gibbins MA, Moon H,'
       puts '       Davis-Richardson A, Uludag M, Watson-Haigh N, Challis R,'
       puts '       Nakamura H, Favreau E, Gómez EA, Pluskal T, Leonard G,'
-      puts '       Rumpf W & Wurm Y. 2019.'
-      puts '       Sequenceserver: A Modern Graphical User Interface for'
-      puts '       Custom BLAST Databases. '
-      puts '       Molecular Biology and Evolution doi: 10.1101/033142.'
+      puts '       Rumpf W & Wurm Y.'
+      puts '       Sequenceserver: A modern graphical user interface for'
+      puts '       custom BLAST databases.'
+      puts '       Molecular Biology and Evolution (2019)'
     end
 
     # This method is invoked by the -i switch to start an IRB shell with
