@@ -67,7 +67,6 @@ var Report = React.createClass({
             program:         '',
             program_version: '',
             submitted_at:    '',
-            num_queries:     0,
             queries:         [],
             querydb:         [],
             params:          [],
@@ -117,7 +116,6 @@ var Report = React.createClass({
      */
     updateState: function(responseJSON) {
         var queries = responseJSON.queries;
-        responseJSON.num_queries = queries.length;
         responseJSON.veryBig = queries.length > 250;
         responseJSON.queries = queries.splice(0, 50);
         this.setState(responseJSON);
@@ -192,7 +190,7 @@ var Report = React.createClass({
                     {
                         _.map(this.state.queries, _.bind(function (query) {
                             return (
-                                <Query key={'Query_'+query.id} query={query} showQueryCrumbs={this.state.num_queries > 1}
+                                <Query key={'Query_'+query.id} query={query} showQueryCrumbs={this.state.queries.length > 1}
                                     selectHit={this.selectHit} program={this.state.program} querydb={this.state.querydb}
                                     veryBig={this.state.veryBig} imported_xml={this.state.imported_xml} />
                             );
