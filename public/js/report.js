@@ -117,22 +117,40 @@ var Report = React.createClass({
     updateState: function(responseJSON) {
         var queries = responseJSON.queries;
         responseJSON.veryBig = queries.length > 250;
-        responseJSON.queries = queries.splice(0, 50);
+        responseJSON.queries = queries.splice(0, 1);
         this.setState(responseJSON);
-
+        var start = Date.now();
         // Render results for remaining queries.
         var update = function () {
+            var hit_num = 0, query_num = 0;
+            queries.some(function (query) {
+                hit_num += query.hits.length;
+                query_num++;
+                if (hit_num > 500) {
+                    query_num -= 1;
+                    return query_num;
+                } else if (hit_num == 500) {
+                    return query_num;
+                } else if (query_num == queries.length) {
+                    return query_num;
+                }
+            }
+            );
             if (queries.length > 0) {
                 this.setState({
-                    queries: this.state.queries.concat(queries.splice(0, 50))
+                    queries: this.state.queries.concat(queries.splice(0, (query_num)))
                 });
-                setTimeout(update.bind(this), 500);
+                setTimeout(update.bind(this), 800);
             }
             else {
                 this.componentFinishedUpdating();
             }
+            setTimeout(() => {
+                var milis = Date.now() - start;
+                console.log(`It took = ${milis / 1000} seconds`);
+            });
         };
-        setTimeout(update.bind(this), 500);
+        setTimeout(update.bind(this), 0);
     },
 
 
