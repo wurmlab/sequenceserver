@@ -12,7 +12,7 @@
  * For scrollspy, etc.
  */
 body {
-  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Space Text","Helvetica Neue",Helvetica,Arial,sans-serif;
   position: relative;
   color: black;
 }
@@ -152,7 +152,7 @@ a.disabled:hover,
  */
 .tooltip-inner {
   max-width: 350px;
-  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Space text","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 /********************

@@ -19,7 +19,7 @@
 
 /* Font used within the graph */
 svg text {
-  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Space Text","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 10px;
 }
 /* Thin, black axes. */
