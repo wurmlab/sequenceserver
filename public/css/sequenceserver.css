@@ -445,6 +445,7 @@ input[type=checkbox] {
   border: none;
   padding: 0px;
   letter-spacing: 1px;
+  vertical-align: text-bottom;
 }
 
 .fastan > .section-header {
