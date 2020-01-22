@@ -490,3 +490,8 @@ input[type=checkbox] {
 .downloads a {
   cursor: pointer;
 }
+
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
+}
