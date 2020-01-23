@@ -74,12 +74,17 @@ a.disabled:hover,
 }
 .navbar-brand > small {
   font-size: 50%;
+  vertical-align: bottom;
 }
 
 .navbar-nav > li > a {
   padding: 24px 15px;
   font-size: 14px;
   color: rgb(51, 51, 51);
+}
+
+.navbar-brand>img {
+  display: inline-block;
 }
 
 /**
@@ -485,4 +490,9 @@ input[type=checkbox] {
 
 .downloads a {
   cursor: pointer;
+}
+
+.logo {
+  width: 205.05px;
+  max-height: 35px;
 }
