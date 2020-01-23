@@ -12,7 +12,7 @@
  * For scrollspy, etc.
  */
 body {
-  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family:"Space Text" ,"Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
   position: relative;
   color: black;
 }
@@ -152,7 +152,7 @@ a.disabled:hover,
  */
 .tooltip-inner {
   max-width: 350px;
-  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Space Text" ,"Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 /********************
@@ -178,6 +178,7 @@ a.disabled:hover,
  */
 .text-monospace {
   font-family:
+    "Space Mono",
     "SFMono-Regular",
     Consolas,
     "Liberation Mono",
@@ -244,6 +245,7 @@ a.disabled:hover,
   background-color: inherit;
   white-space: pre-wrap;
   word-break: keep-all;
+  font-family: "Space Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 /***************************

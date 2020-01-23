@@ -2,6 +2,40 @@
  * See:
  * http://stackoverflow.com/questions/11002820/why-should-we-include-ttf-eot-woff-svg-in-a-font-face
  * */
+ @font-face {
+	font-family: 'Space Mono';
+	font-style: normal;
+	font-weight: 400;
+	src:
+	local('Space Mono'),
+	url('../fonts/SpaceMono-Regular.ttf') format('truetype'),
+}
+ @font-face {
+	font-family: 'Space Mono Bold';
+	font-style: normal;
+	font-weight: 700;
+	src:
+	local('Space Text'),
+	url('../fonts/SpaceMono-Bold.ttf') format('truetype'),
+}
+@font-face {
+	font-family: 'Space Text';
+	font-style: normal;
+	font-weight: 400;
+	src:
+	local('Space Text'),
+	url('../fonts/SpaceText-Regular.woff2') format('woff2'),
+	url('../fonts/SpaceText-Regular.woff') format('woff')
+}
+@font-face {
+	font-family: 'Space Text Bold';
+	font-style: normal;
+	font-weight: 700;
+	src:
+	local('Space Text'),
+	url('../fonts/SpaceText-Bold.woff2') format('woff2'),
+	url('../fonts/SpaceText-Bold.woff') format('woff')
+}
 @font-face {
 	font-family: 'Source Sans Pro';
 	font-style: normal;
