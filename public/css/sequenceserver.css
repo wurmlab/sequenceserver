@@ -231,6 +231,7 @@ a.disabled:hover,
   color: inherit;
   line-height: inherit;
   font-weight: normal;
+  font-size: 85%
 }
 
 /**
@@ -439,12 +440,12 @@ input[type=checkbox] {
 .hit-links * {
   padding-left: 3px;
   letter-spacing: 1px;
-  vertical-align: baseline;
+  vertical-align: middle !important;
 }
 .btn-link {
   border: none;
   padding: 0px;
-  letter-spacing: 1px;
+  vertical-align: text-bottom;
 }
 
 .fastan > .section-header {
