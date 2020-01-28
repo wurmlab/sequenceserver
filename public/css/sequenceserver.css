@@ -488,7 +488,7 @@ input[type=checkbox] {
 }
 
 .glow {
-  border-left: 2px solid #f0ad4e;
+  border-left: 2px solid #b03200ff ;
 }
 
 .downloads a {
@@ -496,6 +496,6 @@ input[type=checkbox] {
 }
 
 .logo {
-  width: 386.66px;
-  max-height: 66px;
+  width: 205.05px;
+  max-height: 35px;
 }
