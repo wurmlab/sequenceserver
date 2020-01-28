@@ -44,6 +44,11 @@ export default class HSP extends React.Component {
         this.forceUpdate();
     }
 
+    // See Query.shouldComponentUpdate. The same applies for hsp.
+    shouldComponentUpdate () {
+        return !this.props.hsp;
+    }
+
     /**
      * Returns an array of span elements or plain strings (React automatically
      * adds span tag around strings). This array is passed as it is to JSX to be

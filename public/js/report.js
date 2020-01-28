@@ -3,15 +3,11 @@ import React from 'react';
 import _ from 'underscore';
 
 import Circos from './circos';
-import HitsOverview from './hits_overview';
-import LengthDistribution from './length_distribution'; // length distribution of hits
-import HSPOverview from './kablammo';
-import AlignmentExporter from './alignment_exporter'; // to download textual alignment
+import Query from './query';
+import Hit from './hit';
 import HSP from './hsp';
 import './sequence';
 
-import * as Helpers from './visualisation_helpers'; // for toLetters
-import Utils from './utils'; // to use as mixin in Hit and HitsTable
 import showErrorModal from './error_modal';
 
 /**
@@ -60,7 +56,11 @@ var Report = React.createClass({
 
     getInitialState: function () {
         this.fetchResults();
-        this.updateCycle = 0;
+        this.nextQuery = 0;
+        this.nextHit = 0;
+        this.nextHSP = 0;
+        this.maxHSPs = 3;
+
 
         return {
             search_id:       '',
@@ -68,6 +68,7 @@ var Report = React.createClass({
             program_version: '',
             submitted_at:    '',
             queries:         [],
+            results:         [],
             querydb:         [],
             params:          [],
             stats:           []
@@ -96,7 +97,7 @@ var Report = React.createClass({
                         setTimeout(poll, interval);
                         break;
                     case 200:
-                        component.updateState(jqXHR.responseJSON);
+                        component.setStateFromJSON(jqXHR.responseJSON);
                         break;
                     case 404:
                     case 400:
@@ -111,35 +112,131 @@ var Report = React.createClass({
     },
 
     /**
-     * Incrementally update state (50 queries at a time) so that the rendering
-     * process is not overwhelemed when there are too many queries.
+     * Calls setState after any required modification to responseJSON.
      */
-    updateState: function(responseJSON) {
-        var queries = responseJSON.queries;
-        responseJSON.veryBig = queries.length > 250;
-        responseJSON.queries = queries.splice(0, 50);
+    setStateFromJSON: function(responseJSON) {
+        responseJSON.veryBig = responseJSON.queries.length > 250;
+        this.lastTimeStamp = Date.now();
         this.setState(responseJSON);
-
-        // Render results for remaining queries.
-        var update = function () {
-            if (queries.length > 0) {
-                this.setState({
-                    queries: this.state.queries.concat(queries.splice(0, 50))
-                });
-                setTimeout(update.bind(this), 500);
-            }
-            else {
-                this.componentFinishedUpdating();
-            }
-        };
-        setTimeout(update.bind(this), 500);
     },
 
-
-    // View //
+    // Life-cycle methods //
     render: function () {
         return this.isResultAvailable() ?
             this.resultsJSX() : this.loadingJSX();
+    },
+
+    /**
+     * Called as soon as the page has loaded and the user sees the loading spinner.
+     * We use this opportunity to setup services that make use of delegated events
+     * bound to the window, document, or body.
+     */
+    componentDidMount: function () {
+        // This sets up an event handler which enables users to select text from
+        // hit header without collapsing the hit.
+        this.preventCollapseOnSelection();
+    },
+
+    /**
+     * Called for the first time after as BLAST results have been retrieved from
+     * the server and added to this.state by fetchResults. Only summary overview
+     * and circos would have been rendered at this point. At this stage we kick
+     * start iteratively updating 10 HSPs (and as many hits and queries) every
+     * 25 milli-seconds.
+     */
+    componentDidUpdate: function () {
+        // Log to console how long the last update take?
+        console.log((Date.now() - this.lastTimeStamp)/1000);
+
+        // Lock sidebar in its position on the first update.
+        if (this.nextQuery == 0 && this.nextHit == 0 && this.nextHSP == 0) {
+            this.affixSidebar();
+        }
+
+        // Queue next update if we have not rendered all results yet.
+        if (this.nextQuery < this.state.queries.length) {
+            // setTimeout is used to clear call stack and space out
+            // the updates giving the browser a chance to respond
+            // to user interactions.
+            setTimeout(() => this.updateState(), 25);
+        }
+        else {
+            this.componentFinishedUpdating();
+        }
+    },
+
+    /**
+     * Push next slice of results to React for rendering.
+     */
+    updateState: function() {
+        var results = [];
+        var numHSPsProcessed = 0;
+        while (this.nextQuery < this.state.queries.length) {
+            var query = this.state.queries[this.nextQuery];
+            // We may see a query multiple times during rendering because only
+            // 10 hsps are rendered in each cycle, but we want to create the
+            // corresponding Query component only the first time we see it.
+            if (this.nextHit == 0) {
+                results.push(<Query key={'Query_'+query.number} query={query}
+                    program={this.state.program} querydb={this.state.querydb}
+                    showQueryCrumbs={this.state.queries.length > 1}
+                    imported_xml={this.state.imported_xml}
+                    veryBig={this.state.veryBig} />);
+            }
+
+            while (this.nextHit < query.hits.length) {
+                var hit = query.hits[this.nextHit];
+                // We may see a hit multiple times during rendering because only
+                // 10 hsps are rendered in each cycle, but we want to create the
+                // corresponding Hit component only the first time we see it.
+                if (this.nextHSP == 0) {
+                    results.push(<Hit key={'Query_'+query.number+'_Hit_'+hit.number} query={query}
+                        hit={hit} algorithm={this.state.program} querydb={this.state.querydb}
+                        selectHit={this.selectHit} imported_xml={this.state.imported_xml}
+                        showQueryCrumbs={this.state.queries.length > 1}
+                        showHitCrumbs={query.hits.length > 1}  />
+                    );
+                }
+
+                while (this.nextHSP < hit.hsps.length) {
+                    // Get nextHSP and increment the counter.
+                    var hsp = hit.hsps[this.nextHSP++];
+                    results.push(
+                        <HSP key={'Query_'+query.number+'_Hit_'+hit.number+'_HSP_'+hsp.number}
+                            hsp={hsp} algorithm={this.state.program} hitNumber={hit.number}
+                            queryNumber={query.number}  />
+                    );
+                    numHSPsProcessed++;
+                    if (numHSPsProcessed == this.maxHSPs) break;
+                }
+                // Are we here because we have iterated over all hsps of a hit,
+                // or because of the break clause in the inner loop?
+                if (this.nextHSP == hit.hsps.length) {
+                    this.nextHit = this.nextHit + 1;
+                    this.nextHSP = 0;
+                }
+                if (numHSPsProcessed == this.maxHSPs) break;
+            }
+
+            // Are we here because we have iterated over all hits of a query,
+            // or because of the break clause in the inner loop?
+            if (this.nextHit == query.hits.length) {
+                this.nextQuery = this.nextQuery + 1;
+                this.nextHit = 0;
+            }
+            if (numHSPsProcessed == this.maxHSPs) break;
+        }
+
+        // Push the components to react for rendering.
+        this.lastTimeStamp = Date.now();
+        this.setState({results: this.state.results.concat(results)});
+    },
+
+    /**
+     * Called after all results have been rendered.
+     */
+    componentFinishedUpdating: function () {
+        this.shouldShowIndex() && this.setupScrollSpy();
     },
 
     /**
@@ -177,25 +274,15 @@ var Report = React.createClass({
             <div className="row">
                 { this.shouldShowSidebar() &&
                     (
-                        <div
-                            className="col-md-3 hidden-sm hidden-xs">
+                        <div className="col-md-3 hidden-sm hidden-xs">
                             <SideBar data={this.state} shouldShowIndex={this.shouldShowIndex()}/>
                         </div>
                     )
                 }
-                <div className={this.shouldShowSidebar() ?
-                    'col-md-9' : 'col-md-12'}>
+                <div className={this.shouldShowSidebar() ? 'col-md-9' : 'col-md-12'}>
                     { this.overviewJSX() }
                     { this.circosJSX() }
-                    {
-                        _.map(this.state.queries, _.bind(function (query) {
-                            return (
-                                <Query key={'Query_'+query.id} query={query} showQueryCrumbs={this.state.queries.length > 1}
-                                    selectHit={this.selectHit} program={this.state.program} querydb={this.state.querydb}
-                                    veryBig={this.state.veryBig} imported_xml={this.state.imported_xml} />
-                            );
-                        }, this))
-                    }
+                    { this.state.results }
                 </div>
             </div>
         );
@@ -285,37 +372,6 @@ var Report = React.createClass({
     },
 
     /**
-     * Called after first call to render. The results may not be available at
-     * this stage and thus results DOM cannot be scripted here, unless using
-     * delegated events bound to the window, document, or body.
-     */
-    componentDidMount: function () {
-        // This sets up an event handler which enables users to select text
-        // from hit header without collapsing the hit.
-        this.preventCollapseOnSelection();
-    },
-
-    /**
-     * Called after each state change. Only a part of results DOM may be
-     * available after a state change.
-     */
-    componentDidUpdate: function () {
-        // We track the number of updates to the component.
-        this.updateCycle += 1;
-
-        // Lock sidebar in its position on first update of
-        // results DOM.
-        if (this.updateCycle === 1 ) this.affixSidebar();
-    },
-
-    /**
-     * Called after all results have been rendered.
-     */
-    componentFinishedUpdating: function () {
-        this.shouldShowIndex() && this.setupScrollSpy();
-    },
-
-    /**
      * Prevents folding of hits during text-selection.
      */
     preventCollapseOnSelection: function () {
@@ -401,346 +457,6 @@ var Report = React.createClass({
         }
     },
 });
-
-/**
- * Renders report for each query sequence.
- *
- * Composed of graphical overview, tabular summary (HitsTable),
- * and a list of Hits.
- */
-var Query = React.createClass({
-
-    // Kind of public API //
-
-    /**
-     * Returns the id of query.
-     */
-    domID: function () {
-        return 'Query_' + this.props.query.number;
-    },
-
-    queryLength: function () {
-        return this.props.query.length;
-    },
-
-    /**
-     * Returns number of hits.
-     */
-    numhits: function () {
-        return this.props.query.hits.length;
-    },
-
-    // Life cycle methods //
-
-    render: function () {
-        return (
-            <div className="resultn" id={this.domID()}
-                data-query-len={this.props.query.length}
-                data-algorithm={this.props.program}>
-                { this.headerJSX() }
-                { this.numhits() && this.hitsListJSX() || this.noHitsJSX() }
-            </div>
-        );
-    },
-
-    headerJSX: function () {
-        var meta = `length: ${this.queryLength().toLocaleString()}`;
-        if (this.props.showQueryCrumbs) {
-            meta = `query ${this.props.query.number}, ` + meta;
-        }
-        return <div className="section-header">
-            <h3>
-                Query= {this.props.query.id}&nbsp;
-                <small>{this.props.query.title}</small>
-            </h3>
-            <span className="label label-reset pos-label">{ meta }</span>
-        </div>;
-    },
-
-    hitsListJSX: function () {
-        return <div className="section-content">
-            <HitsOverview key={'GO_' + this.props.query.number} query={this.props.query} program={this.props.program} collapsed={this.props.veryBig} />
-            <LengthDistribution key={'LD_' + this.props.query.id} query={this.props.query} algorithm={this.props.program} collapsed="true" />
-            <HitsTable key={'HT_' + this.props.query.number} query={this.props.query} imported_xml={this.props.imported_xml} />
-            <div id="hits">
-                {
-                    _.map(this.props.query.hits, _.bind(function (hit) {
-                        return (
-                            <Hit key={'HIT_' + hit.number} hit={hit}
-                                algorithm={this.props.program}
-                                querydb={this.props.querydb}
-                                query={this.props.query}
-                                imported_xml={this.props.imported_xml}
-                                selectHit={this.props.selectHit}
-                                showHitCrumbs={this.numhits() > 1}
-                                showQueryCrumbs={this.props.showQueryCrumbs} />
-                        );
-                    }, this))
-                }
-            </div>
-        </div>;
-    },
-
-    noHitsJSX: function () {
-        return <div className="section-content">
-            <br />
-            <p>
-                <strong> ****** No hits found ****** </strong>
-            </p>
-        </div>;
-    },
-
-    shouldComponentUpdate: function (nextProps, nextState) {
-        if (!this.props.query) return true;
-    }
-});
-
-/**
- * Renders summary of all hits per query in a tabular form.
- */
-var HitsTable = React.createClass({
-    mixins: [Utils],
-    render: function () {
-        var count = 0,
-            hasName = _.every(this.props.query.hits, function(hit) {
-                return hit.sciname !== '';
-            });
-
-        return (
-            <table
-                className="table table-hover table-condensed tabular-view">
-                <thead>
-                    <th className="text-left">#</th>
-                    <th>Similar sequences</th>
-                    {hasName && <th className="text-left">Species</th>}
-                    {!this.props.imported_xml && <th className="text-right">Query coverage (%)</th>}
-                    <th className="text-right">Total score</th>
-                    <th className="text-right">E value</th>
-                    <th className="text-right" data-toggle="tooltip"
-                        data-placement="left" title="Total identity of all hsps / total length of all hsps">
-                        Identity (%)
-                    </th>
-                </thead>
-                <tbody>
-                    {
-                        _.map(this.props.query.hits, _.bind(function (hit) {
-                            return (
-                                <tr key={hit.number}>
-                                    <td className="text-left">{hit.number + '.'}</td>
-                                    <td>
-                                        <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}>
-                                            {hit.id}
-                                        </a>
-                                    </td>
-                                    {hasName && <td className="text-left">{hit.sciname}</td>}
-                                    {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
-                                    <td className="text-right">{hit.score}</td>
-                                    <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
-                                    <td className="text-right">{hit.identity}</td>
-                                </tr>
-                            );
-                        }, this))
-                    }
-                </tbody>
-            </table>
-        );
-    }
-});
-
-/**
- * Component for each hit.
- */
-var Hit = React.createClass({
-    mixins: [Utils],
-
-    /**
-     * Returns accession number of the hit sequence.
-     */
-    accession: function () {
-        return this.props.hit.accession;
-    },
-
-    /**
-     * Returns length of the hit sequence.
-     */
-    hitLength: function () {
-        return this.props.hit.length;
-    },
-
-    // Internal helpers. //
-
-    /**
-     * Returns id that will be used for the DOM node corresponding to the hit.
-     */
-    domID: function () {
-        return 'Query_' + this.props.query.number + '_hit_' + this.props.hit.number;
-    },
-
-    databaseIDs: function () {
-        return _.map(this.props.querydb, _.iteratee('id'));
-    },
-
-    showSequenceViewer: function (event) {
-        this.setState({ showSequenceViewer: true });
-        event && event.preventDefault();
-    },
-
-    hideSequenceViewer: function () {
-        this.setState({ showSequenceViewer: false });
-    },
-
-    viewSequenceLink: function () {
-        return encodeURI(`get_sequence/?sequence_ids=${this.accession()}&database_ids=${this.databaseIDs()}`);
-    },
-
-    downloadFASTA: function (event) {
-        var accessions = [this.accession()];
-        downloadFASTA(accessions, this.databaseIDs());
-    },
-
-    // Event-handler for exporting alignments.
-    // Calls relevant method on AlignmentExporter defined in alignment_exporter.js.
-    downloadAlignment: function (event) {
-        var hsps = _.map(this.props.hit.hsps, _.bind(function (hsp) {
-            hsp.query_id = this.props.query.id;
-            hsp.hit_id = this.props.hit.id;
-            return hsp;
-        }, this));
-
-        var aln_exporter = new AlignmentExporter();
-        aln_exporter.export_alignments(hsps, this.props.query.id+'_'+this.props.hit.id);
-    },
-
-
-    // Life cycle methods //
-
-    getInitialState: function () {
-        return { showSequenceViewer: false };
-    },
-
-    // Return JSX for view sequence button.
-    viewSequenceButton: function () {
-        if (this.hitLength() > 10000) {
-            return (
-                <button
-                    className="btn btn-link view-sequence disabled"
-                    title="Sequence too long" disabled="true">
-                    <i className="fa fa-eye"></i> Sequence
-                </button>
-            );
-        }
-        else {
-            return (
-                <button
-                    className="btn btn-link view-sequence"
-                    onClick={this.showSequenceViewer}>
-                    <i className="fa fa-eye"></i> Sequence
-                </button>
-            );
-        }
-    },
-
-    render: function () {
-        return (
-            <div className="hit" id={this.domID()} data-hit-def={this.props.hit.id}
-                data-hit-len={this.props.hit.length} data-hit-evalue={this.props.hit.evalue}>
-                { this.headerJSX() } { this.contentJSX() }
-            </div>
-        );
-    },
-
-    headerJSX: function () {
-        var meta = `length: ${this.hitLength().toLocaleString()}`;
-
-        if (this.props.showQueryCrumbs && this.props.showHitCrumbs) {
-            // Multiper queries, multiple hits
-            meta = `hit ${this.props.hit.number} of query ${this.props.query.number}, ` + meta;
-        }
-        else if (this.props.showQueryCrumbs && !this.props.showHitCrumbs) {
-            // Multiple queries, single hit
-            meta = `the only hit of query ${this.props.query.number}, ` + meta;
-        }
-        else if (!this.props.showQueryCrumbs && this.props.showHitCrumbs) {
-            // Single query, multiple hits
-            meta = `hit ${this.props.hit.number}, ` + meta;
-        }
-
-        return <div className="section-header">
-            <h4 data-toggle="collapse" data-target={this.domID() + '_content'}>
-                <i className="fa fa-chevron-down"></i>&nbsp;
-                <span>
-                    {this.props.hit.id}&nbsp;
-                    <small>{this.props.hit.title}</small>
-                </span>
-            </h4>
-            <span className="label label-reset pos-label">{ meta }</span>
-        </div>;
-    },
-
-    contentJSX: function () {
-        return <div id={this.domID() + '_content'} className="section-content collapse in">
-            { this.hitLinks() }
-            <HSPOverview key={'kablammo' + this.props.query.id} query={this.props.query}
-                hit={this.props.hit} algorithm={this.props.algorithm} />
-            { this.hspListJSX() }
-        </div>;
-    },
-
-    hitLinks: function () {
-        return (
-            <div className="hit-links">
-                <label>
-                    <input type="checkbox" id={this.domID() + '_checkbox'}
-                        value={this.accession()} onChange={function () {
-                            this.props.selectHit(this.domID() + '_checkbox');
-                        }.bind(this)} data-target={'#' + this.domID()}
-                    /> Select
-                </label>
-                {
-                    !this.props.imported_xml && [
-                        <span> | </span>,
-                        this.viewSequenceButton(),
-                        this.state.showSequenceViewer && <SequenceViewer
-                            url={this.viewSequenceLink()} onHide={this.hideSequenceViewer} />
-                    ]
-                }
-                {
-                    !this.props.imported_xml && [
-                        <span> | </span>,
-                        <button className='btn btn-link download-fa'
-                            onClick={this.downloadFASTA}>
-                            <i className="fa fa-download"></i> FASTA
-                        </button>
-                    ]
-                }
-                <span> | </span>
-                <button className='btn btn-link download-aln'
-                    onClick={this.downloadAlignment}>
-                    <i className="fa fa-download"></i> Alignment
-                </button>
-                {
-                    _.map(this.props.hit.links, _.bind(function (link) {
-                        return [<span> | </span>, this.a(link)];
-                    }, this))
-                }
-            </div>
-        );
-    },
-
-    hspListJSX: function () {
-        return <div className="hsps">
-            {
-                this.props.hit.hsps.map((hsp) => {
-                    return <HSP key={hsp.number}
-                        algorithm={this.props.algorithm}
-                        queryNumber={this.props.query.number}
-                        hitNumber={this.props.hit.number} hsp={hsp}/>;
-                }, this)
-            }
-        </div>;
-    }
-});
-
 
 /**
  * Component for sequence-viewer links.
