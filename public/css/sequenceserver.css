@@ -17,13 +17,28 @@ body {
   color: black;
 }
 
+h3{
+  font-size: 16px;
+  font-weight: bold;
+  color: #174465;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+
 /**
  * No underlines on links, ever
  */
 a:hover, .btn-link:hover {
+  color: #b03200ff;
   text-decoration: none;
 }
 
+a {
+  color: #1B557A;
+}
 /**
  * Disable resize grabber on textarea.
  */
@@ -50,7 +65,7 @@ small {
  * Without this .disabled elements hardly look disabled.
  */
 .disabled {
-  color: #ccc;
+  color: #ccc !important;
 }
 a.disabled:hover,
 .btn-link[disabled]:hover {
@@ -92,7 +107,7 @@ a.disabled:hover,
  * sub-text on right.
  */
 .section-header {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 0.75px solid #b03200ff;
   padding-bottom: 5px;
   display: table;
   width: 100%;
@@ -102,6 +117,8 @@ a.disabled:hover,
 }
 .section-header > *:first-child {
   width: 100%;
+  color: #174465;
+  font-weight: bold;
 }
 .section-content {
   padding: 5px 0 0 0px;
@@ -149,7 +166,7 @@ a.disabled:hover,
   font-weight: normal;
 }
 .table>thead>tr>th {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 0.75px solid #b03200ff;
 }
 
 /**
@@ -221,22 +238,25 @@ a.disabled:hover,
  */
 .nav.hover-reset>li>a:hover {
   background-color: inherit;
+  color: #b03200ff;
 }
 .nav.focus-reset>li>a:focus {
   background-color: inherit;
+  color: #b03200ff;
 }
 .nav.active-bold>.active>a {
   font-weight: bold;
+  color:#b03200ff;
 }
 
 /**
  * Use with .label class to use the foreground color defined by parent element.
  */
 .label-reset {
-  color: inherit;
+  color: #1B557A;
   line-height: inherit;
   font-weight: normal;
-  font-size: 85%
+  font-size: 12px;
 }
 
 /**
@@ -354,9 +374,6 @@ input[type=checkbox] {
   /* To line up with the results on the right */
   margin-top: 20px;
 }
-.sidebar h4 {
-  font-size: 14px;
-}
 .sidebar li a {
   padding: 7px 10px;
 }
@@ -387,6 +404,10 @@ input[type=checkbox] {
   margin-bottom: 25px;
 }
 
+.resultn h3 small {
+  font-size: inherit;
+}
+
 .graphical-overview {
   font-size: 12px;
   text-align: center;
@@ -414,8 +435,8 @@ input[type=checkbox] {
 }
 .hit h4 span {
   cursor: text;
-  font-size: 14px;
   font-weight: bold;
+  color: #1B557A;
 }
 .hit h4 small {
   font-size: inherit;
@@ -440,22 +461,28 @@ input[type=checkbox] {
 }
 .hsp .hsp-lines {
   margin-top: 5px;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 1.2px;
 }
 .hsp .hsp-coords {
-  color: rgb(110, 110, 110);
+  color: #b03200ff
 }
 
 .hit-links * {
   padding-left: 3px;
   letter-spacing: 1px;
   vertical-align: middle !important;
+  color: #1B557A;
 }
 .btn-link {
   border: none;
   padding: 0px;
   vertical-align: text-bottom;
+  color: #1B557A;
+
+}
+.btn-link:focus, .btn-link:hover {
+  color: #b03200ff !important;
 }
 
 .fastan > .section-header {
@@ -503,4 +530,7 @@ input[type=checkbox] {
 .logo {
   width: 205.05px;
   max-height: 35px;
+}
+.fa {
+  color: #b03200ff
 }
