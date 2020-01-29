@@ -207,17 +207,17 @@ var Report = React.createClass({
     overviewJSX: function () {
         return (
             <div className="overview">
-                <p className="query-overview">
+                <p className="job-overview">
                     {this.state.program_version}{this.state.submitted_at
                         && `, query submitted on ${this.state.submitted_at}`}
                 </p>
-                <p className="query-overview">
+                <p className="job-overview">
                     Databases: {
                         this.state.querydb.map((db) => { return db.title; }).join(', ')
                     } ({this.state.stats.nsequences} sequences,&nbsp;
                     {this.state.stats.ncharacters} characters)
                 </p>
-                <p className="query-overview">
+                <p className="job-overview">
                     Parameters: {
                         _.map(this.state.params, function (val, key) {
                             return key + ' ' + val;

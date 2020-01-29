@@ -414,6 +414,11 @@ input[type=checkbox] {
 }
 .hit h4 span {
   cursor: text;
+  font-size: 14px;
+  font-weight: bold;
+}
+.hit h4 small {
+  font-size: inherit;
 }
 .hit > p {
   margin-top: 0;
