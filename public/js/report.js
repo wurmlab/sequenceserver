@@ -329,7 +329,7 @@ var Report = React.createClass({
                     // and toggle the 'in' class for collapsing/expanding.
                     var target = $('#' + $this.attr('data-target'));
                     target.toggleClass('in');
-                    $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
+                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
                 } else {
                     // user wants to select
                     $this.attr('data-toggle', '');
@@ -667,7 +667,7 @@ var Hit = React.createClass({
 
         return <div className="section-header">
             <h4 data-toggle="collapse" data-target={this.domID() + '_content'}>
-                <i className="fa fa-chevron-down"></i>&nbsp;
+                <i className="fa fa-minus-square-o"></i>&nbsp;
                 <span>
                     {this.props.hit.id}&nbsp;
                     <small>{this.props.hit.title}</small>
