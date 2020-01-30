@@ -32,7 +32,7 @@ h4 {
  * No underlines on links, ever
  */
 a:hover, .btn-link:hover {
-  color: #b03200ff;
+  color:  #c8291e	;
   text-decoration: none;
 }
 
@@ -55,6 +55,7 @@ label {
   cursor: pointer;
   margin-bottom: 0;
   font-weight: normal;
+  color: #1B557A;
 }
 
 small {
@@ -79,7 +80,7 @@ a.disabled:hover,
 .navbar {
   margin-bottom: 0;
   border-radius: 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #c8291e;
 }
 .navbar-brand {
   height: auto;
@@ -107,7 +108,7 @@ a.disabled:hover,
  * sub-text on right.
  */
 .section-header {
-  border-bottom: 0.75px solid #b03200ff;
+  border-bottom: 1px solid  #c8291e;
   padding-bottom: 5px;
   display: table;
   width: 100%;
@@ -136,9 +137,13 @@ a.disabled:hover,
 .panel .panel-heading {
   padding: 4px 0 5px 0;
   background-color: inherit;
+  border-bottom: 1px solid  #c8291e;
 }
 .panel .panel-heading h4 {
   margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #174465;
 }
 
 /**
@@ -166,7 +171,7 @@ a.disabled:hover,
   font-weight: normal;
 }
 .table>thead>tr>th {
-  border-bottom: 0.75px solid #b03200ff;
+  border-bottom: 1px solid  #c8291e	;
 }
 
 /**
@@ -238,15 +243,15 @@ a.disabled:hover,
  */
 .nav.hover-reset>li>a:hover {
   background-color: inherit;
-  color: #b03200ff;
+  color:  #c8291e	;
 }
 .nav.focus-reset>li>a:focus {
   background-color: inherit;
-  color: #b03200ff;
+  color:  #c8291e	;
 }
 .nav.active-bold>.active>a {
   font-weight: bold;
-  color:#b03200ff;
+  color:  #c8291e	;
 }
 
 /**
@@ -256,7 +261,8 @@ a.disabled:hover,
   color: #1B557A;
   line-height: inherit;
   font-weight: normal;
-  font-size: 12px;
+  font-size: 14px;
+  display: inline;
 }
 
 /**
@@ -458,6 +464,7 @@ input[type=checkbox] {
 
 .hsp-stats {
   font-size: 12px;
+  color: #1B557A;
 }
 .hsp .hsp-lines {
   margin-top: 5px;
@@ -465,7 +472,7 @@ input[type=checkbox] {
   letter-spacing: 1.2px;
 }
 .hsp .hsp-coords {
-  color: #b03200ff
+  color: #1B557A;
 }
 
 .hit-links * {
@@ -482,7 +489,7 @@ input[type=checkbox] {
 
 }
 .btn-link:focus, .btn-link:hover {
-  color: #b03200ff !important;
+  color:  #c8291e	!important;
 }
 
 .fastan > .section-header {
@@ -520,17 +527,26 @@ input[type=checkbox] {
 }
 
 .glow {
-  border-left: 2px solid #b03200ff ;
+  border-left: 2px solid  #c8291e ;
 }
 
 .downloads a {
   cursor: pointer;
 }
-
+/* CSS class for logo */
 .logo {
   width: 205.05px;
   max-height: 35px;
 }
+/* CSS class for vertical lines separating the hit links */
+.line{
+  color:  #c8291e	;
+}
+/* font-awesome icons overwrite */
 .fa {
-  color: #b03200ff
+  vertical-align: middle;
+}
+/* overwriting bootstrap focus color in the textfield of the search page */
+.form-control:focus {
+  border-color: #1B557A;
 }

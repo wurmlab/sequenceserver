@@ -698,7 +698,7 @@ var Hit = React.createClass({
                 </label>
                 {
                     !this.props.imported_xml && [
-                        <span> | </span>,
+                        <span className='line'> | </span>,
                         this.viewSequenceButton(),
                         this.state.showSequenceViewer && <SequenceViewer
                             url={this.viewSequenceLink()} onHide={this.hideSequenceViewer} />
@@ -706,21 +706,21 @@ var Hit = React.createClass({
                 }
                 {
                     !this.props.imported_xml && [
-                        <span> | </span>,
+                        <span className='line'> | </span>,
                         <button className='btn btn-link download-fa'
                             onClick={this.downloadFASTA}>
                             <i className="fa fa-download"></i> FASTA
                         </button>
                     ]
                 }
-                <span> | </span>
+                <span className='line'> | </span>
                 <button className='btn btn-link download-aln'
                     onClick={this.downloadAlignment}>
                     <i className="fa fa-download"></i> Alignment
                 </button>
                 {
                     _.map(this.props.hit.links, _.bind(function (link) {
-                        return [<span> | </span>, this.a(link)];
+                        return [<span className='line'> | </span>, this.a(link)];
                     }, this))
                 }
             </div>
