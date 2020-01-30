@@ -567,7 +567,7 @@ if (typeof jQuery === 'undefined') {
 
   Collapse.VERSION  = '3.3.5'
 
-  Collapse.TRANSITION_DURATION = 350
+  Collapse.TRANSITION_DURATION = 100
 
   Collapse.DEFAULTS = {
     toggle: true

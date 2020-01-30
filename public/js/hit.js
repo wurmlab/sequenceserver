@@ -96,8 +96,8 @@ export default React.createClass({
         }
 
         return <div className="section-header">
-            <h4 data-hit-number={this.props.hit.number}>
-                <i className="fa fa-chevron-down"></i>&nbsp;
+            <h4 data-toggle="collapse" data-target={this.domID() + '_content'}>
+                <i className="fa fa-minus-square-o"></i>&nbsp;
                 <span>
                     {this.props.hit.id}&nbsp;
                     <small>{this.props.hit.title}</small>

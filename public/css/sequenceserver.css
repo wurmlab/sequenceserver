@@ -87,8 +87,9 @@ a.disabled:hover,
  * sub-text on right.
  */
 .section-header {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid  #881C14;
   padding-bottom: 5px;
+  padding-left: 1px;
   display: table;
   width: 100%;
 }
@@ -435,7 +436,7 @@ input[type=checkbox] {
 }
 
 .hit-links * {
-  padding-left: 3px;
+  padding-left: 1px;
   letter-spacing: 1px;
   vertical-align: baseline;
 }
