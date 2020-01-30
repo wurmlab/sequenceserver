@@ -348,7 +348,7 @@ class Graph {
    * Taken from grapher.js
    */
     determine_colour(level) {
-        var graph_colour = { r: 194, g: 85, b: 22 };
+        var graph_colour = { r: 200, g: 41, b: 30 };
         var matte_colour = { r: 255, g: 255, b: 255 };
         var min_opacity = 0.3;
         var opacity = ((1 - min_opacity) * level) + min_opacity;

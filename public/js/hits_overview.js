@@ -196,9 +196,9 @@ class Graph {
             .attr('id', 'legend-grad')
             .selectAll('stop')
             .data([
-                {offset: '0%', color: '#ccc'},
-                {offset: '50%', color: '#888'},
-                {offset: '100%', color: '#000'}
+                {offset: '0%', color: '#fceae9'},
+                {offset: '50%', color: '#c8291e'},
+                {offset: '100%', color: '#000000'}
             ])
             .enter()
             .append('stop')
@@ -310,7 +310,7 @@ class Graph {
                     return d.hitEvalue;
                 }))
             ])
-            .range([40,150]);
+            .range([0, 0.95]);
 
         svg.append('g')
             .attr('class', 'ghit')
@@ -330,9 +330,7 @@ class Graph {
                     // Drawing the HSPs connector line using the same
                     // color as that of the hit track (using lookahead).
                         var yHspline = y(d.hitId) + options.barHeight / 2;
-                        var hsplineColor = d3.rgb(gradScale(v.hspEvalue),
-                            gradScale(v.hspEvalue),
-                            gradScale(v.hspEvalue));
+                        var hsplineColor = d3.hsl(4, 0.74, gradScale(v.hspEvalue));
 
                         if (j+1 < d.length) {
                             if (d[j].hspEnd <= d[j+1].hspStart) {
@@ -378,7 +376,7 @@ class Graph {
                                 return x(d.hspEnd - d.hspStart + 1);
                             })
                             .attr('height', options.barHeight)
-                            .attr('fill', d3.rgb(hsplineColor));
+                            .attr('fill', d3.hsl(hsplineColor));
                     });
             });
 

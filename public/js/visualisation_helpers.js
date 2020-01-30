@@ -12,9 +12,9 @@ export function get_colors_for_evalue(evalue, hits) {
                 return d.evalue;
             }))
         ])
-        .range([40,150]);
+        .range([0,0.95]);
     var rgb = colors(evalue);
-    return d3.rgb(rgb, rgb , rgb);
+    return d3.hsl(4, 0.74 , rgb);
 }
 
 export function toLetters(num) {
