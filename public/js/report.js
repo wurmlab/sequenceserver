@@ -294,17 +294,17 @@ var Report = React.createClass({
     overviewJSX: function () {
         return (
             <div className="overview">
-                <p className="text-monospace">
+                <p className="job-overview">
                     {this.state.program_version}{this.state.submitted_at
                         && `, query submitted on ${this.state.submitted_at}`}
                 </p>
-                <p className="text-monospace">
+                <p className="job-overview">
                     Databases: {
                         this.state.querydb.map((db) => { return db.title; }).join(', ')
                     } ({this.state.stats.nsequences} sequences,&nbsp;
                     {this.state.stats.ncharacters} characters)
                 </p>
-                <p className="text-monospace">
+                <p className="job-overview">
                     Parameters: {
                         _.map(this.state.params, function (val, key) {
                             return key + ' ' + val;
@@ -372,7 +372,7 @@ var Report = React.createClass({
      */
     shouldShowIndex: function () {
         var num_queries = this.state.queries.length;
-        return num_queries >= 2 && num_queries <= 8;
+        return num_queries >= 2 && num_queries <= 12;
     },
 
     /**
@@ -383,10 +383,10 @@ var Report = React.createClass({
             var $this = $(this);
             $this.on('mouseup mousemove', function handler(event) {
                 if (event.type === 'mouseup') {
-                    // User wants to toggle. Get the hit-number data attribute of $this.
+                    // user wants to toggle
                     var hitNumber = $this.data('hit-number');
                     $(`div[data-parent-hit=${hitNumber}]`).toggle();
-                    $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
+                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
                 } else {
                     // user wants to select
                     $this.attr('data-toggle', '');
