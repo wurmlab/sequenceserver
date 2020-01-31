@@ -329,7 +329,7 @@ var Report = React.createClass({
                     // and toggle the 'in' class for collapsing/expanding.
                     var target = $('#' + $this.attr('data-target'));
                     target.toggleClass('in');
-                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o', 100);
                 } else {
                     // user wants to select
                     $this.attr('data-toggle', '');
