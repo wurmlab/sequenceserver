@@ -4,6 +4,7 @@ import _ from 'underscore';
 import HSPOverview from './kablammo';
 import AlignmentExporter from './alignment_exporter'; // to download textual alignment
 import Utils from './utils'; // to use as mixin in Hit
+import downloadFASTA from './download_fasta';
 
 /**
  * Component for each hit. Receives props from Report. Has no state.
