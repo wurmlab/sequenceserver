@@ -6,7 +6,7 @@ import AlignmentExporter from './alignment_exporter'; // to download textual ali
 import Utils from './utils'; // to use as mixin in Hit
 
 /**
- * Component for each hit.
+ * Component for each hit. Receives props from Report. Has no state.
  */
 export default React.createClass({
     mixins: [Utils],
@@ -38,13 +38,8 @@ export default React.createClass({
         return _.map(this.props.querydb, _.iteratee('id'));
     },
 
-    showSequenceViewer: function (event) {
-        this.setState({ showSequenceViewer: true });
-        event && event.preventDefault();
-    },
-
-    hideSequenceViewer: function () {
-        this.setState({ showSequenceViewer: false });
+    showSequenceViewer: function () {
+        this.props.showSequenceModal(this.viewSequenceLink());
     },
 
     viewSequenceLink: function () {
@@ -71,10 +66,6 @@ export default React.createClass({
 
 
     // Life cycle methods //
-
-    getInitialState: function () {
-        return { showSequenceViewer: false };
-    },
 
     // Return JSX for view sequence button.
     viewSequenceButton: function () {
@@ -159,12 +150,7 @@ export default React.createClass({
                     /> Select
                 </label>
                 {
-                    !this.props.imported_xml && [
-                        <span> | </span>,
-                        this.viewSequenceButton(),
-                        this.state.showSequenceViewer && <SequenceViewer
-                            url={this.viewSequenceLink()} onHide={this.hideSequenceViewer} />
-                    ]
+                    !this.props.imported_xml && [<span> | </span>, this.viewSequenceButton()]
                 }
                 {
                     !this.props.imported_xml && [

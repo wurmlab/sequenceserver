@@ -6,8 +6,8 @@ import Circos from './circos';
 import Query from './query';
 import Hit from './hit';
 import HSP from './hsp';
-import './sequence';
 
+import SequenceModal from './sequence_modal';
 import showErrorModal from './error_modal';
 
 /**
@@ -36,12 +36,20 @@ var Page = React.createClass({
             <div>
                 {/* Provide bootstrap .container element inside the #view for
                     the Report component to render itself in. */}
-                <div className="container"><Report ref="report"/></div>
+                <div className="container">
+                    <Report showSequenceModal={ _ => this.showSequenceModal(_) } />
+                </div>
 
                 {/* Required by Grapher for SVG and PNG download */}
                 <canvas id="png-exporter" hidden></canvas>
+
+                <SequenceModal ref="sequenceModal" />
             </div>
         );
+    },
+
+    showSequenceModal: function (url) {
+        this.refs.sequenceModal.show(url);
     }
 });
 
@@ -194,7 +202,8 @@ var Report = React.createClass({
                         hit={hit} algorithm={this.state.program} querydb={this.state.querydb}
                         selectHit={this.selectHit} imported_xml={this.state.imported_xml}
                         showQueryCrumbs={this.state.queries.length > 1}
-                        showHitCrumbs={query.hits.length > 1}  />
+                        showHitCrumbs={query.hits.length > 1}
+                        {... this.props} />
                     );
                 }
 
@@ -457,183 +466,6 @@ var Report = React.createClass({
         }
     },
 });
-
-/**
- * Component for sequence-viewer links.
- */
-var SequenceViewer = (function () {
-
-    var Viewer = React.createClass({
-
-        /**
-         * The CSS class name that will be assigned to the widget container. ID
-         * assigned to the widget container is derived from the same.
-         */
-        widgetClass: 'biojs-vis-sequence',
-
-        // Lifecycle methods. //
-
-        render: function () {
-            this.widgetID =
-                this.widgetClass + '-' + (new Date().getUTCMilliseconds());
-
-            return (
-                <div
-                    className="fastan">
-                    <div
-                        className="section-header">
-                        <h4>
-                            {this.props.sequence.id}
-                            <small>
-                                &nbsp; {this.props.sequence.title}
-                            </small>
-                        </h4>
-                    </div>
-                    <div
-                        className="section-content">
-                        <div
-                            className={this.widgetClass} id={this.widgetID}>
-                        </div>
-                    </div>
-                </div>
-            );
-        },
-
-        componentDidMount: function () {
-            // attach BioJS sequence viewer
-            var widget = new Sequence({
-                sequence: this.props.sequence.value,
-                target: this.widgetID,
-                format: 'PRIDE',
-                columns: {
-                    size: 40,
-                    spacedEach: 0
-                },
-                formatOptions: {
-                    title: false,
-                    footer: false
-                }
-            });
-            widget.hideFormatSelector();
-        }
-    });
-
-    return React.createClass({
-
-        // Kind of public API. //
-
-        /**
-         * Shows sequence viewer.
-         */
-        show: function () {
-            this.modal().modal('show');
-        },
-
-
-        // Internal helpers. //
-
-        modal: function () {
-            return $(React.findDOMNode(this.refs.modal));
-        },
-
-        resultsJSX: function () {
-            return (
-                <div className="modal-body">
-                    {
-                        _.map(this.state.error_msgs, _.bind(function (error_msg) {
-                            return (
-                                <div
-                                    className="fastan">
-                                    <div
-                                        className="section-header">
-                                        <h4>
-                                            {error_msg[0]}
-                                        </h4>
-                                    </div>
-                                    <div
-                                        className="section-content">
-                                        <pre
-                                            className="pre-reset">
-                                            {error_msg[1]}
-                                        </pre>
-                                    </div>
-                                </div>
-                            );
-                        }, this))
-                    }
-                    {
-                        _.map(this.state.sequences, _.bind(function (sequence) {
-                            return (<Viewer sequence={sequence}/>);
-                        }, this))
-                    }
-                </div>
-            );
-        },
-
-        loadingJSX: function () {
-            return (
-                <div className="modal-body text-center">
-                    <i className="fa fa-spinner fa-3x fa-spin"></i>
-                </div>
-            );
-        },
-
-
-        // Lifecycle methods. //
-
-        getInitialState: function () {
-            return {
-                error_msgs: [],
-                sequences:  [],
-                requestCompleted: false
-            };
-        },
-
-        render: function () {
-            return (
-                <div
-                    className="modal sequence-viewer"
-                    ref="modal" tabIndex="-1">
-                    <div
-                        className="modal-dialog">
-                        <div
-                            className="modal-content">
-                            <div
-                                className="modal-header">
-                                <h3>View sequence</h3>
-                            </div>
-
-                            { this.state.requestCompleted &&
-                                    this.resultsJSX() || this.loadingJSX() }
-                        </div>
-                    </div>
-                </div>
-            );
-        },
-
-        componentDidMount: function () {
-            // Display modal with a spinner.
-            this.show();
-
-            // Fetch sequence and update state.
-            $.getJSON(this.props.url)
-                .done(_.bind(function (response) {
-                    this.setState({
-                        sequences: response.sequences,
-                        error_msgs: response.error_msgs,
-                        requestCompleted: true
-                    });
-                }, this))
-                .fail(function (jqXHR, status, error) {
-                    showErrorModal(jqXHR, function () {
-                        this.hide();
-                    });
-                });
-
-            this.modal().on('hidden.bs.modal', this.props.onHide);
-        },
-    });
-})();
 
 /**
  * Renders links for downloading hit information in different formats.
