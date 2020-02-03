@@ -10,6 +10,7 @@ import HSP from './hsp';
 import SequenceModal from './sequence_modal';
 import showErrorModal from './error_modal';
 import downloadFASTA from './download_fasta';
+import AlignmentExporter from './alignment_exporter'; // to download textual alignment
 
 /**
  * Base component of report page. This component is later rendered into page's
