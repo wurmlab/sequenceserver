@@ -168,9 +168,9 @@ var Report = React.createClass({
         while (this.nextQuery < this.state.queries.length) {
             var query = this.state.queries[this.nextQuery];
             // We may see a query multiple times during rendering because only
-            // 10 hsps are rendered in each cycle, but we want to create the
+            // 3 hsps or are rendered in each cycle, but we want to create the
             // corresponding Query component only the first time we see it.
-            if (this.nextHit == 0) {
+            if (this.nextHit == 0 && this.nextHSP == 0) {
                 results.push(<Query key={'Query_'+query.number} query={query}
                     program={this.state.program} querydb={this.state.querydb}
                     showQueryCrumbs={this.state.queries.length > 1}
