@@ -20,7 +20,7 @@ var Page = React.createClass({
     componentDidMount: function () {
         this.refs.dnd.setState({
             query: this.refs.form.refs.query
-        })
+        });
     }
 });
 
@@ -31,14 +31,14 @@ var DnD = React.createClass({
     getInitialState: function () {
         return {
             query: null
-        }
+        };
     },
 
     render: function () {
         return (
             <div
                 className="dnd-overlay"
-                style={{display: "none"}}>
+                style={{display: 'none'}}>
                 <div
                     className="container dnd-overlay-container">
                     <div
@@ -47,15 +47,15 @@ var DnD = React.createClass({
                             className="col-md-offset-2 col-md-10">
                             <p
                                 className="dnd-overlay-drop"
-                                style={{display: "none"}}>
+                                style={{display: 'none'}}>
                                 <i className="fa fa-2x fa-file-o"></i>
                                 Drop query sequence file here
                             </p>
                             <p
                                 className="dnd-overlay-overwrite"
-                                style={{display: "none"}}>
+                                style={{display: 'none'}}>
                                 <i className="fa fa-2x fa-file-o"></i>
-                                <span style={{color: "red"}}>Overwrite</span> query sequence file
+                                <span style={{color: 'red'}}>Overwrite</span> query sequence file
                             </p>
 
                             <div
@@ -63,7 +63,7 @@ var DnD = React.createClass({
                                 <div
                                     className="dnd-error row"
                                     id="dnd-multi-notification"
-                                    style={{display: "none"}}>
+                                    style={{display: 'none'}}>
                                     <div
                                         className="col-md-6 col-md-offset-3">
                                         One file at a time please.
@@ -73,7 +73,7 @@ var DnD = React.createClass({
                                 <div
                                     className="dnd-error row"
                                     id="dnd-large-file-notification"
-                                    style={{display: "none"}}>
+                                    style={{display: 'none'}}>
                                     <div
                                         className="col-md-6 col-md-offset-3">
                                         Too big a file. Can only do less than 10 MB. &gt;_&lt;
@@ -83,7 +83,7 @@ var DnD = React.createClass({
                                 <div
                                     className="dnd-error row"
                                     id="dnd-format-notification"
-                                    style={{display: "none"}}>
+                                    style={{display: 'none'}}>
                                     <div
                                         className="col-md-6 col-md-offset-3">
                                         Only FASTA files please.
@@ -111,80 +111,80 @@ var DnD = React.createClass({
             };
 
             $(document)
-            .on('dragenter', function (evt) {
+                .on('dragenter', function (evt) {
                 // Do not activate DnD if a modal is active.
-                if ($.modalActive()) return;
+                    if ($.modalActive()) return;
 
-                // Based on http://stackoverflow.com/a/8494918/1205465.
-                // Contrary to what the above link says, the snippet below can't
-                // distinguish directories from files. We handle that on drop.
-                var dt = evt.originalEvent.dataTransfer;
-                var isFile = dt.types && ((dt.types.indexOf &&  // Chrome and Safari
+                    // Based on http://stackoverflow.com/a/8494918/1205465.
+                    // Contrary to what the above link says, the snippet below can't
+                    // distinguish directories from files. We handle that on drop.
+                    var dt = evt.originalEvent.dataTransfer;
+                    var isFile = dt.types && ((dt.types.indexOf &&  // Chrome and Safari
                                            dt.types.indexOf('Files') != -1) ||
                                            (dt.types.contains && // Firefox
                                             dt.types.contains('application/x-moz-file')));
 
-                if (!isFile) { return; }
+                    if (!isFile) { return; }
 
-                $('.dnd-error').hide();
-                tgtMarker.stop(true, true);
-                tgtMarker.show();
-                dt.effectAllowed = 'copy';
-                if (self.state.query.isEmpty()) {
-                    $('.dnd-overlay-overwrite').hide();
-                    $('.dnd-overlay-drop').show('drop', {direction: 'down'}, 'fast');
-                }
-                else {
-                    $('.dnd-overlay-drop').hide();
-                    $('.dnd-overlay-overwrite').show('drop', {direction: 'down'}, 'fast');
-                }
-            })
-            .on('dragleave', '.dnd-overlay', function (evt) {
-                tgtMarker.hide();
-                $('.dnd-overlay-drop').hide();
-                $('.dnd-overlay-overwrite').hide();
-            })
-            .on('dragover', '.dnd-overlay', function (evt) {
-                evt.originalEvent.dataTransfer.dropEffect = 'copy';
-                evt.preventDefault();
-            })
-            .on('drop', '.dnd-overlay', function (evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-
-                var indicator = $('#sequence-file');
-                self.state.query.focus();
-
-                var files = evt.originalEvent.dataTransfer.files;
-                if (files.length > 1) {
-                    dndError('dnd-multi');
-                    return;
-                }
-
-                var file = files[0];
-                if (file.size > 10 * 1048576) {
-                    dndError('dnd-large-file');
-                    return;
-                }
-
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var content = e.target.result;
-                    if (FASTA_FORMAT.test(content)) {
-                        indicator.text(file.name + ' ');
-                        self.state.query.value(content);
-                        tgtMarker.hide();
-                    } else {
-                        // apparently not FASTA
-                        dndError('dnd-format');
+                    $('.dnd-error').hide();
+                    tgtMarker.stop(true, true);
+                    tgtMarker.show();
+                    dt.effectAllowed = 'copy';
+                    if (self.state.query.isEmpty()) {
+                        $('.dnd-overlay-overwrite').hide();
+                        $('.dnd-overlay-drop').show('drop', {direction: 'down'}, 'fast');
                     }
-                };
-                reader.onerror = function (e) {
+                    else {
+                        $('.dnd-overlay-drop').hide();
+                        $('.dnd-overlay-overwrite').show('drop', {direction: 'down'}, 'fast');
+                    }
+                })
+                .on('dragleave', '.dnd-overlay', function (evt) {
+                    tgtMarker.hide();
+                    $('.dnd-overlay-drop').hide();
+                    $('.dnd-overlay-overwrite').hide();
+                })
+                .on('dragover', '.dnd-overlay', function (evt) {
+                    evt.originalEvent.dataTransfer.dropEffect = 'copy';
+                    evt.preventDefault();
+                })
+                .on('drop', '.dnd-overlay', function (evt) {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+
+                    var indicator = $('#sequence-file');
+                    self.state.query.focus();
+
+                    var files = evt.originalEvent.dataTransfer.files;
+                    if (files.length > 1) {
+                        dndError('dnd-multi');
+                        return;
+                    }
+
+                    var file = files[0];
+                    if (file.size > 10 * 1048576) {
+                        dndError('dnd-large-file');
+                        return;
+                    }
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var content = e.target.result;
+                        if (FASTA_FORMAT.test(content)) {
+                            indicator.text(file.name + ' ');
+                            self.state.query.value(content);
+                            tgtMarker.hide();
+                        } else {
+                        // apparently not FASTA
+                            dndError('dnd-format');
+                        }
+                    };
+                    reader.onerror = function (e) {
                     // Couldn't read. Means dropped stuff wasn't FASTA file.
-                    dndError('dnd-format');
-                };
-                reader.readAsText(file);
-            });
+                        dndError('dnd-format');
+                    };
+                    reader.readAsText(file);
+                });
         });
     }
 });
@@ -207,29 +207,29 @@ var Form = React.createClass({
          * apply when an algorithm is selected, and a query sequenced that
          * the user may want to search in the databases.
          */
-        $.getJSON("searchdata.json" + window.location.search, function(data) {
+        $.getJSON('searchdata.json' + window.location.search, function(data) {
             /* Update form state (i.e., list of databases and predefined
              * advanced options.
              */
             this.setState({
-                databases: data["database"], preDefinedOpts: data["options"]
+                databases: data['database'], preDefinedOpts: data['options']
             });
 
             /* Pre-populate the form with server sent query sequences
              * (if any).
              */
-            if (data["query"]) {
-                this.refs.query.value(data["query"]);
+            if (data['query']) {
+                this.refs.query.value(data['query']);
             }
         }.bind(this));
 
         /* Enable submitting form on Cmd+Enter */
-       $(document).bind("keydown", _.bind(function (e) {
-           if (e.ctrlKey && e.keyCode === 13 &&
+        $(document).bind('keydown', _.bind(function (e) {
+            if (e.ctrlKey && e.keyCode === 13 &&
                !$('#method').is(':disabled')) {
-               $(this.getDOMNode()).trigger('submit');
-           }
-       }, this));
+                $(this.getDOMNode()).trigger('submit');
+            }
+        }, this));
     },
 
     determineBlastMethod: function () {
@@ -242,26 +242,26 @@ var Form = React.createClass({
 
         //database type is always known
         switch (database_type) {
+        case 'protein':
+            switch (sequence_type) {
+            case undefined:
+                return ['blastp', 'blastx'];
             case 'protein':
-                switch (sequence_type) {
-                    case undefined:
-                        return ['blastp', 'blastx'];
-                    case 'protein':
-                        return ['blastp'];
-                    case 'nucleotide':
-                        return ['blastx'];
-                }
-                break;
+                return ['blastp'];
             case 'nucleotide':
-                switch (sequence_type) {
-                    case undefined:
-                        return ['tblastn', 'blastn', 'tblastx'];
-                    case 'protein':
-                        return ['tblastn'];
-                    case 'nucleotide':
-                        return ['blastn', 'tblastx'];
-                }
-                break;
+                return ['blastx'];
+            }
+            break;
+        case 'nucleotide':
+            switch (sequence_type) {
+            case undefined:
+                return ['tblastn', 'blastn', 'tblastx'];
+            case 'protein':
+                return ['tblastn'];
+            case 'nucleotide':
+                return ['blastn', 'tblastx'];
+            }
+            break;
         }
 
         return [];
@@ -286,14 +286,14 @@ var Form = React.createClass({
     },
 
     handleAlgoChanged: function (algo) {
-      if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
-        this.refs.opts.setState({
-          preOpts: this.state.preDefinedOpts[algo].join(" ")
-        });
-      }
-      else {
-        this.refs.opts.setState({preOpts: ""});
-      }
+        if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
+            this.refs.opts.setState({
+                preOpts: this.state.preDefinedOpts[algo].join(' ')
+            });
+        }
+        else {
+            this.refs.opts.setState({preOpts: ''});
+        }
     },
 
     render: function () {
@@ -347,7 +347,7 @@ var Query = React.createClass({
         else {
             this.setState({
                 value: val
-            })
+            });
             return this;
         }
     },
@@ -452,12 +452,12 @@ var Query = React.createClass({
             if (!tmp) { continue; }
 
             if (!type) {
-              // successfully guessed the type of atleast one sequence
-              type = tmp;
+                // successfully guessed the type of atleast one sequence
+                type = tmp;
             }
             else if (tmp !== type) {
-              // user has mixed different type of sequences
-              return 'mixed';
+                // user has mixed different type of sequences
+                return 'mixed';
             }
         }
 
@@ -512,7 +512,7 @@ var Query = React.createClass({
     // Lifecycle methods. //
 
     getInitialState: function () {
-        var input_sequence = $("input#input_sequence").val() || '';
+        var input_sequence = $('input#input_sequence').val() || '';
         return {
             value: input_sequence
         };
@@ -623,7 +623,7 @@ var Databases = React.createClass({
         return {
             type:      '',
             databases: []
-        }
+        };
     },
 
     databases: function (category) {
@@ -632,9 +632,9 @@ var Databases = React.createClass({
         }
 
         return _.select(this.props.databases,
-                        function (database) {
-                            return database.type === category;
-                        });
+            function (database) {
+                return database.type === category;
+            });
     },
 
     nselected: function () {
@@ -643,7 +643,7 @@ var Databases = React.createClass({
 
     categories: function () {
         return _.uniq(_.map(this.props.databases,
-                            _.iteratee('type'))).sort();
+            _.iteratee('type'))).sort();
     },
 
     handleClick: function (database) {
@@ -653,12 +653,12 @@ var Databases = React.createClass({
 
     handleToggle: function (toggleState, type) {
         switch (toggleState) {
-            case '[Select all]':
-                $(`.${type} .database input:not(:checked)`).click();
-                break;
-            case '[Deselect all]':
-                $(`.${type} .database input:checked`).click();
-                break;
+        case '[Select all]':
+            $(`.${type} .database input:not(:checked)`).click();
+            break;
+        case '[Deselect all]':
+            $(`.${type} .database input:checked`).click();
+            break;
         }
     },
 
@@ -673,7 +673,7 @@ var Databases = React.createClass({
     renderDatabases: function (category) {
         // Panel name and column width.
         var panelTitle = category[0].toUpperCase() +
-            category.substring(1).toLowerCase() + " databases";
+            category.substring(1).toLowerCase() + ' databases';
         var columnClass = this.categories().length === 1 ?  'col-md-12' :
             'col-md-6';
 
@@ -690,20 +690,20 @@ var Databases = React.createClass({
 
         // JSX.
         return (
-            <div className={columnClass} key={"DB_"+category}>
+            <div className={columnClass} key={'DB_'+category}>
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                        <h4 style={{display: "inline"}}>{panelTitle}</h4> &nbsp;&nbsp;
+                        <h4 style={{display: 'inline'}}>{panelTitle}</h4> &nbsp;&nbsp;
                         <button type="button" className={toggleClass} disabled={toggleDisabled}
-                            onClick={ function () { this.handleToggle(toggleState, category) }.bind(this) }>
+                            onClick={ function () { this.handleToggle(toggleState, category); }.bind(this) }>
                             {toggleState}
                         </button>
                     </div>
-                    <ul className={"list-group databases " + category}>
+                    <ul className={'list-group databases ' + category}>
                         {
                             _.map(this.databases(category), _.bind(function (database,index) {
                                 return (
-                                    <li className="list-group-item" key={"DB_"+category+index}>
+                                    <li className="list-group-item" key={'DB_'+category+index}>
                                         { this.renderDatabase(database) }
                                     </li>
                                 );
@@ -725,18 +725,18 @@ var Databases = React.createClass({
                     type="checkbox" name="databases[]" value={database.id}
                     data-type={database.type} disabled={disabled}
                     onChange=
-                    {
-                        _.bind(function () {
-                            this.handleClick(database)
-                        }, this)
-                    }/>
-                {" " + (database.title || database.name)}
+                        {
+                            _.bind(function () {
+                                this.handleClick(database);
+                            }, this)
+                        }/>
+                {' ' + (database.title || database.name)}
             </label>
         );
     },
 
     //shouldComponentUpdate: function (props, state) {
-        //return !(state.type && state.type === this.state.type);
+    //return !(state.type && state.type === this.state.type);
     //},
 
     componentDidUpdate: function () {
@@ -752,15 +752,15 @@ var Databases = React.createClass({
 var Options = React.createClass({
 
     updateBox: function (evt) {
-      this.setState({
-        preOpts: evt.target.value
-      });
+        this.setState({
+            preOpts: evt.target.value
+        });
     },
 
     getInitialState: function () {
-      return {
-        preOpts: ""
-      }
+        return {
+            preOpts: ''
+        };
     },
 
     render: function () {
@@ -785,7 +785,7 @@ var Options = React.createClass({
                                 placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
                                 value={this.state.preOpts}
                                 onChange={this.updateBox}
-                                />
+                            />
                             <div
                                 className="input-group-addon cursor-pointer"
                                 data-toggle="modal" data-target="#help">
@@ -828,23 +828,23 @@ var SearchButton = React.createClass({
             trigger: 'manual',
             title: _.bind(function () {
                 if (!this.state.hasQuery && !this.state.hasDatabases) {
-                    return "You must enter a query sequence and select one or more databases above before you can run a search!";
+                    return 'You must enter a query sequence and select one or more databases above before you can run a search!';
                 }
                 else if (this.state.hasQuery && !this.state.hasDatabases) {
-                    return "You must select one or more databases above before you can run a search!";
+                    return 'You must select one or more databases above before you can run a search!';
                 }
                 else if (!this.state.hasQuery && this.state.hasDatabases) {
-                    return "You must enter a query sequence above before you can run a search!";
+                    return 'You must enter a query sequence above before you can run a search!';
                 }
             }, this)
         });
 
         this.submitButton().tooltip({
             title: _.bind(function () {
-                var title = "Click to BLAST or press Ctrl+Enter.";
+                var title = 'Click to BLAST or press Ctrl+Enter.';
                 if (this.state.methods.length > 1) {
-                    title += " Click dropdown button on the right for other" +
-                        " BLAST algorithms that can be used.";
+                    title += ' Click dropdown button on the right for other' +
+                        ' BLAST algorithms that can be used.';
                 }
                 return title;
             }, this)
@@ -903,7 +903,7 @@ var SearchButton = React.createClass({
             methods: [],
             hasQuery: false,
             hasDatabases: false
-        }
+        };
     },
 
     render: function () {
@@ -971,7 +971,7 @@ var SearchButton = React.createClass({
             this.props.onAlgoChanged(this.state.methods[0]);
         }
         else {
-            this.props.onAlgoChanged("");
+            this.props.onAlgoChanged('');
         }
     }
 });
