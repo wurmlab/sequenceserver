@@ -442,12 +442,12 @@ input[type=checkbox] {
 .hit-links * {
   padding-left: 3px;
   letter-spacing: 1px;
-  vertical-align: baseline;
+  vertical-align: middle;
 }
 .btn-link {
   border: none;
   padding: 0px;
-  letter-spacing: 1px;
+  vertical-align: text-bottom;
 }
 
 .fastan > .section-header {
