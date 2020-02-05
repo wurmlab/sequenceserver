@@ -94,7 +94,7 @@ export default React.createClass({
         return (
             <div className="index">
                 <div
-                    className="section-header">
+                    className="section-header-sidebar">
                     <h4>
                         { this.summary() }
                     </h4>
@@ -135,7 +135,7 @@ export default React.createClass({
     downloads: function () {
         return (
             <div className="downloads">
-                <div className="section-header">
+                <div className="section-header-sidebar">
                     <h4>
                         Download FASTA, XML, TSV
                     </h4>

@@ -51,8 +51,10 @@ export default React.createClass({
         }
         return <div className="section-header">
             <h3>
+                <strong>
                 Query= {this.props.query.id}&nbsp;
-                <small>{this.props.query.title}</small>
+                    <small>{this.props.query.title}</small>
+                </strong>
             </h3>
             <span className="label label-reset pos-label">{ meta }</span>
         </div>;
@@ -68,7 +70,6 @@ export default React.createClass({
 
     noHitsJSX: function () {
         return <div className="section-content">
-            <br />
             <p>
                 <strong> ****** No hits found ****** </strong>
             </p>
@@ -85,7 +86,7 @@ export default React.createClass({
         // is not re-rendered. If the query property is not set, we return
         // true: this must be the first time react is trying to render the
         // component.
-        return !this.props.query; 
+        return !this.props.query;
     }
 });
 

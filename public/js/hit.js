@@ -136,14 +136,58 @@ export default React.createClass({
                     /> Select
                 </label>
                 {
+<<<<<<< HEAD
                     btns.map((btn) => {
                         return [<span> | </span>, this.button(btn)];
                     })
+||||||| merged common ancestors
+                    !this.props.imported_xml && [<span> | </span>, this.viewSequenceButton()]
+=======
+                    !this.props.imported_xml && [<span className='line'> | </span>, this.viewSequenceButton()]
+>>>>>>> Color/font-size/hr
                 }
                 {
+<<<<<<< HEAD
                     this.props.hit.links.map((link) => {
                         return [<span> | </span>, this.a(link)];
                     })
+||||||| merged common ancestors
+                    !this.props.imported_xml && [
+                        <span> | </span>,
+                        <button className='btn btn-link download-fa'
+                            onClick={this.downloadFASTA}>
+                            <i className="fa fa-download"></i> FASTA
+                        </button>
+                    ]
+                }
+                <span> | </span>
+                <button className='btn btn-link download-aln'
+                    onClick={this.downloadAlignment}>
+                    <i className="fa fa-download"></i> Alignment
+                </button>
+                {
+                    _.map(this.props.hit.links, _.bind(function (link) {
+                        return [<span> | </span>, this.a(link)];
+                    }, this))
+=======
+                    !this.props.imported_xml && [
+                        <span className='line'> | </span>,
+                        <button className='btn btn-link download-fa'
+                            onClick={this.downloadFASTA}>
+                            <i className="fa fa-download"></i> FASTA
+                        </button>
+                    ]
+                }
+                <span className='line'> | </span>
+                <button className='btn btn-link download-aln'
+                    onClick={this.downloadAlignment}>
+                    <i className="fa fa-download"></i> Alignment
+                </button>
+                {
+                    _.map(this.props.hit.links, _.bind(function (link) {
+                        return [<span className='line'> | </span>, this.a(link)];
+                    }, this))
+>>>>>>> Color/font-size/hr
                 }
             </div>
         );
