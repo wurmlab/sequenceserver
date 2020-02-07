@@ -197,8 +197,7 @@ var Report = React.createClass({
                     var hsp = hit.hsps[this.nextHSP++];
                     results.push(
                         <HSP key={'Query_'+query.number+'_Hit_'+hit.number+'_HSP_'+hsp.number}
-                            hsp={hsp} algorithm={this.state.program} hitNumber={hit.number}
-                            queryNumber={query.number}  />
+                            query={query} hit={hit} hsp={hsp} algorithm={this.state.program} />
                     );
                     numHSPsProcessed++;
                     if (numHSPsProcessed == this.maxHSPs) break;
@@ -373,12 +372,9 @@ var Report = React.createClass({
             var $this = $(this);
             $this.on('mouseup mousemove', function handler(event) {
                 if (event.type === 'mouseup') {
-                    // user wants to toggle
-                    $this.attr('data-toggle', 'collapse');
-                    // Get the element indicated in the data-target attribute
-                    // and toggle the 'in' class for collapsing/expanding.
-                    var target = $('#' + $this.attr('data-target'));
-                    target.toggleClass('in');
+                    // User wants to toggle. Get the hit-number data attribute of $this.
+                    var hitNumber = $this.data('hit-number');
+                    $(`div[data-parent-hit=${hitNumber}]`).toggle();
                     $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
                 } else {
                     // user wants to select

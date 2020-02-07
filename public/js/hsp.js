@@ -17,14 +17,15 @@ export default class HSP extends React.Component {
     }
 
     domID() {
-        return 'Query_' + this.props.queryNumber + '_hit_' +
-            this.props.hitNumber + '_' + this.hsp.number;
+        return 'Query_' + this.props.query.number + '_hit_' +
+            this.props.hit.number + '_' + this.props.hsp.number;
     }
 
     // Renders pretty formatted alignment.
     render () {
         return (
-            <div className="hsp" id={this.domID()} ref="hsp">
+            <div className="hsp" id={this.domID()} ref="hsp"
+                data-parent-hit={this.props.hit.number}>
                 <pre className="pre-reset hsp-stats">
                     {Helpers.toLetters(this.hsp.number) + '.'}&nbsp;{this.hspStats()}
                 </pre>

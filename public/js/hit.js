@@ -121,7 +121,7 @@ export default React.createClass({
         }
 
         return <div className="section-header">
-            <h4 data-toggle="collapse" data-target={this.domID() + '_content'}>
+            <h4 data-hit-number={this.props.hit.number}>
                 <i className="fa fa-chevron-down"></i>&nbsp;
                 <span>
                     {this.props.hit.id}&nbsp;
@@ -133,7 +133,7 @@ export default React.createClass({
     },
 
     contentJSX: function () {
-        return <div id={this.domID() + '_content'} className="section-content collapse in">
+        return <div className="section-content" data-parent-hit={this.props.hit.number}>
             { this.hitLinks() }
             <HSPOverview key={'kablammo' + this.props.query.id} query={this.props.query}
                 hit={this.props.hit} algorithm={this.props.algorithm} />
