@@ -97,13 +97,19 @@ export default React.createClass({
 
         return <div className="section-header">
             <h4 data-toggle="collapse" data-target={this.domID() + '_content'}>
-                <i className="fa fa-minus-square-o"></i>&nbsp;
-                <span>
-                    {this.props.hit.id}&nbsp;
-                    <small>{this.props.hit.title}</small>
-                </span>
+                <div className="hit-header">
+                    <i className="fa fa-minus-square-o"></i>&nbsp;
+                </div>
+                <div className="hit-header">
+                    <span>
+                        {this.props.hit.id}&nbsp;
+                        <small>{this.props.hit.title}</small>
+                    </span>
+                </div>
             </h4>
-            <span className="label label-reset pos-label">{ meta }</span>
+            <div className="hit-header">
+                <span className="label label-reset pos-label">{meta}</span>
+            </div>
         </div>;
     },
 

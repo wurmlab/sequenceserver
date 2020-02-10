@@ -564,8 +564,8 @@ input[type=checkbox] {
   border-color: #174465;
 }
 .btn-primary:disabled, .btn-primary[disabled]:hover {
-  background-color: #c74f14;
-  border-color: #c74f14;
+  background-color: #881C14;
+  border-color: #881C14;
 }
 
 .hit-header {
