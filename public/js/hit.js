@@ -136,7 +136,8 @@ export default React.createClass({
         return <div className="section-content" data-parent-hit={this.props.hit.number}>
             { this.hitLinks() }
             <HSPOverview key={'kablammo' + this.props.query.id} query={this.props.query}
-                hit={this.props.hit} algorithm={this.props.algorithm} />
+                hit={this.props.hit} algorithm={this.props.algorithm}
+                collapsed={this.props.veryBig} />
         </div>;
     },
 

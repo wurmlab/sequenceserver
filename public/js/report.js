@@ -53,7 +53,7 @@ var Report = React.createClass({
         this.nextHit = 0;
         this.nextHSP = 0;
         this.maxHSPs = 3;
-
+        this.numHSPs = 0;
 
         return {
             search_id:       '',
@@ -108,7 +108,6 @@ var Report = React.createClass({
      * Calls setState after any required modification to responseJSON.
      */
     setStateFromJSON: function(responseJSON) {
-        responseJSON.veryBig = responseJSON.queries.length > 250;
         this.lastTimeStamp = Date.now();
         this.setState(responseJSON);
     },
@@ -188,6 +187,7 @@ var Report = React.createClass({
                         selectHit={this.selectHit} imported_xml={this.state.imported_xml}
                         showQueryCrumbs={this.state.queries.length > 1}
                         showHitCrumbs={query.hits.length > 1}
+                        veryBig={this.state.veryBig}
                         {... this.props} />
                     );
                 }
@@ -221,8 +221,12 @@ var Report = React.createClass({
         }
 
         // Push the components to react for rendering.
+        this.numHSPs += 3;
         this.lastTimeStamp = Date.now();
-        this.setState({results: this.state.results.concat(results)});
+        this.setState({
+            results: this.state.results.concat(results),
+            veryBig: this.numHSPs >= 10
+        });
     },
 
     /**
