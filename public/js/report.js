@@ -49,11 +49,14 @@ var Report = React.createClass({
 
     getInitialState: function () {
         this.fetchResults();
+
+        // Properties below are internal state used to render results in small
+        // slices (see updateState).
+        this.numUpdates = 0;
         this.nextQuery = 0;
         this.nextHit = 0;
         this.nextHSP = 0;
-        this.maxHSPs = 3;
-        this.numHSPs = 0;
+        this.maxHSPs = 3; // max HSPs to render in a cycle
 
         return {
             search_id:       '',
@@ -221,11 +224,11 @@ var Report = React.createClass({
         }
 
         // Push the components to react for rendering.
-        this.numHSPs += 3;
+        this.numUpdates++;
         this.lastTimeStamp = Date.now();
         this.setState({
             results: this.state.results.concat(results),
-            veryBig: this.numHSPs >= 10
+            veryBig: this.numUpdates >= 250
         });
     },
 
