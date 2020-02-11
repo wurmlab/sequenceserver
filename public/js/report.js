@@ -340,6 +340,10 @@ var Report = React.createClass({
         return this.state.queries.some(query => query.hits.length > 0);
     },
 
+    /**
+     * Does the report have at least two hits? This is used to determine
+     * whether Circos should be enabled or not.
+     */
     atLeastTwoHits: function () {
         var hit_num = 0;
         return this.state.queries.some(query => {
