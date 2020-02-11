@@ -2,16 +2,13 @@ import React from 'react';
 import _ from 'underscore';
 
 import HSPOverview from './kablammo';
-import AlignmentExporter from './alignment_exporter'; // to download textual alignment
-import Utils from './utils'; // to use as mixin in Hit
 import downloadFASTA from './download_fasta';
+import AlignmentExporter from './alignment_exporter'; // to download textual alignment
 
 /**
  * Component for each hit. Receives props from Report. Has no state.
  */
 export default React.createClass({
-    mixins: [Utils],
-
     /**
      * Returns accession number of the hit sequence.
      */
@@ -68,28 +65,6 @@ export default React.createClass({
 
     // Life cycle methods //
 
-    // Return JSX for view sequence button.
-    viewSequenceButton: function () {
-        if (this.hitLength() > 10000) {
-            return (
-                <button
-                    className="btn btn-link view-sequence disabled"
-                    title="Sequence too long" disabled="true">
-                    <i className="fa fa-eye"></i> Sequence
-                </button>
-            );
-        }
-        else {
-            return (
-                <button
-                    className="btn btn-link view-sequence"
-                    onClick={this.showSequenceViewer}>
-                    <i className="fa fa-eye"></i> Sequence
-                </button>
-            );
-        }
-    },
-
     render: function () {
         return (
             <div className="hit" id={this.domID()} data-hit-def={this.props.hit.id}
@@ -142,6 +117,15 @@ export default React.createClass({
     },
 
     hitLinks: function () {
+        var btns = [];
+        if (!this.props.imported_xml) {
+            btns = btns.concat([
+                this.viewSequenceButton(),
+                this.downloadFASTAButton()
+            ]);
+        }
+        btns.push(this.downloadAlignmentButton());
+
         return (
             <div className="hit-links">
                 <label>
@@ -152,28 +136,85 @@ export default React.createClass({
                     /> Select
                 </label>
                 {
-                    !this.props.imported_xml && [<span> | </span>, this.viewSequenceButton()]
+                    btns.map((btn) => {
+                        return [<span> | </span>, this.button(btn)];
+                    })
                 }
                 {
-                    !this.props.imported_xml && [
-                        <span> | </span>,
-                        <button className='btn btn-link download-fa'
-                            onClick={this.downloadFASTA}>
-                            <i className="fa fa-download"></i> FASTA
-                        </button>
-                    ]
-                }
-                <span> | </span>
-                <button className='btn btn-link download-aln'
-                    onClick={this.downloadAlignment}>
-                    <i className="fa fa-download"></i> Alignment
-                </button>
-                {
-                    _.map(this.props.hit.links, _.bind(function (link) {
+                    this.props.hit.links.map((link) => {
                         return [<span> | </span>, this.a(link)];
-                    }, this))
+                    })
                 }
             </div>
         );
-    }
+    },
+
+    // Return JSX for view sequence button.
+    viewSequenceButton: function () {
+        if (this.hitLength() > 10000) {
+            return {
+                text: 'Sequence',
+                icon: 'fa-eye',
+                className: 'view-sequence',
+                title: 'Sequence too long',
+            }
+        }
+        else {
+            return {
+                text: 'Sequence',
+                icon: 'fa-eye',
+                className: 'view-sequence',
+                onClick: () => this.showSequenceViewer()
+            }
+
+        }
+    },
+
+    downloadFASTAButton: function () {
+        return {
+            text: 'FASTA',
+            icon: 'fa-download',
+            className: 'download-fa',
+            onClick: () => this.downloadFASTA()
+        };
+    },
+
+    downloadAlignmentButton: function () {
+        return {
+            text: 'Alignment',
+            icon: 'fa-download',
+            className: 'download-fa',
+            onClick: () => this.downloadAlignment()
+        };
+    },
+
+    button: function ({text, icon, title, className, onClick}) {
+        if (onClick) {
+            return <button className={`btn btn-link ${className}`}
+                title={title} onClick={onClick}><i className={`fa ${icon}`}></i> {text}
+            </button>;
+        }
+        else {
+            return <button className="btn btn-link view-sequence disabled"
+                title={title} disabled="true">
+                <i className={`fa ${icon}`}></i> text
+            </button>;
+        }
+    },
+
+    /**
+     * Render URL for sequence-viewer.
+     */
+    a: function (link) {
+        if (link.title && link.url)
+        {
+            return (
+                <a href={link.url} className={link.class} target='_blank'>
+                    {link.icon && <i className={'fa ' + link.icon}></i>}
+                    {' ' + link.title + ' '}
+                </a>
+            );
+        }
+    },
+
 });
