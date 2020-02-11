@@ -27,7 +27,8 @@ export default class HSP extends React.Component {
             <div className="hsp" id={this.domID()} ref="hsp"
                 data-parent-hit={this.props.hit.number}>
                 <pre className="pre-reset hsp-stats">
-                    {Helpers.toLetters(this.hsp.number) + '.'}&nbsp;{this.hspStats()}
+                    {Helpers.toLetters(this.hsp.number) + '.'}&nbsp;
+                    {this.hspStats().map((s, i) => <span key={i}>{s}</span>)}
                 </pre>
                 {this.hspLines()}
             </div>
@@ -103,6 +104,10 @@ export default class HSP extends React.Component {
         return line;
     }
 
+    /**
+     * Returns array of pre tags containing the three query, middle, and subject
+     * lines that together comprise one 'rendered line' of HSP.
+     */
     hspLines () {
         // Space reserved for showing coordinates
         var width = this.width();
@@ -121,7 +126,6 @@ export default class HSP extends React.Component {
         var nqseq = this.nqseq();
         var nsseq = this.nsseq();
         for (let i = 1; i <= lines; i++) {
-            let line = [];
             let seq_start_index = chars * (i - 1);
             let seq_stop_index = seq_start_index + chars;
 
@@ -139,29 +143,34 @@ export default class HSP extends React.Component {
                 this.sframe_unit() * this.sframe_sign();
             nsseq = lsend + this.sframe_unit() * this.sframe_sign();
 
-            line.push(this.spanCoords('Query   ' + this.formatCoords(lqstart, width) + ' '));
-            line.push(lqseq);
-            line.push(this.spanCoords(' ' + lqend));
-            line.push(<br/>);
-
-            line.push(this.formatCoords('', width + 8) + ' ');
-            line.push(lmseq);
-            line.push(<br/>);
-
-            line.push(this.spanCoords('Subject ' + this.formatCoords(lsstart, width) + ' '));
-            line.push(lsseq);
-            line.push(this.spanCoords(' ' + lsend));
-            line.push(<br/>);
-
-            pp.push(<pre key={this.hsp.number + ',' + i}
-                className="pre-reset hsp-lines">{line}</pre>);
+            pp.push(
+                <pre key={this.hsp.number + ',' + i} className="pre-reset hsp-lines">
+                    <span className="hsp-coords">
+                        {`Query   ${this.formatCoords(lqstart, width)} `}
+                    </span>
+                    <span>{lqseq}</span>
+                    <span className="hsp-coords">{` ${lqend}`}</span>
+                    <br/>
+                    <span className="hsp-coords">
+                        {`${this.formatCoords('', width + 8)} `}
+                    </span>
+                    <span>{lmseq}</span>
+                    <br/>
+                    <span className="hsp-coords">
+                        {`Subject ${this.formatCoords(lsstart, width)} `}
+                    </span>
+                    <span>{lsseq}</span>
+                    <span className="hsp-coords">{` ${lsend}`}</span>
+                    <br/>
+                </pre>);
         }
 
         return pp;
     }
 
-    // Width of each line of alignment.
-    width() {
+    // Width of the coordinate part of hsp lines. Essentially the length of
+    // the largest coordinate.
+    width () {
         return _.max(_.map([this.hsp.qstart, this.hsp.qend,
             this.hsp.sstart, this.hsp.send],
         (n) => { return n.toString().length; }));
