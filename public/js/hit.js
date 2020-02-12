@@ -96,7 +96,7 @@ export default React.createClass({
         }
 
         return <div className="section-header">
-            <h4 data-toggle="collapse" data-target={this.domID() + '_content'}>
+            <h4 data-hit-number={this.props.hit.number}>
                 <div className="hit-header">
                     <i className="fa fa-minus-square-o"></i>&nbsp;
                 </div>
@@ -142,58 +142,14 @@ export default React.createClass({
                     /> Select
                 </label>
                 {
-<<<<<<< HEAD
                     btns.map((btn) => {
-                        return [<span> | </span>, this.button(btn)];
+                        return [<span className="line"> | </span>, this.button(btn)];
                     })
-||||||| merged common ancestors
-                    !this.props.imported_xml && [<span> | </span>, this.viewSequenceButton()]
-=======
-                    !this.props.imported_xml && [<span className='line'> | </span>, this.viewSequenceButton()]
->>>>>>> Color/font-size/hr
                 }
                 {
-<<<<<<< HEAD
                     this.props.hit.links.map((link) => {
-                        return [<span> | </span>, this.a(link)];
+                        return [<span className="line"> | </span>, this.a(link)];
                     })
-||||||| merged common ancestors
-                    !this.props.imported_xml && [
-                        <span> | </span>,
-                        <button className='btn btn-link download-fa'
-                            onClick={this.downloadFASTA}>
-                            <i className="fa fa-download"></i> FASTA
-                        </button>
-                    ]
-                }
-                <span> | </span>
-                <button className='btn btn-link download-aln'
-                    onClick={this.downloadAlignment}>
-                    <i className="fa fa-download"></i> Alignment
-                </button>
-                {
-                    _.map(this.props.hit.links, _.bind(function (link) {
-                        return [<span> | </span>, this.a(link)];
-                    }, this))
-=======
-                    !this.props.imported_xml && [
-                        <span className='line'> | </span>,
-                        <button className='btn btn-link download-fa'
-                            onClick={this.downloadFASTA}>
-                            <i className="fa fa-download"></i> FASTA
-                        </button>
-                    ]
-                }
-                <span className='line'> | </span>
-                <button className='btn btn-link download-aln'
-                    onClick={this.downloadAlignment}>
-                    <i className="fa fa-download"></i> Alignment
-                </button>
-                {
-                    _.map(this.props.hit.links, _.bind(function (link) {
-                        return [<span className='line'> | </span>, this.a(link)];
-                    }, this))
->>>>>>> Color/font-size/hr
                 }
             </div>
         );
@@ -207,7 +163,7 @@ export default React.createClass({
                 icon: 'fa-eye',
                 className: 'view-sequence',
                 title: 'Sequence too long',
-            }
+            };
         }
         else {
             return {
@@ -215,7 +171,7 @@ export default React.createClass({
                 icon: 'fa-eye',
                 className: 'view-sequence',
                 onClick: () => this.showSequenceViewer()
-            }
+            };
 
         }
     },
