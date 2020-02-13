@@ -1,4 +1,4 @@
-/* */ 
+/* */
 "format global";
 "deps jquery";
 "exports $";
@@ -567,7 +567,7 @@ if (typeof jQuery === 'undefined') {
 
   Collapse.VERSION  = '3.3.5'
 
-  Collapse.TRANSITION_DURATION = 100
+  Collapse.TRANSITION_DURATION = 0
 
   Collapse.DEFAULTS = {
     toggle: true

@@ -385,9 +385,25 @@ var Report = React.createClass({
             $this.on('mouseup mousemove', function handler(event) {
                 if (event.type === 'mouseup') {
                     // user wants to toggle
+<<<<<<< HEAD
                     var hitNumber = $this.data('hit-number');
                     $(`div[data-parent-hit=${hitNumber}]`).toggle();
                     $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+||||||| parent of 6bd1419... Bootstrap animation collapse
+                    $this.attr('data-toggle', 'collapse');
+                    // Get the element indicated in the data-target attribute
+                    // and toggle the 'in' class for collapsing/expanding.
+                    var target = $('#' + $this.attr('data-target'));
+                    target.toggleClass('in');
+                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o', 100);
+=======
+                    $this.attr('data-toggle', 'collapse');
+                    // Get the element indicated in the data-target attribute
+                    // and toggle the 'in' class for collapsing/expanding.
+                    var target = $('#' + $this.attr('data-target'));
+                    target.toggleClass('in');
+                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+>>>>>>> 6bd1419... Bootstrap animation collapse
                 } else {
                     // user wants to select
                     $this.attr('data-toggle', '');
