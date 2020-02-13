@@ -5,7 +5,7 @@ require 'resolv'
 # Top level module / namespace.
 module SequenceServer
   # Use a fixed minimum version of BLAST+
-  BLAST_VERSION = '2.9.0+'.freeze
+  BLAST_VERSION = '2.10.0+'.freeze
 
   # Default location of configuration file.
   DEFAULT_CONFIG_FILE = '~/.sequenceserver.conf'.freeze
