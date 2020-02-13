@@ -130,6 +130,7 @@ var Report = React.createClass({
         // This sets up an event handler which enables users to select text from
         // hit header without collapsing the hit.
         this.preventCollapseOnSelection();
+        this.toggleTable();
     },
 
     /**
@@ -395,6 +396,19 @@ var Report = React.createClass({
             });
         });
     },
+
+/* Handling the fa icon when Hit Table is collapsed */
+    toggleTable: function () {
+        $('body').on('mousedown', '.resultn > .section-content > .table-hit-overview > .caption', function (event) {
+            var $this = $(this);
+            $this.on('mouseup mousemove', function handler(event) {
+                $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+                $this.off('mouseup mousemove', handler);
+            });
+        });
+    },
+
+
 
     /**
      * Affixes the sidebar.
