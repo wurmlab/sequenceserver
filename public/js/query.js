@@ -102,42 +102,50 @@ var HitsTable = React.createClass({
             });
 
         return (
-            <table
-                className="table table-hover table-condensed tabular-view">
-                <thead>
-                    <th className="text-left">#</th>
-                    <th>Similar sequences</th>
-                    {hasName && <th className="text-left">Species</th>}
-                    {!this.props.imported_xml && <th className="text-right">Query coverage (%)</th>}
-                    <th className="text-right">Total score</th>
-                    <th className="text-right">E value</th>
-                    <th className="text-right" data-toggle="tooltip"
-                        data-placement="left" title="Total identity of all hsps / total length of all hsps">
+            <div className="table-hit-overview">
+                <h4 className="caption" data-toggle="collapse" data-target={'#Query_'+this.props.query.number+'HT_'+this.props.query.number}>
+                    <i className="fa fa-minus-square-o"></i>&nbsp;
+                    <span> Summary table of hits</span>
+                </h4>
+                <div className="collapsed in"id={'Query_'+ this.props.query.number + 'HT_'+ this.props.query.number}>
+                    <table
+                        className="table table-hover table-condensed tabular-view ">
+                        <thead>
+                            <th className="text-left">#</th>
+                            <th>Similar sequences</th>
+                            {hasName && <th className="text-left">Species</th>}
+                            {!this.props.imported_xml && <th className="text-right">Query coverage (%)</th>}
+                            <th className="text-right">Total score</th>
+                            <th className="text-right">E value</th>
+                            <th className="text-right" data-toggle="tooltip"
+                                data-placement="left" title="Total identity of all hsps / total length of all hsps">
                         Identity (%)
-                    </th>
-                </thead>
-                <tbody>
-                    {
-                        _.map(this.props.query.hits, _.bind(function (hit) {
-                            return (
-                                <tr key={hit.number}>
-                                    <td className="text-left">{hit.number + '.'}</td>
-                                    <td>
-                                        <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}>
-                                            {hit.id}
-                                        </a>
-                                    </td>
-                                    {hasName && <td className="text-left">{hit.sciname}</td>}
-                                    {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
-                                    <td className="text-right">{hit.score}</td>
-                                    <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
-                                    <td className="text-right">{hit.identity}</td>
-                                </tr>
-                            );
-                        }, this))
-                    }
-                </tbody>
-            </table>
+                            </th>
+                        </thead>
+                        <tbody>
+                            {
+                                _.map(this.props.query.hits, _.bind(function (hit) {
+                                    return (
+                                        <tr key={hit.number}>
+                                            <td className="text-left">{hit.number + '.'}</td>
+                                            <td>
+                                                <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}>
+                                                    {hit.id}
+                                                </a>
+                                            </td>
+                                            {hasName && <td className="text-left">{hit.sciname}</td>}
+                                            {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
+                                            <td className="text-right">{hit.score}</td>
+                                            <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
+                                            <td className="text-right">{hit.identity}</td>
+                                        </tr>
+                                    );
+                                }, this))
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         );
     }
 });
