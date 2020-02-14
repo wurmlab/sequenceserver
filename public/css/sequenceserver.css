@@ -25,10 +25,13 @@ a:hover, .btn-link:hover {
   color: #c74f14;
 }
 
-a{
+a {
   color: #1b557a;
 }
 
+p {
+  margin: 0;
+}
 /**
  * Disable resize grabber on textarea.
  */
@@ -116,13 +119,13 @@ a.disabled:hover,
   width: 100%;
 }
 .section-header-sidebar {
-  padding-bottom: 3px;
   padding-left: 1px;
   display: table;
   width: 100%;
 }
 .section-header-sidebar > h4 {
   font-weight: bold;
+  margin-bottom: 0px;
 }
 .section-header > * {
   display: table-cell;
@@ -388,7 +391,7 @@ input[type=checkbox] {
  **********************/
 .sidebar > div {
   /* To line up with the results on the right */
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .sidebar li a {
@@ -418,7 +421,7 @@ input[type=checkbox] {
   margin: 10px 0;
 }
 .resultn {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .resultn h3 small {
   font-size: inherit;
@@ -441,7 +444,7 @@ input[type=checkbox] {
 
 .hit {
   padding-top: 8px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 .hit:first-child {
   padding-top: 0;
@@ -473,7 +476,7 @@ input[type=checkbox] {
 
 .hsp-stats {
   font-size: 12px;
-  color: #1b557a;
+  color:#808080;
 }
 .hsp .hsp-lines {
   margin-top: 5px;
@@ -481,7 +484,7 @@ input[type=checkbox] {
   letter-spacing: 1.2px;
 }
 .hsp .hsp-coords {
-  color: #1b557a;
+  color: #808080;
 }
 
 .hit-links * {

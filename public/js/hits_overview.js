@@ -236,8 +236,14 @@ class Graph {
         var q_i = $queryDiv.attr('id');
 
         var width = $graphDiv.width();
-        var height = hits.length * (options.barHeight) +
-        2 * options.legend + 5 * options.margin;
+        var height = 0;
+        if (hits.length < 3) {
+            height = 100;
+        } else {
+            height = hits.length * (options.barHeight) +
+                    2 * options.legend + 5 * options.margin;
+        }
+
         // var height = $graphDiv.height();
 
         var SEQ_TYPES = {
