@@ -32,6 +32,9 @@ before_install:
   - export PATH="$PWD/bin:$PWD/ncbi-blast-2.9.0+/bin:$PATH"
   # Reset working directory or subsequent steps may fail.
   - cd ..
+  # Update bundler. Travis was using bundler 1.16.2 at the time of this writing
+  # and the builds were failing because Gemfile.lock requires bundler > 2.0
+  - gem install bundler -v 2.1.4
 
 env:
   global:

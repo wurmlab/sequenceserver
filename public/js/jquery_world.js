@@ -91,20 +91,3 @@ import 'webshim';
         }, 250);
     };
 }(jQuery));
-
-export default {
-
-    FASTA_FORMAT: /^>/,
-
-    setupTooltips: function () {
-        $('.pos-label').each(function () {
-            $(this).tooltip({
-                placement: 'right'
-            });
-        });
-
-        $('.downloads a').each(function () {
-            $(this).tooltip();
-        });
-    },
-};

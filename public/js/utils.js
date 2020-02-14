@@ -1,23 +1,6 @@
 import React from 'react';
 
 var Utils = {
-
-    /**
-     * Render URL for sequence-viewer.
-     */
-    a: function (link) {
-        if (link.title && link.url)
-        {
-            return (
-                <a href={link.url} className={link.class} target='_blank'>
-                    {link.icon && <i className={'fa ' + link.icon}></i>}
-                    {' ' + link.title + ' '}
-                </a>
-            );
-        }
-    },
-
-
     /***********************************
      * Formatters for hits & hsp table *
      ***********************************/

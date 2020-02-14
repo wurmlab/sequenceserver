@@ -378,7 +378,7 @@ input[type=checkbox] {
   margin: 20px 0;
 }
 .resultn {
-  margin-bottom: 25px;
+  margin-top: 25px;
 }
 
 .graphical-overview {
@@ -414,14 +414,12 @@ input[type=checkbox] {
   margin-bottom: 0;
 }
 
-.hsps {
-  padding: 0 0 10px 10px;
-}
 .hsp {
   padding-bottom: 14px;
+  padding-left: 10px;
 }
 .hsp:last-child {
-  padding-bottom: 0;
+  padding-bottom: 10px;
 }
 
 .hsp-stats {

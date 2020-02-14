@@ -1,6 +1,6 @@
-import SequenceServer from './sequenceserver';
-import _ from 'underscore';
+import './jquery_world';
 import React from 'react';
+import _ from 'underscore';
 
 /**
  * Load necessary polyfills.
@@ -99,6 +99,7 @@ var DnD = React.createClass({
 
     componentDidMount: function () {
         var self = this;
+        var FASTA_FORMAT = /^>/;
 
         $(document).ready(function(){
             var tgtMarker = $('.dnd-overlay');
@@ -169,7 +170,7 @@ var DnD = React.createClass({
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var content = e.target.result;
-                    if (SequenceServer.FASTA_FORMAT.test(content)) {
+                    if (FASTA_FORMAT.test(content)) {
                         indicator.text(file.name + ' ');
                         self.state.query.value(content);
                         tgtMarker.hide();
