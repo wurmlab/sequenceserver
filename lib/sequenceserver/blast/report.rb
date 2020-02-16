@@ -103,11 +103,20 @@ module SequenceServer
       # matrix, evalue, gapopen, gapextend, and filters are available from XML
       # output.
       def extract_params(ir)
+        # Parse/get params from the job first.
+        job_params = parse_advanced(job.advanced)
+        # Old jobs from beta releases may not have the advanced key but they
+        # will have the deprecated advanced_params key.
+        job_params.update(job.advanced_params) if job.advanced_params
+
+        # Parse params from BLAST XML.
         @params = Hash[
           *ir[7].first.map { |k, v| [k.gsub('Parameters_', ''), v] }.flatten
         ]
         @params['evalue'] = @params.delete('expect')
-        @params = job.advanced_params.merge(@params)
+
+        # Merge into job_params.
+        @params = job_params.merge(@params)
       end
 
       # Make search stats available via `stats` attribute.
@@ -231,6 +240,25 @@ module SequenceServer
           (ir[row[0]][row[1]] ||= [row[2], row[3], []])[2] << row[4]
         end
         ir
+      end
+
+      # Parse BLAST CLI string from job.advanced.
+      def parse_advanced(param_line)
+        param_list = (param_line || '').split(' ')
+        res = {}
+
+        param_list.each_with_index do |word, i|
+          nxt = param_list[i + 1]
+          if word.start_with? '-'
+            word.sub!('-', '')
+            unless nxt.nil? || nxt.start_with?('-')
+              res[word] = nxt
+            else
+              res[word] = 'True'
+            end
+          end
+        end
+        res
       end
     end
   end

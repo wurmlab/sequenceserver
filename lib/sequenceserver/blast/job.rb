@@ -13,7 +13,6 @@ module SequenceServer
             # itself is self-contained. This will help with tests among
             # other things.
             FileUtils.cp(params[:xml], dir)
-            @advanced_params = {}
             @databases = []
             done!
           end
@@ -23,17 +22,19 @@ module SequenceServer
             @method    = params[:method]
             @qfile     = store('query.fa', params[:sequence])
             @databases = Database[params[:databases]]
-            @options   = params[:advanced].to_s.strip + defaults
-            @advanced_params = parse_advanced params[:advanced]
+            @advanced  = params[:advanced].to_s.strip
+            @options   = @advanced + defaults
           end
         end
       end
 
-      attr_reader :advanced_params
-
       # :nodoc:
       # Attributes used by us - should be considered private.
-      attr_reader :method, :qfile, :databases, :options
+      attr_reader :method, :qfile, :databases, :advanced, :options
+
+      # :nodoc:
+      # Deprecated; see Report#extract_params
+      attr_reader :advanced_params
 
       # :nodoc:
       # Returns path to the imported xml file if the job was created using the
@@ -93,24 +94,6 @@ module SequenceServer
       # rubocop:enable Metrics/CyclomaticComplexity
 
       private
-
-      def parse_advanced(param_line)
-        param_list = (param_line || '').split(' ')
-        res = {}
-
-        param_list.each_with_index do |word, i|
-          nxt = param_list[i + 1]
-          if word.start_with? '-'
-            word.sub!('-', '')
-            unless nxt.nil? || nxt.start_with?('-')
-              res[word] = nxt
-            else
-              res[word] = 'True'
-            end
-          end
-        end
-        res
-      end
 
       def validate(params)
         validate_method params[:method]

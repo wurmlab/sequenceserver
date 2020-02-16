@@ -204,15 +204,22 @@ var Form = React.createClass({
     componentDidMount: function () {
         /* Fetch data to initialise the search interface from the server. These
          * include list of databases to search against, advanced options to
-         * apply when an algorithm is selected, and a query sequenced that
+         * apply when an algorithm is selected, and a query sequence that
          * the user may want to search in the databases.
          */
-        $.getJSON('searchdata.json' + window.location.search, function(data) {
+        var search = location.search.split(/\?|&/).filter(Boolean);
+        var job_id = sessionStorage.getItem('job_id');
+        if (job_id) {
+            search.unshift(`job_id=${job_id}`);
+        }
+        $.getJSON(`searchdata.json?${search.join('&')}`, function(data) {
             /* Update form state (i.e., list of databases and predefined
              * advanced options.
              */
             this.setState({
-                databases: data['database'], preDefinedOpts: data['options']
+                databases: data['database'],
+                preSelectedDbs: data['preSelectedDbs'],
+                preDefinedOpts: data['options']
             });
 
             /* Pre-populate the form with server sent query sequences
@@ -312,7 +319,9 @@ var Form = React.createClass({
                         <ProteinNotification/>
                         <MixedNotification/>
                     </div>
-                    <Databases ref="databases" onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} databases={this.state.databases}/>
+                    <Databases ref="databases" databases={this.state.databases}
+                        preSelectedDbs={this.state.preSelectedDbs}
+                        onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} />
                     <div
                         className="form-group">
                         <Options ref="opts"/>
@@ -620,10 +629,7 @@ var MixedNotification = React.createClass({
 
 var Databases = React.createClass({
     getInitialState: function () {
-        return {
-            type:      '',
-            databases: []
-        };
+        return { type: '' };
     },
 
     databases: function (category) {
@@ -745,6 +751,11 @@ var Databases = React.createClass({
             this.handleClick(this.databases()[0]);
         }
 
+        if (this.props.preSelectedDbs) {
+            var selectors = this.props.preSelectedDbs.map(db => `input[value=${db.id}]`);
+            $(...selectors).prop('checked',true);
+            setTimeout(() => this.handleClick(this.props.preSelectedDbs[0]));
+        }
         this.props.onDatabaseTypeChanged(this.state.type);
     }
 });

@@ -33,6 +33,11 @@ var Page = React.createClass({
         );
     },
 
+    componentDidMount: function () {
+        var job_id = location.pathname.substr(1);
+        sessionStorage.setItem('job_id', job_id);
+    },
+
     showSequenceModal: function (url) {
         this.refs.sequenceModal.show(url);
     }

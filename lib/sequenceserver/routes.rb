@@ -69,10 +69,16 @@ module SequenceServer
     # include available databases and user-defined search options.
     get '/searchdata.json' do
       searchdata = {
+        query: Database.retrieve(params[:query]),
         database: Database.all,
-        options: SequenceServer.config[:options],
-        query: Database.retrieve(params[:query])
+        options: SequenceServer.config[:options]
       }
+
+      # If a job_id is specified, update searchdata from job meta data (i.e.,
+      # query, pre-selected databases, advanced options used). Query is only
+      # updated if params[:query] is not specified.
+      update_searchdata_from_job(searchdata) if params[:job_id]
+
       searchdata.to_json
     end
 
@@ -179,6 +185,26 @@ module SequenceServer
       end
 
       error_data.to_json
+    end
+
+    # Get the query sequences, selected databases, and advanced params used.
+    def update_searchdata_from_job(searchdata)
+      job = Job.fetch(params[:job_id])
+      return if job.imported_xml_file
+
+      # Only read job.qfile if we are not going to use Database.retrieve.
+      searchdata[:query] = File.read(job.qfile) if !params[:query]
+
+      # Which databases to pre-select.
+      searchdata[:preSelectedDbs] = job.databases
+
+      # job.advanced may be nil in case of old jobs. In this case, we do not
+      # override searchdata so that default advanced parameters can be applied.
+      # Note that, job.advanced will be an empty string if a user deletes the
+      # default advanced parameters from the advanced params input field. In
+      # this case, we do want the advanced params input field to be empty when
+      # the user hits the back button. Thus we do not test for empty string.
+      searchdata[:options][job.method] = [job.advanced] if job.advanced
     end
   end
 end
