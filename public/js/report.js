@@ -397,7 +397,7 @@ var Report = React.createClass({
         });
     },
 
-/* Handling the fa icon when Hit Table is collapsed */
+    /* Handling the fa icon when Hit Table is collapsed */
     toggleTable: function () {
         $('body').on('mousedown', '.resultn > .section-content > .table-hit-overview > .caption', function (event) {
             var $this = $(this);
