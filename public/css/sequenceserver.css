@@ -59,11 +59,11 @@ small {
   color: inherit !important;
 }
 
-h3{
+h3 {
   font-size: 16px;
   font-weight: bold;
 }
-h4{
+h4 {
   font-size: 14px;
 }
 /**
@@ -102,8 +102,8 @@ a.disabled:hover,
   font-size: 14px;
   color: #174465;
 }
-
-.navbar-brand>img {
+/* logo */
+.navbar-brand > img {
   display: inline-block;
 }
 
@@ -111,6 +111,7 @@ a.disabled:hover,
  * Like BS' .page-header but without extra margin and the ability to display a
  * sub-text on right.
  */
+/* Hit header styling */
 .section-header {
   border-bottom: 1px solid  #c74f14;
   padding-bottom: 3px;
@@ -533,7 +534,7 @@ input[type=checkbox] {
 .dnd-overlay-container p {
   font-size: 48px;
 }
-
+/* higlight when hit is selected */
 .glow {
   border-left: 2px solid #c74f14;
 }
@@ -553,11 +554,11 @@ input[type=checkbox] {
 .fa {
   vertical-align: middle;
 }
-/* overwriting bootstrap focus color in the text field of the search page */
+/* override bootstrap focus color in the text field of the search page */
 .form-control:focus {
   border-color: #1b557a;
 }
-
+/* override bootstrap btn-color for the search "BlAST" button on the search page.*/
 .btn-primary {
   background-color: #1b557a;
   border-color: #174465;
@@ -570,7 +571,7 @@ input[type=checkbox] {
   background-color: #881C14;
   border-color: #881C14;
 }
-
+/* CSS class to facilitate the hit header wrapping */
 .hit-header {
   display: table-cell;
 }

@@ -237,6 +237,8 @@ class Graph {
 
         var width = $graphDiv.width();
         var height = 0;
+        // Setting up the default height of 100 when 3 or less hits
+        // to improve the consistency of the bar spacing.
         if (hits.length < 3) {
             height = 100;
         } else {
