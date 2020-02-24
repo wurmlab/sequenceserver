@@ -22,8 +22,14 @@ var Page = React.createClass({
                 {/* Provide bootstrap .container element inside the #view for
                     the Report component to render itself in. */}
                 <div className="container">
-                    <Report showSequenceModal={ _ => this.showSequenceModal(_) } />
+                    <Report showSequenceModal={ _ => this.showSequenceModal(_) }
+                        getCharacterWidth={ () => this.getCharacterWidth() } />
                 </div>
+
+                {/* Add a hidden span tag containing chars used in HSPs */}
+                <pre className="pre-reset hsp-lines" ref="hspChars" hidden>
+                    ABCDEFGHIJKLMNOPQRSTUVWXYZ +-
+                </pre>
 
                 {/* Required by Grapher for SVG and PNG download */}
                 <canvas id="png-exporter" hidden></canvas>
@@ -40,6 +46,14 @@ var Page = React.createClass({
 
     showSequenceModal: function (url) {
         this.refs.sequenceModal.show(url);
+    },
+
+    getCharacterWidth: function () {
+        if (!this.characterWidth) {
+            var $hspChars = $(React.findDOMNode(this.refs.hspChars));
+            this.characterWidth = $hspChars.width() / 29;
+        }
+        return this.characterWidth;
     }
 });
 
@@ -206,7 +220,8 @@ var Report = React.createClass({
                     var hsp = hit.hsps[this.nextHSP++];
                     results.push(
                         <HSP key={'Query_'+query.number+'_Hit_'+hit.number+'_HSP_'+hsp.number}
-                            query={query} hit={hit} hsp={hsp} algorithm={this.state.program} />
+                            query={query} hit={hit} hsp={hsp} algorithm={this.state.program}
+                            {... this.props} />
                     );
                     numHSPsProcessed++;
                     if (numHSPsProcessed == this.maxHSPs) break;
