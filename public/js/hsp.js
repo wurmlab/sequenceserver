@@ -67,7 +67,7 @@ export default class HSP extends React.Component {
         line.push(`Score: ${Utils.inTwoDecimal(this.hsp.bit_score)} (${this.hsp.score}), `);
 
         // E value
-        line.push(`Evalue: `); line.push(Utils.inExponential(this.hsp.evalue)); line.push(', ');
+        line.push('E value: '); line.push(Utils.inExponential(this.hsp.evalue)); line.push(', ');
 
         // Identity
         line.push([`Identity: ${Utils.inFraction(this.hsp.identity, this.hsp.length)} (${Utils.inPercentage(this.hsp.identity, this.hsp.length)}), `]);
