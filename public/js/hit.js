@@ -97,13 +97,19 @@ export default React.createClass({
 
         return <div className="section-header">
             <h4 data-hit-number={this.props.hit.number}>
-                <i className="fa fa-chevron-down"></i>&nbsp;
-                <span>
-                    {this.props.hit.id}&nbsp;
-                    <small>{this.props.hit.title}</small>
-                </span>
+                <div className="hit-header">
+                    <i className="fa fa-minus-square-o"></i>&nbsp;
+                </div>
+                <div className="hit-header">
+                    <span>
+                        {this.props.hit.id}&nbsp;
+                        <small>{this.props.hit.title}</small>
+                    </span>
+                </div>
             </h4>
-            <span className="label label-reset pos-label">{ meta }</span>
+            <div className="hit-header">
+                <span className="label label-reset pos-label">{meta}</span>
+            </div>
         </div>;
     },
 
@@ -137,12 +143,12 @@ export default React.createClass({
                 </label>
                 {
                     btns.map((btn) => {
-                        return [<span> | </span>, this.button(btn)];
+                        return [<span className="line"> | </span>, this.button(btn)];
                     })
                 }
                 {
                     this.props.hit.links.map((link) => {
-                        return [<span> | </span>, this.a(link)];
+                        return [<span className="line"> | </span>, this.a(link)];
                     })
                 }
             </div>
@@ -157,7 +163,7 @@ export default React.createClass({
                 icon: 'fa-eye',
                 className: 'view-sequence',
                 title: 'Sequence too long',
-            }
+            };
         }
         else {
             return {
@@ -165,7 +171,7 @@ export default React.createClass({
                 icon: 'fa-eye',
                 className: 'view-sequence',
                 onClick: () => this.showSequenceViewer()
-            }
+            };
 
         }
     },

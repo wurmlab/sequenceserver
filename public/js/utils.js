@@ -14,7 +14,7 @@ var Utils = {
      * Returns fraction as percentage
      */
     inPercentage: function (num, den) {
-        var x = (num * 100.0 / den).toFixed(2);
+        var x = (num * 100.0 / den).toFixed(1);
         if (x % 1 == 0) {
             x = parseInt(x, 10);
             return `${x}%`;
@@ -60,7 +60,7 @@ var Utils = {
         var parts = exp.split('e');
         var base  = parts[0];
         var power = parts[1];
-        return <span>{base} &times; 10<sup>{power}</sup></span>;
+        return <span>{base}&times;10<sup>{power}</sup></span>;
     }
 };
 

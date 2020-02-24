@@ -166,10 +166,10 @@ class Graph {
     drawLegend(svg, options, width, height, hits) {
         var svg_legend = svg.append('g')
             .attr('transform',
-                'translate(0,' + (height - 1.88 * options.margin) + ')');
+                'translate(0,' + (height - 1.75 * options.margin) + ')');
 
         svg_legend.append('rect')
-            .attr('x', 7 * (width - 2 * options.margin) / 10)
+            .attr('x', 7.5 * (width - 2 * options.margin) / 10)
             .attr('width', 2 * (width - 4 * options.margin) / 10)
             .attr('height', options.legend)
             .attr('fill', 'url(#legend-grad)');
@@ -177,7 +177,7 @@ class Graph {
         svg_legend.append('text')
             .attr('class',' legend-text')
             .attr('transform', 'translate(0, ' +options.legend +')')
-            .attr('x', 6 * (width - 2 * options.margin) / 10 - options.margin / 2)
+            .attr('x', 9.5 * (width - 2 * options.margin) / 10 + options.margin / 2)
             .text('Weaker hits');
         // .text(function() {
         //   return Helpers.prettify_evalue(hits[hits.length-1].hitEvalue);
@@ -186,7 +186,7 @@ class Graph {
         svg_legend.append('text')
             .attr('class',' legend-text')
             .attr('transform', 'translate(0, ' + options.legend + ')')
-            .attr('x', 9 * (width - 2 * options.margin) / 10 + options.margin / 2)
+            .attr('x', 6.7 * (width - 2 * options.margin) / 10 - options.margin / 2)
             .text('Stronger hits');
         // .text(function () {
         //   return Helpers.prettify_evalue(hits[0].hitEvalue);
@@ -196,9 +196,9 @@ class Graph {
             .attr('id', 'legend-grad')
             .selectAll('stop')
             .data([
-                {offset: '0%', color: '#ccc'},
-                {offset: '50%', color: '#888'},
-                {offset: '100%', color: '#000'}
+                {offset: '0%', color: '#000'},
+                {offset: '45%', color: '#c74f14'},
+                {offset: '100%', color: '#f6bea2'}
             ])
             .enter()
             .append('stop')
@@ -216,7 +216,7 @@ class Graph {
      * margin: Margin around the svg element.
      */
         var defaults = {
-                barHeight: 3,
+                barHeight: 4,
                 legend: inhits.length > 1 ? 3 : 0,
                 margin: 20
             },
@@ -236,8 +236,16 @@ class Graph {
         var q_i = $queryDiv.attr('id');
 
         var width = $graphDiv.width();
-        var height = hits.length * (options.barHeight) +
-        2 * options.legend + 5 * options.margin;
+        var height = 0;
+        // Setting up the default height of 100 when 3 or less hits
+        // to improve the consistency of the bar spacing.
+        if (hits.length < 3) {
+            height = 100;
+        } else {
+            height = hits.length * (options.barHeight) +
+                    2 * options.legend + 5 * options.margin;
+        }
+
         // var height = $graphDiv.height();
 
         var SEQ_TYPES = {
@@ -310,7 +318,7 @@ class Graph {
                     return d.hitEvalue;
                 }))
             ])
-            .range([40,150]);
+            .range([0,0.8]);
 
         svg.append('g')
             .attr('class', 'ghit')
@@ -330,9 +338,7 @@ class Graph {
                     // Drawing the HSPs connector line using the same
                     // color as that of the hit track (using lookahead).
                         var yHspline = y(d.hitId) + options.barHeight / 2;
-                        var hsplineColor = d3.rgb(gradScale(v.hspEvalue),
-                            gradScale(v.hspEvalue),
-                            gradScale(v.hspEvalue));
+                        var hsplineColor = d3.hsl(20, 0.82, gradScale(v.hspEvalue));
 
                         if (j+1 < d.length) {
                             if (d[j].hspEnd <= d[j+1].hspStart) {

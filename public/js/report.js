@@ -130,6 +130,7 @@ var Report = React.createClass({
         // This sets up an event handler which enables users to select text from
         // hit header without collapsing the hit.
         this.preventCollapseOnSelection();
+        this.toggleTable();
     },
 
     /**
@@ -294,18 +295,18 @@ var Report = React.createClass({
     overviewJSX: function () {
         return (
             <div className="overview">
-                <p className="text-monospace">
-                    {this.state.program_version}{this.state.submitted_at
+                <p className="job-overview">
+                    <strong>{this.state.program_version}</strong>{this.state.submitted_at
                         && `, query submitted on ${this.state.submitted_at}`}
                 </p>
-                <p className="text-monospace">
-                    Databases: {
+                <p className="job-overview">
+                    <strong> Databases: </strong>{
                         this.state.querydb.map((db) => { return db.title; }).join(', ')
                     } ({this.state.stats.nsequences} sequences,&nbsp;
                     {this.state.stats.ncharacters} characters)
                 </p>
-                <p className="text-monospace">
-                    Parameters: {
+                <p className="job-overview">
+                    <strong>Parameters: </strong> {
                         _.map(this.state.params, function (val, key) {
                             return key + ' ' + val;
                         }).join(', ')
@@ -372,7 +373,7 @@ var Report = React.createClass({
      */
     shouldShowIndex: function () {
         var num_queries = this.state.queries.length;
-        return num_queries >= 2 && num_queries <= 8;
+        return num_queries >= 2 && num_queries <= 12;
     },
 
     /**
@@ -383,10 +384,10 @@ var Report = React.createClass({
             var $this = $(this);
             $this.on('mouseup mousemove', function handler(event) {
                 if (event.type === 'mouseup') {
-                    // User wants to toggle. Get the hit-number data attribute of $this.
+                    // user wants to toggle
                     var hitNumber = $this.data('hit-number');
                     $(`div[data-parent-hit=${hitNumber}]`).toggle();
-                    $this.find('.fa-chevron-down').toggleClass('fa-rotate-270');
+                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
                 } else {
                     // user wants to select
                     $this.attr('data-toggle', '');
@@ -395,6 +396,19 @@ var Report = React.createClass({
             });
         });
     },
+
+    /* Handling the fa icon when Hit Table is collapsed */
+    toggleTable: function () {
+        $('body').on('mousedown', '.resultn > .section-content > .table-hit-overview > .caption', function (event) {
+            var $this = $(this);
+            $this.on('mouseup mousemove', function handler(event) {
+                $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+                $this.off('mouseup mousemove', handler);
+            });
+        });
+    },
+
+
 
     /**
      * Affixes the sidebar.
