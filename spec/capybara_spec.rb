@@ -231,7 +231,7 @@ describe 'a browser', type: :feature, js: true do
                    databases: protein_databases.values_at(0))
 
     ## Check that there is a circos vis and unfold it.
-    page.should have_content('Chord diagram: queries and their top hits')
+    page.should have_content('Queries and their top hits: chord diagram')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 

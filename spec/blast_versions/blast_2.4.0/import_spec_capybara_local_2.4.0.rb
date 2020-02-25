@@ -81,7 +81,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the Circos expanding button, wait for animation, click on the
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
-    page.should have_content('Chord diagram: queries and their top hits')
+    page.should have_content('Queries and their top hits: chord diagram')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
@@ -192,7 +192,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Chord diagram: queries and their top hits')
+    page.should have_content('Queries and their top hits: chord diagram')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
@@ -309,7 +309,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Chord diagram: queries and their top hits')
+    page.should have_content('Queries and their top hits: chord diagram')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
@@ -423,7 +423,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Chord diagram: queries and their top hits')
+    page.should have_content('Queries and their top hits: chord diagram')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
@@ -541,7 +541,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Chord diagram: queries and their top hits')
+    page.should have_content('Queries and their top hits: chord diagram')
     page.execute_script("$('.circos > .grapher-header > h5').click()")
     sleep 1
 
