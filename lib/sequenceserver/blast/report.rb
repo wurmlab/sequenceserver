@@ -49,6 +49,8 @@ module SequenceServer
       # Generate report.
       def generate
         job.raise!
+        xml_ir = nil
+        tsv_ir = nil
         if job.imported_xml_file
           xml_ir = parse_xml File.read(job.imported_xml_file)
           tsv_ir = Hash.new do |h1,k1|
@@ -56,18 +58,15 @@ module SequenceServer
               h2[k2]=['','',[]]
             end
           end
-          extract_program_info xml_ir
-          extract_params xml_ir
-          extract_stats xml_ir
-          extract_queries xml_ir, tsv_ir
         else
           xml_ir = parse_xml File.read(Formatter.run(job, 'xml').file)
-          tsv_ir = parse_tsv File.read(Formatter.run(job, 'custom_tsv').file )
-          extract_program_info xml_ir
-          extract_params xml_ir
-          extract_stats xml_ir
-          extract_queries xml_ir, tsv_ir
+          tsv_ir = parse_tsv File.read(Formatter.run(job, 'custom_tsv').file)
         end
+        extract_program_info xml_ir
+        extract_db_info xml_ir
+        extract_params xml_ir
+        extract_stats xml_ir
+        extract_queries xml_ir, tsv_ir
       end
 
       # Make program name and program name + version available via `program`
