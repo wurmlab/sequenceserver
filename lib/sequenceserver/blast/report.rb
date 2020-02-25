@@ -24,34 +24,15 @@ module SequenceServer
     class Report < Report
       def initialize(job)
         super do
-          @querydb = job.databases
           @queries = []
         end
       end
 
-      # Attributes parsed out from XML output.
-      attr_reader :program, :program_version, :params, :stats, :queries
+      # Attributes parsed out from BLAST output.
+      attr_reader :program, :program_version, :stats, :queries
 
-      # This is obtained from the job object.
-      attr_reader :querydb
-
-      # Returns database type (nucleotide or protein) used for running BLAST
-      # search. If we ran the BLAST search, this information is available
-      # from Job#databases. For imported XML, this is inferred from
-      # Report#program (i.e., the BLAST algorithm)
-      def dbtype
-        return @dbtype if @dbtype
-        @dbtype = if @querydb.empty?
-                    case program
-                    when /blastn|tblastn|tblastx/
-                      'nucleotide'
-                    when /blastp|blastx/
-                      'protein'
-                    end
-                  else
-                    @querydb.first.type
-                  end
-      end
+      # Attributes parsed from job metadata and BLAST output.
+      attr_reader :querydb, :dbtype, :params
 
       def to_json
         [:querydb, :program, :program_version, :params, :stats,
@@ -94,6 +75,20 @@ module SequenceServer
       def extract_program_info(ir)
         @program         = ir[0]
         @program_version = ir[1]
+      end
+
+      # Get database information (title and type) from job yaml or from XML.
+      # Sets `querydb` and `dbtype` attributes.
+      def extract_db_info(ir)
+        if job.databases.empty?
+          @querydb = ir[3].split.map do |path|
+            { title: File.basename(path) }
+          end
+          @dbtype = dbtype_from_program
+        else
+          @querydb = job.databases
+          @dbtype = @querydb.first.type
+        end
       end
 
       # Make search params available via `params` attribute.
@@ -259,6 +254,17 @@ module SequenceServer
           end
         end
         res
+      end
+
+      # Returns database type (nucleotide or protein) inferred from
+      # Report#program (i.e., the BLAST algorithm)
+      def dbtype_from_program
+        case program
+        when /blastn|tblastn|tblastx/
+          'nucleotide'
+        when /blastp|blastx/
+          'protein'
+        end
       end
     end
   end
