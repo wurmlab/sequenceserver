@@ -34,3 +34,21 @@
 		/* from http://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGLsbIrGiHa6JIepkyt5c0A0.ttf */
 		url('/fonts/Source_Sans_Pro_700.ttf') format('truetype');
 }
+@font-face {
+	font-family: 'Space Grotesk';
+	font-style: normal;
+	font-weight: 400;
+	src:
+	url('/fonts/SpaceGrotesk-Regular.ttf') format('truetype'),
+	url('/fonts/SpaceGrotesk-Regular.woff') format('woff'),
+	url('/fonts/SpaceGrotesk-Regular.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'Space Grotesk';
+	font-style: bold;
+	font-weight: 700;
+	src:
+	url('/fonts/SpaceGrotesk-Bold.ttf') format('truetype'),
+	url('/fonts/SpaceGrotesk-Bold.woff') format('woff'),
+	url('/fonts/SpaceGrotesk-Bold.woff2') format('woff2');
+}

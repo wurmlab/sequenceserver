@@ -1,6 +1,6 @@
 /** Override Bootstrap. **/
 body {
-  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family:"Space Grotesk", "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
   position: relative;
   padding-top: 70px;
   font-size: 16px !important;
@@ -30,9 +30,18 @@ pre {
 dl dd {
   padding-bottom: 10px;
 }
-
+h1,h2,h3 {
+  color: #174465;
+}
 .thumbnail {
   margin-bottom: 5px;
+}
+a {
+  color: #1B557A;
+}
+a:hover {
+  color: #c74f14;
+  text-decoration: none;
 }
 
 /**
@@ -52,28 +61,36 @@ dl dd {
 }
 
 .navbar-brand {
-  padding: 20px 15px 5px 15px;
+  padding: 20px 17px 5px 15px;
   color: rgb(51, 51, 51);
   font-size: 32px;
 }
 
 .navbar-brand > small {
-  font-size: 50%;
+  font-size: 45%;
+  vertical-align: -webkit-baseline-middle;
+  color: #174465;
 }
-
+.navbar-brand >small:hover {
+  color: #c74f14;
+}
 .navbar-brand-made-by {
-  color: #777;
+  color: #174465;
 }
 
 .navbar-brand-made-by:hover {
   text-decoration: none;
+  padding-left: 2px;
+  color: #c74f14;
 }
 
 .navbar-nav > li > a {
   padding: 24px 10px;
-  color: rgb(51, 51, 51);
+  color: #174465;
 }
-
+.navbar-nav > li > a:hover {
+  color: #c74f14;
+}
 /**
  * Sidebar.
  */
@@ -99,4 +116,12 @@ dl dd {
 
 .main {
   padding: 0 20px 20px 20px;
+}
+.logo {
+  width: 215px;
+  height: 35px;
+  padding-bottom: 5px;
+}
+.navbar-brand>img {
+  display: inline-block;
 }
