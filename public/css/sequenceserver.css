@@ -272,7 +272,7 @@ a.disabled:hover,
  * Use with .label class to use the foreground color defined by parent element.
  */
 .label-reset {
-  color: #1b557a;
+  color: inherit;
   line-height: inherit;
   font-weight: normal;
   font-size: 14px;
