@@ -29,9 +29,6 @@ a {
   color: #1b557a;
 }
 
-p {
-  margin: 0;
-}
 /**
  * Disable resize grabber on textarea.
  */
@@ -420,6 +417,9 @@ input[type=checkbox] {
 .overview {
   /* To line up with the sidebar on the left */
   margin: 10px 0;
+}
+.overview p {
+  margin: 0;
 }
 .resultn {
   margin-top: 5px;
