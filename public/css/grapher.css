@@ -38,6 +38,7 @@ svg .axis path,
 .grapher.circos .caption {
   padding: 0;
   font-size: 16px;
+  font-weight: bold;
 }
 
 /* Graphical overview of hits */
