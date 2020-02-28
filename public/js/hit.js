@@ -203,7 +203,7 @@ export default React.createClass({
         else {
             return <button className="btn btn-link view-sequence disabled"
                 title={title} disabled="true">
-                <i className={`fa ${icon}`}></i> text
+                <i className={`fa ${icon}`}></i> {text}
             </button>;
         }
     },
