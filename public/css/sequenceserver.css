@@ -111,7 +111,7 @@ a.disabled:hover,
 /* Hit header styling */
 .section-header {
   border-bottom: 1px solid  #c74f14;
-  padding-bottom: 3px;
+  padding-bottom: 1px;
   padding-left: 1px;
   display: table;
   width: 100%;
@@ -133,7 +133,7 @@ a.disabled:hover,
   font-weight: bold;
 }
 .section-content {
-  padding: 5px 0 0 0px;
+  padding: 0;
 }
 /**
  * Take out border, cut down margin and padding, and remove background color
@@ -422,7 +422,7 @@ input[type=checkbox] {
   margin: 0;
 }
 .resultn {
-  margin-top: 5px;
+  margin-top: 10px;
 }
 .resultn h3 small {
   font-size: inherit;
@@ -454,19 +454,10 @@ input[type=checkbox] {
 .hit h4 small {
   font-size: inherit;
 }
-.hit > p {
-  margin-top: 0;
-  margin-bottom: 0;
-}
 
 .hsp {
-  padding-bottom: 8px;
-  padding-left: 10px;
+  padding: 4px 0 0 2px;
 }
-.hsp:last-child {
-  padding-bottom: 10px;
-}
-
 .hsp-stats {
   font-size: 12px;
   color:#808080;
