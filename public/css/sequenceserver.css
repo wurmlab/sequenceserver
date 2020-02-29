@@ -177,12 +177,12 @@ a.disabled:hover,
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
 .table>tbody>tr>td, .table>tfoot>tr>td {
   border-top: none;
-  padding-left: 0;
   font-weight: normal;
-  padding: 4px;
+  padding: 0 0 0 4px;
 }
 .table>thead>tr>th {
-  border-bottom: 1px solid #c74f14;
+  border-bottom: none;
+  color: #808080;
 }
 
 /**
