@@ -405,8 +405,8 @@ var Report = React.createClass({
             $this.on('mouseup mousemove', function handler(event) {
                 if (event.type === 'mouseup') {
                     // user wants to toggle
-                    var hitNumber = $this.data('hit-number');
-                    $(`div[data-parent-hit=${hitNumber}]`).toggle();
+                    var hitID = $this.parents('.hit').attr('id');
+                    $(`div[data-parent-hit=${hitID}]`).toggle();
                     $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
                 } else {
                     // user wants to select

@@ -96,7 +96,7 @@ export default React.createClass({
         }
 
         return <div className="section-header">
-            <h4 data-hit-number={this.props.hit.number}>
+            <h4>
                 <div className="hit-header">
                     <i className="fa fa-minus-square-o"></i>&nbsp;
                 </div>
@@ -114,7 +114,7 @@ export default React.createClass({
     },
 
     contentJSX: function () {
-        return <div className="section-content" data-parent-hit={this.props.hit.number}>
+        return <div className="section-content" data-parent-hit={this.domID()}>
             { this.hitLinks() }
             <HSPOverview key={'kablammo' + this.props.query.id} query={this.props.query}
                 hit={this.props.hit} algorithm={this.props.algorithm}
