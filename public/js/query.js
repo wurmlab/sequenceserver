@@ -129,7 +129,7 @@ var HitsTable = React.createClass({
                                         <tr key={hit.number}>
                                             <td className="text-left">{hit.number + '.'}</td>
                                             <td>
-                                                <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}>
+                                                <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number} className="btn-link">
                                                     {hit.id}
                                                 </a>
                                             </td>

@@ -106,7 +106,7 @@ export default React.createClass({
                             return (
                                 <li key={'Side_bar_'+query.id}>
                                     <a
-                                        className="nowrap-ellipsis hover-bold"
+                                        className="btn-link nowrap-ellipsis hover-bold"
                                         href={'#Query_' + query.number}
                                         title={'Query= ' + query.id + ' ' + query.title}>
                                         {'Query= ' + query.id}
@@ -171,7 +171,7 @@ export default React.createClass({
                     </li>
                     {
                         !this.props.data.imported_xml && <li>
-                            <a className="download" data-toggle="tooltip"
+                            <a className="btn-link download" data-toggle="tooltip"
                                 title="15 columns: query and subject ID; scientific
                                 name, alignment length, mismatches, gaps, identity,
                                 start and end coordinates, e value, bitscore, query
@@ -183,7 +183,7 @@ export default React.createClass({
                     }
                     {
                         !this.props.data.imported_xml && <li>
-                            <a className="download" data-toggle="tooltip"
+                            <a className="btn-link download" data-toggle="tooltip"
                                 title="44 columns: query and subject ID, GI,
                                 accessions, and length; alignment details;
                                 taxonomy details of subject sequence(s) and
@@ -195,7 +195,7 @@ export default React.createClass({
                     }
                     {
                         !this.props.data.imported_xml && <li>
-                            <a className="download" data-toggle="tooltip"
+                            <a className="btn-link download" data-toggle="tooltip"
                                 title="Results in XML format."
                                 href={'download/' + this.props.data.search_id + '.xml'}>
                                 Full XML report

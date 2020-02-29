@@ -482,16 +482,9 @@ input[type=checkbox] {
   color: #808080;
 }
 
-.hit-links * {
-  padding-left: 1px;
-  letter-spacing: 1px;
-  vertical-align: middle !important;
-
-}
 .btn-link {
   border: none;
   padding: 0px;
-  vertical-align: text-bottom;
   color: #1b557a;
 }
 
@@ -544,9 +537,7 @@ input[type=checkbox] {
 /* CSS class for vertical line separating the hit links */
 .line {
   color: #c74f14;
-}
-.fa {
-  vertical-align: middle;
+  margin: 0 5px 0 5px;
 }
 /* override bootstrap focus color in the text field of the search page */
 .form-control:focus {

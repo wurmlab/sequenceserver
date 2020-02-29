@@ -4,7 +4,6 @@
 }
 .caption {
   display: inline-block;
-  letter-spacing: 1px;
   padding: 0 0 0 1px;
   margin: 0 0;
   cursor: pointer;
