@@ -449,8 +449,6 @@ input[type=checkbox] {
 }
 .hit h4 span {
   cursor: text;
-  font-weight: bold;
-  color: #1b557a;
   padding-left: 1px;
 }
 .hit h4 small {
