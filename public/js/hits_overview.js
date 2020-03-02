@@ -236,15 +236,8 @@ class Graph {
         var q_i = $queryDiv.attr('id');
 
         var width = $graphDiv.width();
-        var height = 0;
-        // Setting up the default height of 100 when 3 or less hits
-        // to improve the consistency of the bar spacing.
-        if (hits.length < 3) {
-            height = 100;
-        } else {
-            height = hits.length * (options.barHeight) +
-                    2 * options.legend + 5 * options.margin;
-        }
+        var height = hits.length * (options.barHeight) +
+                     2 * options.legend + 4 * options.margin;
 
         // var height = $graphDiv.height();
 
