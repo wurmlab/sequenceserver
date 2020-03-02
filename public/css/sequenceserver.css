@@ -29,6 +29,10 @@ a {
   color: #1b557a;
 }
 
+label:hover {
+  color: #c74f14;
+}
+
 /**
  * Disable resize grabber on textarea.
  */
