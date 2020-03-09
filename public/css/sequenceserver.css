@@ -186,7 +186,7 @@ a.disabled:hover,
 }
 .table>thead>tr>th {
   border-bottom: none;
-  color: #808080;
+  color: #5f5f5f;
 }
 
 /**
@@ -464,7 +464,7 @@ input[type=checkbox] {
 }
 .hsp-stats {
   font-size: 12px;
-  color:#808080;
+  color:#5f5f5f;
 }
 .hsp-lines {
   margin-top: 5px;
@@ -472,7 +472,7 @@ input[type=checkbox] {
   letter-spacing: 1.2px;
 }
 .hsp-coords {
-  color: #808080;
+  color: #5f5f5f;
 }
 
 .btn-link {
