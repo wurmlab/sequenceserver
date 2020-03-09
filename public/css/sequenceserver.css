@@ -276,10 +276,11 @@ a.disabled:hover,
   color: inherit;
   line-height: inherit;
   font-weight: normal;
-  font-size: 14px;
-  display: inline;
+  font-size: inherit;
 }
-
+.pos-label {
+  padding: 0 0 0 0.6em;
+}
 /**
  * Reset Bootstrap's CSS for pre tags.
  */
