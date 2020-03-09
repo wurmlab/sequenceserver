@@ -118,6 +118,7 @@ export default React.createClass({
             { this.hitLinks() }
             <HSPOverview key={'kablammo' + this.props.query.id} query={this.props.query}
                 hit={this.props.hit} algorithm={this.props.algorithm}
+                showHSPCrumbs={this.props.hit.hsps.length > 1}
                 collapsed={this.props.veryBig} />
         </div>;
     },

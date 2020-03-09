@@ -47,6 +47,7 @@ class Graph {
         this._subject_id = props.hit.id;
         this._query_length = props.query.length;
         this._subject_length = props.hit.length;
+        this._show_numbers = props.showHSPCrumbs;
         // this._hsps = this.toKablammo(props.hit.hsps, props.query);
         this._hsps = props.hit.hsps;
         this._maxBitScore = props.query.hits[0].hsps[0].bit_score;
@@ -200,23 +201,25 @@ class Graph {
                 }).join(' ');
             });
 
-        this._polygons.append('text')
-            .attr('x', function(hsp) {
-                var query_x_points = [self._scales.query.scale(hsp.qstart), self._scales.query.scale(hsp.qend)];
-                var subject_x_points = [self._scales.subject.scale(hsp.sstart), self._scales.subject.scale(hsp.send)];
-                var middle1 = (query_x_points[0] + subject_x_points[0]) * 0.5;
-                var middle2 = (query_x_points[1] + subject_x_points[1]) * 0.5;
-                return (middle2 + middle1) * 0.5;
-            })
-            .attr('y', function(hsp) {
-                var a = self._scales.query.height;
-                var b = self._scales.subject.height;
-                var middle = ( b - a ) / 2;
-                return a + middle + 2; // for font-height 10px
-            })
-            .text(function(hsp) {
-                return Helpers.toLetters(hsp.number);
-            });
+        if (self._show_numbers) {
+            this._polygons.append('text')
+                .attr('x', function(hsp) {
+                    var query_x_points = [self._scales.query.scale(hsp.qstart), self._scales.query.scale(hsp.qend)];
+                    var subject_x_points = [self._scales.subject.scale(hsp.sstart), self._scales.subject.scale(hsp.send)];
+                    var middle1 = (query_x_points[0] + subject_x_points[0]) * 0.5;
+                    var middle2 = (query_x_points[1] + subject_x_points[1]) * 0.5;
+                    return (middle2 + middle1) * 0.5;
+                })
+                .attr('y', function(hsp) {
+                    var a = self._scales.query.height;
+                    var b = self._scales.subject.height;
+                    var middle = ( b - a ) / 2;
+                    return a + middle + 2; // for font-height 10px
+                })
+                .text(function(hsp) {
+                    return (hit.hsps.length > 1) && Helpers.toLetters(hsp.number);
+                });
+        }
 
     }
 

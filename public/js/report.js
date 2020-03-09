@@ -221,7 +221,7 @@ var Report = React.createClass({
                     results.push(
                         <HSP key={'Query_'+query.number+'_Hit_'+hit.number+'_HSP_'+hsp.number}
                             query={query} hit={hit} hsp={hsp} algorithm={this.state.program}
-                            {... this.props} />
+                            showHSPCrumbs={hit.hsps.length > 1} {... this.props} />
                     );
                     numHSPsProcessed++;
                     if (numHSPsProcessed == this.maxHSPs) break;
