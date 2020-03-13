@@ -29,13 +29,11 @@ export default function Grapher(Graph) {
             return (
                 <div ref="grapher" className={cssClasses}>
                     <div className="grapher-header">
-                        <h5 className="caption" data-toggle="collapse"
+                        <h4 className="caption" data-toggle="collapse"
                             data-target={'#'+this.collapseId()}>
-                            { this.state.collapsed ?
-                                this.plusIcon() : this.minusIcon() }
-                            &nbsp;&nbsp;
-                            {Graph.name()}
-                        </h5>
+                            { this.state.collapsed ? this.plusIcon() : this.minusIcon() }
+                            &nbsp;{ Graph.name() }
+                        </h4>
                         { !this.state.collapsed && this.graphLinksJSX() }
                     </div>
                     { this.svgContainerJSX() }

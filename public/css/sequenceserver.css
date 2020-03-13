@@ -62,10 +62,12 @@ small {
 
 h3 {
   font-size: 16px;
-  font-weight: bold;
 }
 h4 {
   font-size: 14px;
+}
+h3 > .fa, h4 > .fa {
+  vertical-align: bottom;
 }
 /**
  * Without this .disabled elements hardly look disabled.
@@ -115,7 +117,6 @@ a.disabled:hover,
 /* Hit header styling */
 .section-header {
   border-bottom: 1px solid  #c74f14;
-  padding-bottom: 1px;
   padding-left: 1px;
   display: table;
   width: 100%;
@@ -134,7 +135,6 @@ a.disabled:hover,
 }
 .section-header > *:first-child {
   width: 100%;
-  font-weight: bold;
 }
 .section-content {
   padding: 0;
@@ -454,7 +454,6 @@ input[type=checkbox] {
 }
 .hit h4 span {
   cursor: text;
-  padding-left: 1px;
 }
 .hit h4 small {
   font-size: inherit;
