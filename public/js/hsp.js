@@ -31,7 +31,7 @@ export default class HSP extends React.Component {
             <div className="hsp" id={this.domID()} ref="hsp"
                 data-parent-hit={this.hitDOM_ID()}>
                 <pre className="pre-reset hsp-stats">
-                    {this.showHSPCrumbs && `${Helpers.toLetters(this.hsp.number)}. `}
+                    {this.props.showHSPNumbers && `${Helpers.toLetters(this.hsp.number)}. `}
                     {this.hspStats().map((s, i) => <span key={i}>{s}</span>)}
                 </pre>
                 {this.hspLines()}

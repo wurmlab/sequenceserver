@@ -217,7 +217,7 @@ class Graph {
                     return a + middle + 2; // for font-height 10px
                 })
                 .text(function(hsp) {
-                    return (hit.hsps.length > 1) && Helpers.toLetters(hsp.number);
+                    return Helpers.toLetters(hsp.number);
                 });
         }
 
