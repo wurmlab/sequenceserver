@@ -2,6 +2,9 @@
 .grapher {
   margin: 0;
 }
+.grapher-header {
+  padding-right: 1px;
+}
 .caption {
   display: inline-block;
   padding: 0 0 0 1px;
@@ -10,7 +13,6 @@
 }
 .graph-links {
   float: right;
-  padding: 0 7px 0 0;
   text-align: right;
   color: #174465;
 }

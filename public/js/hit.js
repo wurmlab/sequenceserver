@@ -98,9 +98,8 @@ export default React.createClass({
         return <div className="section-header">
             <h4>
                 <i className="fa fa-minus-square-o"></i>&nbsp;
-                <strong>{this.props.hit.id}&nbsp;
-                    <small>{this.props.hit.title}</small>
-                </strong>
+                <strong>{this.props.hit.id}</strong>&nbsp;
+                {this.props.hit.title}
             </h4>
             <span className="label label-reset pos-label">{meta}</span>
         </div>;

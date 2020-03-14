@@ -421,16 +421,13 @@ input[type=checkbox] {
 /* Result per query. */
 .overview {
   /* To line up with the sidebar on the left */
-  margin: 10px 0;
+  margin: 10px 0 6px 0;
 }
 .overview p {
   margin: 0;
 }
 .resultn {
-  margin-top: 10px;
-}
-.resultn h3 small {
-  font-size: inherit;
+  margin-top: 6px;
 }
 
 .graphical-overview {
@@ -443,25 +440,22 @@ input[type=checkbox] {
 }
 
 .hit {
-  padding-top: 8px;
-  margin-top: 2px;
+  margin-top: 4px;
 }
-.hit:first-child {
-  padding-top: 0;
-}
-.hit h4 {
+.hit .section-header h4 {
   cursor: pointer;
   padding-left: 1px;
 }
-.hit h4 span {
+.hit .section-header h4 span,
+.hit .section-header h4 strong {
   cursor: text;
 }
-.hit h4 small {
-  font-size: inherit;
+.hit-links {
+  height: 16px;
 }
 
 .hsp {
-  padding: 4px 0 0 2px;
+  padding: 1px 0 1px 2px;
 }
 .hsp-stats {
   font-size: 12px;
