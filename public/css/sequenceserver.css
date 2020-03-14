@@ -150,7 +150,7 @@ a.disabled:hover,
   box-shadow: none;
 }
 .panel .panel-heading {
-  padding: 4px 0 5px 0;
+  padding: 0;
   background-color: inherit;
   border-bottom: 1px solid #c74f14;
 }
@@ -345,7 +345,7 @@ a.disabled:hover,
 
 .databases .list-group-item {
   border: none;
-  padding: 3px 0 0;
+  padding: 1px 0 0;
 }
 
 #help pre:hover {
