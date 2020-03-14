@@ -468,12 +468,14 @@ var Report = React.createClass({
         // Highlight selected hit and enable 'Download FASTA/Alignment of
         // selected' links.
         if (checkbox.is(':checked')) {
-            $hit.find('.section-content').addClass('glow');
-            $('.download-alignment-of-selected').enable();
+            $hit.addClass('glow');
+            $hit.next('.hsp').addClass('glow');
             $('.download-fasta-of-selected').enable();
+            $('.download-alignment-of-selected').enable();
         }
         else {
-            $hit.find('.section-content').removeClass('glow');
+            $hit.removeClass('glow');
+            $hit.next('.hsp').removeClass('glow');
         }
 
         if (num_checked >= 1)

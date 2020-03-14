@@ -137,7 +137,7 @@ a.disabled:hover,
   width: 100%;
 }
 .section-content {
-  padding: 0;
+  padding: 0 0 0 1px;
 }
 /**
  * Take out border, cut down margin and padding, and remove background color
@@ -451,6 +451,7 @@ input[type=checkbox] {
 }
 .hit h4 {
   cursor: pointer;
+  padding-left: 1px;
 }
 .hit h4 span {
   cursor: text;

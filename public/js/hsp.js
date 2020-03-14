@@ -46,8 +46,8 @@ export default class HSP extends React.Component {
 
     draw () {
         var charWidth = this.props.getCharacterWidth();
-        var $container = $(React.findDOMNode(this.refs.hsp));
-        this.chars = Math.floor($container.width() / charWidth);
+        var containerWidth = $(React.findDOMNode(this.refs.hsp)).width();
+        this.chars = Math.floor((containerWidth - 4) / charWidth);
         this.forceUpdate();
     }
 
