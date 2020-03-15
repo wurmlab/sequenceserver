@@ -81,7 +81,7 @@ module SequenceServer
     # otherwise.
     def parse_config_file
       unless file? config_file
-        logger.info "Configuration file not found: #{config_file}"
+        logger.debug "Configuration file not found: #{config_file}"
         return {}
       end
       logger.info "Reading configuration file: #{config_file}."
