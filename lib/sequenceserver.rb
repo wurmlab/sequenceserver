@@ -77,10 +77,14 @@ module SequenceServer
       puts
       puts '** Thank you for using SequenceServer :).'
       puts '   Please cite: '
-      puts '       Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F,'
-      puts '       Gibbins MA, Moon H, Leonard G, Rumpf W & Wurm Y. 2015.'
-      puts '       Sequenceserver: a modern graphical user interface for'
-      puts '       custom BLAST databases. biorxiv doi: 10.1101/033142.'
+      puts '       Priyam A, Woodcroft BJ, Rai V, Moghul I, Munagala A, Ter F,'
+      puts '       Chowdhary H, Pieniak I, Maynard LJ, Gibbins MA, Moon H,'
+      puts '       Davis-Richardson A, Uludag M, Watson-Haigh N, Challis R,'
+      puts '       Nakamura H, Favreau E, Gómez EA, Pluskal T, Leonard G,'
+      puts '       Rumpf W & Wurm Y.'
+      puts '       Sequenceserver: A modern graphical user interface for'
+      puts '       custom BLAST databases.'
+      puts '       Molecular Biology and Evolution (2019)'
     end
 
     # Rack-interface.
