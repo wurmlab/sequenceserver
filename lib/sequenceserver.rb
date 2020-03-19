@@ -182,7 +182,9 @@ module SequenceServer
       fail BLAST_NOT_INSTALLED unless command? 'blastdbcmd'
       version = `blastdbcmd -version`.split[1]
       fail BLAST_NOT_EXECUTABLE if !$CHILD_STATUS.success? || version.empty?
-      fail BLAST_NOT_COMPATIBLE, version unless version >= MINIMUM_BLAST_VERSION
+      if (parse_version(version) <=> parse_version(MINIMUM_BLAST_VERSION)) < 0
+        fail BLAST_NOT_COMPATIBLE, version
+      end
     end
 
     def server_url
@@ -211,6 +213,10 @@ module SequenceServer
     # Return `true` if the given command exists and is executable.
     def command?(command)
       system("which #{command} > /dev/null 2>&1")
+    end
+
+    def parse_version(version_string)
+      version_string.split('.').map(&:to_i)
     end
   end
 end
