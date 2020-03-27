@@ -501,23 +501,24 @@ layout: page
             </a> (2.2.31+) is interactively downloaded if absent
           </p>
         </li>
+        <li>
+          <p>
+            One of SequenceServer's dependencies (the module used to parse BLAST's
+            XML output) compiles some C code as part of the installation process.
+            This means that the standard Unix build tools (e.g., <code>gcc</code>,
+            <code>make</code>) are required to install SequenceServer. On a Mac,
+            this means having Xcode and CLI tools for Xcode installed. On Ubuntu
+            and other Debian-based Linux systems, you would have to install the
+            <code>ruby-dev</code> and <code>build-essential</code> packages in
+            addition to <code>ruby</code>.
+          </p>
+        </li>
       </ul>
       <div class="page-header">
         <h3 id="quick-setup">
           Install or update
         </h3>
       </div>
-      <p>
-        One of SequenceServer's dependencies (the module used to parse BLAST's
-        XML output) compiles some C code as part of the installation process.
-        This means that the standard Unix build tools (e.g., <code>gcc</code>,
-        <code>make</code>) are required to install SequenceServer. On a Mac,
-        this means having Xcode and CLI tools for Xcode installed. On Ubuntu
-        and other Debian-based Linux systems, you would have to install the
-        <code>ruby-dev</code> and <code>build-essential</code> packages in
-        addition to <code>ruby</code>.
-      </p>
-
       <p>
         Once you have Ruby and the build tools installed, the command below
         can be used to install SequenceServer. Later on, the same command
