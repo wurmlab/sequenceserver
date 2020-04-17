@@ -333,6 +333,9 @@ var Report = React.createClass({
                         }).join(', ')
                     }
                 </p>
+                <p>
+                    Please cite: <a href="https://doi.org/10.1093/molbev/msz185">https://doi.org/10.1093/molbev/msz185</a>
+                </p>
             </div>
         );
     },
