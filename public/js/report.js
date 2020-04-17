@@ -79,6 +79,7 @@ var Report = React.createClass({
 
         return {
             search_id:       '',
+            seqserv_version: '',
             program:         '',
             program_version: '',
             submitted_at:    '',
@@ -316,8 +317,8 @@ var Report = React.createClass({
         return (
             <div className="overview">
                 <p>
-                    <strong>{this.state.program_version}</strong>{this.state.submitted_at
-                        && `, query submitted on ${this.state.submitted_at}`}
+                    <strong>SequenceServer {this.state.seqserv_version}</strong> using <strong>{this.state.program_version}</strong>
+                    {this.state.submitted_at && `, query submitted on ${this.state.submitted_at}`}
                 </p>
                 <p>
                     <strong> Databases: </strong>{

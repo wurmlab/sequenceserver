@@ -41,7 +41,8 @@ module SequenceServer
           h
         }.update(search_id: job.id,
                  submitted_at: job.submitted_at.utc,
-                 imported_xml: !!job.imported_xml_file).to_json
+                 imported_xml: !!job.imported_xml_file,
+                 seqserv_version: SequenceServer::VERSION).to_json
       end
 
       private
