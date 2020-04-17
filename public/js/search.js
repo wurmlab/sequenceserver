@@ -749,7 +749,10 @@ var Databases = React.createClass({
         if (this.props.preSelectedDbs) {
             var selectors = this.props.preSelectedDbs.map(db => `input[value=${db.id}]`);
             $(...selectors).prop('checked',true);
-            setTimeout(() => this.handleClick(this.props.preSelectedDbs[0]));
+            setTimeout(() => {
+                this.handleClick(this.props.preSelectedDbs[0]);
+                this.props.preSelectedDbs = null;
+            });
         }
         this.props.onDatabaseTypeChanged(this.state.type);
     }
