@@ -311,62 +311,14 @@ layout: page
       <div class="row">
         <div class="col-md-7">
           <p>
-            SequenceServer lets you rapidly set up a BLAST+ server for
-            individual use or for sharing datasets with your colleagues and
-            your community. Its minimalist, modern and thoughtful design
-            lets you focus on the biology and getting things done.
-            SequenceServer is
+            SequenceServer lets you rapidly set up a server for running BLAST
+            searches and visualising the results. SequenceServer can be used on a
+            personal computer or set up on a sever for shared use with colleagues
+            and community. SequenceServer is
             <a href="#license-and-support">free</a> and
             <a href="http://github.com/wurmlab/sequenceserver">open source</a>.
           </p>
 
-          <p>
-            SequenceServer has been used for research on emerging model
-            organisms (e.g. sea cucumber, starfish, falcon, Hessian
-            fly, sugar-apple tree, <em>Streptocarpus rexii</em>), and
-            for research in bioadhesion and environmental microbiology.
-            SequenceServer is a main querying mechanism for several
-            community databases (e.g.
-            <a
-              href="http://spottedwingflybase.oregonstate.edu/blast">
-              <em>Drosophila suzukii</em></a>,
-            <a
-              href="http://planmine.mpi-cbg.de/planmine/blast.do">
-              planarians</a>,
-            <a
-              href="http://birchgenome.org/sequenceserver">
-              birch
-            </a> and
-            <a
-              href="http://ashgenome.org/sequenceserver">
-              ash
-            </a> tree,
-            <a
-              href="http://amborella.uga.edu/blast/">
-              Amborella</a>,
-            <a
-              href="http://echinodb.uncc.edu/blast/">
-              echinoderms</a>,
-            <a
-              href="http://www.fusariumnrpspks.dk/">
-              Fusarium</a>,
-            <a
-              href="http://antgenomes.org/blast">
-              ants</a>,
-            <a
-              href="http://blast.lepbase.org">
-              butterfly</a>),
-            and is also used as an
-            <a
-              href="http://culture-bioinformatics.org/blast.shtml">
-              educational resource.
-            </a>
-          </p>
-
-          <p>
-            Read about SequenceServer's user-centric design and
-            sustainable software development philosophy:
-          </p>
           <blockquote>
             <a href="https://doi.org/10.1093/molbev/msz185">
               Sequenceserver: a modern graphical user interface for custom
@@ -376,214 +328,217 @@ layout: page
 
           <div class="page-header">
             <h3>
-              Rapidly deployed
+              Key features
             </h3>
           </div>
-          <ul>
+          <ul style="padding-left: 20px;">
             <li>
-              Automatically detects BLAST software - if absent the
-              correct version is automatically downloaded.
+              Automated setup, including BLAST+ download and converting FASTA
+              files into BLAST databases.
             </li>
             <li>
-              Detects existing BLAST databases and automatically lists
-              them in the search interface.
+              Smart user interface automatically selects the appropriate
+              BLAST method for the given query and selected databases.
             </li>
             <li>
-              Detects sequence type of FASTA files and prompts to turn
-              them into BLAST databases.
+              Visualise each level of BLAST output:
+              <ul>
+                <li>
+                  Circos-style plot of queries and their top hit, helpful for
+                  visually testing for conserved synteny or gene duplication.
+                </li>
+                <li>
+                  Length distribution (histogram) of all hits of a query, helpful
+                  for quality-assessment of gene predictions. This is inspired
+                  from our work with
+                  <a href="https://academic.oup.com/bioinformatics/article/32/10/1559/1742817">
+                    GeneValidator
+                  </a>
+                </li>
+                <li>
+                  <a href="https://academic.oup.com/bioinformatics/article/31/8/1305/212772">Kablammo visualisation</a> for <strong>each query-hit pair</strong> indicates clearly which parts of the query match which part of the hits.
+                </li>
+              </ul>
             </li>
             <li>
-              Built-in web server for light to medium usage. Can be
-              integrated with Apache / Nginx if required.
+              Visualise pre-generated BLAST results or output of DIAMOND.
+            </li>
+            <li>
+              Share the results with colleagues or bookmark the page and return
+              to it at a later date.
+            </li>
+            <li>
+              Download hit sequences or matching regions in FASTA format, or all
+              alignment data in tab-delimited or XML format for further analysis.
             </li>
             <li>
               Easily add custom links to search hits (e.g. to a genome
               browser or a page describing the sequence).
             </li>
+            <li>
+              Better support for long-running BLAST searches, for rendering large
+              BLAST results (thousands of hits), and for integrating as part of
+              other websites.
+            </li>
+            <li>
+              Improved error handling, security enhancements, and a new look!
+            </li>
           </ul>
 
+          <!-- Installation ================================================== -->
+          <div class="page-header" id="installation">
+            <h2>
+              Installation
+            </h2>
+          </div>
           <div class="page-header">
-            <h3>
-              Easy to use
+            <h3 id="requirements">
+              Requirements
             </h3>
           </div>
-          <ul>
+          <ul style="padding-left: 20px;">
             <li>
-              Type or paste query sequences, or drag-and-drop a FASTA
-              file to search.
+              <p>
+                <strong> Linux or Mac </strong> and <strong><a
+                    href="http://ruby-lang.org">Ruby</a> (&ge;
+                  2.3; preferably &ge; 2.5)</strong>
+              </p>
             </li>
             <li>
-              Smart user interface automagically figures out the
-              appropriate BLAST method for the given query and
-              selected databases.
+              <p>
+                <a
+                  href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/">
+                  NCBI BLAST+
+                </a> (2.10.0+) is interactively downloaded if absent
+              </p>
             </li>
             <li>
-              Use advanced parameters as you would in the command line:
-              <code>-evalue 1.0e-10 -max_target_seqs 10</code>.
-            </li>
-            <li>
-              Graphical overview of results naturally separates strong
-              from weak hits (by evalue).
-            </li>
-            <li>
-              GenBank style visualisation of hit sequences - residues
-              grouped in multiples of five.
-            </li>
-            <li>
-              Download hit sequences in FASTA format, and alignment
-              data in tab-delimited and XML format for further
-              analysis.
-            </li>
-            <li>
-              Step-by-step discovery of workflow and options through
-              interactive, visual feedback.
+              <p>
+                One of SequenceServer's dependencies (the module used to parse BLAST's
+                XML output) compiles some C code as part of the installation process.
+                This means that the standard Unix build tools (e.g., <code>gcc</code>,
+                <code>make</code>) are required to install SequenceServer. On a Mac,
+                this means having Xcode and CLI tools for Xcode installed. On Ubuntu
+                and other Debian-based Linux systems, you would have to install the
+                <code>ruby-dev</code> and <code>build-essential</code> packages in
+                addition to <code>ruby</code>.
+              </p>
             </li>
           </ul>
-        </div>
-
-        <div
-          class="col-md-5" >
-          <a
-            href="img/overview/search.png">
-            <img
-            class="thumbnail"
-            src="img/overview/search.png" style="width:100%; height: auto" alt="Screenshot of search interface."/>
-          </a>
-          <p
-            class="text-center">
-            Screenshot: Search interface
-          </p>
-          <br>
-          <a
-            href="img/overview/result.png">
-            <img
-            class="thumbnail"
-            src="img/overview/result.png" style="width:100%; height: auto" alt="Screenshot of result interface."/>
-          </a>
-          <p
-            class="text-center">
-            Screenshot: Result interface
-          </p>
-          <br>
-          <a
-            href="img/overview/setup.png">
-            <img
-            class="thumbnail"
-            src="img/overview/setup.png" style="width:100%; height: auto" alt="Setup process."/>
-          </a>
-          <p
-            class="text-center">
-            Screenshot: Setup process
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Installation ================================================== -->
-    <section id="installation">
-      <div class="page-header">
-        <h2>
-          Installation
-        </h2>
-      </div>
-      <div class="page-header">
-        <h3 id="requirements">
-          Requirements
-        </h3>
-      </div>
-      <ul style="padding-left: 20px;">
-        <li>
+          <div class="page-header">
+            <h3 id="quick-setup">
+              Install or update
+            </h3>
+          </div>
           <p>
-            <strong> Linux or Mac </strong> and <strong><a
-                href="http://ruby-lang.org">Ruby</a> (&ge;
-              1.8.7; preferably &ge; 2.0)</strong>
+            Once you have Ruby and the build tools installed, the command below
+            can be used to install SequenceServer. Later on, the same command
+            can be used to update SequenceServer to the latest version:
           </p>
-        </li>
-        <li>
-          <p>
-            <a
-              href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/">
-              NCBI BLAST+
-            </a> (2.2.31+) is interactively downloaded if absent
-          </p>
-        </li>
-        <li>
-          <p>
-            One of SequenceServer's dependencies (the module used to parse BLAST's
-            XML output) compiles some C code as part of the installation process.
-            This means that the standard Unix build tools (e.g., <code>gcc</code>,
-            <code>make</code>) are required to install SequenceServer. On a Mac,
-            this means having Xcode and CLI tools for Xcode installed. On Ubuntu
-            and other Debian-based Linux systems, you would have to install the
-            <code>ruby-dev</code> and <code>build-essential</code> packages in
-            addition to <code>ruby</code>.
-          </p>
-        </li>
-      </ul>
-      <div class="page-header">
-        <h3 id="quick-setup">
-          Install or update
-        </h3>
-      </div>
-      <p>
-        Once you have Ruby and the build tools installed, the command below
-        can be used to install SequenceServer. Later on, the same command
-        can be used to update SequenceServer to the latest version:
-      </p>
 
 {% highlight shell %}
 sudo gem install sequenceserver
 {% endhighlight %}
 
-      <div class="page-header">
-        <h3
-          id="quick-setup">
-          Configure and run
-        </h3>
-      </div>
-      <p>
-        Run the following in a terminal to configure and run SequenceServer. It
-        will automatically download NCBI BLAST+ if absent, ask for the location
-        of directory containing database sequences, format FASTA files for use
-        with BLAST+, and list them for use in the search form:
-      </p>
+          <div class="page-header">
+            <h3 id="quick-setup">
+              Configure and run
+            </h3>
+          </div>
+          <p>
+            Run the following in a terminal to configure and run SequenceServer. It
+            will automatically download NCBI BLAST+ if absent, ask for the location
+            of directory containing database sequences, format FASTA files for use
+            with BLAST+, and list them for use in the search form:
+          </p>
 {% highlight shell %}
 sequenceserver
 {% endhighlight %}
-      <p>
-        That's it! Open <a href="http://localhost:4567/">
-          http://localhost:4567</a> in your web-browser and start BLAST-ing!
-      </p>
-      <br>
-      <div
-        id="cite"
-        style="margin-left: 20px;">
-        <h4>
-          Please cite
-        </h4>
-        <blockquote>
-          <a href="https://doi.org/10.1093/molbev/msz185">
-            Sequenceserver: a modern graphical user interface for custom
-            BLAST databases. Molecular Biology and Evolution (2019).
-          </a>
-        </blockquote>
-        <p>
-          We request you to not remove the please cite line from your installation of SequenceServer. Citations are important for us to actively develop and advance SequenceServer.
-        </p>
-      </div>
-      <div class="page-header">
-        <h3>
-          Using with Docker
-        </h3>
-      </div>
-      <p>
-        Alternatively, you can use SequenceServer with
-        <a
-          href="http://www.sequenceserver.com/doc">
-          Docker
-        </a> - only need to specify the location of your database directory.
-      </p>
+          <p>
+            That's it! Open <a href="http://localhost:4567/">
+              http://localhost:4567</a> in your web-browser and start BLAST-ing!
+          </p>
+          <br>
+          <div id="cite" style="margin-left: 20px;">
+            <h4>
+              Please cite
+            </h4>
+            <blockquote>
+              <a href="https://doi.org/10.1093/molbev/msz185">
+                Sequenceserver: a modern graphical user interface for custom
+                BLAST databases. Molecular Biology and Evolution (2019).
+              </a>
+            </blockquote>
+            <p>
+              We request you to not remove the please cite line from your installation of SequenceServer. Citations are important for us to actively develop and advance SequenceServer.
+            </p>
+          </div>
+          <div class="page-header">
+            <h3>
+              Using with Docker
+            </h3>
+          </div>
+          <p>
+            Alternatively, you can use SequenceServer with
+            <a
+              href="http://www.sequenceserver.com/doc">
+              Docker
+            </a> - only need to specify the location of your database directory.
+          </p>
 <pre>docker run --rm -itp 4567:4567 -v /path-to-database-dir:/db wurmlab/sequenceserver:1.0.11</pre>
+        </div>
+
+        <div class="col-md-5" >
+          <a href="img/overview/search.png">
+            <img class="thumbnail"
+            src="img/overview/search.png" style="width:100%; height: auto" alt="Screenshot of search interface."/>
+          </a>
+          <p class="text-center">
+            Screenshot: Search interface
+          </p>
+          <br>
+          <a href="img/overview/result.png">
+            <img class="thumbnail"
+            src="img/overview/result.png" style="width:100%; height: auto" alt="Screenshot of result interface."/>
+          </a>
+          <p class="text-center">
+            Screenshot: Result interface
+          </p>
+          <br>
+          <a href="img/overview/circos.png">
+            <img class="thumbnail"
+            src="img/overview/circos.png" style="width:100%; height: auto" alt="Screenshot of circos visualisation."/>
+          </a>
+          <p class="text-center">
+            Screenshot: Circos-style visualisation showing conserved synteny and rearrangement between genomes of two species.
+          </p>
+          <br>
+          <a href="img/overview/length-distribution-sp_P04637_P53_HUMAN.png">
+            <img class="thumbnail"
+            src="img/overview/length-distribution-sp_P04637_P53_HUMAN.png"
+            style="width:100%; height: auto" alt="Screenshot of length distribution visualisation."/>
+          </a>
+          <p class="text-center">
+            Screenshot: Length distribution of hits showing that the query (a predicted gene product) is shorter compared to similar database sequences.
+          </p>
+          <br>
+          <a href="img/overview/Kablammo-NC_014672_1-tig00002515.png">
+            <img class="thumbnail"
+            src="img/overview/Kablammo-NC_014672_1-tig00002515.png" style="width:100%; height: auto" alt="Screenshot of Kablammo visualisation"/>
+          </a>
+          <p class="text-center">
+            Screenshot: Kablammo visualisation showing a mis-assembled genomic sequence.
+          </p>
+          <br>
+          <a href="img/overview/setup.png">
+            <img class="thumbnail"
+            src="img/overview/setup.png" style="width:100%; height: auto" alt="Setup process."/>
+          </a>
+          <p class="text-center">
+            Screenshot: Setup process
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- License ================================================== -->

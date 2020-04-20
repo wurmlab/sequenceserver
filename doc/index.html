@@ -112,6 +112,12 @@ layout: page
         </li>
         <li
           role="presentation">
+          <a href="#iframe">
+            Embedding SequenceServer
+          </a>
+        </li>
+        <li
+          role="presentation">
           <a href="#debugging">
             Debugging SequenceServer
           </a>
@@ -216,7 +222,7 @@ sequenceserver -s -b /path/to/latest/blast/binaries
             <th>
               Command line
             </th>
-            <th>
+            <th style="width: 65%;">
               Description
             </th>
           </tr>
@@ -257,6 +263,49 @@ sequenceserver -s -b /path/to/latest/blast/binaries
           </tr>
           <tr>
             <td>
+              :job_lifetime:
+            </td>
+            <td>
+            </td>
+            <td>
+              How long to keep search results for (in minutes).
+            </td>
+          </tr>
+          <tr>
+            <td>
+              :options:
+            </td>
+            <td>
+            </td>
+            <td>
+              Predefined search options for different BLAST algorithms.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              :frame_options:
+            </td>
+            <td>
+            </td>
+            <td>
+              Access options for embedding SequenceServer in an iframe. Possible
+              values <code>:deny</code>, <code>:sameorigin</code>, or
+              <code>'ALLOW-FROM uri'</code>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              :require:
+            </td>
+            <td>
+              -r / --require
+            </td>
+            <td>
+              Load extension from this file.
+            </td>
+          </tr>
+          <tr>
+            <td>
               :host:
             </td>
             <td>
@@ -275,17 +324,6 @@ sequenceserver -s -b /path/to/latest/blast/binaries
             </td>
             <td>
               Port to run SequenceServer on.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              :require:
-            </td>
-            <td>
-              -r / --require
-            </td>
-            <td>
-              Load extension from this file.
             </td>
           </tr>
         </tbody>
@@ -308,6 +346,14 @@ sequenceserver -s -b /path/to/latest/blast/binaries
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>
+              -x / --import
+            </td>
+            <td>
+              Import pre-generated BLAST/DIAMOND XML output for visualisation
+            </td>
+          </tr>
           <tr>
             <td>
               -c / --config_file
@@ -542,10 +588,29 @@ Enter a database title or will use 'SI 2.2.3 ':
         <code>-outfmt</code>, <code>-import_search_strategy</code>) are
         not allowed.
       <p>
-
       <p>
         For security, only letters, numbers, space, hyphen, underscore,
         and period are allowed in "Advanced params" textbox.
+      </p>
+      <p>
+        SequenceServer changes BLAST+'s default:
+        <ul>
+          <li>
+            <code>-evalue 1e-5</code> is added to all searches
+          </li>
+          <li>
+            <code>-task blastn</code> is added to BLASTN searches
+          </li>
+        </ul>
+      </p>
+      <p>
+        The above changes are applied transparently, i.e., they are added to the
+        'Advanced params' textbox once you have pasted your query and selected
+        the databases and can be overriden.
+      </p>
+      <p>
+        It is possible to customise advanced options for each BLAST algorithm by
+        setting them in the configuration file.
       </p>
     </section>
 
@@ -615,12 +680,12 @@ Enter a database title or will use 'SI 2.2.3 ':
         </h2>
       </div>
       <p>
-        If your IP is publicly accessible, your colleagues will be able to
-        access your SequenceServer instance at http://your-ip:4567.  You can
-        find your IP in the Network or Sharing section of System Preferences.
-        This usually requires being in the same subnetwork, or asking IT
-        services to open your machine to the outside world. You may also
-        want to ask IT services for a fixed IP.
+        If your IP is publicly accessible, your colleagues will be able to access
+        your SequenceServer instance at <code>http://your-ip:4567</code>, or a
+        particular search result at <code>http://your-ip:4567/job-id</code>. This
+        usually requires being in the same subnetwork, or asking IT services to
+        open your machine to the outside world. You may also want to ask IT
+        services for a fixed IP.
       </p>
       <p>
         If you already have a fixed, public IP but port 4567 is blocked by a
@@ -629,10 +694,15 @@ Enter a database title or will use 'SI 2.2.3 ':
         required to use port 80: <code>sudo sequenceserver -p 80</code>.
       </p>
       <p>
-          You can disable sharing
-          by setting <code>:host:</code> key in config file to
-          <code>127.0.0.1</code>: <code>sequenceserver -s -H 127.0.0.1</code>
-        </p>
+        You can disable sharing
+        by setting <code>:host:</code> key in config file to
+        <code>127.0.0.1</code>: <code>sequenceserver -s -H 127.0.0.1</code>
+      </p>
+      <p>
+        BLAST results are stored for 30 days by default. You can change this by
+        setting the <code>:job_lifetime:</code> key in configuration file (the
+        value is specified in minutes).
+      </p>
     </section>
 
     <!-- Autostart with systemd ============================================== -->
@@ -962,6 +1032,44 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
       </p>
     </section>
 
+    <!-- iframe -->
+    <section id="iframe">
+      <div ="page-header">
+        <h2>
+          Embedding SequenceServer in an iframe
+        </h2>
+      </div>
+      <p>
+        By default, any website can embed your SequenceServer installation via
+        iframe provided there is a public IP or URL pointing to it.
+      </p>
+      <p>
+        You can change this behaviour by setting <code>:frame_options:</code>
+        key in the config file:
+        <dl>
+          <dt>
+            :frame_options: :deny
+          </dt>
+          <dd>
+            Completely disable embedding in an iframe at all.
+          </dd>
+          <dt>
+            :frame_options: :sameorigin
+          </dt>
+          <dd>
+            Only allow websites hosted within the same domain to embed SequenceServer.
+          </dd>
+          <dt>
+            :frame_options: 'ALLOW-FROM my-url'
+          </dt>
+          <dd>
+            Only allow the webiste hosted at 'my-url' to embed SequenceServer. Of
+            course, 'my-url' is a website address that you provide.
+          </dd>
+        </dl>
+      </p>
+    </section>
+  
     <!-- Debugging ========================================================= -->
     <section
       id="debugging">
@@ -1000,12 +1108,6 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
             exceeds 10,000 residues</strong> - ok if target sequences are
           proteins or contigs. We feel this mode of visualising sequences
           is not optimal for very long sequences (e.g., scaffolds).
-        </li>
-        <li>
-          <strong>Download FASTA of all hits and Download FASTA of selected
-            hits works only for 30 or less hits at a time.</strong> This is due
-          to a technical limitation that length of URLs should not exceed 2083
-          characters. This will be fixed in the next major release.
         </li>
         <li>
           <strong>During setup on some versions of OS X, an extra space is added
@@ -1053,6 +1155,22 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
           <a href="https://github.com/igvteam/igv.js">igv.js</a> can be
           used. Also see: <a href="#jbrowse">Integrating with JBrowse</a>
           and <a href="#plugin">Adding links to search hits</a>.
+          </dd>
+          <dt>
+            3. Is it possible to disable Grammarly for the query sequences?
+          </dt>
+          <dd>
+          Yes, but each user would have to do it themselves:
+          <a href="https://support.grammarly.com/hc/en-us/articles/115000091572-Disable-the-Grammarly-extension-in-a-certain-text-field">disable Grammarly</a>.
+          </dd>
+          <dt>
+            4. Can I submit form and open results in a new tab?
+          </dt>
+          <dd>
+          This is currently possible in Chrome by pressing the 'Cmd' button on
+          Mac and 'Ctrl' button on Windows while clicking on the 'BLAST' button.
+          In future we may add a checkbox that lets you open search results in a
+          new page.
           </dd>
         </dl>
       </p>

@@ -93,6 +93,9 @@ a:hover {
   padding-top: 10px;
   border-right: 1px solid #eee;
 }
+.sidebar a {
+  padding: 2px 0 !important;
+}
 @media (min-width: 992px) {
   /* MacBook Pro etc. */
   .sidebar nav.affix {
