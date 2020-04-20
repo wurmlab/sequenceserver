@@ -5,8 +5,7 @@ layout: page
   class="row">
   <div
     class="sidebar col-md-3 visible-md visible-lg">
-    <h3
-      style="margin-top: 10px">
+    <h3 style="margin-top: 5px">
       News
     </h3>
     <p>
@@ -299,8 +298,8 @@ layout: page
   </div> <!-- sidebar -->
 
   <div class="main col-md-9">
-    <section id="about">
-      <div class="page-header">
+    <section>
+      <div class="page-header" style="margin-top: 10px;">
         <h1>
           SequenceServer
           <small>
@@ -386,13 +385,9 @@ layout: page
           </ul>
 
           <!-- Installation ================================================== -->
-          <div class="page-header" id="installation">
-            <h2>
-              Installation
-            </h2>
-          </div>
+          <div id="installation" style="padding-top: 50px; margin-top: -50px;">
           <div class="page-header">
-            <h3 id="requirements">
+            <h3>
               Requirements
             </h3>
           </div>
@@ -424,24 +419,38 @@ layout: page
                 addition to <code>ruby</code>.
               </p>
             </li>
+            <li>
+              <strong>Alternatively</strong>, just install <a
+              href="docker.com">Docker</a> and use it to run SequenceServer
+              whether on Linux, on Mac, or on Windows.
+            </li>
           </ul>
-          <div class="page-header">
-            <h3 id="quick-setup">
+          <div class="page-header" style="margin-top: 30px;">
+            <h3>
               Install or update
             </h3>
           </div>
           <p>
-            Once you have Ruby and the build tools installed, the command below
-            can be used to install SequenceServer. Later on, the same command
-            can be used to update SequenceServer to the latest version:
+            Once you have Ruby and the build tools installed, or Docker, the
+            commands below can be used to install SequenceServer for the first
+            time. Later on, the same command can be used to update SequenceServer
+            to the latest version:
           </p>
 
 {% highlight shell %}
 sudo gem install sequenceserver
 {% endhighlight %}
 
+          <p>
+          If using Docker:
+          </p>
+
+{% highlight shell %}
+docker fetch wurmlab/sequenceserver
+{% endhighlight %}
+
           <div class="page-header">
-            <h3 id="quick-setup">
+            <h3 style="margin-top: 30px;">
               Configure and run
             </h3>
           </div>
@@ -455,38 +464,15 @@ sudo gem install sequenceserver
 sequenceserver
 {% endhighlight %}
           <p>
+            If using Docker, you need to provide the databases directory up-front:
+          </p>
+<pre>docker run --rm -itp 4567:4567 -v /path-to-database-dir:/db wurmlab/sequenceserver:1.0.11</pre>
+          <p>
             That's it! Open <a href="http://localhost:4567/">
               http://localhost:4567</a> in your web-browser and start BLAST-ing!
           </p>
-          <br>
-          <div id="cite" style="margin-left: 20px;">
-            <h4>
-              Please cite
-            </h4>
-            <blockquote>
-              <a href="https://doi.org/10.1093/molbev/msz185">
-                Sequenceserver: a modern graphical user interface for custom
-                BLAST databases. Molecular Biology and Evolution (2019).
-              </a>
-            </blockquote>
-            <p>
-              We request you to not remove the please cite line from your installation of SequenceServer. Citations are important for us to actively develop and advance SequenceServer.
-            </p>
-          </div>
-          <div class="page-header">
-            <h3>
-              Using with Docker
-            </h3>
-          </div>
-          <p>
-            Alternatively, you can use SequenceServer with
-            <a
-              href="http://www.sequenceserver.com/doc">
-              Docker
-            </a> - only need to specify the location of your database directory.
-          </p>
-<pre>docker run --rm -itp 4567:4567 -v /path-to-database-dir:/db wurmlab/sequenceserver:1.0.11</pre>
         </div>
+      </div>
 
         <div class="col-md-5" >
           <a href="img/overview/search.png">
@@ -565,6 +551,20 @@ sequenceserver
         </a>
         if in doubt. Our licensing model is same as theirs.
       </p>
+      <div id="cite">
+        <h4>
+          Please cite
+        </h4>
+        <blockquote>
+          <a href="https://doi.org/10.1093/molbev/msz185">
+            Sequenceserver: a modern graphical user interface for custom
+            BLAST databases. Molecular Biology and Evolution (2019).
+          </a>
+        </blockquote>
+        <p>
+          We request you to not remove the please cite line from your installation of SequenceServer. Citations are important for us to actively develop and advance SequenceServer.
+        </p>
+      </div>
     </section>
 
     <!-- Support ================================================== -->
