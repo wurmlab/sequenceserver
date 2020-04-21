@@ -347,7 +347,7 @@ module SequenceServer
       # sequences in the portion of the file read. Returns the portion
       # of the file read wrapped in an Array otherwise.
       def sample_sequences(file)
-        File.read(file, 32_768).split(/^>.+$/).delete_if(&:empty?)
+        File.read(file, 1_048_576).split(/^>.+$/).delete_if(&:empty?)
       end
     end
   end
