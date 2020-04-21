@@ -33,6 +33,10 @@ label:hover {
   color: #c74f14;
 }
 
+.yellow-background {
+  background-color: #E2D382;
+}
+
 /**
  * Disable resize grabber on textarea.
  */

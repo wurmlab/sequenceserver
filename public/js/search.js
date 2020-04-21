@@ -758,7 +758,12 @@ var Databases = React.createClass({
     }
 });
 
+// Component for the advanced params input field.
 var Options = React.createClass({
+    // State of this component is the advanced params text.
+    getInitialState: function () {
+        return { preOpts: '' };
+    },
 
     updateBox: function (evt) {
         this.setState({
@@ -766,34 +771,23 @@ var Options = React.createClass({
         });
     },
 
-    getInitialState: function () {
-        return {
-            preOpts: ''
-        };
-    },
-
     render: function () {
+        var classNames = 'form-control';
+        if (this.state.preOpts.trim()) {
+            classNames += ' yellow-background';
+        }
         return (
-            <div
-                className="col-md-8">
-                <div
-                    className="form-group">
-                    <div
-                        className="col-md-12">
-                        <div
-                            className="input-group">
-                            <label
-                                className="control-label"
-                                htmlFor="advanced">
+            <div className="col-md-8">
+                <div className="form-group">
+                    <div className="col-md-12">
+                        <div className="input-group">
+                            <label className="control-label" htmlFor="advanced">
                                 Advanced parameters:
                             </label>
-                            <input
-                                type="text"
-                                className="form-control" name="advanced" id="advanced"
-                                title="View, and enter advanced parameters."
+                            <input type="text" className={classNames} onChange={this.updateBox}
+                                id="advanced" name="advanced" value={this.state.preOpts}
                                 placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
-                                value={this.state.preOpts}
-                                onChange={this.updateBox}
+                                title="View, and enter advanced parameters."
                             />
                             <div
                                 className="input-group-addon cursor-pointer"
