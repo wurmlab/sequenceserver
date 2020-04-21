@@ -20,6 +20,30 @@ def download_from_url(url)
   system(cmd)
 end
 
+def ask_to_join
+  asked_to_join = File.join(SequenceServer::DOTDIR, 'asked_to_join')
+  unless File.exist?(asked_to_join)
+    puts
+    puts <<~MSG
+    Do you want to be notified of SequenceServer releases and any
+    other important announcements (3-12 messages a year)? If yes,
+    please provide your email address below or press enter to
+    continue (you won't be prompted again).
+    MSG
+    print '>> '
+    response = STDIN.gets.to_s.strip
+    puts
+
+    if response =~ /@/
+      post_email_cmd = "curl -m 5 https://docs.google.com/forms/u/0/d/e/" \
+      "1FAIpQLSe7sOCiKzYbI7LwErid-g3wfIU5Zpi6VTm0ILJyR036RqC8zg/formResponse " \
+      "-d ifq -d emailAddress=#{response} -d submit=Submit > /dev/null 2> /dev/null"
+      system post_email_cmd
+    end
+    system "touch #{asked_to_join}"
+  end
+end
+
 begin
   Slop.parse!(strict: true, help: true) do
     banner <<~BANNER
@@ -378,6 +402,8 @@ begin
       end
 
       SequenceServer.config.write_config_file if fetch_option(:set).value
+
+      ask_to_join
 
       SequenceServer.run
     end
