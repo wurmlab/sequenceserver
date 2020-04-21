@@ -328,11 +328,8 @@ module SequenceServer
         db_name
       end
 
-      # Guess whether FASTA file contains protein or nucleotide sequences based
-      # on first 32768 characters.
-      #
-      # NOTE: 2^15 == 32786. Approximately 546 lines, assuming 60 characters on
-      # each line.
+      # Guess whether FASTA file contains protein or nucleotide sequences by
+      # sampling a few few characters of the file.
       def guess_sequence_type_in_fasta(file)
         sequences = sample_sequences(file)
         sequence_types = sequences.map { |seq| Sequence.guess_type(seq) }
@@ -340,8 +337,8 @@ module SequenceServer
         (sequence_types.length == 1) && sequence_types.first
       end
 
-      # Read first 32768 characters of the file. Split on fasta def line
-      # pattern and return.
+      # Read first 1,048,576 characters of the file, split the read text on
+      # fasta def line pattern and return.
       #
       # If the given file is FASTA, returns Array of as many different
       # sequences in the portion of the file read. Returns the portion
