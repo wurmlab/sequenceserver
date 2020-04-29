@@ -232,7 +232,7 @@ describe 'a browser', type: :feature, js: true do
 
     ## Check that there is a circos vis and unfold it.
     page.should have_content('Queries and their top hits: chord diagram')
-    page.execute_script("$('.circos > .grapher-header > h5').click()")
+    page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-svg:eq(0)').click()")
@@ -260,7 +260,7 @@ describe 'a browser', type: :feature, js: true do
 
     ## Check that there is a length distribution of hits.
     page.should have_content('Length distribution of hits')
-    page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
+    page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-svg:eq(2)').click()")

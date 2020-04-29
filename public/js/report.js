@@ -40,7 +40,7 @@ var Page = React.createClass({
     },
 
     componentDidMount: function () {
-        var job_id = location.pathname.substr(1);
+        var job_id = location.pathname.split('/').pop();
         sessionStorage.setItem('job_id', job_id);
     },
 
