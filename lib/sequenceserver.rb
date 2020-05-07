@@ -4,8 +4,12 @@ require 'resolv'
 
 # Top level module / namespace.
 module SequenceServer
-  # Use a fixed minimum version of BLAST+
+  # The default version of BLAST that will be downloaded and configured for use.
   BLAST_VERSION = '2.10.0+'.freeze
+  # The minimum version of BLAST that SequenceServer is happy to run with. This
+  # is for compatiblity with older database formats. Users will download BLAST
+  # themselves.
+  MIN_BLAST_VERSION = '2.9.0+'.freeze
 
   # Default location of configuration file.
   DEFAULT_CONFIG_FILE = '~/.sequenceserver.conf'.freeze
@@ -234,7 +238,7 @@ module SequenceServer
       end
       version = out.split[1]
       fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE if version.empty?
-      fail BLAST_NOT_COMPATIBLE, version unless version == BLAST_VERSION
+      fail BLAST_NOT_COMPATIBLE, version unless is_compatible(version, MIN_BLAST_VERSION)
     end
 
     def server_url
@@ -284,6 +288,20 @@ module SequenceServer
     # Return `true` if the given command exists and is executable.
     def command?(command)
       system("which #{command} > /dev/null 2>&1")
+    end
+
+    # Returns true if the given version is higher than the minimum expected
+    # version string.
+    def is_compatible(given, expected)
+      # The speceship operator (<=>) below returns -1, 0, 1 depending on
+      # on whether the left operand is lower, same, or higher than the
+      # right operand. We want the left operand to be the same or higher.
+      (parse_version(given) <=> parse_version(expected)) >= 0
+    end
+
+    # Turn version string into an arrary of its component numbers.
+    def parse_version(version_string)
+      version_string.split('.').map(&:to_i)
     end
   end
 end
