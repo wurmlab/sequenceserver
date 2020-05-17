@@ -82,7 +82,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
     page.should have_content('Queries and their top hits: chord diagram')
-    page.execute_script("$('.circos > .grapher-header > h5').click()")
+    page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(0)').click()")
@@ -102,7 +102,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
     page.should have_content('Length distribution of hits')
-    page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
+    page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
@@ -193,7 +193,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # right format.
 
     page.should have_content('Queries and their top hits: chord diagram')
-    page.execute_script("$('.circos > .grapher-header > h5').click()")
+    page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(0)').click()")
@@ -213,7 +213,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download in a right format.
 
     page.should have_content('Length distribution of hits')
-    page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
+    page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
@@ -307,7 +307,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # right format.
 
     page.should have_content('Queries and their top hits: chord diagram')
-    page.execute_script("$('.circos > .grapher-header > h5').click()")
+    page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(0)').click()")
@@ -327,7 +327,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download in a right format.
 
     page.should have_content('Length distribution of hits')
-    page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
+    page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
@@ -422,7 +422,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # right format.
 
     page.should have_content('Queries and their top hits: chord diagram')
-    page.execute_script("$('.circos > .grapher-header > h5').click()")
+    page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(0)').click()")
@@ -443,7 +443,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download in a right format.
 
     page.should have_content('Length distribution of hits')
-    page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
+    page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
@@ -537,7 +537,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # right format.
 
     page.should have_content('Queries and their top hits: chord diagram')
-    page.execute_script("$('.circos > .grapher-header > h5').click()")
+    page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(0)').click()")
@@ -558,7 +558,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download in a right format.
 
     page.should have_content('Length distribution of hits')
-    page.execute_script("$('.length-distribution > .grapher-header > h5').click()")
+    page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
     page.execute_script("$('.export-to-png:eq(1)').click()")
