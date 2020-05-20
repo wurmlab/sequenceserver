@@ -20,5 +20,6 @@ WORKDIR /sequenceserver
 RUN gem install bundler && \
         bundle install --without=development && \
         yes '' | bundle exec bin/sequenceserver -s -d spec/database/sample
+RUN touch ~/.sequenceserver/asked_to_join
 
 CMD ["bundle", "exec", "bin/sequenceserver", "-d", "/db"]
