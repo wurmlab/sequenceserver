@@ -251,6 +251,14 @@ module SequenceServer
               " -taxid #{taxid}"
         out, err = sys(cmd, path: config[:bin])
         puts out, err unless quiet
+      rescue CommandFailed => e
+        puts <<~MSG
+          Could not create BLAST database for: #{file}
+          Tried: #{cmd}
+          stdout: #{e.stdout}
+          stderr: #{e.stderr}
+        MSG
+        exit!
       end
 
       # Show file path and guessed sequence type to the user and obtain a y/n
