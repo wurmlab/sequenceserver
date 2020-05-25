@@ -65,6 +65,16 @@ module SequenceServer
           error = IO.foreach(stderr).grep(ERROR_LINE).join
           error = File.read(stderr) if error.empty?
           fail InputError, error
+        when 2
+          fail InputError, <<~MSG
+            BLAST signalled a problem with the databases that you searched.
+
+            Most likely one or more of your databases were created using an
+            older version of BLAST. Please consider recreating the databases
+            using BLAST #{BLAST_VERSION}.
+
+            As a temporary solution, you can try searching one database at a time.
+          MSG
         when 4
           # Out of memory. User can retry with a shorter search, so raising
           # InputError here instead of SystemError.
@@ -79,7 +89,7 @@ module SequenceServer
           # the job. This is a SystemError.
           fail SystemError, 'Ran out of disk space.'
         else
-          # I am not sure what the exit codes 2 & 3 means and we should note
+          # I am not sure what the exit codes 3 means and we should not
           # encounter exit code 5. The only other error that I know can happen
           # but is not yet handled is when BLAST+ binaries break such as after
           # macOS updates. So raise SystemError, include the exit status in the
