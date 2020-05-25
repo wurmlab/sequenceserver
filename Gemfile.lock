@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sequenceserver (2.0.0.rc3)
+    sequenceserver (2.0.0.rc4)
       json_pure (~> 1.8, >= 1.8.2)
       ox (~> 2.1, >= 2.1.1)
       sinatra (~> 2.0, >= 2.0.0)
