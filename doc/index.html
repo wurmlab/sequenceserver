@@ -997,7 +997,9 @@ ssh hostname /usr/local/bin/$blast $param
         Fortunately, we have a solution for <code>qsub</code> thanks
         to <a
           href="https://groups.google.com/d/msg/sequenceserver/Ed05cYtHyPY/cMNYUxeaBQAJ">
-          Andy Foster</a>. Create the following script:
+          Andy Foster</a> and <a
+          href="https://github.com/wurmlab/sequenceserver/issues/445">Loraine Brillet-Guéguen
+        </a>. Create the following script:
       </p>
 
 {% highlight shell %}
@@ -1012,17 +1014,19 @@ blast=$3
 
 shift 3
 
-param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /"`
+param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /" | sed "s/\-outfmt\ /\-outfmt\ \'/" | sed "s/\ \-num_threads\ /\'\ \-num_threads\ /"`
 
 qsub -sync y -b y -pe slowpara 4 -N $jobid -o $rfile -e $efile /usr/local/bin/$blast $param
 {% endhighlight %}
 
       <p>
-        And then modify L67 of <code>lib/sequenceserver/blast.rb</code> to
+        And add the following at line 51 of <code>lib/sequenceserver/blast/job.rb</code>:
       </p>
 
 {% highlight ruby %}
-system("/path/to/script #{rfile.path} #{efile.path} #{command}")
+def run
+  system("/path/to/script #{stdout} #{stderr} #{command}")
+end
 {% endhighlight %}
 
       <p>
