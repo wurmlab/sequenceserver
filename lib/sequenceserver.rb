@@ -77,10 +77,14 @@ module SequenceServer
       puts
       puts '** Thank you for using SequenceServer :).'
       puts '   Please cite: '
-      puts '       Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F,'
-      puts '       Gibbins MA, Moon H, Leonard G, Rumpf W & Wurm Y. 2015.'
-      puts '       Sequenceserver: a modern graphical user interface for'
-      puts '       custom BLAST databases. biorxiv doi: 10.1101/033142.'
+      puts '       Priyam A, Woodcroft BJ, Rai V, Moghul I, Munagala A, Ter F,'
+      puts '       Chowdhary H, Pieniak I, Maynard LJ, Gibbins MA, Moon H,'
+      puts '       Davis-Richardson A, Uludag M, Watson-Haigh N, Challis R,'
+      puts '       Nakamura H, Favreau E, Gómez EA, Pluskal T, Leonard G,'
+      puts '       Rumpf W & Wurm Y.'
+      puts '       Sequenceserver: A modern graphical user interface for'
+      puts '       custom BLAST databases.'
+      puts '       Molecular Biology and Evolution (2019)'
     end
 
     # Rack-interface.
@@ -182,7 +186,9 @@ module SequenceServer
       fail BLAST_NOT_INSTALLED unless command? 'blastdbcmd'
       version = `blastdbcmd -version`.split[1]
       fail BLAST_NOT_EXECUTABLE if !$CHILD_STATUS.success? || version.empty?
-      fail BLAST_NOT_COMPATIBLE, version unless version >= MINIMUM_BLAST_VERSION
+      if (parse_version(version) <=> parse_version(MINIMUM_BLAST_VERSION)) < 0
+        fail BLAST_NOT_COMPATIBLE, version
+      end
     end
 
     def server_url
@@ -211,6 +217,10 @@ module SequenceServer
     # Return `true` if the given command exists and is executable.
     def command?(command)
       system("which #{command} > /dev/null 2>&1")
+    end
+
+    def parse_version(version_string)
+      version_string.split('.').map(&:to_i)
     end
   end
 end
