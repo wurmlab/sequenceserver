@@ -16,8 +16,15 @@ SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user
 interface for use locally or over the web.
 DESC
 
+  version_arr = RUBY_VERSION.split(".")
   # dependencies
-  s.add_dependency('sinatra',   '~> 2.0',  '>= 2.0')
+  if version_arr[0] == "1"
+    s.add_dependency('sinatra', '~>1.0', '<2.0')
+  elsif version_arr[0] == "2" and version_arr[1].to_i <= 3
+     s.add_dependency('sinatra', '> 2.0',  '<2.1')  
+  else
+    s.add_dependency('sinatra', '~> 2.0') 
+  end
   s.add_dependency('json_pure', '~> 1.8',  '>= 1.8.2')
   s.add_dependency('ox',        '~> 2.1',  '>= 2.1.1')
   s.add_dependency('slop',      '~> 3.6',  '>= 3.6.0')
