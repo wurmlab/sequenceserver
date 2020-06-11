@@ -19,17 +19,19 @@ DESC
   version_arr = RUBY_VERSION.split(".")
   # dependencies
   if version_arr[0] == "1"
-    s.add_dependency('sinatra', '~>1.0', '<2.0')
+    s.add_dependency('sinatra',   '~> 1.4',  '>= 1.4.5')
+    s.add_development_dependency('rack-test',       '~> 0.6',  '>= 0.6.2')
   elsif version_arr[0] == "2" and version_arr[1].to_i <= 3
-     s.add_dependency('sinatra', '> 2.0',  '<2.1')  
+    s.add_dependency('sinatra', '> 2.0',  '<2.1')  
+    s.add_development_dependency('rack-test',       '~> 0.6',  '>= 0.6.2')
   else
+    s.add_development_dependency('rack-test',       '~> 0.8',  '>= 0.8.2')
     s.add_dependency('sinatra', '~> 2.0') 
   end
   s.add_dependency('json_pure', '~> 1.8',  '>= 1.8.2')
   s.add_dependency('ox',        '~> 2.1',  '>= 2.1.1')
   s.add_dependency('slop',      '~> 3.6',  '>= 3.6.0')
 
-  s.add_development_dependency('rack-test',       '~> 0.8',  '>= 0.8.2')
   s.add_development_dependency('rspec',           '~> 2.8',  '>= 2.8.0')
   s.add_development_dependency('rake',            '~> 10.3', '>= 10.3.2')
   s.add_development_dependency('rubocop',         '~> 0.31', '>= 0.31.0')
