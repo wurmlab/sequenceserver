@@ -25,7 +25,7 @@ install:
   - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.30/ncbi-blast-2.2.30+-x64-linux.tar.gz"
   - tar xvf ncbi-blast-2.2.30+-x64-linux.tar.gz
   - export PATH="ncbi-blast-2.2.30+/bin:$PATH"
-  - gem install bundler && bundle
+  - bundle 
 
 script: xvfb-run bundle exec rake spec
 
