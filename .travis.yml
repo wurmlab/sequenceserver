@@ -19,6 +19,7 @@ addons:
 branches:
   only:
     - 1.0.x   # stable
+    - update-sinatra
     #- master (temporarily disabled)
 
 install:
