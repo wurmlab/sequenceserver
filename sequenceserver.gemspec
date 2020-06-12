@@ -18,7 +18,7 @@ DESC
 
   version_arr = RUBY_VERSION.split(".")
   # dependencies
-  if (version_arr[0] == "1") or (version_arr[0] == "2" and version_arr[1].to_i <= 3)
+  if version_arr[0] == "2" and version_arr[1].to_i <= 3
     s.add_dependency('sinatra',   '~> 1.4',  '>= 1.4.5')
     s.add_development_dependency('rack-test',       '~> 0.6',  '>= 0.6.2')
   else
