@@ -68,10 +68,6 @@ begin
         # of threads to use in config file.
         $ sequenceserver -s -n 16
 
-        # See if you have FASTA files in database dir that haven't
-        # been converted into BLAST database.
-        $ sequenceserver -u
-
         # Search for FASTA files in database dir that haven't been
         # converted into BLAST database yet, and convert them.
         $ sequenceserver -m
@@ -134,9 +130,6 @@ begin
 
     on 'l', 'list_databases',
        'List BLAST databases'
-
-    on 'u', 'list-unformatted-fastas',
-       'List unformatted FASTA files'
 
     on 'i', 'interactive',
        'Run SequenceServer in interactive mode'
@@ -285,8 +278,7 @@ begin
         fetch_option(:database_dir).value = response
         redo
       rescue SequenceServer::NO_BLAST_DATABASE_FOUND => e
-        unless list_databases? || list_unformatted_fastas? ||
-               make_blast_databases?
+        unless list_databases? || make_blast_databases?
 
           # Print error raised.
           puts
@@ -305,13 +297,13 @@ begin
           unless response =~ /^[n]$/i
             puts
             puts 'Searching ...'
-            if SequenceServer::Database.unformatted_fastas.empty?
-              puts "Couldn't find any FASTA files."
-              exit!
-            else
-              formatted = SequenceServer::Database.make_blast_databases
+            if SequenceServer.makeblastdb.scan
+              formatted = SequenceServer.makeblastdb.run
               exit! if formatted.empty? && !set?
               redo unless set?
+            else
+              puts "Couldn't find any FASTA files."
+              exit!
             end
           else
             exit! unless set?
@@ -361,22 +353,13 @@ begin
         exit
       end
 
-      if list_unformatted_fastas? || make_blast_databases?
-        unformatted_fastas = SequenceServer::Database.unformatted_fastas
-        if unformatted_fastas.empty?
+      if make_blast_databases?
+        if SequenceServer.makeblastdb.scan
+          SequenceServer.makeblastdb.run
+        else
           puts "All FASTA files in #{SequenceServer.config[:database_dir]} " \
                'are formatted.'
-          exit
         end
-      end
-
-      if list_unformatted_fastas?
-        puts unformatted_fastas
-        exit
-      end
-
-      if make_blast_databases?
-        SequenceServer::Database.make_blast_databases
         exit
       end
 

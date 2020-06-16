@@ -24,6 +24,7 @@ module SequenceServer
   require 'sequenceserver/config'
   require 'sequenceserver/server'
   require 'sequenceserver/routes'
+  require 'sequenceserver/makeblastdb'
   require 'sequenceserver/job_remover'
   require 'sequenceserver/exceptions'
   require 'sequenceserver/sys'
@@ -55,6 +56,11 @@ module SequenceServer
                   else
                     Logger.new(STDERR, Logger::INFO)
                   end
+    end
+
+    # MAKEBLASTDB service object.
+    def makeblastdb
+      @makeblastdb ||= MAKEBLASTDB.new(config[:database_dir])
     end
 
     # SequenceServer initialisation routine.
