@@ -628,14 +628,12 @@ var Databases = React.createClass({
     },
 
     databases: function (category) {
-        if (!category) {
-            return this.props.databases.slice();
+        var databases = this.props.databases;
+        if (category) {
+            databases = _.select(databases, database => database.type === category);
         }
 
-        return _.select(this.props.databases,
-            function (database) {
-                return database.type === category;
-            });
+        return _.sortBy(databases, 'title');
     },
 
     nselected: function () {
