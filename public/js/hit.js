@@ -182,7 +182,7 @@ export default React.createClass({
         return {
             text: 'Alignment',
             icon: 'fa-download',
-            className: 'download-fa',
+            className: 'download-aln',
             onClick: () => this.downloadAlignment()
         };
     },
