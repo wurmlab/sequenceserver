@@ -78,10 +78,6 @@ if [[ "$status" -eq "200" ]]; then
     done
 
     printf "%-35s %s\n" "Download hits:" "curl -X POST $hitArgs $dbArgs $BASE_URL/get_sequence"
-
-
-
-
 else
     echo "Finished with status code $status"
 fi

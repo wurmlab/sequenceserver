@@ -7,7 +7,9 @@ The documentation is based on version 2.0.0.rc4
 
 Example invocations use `curl` and `jq`. 
 
-'$BASE_URL' in the examples is the URL of your SequenceServer instance. E.g. http://localhost:4567 if you are running on default localhost URL.  
+'$BASE_URL' in the examples is the URL of your SequenceServer instance. E.g. http://localhost:4567 if you are running on default localhost URL. 
+
+The accompanying script [blastnAllDbs.sh](./blastNAllDbs.sh) is a working shell script that illustrates usage of the to submit a BLAST job and get results.
 
 ## Getting  list of databases
 
@@ -28,24 +30,32 @@ POST: /
 * `method`. The name of the blast search to use (blastn, blastp, tblastn etc)
 * `sequence` The query sequence
 * `databases[]` One or more Ids of Blast databases to search
+* `advanced` Additional options, e.g evalue, gapopen, gapextend etc
 
 ### Responses
+
+Successful submission results in a 303 HTTP status code.
+
 * Code 303
 * 'Location' header is a link to the submitted job ID
      
 ### Examples
 
-To query a single database using blastn:
+1. To query a single database using blastn:
 
     curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a $BASE_URL
 
-To query multiple databases, add extra -Fdatabases[] arguments, e.g.
+2. To query multiple databases, add extra -Fdatabases[] arguments, e.g.
 
     curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a -Fdatabases[]=2f8c0e19d8d5b8ab225962d7284a6cbf $BASE_URL
 
-Getting location header - you need this in order to retrieve the results
+3. Getting location header - you need this in order to retrieve the results
 
     jobUrl=$(curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a --write-out '%{redirect_url}' $BASE_URL)
+
+4. Altering the evalue threshold and adding a gap penalty:
+
+    curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a  -Fadvanced="-evalue 1.0e-8 -gapopen 1 -gapextend 1" $BASE_URL
 
 ## Retrieving results
 
