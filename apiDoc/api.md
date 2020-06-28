@@ -1,92 +1,95 @@
+## Sequence Server API
 
+This document describes how to access SequenceServer functionality 
+programmatically using the command line.
 
-## getting  list of databases
+The documentation is based on version 2.0.0.rc4
 
-    curl http://localhost:4567/searchdata.json | jq --raw-output '.database[].id'
+Example invocations use `curl` and `jq`. 
 
-gets  JSON like
+'$BASE_URL' in the examples is the URL of your SequenceServer instance. E.g. http://localhost:4567 if you are running on default localhost URL.  
 
-  ```json
+## Getting  list of databases
 
-  {
-  "query": null,
-  "database": [
-    {
-      "name": "/db/cds+introns.fa",
-      "title": "test",
-      "type": "nucleotide",
-      "nsequences": "6999",
-      "ncharacters": "9589106",
-      "updated_on": "Jun 15, 2020  7:36 PM\n",
-      "id": "2f8c0e19d8d5b8ab225962d7284a6cbf"
-    },
-    {
-      "name": "/db/pombe.fa",
-      "title": "pombe2",
-      "type": "nucleotide",
-      "nsequences": "6999",
-      "ncharacters": "9589106",
-      "updated_on": "Jun 27, 2020  4:30 PM\n",
-      "id": "3c0a5bc06f2596698f62c7ce87aeb62a"
-    }
-  ],
-  "options": {
-    "blastn": [
-      "-task blastn",
-      "-evalue 1e-5"
-    ],
-    "blastp": [
-      "-evalue 1e-5"
-    ],
-    "blastx": [
-      "-evalue 1e-5"
-    ],
-    "tblastx": [
-      "-evalue 1e-5"
-    ],
-    "tblastn": [
-      "-evalue 1e-5"
-    ]
-  }
-}
-```
+    GET: /searchdata.json
 
-### Submitting a query
+In order to submit a Blast job, you have to know the IDs of the Blast databases. This endpoint retrieves information about the databases in JSON format.
 
-To query a single database:
+    curl $BASE_URL/searchdata.json | jq --raw-output '.database[].id'
 
-    curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAGGTCTGGCTAAAACCTT -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a http://localhost:4567
+The above command gets the IDs of the databases
 
-To query multiple databases, add extra -Fdatabases arguments, e.g.
+## Submitting a query
 
-    curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAGGTCTGGCTAAAACCTT -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a -Fdatabases[]=2f8c0e19d8d5b8ab225962d7284a6cbf http://localhost:4567
+POST: /
 
+### Form parameters
 
-Or use -d syntax:
-    curl -v -X POST -d 'sequence=ATGTTACCACCAACTATTAGAATTTCAGGTCTGGCTAAAACCTTACATATACCATCTAGA&databases%5B%5D=2f8c0e19d8d5b8ab225962d7284a6cbf&advanced=-task+blastn+-evalue+1e-6&method=blastn' http://localhost:4567
+* `method`. The name of the blast search to use (blastn, blastp, tblastn etc)
+* `sequence` The query sequence
+* `databases[]` One or more Ids of Blast databases to search
 
- curl -v -X POST -d 'sequence=ATGTTACCACCAACTATTAGAATTTCAGGTCTGGCTAAAACCTTACATATACCATCTAGA&databases%5B%5D=2f8c0e19d8d5b8ab225962d7284a6cbf&advanced=-task+blastn+-evalue+1e-6+-gapopen+4&method=blastn' http://localhost:
- 
-getting location header
+### Responses
+* Code 303
+* 'Location' header is a link to the submitted job ID
+     
+### Examples
 
-    jobUrl=$(curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAGGTCTGGCTAAAACCTT -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a --write-out '%{redirect_url}' http://localhost:4567)
+To query a single database using blastn:
 
-and get the results 
+    curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a $BASE_URL
 
-    curl ${r}.json
+To query multiple databases, add extra -Fdatabases[] arguments, e.g.
 
-### Results in other formats
+    curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a -Fdatabases[]=2f8c0e19d8d5b8ab225962d7284a6cbf $BASE_URL
 
-The results are in json, but you can also get results in tabular or native XML
+Getting location header - you need this in order to retrieve the results
 
-    /download/$jobId/.xml
-    /download/$jobId/.std_tsv
-    /download/$jobId/.full_tsv
+    jobUrl=$(curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a --write-out '%{redirect_url}' $BASE_URL)
 
-### Downloading hits
+## Retrieving results
 
-    /get_sequence POST
+GET: /{jobId}.json
 
-comma separated lists of sequences and databases
-curl -X POST -Fsequence_ids=SPAC1002.01,SPAC1002.02 -Fdatabase_ids=2f8c0e19d8d5b8ab225962d7284a6cbf  http://localhost:4567/get_sequence
+### Path variables
 
+* `jobId` The Job Id
+
+### Responses
+
+* Code: 202 The Blast job is still running
+* Code: 200 The job is complete, results are in JSON format
+
+### Examples
+
+    curl -o myresults.json $BASE_URL/069b56c8-25bd-451e-b117-dc996a1aed24.json
+
+## Results in other formats
+
+GET: /download/{jobId}.{format}
+
+### Path variables
+
+* `jobId` the Job ID retrieved after submission
+* `format` is one of 'xml', 'std_tsv' or 'full_tsv'
+
+### Examples
+
+    curl -o myresults.xml $BASE_URL/download/069b56c8-25bd-451e-b117-dc996a1aed24.xml
+    curl -o myresults.tsv $BASE_URL/download/069b56c8-25bd-451e-b117-dc996a1aed24.std_tsv
+    curl -o myresults-full.tsv $BASE_URL/download/069b56c8-25bd-451e-b117-dc996a1aed24.full_tsv
+
+## Downloading hits
+
+Download hits in FASTA format.
+
+POST:  /get_sequence
+
+### Form parameters
+
+* `sequence_ids` A comma-separated list of sequence IDs
+* `database_ids` A comma-separated list of database Ids
+
+### Examples
+    
+    curl -X POST -Fsequence_ids=SPAC1002.01,SPAC1002.02 -Fdatabase_ids=2f8c0e19d8d5b8ab225962d7284a6cbf  $BASE_URL/get_sequence
