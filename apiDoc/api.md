@@ -9,7 +9,7 @@ Example invocations use `curl` and `jq`.
 
 '$BASE_URL' in the examples is the URL of your SequenceServer instance. E.g. http://localhost:4567 if you are running on default localhost URL. 
 
-The accompanying script [blastnAllDbs.sh](./blastNAllDbs.sh) is a working shell script that illustrates usage of the to submit a BLAST job and get results.
+The accompanying script [blastnAllDbs.sh](./blastnAllDbs.sh) is a working shell script that illustrates usage of the to submit a BLAST job and get results.
 
 ## Getting  list of databases
 
