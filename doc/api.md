@@ -39,7 +39,7 @@ POST: /
 Successful submission results in a 303 HTTP status code.
 
 * Code 303
-* 'Location' header is a link to the submitted job ID
+* `Location` header is a link to the submitted job ID
      
 ### Examples
 
@@ -54,11 +54,11 @@ Successful submission results in a 303 HTTP status code.
 
 3. Getting location header - you need this in order to retrieve the results
 
-    jobUrl=$(curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a --write-out '%{redirect_url}' $BASEURL)
+    jobUrl=$(curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a \-\-write-out \'%{redirect_url}\' $BASEURL)
 
 4. Altering the evalue threshold and adding a gap penalty:
 
-    curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a  -Fadvanced="-evalue 1.0e-8 -gapopen 1 -gapextend 1" $BASEURL
+    curl -v -X POST -Fsequence=ATGTTACCACCAACTATTAGAATTTCAG -Fmethod=blastn -Fdatabases[]=3c0a5bc06f2596698f62c7ce87aeb62a  -Fadvanced=\"-evalue 1.0e-8 -gapopen 1 -gapextend 1\" $BASEURL
 
 ## Retrieving results
 
@@ -84,7 +84,7 @@ GET: /download/{jobId}.{format}
 ### Path variables
 
 * `jobId` the Job ID retrieved after submission
-* `format` is one of 'xml', 'std_tsv' or 'full_tsv'
+* `format` is one of `xml`, `std_tsv` or `full_tsv`
 
 ### Examples
 
