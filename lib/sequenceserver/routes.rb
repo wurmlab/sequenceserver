@@ -60,6 +60,11 @@ module SequenceServer
       logger.debug params
     end
 
+    # Set JSON content type for JSON endpoints.
+    before '*.json' do
+      content_type 'application/json'
+    end
+
     # Returns base HTML. Rest happens client-side: rendering the search form.
     get '/' do
       erb :search, layout: true
