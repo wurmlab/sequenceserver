@@ -9,7 +9,7 @@ import Hit from './hit';
 import HSP from './hsp';
 
 import SequenceModal from './sequence_modal';
-import showErrorModal from './error_modal';
+import ErrorModal from './error_modal';
 
 /**
  * Base component of report page. This component is later rendered into page's
@@ -23,7 +23,8 @@ var Page = React.createClass({
                     the Report component to render itself in. */}
                 <div className="container">
                     <Report showSequenceModal={ _ => this.showSequenceModal(_) }
-                        getCharacterWidth={ () => this.getCharacterWidth() } />
+                        getCharacterWidth={ () => this.getCharacterWidth() }
+                        showErrorModal={ (...args) => this.showErrorModal(...args) } />
                 </div>
 
                 {/* Add a hidden span tag containing chars used in HSPs */}
@@ -34,7 +35,10 @@ var Page = React.createClass({
                 {/* Required by Grapher for SVG and PNG download */}
                 <canvas id="png-exporter" hidden></canvas>
 
-                <SequenceModal ref="sequenceModal" />
+                <SequenceModal ref="sequenceModal"
+                    showErrorModal={ (...args) => this.showErrorModal(...args) }/>
+
+                <ErrorModal ref="errorModal" />
             </div>
         );
     },
@@ -46,6 +50,10 @@ var Page = React.createClass({
 
     showSequenceModal: function (url) {
         this.refs.sequenceModal.show(url);
+    },
+
+    showErrorModal: function (errorData, beforeShow) {
+        this.refs.errorModal.show(errorData, beforeShow);
     },
 
     getCharacterWidth: function () {
@@ -118,7 +126,7 @@ var Report = React.createClass({
                     case 404:
                     case 400:
                     case 500:
-                        showErrorModal(jqXHR.responseJSON);
+                        component.props.showErrorModal(jqXHR.responseJSON);
                         break;
                     }
                 });

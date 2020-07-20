@@ -1,7 +1,6 @@
 import './sequence';
 import React from 'react';
 import _ from 'underscore';
-import showErrorModal from './error_modal';
 
 /**
  * Takes sequence accession as props, fetches the sequence from the server, and
@@ -55,6 +54,13 @@ export default class SequenceModal extends React.Component {
     }
 
     /**
+     * Hide sequence viewer.
+     */
+    hide () {
+        this.modal().modal('hide');
+    }
+
+    /**
      * Loads sequence using AJAX and updates modal state.
      */
     loadJSON (url) {
@@ -67,10 +73,9 @@ export default class SequenceModal extends React.Component {
                     requestCompleted: true
                 });
             }, this))
-            .fail(function (jqXHR, status, error) {
-                showErrorModal(jqXHR, function () {
-                    this.hide();
-                });
+            .fail((jqXHR, status, error) => {
+                this.hide();
+                this.props.showErrorModal(jqXHR.responseJSON);
             });
 
     }
