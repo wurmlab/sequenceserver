@@ -92,10 +92,20 @@ export default React.createClass({
 var HitsTable = React.createClass({
     mixins: [Utils],
     render: function () {
-        var count = 0,
-            hasName = _.every(this.props.query.hits, function(hit) {
-                return hit.sciname !== '';
-            });
+        var hasName = _.every(this.props.query.hits, function(hit) {
+            return hit.sciname !== '';
+        });
+
+        // Width of sequence column is 55% when species name is not shown and
+        // query coverage is.
+        var seqwidth = 55;
+        // If we are going to show species name, then reduce the width of
+        // sequence column by the width of species column.
+        if (hasName) seqwidth -= 15;
+        // If we are not going to show query coverage (i.e. for imported XML),
+        // then increase the width of sequence column by the width of coverage
+        // column.
+        if (this.props.imported_xml) seqwidth += 15;
 
         return (
             <div className="table-hit-overview">
@@ -108,12 +118,12 @@ var HitsTable = React.createClass({
                         className="table table-hover table-condensed tabular-view ">
                         <thead>
                             <th className="text-left">#</th>
-                            <th>Similar sequences</th>
-                            {hasName && <th className="text-left">Species</th>}
-                            {!this.props.imported_xml && <th className="text-right">Query coverage (%)</th>}
-                            <th className="text-right">Total score</th>
-                            <th className="text-right">E value</th>
-                            <th className="text-right" data-toggle="tooltip"
+                            <th width={`${seqwidth}%`}>Similar sequences</th>
+                            {hasName && <th width="15%" className="text-left">Species</th>}
+                            {!this.props.imported_xml && <th width="15%" className="text-right">Query coverage (%)</th>}
+                            <th width="10%" className="text-right">Total score</th>
+                            <th width="10%" className="text-right">E value</th>
+                            <th width="10%" className="text-right" data-toggle="tooltip"
                                 data-placement="left" title="Total identity of all hsps / total length of all hsps">
                         Identity (%)
                             </th>
@@ -124,12 +134,18 @@ var HitsTable = React.createClass({
                                     return (
                                         <tr key={hit.number}>
                                             <td className="text-left">{hit.number + '.'}</td>
-                                            <td>
-                                                <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number} className="btn-link">
-                                                    {hit.id}
-                                                </a>
+                                            <td className="nowrap-ellipsis"
+                                                title={`${hit.id} ${hit.title}`}
+                                                data-toggle="tooltip" data-placement="left">
+                                                <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}
+                                                    className="btn-link">{hit.id} {hit.title}</a>
                                             </td>
-                                            {hasName && <td className="text-left">{hit.sciname}</td>}
+                                            {hasName &&
+                                                <td className="nowrap-ellipsis" title={hit.sciname}
+                                                    data-toggle="tooltip" data-placement="top">
+                                                    {hit.sciname}
+                                                </td>
+                                            }
                                             {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
                                             <td className="text-right">{hit.score}</td>
                                             <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>

@@ -251,7 +251,8 @@ a.disabled:hover,
  * Do not wrap text or show horizontal scrollbar if text overflows the width of
  * the element. Show ellipsis instead.
  */
-.nowrap-ellipsis {
+td.nowrap-ellipsis {
+  max-width: 0; /* https://stackoverflow.com/a/11877033 */
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
