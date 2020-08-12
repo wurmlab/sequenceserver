@@ -17,6 +17,13 @@ export default React.createClass({
     },
 
     /**
+     * Returns id of the hit sequence.
+     */
+    sequenceID: function () {
+        return this.props.hit.id;
+    },
+
+    /**
      * Returns length of the hit sequence.
      */
     hitLength: function () {
@@ -41,12 +48,12 @@ export default React.createClass({
     },
 
     viewSequenceLink: function () {
-        return encodeURI(`get_sequence/?sequence_ids=${this.accession()}&database_ids=${this.databaseIDs()}`);
+        return encodeURI(`get_sequence/?sequence_ids=${this.sequenceID()}&database_ids=${this.databaseIDs()}`);
     },
 
     downloadFASTA: function (event) {
-        var accessions = [this.accession()];
-        downloadFASTA(accessions, this.databaseIDs());
+        var sequenceIDs = [this.sequenceID()];
+        downloadFASTA(sequenceIDs, this.databaseIDs());
     },
 
     // Event-handler for exporting alignments.
@@ -129,7 +136,7 @@ export default React.createClass({
             <div className="hit-links">
                 <label>
                     <input type="checkbox" id={this.domID() + '_checkbox'}
-                        value={this.accession()} onChange={function () {
+                        value={this.sequenceID()} onChange={function () {
                             this.props.selectHit(this.domID() + '_checkbox');
                         }.bind(this)} data-target={'#' + this.domID()}
                     /> Select

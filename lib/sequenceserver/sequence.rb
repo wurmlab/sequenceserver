@@ -42,7 +42,7 @@ module SequenceServer
       # If hit comes from a non -parse_seqids
       # database, obtain seqid and title from
       # defline.
-      if args[1] =~ /^gnl\|/
+      if args[1] =~ /^gnl\|BL_ORD_ID\|\d+/
         defline = args[3].split
         args[1] = defline.shift
         args[3] = defline.join(' ')
