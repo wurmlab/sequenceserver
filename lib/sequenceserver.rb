@@ -136,12 +136,16 @@ module SequenceServer
       puts '** SequenceServer is ready.'
       puts "   Go to #{server_url} in your browser and start BLASTing!"
       if ip_address
-        puts '   To share your setup, please try one of the following: '
+        puts '   To share your setup, try one of the following addresses. These'
+        puts '   may only work within your home, office, or university network.'
         puts "     -  http://#{ip_address}:#{config[:port]}"
         puts "     -  http://#{hostname}:#{config[:port]}" if hostname
+        puts '   To share your setup with anyone in the world, ask your IT team'
+        puts '   for a public IP address.'
         puts '   To disable sharing, set :host: key in config file to 127.0.0.1'
+        puts '   and restart server.'
       end
-      puts '   Press CTRL+C to quit.'
+      puts '   To terminate server, press CTRL+C'
       open_in_browser(server_url)
     end
 
