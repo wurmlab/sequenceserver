@@ -55,8 +55,7 @@ module SequenceServer
     end
 
     before :all do
-      SequenceServer.config[:database_dir] = database_dir
-      Database.scan_databases_dir
+      SequenceServer.init(database_dir: database_dir)
     end
 
     it 'should be able to retrieve sequences from database' do
