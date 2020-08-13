@@ -48,7 +48,9 @@ export default React.createClass({
     },
 
     viewSequenceLink: function () {
-        return encodeURI(`get_sequence/?sequence_ids=${this.sequenceID()}&database_ids=${this.databaseIDs()}`);
+        var sequenceIDs = encodeURIComponent(this.sequenceID());
+        var databaseIDs = encodeURIComponent(this.databaseIDs());
+        return `get_sequence/?sequence_ids=${sequenceIDs}&database_ids=${databaseIDs}`;
     },
 
     downloadFASTA: function (event) {
