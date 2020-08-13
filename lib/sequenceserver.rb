@@ -116,7 +116,6 @@ module SequenceServer
 
     # Run SequenceServer using WEBrick.
     def run
-      check_host
       Server.run(self)
     rescue Errno::EADDRINUSE
       puts "** Could not bind to port #{config[:port]}."
@@ -140,6 +139,7 @@ module SequenceServer
         puts '   To share your setup, please try one of the following: '
         puts "     -  http://#{ip_address}:#{config[:port]}"
         puts "     -  http://#{hostname}:#{config[:port]}" if hostname
+        puts '   To disable sharing, set :host: key in config file to 127.0.0.1'
       end
       puts '   Press CTRL+C to quit.'
       open_in_browser(server_url)
@@ -214,16 +214,6 @@ module SequenceServer
       end
     rescue ArgumentError
       raise NUM_THREADS_INCORRECT
-    end
-
-    # Check and warn user if host is 0.0.0.0 (default).
-    def check_host
-      # rubocop:disable Style/GuardClause
-      if config[:host] == '0.0.0.0'
-        logger.warn 'Will listen on all interfaces (0.0.0.0).' \
-                    ' Consider using 127.0.0.1 (--host option).'
-      end
-      # rubocop:enable Style/GuardClause
     end
 
     def load_extension
