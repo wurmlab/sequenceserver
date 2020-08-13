@@ -50,7 +50,7 @@ module SequenceServer
     end
 
     let 'funky_ids_database_id' do
-      Digest::MD5.hexdigest File.join(database_dir, 'funky_ids',
+      Digest::MD5.hexdigest File.join(database_dir, 'funky_ids', 'v5',
                                       'funky_ids.fa')
     end
 
