@@ -39,28 +39,13 @@ If you want to run SequenceServer directly from source code, please see
 
 ## Beta (version 2.0)
 
-We have changed the underlying architecture so that BLAST jobs submisions are asynchronous and so that raw BLAST results are available in the browser in JSON format. Asynchronous job submission facilitates handling of BLAST searches that take a while to compute. For SequenceServer instances running on PCs or fat servers, this means not having to worry about network timeouts when running searches that take more than 5-10 minutes. However, asynchronous job architecture also facilitates hooking SequenceServer to grid engines (e.g., qsub) to run BLAST searches that will take hours or even days. Availability of raw BLAST results (details about each query, hit, and hsps) in the browser in JSON format means that the rich ecosystem of JavaScript visualisation libraries can be used.
+SequenceServer 2.0 includes three new visualisations to help interpret BLAST results, enables sharing of BLAST results and visualising of externally generated BLAST XML file (including from DIAMOND), removes the 30 hit limit for FASTA download and adds ability to download pairwise alignment, is better equipped to handle long-running BLAST jobs and rendering of large search results (thousands of hits), supports BLAST 2.10.0+ and the new database format (including migrating your old databases to the new format), contains additional hooks for integrating as part of other websites and several other enhancements under the hood.
 
-**Key features**
-* Supports BLAST 2.9.0 and the new v5 BLAST database format
-* Ability to import and visualise XML output from DIAMOND
-   and older versions of BLAST+ (till 2.2.30)
-* Ability to bookmark and share the results page
-* Visualisations for each level of results:
-    - Summary overview of top hits in a circos plot 
-    - Length distribution of hits per query
-    - Relative length and position of matching regions for
-      each query-hit pair (Kablammo)
-* Ability to pre-set advanced parameters for different BLAST algorithms
+Read more about SequenceServer 2.0 and extensive testing of the candidate releases by the community: https://groups.google.com/d/msg/sequenceserver/c98ePBzcuVE/lN-S35jVHgAJ.
 
-**Beta to stable**
-1. Fix visual bugs in reports page
-2. Performance optimisation
-3. User reported bug fixes
+New candidate releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver/), while our [GitHub project board](https://github.com/wurmlab/sequenceserver/projects/3) provides an overview of what remains to migrate from candidate to stable release and beyond.
 
-The new beta releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver)/
-
-Development priorities are being coordinated through the following Google Doc: [SequenceServer 2.0 roadmap](https://docs.google.com/document/d/1Vt2MmaD5h5oN8XrmokLVnjUfRLWqKVWeEja3w9SIeBw) (comments welcome)
+We invite you to try out the latest candidate release and help us out by reporting any issues you may encounter with your setup (instructions below).
 
 ### Install and configure
 
@@ -74,6 +59,9 @@ section on our website http://sequenceserver.com.
 If you want to run SequenceServer beta directly from source code, please see
 'Develop and contribute' section below.
 
+### Reporting issues
+
+Please report any issues here: https://github.com/wurmlab/sequenceserver/issues
 
 ### Develop and contribute
 
@@ -116,7 +104,7 @@ You will need [Node and npm](https://nodejs.org/) if you want to modify and buil
 
 #### Testing
 
-We use RSpec and Capybara for testing. Our test suite covers 95% of the codebase. Running all tests can take considerable time (~2 hrs). We recommend using Travis to automatically run all tests when you push your code to your fork. Tests are also run automatically when you open a pull-request (see Getting code merged section below). Although, it may be desirable sometimes to run a single test, whole file, or all tests locally.
+We use RSpec and Capybara for testing. Our test suite covers 87% of the codebase. Running all tests can take considerable time (~2 hrs). We recommend using Travis to automatically run all tests when you push your code to your fork. Tests are also run automatically when you open a pull-request (see Getting code merged section below). Although, it may be desirable sometimes to run a single test, whole file, or all tests locally:
 
 To run a single test (a.k.a, scenario):
 
