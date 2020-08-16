@@ -43,7 +43,7 @@ SequenceServer 2.0 includes three new visualisations to help interpret BLAST res
 
 Read more about SequenceServer 2.0 and extensive testing of the candidate releases by the community: https://groups.google.com/d/msg/sequenceserver/c98ePBzcuVE/lN-S35jVHgAJ.
 
-New candidate releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver/), while our [GitHub project board](https://github.com/wurmlab/sequenceserver/projects/3) provides an overview of what remains to migrate from candidate to stable release and beyond.
+New candidate releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver/), while our [GitHub project board](https://github.com/wurmlab/sequenceserver/projects/3) provides an overview of what remains to migrate from candidate to stable release.
 
 We invite you to try out the latest candidate release and help us out by reporting any issues you may encounter with your setup (instructions below).
 
