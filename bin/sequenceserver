@@ -40,7 +40,7 @@ def ask_to_join
       "-d ifq -d emailAddress=#{response} -d submit=Submit > /dev/null 2> /dev/null"
       system post_email_cmd
     end
-    system "touch #{asked_to_join}"
+    system "mkdir -p #{SequenceServer::DOTDIR} && touch #{asked_to_join}"
   end
 end
 
