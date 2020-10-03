@@ -56,6 +56,7 @@ module SequenceServer
 
     # Returns base HTML. Rest happens client-side: rendering the search form.
     get '/' do
+      Database.scan_databases_dir
       erb :search, layout: true
     end
 
