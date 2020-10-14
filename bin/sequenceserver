@@ -279,7 +279,6 @@ begin
         redo
       rescue SequenceServer::NO_BLAST_DATABASE_FOUND => e
         unless list_databases? || make_blast_databases?
-
           # Print error raised.
           puts
           puts e
@@ -297,14 +296,41 @@ begin
           unless response =~ /^[n]$/i
             puts
             puts 'Searching ...'
-            if SequenceServer.makeblastdb.scan
-              formatted = SequenceServer.makeblastdb.run
+            if SequenceServer.makeblastdb.any_unformatted?
+              formatted = SequenceServer.makeblastdb.format
               exit! if formatted.empty? && !set?
               redo unless set?
             else
               puts "Couldn't find any FASTA files."
               exit!
             end
+          else
+            exit! unless set?
+          end
+        end
+      rescue SequenceServer::INCOMPATIBLE_BLAST_DATABASES => e
+        unless list_databases? || make_blast_databases?
+          # Print error raised.
+          puts
+          puts e
+
+          # Offer user to format the FASTA files.
+          database_dir = SequenceServer.config[:database_dir]
+          puts
+          puts <<~MSG
+            Incompatible databases can cause BLAST searches and other features of
+            SequenceServer to fail unexpectedly.
+            You can view incompatible databases and choose to reformat them below.
+            Alternatively, please remove them from databases directory.
+
+            View incompatible databases? [y/n] (Default: y).
+          MSG
+          puts
+          print '>> '
+          response = STDIN.gets.to_s.strip
+          unless response =~ /^[n]$/i
+            SequenceServer.makeblastdb.reformat
+            redo unless set?
           else
             exit! unless set?
           end

@@ -16,12 +16,12 @@ module SequenceServer
       File.join(root, 'database')
     end
 
-    let 'database_dir_sample' do
-      File.join(database_dir, 'sample')
+    let 'database_dir_v5' do
+      File.join(database_dir, 'v5', 'sample')
     end
 
     let 'database_dir_v4' do
-      File.join(database_dir, 'v4')
+      File.join(database_dir, 'v4', 'sample')
     end
 
     let 'database_dir_unformatted' do
@@ -29,25 +29,25 @@ module SequenceServer
     end
 
     let 'database_dir_without_parse_seqids' do
-      File.join(database_dir, 'without_parse_seqids')
+      File.join(database_dir, 'v4', 'without_parse_seqids')
     end
 
     let 'fasta_file_prot_seqs' do
-      File.join(database_dir_sample, 'proteins', 'Solenopsis_invicta',
+      File.join(database_dir_v5, 'proteins', 'Solenopsis_invicta',
                 'Sinvicta2-2-3.prot.subset.fasta')
     end
 
     let 'fasta_file_nucl_seqs' do
-      File.join(database_dir_sample, 'transcripts', 'Solenopsis_invicta',
+      File.join(database_dir_v5, 'transcripts', 'Solenopsis_invicta',
                 'Sinvicta2-2-3.cdna.subset.fasta')
     end
 
     let 'text_file' do
-      File.join(database_dir_sample, 'links.rb')
+      File.join(database_dir_v5, 'links.rb')
     end
 
     let 'binary_file' do
-      File.join(database_dir_sample, 'proteins', 'Solenopsis_invicta',
+      File.join(database_dir_v5, 'proteins', 'Solenopsis_invicta',
                 'Sinvicta2-2-3.prot.subset.fasta.phr')
     end
 
@@ -90,7 +90,7 @@ module SequenceServer
     it 'can tell databases that require reformatting' do
       # Control: shouldn't report sample v5 databases created using -parse_seqids
       # as requiring reformatting.
-      makeblastdb.instance_variable_set(:@database_dir, database_dir_sample)
+      makeblastdb.instance_variable_set(:@database_dir, database_dir_v5)
       makeblastdb.scan.should be_falsey
 
       # v4 databases require reformatting.
@@ -116,6 +116,15 @@ module SequenceServer
       db_name_pairs.each do |db|
         makeblastdb.send(:make_db_title, db[0]).should eql(db[1])
       end
+    end
+
+    it 'can tell NCBI multipart database name' do
+      sample_name1 = '/home/ben/pd.ben/sequenceserver/db/nr'
+      sample_name2 = '/home/ben/pd.ben/sequenceserver/db/nr.00'
+      sample_name3 = '/home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01'
+      makeblastdb.send(:multipart_database_name?, sample_name1).should be_falsey
+      makeblastdb.send(:multipart_database_name?, sample_name2).should be_truthy
+      makeblastdb.send(:multipart_database_name?, sample_name3).should be_truthy
     end
   end
 end

@@ -80,11 +80,14 @@ module SequenceServer
         @collection ||= {}
       end
 
-      private :collection
-
-      def <<(database)
-        collection[database.id] = database
+      def collection=(databases_attrs)
+        databases_attrs.each do |db_attrs|
+          db = Database.new(*db_attrs)
+          collection[db.id] = db
+        end
       end
+
+      private :collection
 
       def [](ids)
         ids = Array ids
@@ -181,44 +184,6 @@ module SequenceServer
       # Intended to be used only for testing.
       def clear
         collection.clear
-      end
-
-      # Recurisvely scan `database_dir` for blast databases.
-      #
-      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-      def blastdbcmd
-        cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
-              ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
-        out, err = sys(cmd, path: config[:bin])
-        errpat = /BLAST Database error/
-        fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
-        return out
-      rescue CommandFailed => e
-        fail BLAST_DATABASE_ERROR.new(cmd, e.stderr)
-      end
-
-      def scan_databases_dir
-        out = blastdbcmd
-        fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if out.empty?
-        out.each_line do |line|
-          name = line.split('	')[0]
-          next if multipart_database_name?(name)
-          self << Database.new(*line.split('	'))
-        end
-      end
-      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
-
-      # Returns true if the database name appears to be a multi-part database
-      # name.
-      #
-      # e.g.
-      # /home/ben/pd.ben/sequenceserver/db/nr.00 => yes
-      # /home/ben/pd.ben/sequenceserver/db/nr => no
-      # /home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01 => yes
-      # /home/ben/pd.ben/sequenceserver/db/nr00 => no
-      # /mnt/blast-db/refseq_genomic.100 => yes
-      def multipart_database_name?(db_name)
-        !(db_name.match(%r{.+/\S+\.\d{2,3}$}).nil?)
       end
     end
   end

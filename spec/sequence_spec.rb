@@ -41,7 +41,7 @@ module SequenceServer
   end
 
   describe 'Sequence retrieval' do
-    database_dir = File.join(__dir__, 'database')
+    database_dir = File.join(__dir__, 'database', 'v5')
 
     let 'a_normal_database_id' do
       Digest::MD5.hexdigest File.join(database_dir, 'sample', 'proteins',
@@ -50,8 +50,7 @@ module SequenceServer
     end
 
     let 'funky_ids_database_id' do
-      Digest::MD5.hexdigest File.join(database_dir, 'funky_ids', 'v5',
-                                      'funky_ids.fa')
+      Digest::MD5.hexdigest File.join(database_dir, 'funky_ids', 'funky_ids.fa')
     end
 
     before :all do
