@@ -22,4 +22,25 @@ RUN gem install bundler && \
         yes '' | bundle exec bin/sequenceserver -s -d spec/database/sample
 RUN touch ~/.sequenceserver/asked_to_join
 
+RUN rm /root/.sequenceserver/ncbi-blast-2.10.0+-x64-linux.tar.gz
+WORKDIR '/root/.sequenceserver/ncbi-blast-2.10.0+/bin/'
+RUN rm \
+    deltablast \
+    legacy_blast.pl \
+    makeprofiledb \
+    rpstblastn \
+    blastdb_aliastool \
+    cleanup-blastdb-volumes.py \
+    dustmasker \
+    psiblast \
+    segmasker \
+    update_blastdb.pl \
+    blastdbcheck \
+    convert2blastmask \
+    get_species_taxids.sh \
+    makembindex \
+    rpsblast \
+    windowmasker
+WORKDIR /sequenceserver
+
 CMD ["bundle", "exec", "bin/sequenceserver", "-d", "/db"]
