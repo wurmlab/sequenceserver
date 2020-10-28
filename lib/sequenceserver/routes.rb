@@ -91,7 +91,7 @@ module SequenceServer
     post '/' do
       if params[:input_sequence]
         @input_sequence = params[:input_sequence]
-        erb :layout
+        erb :search, layout: true
       else
         job = Job.create(params)
         redirect to("/#{job.id}")
