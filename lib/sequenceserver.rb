@@ -1,4 +1,5 @@
 require 'English'
+require 'net/http'
 require 'socket'
 require 'resolv'
 
@@ -251,8 +252,44 @@ module SequenceServer
 
     # Returns a local ip adress.
     def ip_address
-      addrinfo = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }
-      addrinfo.ip_address if addrinfo
+      begin
+        meta_data_endpoint = 'http://169.254.169.254/latest'
+        token_ttl = 60
+        connection_timeout = 2
+
+        # Get Token
+        uri = URI("#{meta_data_endpoint}/api/token")
+        req = Net::HTTP::Put.new(uri)
+        req['X-aws-ec2-metadata-token-ttl-seconds'] = token_ttl
+
+        res = Net::HTTP.start(uri.hostname, uri.port, { open_timeout: connection_timeout }) { |http|
+          http.request(req)
+        }
+
+        if res.body
+          aws_ec2_metadata_token = res.body
+
+          # Get Public IPv4
+          uri = URI("#{meta_data_endpoint}/meta-data/public-ipv4")
+          req = Net::HTTP::Get.new(uri)
+          req['X-aws-ec2-metadata-token'] = aws_ec2_metadata_token
+
+          res = Net::HTTP.start(uri.hostname, uri.port, { open_timeout: connection_timeout }) { |http|
+            http.request(req)
+          }
+
+          if res.body
+            res.body
+          else
+            raise
+          end
+        else
+          raise
+        end
+      rescue
+        addrinfo = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }
+        addrinfo.ip_address if addrinfo
+      end
     end
 
     # Returns machine's hostname based on the local ip. If hostname cannot be
