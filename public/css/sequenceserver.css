@@ -330,7 +330,13 @@ td.nowrap-ellipsis {
 .notifications {
   position: relative;
   height: 32px;
+  /**
+   * Notifications should appear over the bottom border of the textarea, high
+   * enough that they do not interfere with the database listing below and
+   * narrow enough not to cover the textarea resize handle on the right. */
   top: -16px;
+  margin-right: 35px;
+  margin-left: 35px;
 }
 .notification {
   height: 32px !important;
