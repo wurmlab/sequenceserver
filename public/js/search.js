@@ -647,7 +647,7 @@ var Databases = React.createClass({
 
     handleClick: function (database) {
         var type = this.nselected() ? database.type : '';
-        this.setState({type: type});
+        if (type != this.state.type) this.setState({type: type});
     },
 
     handleToggle: function (toggleState, type) {
@@ -734,10 +734,6 @@ var Databases = React.createClass({
         );
     },
 
-    //shouldComponentUpdate: function (props, state) {
-    //return !(state.type && state.type === this.state.type);
-    //},
-
     componentDidUpdate: function () {
         if (this.databases() && this.databases().length === 1) {
             $('.databases').find('input').prop('checked',true);
@@ -747,10 +743,7 @@ var Databases = React.createClass({
         if (this.props.preSelectedDbs) {
             var selectors = this.props.preSelectedDbs.map(db => `input[value=${db.id}]`);
             $(...selectors).prop('checked',true);
-            setTimeout(() => {
-                this.handleClick(this.props.preSelectedDbs[0]);
-                this.props.preSelectedDbs = null;
-            });
+            this.handleClick(this.props.preSelectedDbs[0]);
         }
         this.props.onDatabaseTypeChanged(this.state.type);
     }
