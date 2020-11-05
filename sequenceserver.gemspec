@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('simplecov', '~> 0.17.0', '>= 0.17.0')
 
   # gem
-  s.files         = Dir["**"] - ['Gemfile', 'Gemfile.lock']
+  s.files         = Dir['**'] - ['Gemfile', 'Gemfile.lock']
   s.executables   = ['sequenceserver']
   s.require_paths = ['lib']
 
