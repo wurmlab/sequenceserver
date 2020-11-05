@@ -1,1 +1,8 @@
-_site
+*
+!Gemfil*
+!bin
+!config.ru
+!lib
+!public
+!sequenceserver.gemspec
+!views

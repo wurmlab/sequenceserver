@@ -1,44 +1,45 @@
-FROM debian:buster-slim
+ARG BLAST_VERSION=2.10.0
+
+FROM ruby:2.7-slim-buster AS builder
 
 LABEL Description="Intuitive local web frontend for the BLAST bioinformatics tool"
 LABEL MailingList="https://groups.google.com/forum/#!forum/sequenceserver"
 LABEL Website="http://www.sequenceserver.com"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        ruby ruby-dev build-essential curl gnupg git wget \
-        zlib1g-dev && rm -rf /var/lib/apt/lists/*
+    gcc make patch && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /sequenceserver
+COPY ./lib/sequenceserver/version.rb lib/sequenceserver/version.rb
+COPY ./Gemfile ./Gemfile.lock ./sequenceserver.gemspec .
+
+RUN bundle install --without=development
+
+FROM ncbi/blast:${BLAST_VERSION} AS ncbi-blast
+FROM ruby:2.7-slim-buster
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl libgomp1 liblmdb0 && rm -rf /var/lib/apt/lists/* 
+
+RUN mkdir -p ~/.sequenceserver && \
+    touch ~/.sequenceserver/asked_to_join
+
+COPY --from=ncbi-blast /blast/lib /blast/lib/
+COPY --from=ncbi-blast /blast/bin/blast_formatter /blast/bin/
+COPY --from=ncbi-blast /blast/bin/blastdbcmd /blast/bin/
+COPY --from=ncbi-blast /blast/bin/blastn.REAL /blast/bin/blastn
+COPY --from=ncbi-blast /blast/bin/blastp.REAL /blast/bin/blastp
+COPY --from=ncbi-blast /blast/bin/blastx.REAL /blast/bin/blastx
+COPY --from=ncbi-blast /blast/bin/makeblastdb /blast/bin
+COPY --from=ncbi-blast /blast/bin/tblastn.REAL /blast/bin/tblastn
+COPY --from=ncbi-blast /blast/bin/tblastx.REAL /blast/bin/tblastx
+COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+
+WORKDIR /sequenceserver
+
+COPY . .
+
+ENV PATH=/blast/bin:${PATH}
 VOLUME ["/db"]
 EXPOSE 4567
-
-COPY . /sequenceserver
-WORKDIR /sequenceserver
-# Install bundler, then use bundler to install SequenceServer's dependencies,
-# and then use SequenceServer to install BLAST. In the last step, -s is used
-# so that SequenceServer will exit after writing configuration file instead
-# of starting up, while -d is used to suppress questions about database dir.
-RUN gem install bundler && \
-        bundle install --without=development && \
-        yes '' | bundle exec bin/sequenceserver -s -d spec/database/sample && \
-        touch ~/.sequenceserver/asked_to_join && \
-        rm /root/.sequenceserver/ncbi-blast-2.10.0+-x64-linux.tar.gz && \
-        cd '/root/.sequenceserver/ncbi-blast-2.10.0+/bin/' && \
-        rm \
-            deltablast \
-            legacy_blast.pl \
-            makeprofiledb \
-            rpstblastn \
-            blastdb_aliastool \
-            cleanup-blastdb-volumes.py \
-            dustmasker \
-            psiblast \
-            segmasker \
-            update_blastdb.pl \
-            blastdbcheck \
-            convert2blastmask \
-            get_species_taxids.sh \
-            makembindex \
-            rpsblast \
-            windowmasker
 
 CMD ["bundle", "exec", "bin/sequenceserver", "-d", "/db"]
