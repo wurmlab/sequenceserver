@@ -56,7 +56,18 @@ VOLUME ["/db"]
 EXPOSE 4567
 COPY . .
 
+# Generate config file with default configs and database directory set to /db.
+# Setting database directory in config file means users can pass command line
+# arguments to SequenceServer without having to specify -d option again.
+RUN echo 'n' | bundle exec bin/sequenceserver -s -d /db
+
 # Prevent SequenceServer from prompting user to join announcements list.
 RUN mkdir -p ~/.sequenceserver && touch ~/.sequenceserver/asked_to_join
 
-CMD ["bundle", "exec", "bin/sequenceserver", "-d", "/db"]
+# Add SequenceServer's bin directory to PATH and set ENTRYPOINT to
+# 'bundle exec'. Combined, this simplifies passing command-line
+# arguments to SequenceServer, while retaining the ability to run
+# bash in the container.
+ENV PATH=/sequenceserver/bin:${PATH}
+ENTRYPOINT ["bundle", "exec"]
+CMD ["sequenceserver"]
