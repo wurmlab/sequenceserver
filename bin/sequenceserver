@@ -184,8 +184,8 @@ begin
       # error scenarios either when creating a new SequenceServer (first
       # time or later), or updating config values using -s CLI option.
       rescue SequenceServer::BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE,
-             SequenceServer::BLAST_NOT_COMPATIBLE => e
-
+             SequenceServer::BLAST_NOT_COMPATIBLE,
+             SequenceServer::BLAST_BIN_DIR_NOT_FOUND => e
         # Show original error message first.
         puts
         puts e
@@ -254,8 +254,9 @@ begin
           puts
         end
         redo
-      rescue SequenceServer::DATABASE_DIR_NOT_SET => e
-        # Show original error message.
+      rescue SequenceServer::DATABASE_DIR_NOT_SET,
+             SequenceServer::DATABASE_DIR_NOT_FOUND => e
+        # Show original error message first.
         puts
         puts e
 

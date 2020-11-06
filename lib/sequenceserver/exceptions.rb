@@ -74,6 +74,15 @@ module SequenceServer
     end
   end
 
+  # Raised if there is no bin/ dir in the specified location.
+  class BLAST_BIN_DIR_NOT_FOUND < StandardError
+    def to_s
+      <<~MSG
+        Expected to find a bin/ directory but none existed at the path given.
+      MSG
+    end
+  end
+
   # Raised if SequenceServer determined NCBI BLAST+ present on the user's
   # system but not meeting SequenceServer's minimum version requirement.
   class BLAST_NOT_COMPATIBLE < StandardError
@@ -97,6 +106,13 @@ module SequenceServer
   class DATABASE_DIR_NOT_SET < StandardError
     def to_s
       'Database dir not set.'
+    end
+  end
+
+  # Raised if database_dir doesn't exist or isn't a directory.
+  class DATABASE_DIR_NOT_FOUND < StandardError
+    def to_s
+      "Database directory provided doesn't exist (or isn't a directory)."
     end
   end
 

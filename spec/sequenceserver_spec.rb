@@ -15,12 +15,12 @@ module SequenceServer
       # Raise if bin dir is not a directory.
       expect do
         SequenceServer.init(bin: __FILE__)
-      end.to raise_error(ENOENT)
+      end.to raise_error(BLAST_BIN_DIR_NOT_FOUND)
 
       # Raise if bin dir does not exist.
       expect do
         SequenceServer.init(bin: '/foo/bar')
-      end.to raise_error(ENOENT)
+      end.to raise_error(BLAST_BIN_DIR_NOT_FOUND)
     end
 
     # database_dir is compulsory
@@ -35,12 +35,12 @@ module SequenceServer
       # Raise if database_dir is not a directory.
       expect do
         SequenceServer.init(database_dir: __FILE__)
-      end.to raise_error(ENOENT)
+      end.to raise_error(DATABASE_DIR_NOT_FOUND)
 
       # Raise if database_dir does not exist.
       expect do
         SequenceServer.init(database_dir: '/foo/bar')
-      end.to raise_error(ENOENT)
+      end.to raise_error(DATABASE_DIR_NOT_FOUND)
     end
 
     # database_dir, when correctly set, should contain at least one BLAST+
