@@ -33,7 +33,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency('simplecov', '~> 0.17.0', '>= 0.17.0')
 
   # gem
-  s.files         = `git ls-files`.split("\n") - ['Gemfile', 'Gemfile.lock']
+  s.files         = Dir['{bin,lib,public,views}/**/*'] +
+                     %w[config.ru COPYRIGHT.txt LICENSE]
   s.executables   = ['sequenceserver']
   s.require_paths = ['lib']
 
