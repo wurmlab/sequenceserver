@@ -7,6 +7,13 @@ import _ from 'underscore';
  */
 $.webshims.polyfill('forms');
 
+/**
+ * Clear sessionStorage on reload.
+*/
+if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+    sessionStorage.clear();
+}
+
 var Page = React.createClass({
     render: function () {
         return (
