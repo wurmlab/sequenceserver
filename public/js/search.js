@@ -621,8 +621,7 @@ var MixedNotification = React.createClass({
                 style={{ display: 'none' }}>
                 <div
                     className="alert-danger col-md-10 col-md-offset-1">
-                    Detected: mixed nucleotide and amino-acid sequences. We
-                    can't handle that. Please try one sequence at a time.
+                    Error: mixed nucleotide and amino-acid sequences detected.
                 </div>
             </div>
         );
