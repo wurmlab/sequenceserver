@@ -329,7 +329,8 @@ begin
           print '>> '
           response = STDIN.gets.to_s.strip
           unless response =~ /^[n]$/i
-            SequenceServer.makeblastdb.reformat
+            reformatted = SequenceServer.makeblastdb.reformat
+            exit! if reformatted.empty? && !set?
             redo unless set?
           else
             exit! unless set?

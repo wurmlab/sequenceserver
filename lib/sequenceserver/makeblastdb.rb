@@ -92,22 +92,24 @@ module SequenceServer
       reformat
     end
 
-    # Format any unformatted FASTA files in database directory.
+    # Format any unformatted FASTA files in database directory. Returns Array
+    # of files that were formatted.
     def format
-      # Make the intent clear as well as ensure the program won't crash if
-      # we accidentally call format before calling scan.
+      # Make the intent clear as well as ensure the program won't crash if we
+      # accidentally call format before calling scan.
       return unless @fastas_to_format
-      @fastas_to_format.each do |path, title, type|
+      @fastas_to_format.select do |path, title, type|
         make_blast_database(path, title, type)
       end
     end
 
-    # Re-format databases that are deemed incompatible.
+    # Re-format databases that require reformatting. Returns Array of files
+    # that were reformatted.
     def reformat
       # Make the intent clear as well as ensure the program won't crash if
       # we accidentally call reformat before calling scan.
       return unless @fastas_to_reformat
-      @fastas_to_reformat.each do |path, title, type|
+      @fastas_to_reformat.select do |path, title, type|
         make_blast_database(path, title, type)
       end
     end
