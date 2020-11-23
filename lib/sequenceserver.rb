@@ -202,7 +202,12 @@ module SequenceServer
       end
 
       logger.debug("Will look for BLAST+ databases in: #{config[:database_dir]}")
-      Database.scan_databases_dir
+
+      makeblastdb.scan
+      fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if !makeblastdb.any_formatted?
+      fail INCOMPATIBLE_BLAST_DATABASES, config[:database_dir] if makeblastdb.any_incompatible?
+
+      Database.collection = makeblastdb.formatted_fastas
       Database.each do |database|
         logger.debug("Found #{database.type} database '#{database.title}'" \
                      " at '#{database.name}'")

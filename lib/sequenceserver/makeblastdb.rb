@@ -31,6 +31,9 @@ module SequenceServer
     end
 
     attr_reader :database_dir
+    attr_reader :formatted_fastas
+    attr_reader :fastas_to_format
+    attr_reader :fastas_to_reformat
 
     # Scans the database directory to determine which FASTA files require
     # formatting or re-formatting.
@@ -46,18 +49,68 @@ module SequenceServer
       # Now determine FASTA files that are unformatted or require reformatting.
       @fastas_to_format = []
       determine_unformatted_fastas
+      @fastas_to_reformat = []
       determine_fastas_to_reformat
 
       # Return true if there are files to be (re-)formatted or false otherwise.
+      !@fastas_to_format.empty? || !@fastas_to_reformat.empty?
+    end
+
+    # Returns true if at least one database in database directory is formatted.
+    def any_formatted?
+      !@formatted_fastas.empty?
+    end
+
+    # Returns true if there is at least one unformatted FASTA in the databases
+    # directory.
+    def any_unformatted?
       !@fastas_to_format.empty?
     end
 
-    # Runs makeblastdb on each file in `@fastas_to_format`. Will do nothing
-    # unless `#scan` has been run before.
+    # Returns true if the databases directory contains one or more incompatible
+    # databases.
+    #
+    # Note that it is okay to only use V4 databases or only V5 databases. It is
+    # Incompatibility arises when they are mixed.
+    def any_incompatible?
+      return false if @fastas_to_reformat.empty?
+      # We need to compare @fastas_to_reformat to @formatted_fastas, but the
+      # latter contains extra attributes. However, the first attribute, i.e,
+      # path is common to both and sufficient for our needs.
+      to_reformat = @fastas_to_reformat.map(&:first)
+      formatted = @formatted_fastas.map(&:first)
+      # Check that they are not equal. Using intersection operator ensures
+      # comparison even if their order differs.
+      formatted & to_reformat != formatted
+    end
+
+    # Runs makeblastdb on each file in `@fastas_to_format` and
+    # `@fastas_to_reformat`. Will do nothing unless `#scan`
+    # has been run before.
     def run
-      return unless @fastas_to_format || @fastas_to_format.empty?
-      @fastas_to_format.each do |path, title, type|
-        make_blast_database(path, title, type)
+      format
+      reformat
+    end
+
+    # Format any unformatted FASTA files in database directory. Returns Array
+    # of files that were formatted.
+    def format
+      # Make the intent clear as well as ensure the program won't crash if we
+      # accidentally call format before calling scan.
+      return unless @fastas_to_format
+      @fastas_to_format.select do |path, title, type|
+        make_blast_database('format', path, title, type)
+      end
+    end
+
+    # Re-format databases that require reformatting. Returns Array of files
+    # that were reformatted.
+    def reformat
+      # Make the intent clear as well as ensure the program won't crash if
+      # we accidentally call reformat before calling scan.
+      return unless @fastas_to_reformat
+      @fastas_to_reformat.select do |path, title, type|
+        make_blast_database('reformat', path, title, type)
       end
     end
 
@@ -67,9 +120,9 @@ module SequenceServer
     # formatted. Adds to @formatted_fastas.
     def determine_formatted_fastas
       blastdbcmd.each_line do |line|
-        path, title, type = line.split('	')
+        path, title, type, *rest = line.split('	')
         next if multipart_database_name?(path)
-        @formatted_fastas << [path, title, type.strip.downcase]
+        @formatted_fastas << [path, title, type.strip.downcase, *rest]
       end
     end
 
@@ -81,7 +134,7 @@ module SequenceServer
         exts = Dir["#{path}.*"].map { |p| p.split('.').last }.sort
         next if (exts & required_extensions) == required_extensions
 
-        @fastas_to_format << [path, title, type]
+        @fastas_to_reformat << [path, title, type]
       end
     end
 
@@ -103,15 +156,19 @@ module SequenceServer
     # directory. Returns the output of `blastdbcmd`. This method is called
     # by `determine_formatted_fastas`.
     def blastdbcmd
-      cmd = "blastdbcmd -recursive -list #{database_dir}" \
-            ' -list_outfmt "%f	%t	%p"'
-      out, _ = sys(cmd, path: config[:bin])
-      out
-    end
+      cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
+            ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
+      out, err = sys(cmd, path: config[:bin])
+      errpat = /BLAST Database error/
+      fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
+      return out
+    rescue CommandFailed => e
+      fail BLAST_DATABASE_ERROR.new(cmd, e.stderr)
+  end
 
     # Create BLAST database, given FASTA file and sequence type in FASTA file.
-    def make_blast_database(file, title, type)
-      return unless make_blast_database? file, type
+    def make_blast_database(action, file, title, type)
+      return unless make_blast_database?(action, file, type)
       title = confirm_database_title(title)
       taxid = fetch_tax_id
       _make_blast_database(file, type, title, taxid)
@@ -139,10 +196,10 @@ module SequenceServer
     # response.
     #
     # Returns true if the user entered anything but 'n' or 'N'.
-    def make_blast_database?(file, type)
+    def make_blast_database?(action, file, type)
       puts
       puts
-      puts "FASTA file to format/reformat: #{file}"
+      puts "FASTA file to #{action}: #{file}"
       puts "FASTA type: #{type}"
       print 'Proceed? [y/n] (Default: y): '
       response = STDIN.gets.to_s.strip
@@ -194,8 +251,15 @@ module SequenceServer
 
     # Returns true if the database name appears to be a multi-part database
     # name.
+    #
+    # e.g.
+    # /home/ben/pd.ben/sequenceserver/db/nr.00 => yes
+    # /home/ben/pd.ben/sequenceserver/db/nr => no
+    # /home/ben/pd.ben/sequenceserver/db/img3.5.finished.faa.01 => yes
+    # /home/ben/pd.ben/sequenceserver/db/nr00 => no
+    # /mnt/blast-db/refseq_genomic.100 => yes
     def multipart_database_name?(db_name)
-      Database.multipart_database_name? db_name
+      !(db_name.match(%r{.+/\S+\.\d{2,3}$}).nil?)
     end
 
     # Returns true if first character of the file is '>'.

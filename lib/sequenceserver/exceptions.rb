@@ -113,6 +113,20 @@ module SequenceServer
     end
   end
 
+  class INCOMPATIBLE_BLAST_DATABASES < StandardError
+    def initialize(database_dir)
+      @database_dir = database_dir
+    end
+
+    attr_reader :database_dir
+
+    def to_s
+      <<~MSG
+        One or more databases in #{database_dir} are likely incompatible.
+      MSG
+    end
+  end
+
   # Raised if there was an error determining BLAST+ databases in database_dir.
   class BLAST_DATABASE_ERROR < StandardError
     def initialize(cmd, out)
