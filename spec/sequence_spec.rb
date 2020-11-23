@@ -80,19 +80,19 @@ PLYMVLALSQFITYLLILIVGEKENKIKEGMKMMGLNDSVF"
       sequences.length.should == 2
     end
 
-    # it 'should be able to retrieve sequences from database even if accession'\
-    #    'contains only numbers' do
-    #   Database.scan_databases_dir
-    #   sequences = Sequence.from_blastdb(123456, funky_ids_database_id)
-    #   sequences.length.should == 1
-    # end
-
-    it 'should be able to retrieve sequences from database for all kinds of'\
-       'funky accessions' do
-      funky_accessions = ['abcdef#', 'abc#def', '123#456'] # , '123456#']
+    it 'should be able to retrieve sequences even if sequence ids are funky' do
+      funky_accessions = ['gnl|dmel|ID',
+                          'gnl|abc|def', # note that the id was 'abc|def' in .fa
+                          'abcdef|ghijkl',
+                          'abcdef#',
+                          'abc#def',
+                          '123#456',
+                          '123456#',
+                          '123456'
+                         ]
       sequences = Sequence::Retriever.new(funky_accessions,
                                           funky_ids_database_id).sequences
-      sequences.length.should == 3
+      sequences.length.should == 8
     end
   end
 end
