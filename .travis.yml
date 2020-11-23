@@ -42,7 +42,7 @@ env:
 before_script:
   # Create configuration file for SequenceServer. FIXME: this should not
   # really be required for running test suite, but it is at the moment
-  - bundle exec bin/sequenceserver -s -d spec/database/sample
+  - bundle exec bin/sequenceserver -s -d spec/database/v5/sample
   # Run codeclimate test reporter's before-build hook.
   - if [ "${TRAVIS_BUILD_STAGE_NAME}" = "Test" ]; then
       cc-test-reporter before-build;
