@@ -99,7 +99,7 @@ module SequenceServer
       # accidentally call format before calling scan.
       return unless @fastas_to_format
       @fastas_to_format.select do |path, title, type|
-        make_blast_database(path, title, type)
+        make_blast_database('format', path, title, type)
       end
     end
 
@@ -110,7 +110,7 @@ module SequenceServer
       # we accidentally call reformat before calling scan.
       return unless @fastas_to_reformat
       @fastas_to_reformat.select do |path, title, type|
-        make_blast_database(path, title, type)
+        make_blast_database('reformat', path, title, type)
       end
     end
 
@@ -167,8 +167,8 @@ module SequenceServer
   end
 
     # Create BLAST database, given FASTA file and sequence type in FASTA file.
-    def make_blast_database(file, title, type)
-      return unless make_blast_database? file, type
+    def make_blast_database(action, file, title, type)
+      return unless make_blast_database?(action, file, type)
       title = confirm_database_title(title)
       taxid = fetch_tax_id
       _make_blast_database(file, type, title, taxid)
@@ -196,10 +196,10 @@ module SequenceServer
     # response.
     #
     # Returns true if the user entered anything but 'n' or 'N'.
-    def make_blast_database?(file, type)
+    def make_blast_database?(action, file, type)
       puts
       puts
-      puts "FASTA file to format/reformat: #{file}"
+      puts "FASTA file to #{action}: #{file}"
       puts "FASTA type: #{type}"
       print 'Proceed? [y/n] (Default: y): '
       response = STDIN.gets.to_s.strip
