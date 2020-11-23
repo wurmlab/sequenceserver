@@ -1,4 +1,8 @@
 describe 'a browser', type: :feature, js: true do
+  before :all do
+    SequenceServer.init(database_dir: "#{__dir__}/database/v5")
+  end
+
   it 'sorts databases alphabetically' do
     visit '/'
     fill_in('sequence', with: nucleotide_query)
@@ -7,7 +11,7 @@ describe 'a browser', type: :feature, js: true do
     prot.should eq("2018-04 Swiss-Prot insecta Sinvicta 2-2-3 prot subset")
 
     nucl = page.evaluate_script("$('.nucleotide .database').text().trim()")
-    nucl.should eq("Sinvicta 2-2-3 cdna subset Solenopsis invicta gnG subset")
+    nucl.should eq("Sinvicta 2-2-3 cdna subset Solenopsis invicta gnG subset funky ids (v5)")
   end
 
   it 'properly controls blast button' do
@@ -114,6 +118,19 @@ describe 'a browser', type: :feature, js: true do
 
     expect(File.basename(downloaded_file)).to eq('sequenceserver-2_hits.fa')
     expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/sequenceserver-2_hits.fa'))
+  end
+
+  it 'can download FASTA even if the hit ids are funky' do
+    perform_search(query: funkyid_query,
+                   databases: nucleotide_databases.values_at(2))
+
+    # Click 'FASTA of all hits'. The idea here is that if any of the ids are
+    # problematic, 'FASTA of all' will fail.
+    page.click_link('FASTA of all hits')
+    wait_for_download
+
+    expect(File.basename(downloaded_file)).to eq('sequenceserver-8_hits.fa')
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/funky_ids_download.fa'))
   end
 
   it 'can download alignment for each hit' do
@@ -329,10 +346,15 @@ describe 'a browser', type: :feature, js: true do
     File.read File.join(__dir__, 'sequences', 'protein_query.fa')
   end
 
+  def funkyid_query
+    'GATGAACGCTGGCGGCGTGCCTAATACATGCAAGTCGAG'
+  end
+
   def nucleotide_databases
     [
       'Solenopsis invicta gnG subset',
-      'Sinvicta 2-2-3 cdna subset'
+      'Sinvicta 2-2-3 cdna subset',
+      'funky ids (v5)'
     ]
   end
 
