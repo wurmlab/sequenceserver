@@ -165,8 +165,7 @@ var Report = React.createClass({
      * Called for the first time after as BLAST results have been retrieved from
      * the server and added to this.state by fetchResults. Only summary overview
      * and circos would have been rendered at this point. At this stage we kick
-     * start iteratively updating 10 HSPs (and as many hits and queries) every
-     * 25 milli-seconds.
+     * start iteratively adding 1 HSP to the page every 25 milli-seconds.
      */
     componentDidUpdate: function () {
         // Log to console how long the last update take?
