@@ -164,32 +164,14 @@ module SequenceServer
       return out
     rescue CommandFailed => e
       fail BLAST_DATABASE_ERROR.new(cmd, e.stderr)
-  end
+    end
 
     # Create BLAST database, given FASTA file and sequence type in FASTA file.
     def make_blast_database(action, file, title, type)
       return unless make_blast_database?(action, file, type)
       title = confirm_database_title(title)
-      taxid = fetch_tax_id
-      _make_blast_database(file, type, title, taxid)
-    end
-
-    def _make_blast_database(file, type, title, taxid)
-      extract_fasta(file) unless File.exist?(file)
-      cmd = "makeblastdb -parse_seqids -hash_index -in #{file} " \
-            "-dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
-            " -taxid #{taxid}"
-      out, err = sys(cmd, path: config[:bin])
-      puts out.strip
-      puts err.strip
-    rescue CommandFailed => e
-      puts <<~MSG
-        Could not create BLAST database for: #{file}
-        Tried: #{cmd}
-        stdout: #{e.stdout}
-        stderr: #{e.stderr}
-      MSG
-      exit!
+      taxonomy = taxid_map(file) || taxid
+      _make_blast_database(file, type, title, taxonomy)
     end
 
     # Show file path and guessed sequence type to the user and obtain a y/n
@@ -216,18 +198,45 @@ module SequenceServer
       from_user.empty? && default || from_user
     end
 
+    # Check if a '.taxid_map.txt' file exists. If not, try getting it
+    # using blastdbcmd.
+    def taxid_map(db)
+      taxid_map = db.sub(/#{File.extname(db)}$/, '.taxid_map.txt')
+      if !File.exist?(taxid_map) || File.zero?(taxid_map)
+        extract_taxid_map(db, taxid_map)
+      end
+      "-taxid_map #{taxid_map}" if !File.zero?(taxid_map)
+    end
+
     # Get taxid from the user. Returns user input or 0.
     #
     # Using 0 as taxid is equivalent to not setting taxid for the database
     # that will be created.
-    def fetch_tax_id
-      default = 0
+    def taxid
       print 'Enter taxid (optional): '
       user_response = STDIN.gets.strip
-      user_response.empty? && default || Integer(user_response)
-    rescue
+      "-taxid #{user_response ? Integer(user_response) : 0}"
+    rescue ArgumentError # presumably from call to Interger()
       puts 'taxid should be a number'
       retry
+    end
+
+    def _make_blast_database(file, type, title, taxonomy)
+      extract_fasta(file) unless File.exist?(file)
+      cmd = "makeblastdb -parse_seqids -hash_index -in #{file} " \
+            "-dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
+            " #{taxonomy}"
+      out, err = sys(cmd, path: config[:bin])
+      puts out.strip
+      puts err.strip
+    rescue CommandFailed => e
+      puts <<~MSG
+        Could not create BLAST database for: #{file}
+        Tried: #{cmd}
+        stdout: #{e.stdout}
+        stderr: #{e.stderr}
+      MSG
+      exit!
     end
 
     # Extract FASTA file from BLAST database.
@@ -247,6 +256,13 @@ module SequenceServer
         stderr: #{e.stderr}
       MSG
       exit!
+    end
+
+    def extract_taxid_map(db, taxmap_file)
+      cmd = "blastdbcmd -entry all -db #{db} -outfmt '%i %T'"
+      sys(cmd, stdout: taxmap_file, path: config[:bin])
+    rescue CommandFailed => e
+      # silence error
     end
 
     # Returns true if the database name appears to be a multi-part database

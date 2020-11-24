@@ -1,0 +1,12 @@
+From the URL http://www.uniprot.org/uniprot/?query=taxonomy%3Ainsecta+reviewed%3Ayes&sort=score
+I downloaded 1. all sequences in FASTA (canonical) format 2. sequence 'entry', 'entry name', &
+'organism ID' in Tab-separated format.
+
+Files were renamed to 2020-11-Swiss-Prot_insecta.fasta and 2020-11-Swiss-Prot_insecta.tab.
+
+.tab file was transformed to '.taxid_map.txt' using the one-liner below:
+
+```bash
+tail -n+2 2020-11-Swiss-Prot_insecta.tab | awk '{ print "sp|"$1"|"$2,$3 }' \
+> 2020-11-Swiss-Prot_insecta.taxid_map.txt
+```
