@@ -59,7 +59,7 @@ COPY . .
 # Generate config file with default configs and database directory set to /db.
 # Setting database directory in config file means users can pass command line
 # arguments to SequenceServer without having to specify -d option again.
-RUN echo 'n' | bundle exec bin/sequenceserver -s -d /db
+RUN mkdir -p /db && echo 'n' | script -qfec "bundle exec bin/sequenceserver -s -d /db" /dev/null 
 
 # Prevent SequenceServer from prompting user to join announcements list.
 RUN mkdir -p ~/.sequenceserver && touch ~/.sequenceserver/asked_to_join
