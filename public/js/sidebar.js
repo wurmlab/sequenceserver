@@ -84,43 +84,39 @@ export default React.createClass({
     render: function () {
         return (
             <div className="sidebar">
-                { this.props.shouldShowIndex && this.index() }
-                { this.downloads() }
+                { this.topPanelJSX() }
+                { this.downloadsPanelJSX() }
             </div>
         );
     },
 
-    index: function () {
+    topPanelJSX: function () {
+        var path = location.pathname.split('/');
+        var job_id = path.pop();
+        path = path.join('/');
+
         return (
-            <div className="index">
-                <div
-                    className="section-header-sidebar">
+            <div className="sidebar-top-panel">
+                <div className="section-header-sidebar">
                     <h4>
-                        { this.summary() }
+                        { this.summaryString() }
                     </h4>
                 </div>
-                <ul
-                    className="nav hover-reset active-bold">
-                    {
-                        _.map(this.props.data.queries, _.bind(function (query) {
-                            return (
-                                <li key={'Side_bar_'+query.id}>
-                                    <a
-                                        className="btn-link nowrap-ellipsis hover-bold"
-                                        href={'#Query_' + query.number}
-                                        title={'Query= ' + query.id + ' ' + query.title}>
-                                        {'Query= ' + query.id}
-                                    </a>
-                                </li>
-                            );
-                        }, this))
-                    }
-                </ul>
+                <div>
+                    <a href={`${path}/?job_id=${job_id}`}>
+                        <i className="fa fa-pencil"></i> Edit search
+                    </a>
+                    <span className="line">|</span>
+                    <a href={`${path}/`}>
+                        <i className="fa fa-file-o"></i> New search
+                    </a>
+                </div>
+                { this.props.shouldShowIndex && this.indexJSX() }
             </div>
         );
     },
 
-    summary: function () {
+    summaryString: function () {
         var program = this.props.data.program;
         var numqueries = this.props.data.queries.length;
         var numquerydb = this.props.data.querydb.length;
@@ -132,7 +128,22 @@ export default React.createClass({
         );
     },
 
-    downloads: function () {
+    indexJSX: function () {
+        return <ul className="nav hover-reset active-bold"> {
+            _.map(this.props.data.queries, (query)=> {
+                return <li key={'Side_bar_'+query.id}>
+                    <a className="btn-link nowrap-ellipsis hover-bold"
+                        title={'Query= ' + query.id + ' ' + query.title}
+                        href={'#Query_' + query.number}>
+                        {'Query= ' + query.id}
+                    </a>
+                </li>;
+            })
+        }
+        </ul>;
+    },
+
+    downloadsPanelJSX: function () {
         return (
             <div className="downloads">
                 <div className="section-header-sidebar">
