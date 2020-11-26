@@ -8,7 +8,7 @@ describe 'a browser', type: :feature, js: true do
     fill_in('sequence', with: nucleotide_query)
 
     prot = page.evaluate_script("$('.protein .database').text().trim()")
-    prot.should eq("2018-04 Swiss-Prot insecta Sinvicta 2-2-3 prot subset")
+    prot.should eq("2020-11 Swiss-Prot insecta Sinvicta 2-2-3 prot subset")
 
     nucl = page.evaluate_script("$('.nucleotide .database').text().trim()")
     nucl.should eq("Sinvicta 2-2-3 cdna subset Solenopsis invicta gnG subset funky ids (v5)")
@@ -361,7 +361,7 @@ describe 'a browser', type: :feature, js: true do
   def protein_databases
     [
       'Sinvicta 2-2-3 prot subset',
-      '2018-04 Swiss-Prot insecta'
+      '2020-11 Swiss-Prot insecta'
     ]
   end
 end
