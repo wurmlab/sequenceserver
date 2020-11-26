@@ -311,6 +311,17 @@ var Form = React.createClass({
         }
     },
 
+    handleNewTabCheckbox: function () {
+        setTimeout(() => {
+            if ($('#toggleNewTab').is(':checked')) {
+                $('#blast').attr('target', '_blank');
+            }
+            else {
+                $('#blast').attr('target', '_self');
+            }
+        });
+    },
+
     render: function () {
         return (
             <div className="container">
@@ -328,6 +339,15 @@ var Form = React.createClass({
                         onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} />
                     <div className="form-group">
                         <Options ref="opts"/>
+                        <div className="col-md-2">
+                            <div className="form-group" style={{'textAlign': 'center', 'padding': '7px 0'}}>
+                                <label>
+                                    <input type="checkbox" id="toggleNewTab"
+                                        onChange={()=> { this.handleNewTabCheckbox(); }}
+                                    /> Open results in new tab
+                                </label>
+                            </div>
+                        </div>
                         <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged}/>
                     </div>
                 </form>
@@ -775,7 +795,7 @@ var Options = React.createClass({
             classNames += ' yellow-background';
         }
         return (
-            <div className="col-md-8">
+            <div className="col-md-7">
                 <div className="form-group">
                     <div className="col-md-12">
                         <div className="input-group">
@@ -913,7 +933,7 @@ var SearchButton = React.createClass({
         var multi = methods.length > 1;
 
         return (
-            <div className="col-md-4">
+            <div className="col-md-3">
                 <div className="form-group">
                     <div className="col-md-12">
                         <div
