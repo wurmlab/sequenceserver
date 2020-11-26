@@ -55,7 +55,7 @@ import 'webshim';
             ._tooltip('destroy')
             ._tooltip($.extend({
                 container: 'body',
-                placement: 'left',
+                placement: 'bottom',
                 delay: {
                     show: 1000
                 }
