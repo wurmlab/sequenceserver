@@ -238,12 +238,13 @@ var Form = React.createClass({
         }.bind(this));
 
         /* Enable submitting form on Cmd+Enter */
-        $(document).bind('keydown', _.bind(function (e) {
-            if (e.ctrlKey && e.keyCode === 13 &&
-               !$('#method').is(':disabled')) {
-                $(this.getDOMNode()).trigger('submit');
+        $(document).on('keydown', (e)=> {
+            var $button = $('#method');
+            if (!$button.is(':disabled') &&
+                e.ctrlKey && e.key === 'Enter') {
+                $button.trigger('click');
             }
-        }, this));
+        });
     },
 
     determineBlastMethod: function () {
