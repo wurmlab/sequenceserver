@@ -2,18 +2,7 @@
 # for the variables to be accessible in FROM instruction.
 ARG BLAST_VERSION=2.10.0
 
-## Stage 1: CSS & JS.
-FROM node:15-alpine3.12 AS node
-
-RUN apk add --no-cache git
-WORKDIR /usr/src/app
-COPY ./package.json .
-RUN npm install
-ENV PATH=${PWD}/node_modules/.bin:${PATH}
-COPY public public
-RUN npm run-script build
-
-## Stage 2: gem dependencies.
+## Stage 1: gem dependencies.
 FROM ruby:2.7-slim-buster AS builder
 
 # Copy over files required for installing gem dependencies.
@@ -29,13 +18,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN bundle install --without=development
 
 
-## Stage 3: BLAST+ binaries.
+## Stage 2: BLAST+ binaries.
 # We will copy them from NCBI's docker image.
 FROM ncbi/blast:${BLAST_VERSION} AS ncbi-blast
 
-
-## Stage 4: Puting it together.
-FROM ruby:2.7-slim-buster
+## Stage 3: Puting it together.
+FROM ruby:2.7-slim-buster AS final
 
 LABEL Description="Intuitive local web frontend for the BLAST bioinformatics tool"
 LABEL MailingList="https://groups.google.com/forum/#!forum/sequenceserver"
@@ -67,9 +55,6 @@ VOLUME ["/db"]
 EXPOSE 4567
 COPY . .
 
-COPY --from=node /usr/src/app/public/sequenceserver-*.min.js public/
-COPY --from=node /usr/src/app/public/css/sequenceserver.min.css public/css/
-
 # Generate config file with default configs and database directory set to /db.
 # Setting database directory in config file means users can pass command line
 # arguments to SequenceServer without having to specify -d option again.
@@ -85,3 +70,22 @@ RUN mkdir -p ~/.sequenceserver && touch ~/.sequenceserver/asked_to_join
 ENV PATH=/sequenceserver/bin:${PATH}
 ENTRYPOINT ["bundle", "exec"]
 CMD ["sequenceserver"]
+
+## Stage 4 (optional) minify CSS & JS.
+FROM node:15-alpine3.12 AS node
+
+RUN apk add --no-cache git
+WORKDIR /usr/src/app
+COPY ./package.json .
+RUN npm install
+ENV PATH=${PWD}/node_modules/.bin:${PATH}
+COPY public public
+RUN npm run-script build
+
+## Stage 5 (optional) minify
+FROM final AS minify
+
+COPY --from=node /usr/src/app/public/sequenceserver-*.min.js public/
+COPY --from=node /usr/src/app/public/css/sequenceserver.min.css public/css/
+
+FROM final
