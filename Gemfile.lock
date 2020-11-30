@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sequenceserver (2.0.0.rc7)
+    sequenceserver (2.0.0.rc8)
       json_pure (~> 1.8, >= 1.8.2)
       ox (~> 2.1, >= 2.1.1)
       sinatra (~> 2.0, >= 2.0.0)
@@ -38,7 +38,7 @@ GEM
       ruby2_keywords (~> 0.0.1)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
-    ox (2.13.2)
+    ox (2.13.4)
     parallel (1.19.1)
     parser (2.7.0.2)
       ast (~> 2.4.0)
