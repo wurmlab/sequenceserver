@@ -14,7 +14,7 @@
   <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)"/>
 
   <!-- CSS -->
-  <% if settings.production? %>
+  <% if settings.production? || settings.test? %>
     <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css?ver=<%= SequenceServer::VERSION %>"/>
   <% else %>
     <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.css"/>

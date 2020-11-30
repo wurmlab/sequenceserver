@@ -2,7 +2,7 @@
 <div id="view"></div>
 
 <!-- JS -->
-<% if settings.production? %>
+<% if settings.production? || settings.test? %>
   <script src="sequenceserver-report.min.js?ver=<%= SequenceServer::VERSION %>"></script>
 <% else %>
   <script src="vendor/system.js"></script>
