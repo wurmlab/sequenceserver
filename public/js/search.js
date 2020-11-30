@@ -12,6 +12,7 @@ $.webshims.polyfill('forms');
 */
 if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
     sessionStorage.clear();
+    history.replaceState(null, '', location.href.split('?')[0]);
 }
 
 var Page = React.createClass({

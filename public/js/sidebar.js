@@ -10,6 +10,15 @@ import AlignmentExporter from './alignment_exporter'; // to download textual ali
  */
 export default React.createClass({
     /**
+     * Clear sessionStorage - useful to initiate a new search in the same tab.
+     * Passing sessionStorage.clear directly as onclick callback didn't work
+     * (on macOS Chrome).
+    */
+    clearSession: function () {
+        sessionStorage.clear();
+    },
+
+    /**
      * Event-handler for downloading fasta of all hits.
      */
     downloadFastaOfAll: function () {
@@ -92,8 +101,11 @@ export default React.createClass({
 
     topPanelJSX: function () {
         var path = location.pathname.split('/');
+        // Get job id.
         var job_id = path.pop();
-        path = path.join('/');
+        // Deriving rootURL this way is required for subURI deployments
+        // - we cannot just send to '/'.
+        var rootURL = path.join('/');
 
         return (
             <div className="sidebar-top-panel">
@@ -103,11 +115,12 @@ export default React.createClass({
                     </h4>
                 </div>
                 <div>
-                    <a href={`${path}/?job_id=${job_id}`}>
+                    <a href={`${rootURL}/?job_id=${job_id}`}>
                         <i className="fa fa-pencil"></i> Edit search
                     </a>
                     <span className="line">|</span>
-                    <a href={`${path}/`}>
+                    <a href={`${rootURL}/`}
+                        onClick={this.clearSession}>
                         <i className="fa fa-file-o"></i> New search
                     </a>
                 </div>
