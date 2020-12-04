@@ -102,6 +102,10 @@ You will need [Node and npm](https://nodejs.org/) if you want to modify and buil
     # Build minified JS and CSS bundles
     npm run-script build
 
+Or if you are using docker, you can build the frontend code and include it in the image by specifying '--target=minify' to the docker build command:
+
+    docker build . -t seqserv-with-customisations --target=minify
+
 #### Testing
 
 We use RSpec and Capybara for testing. Our test suite covers 87% of the codebase. Running all tests can take considerable time (~2 hrs). We recommend using Travis to automatically run all tests when you push your code to your fork. Tests are also run automatically when you open a pull-request (see Getting code merged section below). Although, it may be desirable sometimes to run a single test, whole file, or all tests locally:
