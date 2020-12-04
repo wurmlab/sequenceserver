@@ -3,6 +3,7 @@
 !bin
 !config.ru
 !lib
+!package.json
 !public
 !sequenceserver.gemspec
 !views
