@@ -27,6 +27,7 @@ System.config({
     "nicgirault/circosJs": "github:nicgirault/circosJs@1.7.0",
     "react": "npm:react@0.13.3",
     "underscore": "npm:underscore@1.8.3",
+    "vakata/jstree": "github:vakata/jstree@3.3.8",
     "webshim": "npm:webshim@1.15.8",
     "github:components/jqueryui@1.11.4": {
       "jquery": "github:components/jquery@2.1.4"

@@ -19,7 +19,7 @@ module SequenceServer
   # SequenceServer will always place BLAST database files alongside input FASTA,
   # and use `parse_seqids` option of `makeblastdb` to format databases.
   Database = Struct.new(:name, :title, :type, :nsequences, :ncharacters,
-                        :updated_on) do
+                        :updated_on, :categories) do
 
     extend Forwardable
 
@@ -100,6 +100,28 @@ module SequenceServer
 
       def all
         collection.values
+      end
+
+      def tree
+        all.each_with_object({}) do |db, data|
+          data[db.type] ||= []
+          use_parent = '#'
+          db.categories.each_with_index do |entry, index|
+            parent = index.zero? ? '#' : db.categories[0..(index - 1)].join('-')
+            use_id = db.categories[0..index].join('-')
+            element = { id: use_id, parent: parent, text: entry }
+            data[db.type] << element unless data[db.type].include?(element)
+            use_parent = use_id
+          end
+
+          data[db.type] <<
+            {
+              id: db.id,
+              parent: use_parent,
+              text: db.title,
+              icon: 'glyphicon glyphicon-file'
+            }
+        end
       end
 
       def each(&block)
