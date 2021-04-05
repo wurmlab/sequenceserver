@@ -155,7 +155,7 @@ module SequenceServer
       end
 
       def allowed_chars
-        /\A[a-z0-9\-_\. ']*\Z/i
+        /\A[a-z0-9\-_\. ',]*\Z/i
       end
 
       def disallowed_options
