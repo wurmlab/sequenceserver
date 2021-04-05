@@ -213,9 +213,10 @@ module SequenceServer
     # Using 0 as taxid is equivalent to not setting taxid for the database
     # that will be created.
     def taxid
+      default = 0
       print 'Enter taxid (optional): '
       user_response = STDIN.gets.strip
-      "-taxid #{user_response ? Integer(user_response) : 0}"
+      "-taxid #{user_response.empty? && default || Integer(user_response)}"
     rescue ArgumentError # presumably from call to Interger()
       puts 'taxid should be a number'
       retry
