@@ -2,7 +2,7 @@
 module SequenceServer
   # Define constanst used by BLAST module.
   module BLAST
-    ERROR_LINE = /Error:\s(.*)/
+    ERROR_LINE = /Error:\s(.*)/i
 
     ALGORITHMS = %w[blastn blastp blastx tblastn tblastx].freeze
 
