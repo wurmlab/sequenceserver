@@ -1,0 +1,57 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SequenceServer</title>
+  <meta name="author" content="Anurag Priyam">
+  <meta name="keywords"
+    content="custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
+
+  <!-- Support HTML5 elements and media queries on IE8 and less. -->
+  <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+
+  <!-- Bootstrap and FontAwesome CSS -->
+  <link rel="stylesheet" type="text/css" href="/css/googlefont-source-sans-pro.css">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap-3.3.6.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
+  <link rel="stylesheet" type="text/css" href="/css/seqserv.css">
+
+  <!-- Google Analytics -->
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-471841-7', 'sequenceserver.com');
+    ga('send', 'pageview');
+  </script>
+</head>
+
+<body>
+  <nav class="navbar navbar-fixed-top" role="navigation">
+    <div class="container">
+      <span class="navbar-brand navbar-left">
+        <img class="logo" src="/img/logos/SequenceServer_logo.png" alt="sequenceserver_logo">
+      </span>
+      <span style="display: inline-block; margin-top: 20px;">&nbsp;Cloud</span>
+      <ul class="nav navbar-nav navbar-right hover-reset focus-reset">
+        <li>
+          <a href="/" style="padding: 15px;">
+            Back to sequenceserver.com
+          </a>
+        </li>
+      </ul>
+  </nav>
+
+  {{ content }}
+
+</body>
+</html>

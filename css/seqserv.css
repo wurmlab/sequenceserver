@@ -120,3 +120,100 @@ a:hover {
 .page-header > h3 {
   margin: 0;
 }
+
+/**
+For /cloud page
+*/
+
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
+}
+
+.jumbotron {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 0 !important;
+  background-color: white;
+}
+.jumbotron h1 {
+  margin-top: 0;
+}
+.jumbotron p {
+  font-size: 36px;
+  color: #666;
+  letter-spacing: 1px;
+}
+/* #CE6230 */
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
+.table>tbody>tr>td, .table>tfoot>tr>td {
+  border-top: none;
+  text-align: center;
+}
+.table>thead>tr>th {
+  /* border-bottom: 2px solid #CE6230; */
+  border-bottom: none;
+  font-weight: normal;
+}
+.plan-name {
+  color: #CE6230;
+}
+.plan-desc {
+  font-size: 14px;
+}
+table.tiers {
+  letter-spacing: 1px;
+}
+.btn-primary {
+  background-color: #1b557a;
+  border-color: #174465;
+}
+.btn-primary:hover {
+  background-color: #174465;
+  border-color: #174465;
+}
+.btn-primary:disabled, .btn-primary[disabled]:hover {
+  background-color: #881C14;
+  border-color: #881C14;
+}
+tr>td:first-child {
+  text-align: left !important;
+}
+.h2-like {
+  font-size: 36px;
+  vertical-align: top;
+}
+td.active {
+  border-left: 1px solid #CE6230;
+  border-right: 1px solid #CE6230;
+}
+th.active {
+  border-top: 1px solid #CE6230 !important;
+  border-left: 1px solid #CE6230;
+  border-right: 1px solid #CE6230;
+}
+td.active.last {
+  border-bottom: 1px solid #CE6230;
+}
+td.plan1,
+td.plan2,
+td.plan3,
+td.plan4,
+th.plan1,
+th.plan2,
+th.plan3,
+th.plan4 {
+  cursor: pointer;
+}
+th > *, td > * {
+  pointer-events: none;
+}
+.list-unstyled li {
+  padding: 5px;
+}
