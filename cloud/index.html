@@ -334,16 +334,19 @@ layout: cloud
 
         selectedPlan = plans[planName];
         var total;
+        var priceId;
         if ($('#billed-annually').is(':checked')) {
           total = selectedPlan['billed_annually'];
+          priceId = selectedPlan['billed_annually_price_id'];
         }
         else {
           total = selectedPlan['billed_monthly'];
+          priceId = selectedPlan['billed_monthly_price_id'];
         }
 
         $('#total').text(total);
         $('#selected-plan').text(selectedPlan.name);
-        $('#checkout').attr('data-price-id', selectedPlan['billed_annually_price_id']);
+        $('#checkout').attr('data-price-id', priceId);
       }
     });
 
