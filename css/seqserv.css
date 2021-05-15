@@ -189,6 +189,10 @@ tr>td:first-child {
   font-size: 36px;
   vertical-align: top;
 }
+.h2-like-smaller {
+  font-size: 33px;
+  vertical-align: top;
+}
 td.active {
   border-left: 1px solid #CE6230;
   border-right: 1px solid #CE6230;
