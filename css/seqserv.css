@@ -132,9 +132,12 @@ For /cloud page
   text-align: right;
 }
 .text-left {
-  text-align: left;
+  text-align: left !important;
 }
 
+h1 {
+  font-weight: bold;
+}
 .jumbotron {
   text-align: center;
   margin-bottom: 32px;
@@ -145,7 +148,7 @@ For /cloud page
   margin-top: 0;
 }
 .jumbotron p {
-  font-size: 36px;
+  font-size: 24px;
   color: #666;
   letter-spacing: 1px;
 }
@@ -190,7 +193,8 @@ tr>td:first-child {
   vertical-align: top;
 }
 .h2-like-smaller {
-  font-size: 33px;
+  font-size: 24px;
+  font-weight: bold;
   vertical-align: top;
 }
 td.active {
