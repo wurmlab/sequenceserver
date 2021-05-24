@@ -140,7 +140,7 @@ h1 {
 }
 .jumbotron {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 0;
   padding: 0 !important;
   background-color: white;
 }
