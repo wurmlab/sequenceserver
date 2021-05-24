@@ -1,6 +1,22 @@
 ---
 layout: cloud
 ---
+<script
+  src="https://browser.sentry-cdn.com/6.4.1/bundle.tracing.min.js"
+  integrity="sha384-hddl7X3flGhIMJgLUpwZDzLOWf8GDApKvKos/jS4z7Uz/sejXA0thkp9JCZgoDG4"
+  crossorigin="anonymous"></script>
+<script>
+  Sentry.init({
+  dsn: "https://a5c0532d7ddf48ba93bb4f0af75c95c5@o717931.ingest.sentry.io/5780249",
+  integrations: [new Sentry.Integrations.BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
+</script>
+
 <script>
   // Reload page if we used browser's back button to get to this page.
   // Otherwise the pricing displayed can be inconsistent with respect
