@@ -20,9 +20,9 @@ ratings:
   - "**.js"
   - "**.css"
 exclude_paths:
+- public/css/sequenceserver.min.css
+- public/sequenceserver-*.min.js
 - public/js/sequence.js
-- public/sequenceserver.min.css
-- public/sequenceserver.min.js
 - public/js/kablammo/*
 - public/vendor/**/*
 - node_modules/**/*
