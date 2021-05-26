@@ -5,6 +5,7 @@ import _ from 'underscore';
 /**
  * Load necessary polyfills.
  */
+$.webshims.setOptions('basePath', '/vendor/npm/webshim@1.15.8/js-webshim/minified/shims/');
 $.webshims.polyfill('forms');
 
 /**
