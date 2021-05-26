@@ -120,7 +120,7 @@ To run all tests in a single file:
 
 To run all tests:
 
-    bundle exec rspec spec/**/*spec*
+    bundle exec rspec
 
 #### Getting code merged
 
