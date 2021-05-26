@@ -106,7 +106,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of hits')
+    page.should have_content('Length distribution of matching sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
@@ -220,7 +220,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of hits')
+    page.should have_content('Length distribution of matching sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
@@ -334,7 +334,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of hits')
+    page.should have_content('Length distribution of matching sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
@@ -446,7 +446,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of hits')
+    page.should have_content('Length distribution of matching sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
@@ -561,7 +561,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of hits')
+    page.should have_content('Length distribution of matching sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 

@@ -286,8 +286,8 @@ describe 'a browser', type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-Query_1.png')
     clear_downloads
 
-    ## Check that there is a length distribution of hits.
-    page.should have_content('Length distribution of hits')
+    ## Check that there is a length distribution of matching sequences.
+    page.should have_content('Length distribution of matching sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
