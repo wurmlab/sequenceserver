@@ -7,6 +7,27 @@
 <h5>General Search Options</h5>
 <ul class="list-unstyled">
   <li>
+<pre><%= ERB::Util.h %q|-task <String>
+  Task to execute for the selected BLAST algorithm
+  Options for BLASTN:
+    'blastn'       Traditional BLASTN requiring an exact match of 11 (default)
+    'blastn-short' Optimized BLASTN for query sequences shorter than 50 nucleotides.
+    'megablast'    Traditional megablast used to find very similar sequences (e.g., intraspecies or closely related species).
+    'dc-megablast' Discontiguous megablast used to find somewhat distant sequences (e.g., interspecies).
+    'rmblastn'
+  Options for BLASTP:
+    'blastp'       Standard protein-protein comparisons (default)
+    'blastp-fast'  Faster BLASTP searches using longer words for protein seeding
+    'blastp-short' Optimized BLASTP comparisons for query sequences shorter than 30 residues
+  Options for BLASTX:
+    'blastx'       Standard nucleotide-protein comparisons (default)
+    'blastx-fast'  Optimized nucleotide-protein comparisons
+  Options for TBLASTN:
+    'tblastn'      Standard protein-nucleotide comparisons (default)
+    'tblastn-fast' Optimized protein-nucleotide comparisons
+  Not applicable for TBLASTX| %></pre>
+  </li>
+  <li>
 <pre><%= ERB::Util.h %q|-evalue <Real>
   Expectation value (E) threshold for saving hits
   Default = '10'| %></pre>
