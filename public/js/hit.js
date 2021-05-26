@@ -30,6 +30,10 @@ export default React.createClass({
         return this.props.hit.length;
     },
 
+    numHSPs: function () {
+        return this.props.hit.hsps.length;
+    },
+
     // Internal helpers. //
 
     /**
@@ -119,7 +123,7 @@ export default React.createClass({
             { this.hitLinks() }
             <HSPOverview key={'kablammo' + this.props.query.id} query={this.props.query}
                 hit={this.props.hit} algorithm={this.props.algorithm}
-                showHSPCrumbs={this.props.hit.hsps.length > 1}
+                showHSPCrumbs={this.numHSPs() > 1 && this.numHSPs() < 27}
                 collapsed={this.props.veryBig} />
         </div>;
     },
