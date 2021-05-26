@@ -133,6 +133,7 @@ module SequenceServer
         required_extensions = REQUIRED_EXTENSIONS[type]
         exts = Dir["#{path}.*"].map { |p| p.split('.').last }.sort
         next if (exts & required_extensions) == required_extensions
+        next if exts == ['pal'] || exts == ['nal'] # if the db is an alias
 
         @fastas_to_reformat << [path, title, type]
       end

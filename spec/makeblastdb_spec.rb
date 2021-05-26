@@ -32,6 +32,10 @@ module SequenceServer
       File.join(database_dir, 'v4', 'without_parse_seqids')
     end
 
+    let 'database_dir_blastdb_aliastool' do
+      File.join(database_dir, 'v5', 'using_blastdb_aliastool')
+    end
+
     let 'fasta_file_prot_seqs' do
       File.join(database_dir_v5, 'proteins', 'Solenopsis_invicta',
                 'Sinvicta2-2-3.prot.subset.fasta')
@@ -91,6 +95,10 @@ module SequenceServer
       # Control: shouldn't report sample v5 databases created using -parse_seqids
       # as requiring reformatting.
       makeblastdb.instance_variable_set(:@database_dir, database_dir_v5)
+      makeblastdb.scan.should be_falsey
+
+      # Databases created using blastdb_aliastool don't require formatting either.
+      makeblastdb.instance_variable_set(:@database_dir, database_dir_blastdb_aliastool)
       makeblastdb.scan.should be_falsey
 
       # v4 databases require reformatting.

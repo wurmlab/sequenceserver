@@ -1,0 +1,8 @@
+#
+# Alias file created 05/26/2021 14:38:28
+#
+TITLE 2020-11-Swiss-Prot insecta (subset taxid 102803)
+DBLIST "../sample/proteins/uniprot/2020-11-Swiss-Prot_insecta.fasta" 
+TAXIDLIST ./102803
+NSEQ 1
+LENGTH 253
