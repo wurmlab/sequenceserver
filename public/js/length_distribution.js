@@ -9,7 +9,7 @@ import * as Helpers from './visualisation_helpers';
 
 class Graph {
     static name() {
-        return 'Length distribution of hits';
+        return 'Length distribution of matching sequences';
     }
 
     static className() {

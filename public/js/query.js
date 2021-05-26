@@ -111,7 +111,7 @@ var HitsTable = React.createClass({
             <div className="table-hit-overview">
                 <h4 className="caption" data-toggle="collapse" data-target={'#Query_'+this.props.query.number+'HT_'+this.props.query.number}>
                     <i className="fa fa-minus-square-o"></i>&nbsp;
-                    <span>Summary table of hits</span>
+                    <span>Sequences producing significant alignments</span>
                 </h4>
                 <div className="collapsed in"id={'Query_'+ this.props.query.number + 'HT_'+ this.props.query.number}>
                     <table
@@ -123,10 +123,7 @@ var HitsTable = React.createClass({
                             {!this.props.imported_xml && <th width="15%" className="text-right">Query coverage (%)</th>}
                             <th width="10%" className="text-right">Total score</th>
                             <th width="10%" className="text-right">E value</th>
-                            <th width="10%" className="text-right" data-toggle="tooltip"
-                                data-placement="left" title="Total identity of all hsps / total length of all hsps">
-                        Identity (%)
-                            </th>
+                            <th width="10%" className="text-right">Identity (%)</th>
                         </thead>
                         <tbody>
                             {
@@ -147,9 +144,9 @@ var HitsTable = React.createClass({
                                                 </td>
                                             }
                                             {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
-                                            <td className="text-right">{hit.score}</td>
+                                            <td className="text-right">{hit.total_score}</td>
                                             <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
-                                            <td className="text-right">{hit.identity}</td>
+                                            <td className="text-right">{this.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>
                                         </tr>
                                     );
                                 }, this))

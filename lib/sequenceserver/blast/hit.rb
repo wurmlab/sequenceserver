@@ -21,8 +21,8 @@ module SequenceServer
       # representation.
       def to_json(*args)
         # List all attributes that we want to send to the browser.
-        properties = %i[number id accession title length score identity
-                        qcovs sciname evalue hsps links]
+        properties = %i[number id accession title length total_score
+                        qcovs sciname hsps links]
         properties.inject({}) { |h, k| h[k] = send(k); h }.to_json(*args)
       end
 
@@ -71,21 +71,10 @@ module SequenceServer
       # client.
       ###
 
-      # Returns the sum of scores of all HSPs.
-      def score
+      # Returns the sum of scores of all HSPs. Displayed in the tabular summary
+      # of hits in the HTML report. Should probably be calculated in browser?
+      def total_score
         hsps.map(&:score).reduce(:+)
-      end
-
-      # Returns the sum of identity of all HSPs divided by sum of length of all
-      # HSPs (expressed as percentage).
-      def identity
-        hsps.map(&:identity).reduce(:+) * 100 / hsps.map(&:length).reduce(:+)
-      end
-
-      # Returns the minimum evalue of all HSPs of the Hit. This is shown in the
-      # tabular overview of hits in the HTML report.
-      def evalue
-        hsps.first.evalue
       end
 
       private
