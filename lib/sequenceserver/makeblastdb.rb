@@ -130,7 +130,7 @@ module SequenceServer
     # Determines which FASTA files in the database directory require
     # reformatting. Adds to @fastas_to_format.
     def determine_fastas_to_reformat
-      @formatted_fastas.each do |path, title, type|
+      @formatted_fastas.each do |path, title, type, _|
         required_extensions = REQUIRED_EXTENSIONS[type]
         exts = Dir["#{path}.*"].map { |p| p.split('.').last }.sort
         next if (exts & required_extensions) == required_extensions
