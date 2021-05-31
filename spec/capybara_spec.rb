@@ -1,6 +1,6 @@
 describe 'a browser', type: :feature, js: true do
   before :all do
-    SequenceServer.init(database_dir: "#{__dir__}/database/v5")
+    SequenceServer.init(database_dir: "#{__dir__}/database/v5/sample")
   end
 
   it 'sorts databases alphabetically' do
