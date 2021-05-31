@@ -79,6 +79,10 @@ module SequenceServer
         options: SequenceServer.config[:options]
       }
 
+      if SequenceServer.config[:databases_widget] == 'tree'
+        searchdata.update(tree: Database.tree)
+      end
+
       # If a job_id is specified, update searchdata from job meta data (i.e.,
       # query, pre-selected databases, advanced options used). Query is only
       # updated if params[:query] is not specified.

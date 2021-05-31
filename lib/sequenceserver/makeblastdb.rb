@@ -120,8 +120,9 @@ module SequenceServer
     # formatted. Adds to @formatted_fastas.
     def determine_formatted_fastas
       blastdbcmd.each_line do |line|
-        path, title, type, *rest = line.split('	')
+        path, title, type, *rest = line.split("\t")
         next if multipart_database_name?(path)
+        rest << get_categories(path)
         @formatted_fastas << [path, title, type.strip.downcase, *rest]
       end
     end
@@ -129,7 +130,7 @@ module SequenceServer
     # Determines which FASTA files in the database directory require
     # reformatting. Adds to @fastas_to_format.
     def determine_fastas_to_reformat
-      @formatted_fastas.each do |path, title, type|
+      @formatted_fastas.each do |path, title, type, _|
         required_extensions = REQUIRED_EXTENSIONS[type]
         exts = Dir["#{path}.*"].map { |p| p.split('.').last }.sort
         next if (exts & required_extensions) == required_extensions
@@ -278,6 +279,13 @@ module SequenceServer
     # /mnt/blast-db/refseq_genomic.100 => yes
     def multipart_database_name?(db_name)
       !(db_name.match(%r{.+/\S+\.\d{2,3}$}).nil?)
+    end
+
+    def get_categories(path)
+      path
+        .gsub(config[:database_dir], '') # remove database_dir from path
+        .split('/')
+        .reject(&:empty?)[0..-2] # the first entry might be '' if database_dir does not end with /
     end
 
     # Returns true if first character of the file is '>'.
