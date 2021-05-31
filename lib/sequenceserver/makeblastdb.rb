@@ -48,9 +48,10 @@ module SequenceServer
 
       # Now determine FASTA files that are unformatted or require reformatting.
       @fastas_to_format = []
-      # determine_unformatted_fastas
+      determine_unformatted_fastas
       @fastas_to_reformat = []
-      # determine_fastas_to_reformat
+      determine_fastas_to_reformat
+
       # Return true if there are files to be (re-)formatted or false otherwise.
       !@fastas_to_format.empty? || !@fastas_to_reformat.empty?
     end
