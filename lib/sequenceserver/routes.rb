@@ -76,6 +76,7 @@ module SequenceServer
       searchdata = {
         query: Database.retrieve(params[:query]),
         database: Database.all,
+        tree: Database.tree,
         options: SequenceServer.config[:options]
       }
 
