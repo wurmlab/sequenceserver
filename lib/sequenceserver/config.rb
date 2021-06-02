@@ -99,6 +99,7 @@ module SequenceServer
       {
         host: '0.0.0.0',
         port: 4567,
+        databases_widget: 'classic',
         options: {
           blastn:  ['-task blastn', '-evalue 1e-5'],
           blastp:  ['-evalue 1e-5'],
@@ -106,7 +107,9 @@ module SequenceServer
           tblastx: ['-evalue 1e-5'],
           tblastn: ['-evalue 1e-5']
         },
-        num_threads: 1
+        num_threads: 1,
+        num_jobs: 1,
+        job_lifetime: 43200
       }
     end
   end
