@@ -51,7 +51,7 @@ module SequenceServer
 
       # Thread pool used for running BLAST searches.
       def pool
-        @pool ||= Pool.new(SequenceServer.config[:num_threads])
+        @pool ||= Pool.new(SequenceServer.config[:num_jobs] || 1)
       end
     end
 
