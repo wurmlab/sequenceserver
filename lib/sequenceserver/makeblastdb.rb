@@ -11,15 +11,29 @@ module SequenceServer
   #   makeblastdb.scan && makeblastdb.run
   #
   class MAKEBLASTDB
-    # We want V5 databases created using -parse_seqids for proper function of
-    # SequenceServer. This means each database should be comprised of at least 9
-    # files with the following extensions. Databases created by us will have two
-    # additional files with the extensions nhd and nhi, or phd and phi, due to
-    # the use of -hash_index option. Finally, multipart databases will have one
-    # additional file with the extension nal or pal.
-    REQUIRED_EXTENSIONS = {
-      'nucleotide' => %w{ndb nhr nin nog nos not nsq ntf nto}.freeze,
-      'protein' => %w{pdb phr pin pog pos pot psq ptf pto}.freeze
+    # Expected extensions for nucleotide and proteind databases created with or
+    # without -parse_seqids and -hash_index options.
+    EXPECTED_EXTENSIONS = {
+      'nucleotide' => {
+        %w[nal]                                         => %w[alias],
+        %w[nhr nin nsq]                                 => %w[v4],
+        %w[nhr nin nog nsd nsi nsq]                     => %w[v4 parse_seqids],
+        %w[nhd nhi nhr nin nog nsd nsi nsq]             => %w[v4 parse_seqids hash_index],
+        %w[ndb nhr nin not nsq ntf nto]                 => %w[v5],
+        %w[ndb nhr nin nog nos not nsq ntf nto]         => %w[v5 parse_seqids],
+        %w[ndb nhd nhi nhr nin nog nos not nsq ntf nto] => %w[v5 parse_seqids hash_index],
+        %w[ndb nhd nhi nhr nin nog not nsq ntf nto]     => %w[v5 hash_index]
+      },
+      'protein' => {
+        %w[pal]                                         => %w[alias],
+        %w[phr pin psq]                                 => %w[v4],
+        %w[phr pin pog psd psi psq]                     => %w[v4 parse_seqids],
+        %w[phd phi phr pin pog psd psi psq]             => %w[v4 parse_seqids hash_index],
+        %w[pdb phr pin pot psq ptf pto]                 => %w[v5],
+        %w[pdb phr pin pog pos pot psq ptf pto]         => %w[v5 parse_seqids],
+        %w[pdb phd phi phr pin pog pos pot psq ptf pto] => %w[v5 parse_seqids hash_index],
+        %w[pdb phd phi phr pin pog pot psq ptf pto]     => %w[v5 hash_index]
+      }
     }
 
     extend Forwardable
@@ -70,18 +84,12 @@ module SequenceServer
     # Returns true if the databases directory contains one or more incompatible
     # databases.
     #
-    # Note that it is okay to only use V4 databases or only V5 databases. It is
+    # Note that it is okay to only use V4 databases or only V5 databases.
     # Incompatibility arises when they are mixed.
     def any_incompatible?
-      return false if @fastas_to_reformat.empty?
-      # We need to compare @fastas_to_reformat to @formatted_fastas, but the
-      # latter contains extra attributes. However, the first attribute, i.e,
-      # path is common to both and sufficient for our needs.
-      to_reformat = @fastas_to_reformat.map(&:first)
-      formatted = @formatted_fastas.map(&:first)
-      # Check that they are not equal. Using intersection operator ensures
-      # comparison even if their order differs.
-      formatted & to_reformat != formatted
+      return false if @formatted_fastas.all? { |ff| ff.v4? || ff.alias? }
+      return false if @formatted_fastas.all? { |ff| ff.v5? || ff.alias? }
+      true
     end
 
     # Runs makeblastdb on each file in `@fastas_to_format` and
@@ -121,22 +129,24 @@ module SequenceServer
     def determine_formatted_fastas
       blastdbcmd.each_line do |line|
         path, title, type, *rest = line.split("\t")
+        type.downcase!
         next if multipart_database_name?(path)
+        rest << get_format(path, type)
         rest << get_categories(path)
-        @formatted_fastas << [path, title, type.strip.downcase, *rest]
+        @formatted_fastas << Database.new(path, title, type, *rest)
       end
+    end
+
+    def get_format(path, type)
+      exts = Dir["#{path}.*"].map { |p| p.split('.').last }.sort
+      EXPECTED_EXTENSIONS[type][exts]
     end
 
     # Determines which FASTA files in the database directory require
     # reformatting. Adds to @fastas_to_format.
     def determine_fastas_to_reformat
-      @formatted_fastas.each do |path, title, type, _|
-        required_extensions = REQUIRED_EXTENSIONS[type]
-        exts = Dir["#{path}.*"].map { |p| p.split('.').last }.sort
-        next if (exts & required_extensions) == required_extensions
-        next if exts == ['pal'] || exts == ['nal'] # if the db is an alias
-
-        @fastas_to_reformat << [path, title, type]
+      @formatted_fastas.each do |ff|
+        @fastas_to_reformat << [ff.path, ff.title, ff.type] if ff.v4?
       end
     end
 

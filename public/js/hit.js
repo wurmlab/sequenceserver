@@ -130,7 +130,7 @@ export default React.createClass({
 
     hitLinks: function () {
         var btns = [];
-        if (!this.props.imported_xml) {
+        if (!(this.props.imported_xml || this.props.non_parse_seqids)) {
             btns = btns.concat([
                 this.viewSequenceButton(),
                 this.downloadFASTAButton()

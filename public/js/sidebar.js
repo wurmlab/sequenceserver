@@ -166,7 +166,7 @@ export default React.createClass({
                 </div>
                 <ul className="nav">
                     {
-                        !this.props.data.imported_xml && <li>
+                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
                             <a href="#" className="btn-link download-fasta-of-all"
                                 onClick={this.downloadFastaOfAll}>
                                 FASTA of all hits
@@ -174,7 +174,7 @@ export default React.createClass({
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li>
+                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
                             <a href="#" className="btn-link download-fasta-of-selected disabled"
                                 onClick={this.downloadFastaOfSelected}>
                                 FASTA of <span className="text-bold"></span> selected hit(s)

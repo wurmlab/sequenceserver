@@ -19,14 +19,13 @@ module SequenceServer
   # SequenceServer will always place BLAST database files alongside input FASTA,
   # and use `parse_seqids` option of `makeblastdb` to format databases.
   Database = Struct.new(:name, :title, :type, :nsequences, :ncharacters,
-                        :updated_on, :categories) do
+                        :updated_on, :format, :categories) do
 
     extend Forwardable
 
     def_delegators SequenceServer, :config, :sys
 
     def initialize(*args)
-      args[2].downcase! # database type
       args.each(&:freeze)
       super
 
@@ -34,6 +33,7 @@ module SequenceServer
     end
 
     attr_reader :id
+    alias path name
 
     def retrieve(accession, coords = nil)
       cmd = "blastdbcmd -db #{name} -entry '#{accession}'"
@@ -52,6 +52,22 @@ module SequenceServer
       cmd = "blastdbcmd -entry '#{accession}' -db #{name}"
       out, = sys(cmd, path: config[:bin])
       !out.empty?
+    end
+
+    def v4?
+      format.include? 'v4'
+    end
+
+    def v5?
+      format.include? 'v5'
+    end
+
+    def alias?
+      format.include? 'alias'
+    end
+
+    def non_parse_seqids?
+      !format.include? 'parse_seqids'
     end
 
     def ==(other)
@@ -80,9 +96,8 @@ module SequenceServer
         @collection ||= {}
       end
 
-      def collection=(databases_attrs)
-        databases_attrs.each do |db_attrs|
-          db = Database.new(*db_attrs)
+      def collection=(databases)
+        databases.each do |db|
           collection[db.id] = db
         end
       end

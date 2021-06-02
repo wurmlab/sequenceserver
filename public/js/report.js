@@ -203,6 +203,7 @@ var Report = React.createClass({
                 results.push(<Query key={'Query_'+query.number} query={query}
                     program={this.state.program} querydb={this.state.querydb}
                     showQueryCrumbs={this.state.queries.length > 1}
+                    non_parse_seqids={this.state.non_parse_seqids}
                     imported_xml={this.state.imported_xml}
                     veryBig={this.state.veryBig} />);
             }
@@ -216,6 +217,7 @@ var Report = React.createClass({
                     results.push(<Hit key={'Query_'+query.number+'_Hit_'+hit.number} query={query}
                         hit={hit} algorithm={this.state.program} querydb={this.state.querydb}
                         selectHit={this.selectHit} imported_xml={this.state.imported_xml}
+                        non_parse_seqids={this.state.non_parse_seqids}
                         showQueryCrumbs={this.state.queries.length > 1}
                         showHitCrumbs={query.hits.length > 1}
                         veryBig={this.state.veryBig}

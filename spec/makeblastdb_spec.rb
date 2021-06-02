@@ -29,7 +29,7 @@ module SequenceServer
     end
 
     let 'database_dir_without_parse_seqids' do
-      File.join(database_dir, 'v4', 'without_parse_seqids')
+      File.join(database_dir, 'v5', 'without_parse_seqids')
     end
 
     let 'database_dir_blastdb_aliastool' do
@@ -92,21 +92,21 @@ module SequenceServer
     end
 
     it 'can tell databases that require reformatting' do
-      # Control: shouldn't report sample v5 databases created using -parse_seqids
-      # as requiring reformatting.
+      # Control: shouldn't report sample v5 databases as requiring reformatting.
       makeblastdb.instance_variable_set(:@database_dir, database_dir_v5)
       makeblastdb.scan.should be_falsey
 
-      # Databases created using blastdb_aliastool don't require formatting either.
+      # Databases created using blastdb_aliastool don't require reformatting either.
       makeblastdb.instance_variable_set(:@database_dir, database_dir_blastdb_aliastool)
+      makeblastdb.scan.should be_falsey
+
+      # Databases created without -parse_seqids option don't require reformatting either.
+      # We disable 'sequence download' link instead.
+      makeblastdb.instance_variable_set(:@database_dir, database_dir_without_parse_seqids)
       makeblastdb.scan.should be_falsey
 
       # v4 databases require reformatting.
       makeblastdb.instance_variable_set(:@database_dir, database_dir_v4)
-      makeblastdb.scan.should be_truthy
-
-      # non -parse_seqids databases require reformatting.
-      makeblastdb.instance_variable_set(:@database_dir, database_dir_without_parse_seqids)
       makeblastdb.scan.should be_truthy
     end
 
