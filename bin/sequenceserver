@@ -318,10 +318,21 @@ begin
           database_dir = SequenceServer.config[:database_dir]
           puts
           puts <<~MSG
-            Incompatible databases can cause BLAST searches and other features of
-            SequenceServer to fail unexpectedly.
-            You can view incompatible databases and choose to reformat them below.
-            Alternatively, please remove them from databases directory.
+            Beginning with BLAST+ 2.10.0, NCBI changed the BLAST database format.
+            If you are seeing this message, you likely have a mix of databases
+            created using BLAST+ version 2.10.0 or higher and BLAST+ version
+            2.9.0 or lower. Mixing the two database formats can cause BLAST
+            searches to fail.
+
+            You can view older format BLAST databases and choose to reformat them
+            below. Alternatively, please remove them from databases directory.
+
+            Note that the process may be slow for large databases and can fail if
+            sequence identifiers are longer than 50 characters.
+
+            We suggest you backup your databases directory before reformatting.
+            Please ask for help on our Google Group/GitHub if something goes
+            wrong or is unclear.
 
             View incompatible databases? [y/n] (Default: y).
           MSG
