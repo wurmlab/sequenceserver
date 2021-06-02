@@ -242,6 +242,7 @@ module SequenceServer
       out, err = sys(cmd, path: config[:bin])
       puts out.strip
       puts err.strip
+      return true
     rescue CommandFailed => e
       puts <<~MSG
         Could not create BLAST database for: #{file}
