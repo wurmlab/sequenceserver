@@ -148,9 +148,9 @@ h1 {
   margin-top: 0;
 }
 .jumbotron p {
-  font-size: 24px;
   color: #666;
   letter-spacing: 1px;
+  font-weight: normal;
 }
 /* #CE6230 */
 
