@@ -185,9 +185,6 @@ table.tiers {
   background-color: #881C14;
   border-color: #881C14;
 }
-tr>td:first-child {
-  text-align: left !important;
-}
 .h2-like {
   font-size: 36px;
   vertical-align: top;
