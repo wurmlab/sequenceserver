@@ -210,10 +210,12 @@ td.plan1,
 td.plan2,
 td.plan3,
 td.plan4,
+td.plan5,
 th.plan1,
 th.plan2,
 th.plan3,
-th.plan4 {
+th.plan4,
+th.plan5 {
   cursor: pointer;
 }
 th > *, td > * {
