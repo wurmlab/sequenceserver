@@ -224,3 +224,7 @@ th > *, td > * {
 .list-unstyled li {
   padding: 5px;
 }
+
+ul > li > ul > li {
+  color: #666;
+}
