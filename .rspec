@@ -1,3 +1,4 @@
 --color
 --backtrace
 --require spec_helper.rb
+--pattern="spec/*_spec.rb","spec/blast_versions/blast_2.9.0/*.rb"
