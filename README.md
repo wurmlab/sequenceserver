@@ -24,10 +24,10 @@ If you use SequenceServer, please cite:
   (2019).](https://doi.org/10.1093/molbev/msz185)
 
 
-## Stable (version 1.0.11)
+## Stable (version 1.0.14)
 
-- Release date: June 2017
-- Works with BLAST 2.2.30
+- Release date: May 2020
+- Works with BLAST 2.2.30 and higher
 
 ### Installation
 
