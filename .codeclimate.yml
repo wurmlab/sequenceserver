@@ -14,6 +14,8 @@ engines:
     enabled: true
   csslint:
     enabled: true
+  stylelint:
+    enabled: true
 ratings:
   paths:
   - "**.rb"
@@ -29,3 +31,4 @@ exclude_paths:
 - public/shims/**/*
 - public/vendor/*
 - spec/**/*
+- coverage/

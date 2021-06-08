@@ -13,7 +13,9 @@
     "clean-css": "^3.4.1",
     "eslint": "^6.5.1",
     "eslint-plugin-react": "^7.16.0",
-    "jspm": "^0.16.2"
+    "jspm": "^0.16.2",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0"
   },
   "scripts": {
     "build": "jspm bundle-sfx --minify --skip-source-maps js/search.js public/sequenceserver-search.min.js && jspm bundle-sfx --minify --skip-source-maps js/report.js public/sequenceserver-report.min.js && cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css"

@@ -13,7 +13,7 @@
  * For scrollspy, etc.
  */
 body {
-  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   position: relative;
   color: black;
 }
@@ -21,7 +21,8 @@ body {
 /**
  * No underlines on links, ever
  */
-a:hover, .btn-link:hover {
+a:hover,
+.btn-link:hover {
   text-decoration: none;
   color: #c74f14;
 }
@@ -35,7 +36,7 @@ label:hover {
 }
 
 .yellow-background {
-  background-color: #E2D382;
+  background-color: #e2d382;
 }
 
 /**
@@ -68,18 +69,23 @@ small {
 h3 {
   font-size: 16px;
 }
+
 h4 {
   font-size: 14px;
 }
-h3 > .fa, h4 > .fa {
+
+h3 > .fa,
+h4 > .fa {
   vertical-align: bottom;
 }
+
 /**
  * Without this .disabled elements hardly look disabled.
  */
 .disabled {
   color: #ccc !important;
 }
+
 a.disabled:hover,
 .btn-link[disabled]:hover {
   color: #ccc;
@@ -94,12 +100,14 @@ a.disabled:hover,
   border-radius: 0;
   border-bottom: 1px solid #c74f14;
 }
+
 .navbar-brand {
   height: auto;
   padding: 10px 7.5px;
   font-size: 32px;
   color: rgb(51, 51, 51);
 }
+
 .navbar-brand > small {
   font-size: 50%;
   vertical-align: text-bottom;
@@ -110,6 +118,7 @@ a.disabled:hover,
   font-size: 14px;
   color: #174465;
 }
+
 /* logo */
 .navbar-brand > img {
   display: inline-block;
@@ -119,6 +128,7 @@ a.disabled:hover,
  * Like BS' .page-header but without extra margin and the ability to display a
  * sub-text on right.
  */
+
 /* Hit header styling */
 .section-header {
   border-bottom: 1px solid  #c74f14;
@@ -126,24 +136,30 @@ a.disabled:hover,
   display: table;
   width: 100%;
 }
+
 .section-header-sidebar {
   padding-left: 1px;
   display: table;
   width: 100%;
 }
+
 .section-header-sidebar > h4 {
   font-weight: bold;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
+
 .section-header > * {
   display: table-cell;
 }
+
 .section-header > *:first-child {
   width: 100%;
 }
+
 .section-content {
   padding: 0 0 0 1px;
 }
+
 /**
  * Take out border, cut down margin and padding, and remove background color
  * from panel.
@@ -154,11 +170,13 @@ a.disabled:hover,
   -moz-box-shadow: none;
   box-shadow: none;
 }
+
 .panel .panel-heading {
   padding: 0;
   background-color: inherit;
   border-bottom: 1px solid #c74f14;
 }
+
 .panel .panel-heading h4 {
   margin: 0;
   font-size: 16px;
@@ -170,11 +188,12 @@ a.disabled:hover,
  * Works better when browser is resized to smaller width.
  */
 .control-label[class*="col-"] {
- padding-right: 0;
+  padding-right: 0;
 }
+
 .input-group[class*="col-"] {
- padding-left: 15px;
- padding-right: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 /**
@@ -183,13 +202,19 @@ a.disabled:hover,
 .table {
   margin-bottom: 0;
 }
-.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
-.table>tbody>tr>td, .table>tfoot>tr>td {
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
   border-top: none;
   font-weight: normal;
   padding: 0 0 0 4px;
 }
-.table>thead>tr>th {
+
+.table > thead > tr > th {
   border-bottom: none;
   color: #5f5f5f;
 }
@@ -199,7 +224,7 @@ a.disabled:hover,
  */
 .tooltip-inner {
   max-width: 350px;
-  font-family: "Source sans pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Source sans pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /********************
@@ -262,15 +287,17 @@ td.nowrap-ellipsis {
 /**
  * Helpers to override :hover and .active on .nav elements.
  */
-.nav.hover-reset>li>a:hover {
+.nav.hover-reset > li > a:hover {
   background-color: inherit;
   color: #c74f14;
 }
-.nav.focus-reset>li>a:focus {
+
+.nav.focus-reset > li > a:focus {
   background-color: inherit;
   color: #c74f14;
 }
-.nav.active-bold>.active>a {
+
+.nav.active-bold > .active > a {
   font-weight: bold;
   color: #c74f14;
 }
@@ -284,9 +311,11 @@ td.nowrap-ellipsis {
   font-weight: normal;
   font-size: inherit;
 }
+
 .pos-label {
   padding: 0 0 0 0.6em;
 }
+
 /**
  * Reset Bootstrap's CSS for pre tags.
  */
@@ -331,6 +360,7 @@ td.nowrap-ellipsis {
 .notifications {
   position: relative;
   height: 32px;
+
   /**
    * Notifications should appear over the bottom border of the textarea, high
    * enough that they do not interfere with the database listing below and
@@ -339,10 +369,13 @@ td.nowrap-ellipsis {
   margin-right: 35px;
   margin-left: 35px;
 }
+
 .notification {
   height: 32px !important;
 }
-.notification .alert-info, .notification .alert-danger {
+
+.notification .alert-info,
+.notification .alert-danger {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -361,7 +394,7 @@ td.nowrap-ellipsis {
 }
 
 #help pre:hover {
-  background-color: #FFC;
+  background-color: #ffc;
 }
 
 label[for="advanced"] {
@@ -372,6 +405,7 @@ label[for="advanced"] {
   vertical-align: middle;
   padding: 5px 12px 5px 0;
 }
+
 input[name="advanced"] {
   border-top-left-radius: 4px !important;
   border-bottom-left-radius: 4px !important;
@@ -406,7 +440,7 @@ input[type=checkbox] {
  **********************/
 .sidebar > div {
   /* To line up with the results on the right */
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .sidebar li a {
@@ -417,12 +451,14 @@ input[type=checkbox] {
   margin-top: 0;
   top: 0;
 }
+
 @media (min-width: 992px) {
   /* MacBook Pro etc. */
   .sidebar.affix {
     width: 212.5px;
   }
 }
+
 @media (min-width: 1200px) {
   /* iMac etc. */
   .sidebar.affix {
@@ -435,9 +471,11 @@ input[type=checkbox] {
   /* To line up with the sidebar on the left */
   margin: 10px 0 6px 0;
 }
+
 .overview p {
   margin: 0;
 }
+
 .resultn {
   margin-top: 6px;
 }
@@ -446,6 +484,7 @@ input[type=checkbox] {
   font-size: 12px;
   text-align: center;
 }
+
 .graphical-overview .btn {
   padding-top: 0;
   padding-bottom: 0;
@@ -454,14 +493,17 @@ input[type=checkbox] {
 .hit {
   margin-top: 4px;
 }
+
 .hit .section-header h4 {
   cursor: pointer;
   padding-left: 1px;
 }
+
 .hit .section-header h4 span,
 .hit .section-header h4 strong {
   cursor: text;
 }
+
 .hit-links {
   height: 16px;
 }
@@ -469,28 +511,32 @@ input[type=checkbox] {
 .hsp {
   padding: 1px 0 1px 2px;
 }
+
 .hsp-stats {
   font-size: 12px;
-  color:#5f5f5f;
+  color: #5f5f5f;
 }
+
 .hsp-lines {
   margin-top: 5px;
   font-size: 11px;
   letter-spacing: 1.2px;
 }
+
 .hsp-coords {
   color: #5f5f5f;
 }
 
 .btn-link {
   border: none;
-  padding: 0px;
+  padding: 0;
   color: #1b557a;
 }
 
 .fastan > .section-header {
   padding-bottom: 8px;
 }
+
 .fastan > .section-content {
   padding-top: 8px;
   padding-left: 0;
@@ -521,6 +567,7 @@ input[type=checkbox] {
 .dnd-overlay-container p {
   font-size: 48px;
 }
+
 /* higlight when hit is selected */
 .glow {
   border-left: 2px solid #c74f14;
@@ -529,33 +576,41 @@ input[type=checkbox] {
 .downloads a {
   cursor: pointer;
 }
+
 /* CSS class for logo */
 .logo {
   width: 205.05px;
   max-height: 35px;
 }
+
 /* CSS class for vertical line separating the hit links */
 .line {
   color: #c74f14;
   margin: 0 5px 0 5px;
 }
+
 /* override bootstrap focus color in the text field of the search page */
 .form-control:focus {
   border-color: #1b557a;
 }
-/* override bootstrap btn-color for the search "BlAST" button on the search page.*/
+
+/* override bootstrap btn-color for the search "BlAST" button on the search page. */
 .btn-primary {
   background-color: #1b557a;
   border-color: #174465;
 }
+
 .btn-primary:hover {
   background-color: #174465;
   border-color: #174465;
 }
-.btn-primary:disabled, .btn-primary[disabled]:hover {
-  background-color: #881C14;
-  border-color: #881C14;
+
+.btn-primary:disabled,
+.btn-primary[disabled]:hover {
+  background-color: #881c14;
+  border-color: #881c14;
 }
+
 /* CSS class to facilitate the hit header wrapping */
 .hit-header {
   display: table-cell;

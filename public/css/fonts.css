@@ -3,28 +3,29 @@
  * http://stackoverflow.com/questions/11002820/why-should-we-include-ttf-eot-woff-svg-in-a-font-face
  * */
 @font-face {
-	font-family: 'Source Sans Pro';
-	font-style: normal;
-	font-weight: 400;
-	src:
-		local('Source Sans Pro'),
-		local('SourceSansPro-Regular'),
-		url('../fonts/Source_Sans_Pro_400.woff2') format('woff2'),
-		url('../fonts/Source_Sans_Pro_400.woff') format('woff'),
-		url('../fonts/Source_Sans_Pro_400.ttf') format('truetype'),
-		url('../fonts/Source_Sans_Pro_400.svg') format('svg'),
-		url('../fonts/Source_Sans_Pro_400.eot') format('embedded-opentype');
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local('Source Sans Pro'),
+    local('SourceSansPro-Regular'),
+    url('../fonts/Source_Sans_Pro_400.woff2') format('woff2'),
+    url('../fonts/Source_Sans_Pro_400.woff') format('woff'),
+    url('../fonts/Source_Sans_Pro_400.ttf') format('truetype'),
+    url('../fonts/Source_Sans_Pro_400.svg') format('svg'),
+    url('../fonts/Source_Sans_Pro_400.eot') format('embedded-opentype');
 }
+
 @font-face {
-	font-family: 'Source Sans Pro';
-	font-style: normal;
-	font-weight: 700;
-	src:
-		local('Source Sans Pro Bold'),
-		local('SourceSansPro-Bold'),
-		url('../fonts/Source_Sans_Pro_700.woff2') format('woff2'),
-		url('../fonts/Source_Sans_Pro_700.woff') format('woff'),
-		url('../fonts/Source_Sans_Pro_700.ttf') format('truetype'),
-		url('../fonts/Source_Sans_Pro_700.svg') format('svg'),
-		url('../fonts/Source_Sans_Pro_700.eot') format('embedded-opentype');
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 700;
+  src:
+    local('Source Sans Pro Bold'),
+    local('SourceSansPro-Bold'),
+    url('../fonts/Source_Sans_Pro_700.woff2') format('woff2'),
+    url('../fonts/Source_Sans_Pro_700.woff') format('woff'),
+    url('../fonts/Source_Sans_Pro_700.ttf') format('truetype'),
+    url('../fonts/Source_Sans_Pro_700.svg') format('svg'),
+    url('../fonts/Source_Sans_Pro_700.eot') format('embedded-opentype');
 }
