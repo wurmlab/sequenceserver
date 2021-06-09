@@ -48,9 +48,11 @@ module SequenceServer
       nil
     end
 
-    def include?(accession)
-      cmd = "blastdbcmd -entry '#{accession}' -db #{name}"
-      sys(cmd, path: config[:bin]) rescue nil
+    # Returns true if the database contains the given sequence id.
+    # Returns false otherwise.
+    def include?(id)
+      cmd = "blastdbcmd -entry '#{id}' -db #{name}"
+      sys(cmd, path: config[:bin]) rescue false
     end
 
     def v4?
