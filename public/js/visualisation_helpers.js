@@ -39,16 +39,15 @@ export function tick_formatter(scale, seq_type) {
     var digits = 0;
     var format;
     var _ticks;
-    while (true) {
+
+    do {
         format = d3.format('.' + digits + 'f');
         _ticks = scale.ticks().map(function (d) {
             return format(prefix.scale(d));
         });
-        if (_ticks.length === _.uniq(_ticks).length) {
-            break;
-        }
         digits++;
-    }
+
+    } while (_ticks.length !== _.uniq(_ticks).length);
 
     return function (d) {
         if (!prefix.symbol || d === scale.domain()[0]) {

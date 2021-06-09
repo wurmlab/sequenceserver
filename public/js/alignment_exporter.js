@@ -7,28 +7,28 @@ export default class AlignmentExporter {
         var idx = 0;
         var wrapped = '';
         while(true) {
-          wrapped += str.substring(idx, idx + width);
-          idx += width;
-          if(idx < str.length) {
-            wrapped += '\n';
-          } else {
-            break;
-          }
+            wrapped += str.substring(idx, idx + width);
+            idx += width;
+            if(idx < str.length) {
+                wrapped += '\n';
+            } else {
+                break;
+            }
         }
         return wrapped;
     }
 
     generate_fasta(hsps) {
 
-        var fasta = "";
+        var fasta = '';
 
         _.each(hsps, _.bind(function (hsp) {
-            fasta += ">"+hsp.query_id+":"+hsp.qstart+"-"+hsp.qend+"\n";
-            fasta += hsp.qseq+"\n";
-            fasta += ">"+hsp.query_id+":"+hsp.qstart+"-"+hsp.qend+"_alignment_"+hsp.hit_id+":"+hsp.sstart+"-"+hsp.send+"\n";
-            fasta += hsp.midline+"\n";
-            fasta += ">"+hsp.hit_id+":"+hsp.sstart+"-"+hsp.send+"\n";
-            fasta += hsp.sseq+"\n";
+            fasta += '>'+hsp.query_id+':'+hsp.qstart+'-'+hsp.qend+'\n';
+            fasta += hsp.qseq+'\n';
+            fasta += '>'+hsp.query_id+':'+hsp.qstart+'-'+hsp.qend+'_alignment_'+hsp.hit_id+':'+hsp.sstart+'-'+hsp.send+'\n';
+            fasta += hsp.midline+'\n';
+            fasta += '>'+hsp.hit_id+':'+hsp.sstart+'-'+hsp.send+'\n';
+            fasta += hsp.sseq+'\n';
         }, this));
         return fasta;
     }

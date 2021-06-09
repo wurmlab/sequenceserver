@@ -14,4 +14,4 @@ export default function downloadFASTA(sequence_ids, database_ids) {
             $('<input>').attr('type', 'hidden').attr('name', name).val(val)
         );
     }
-};
+}

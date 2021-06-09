@@ -16,7 +16,7 @@ var export_as_svg = function (svg, filename) {
     var blob = new Blob([serialize_svg(svg)], { type: 'text/xml' });
     filename = Exporter.sanitize_filename(filename) + '.svg';
     Exporter.download_blob(blob, filename);
-}
+};
 
 /**
  * Exports the given <svg> DOM node as a .png file.
@@ -45,19 +45,19 @@ var export_as_png = function (svg, filename) {
     };
 
     img.src = 'data:image/svg+xml;base64,' + window.btoa(serialize_svg(svg));
-}
+};
 
 var serialize_svg = function(svg) {
     // Clone svg first so that none of our changes to affect the actual SVG.
     svg = svg.cloneNode(true);
 
     d3.select(svg).attr('version', '1.1')
-    .insert('defs', ':first-child')
-    .append('style')
-    .attr('class', 'exported-css')
-    .attr('type', 'text/css')
-    .node()
-    .textContent = get_styles();
+        .insert('defs', ':first-child')
+        .append('style')
+        .attr('class', 'exported-css')
+        .attr('type', 'text/css')
+        .node()
+        .textContent = get_styles();
 
     svg.removeAttribute('xmlns');
     svg.removeAttribute('xlink');
@@ -67,8 +67,8 @@ var serialize_svg = function(svg) {
     var source = (new XMLSerializer()).serializeToString(svg);
     var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC ' +
         '"-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
-        return doctype + source;
-}
+    return doctype + source;
+};
 
 var get_styles = function () {
     var styles = '';
@@ -113,14 +113,14 @@ var get_styles = function () {
     }
 
     return styles;
-}
+};
 
 var handle_click = function (export_callback) {
     return function () {
         var $svg = $(this).parents('.grapher').find('svg');
         export_callback($svg[0], $svg.attr('data-name'));
         return false;
-    }
+    };
 };
 
 var $body = $('body');
