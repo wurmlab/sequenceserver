@@ -101,8 +101,11 @@ layout: cloud
             <th class="plan1">
               <span class="plan-name">Solo</span>
             </th>
-            <th class="plan3 active">
+            <th class="plan2 active">
               <span class="plan-name">Group</span>
+            </th>
+            <th class="plan3">
+              <span class="plan-name">Pro</span>
             </th>
             <th class="plan4">
               <span class="plan-name">Business</span>
@@ -120,7 +123,13 @@ layout: cloud
               <br />
               <span class="plan-desc">(billed annually)</span>
             </td>
-            <td class="plan3 active">
+            <td class="plan2 active">
+              <s>$69</s>
+              <strong>$54/month</strong>
+              <br />
+              <span class="plan-desc">(billed annually)</span>
+            </td>
+            <td class="plan3">
               <s>$119</s>
               <strong>$85/month</strong>
               <br />
@@ -148,7 +157,15 @@ layout: cloud
                 For individual researchers
               </p>
             </td>
-            <td class="plan3 active last">
+            <td class="plan2 active last">
+              <p>
+                Private BLAST server
+              </p>
+              <p>
+                For teams of up to 10
+              </p>
+            </td>
+            <td class="plan3 last">
               <p>
                 Private BLAST server
               </p>
@@ -335,6 +352,13 @@ layout: cloud
       billed_monthly_price_id: 'price_1IqGNUImooTjg4AM7t2YB0JE',
       billed_annually: 252,
       billed_annually_price_id: 'price_1IqGNUImooTjg4AMrSq2ErcS'
+    },
+    plan2: {
+      name: 'Group',
+      billed_monthly: 69,
+      billed_monthly_price_id: 'price_1IqGO8ImooTjg4AMkrqun3vw',
+      billed_annually: 648,
+      billed_annually_price_id: 'price_1IqGO8ImooTjg4AMAg8IU7Zr'
     },
     plan3: {
       name: 'Pro',
