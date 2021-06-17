@@ -92,96 +92,72 @@ layout: cloud
 
   <br />
 
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <h1 style="margin-bottom: 20px;"><span style="color: #ce6230;">Choose</span> a plan to get started</h1>
-      <table class="table table-condensed tiers">
+  <div class="row text-center">
+    <h1 style="margin-bottom: 20px;"><span style="color: #ce6230;">Choose</span> a plan to get started</h1>
+    <div class="col-md-8">
+      <table class="table table-condensed tiers private">
         <thead>
           <tr>
-            <th class="plan1">
-              <span class="plan-name">Solo</span>
-            </th>
-            <th class="plan2 active">
-              <span class="plan-name">Group</span>
-            </th>
-            <th class="plan3">
-              <span class="plan-name">Pro</span>
-            </th>
-            <th class="plan4">
-              <span class="plan-name">Business</span>
-            </th>
-            <th class="plan5">
-              <span class="plan-name">Databases</span>
+            <th colspan="4" style="border: 1px solid #CE6230;">
+              <strong>Private password-protected BLAST servers</strong>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="plan1">
+            <td class="plan1 last">
+              <span class="plan-name">Solo</span>
+              <br/>
               <s>$29</s>
               <strong>$21/month</strong>
               <br />
               <span class="plan-desc">(billed annually)</span>
+              <br/>
+              <br/>
+              <p>
+                For individuals
+              </p>
             </td>
-            <td class="plan2 active">
+            <td class="plan2 active last">
+              <span class="plan-name">Group</span>
+              <br/>
               <s>$69</s>
               <strong>$54/month</strong>
               <br />
               <span class="plan-desc">(billed annually)</span>
+              <br/>
+              <br/>
+              <p>
+                Teams of up to 10
+              </p>
             </td>
-            <td class="plan3">
+            <td class="plan3 last">
+              <span class="plan-name">Pro</span>
+              <br/>
               <s>$119</s>
               <strong>$85/month</strong>
               <br />
               <span class="plan-desc">(billed annually)</span>
-            </td>
-            <td class="plan4">
-              <s>$209</s>
-              <strong>$159/month</strong>
-              <br />
-              <span class="plan-desc">(billed annually)</span>
-            </td>
-            <td class="plan5">
-              <s>$369</s>
-              <strong>$279/month</strong>
-              <br />
-              <span class="plan-desc">(billed annually)</span>
-            </td>
-          </tr>
-          <tr>
-            <td class="plan1 last">
+              <br/>
+              <br/>
               <p>
-                Private BLAST server
-              </p>
-              <p>
-                For individual researchers
-              </p>
-            </td>
-            <td class="plan2 active last">
-              <p>
-                Private BLAST server
-              </p>
-              <p>
-                For teams of up to 10
-              </p>
-            </td>
-            <td class="plan3 last">
-              <p>
-                Private BLAST server
-              </p>
-              <p>
-                For teams of up to 25
+                Teams of up to 25
               </p>
               <p>
                 Custom linking of BLAST hits
               </p>
             </td>
             <td class="plan4 last">
+              <span class="plan-name">Business</span>
+              <br/>
+              <s>$209</s>
+              <strong>$159/month</strong>
+              <br />
+              <span class="plan-desc">(billed annually)</span>
+              <br/>
+              <br/>
               <p>
-                Private BLAST server
-              </p>
-              <p>
-                For teams of up to 50
+                For teams of up to 200
               </p>
               <p>
                 Custom linking of BLAST hits
@@ -192,23 +168,57 @@ layout: cloud
               <p>
                 Custom domain
               </p>
+              <br/>
             </td>
-            <td class="plan5 last">
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4">
+      <table class="table table-condensed tiers public">
+        <tbody>
+          <tr>
+            <td class="last" style="border-top: 1px solid #CE6230;">
+              <strong><span class="plan-name">Public database</span></strong>
+              <br/>
               <p>
-                Public BLAST server
-              </p>
-              <p>
-                Up to 10,000 BLAST searches
-              </p>
-              <p>
-                Custom linking of BLAST hits
+                Custom domain
               </p>
               <p>
                 Customised visual design
               </p>
               <p>
-                Custom domain
+                Custom linking of BLAST hits
               </p>
+              <div class="text-left">
+                <div class="radio" style="pointer-events: all;">
+                  <label>
+                    <input type="radio" name="public" id="public1" value="plan5"> Up to 1,000 BLAST searches per month
+                    <br/>
+                    <s>$129</s>
+                    <strong>$99/month</strong>
+                    <span class="plan-desc">(billed annually)</span>
+                  </label>
+                </div>
+                <div class="radio" style="pointer-events: all;">
+                  <label>
+                    <input type="radio" name="public" id="public2" value="plan6"> Up to 5,000 BLAST searches per month
+                    <br/>
+                    <s>$229</s>
+                    <strong>$199/month</strong>
+                    <span class="plan-desc">(billed annually)</span>
+                  </label>
+                </div>
+                <div class="radio" style="pointer-events: all;">
+                  <label>
+                    <input type="radio" name="public" id="public3" value="plan7"> Up to 10,000 BLAST searches per month
+                    <br />
+                    <s>$369</s>
+                    <strong>$279/month</strong>
+                    <span class="plan-desc">(billed annually)</span>
+                  </label>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -375,7 +385,21 @@ layout: cloud
       billed_annually_price_id: 'price_1IqGOwImooTjg4AMmUs3p5xR'
     },
     plan5: {
-      name: 'Databases',
+      name: 'Public database',
+      billed_monthly: 129,
+      billed_monthly_price_id: 'price_1J7Eb0ImooTjg4AMGkhOLqXl',
+      billed_annually: 1188,
+      billed_annually_price_id: 'price_1J7Eb0ImooTjg4AMyGEI2dQa'
+    },
+    plan6: {
+      name: 'Public database',
+      billed_monthly: 229,
+      billed_monthly_price_id: 'price_1J7Eb0ImooTjg4AMctrydXbH',
+      billed_annually: 2388,
+      billed_annually_price_id: 'price_1J7Eb0ImooTjg4AMMMEtFlZW'
+    },
+    plan7: {
+      name: 'Public database',
       billed_monthly: 369,
       billed_monthly_price_id: 'price_1IyH36ImooTjg4AMJ4HnPFes',
       billed_annually: 3348,
@@ -385,12 +409,13 @@ layout: cloud
   var selectedPlan = plans['plan2'];
 
   $(document).ready(function () {
-    $("table.tiers").on('click', function (event) {
+    $("table.tiers.private").on('click', function (event) {
       var $target = $(event.target);
       var targetClass = $target.attr('class');
       if (targetClass && targetClass.match('plan') && !targetClass.match('active')) {
         var planName = targetClass.split(' ')[0];
         $('.active').removeClass('active');
+        $('.radio input').prop('checked', false);
         $('.' + planName).addClass('active');
 
         selectedPlan = plans[planName];
@@ -409,6 +434,29 @@ layout: cloud
         $('#selected-plan').text(selectedPlan.name);
         $('#checkout').attr('data-price-id', priceId);
       }
+    });
+
+    $(".radio input").on('click', function (event) {
+      var $target = $(this);
+      $('.active').removeClass('active');
+      $target.parents('td').addClass('active');
+
+      var planName = $target.val();
+      selectedPlan = plans[planName];
+        var total;
+        var priceId;
+        if ($('#billed-annually').is(':checked')) {
+          total = selectedPlan['billed_annually'];
+          priceId = selectedPlan['billed_annually_price_id'];
+        }
+        else {
+          total = selectedPlan['billed_monthly'];
+          priceId = selectedPlan['billed_monthly_price_id'];
+        }
+
+        $('#total').text(total);
+        $('#selected-plan').text(selectedPlan.name);
+        $('#checkout').attr('data-price-id', priceId);
     });
 
     $('#billed-annually').on('click', function () {
