@@ -1,6 +1,6 @@
 describe 'a browser', type: :feature, js: true do
   before :all do
-    SequenceServer.init(database_dir: "#{__dir__}/database/v5/sample")
+    SequenceServer.init(database_dir: "#{__dir__}/database/v5")
   end
 
   it 'sorts databases alphabetically' do
@@ -8,7 +8,7 @@ describe 'a browser', type: :feature, js: true do
     fill_in('sequence', with: nucleotide_query)
 
     prot = page.evaluate_script("$('.protein .database').text().trim()")
-    prot.should eq("2020-11 Swiss-Prot insecta Sinvicta 2-2-3 prot subset")
+    prot.should eq("2020-11 Swiss-Prot insecta 2020-11-Swiss-Prot insecta (subset taxid 102803) Sinvicta 2-2-3 prot subset without_parse_seqids.fa")
 
     nucl = page.evaluate_script("$('.nucleotide .database').text().trim()")
     nucl.should eq("Sinvicta 2-2-3 cdna subset Solenopsis invicta gnG subset funky ids (v5)")
