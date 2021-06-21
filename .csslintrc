@@ -1,2 +1,17 @@
---exclude-exts=.min.css
---ignore=adjoining-classes,box-model,ids,order-alphabetical,unqualified-attributes
+{
+  "ignore": [
+    "order-alphabetical",
+    "important",
+    "import",
+    "box-model",
+    "ids",
+    "adjoining-classes"
+  ],
+  "warnings": [
+  ],
+  "errors": [
+  ],
+  "exclude-list": [
+    "public/css/sequenceserver.min.css"
+  ]
+}

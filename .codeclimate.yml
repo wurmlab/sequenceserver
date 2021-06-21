@@ -14,6 +14,8 @@ plugins:
     enabled: true
   csslint:
     enabled: true
+  stylelint:
+    enabled: true
 exclude_patterns:
 - public/css/sequenceserver.min.css
 - public/sequenceserver-*.min.js
@@ -24,3 +26,4 @@ exclude_patterns:
 - public/shims/**/*
 - public/vendor/*
 - spec/**/*
+- coverage/
