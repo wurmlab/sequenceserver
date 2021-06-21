@@ -448,7 +448,7 @@ var Report = React.createClass({
      */
     affixSidebar: function () {
         var $sidebar = $('.sidebar');
-        var sidebarOffset = $sidebar.offset()
+        var sidebarOffset = $sidebar.offset();
         if (sidebarOffset) {
             $sidebar.affix({
                 offset: {
@@ -494,17 +494,16 @@ var Report = React.createClass({
             $hit.next('.hsp').removeClass('glow');
         }
 
+        var $a = $('.download-fasta-of-selected');
+        var $b = $('.download-alignment-of-selected');
+        
         if (num_checked >= 1)
         {
-            var $a = $('.download-fasta-of-selected');
-            var $b = $('.download-alignment-of-selected');
             $a.find('.text-bold').html(num_checked);
             $b.find('.text-bold').html(num_checked);
         }
 
         if (num_checked == 0) {
-            var $a = $('.download-fasta-of-selected');
-            var $b = $('.download-alignment-of-selected');
             $a.addClass('disabled').find('.text-bold').html('');
             $b.addClass('disabled').find('.text-bold').html('');
         }

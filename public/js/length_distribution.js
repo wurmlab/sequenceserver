@@ -69,8 +69,7 @@ class Graph {
             .range([0, this._width]);
         this._bins = d3.layout.histogram()
             .range(this._scale_x.domain())
-            .bins(this._scale_x.ticks(50))
-            (this._data);
+            .bins(this._scale_x.ticks(50))(this._data);
         this._scale_y = d3.scale.linear()
             .domain([0, d3.max(this._bins, function(d) { return d.length; })])
             .range([this._height, 0]).nice();

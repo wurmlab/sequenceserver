@@ -31,46 +31,46 @@ export default React.createClass({
     },
 
     handleLoadTree: function (category) {
-      var tree_id = '#' + category + '_database_tree';
-      // hack that is needed to sync the selected tree db with the hidden main db
-      window.jstree_node_change_timeout = null;
+        var tree_id = '#' + category + '_database_tree';
+        // hack that is needed to sync the selected tree db with the hidden main db
+        window.jstree_node_change_timeout = null;
 
-      // when a tree database gets selected
-      $(tree_id).on("select_node.jstree deselect_node.jstree", function (e, data) {
-        if (window.jstree_node_change_timeout) {
-          clearTimeout(window.jstree_node_change_timeout);
-          window.jstree_node_change_timeout = null;
-        }
+        // when a tree database gets selected
+        $(tree_id).on('select_node.jstree deselect_node.jstree', function (e, data) {
+            if (window.jstree_node_change_timeout) {
+                clearTimeout(window.jstree_node_change_timeout);
+                window.jstree_node_change_timeout = null;
+            }
 
-        window.jstree_node_change_timeout = setTimeout(function(){
-          // uncheck all input
-          $('div#database_list input[type="checkbox"]:checked').click()
-          setTimeout(function(){
-            // get all selected tree dbs. Also includes folders. Therefore, the id must have a length of 32
-            // this id is used to find the corresponding element from the hidden main form
-            selected = $(tree_id).jstree("get_selected").filter(selected => selected.length == 32)
-            $.each(selected, function( index, value ) {
-              // select hidden element to trigger original sequenceserver behavior, like blast algorithm, ...
-              $('input[value="'+ value + '"]').click()
-            });
-          }, 100);
-        }, 100);
-      });
+            window.jstree_node_change_timeout = setTimeout(function(){
+                // uncheck all input
+                $('div#database_list input[type="checkbox"]:checked').click();
+                setTimeout(function(){
+                    // get all selected tree dbs. Also includes folders. Therefore, the id must have a length of 32
+                    // this id is used to find the corresponding element from the hidden main form
+                    var selected = $(tree_id).jstree('get_selected').filter(selected => selected.length == 32);
+                    $.each(selected, function( index, value ) {
+                        // select hidden element to trigger original sequenceserver behavior, like blast algorithm, ...
+                        $('input[value="'+ value + '"]').click();
+                    });
+                }, 100);
+            }, 100);
+        });
 
-      $(tree_id).jstree({
-        'core' : {
-            'data': this.props.tree[category]
-          },
-        "plugins" : [ "checkbox", "search", "sort" ],
-        "checkbox" : {
-            "keep_selected_style" : false
-          }
+        $(tree_id).jstree({
+            'core' : {
+                'data': this.props.tree[category]
+            },
+            'plugins' : [ 'checkbox', 'search', 'sort' ],
+            'checkbox' : {
+                'keep_selected_style' : false
+            }
         });
     },
 
     handleTreeSearch: function(category, tree_id, search_id) {
-      var search_for = $('#' + search_id).val();
-      $('#' + tree_id).jstree(true).search(search_for);
+        var search_for = $('#' + search_id).val();
+        $('#' + tree_id).jstree(true).search(search_for);
     },
 
     handleToggle: function (toggleState, type) {
@@ -86,7 +86,7 @@ export default React.createClass({
 
     render: function () {
         return (
-            <div className="form-group databases-container">
+            <div className='form-group databases-container'>
                 { _.map(this.categories(), this.renderDatabases) }
             </div>
         );
@@ -113,13 +113,13 @@ export default React.createClass({
         // JSX.
         return (
             <div className={columnClass} key={'DB_'+category}>
-                <div className="panel panel-default" id="database_list">
-                    <div className="panel-heading">
+                <div className='panel panel-default' id='database_list'>
+                    <div className='panel-heading'>
                         <h4 style={{display: 'inline'}}>{panelTitle}</h4> &nbsp;&nbsp;
                         {
-                          this.renderDatabaseSearch(category)
+                            this.renderDatabaseSearch(category)
                         }
-                        <button type="button" className={toggleClass} disabled={toggleDisabled} style={{display: 'none'}}
+                        <button type='button' className={toggleClass} disabled={toggleDisabled} style={{display: 'none'}}
                             onClick={ function () { this.handleToggle(toggleState, category); }.bind(this) }>
                             {toggleState}
                         </button>
@@ -128,7 +128,7 @@ export default React.createClass({
                         {
                             _.map(this.databases(category), _.bind(function (database,index) {
                                 return (
-                                    <li className="list-group-item" key={'DB_'+category+index}>
+                                    <li className='list-group-item' key={'DB_'+category+index}>
                                         { this.renderDatabase(database) }
                                     </li>
                                 );
@@ -137,45 +137,45 @@ export default React.createClass({
                     </ul>
                 </div>
                 {
-                  this.renderDatabaseTree(category)
+                    this.renderDatabaseTree(category)
                 }
             </div>
         );
     },
 
     renderDatabaseSearch: function (category) {
-      var tree_id = category + "_database_tree";
-      var search_id = tree_id + "_search";
+        var tree_id = category + '_database_tree';
+        var search_id = tree_id + '_search';
 
-      return (
-        <input type='text' id={search_id} class="input"
-        onKeyUp=
-        {
-            _.bind(function () {
-                this.handleTreeSearch(category, tree_id, search_id)
-            }, this)
-        }
-        ></input>
-      );
+        return (
+            <input type='text' id={search_id} class='input'
+                onKeyUp=
+                    {
+                        _.bind(function () {
+                            this.handleTreeSearch(category, tree_id, search_id);
+                        }, this)
+                    }
+            ></input>
+        );
     },
 
     renderDatabaseTree: function (category) {
-      var tree_id = category + "_database_tree";
-      var data = this.props.tree[category];
+        var tree_id = category + '_database_tree';
+        var data = this.props.tree[category];
 
-      return (
-        <div
-          id={tree_id}
-          className={'jstree_div'}
-          onClick=
-          {
-              _.bind(function () {
-                  this.handleLoadTree(category)
-              }, this)
-          }
-          >
-        </div>
-      );
+        return (
+            <div
+                id={tree_id}
+                className={'jstree_div'}
+                onClick=
+                    {
+                        _.bind(function () {
+                            this.handleLoadTree(category);
+                        }, this)
+                    }
+            >
+            </div>
+        );
     },
 
     renderDatabase: function (database) {
@@ -185,7 +185,7 @@ export default React.createClass({
             <label
                 className={disabled && 'disabled database' || 'database'}>
                 <input
-                    type="checkbox" name="databases[]" value={database.id}
+                    type='checkbox' name='databases[]' value={database.id}
                     data-type={database.type} disabled={disabled}
                     onChange=
                         {
