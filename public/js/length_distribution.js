@@ -129,14 +129,15 @@ class Graph {
             bin.map(function (d,i) {
                 var y1 = bin.length - (i+1);
                 var len_index = _.findIndex(self.query.hits, {length: d});
+                var evalue = self.query.hits[len_index].hsps[0].evalue;
                 var item = {
                     value: d,
                     id: self.query.hits[len_index].id,
-                    evalue: self.query.hits[len_index].evalue,
+                    evalue: evalue,
                     url: '#Query_'+self.query.number+'_hit_'+self.query.hits[len_index].number,
                     y0: y0,
                     y1: y0 += (y1 - y0),
-                    color: Helpers.get_colors_for_evalue(self.query.hits[len_index].evalue,self.query.hits)
+                    color: Helpers.get_colors_for_evalue(evalue,self.query.hits)
                 };
                 inner_data.push(item);
             });
