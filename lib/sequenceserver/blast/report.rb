@@ -43,7 +43,7 @@ module SequenceServer
                  submitted_at: job.submitted_at.utc,
                  imported_xml: !!job.imported_xml_file,
                  seqserv_version: SequenceServer::VERSION,
-                 non_parse_seqids: querydb.any?(&:non_parse_seqids?)).to_json
+                 non_parse_seqids: !!job.databases&.any?(&:non_parse_seqids?)).to_json
       end
 
       private
