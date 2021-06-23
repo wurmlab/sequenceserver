@@ -184,6 +184,7 @@ module SequenceServer
     def make_blast_database(action, file, title, type, non_parse_seqids = false)
       return unless make_blast_database?(action, file, type)
       title = confirm_database_title(title)
+      extract_fasta(file) unless File.exist?(file)
       taxonomy = taxid_map(file, non_parse_seqids) || taxid
       _make_blast_database(file, type, title, taxonomy)
     end
@@ -238,7 +239,6 @@ module SequenceServer
     end
 
     def _make_blast_database(file, type, title, taxonomy)
-      extract_fasta(file) unless File.exist?(file)
       cmd = "makeblastdb -parse_seqids -hash_index -in #{file} " \
             "-dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
             " #{taxonomy}"
