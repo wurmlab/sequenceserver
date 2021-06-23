@@ -117,8 +117,8 @@ module SequenceServer
       # Make the intent clear as well as ensure the program won't crash if
       # we accidentally call reformat before calling scan.
       return unless @fastas_to_reformat
-      @fastas_to_reformat.select do |path, title, type|
-        make_blast_database('reformat', path, title, type)
+      @fastas_to_reformat.select do |path, title, type, non_parse_seqids|
+        make_blast_database('reformat', path, title, type, non_parse_seqids)
       end
     end
 
@@ -147,7 +147,7 @@ module SequenceServer
     def determine_fastas_to_reformat
       @formatted_fastas.each do |ff|
         if (ff.v4? || ff.non_parse_seqids?) && !ff.alias?
-          @fastas_to_reformat << [ff.path, ff.title, ff.type]
+          @fastas_to_reformat << [ff.path, ff.title, ff.type, ff.non_parse_seqids?]
         end
       end
     end
@@ -181,10 +181,10 @@ module SequenceServer
     end
 
     # Create BLAST database, given FASTA file and sequence type in FASTA file.
-    def make_blast_database(action, file, title, type)
+    def make_blast_database(action, file, title, type, non_parse_seqids = false)
       return unless make_blast_database?(action, file, type)
       title = confirm_database_title(title)
-      taxonomy = taxid_map(file) || taxid
+      taxonomy = taxid_map(file, non_parse_seqids) || taxid
       _make_blast_database(file, type, title, taxonomy)
     end
 
@@ -214,7 +214,8 @@ module SequenceServer
 
     # Check if a '.taxid_map.txt' file exists. If not, try getting it
     # using blastdbcmd.
-    def taxid_map(db)
+    def taxid_map(db, non_parse_seqids)
+      return if non_parse_seqids
       taxid_map = db.sub(/#{File.extname(db)}$/, '.taxid_map.txt')
       if !File.exist?(taxid_map) || File.zero?(taxid_map)
         extract_taxid_map(db, taxid_map)
