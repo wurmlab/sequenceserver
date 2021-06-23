@@ -218,9 +218,7 @@ module SequenceServer
     def taxid_map(db, non_parse_seqids)
       return if non_parse_seqids
       taxid_map = db.sub(/#{File.extname(db)}$/, '.taxid_map.txt')
-      if !File.exist?(taxid_map) || File.zero?(taxid_map)
-        extract_taxid_map(db, taxid_map)
-      end
+      extract_taxid_map(db, taxid_map) if !File.exist?(taxid_map)
       "-taxid_map #{taxid_map}" if !File.zero?(taxid_map)
     end
 
