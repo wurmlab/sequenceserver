@@ -12,8 +12,6 @@ plugins:
     enabled: true
   eslint:
     enabled: true
-  csslint:
-    enabled: true
   stylelint:
     enabled: true
 exclude_patterns:
