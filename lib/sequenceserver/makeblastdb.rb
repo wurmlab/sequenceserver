@@ -146,7 +146,7 @@ module SequenceServer
     # reformatting. Adds to @fastas_to_format.
     def determine_fastas_to_reformat
       @formatted_fastas.each do |ff|
-        if (ff.v4? || ff.non_parse_seqids?) && !ff.alias?
+        if ff.v4? || ff.non_parse_seqids?
           @fastas_to_reformat << [ff.path, ff.title, ff.type, ff.non_parse_seqids?]
         end
       end

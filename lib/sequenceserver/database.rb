@@ -68,7 +68,7 @@ module SequenceServer
     end
 
     def non_parse_seqids?
-      !format.include? 'parse_seqids'
+      !alias? && !format.include?('parse_seqids')
     end
 
     def ==(other)
