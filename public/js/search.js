@@ -788,7 +788,7 @@ var Databases = React.createClass({
 
         if (this.props.preSelectedDbs) {
             var selectors = this.props.preSelectedDbs.map(db => `input[value=${db.id}]`);
-            $(...selectors).prop('checked',true);
+            $(selectors.join(',')).prop('checked',true);
             this.handleClick(this.props.preSelectedDbs[0]);
             this.props.preSelectedDbs = null;
         }
