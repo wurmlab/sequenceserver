@@ -2,7 +2,7 @@ language: ruby
 
 rvm:
   - 2.3
-  - 2.5
+  # - 2.5
 
 branches:
   only:
@@ -55,20 +55,20 @@ after_script:
       cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
     fi
 
-jobs:
-  include:
-  # Each script listed below is automatically run by Travis in parallel, and only
-  # against Ruby 2.3 (because it is listed first in the rvm key), and after the
-  # main test stage. We use a glob pattern here instead of specifying just the
-  # directory name because capybara spec files in subfolders don't end with
-  # _spec.rb.
-  - stage: compatibility
-    script: bundle exec rspec spec/blast_versions/diamond_0.9.24/*
-  - script: bundle exec rspec spec/blast_versions/blast_2.2.30/*
-  - script: bundle exec rspec spec/blast_versions/blast_2.2.31/*
-  - script: bundle exec rspec spec/blast_versions/blast_2.3.0/*
-  - script: bundle exec rspec spec/blast_versions/blast_2.4.0/*
-  - script: bundle exec rspec spec/blast_versions/blast_2.5.0/*
-  - script: bundle exec rspec spec/blast_versions/blast_2.6.0/*
-  - script: bundle exec rspec spec/blast_versions/blast_2.7.1/*
-  - script: bundle exec rspec spec/blast_versions/blast_2.8.1/*
+# jobs:
+#   include:
+#   # Each script listed below is automatically run by Travis in parallel, and only
+#   # against Ruby 2.3 (because it is listed first in the rvm key), and after the
+#   # main test stage. We use a glob pattern here instead of specifying just the
+#   # directory name because capybara spec files in subfolders don't end with
+#   # _spec.rb.
+#   - stage: compatibility
+#     script: bundle exec rspec spec/blast_versions/diamond_0.9.24/*
+#   - script: bundle exec rspec spec/blast_versions/blast_2.2.30/*
+#   - script: bundle exec rspec spec/blast_versions/blast_2.2.31/*
+#   - script: bundle exec rspec spec/blast_versions/blast_2.3.0/*
+#   - script: bundle exec rspec spec/blast_versions/blast_2.4.0/*
+#   - script: bundle exec rspec spec/blast_versions/blast_2.5.0/*
+#   - script: bundle exec rspec spec/blast_versions/blast_2.6.0/*
+#   - script: bundle exec rspec spec/blast_versions/blast_2.7.1/*
+#   - script: bundle exec rspec spec/blast_versions/blast_2.8.1/*
