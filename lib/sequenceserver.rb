@@ -211,6 +211,10 @@ module SequenceServer
       Database.each do |database|
         logger.debug("Found #{database.type} database '#{database.title}'" \
                      " at '#{database.name}'")
+        if database.non_parse_seqids?
+          logger.warn("Database '#{database.title}' created without" \
+            " -parse_seqids option. Will disable FASTA download links.")
+        end
       end
     end
 
