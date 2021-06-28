@@ -474,6 +474,18 @@ layout: cloud
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
+  // Polyfill for NodeList.forEach. Relevant for
+  // document.querySelectorAll.forEach line below. Code borrowed from:
+  // https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach
+  if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = function (callback, thisArg) {
+        thisArg = thisArg || window;
+        for (var i = 0; i < this.length; i++) {
+            callback.call(thisArg, this[i], i, this);
+        }
+    };
+  }
+
   // Replace with your own publishable key: https://dashboard.stripe.com/test/apikeys
   var PUBLISHABLE_KEY = 'pk_live_2UYtY6gxOydNNh2Oy30geuAb00CnZDkD81';
   // Replace with the domain you want your users to be redirected back to after payment
