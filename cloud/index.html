@@ -1,0 +1,525 @@
+---
+layout: cloud
+---
+<script
+  src="https://browser.sentry-cdn.com/6.4.1/bundle.tracing.min.js"
+  integrity="sha384-hddl7X3flGhIMJgLUpwZDzLOWf8GDApKvKos/jS4z7Uz/sejXA0thkp9JCZgoDG4"
+  crossorigin="anonymous"></script>
+<script>
+  Sentry.init({
+  dsn: "https://a5c0532d7ddf48ba93bb4f0af75c95c5@o717931.ingest.sentry.io/5780249",
+  integrations: [new Sentry.Integrations.BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
+</script>
+
+<script>
+  // Reload page if we used browser's back button to get to this page.
+  // Otherwise the pricing displayed can be inconsistent with respect
+  // to the selected tier and billing mode.
+  // Code borrowed from: https://stackoverflow.com/a/43043658
+  window.addEventListener("pageshow", function ( event ) {
+  var historyTraversal = event.persisted ||
+                         (typeof window.performance != "undefined" &&
+                            window.performance.navigation.type === 2);
+  if ( historyTraversal ) {
+    // Handle page restore.
+    window.location.reload();
+  }
+});
+</script>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="jumbotron">
+        <h1>Hosted BLAST <span style="color: #ce6230;">servers</span></h1>
+        <!-- <p>
+          Hassle-free. Secure. Cost-effective.
+        </p> -->
+        <p>
+          Dedicated BLAST servers can be a valuable asset for your lab. However, setting them up means worrying about the server hardware, software installation, customisation, access, security, and updates.
+        </p>
+        <p>
+          We can take care of all that. So you and your colleagues can focus on the science.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h1>Our BLAST servers include</h1>
+      <ul class="list-unstyled" style="display: inline-block; font-size: 21px; letter-spacing: 1px; color: #666666;">
+        <li>SequenceServer 2.0<a href="https://groups.google.com/g/sequenceserver/c/c98ePBzcuVE/m/lN-S35jVHgAJ" target="_blank"><sup>1</sup></a> with advanced visualisations<a href="/img/2.0/Kablammo.png" target="_blank"><sup>2</sup></a><sup>,</sup><a href="/img/2.0/circos.png" target="_blank"><sup>3</sup></a><sup>,</sup><a href="/img/2.0/length-distribution.png" target="_blank"><sup>4</sup></a> and download options</li>
+        <li>Upload any number of genomes, transcriptomes, and proteomes</li>
+        <li>Password protection so only you and your group can access it</li>
+        <li>Automatic CPU scaling based on query and database size</li>
+        <li>Accessible worldwide from Windows, Mac, Linux</li>
+
+        <li>Free automatic upgrades</li>
+        <li>30 days money back guarantee</li>
+      </ul>
+      <br/>
+      <a href="https://antgenomes.sequenceserver.com" target="_blank"
+      class="btn btn-lg btn-primary">
+        View demo server&nbsp;&nbsp;&nbsp;
+        <i class="fa fa-desktop" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+
+  <br/>
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h1>How it works</h1>
+      <p style="display: inline-block; font-size: 21px; letter-spacing: 1px; color: #666666; width: 85%;">
+        Select a plan below, pay, choose a name for your server (e.g., <a href="https://antgenomes.sequenceserver.com" target="_blank">antgenomes.sequenceserver.com</a>) and tell us how you would like to upload your sequences<a href="#faq"><sup>5</sup></a>
+      </p>
+      <p style="display: inline-block; font-size: 21px; letter-spacing: 1px; color: #666666; width: 70%;">
+        We will retrieve your sequences, check compatibility with BLAST/SequenceServer, setup your server and get back to you in 1-2 business days
+      </p>
+      <p style="display: inline-block; font-size: 21px; letter-spacing: 1px; color: #666666; width: 70%;">
+        To subsequently add, remove, or rename databases - or for any other assistance - just send us an email.
+      </p>
+    </div>
+  </div>
+
+  <br />
+
+  <div class="row text-center">
+    <h1 style="margin-bottom: 20px;"><span style="color: #ce6230;">Choose</span> a plan to get started</h1>
+    <div class="col-md-8">
+      <table class="table table-condensed tiers private">
+        <thead>
+          <tr>
+            <th colspan="4" style="border: 1px solid #CE6230;">
+              <strong>Private password-protected BLAST servers</strong>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="plan1 last">
+              <span class="plan-name">Solo</span>
+              <br/>
+              <s>$29</s>
+              <strong>$21/month</strong>
+              <br />
+              <span class="plan-desc">(billed annually)</span>
+              <br/>
+              <br/>
+              <p>
+                For individuals
+              </p>
+            </td>
+            <td class="plan2 active last">
+              <span class="plan-name">Group</span>
+              <br/>
+              <s>$69</s>
+              <strong>$54/month</strong>
+              <br />
+              <span class="plan-desc">(billed annually)</span>
+              <br/>
+              <br/>
+              <p>
+                Teams of up to 10
+              </p>
+            </td>
+            <td class="plan3 last">
+              <span class="plan-name">Pro</span>
+              <br/>
+              <s>$119</s>
+              <strong>$85/month</strong>
+              <br />
+              <span class="plan-desc">(billed annually)</span>
+              <br/>
+              <br/>
+              <p>
+                Teams of up to 25
+              </p>
+              <p>
+                Custom linking of BLAST hits
+              </p>
+            </td>
+            <td class="plan4 last">
+              <span class="plan-name">Business</span>
+              <br/>
+              <s>$209</s>
+              <strong>$159/month</strong>
+              <br />
+              <span class="plan-desc">(billed annually)</span>
+              <br/>
+              <br/>
+              <p>
+                For teams of up to 200
+              </p>
+              <p>
+                Custom linking of BLAST hits
+              </p>
+              <p>
+                Customised visual design
+              </p>
+              <p>
+                Custom domain
+              </p>
+              <br/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4">
+      <table class="table table-condensed tiers public">
+        <tbody>
+          <tr>
+            <td class="last" style="border-top: 1px solid #CE6230;">
+              <strong><span class="plan-name">Public database</span></strong>
+              <br/>
+              <p>
+                Custom domain
+              </p>
+              <p>
+                Customised visual design
+              </p>
+              <p>
+                Custom linking of BLAST hits
+              </p>
+              <div class="text-left">
+                <div class="radio" style="pointer-events: all;">
+                  <label>
+                    <input type="radio" name="public" id="public1" value="plan5"> Up to 1,000 BLAST searches per month
+                    <br/>
+                    <s>$129</s>
+                    <strong>$99/month</strong>
+                    <span class="plan-desc">(billed annually)</span>
+                  </label>
+                </div>
+                <div class="radio" style="pointer-events: all;">
+                  <label>
+                    <input type="radio" name="public" id="public2" value="plan6"> Up to 5,000 BLAST searches per month
+                    <br/>
+                    <s>$229</s>
+                    <strong>$199/month</strong>
+                    <span class="plan-desc">(billed annually)</span>
+                  </label>
+                </div>
+                <div class="radio" style="pointer-events: all;">
+                  <label>
+                    <input type="radio" name="public" id="public3" value="plan7"> Up to 10,000 BLAST searches per month
+                    <br />
+                    <s>$369</s>
+                    <strong>$279/month</strong>
+                    <span class="plan-desc">(billed annually)</span>
+                  </label>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4 text-center">
+      <span class="h2-like"><strong>Selected plan: </strong></span>
+      <span class="h2-like">&nbsp;<strong id="selected-plan">Group</strong></span>
+    </div>
+    <div class="col-md-3 text-center">
+      <div class="checkbox" style="display: inline-block; padding-top: 9px; margin-bottom: 0;">
+        <label>
+          <input id="billed-annually" type="checkbox" checked="checked"> Billed annually
+        </label>
+      </div>,&nbsp;&nbsp;Total: $<span id="total">648</span>
+    </div>
+    <div class="col-md-3 text-center" style="padding-top: 5px">
+      <button id="checkout" class="btn btn-lg btn-primary"
+      data-checkout-mode="subscription"
+      data-price-id="price_1IqGO8ImooTjg4AMAg8IU7Zr">
+      <i class="fa fa-credit-card" aria-hidden="true"></i>
+      &nbsp;&nbsp;&nbsp;Subscribe & deploy
+      </button>
+    </div>
+  </div>
+
+  <br />
+  <br />
+  <br />
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <strong>
+        Have a custom requirement?
+      </strong>
+      <a href="mailto:sequenceserver@gmail.com">
+        email us
+      </a>
+    </div>
+  </div>
+
+  <br />
+  <br />
+  <br />
+
+  <div class="row">
+    <div class="col-md-12">
+      <h1 id="faq">FAQ</h1>
+      <ul>
+        <li><strong>What kind of information do I need to provide?</strong>
+          <ul>
+            <li>We will need the name of your SequenceServer (e.g., fireants.sequenceserver.com), as well as a way to access the data that you would like to focus on. It is best if you can provide FASTA files, but formatted BLAST databases work too.</li>
+          </ul>
+        </li>
+        <li><strong>How do I provide the FASTA files of genomes, proteomes and transcriptomes I want to BLAST against?</strong>
+          <ul>
+            <li>We accept data uploads in multiple formats. Depending on the size and current location of your data, you may want to provide http or ftp links. If, for example, you have your data in DropBox, <a href="https://help.dropbox.com/files-folders/share/view-only-access" target="_blank">generating that type of link is easy</a>. Alternatively, we can provide a private area into which you can deposit your data through secure ftp or scp.</li>
+          </ul>
+        </li>
+        <li><strong>Which version of SequenceServer does the cloud service use?</strong>
+          <ul>
+            <li>We run the latest stable version (as of 2021-05-14, that is SequenceServer 2.0 release candidate 8). We continually roll out upgrades to benefit from sensitivity.</li>
+          </ul>
+        </li>
+        <li><strong>Can I go back to a previous BLAST result?</strong>
+          <ul>
+            <li>Yes the output of a BLAST search is retained at the stable URL - the https address at the top of the page. How long it is retained for depends on your usage tier.</li>
+          </ul>
+        </li>
+        <li><strong>Can I share my BLAST results?</strong>
+          <ul>
+            <li>Yes, you can share the https URL at the top of the page with others. They currently need to also have access to your password-protected BLAST instance. Alternatively, you can save your BLAST report using the built-in functionality of your web browser (save as a PDF or as a Web archive). Additionally, you can easily export the raw data (in table or XML formats). Finally, all of the figures shown in the BLAST report can easily be downloaded in publication ready PNG or SVG formats.</li>
+          </ul>
+        </li>
+        <li><strong>Do I need to enter my password every time I want to do a BLAST search?</strong>
+          <ul>
+            <li>No - your web browser will remember your login/password combination.</li>
+          </ul>
+        </li>
+        <li><strong>How will I access my SequenceServer?</strong>
+          <ul>
+            <li>Through a web browser, at https://any_name_you_can_think_of.sequenceserver.com (with dashes, or underscores or not - as long as noone else is using it.</li>
+          </ul>
+        </li>
+        <li><strong>I run the aardvarkgenomes.org web site. Could I embed a hosted sequenceserver in my web page?</strong>
+          <ul>
+            <li>Yes - this can be done elegantly, using, for example the http://embedresponsively.com/ approach. Please get in touch letting us how many monthly visitors you have or anticipate.</li>
+          </ul>
+        </li>
+        <li><strong>Can I have a free trial?</strong>
+          <ul>
+            <li>We essentially have the equivalent of that: we offer a full 30 day money back guarantee, no questions asked.</li>
+          </ul>
+        </li>
+        <li><strong>Do you take other payment mechanisms?</strong>
+          <ul>
+            <li>If payment by bank card, Apple Pay or Google Pay doesn’t work for you, please get in touch.</li>
+          </ul>
+        </li>
+        <li><strong>Is the payment mechanism secure?</strong>
+          <ul>
+            <li>We take security extremely seriously. SequenceServer doesn’t want or need your payment information. Instead, we process payments using the industry standard <a href="https://www.stripe.com">Stripe.com</a>. This means that you can pay with Apple Pay, Google Pay, or by bank card. Stripe is one of the most widely used online payment processing companies, which annually processes hundres of billions of dollars in payments. Other companies that also use stripe for payment processing include Kickstarter, Booking.com, Zoom, Uber, Deliveroo and Unicef.</li>
+          </ul>
+        </li>
+        <li><strong>Can I cancel my subscription?</strong>
+          <ul>
+            <li>Yes. We will refund you the whole amount if you cancel in the first 30 days and you will loose access to your account immediately. If you cancel after the first 30 days, we are unable to provide a refund and your service will continue till the end of your billing period after which it will automatically be cancelled.
+            <br/>
+            Please <a href="mailto:sequenceserver@gmail.com">email</a> us if you would like to cancel. We promise not to make it uncomfortable.
+            </li>
+          </ul>
+        </li>
+        <li><strong>Is there a cancellation fee?</strong>
+          <ul>
+            <li>
+              No. We will refund you the whole amount if you cancel in the first 30 days and you will loose access to your account immediately. If you cancel after the first 30 days, we are unable to provide a refund and your service will continue till the end of your billing period after which it will automatically be cancelled.
+            </li>
+          </ul>
+        </li>
+        <li><strong>I have other questions</strong>
+          <ul>
+            <li>Feel free to contact us by <a href="mailto:sequenceserver@gmail.com">email</a>. We are also happy to arrange a demonstration or question/answer call over zoom.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<script src="/js/jquery-2.1.3.min.js"></script>
+<script>
+  var plans = {
+    plan1: {
+      name: 'Solo',
+      billed_monthly: 29,
+      billed_monthly_price_id: 'price_1IqGNUImooTjg4AM7t2YB0JE',
+      billed_annually: 252,
+      billed_annually_price_id: 'price_1IqGNUImooTjg4AMrSq2ErcS'
+    },
+    plan2: {
+      name: 'Group',
+      billed_monthly: 69,
+      billed_monthly_price_id: 'price_1IqGO8ImooTjg4AMkrqun3vw',
+      billed_annually: 648,
+      billed_annually_price_id: 'price_1IqGO8ImooTjg4AMAg8IU7Zr'
+    },
+    plan3: {
+      name: 'Pro',
+      billed_monthly: 119,
+      billed_monthly_price_id: 'price_1IqGOqImooTjg4AMBLxFkFov',
+      billed_annually: 1020,
+      billed_annually_price_id: 'price_1IqGOrImooTjg4AMjoWENcWh'
+    },
+    plan4: {
+      name: 'Business',
+      billed_monthly: 209,
+      billed_monthly_price_id: 'price_1IqGOwImooTjg4AM3iJhGZ6F',
+      billed_annually: 1908,
+      billed_annually_price_id: 'price_1IqGOwImooTjg4AMmUs3p5xR'
+    },
+    plan5: {
+      name: 'Public database',
+      billed_monthly: 129,
+      billed_monthly_price_id: 'price_1J7Eb0ImooTjg4AMGkhOLqXl',
+      billed_annually: 1188,
+      billed_annually_price_id: 'price_1J7Eb0ImooTjg4AMyGEI2dQa'
+    },
+    plan6: {
+      name: 'Public database',
+      billed_monthly: 229,
+      billed_monthly_price_id: 'price_1J7Eb0ImooTjg4AMctrydXbH',
+      billed_annually: 2388,
+      billed_annually_price_id: 'price_1J7Eb0ImooTjg4AMMMEtFlZW'
+    },
+    plan7: {
+      name: 'Public database',
+      billed_monthly: 369,
+      billed_monthly_price_id: 'price_1IyH36ImooTjg4AMJ4HnPFes',
+      billed_annually: 3348,
+      billed_annually_price_id: 'price_1IyH36ImooTjg4AMfPG3d30t'
+    }
+  }
+  var selectedPlan = plans['plan2'];
+
+  $(document).ready(function () {
+    $("table.tiers.private").on('click', function (event) {
+      var $target = $(event.target);
+      var targetClass = $target.attr('class');
+      if (targetClass && targetClass.match('plan') && !targetClass.match('active')) {
+        var planName = targetClass.split(' ')[0];
+        $('.active').removeClass('active');
+        $('.radio input').prop('checked', false);
+        $('.' + planName).addClass('active');
+
+        selectedPlan = plans[planName];
+        var total;
+        var priceId;
+        if ($('#billed-annually').is(':checked')) {
+          total = selectedPlan['billed_annually'];
+          priceId = selectedPlan['billed_annually_price_id'];
+        }
+        else {
+          total = selectedPlan['billed_monthly'];
+          priceId = selectedPlan['billed_monthly_price_id'];
+        }
+
+        $('#total').text(total);
+        $('#selected-plan').text(selectedPlan.name);
+        $('#checkout').attr('data-price-id', priceId);
+      }
+    });
+
+    $(".radio input").on('click', function (event) {
+      var $target = $(this);
+      $('.active').removeClass('active');
+      $target.parents('td').addClass('active');
+
+      var planName = $target.val();
+      selectedPlan = plans[planName];
+        var total;
+        var priceId;
+        if ($('#billed-annually').is(':checked')) {
+          total = selectedPlan['billed_annually'];
+          priceId = selectedPlan['billed_annually_price_id'];
+        }
+        else {
+          total = selectedPlan['billed_monthly'];
+          priceId = selectedPlan['billed_monthly_price_id'];
+        }
+
+        $('#total').text(total);
+        $('#selected-plan').text(selectedPlan.name);
+        $('#checkout').attr('data-price-id', priceId);
+    });
+
+    $('#billed-annually').on('click', function () {
+      if ($(this).is(':checked')) {
+        $('#total').text(selectedPlan.billed_annually);
+        $('#checkout').attr('data-price-id', selectedPlan['billed_annually_price_id']);
+      }
+      else {
+        $('#total').text(selectedPlan.billed_monthly);
+        $('#checkout').attr('data-price-id', selectedPlan['billed_monthly_price_id']);
+      }
+    });
+  });
+</script>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  // Polyfill for NodeList.forEach. Relevant for
+  // document.querySelectorAll.forEach line below. Code borrowed from:
+  // https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach
+  if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = function (callback, thisArg) {
+        thisArg = thisArg || window;
+        for (var i = 0; i < this.length; i++) {
+            callback.call(thisArg, this[i], i, this);
+        }
+    };
+  }
+
+  // Replace with your own publishable key: https://dashboard.stripe.com/test/apikeys
+  var PUBLISHABLE_KEY = 'pk_live_2UYtY6gxOydNNh2Oy30geuAb00CnZDkD81';
+  // Replace with the domain you want your users to be redirected back to after payment
+  var DOMAIN = location.href.replace(/[^/]*$/, '');
+
+
+  var stripe = Stripe(PUBLISHABLE_KEY);
+
+  // Handle any errors from Checkout
+  var handleResult = function (result) {
+    if (result.error) {
+      var displayError = document.getElementById('error-message');
+      displayError.textContent = result.error.message;
+    }
+  };
+
+  document.querySelectorAll('button').forEach(function (button) {
+    button.addEventListener('click', function (e) {
+      var mode = e.target.dataset.checkoutMode;
+      var priceId = e.target.dataset.priceId;
+      var items = [{ price: priceId, quantity: 1 }];
+
+      // Make the call to Stripe.js to redirect to the checkout page
+      // with the sku or plan ID.
+      stripe
+        .redirectToCheckout({
+          mode: mode,
+          lineItems: items,
+          successUrl:
+            DOMAIN + 'new',
+          cancelUrl:
+            DOMAIN,
+        })
+        .then(handleResult);
+    });
+  });
+</script>
