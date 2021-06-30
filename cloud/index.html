@@ -230,16 +230,20 @@ layout: cloud
     <div class="col-md-1"></div>
     <div class="col-md-4 text-center">
       <span class="h2-like"><strong>Selected plan: </strong></span>
+      <br/>
       <span class="h2-like">&nbsp;<strong id="selected-plan">Group</strong></span>
     </div>
     <div class="col-md-3 text-center">
       <div class="checkbox" style="display: inline-block; padding-top: 9px; margin-bottom: 0;">
         <label>
-          <input id="billed-annually" type="checkbox" checked="checked"> Billed annually
+          <input id="billed-annually" type="checkbox" checked="checked"> Discount for annual billing
         </label>
-      </div>,&nbsp;&nbsp;Total: $<span id="total">648</span>
+      </div>
+      <br/>
+      <br/>
+      Total: $<span id="total">648 / year</span>
     </div>
-    <div class="col-md-3 text-center" style="padding-top: 5px">
+    <div class="col-md-3 text-center" style="padding-top: 20px">
       <button id="checkout" class="btn btn-lg btn-primary"
       data-checkout-mode="subscription"
       data-price-id="price_1IqGO8ImooTjg4AMAg8IU7Zr">
@@ -358,51 +362,51 @@ layout: cloud
   var plans = {
     plan1: {
       name: 'Solo',
-      billed_monthly: 29,
+      billed_monthly: '29 / month',
       billed_monthly_price_id: 'price_1IqGNUImooTjg4AM7t2YB0JE',
-      billed_annually: 252,
+      billed_annually: '252 / year',
       billed_annually_price_id: 'price_1IqGNUImooTjg4AMrSq2ErcS'
     },
     plan2: {
       name: 'Group',
-      billed_monthly: 69,
+      billed_monthly: '69 / month',
       billed_monthly_price_id: 'price_1IqGO8ImooTjg4AMkrqun3vw',
-      billed_annually: 648,
+      billed_annually: '648 / year',
       billed_annually_price_id: 'price_1IqGO8ImooTjg4AMAg8IU7Zr'
     },
     plan3: {
       name: 'Pro',
-      billed_monthly: 119,
+      billed_monthly: '119 / month',
       billed_monthly_price_id: 'price_1IqGOqImooTjg4AMBLxFkFov',
-      billed_annually: 1020,
+      billed_annually: '1020 / year',
       billed_annually_price_id: 'price_1IqGOrImooTjg4AMjoWENcWh'
     },
     plan4: {
       name: 'Business',
-      billed_monthly: 209,
+      billed_monthly: '209 / month',
       billed_monthly_price_id: 'price_1IqGOwImooTjg4AM3iJhGZ6F',
-      billed_annually: 1908,
+      billed_annually: '1908 / year',
       billed_annually_price_id: 'price_1IqGOwImooTjg4AMmUs3p5xR'
     },
     plan5: {
       name: 'Public database',
-      billed_monthly: 129,
+      billed_monthly: '129 / month',
       billed_monthly_price_id: 'price_1J7Eb0ImooTjg4AMGkhOLqXl',
-      billed_annually: 1188,
+      billed_annually: '1188 / year',
       billed_annually_price_id: 'price_1J7Eb0ImooTjg4AMyGEI2dQa'
     },
     plan6: {
       name: 'Public database',
-      billed_monthly: 229,
+      billed_monthly: '229 / month',
       billed_monthly_price_id: 'price_1J7Eb0ImooTjg4AMctrydXbH',
-      billed_annually: 2388,
+      billed_annually: '2388 / year',
       billed_annually_price_id: 'price_1J7Eb0ImooTjg4AMMMEtFlZW'
     },
     plan7: {
       name: 'Public database',
-      billed_monthly: 369,
+      billed_monthly: '369 / month',
       billed_monthly_price_id: 'price_1IyH36ImooTjg4AMJ4HnPFes',
-      billed_annually: 3348,
+      billed_annually: '3348 / year',
       billed_annually_price_id: 'price_1IyH36ImooTjg4AMfPG3d30t'
     }
   }
