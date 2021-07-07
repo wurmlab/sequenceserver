@@ -9,7 +9,7 @@ p,
 .jumbotron p,
 .list-unstyled li,
 .how-works p{
-	font-size:18px;
+	/* font-size:18px; */
 	line-height:1.5;
 	margin-bottom:10px;
 }
@@ -119,14 +119,6 @@ p,
     margin-bottom: 40px;
     display: inline-block;
 }
-.pricing-tab-sec table thead tr th,
-.pricing-tab-sec table tr td{
-	border:2px solid #CE6230 !important;
-	padding: 10px;
-}
-.pricing-tab-sec table tr td{
-	font-size: 18px;
-}
 .pricing-tab-sec table tr td .plan-name{
 	font-weight: 900;
 }
@@ -196,7 +188,7 @@ table.tiers {
     border-right:1px solid #CE6230 !important;
     border-spacing: 0px;
     border-collapse: unset;
-    min-height: 450px;
+    min-height: 350px;
 }
 .card {
     background: #fff;
