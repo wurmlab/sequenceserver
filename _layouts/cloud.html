@@ -20,6 +20,7 @@
   <link rel="stylesheet" type="text/css" href="/css/bootstrap-3.3.6.min.css">
   <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
   <link rel="stylesheet" type="text/css" href="/css/seqserv.css?{{ site.github.build_revision }}">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
 
   <!-- Google Analytics -->
   <script>
@@ -36,20 +37,39 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-fixed-top" role="navigation">
-    <div class="container">
-      <span class="navbar-brand navbar-left">
-        <img class="logo" src="/img/logos/SequenceServer_logo.png" alt="sequenceserver_logo">
-      </span>
-      <span style="display: inline-block; margin-top: 20px;">&nbsp;Cloud</span>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="/" class="hidden-xs hidden-sm" style="padding: 15px;">
-            sequenceserver.com
-          </a>
-        </li>
-      </ul>
-  </nav>
+  <div class="main_menu">
+    <nav class="navbar navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <span class="navbar-brand navbar-left">
+                    <img class="logo" src="https://sequenceserver.com/img/logos/SequenceServer_logo.png" alt="sequenceserver_logo">
+                </span>
+                <span style="display: inline-block; margin-top: 20px;">&nbsp;Cloud</span>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+                <ul class="nav navbar-nav top_nav_menu">
+                    <li class="active"><a href="#">Overview</a></li>
+                    <li><a href="#view_demo_server_button">Demo server</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Faq</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/" class="hidden-xs hidden-sm" style="padding: 15px;">
+                            sequenceserver.com
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+  </div>
 
   {{ content }}
 

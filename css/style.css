@@ -1,0 +1,493 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+body {
+	font-size: 18px;
+	line-height:1.5;
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+p,
+.jumbotron p,
+.list-unstyled li,
+.how-works p{
+	font-size:18px;
+	line-height:1.5;
+	margin-bottom:10px;
+}
+.button-style-1:focus{
+	outline:none;
+    border-color: #286090;
+}
+.button-style-1 {
+	border-radius: 0;
+    padding: 15px 30px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border:2px solid #1b557a;
+    transition: all 0.3s;
+}
+.button-style-1:hover{
+	background-color: #ce6230;
+	border:2px solid #ce6230;
+}
+
+/* header section */
+.bg_main_sec{
+	background: #f5f5f5;
+}
+.jumbotron{
+	margin: 50px 0px;
+	background: #f5f5f5;
+}
+.view_demo_server_btn{
+	margin-top:30px;
+}
+.header-separator{
+	position: relative;
+}
+/* .header-separator::after{
+	content:"";
+	background:#ce6230;
+	width:150px;
+	height:5px;
+	display: block;
+	position: absolute;
+	left:50%;
+	bottom:0px;
+	transform: translate(-50% , -50%);
+}
+.header-separator::before{
+	content:"";
+	background:#ce6230;
+	width:150px;
+	height:5px;
+	display: block;
+	position: absolute;
+	left:50%;
+	bottom:-10px;
+	transform: translate(-50% , -50%);
+} */
+
+/* plan group sectin */
+.plan_group_sec{
+	display: flex;
+	align-items:center;
+	margin-top: 30px;
+}
+
+/* our-servers-include */
+.our-servers-include{
+	margin:40px 0;
+	padding:20px 0px 40px;
+}
+.list-unstyled{
+	list-style-type:square ;
+	color: #666666;
+	font-weight: 700;
+	display: inline-block;
+	margin:20px auto;
+	margin-left: 30px;
+}
+.list-unstyled li {
+    padding: 2px 5px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height:1.2;
+    word-break: break-all;
+}
+.list-unstyled li a{
+	color:#ce6230;
+	font-weight: 700;
+}
+
+
+/* how it works */
+/*.how-works{
+	border-left: 1px solid #ddd;
+	padding-left:30px;
+}*/
+.how-works-info{
+	margin-top: 30px;
+}
+
+/* pricing tab */
+.pricing-tab-sec {
+	padding-top: 50px;
+}
+.pricing-tab-sec h1{
+	font-size: 40px;
+    margin-bottom: 40px;
+    display: inline-block;
+}
+.pricing-tab-sec table thead tr th,
+.pricing-tab-sec table tr td{
+	border:2px solid #CE6230 !important;
+	padding: 10px;
+}
+.pricing-tab-sec table tr td{
+	font-size: 18px;
+}
+.pricing-tab-sec table tr td .plan-name{
+	font-weight: 900;
+}
+
+
+/* contact us */
+.contact_mail {
+	background:#ce6230;
+	margin:80px 0px 50px;
+	padding: 10px;
+	display: block;
+}
+
+.contact_mail p{
+	font-size: 30px;
+	margin-bottom: 0;
+	color:#FFFFFF;
+	font-weight:500;
+}
+.contact_mail p a{
+	text-transform: uppercase;
+	font-weight:900;
+	color:#FFFFFF;
+	transition: all 0.3s;
+}
+.contact_mail p a:hover,
+.contact_mail p a:active{
+	color:#1b557a;
+}
+/* faq section */
+.faq_sec_bg{
+	background: #f5f5f5;
+	margin-top: 30px;
+}
+.faq-sec{
+	margin-bottom:30px;
+}
+.faq-sec h1{
+	font-size: 48px;
+	margin-bottom: 50px;
+	text-align: center;
+}
+.faq-sec ul{
+	list-style-type:none;
+}
+.faq-sec ul li{
+	margin-bottom: 20px;
+}
+.faq-sec ul ul{
+	list-style-type:none;
+	margin-top:10px;
+}
+.faq-sec ul li strong{
+	font-size: 18px;
+    line-height: 1.2;
+    display: block;
+}
+
+.titlesep {
+    width: 180px;
+    margin-left: 4px;
+}
+table.tiers {
+    letter-spacing: 1px;
+    box-shadow: 0 0px 30px rgb(0 0 0 / 25%);
+    border-bottom:1px solid #CE6230 !important;
+    border-right:1px solid #CE6230 !important;
+    border-spacing: 0px;
+    border-collapse: unset;
+    min-height: 450px;
+}
+.card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.card-header {
+    padding: 15px;
+}
+.card-header h1 {
+    margin-top: 0;
+}
+.card-body {
+    padding: 0 10px;
+}
+.h-100{
+	height: 100%;
+}
+.row.our-servers-include {
+    display: flex;
+    flex-wrap: wrap;
+}
+.pricing-tab-sec table thead tr th {
+    font-size: 24px;
+}
+.pricing-tab-sec table thead tr th, .pricing-tab-sec table tr td{
+	border: 1px solid #CE6230 !important;
+	border-right: 0 !important;
+	border-bottom: 0 !important;
+}
+.pricing-tab-sec .text-left label input {
+    top: 4px;
+}
+#selected-plan {
+    color: #ce6230;
+}
+.navbar-nav.top_nav_menu > li > a {
+    padding: 15px;
+}
+.top_nav_menu {
+    display: flex;
+    width: 60%;
+    justify-content: space-between;
+}
+.public .plan-name {
+    font-size: 24px;
+    display: block;
+    border-bottom: 1px solid;
+    padding: 0;
+    min-height: 45px;
+    font-weight: 700 !important;
+}
+/*letest edit*/
+
+.public_td {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.public_radio{
+	padding: 0 10px;
+}
+.email_us_block{
+	font-weight: 700;
+	text-transform: uppercase;
+}
+.faq-main_ul{
+	padding-left: 0;
+}
+ul.faq_inner_ul {
+    margin: 0 0 0 10px;
+}
+.navbar-toggle .icon-bar{
+	background: #000;
+}
+@media only screen and (max-width: 1200px) {
+	table.tiers{
+		min-height: 507px;
+	}
+	.top_nav_menu{
+		width: 56%;
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	.jumbotron h1{
+		font-size: 52px
+	}
+	.our-servers-include h1{
+		font-size: 32px
+	}
+	.pricing-tab-sec h1 {
+    font-size: 36px;
+	}
+	.plan_group_sec .h2-like{
+		font-size: 32px;
+	}
+	.our-servers-include{
+		margin:0;
+	}
+
+}
+
+
+@media only screen and (max-width: 991px){
+	.how-works-info {
+    	margin: 30px 30px 40px;
+	}
+	.how-works{
+		margin-top: 50px
+	}
+	.plan_group_sec{
+		flex-wrap:wrap;
+	}
+	.plan_group_sec .button-style-1{
+		margin-top: 0px;
+    padding: 15px 11px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+	display: block;
+	}
+	.plan_group_sec .h2-like {
+    font-size: 28px;
+    line-height: 28px;
+	}
+	.plan_group_sec .checkbox{
+		margin-bottom: 3px;
+	}
+	table.table.table-condensed.tiers.public {
+    max-width: 450px;
+    margin: 40px auto 10px;
+	}
+	.public_radio .radio{
+		text-align: center;
+	}
+	.our-servers-div{
+		display: block;
+		width: 100%;
+	}
+	.top_nav_menu{
+		width: 100%;
+		display: block;
+		text-align: center;
+	}
+}
+@media only screen and (min-width: 991px){
+	.pl-md-0{
+		padding-left: 0 !important;
+	}
+	.pr-md-0{
+		padding-right: 0 !important;
+	}
+}
+
+@media only screen and (max-width: 767px){
+	.private_table tr {
+	    display: flex;
+	    flex-wrap: wrap;
+	}
+	.private_table tr .plan1,
+	.private_table tr .plan2,
+	.private_table tr .plan3,
+	.private_table tr .plan4 {
+	    width:50%;
+	    margin:0;
+	}
+	td.plan3.last,td.plan4.last {
+    border-bottom: 0px solid #CE6230 !important;
+	}
+	th[colspan="4"]{
+		width: 100%;
+	}
+	table.tiers {
+    min-height: auto;
+	}
+	.private_table tr td p{
+		font-size: 14px;
+		line-height:1.2;
+	}
+	.faq-sec ul li {
+    	margin-bottom: 20px;
+    	word-break: break-word;
+	}	
+	.plan_group_sec{
+		margin-top: 10px;
+	    justify-content: space-between;
+	}
+	.plan_group_sec .col-sm-6,
+	.plan_group_sec .col-sm-12{
+		width:100%;
+		text-align: center;
+	}
+	.jumbotron h1 {
+    	font-size: 34px;
+    	margin-bottom: 20px;
+	}
+	.our-servers-include h1,
+	.pricing-tab-sec h1{
+    	font-size: 26px;
+	    text-align: center;
+	}
+	.our-servers-include .button-style-1{
+		margin: 0 auto;
+	}
+	.how-works p{
+		font-size: 16px;
+		text-align: center;
+	}
+	.our-servers-include h1{
+		margin-bottom: 20px;
+	}
+	.our-servers-include {
+    	margin: 40px 0px 20px;
+	}
+	.contact_mail p{
+		font-size: 22px;
+	}
+	.contact_mail{
+		margin: 40px 0px;
+	}
+	.faq-sec h1{
+    	font-size: 28px;
+	    text-align: center;
+	}
+	.card-header{
+		text-align: center;
+	}
+	.row.our-servers-include{
+		justify-content: center;
+	}
+	.pricing-tab-sec {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+}
+@media only screen and (max-width:575px){
+	.plan_group_sec {
+    justify-content: center;
+	}
+	#checkout{
+		margin-top: 30px;
+	}
+	.our-servers-include {
+    margin: 0px;
+	}
+	.contact_mail p {
+    font-size: 20px;
+	}
+	section {
+    padding-top: 20px;
+	}
+	.how-works-info li{
+		padding-left: 10px;
+	}
+	.private_table tr .plan1, .private_table tr .plan2, .private_table tr .plan3, .private_table tr .plan4,table.table.table-condensed.tiers.public{
+		width: 100%;
+		max-width: 100%;
+	}
+	.our-servers-include{
+		padding:0 0px 40px;
+	}
+	.faq-sec ul ul{
+		margin: 0;
+		padding-left: 10px;
+	}
+	.faq_inner_ul li {
+    font-size: 16px;
+	}
+	.faq_sec_bg{
+		margin-top: 0;
+	}
+	.faq-sec h1{
+		margin-bottom: 20px;
+		margin-top: 10px;
+	}
+	.jumbotron{
+		margin: 40px 0;
+	}
+
+	
+}
+@media only screen and (max-width:420px){
+	.how-works,.our-servers-div{
+		padding: 0;
+	}
+	.list-unstyled{
+		list-style: none;
+		margin: 0;
+		padding: 10px;
+	}
+	.how-works-info {
+    margin: 30px 0px 40px;
+	}
+}
