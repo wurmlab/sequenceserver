@@ -93,7 +93,6 @@ p,
     font-size: 18px;
     font-weight: 500;
     line-height:1.2;
-    word-break: break-all;
 }
 .list-unstyled li a{
 	color:#ce6230;
@@ -369,7 +368,6 @@ ul.faq_inner_ul {
 	}
 	.faq-sec ul li {
     	margin-bottom: 20px;
-    	word-break: break-word;
 	}	
 	.plan_group_sec{
 		margin-top: 10px;
