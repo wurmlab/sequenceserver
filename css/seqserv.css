@@ -125,6 +125,10 @@ a:hover {
 For /cloud page
 */
 
+.navbar-header {
+  display: flex;
+}
+
 .text-center {
   text-align: center;
 }
