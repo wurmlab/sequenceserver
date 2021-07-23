@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     colorator (0.1)
     ffi (1.9.10)
@@ -28,12 +28,14 @@ GEM
     rouge (1.10.1)
     safe_yaml (1.0.4)
     sass (3.4.21)
+    webrick (1.7.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   jekyll (~> 3.0, >= 3.0.1)
+  webrick
 
 BUNDLED WITH
    2.1.4
