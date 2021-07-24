@@ -4,3 +4,5 @@ collections:
   blog       :
     output    : true
     permalink : /:collection/:path/
+
+production_url : https://sequenceserver.com
