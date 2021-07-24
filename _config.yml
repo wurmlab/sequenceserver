@@ -1,1 +1,6 @@
-exclude: ['node_modules']
+exclude: ['node_modules','.DS_Store','.git-ignore', '.ruby-version','.git/','Gemfile', 'Gemfile.lock']
+
+collections:
+  blog       :
+    output    : true
+    permalink : /:collection/:path/
