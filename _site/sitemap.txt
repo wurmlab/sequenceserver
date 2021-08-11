@@ -1,8 +1,11 @@
 
+https://sequenceserver.com/paper/blast-interface-design-and-implementation.html
+https://sequenceserver.com/paper/
 https://sequenceserver.com/doc/
 https://sequenceserver.com/
 https://sequenceserver.com/sitemap.txt
 
 https://sequenceserver.com/blog/sequence-search/
+https://sequenceserver.com/blog/local-blast-on-mac/
 
 https://sequenceserver.com/cloud/index.html
