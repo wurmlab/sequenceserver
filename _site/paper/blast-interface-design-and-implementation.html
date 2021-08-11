@@ -1,0 +1,545 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SequenceServer</title>
+    <meta name="author" content="Anurag Priyam">
+    <meta name="author" content="Yannick Wurm">
+    <meta name="keywords" content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
+    <meta name="description" content="Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.">
+    <!-- Support HTML5 elements and media queries on IE8 and less. -->
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap and FontAwesome CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/googlefont-source-sans-pro.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-3.3.6.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
+    <link rel="stylesheet" type="text/css" href="/css/pygments-github.css">
+    <link rel="stylesheet" type="text/css" href="/css/seqserv.css">
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-471841-7', 'sequenceserver.com');
+      ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-fixed-top"
+      role="navigation">
+      <div
+        class="container">
+        <div
+          class="navbar-header">
+          <button
+            type="button" class="navbar-toggle"
+            data-toggle="collapse" data-target=".bs-navbar-collapse">
+            <span
+              class="sr-only">
+              Toggle navigation
+            </span>
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand-container">
+            <a
+              class="navbar-brand navbar-left" href="/">
+              <img class="logo" src="/img/logos/SequenceServer_logo.png" alt="sequenceserver_logo">
+              &nbsp;<span>1.0.14</span>
+            </a>
+            <a
+              class="navbar-brand-made-by"
+              href="//wurmlab.github.io">
+              created by Wurmlab
+            </a>
+          </div>
+        </div>
+        <div
+          class="collapse navbar-collapse bs-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="/#installation">
+                Installation
+              </a>
+            </li>
+            <li>
+              <a href="/doc">
+                Advanced configuration
+              </a>
+            </li>
+            <li>
+              <a href="/cloud" style="font-weight: bold;">
+                Cloud service
+              </a>
+            </li>
+            <li>
+              <a href="/#license">
+                License
+              </a>
+            </li>
+            <li>
+              <a href="/#support">
+                Support
+              </a>
+            </li>
+            <li>
+              <a href="/#users">
+                Users
+              </a>
+            </li>
+            <li>
+              <a class="visible-lg"
+                href="https://antgenomes.sequenceserver.com"
+                title="Will open in new window" target="_blank">
+                <i class="fa fa-external-link" aria-hidden="true"></i>
+                Demo
+              </a>
+            </li>
+            <li>
+              <a class="visible-lg"
+                href="https://github.com/wurmlab/sequenceserver"
+                title="Will open GitHub in new window" target="_blank">
+                <i class="fa fa-external-link" aria-hidden="true"></i>
+                Code
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      class="container">
+      <h1>Sequenceserver: a modern graphical user interface for custom BLAST databases</h1>
+
+<h2><a href="index.html">&#8592; Main Sequenceserver Publication</a><h2>
+
+<h2><strong><em>Supplementary Information</em></strong></h2>    
+<h2 id="technical-implementation-details">Technical implementation details</h2>
+<p>We developed Sequenceserver from scratch rather than basing our work on the NCBI’s initial Perl/CGI wwwblast wrapper <span class="citation" data-cites="wwwblast"></span> to reduce technical debt <span class="citation" data-cites="technicaldebt"> </span> The core of Sequenceserver is written in the Ruby language <span class="citation" data-cites="flanagan2008"></span> popular for creating websites <span class="citation" data-cites="rails2011"></span> and bioinformatics tools <span class="citation" data-cites="goto2010"> </span> while JavaScript and HTML/CSS are used for layout and interactions in the web browser. We use preexisting tools and libraries to facilitate development: The lightweight framework Sinatra <span class="citation" data-cites="harris2012"></span> is used to create URL endpoints to load the search form and run BLAST searches from the browser. BLAST searches are delegated to the compiled command line version of BLAST <span class="citation" data-cites="camacho2009"> </span> we use Ox (<a href="https://github.com/ohler55/ox">https://github.com/ohler55/ox</a>) to parse BLAST XML and create the HTML report. Underscore (<a href="http://underscorejs.org/">http://underscorejs.org/</a>), HTML5 Shiv (<a href="https://github.com/afarkas/html5shiv">https://github.com/afarkas/html5shiv</a>), jQuery (<a href="http://jquery.com">http://jquery.com</a>), jQuery UI (<a href="http://jqueryui.com">http://jqueryui.com</a>), Webshim (<a href="https://afarkas.github.io/webshim/demos">https://afarkas.github.io/webshim/demos</a>), and Bootstrap (<a href="http://getbootstrap.com">http://getbootstrap.com</a>) libraries create a uniform scripting environment (for dynamic aspects of the user interface) and a consistent look-and-feel (for visual layout) across browsers. The d3 (<a href="http://d3js.org/">http://d3js.org/</a>) and BioJS <span class="citation" data-cites="gomez2013biojs"></span> libraries are used respectively for generating the graphical overview and the sequence viewing interface. Details regarding versions of the different software libraries are indicated in the source code repository at <a href="https://github.com/wurmlab/sequenceserver">https://github.com/wurmlab/sequenceserver</a>.</p>
+<h2 id="sustainable-software-development-approach">Sustainable software development approach</h2>
+<p>We followed six software engineering practices to facilitate and accelerate development while increasing robustness, improving the long-term sustainability of the software (<span class="citation" data-cites="prlic2012 wilson2014"></span>). First, we used an open source and agile development approach <span class="citation" data-cites="Shore:2007:AAD:1407480"></span> involving frequent incremental improvements, peer review and frequent deployment on our servers and within the community. Second, we structured the software according to the object-oriented programming paradigm <span class="citation" data-cites="weisfeld2008"></span> to cleanly separate different parts of code. Third, we followed two important software development principles: “don’t repeat yourself” (DRY) leads to fewer lines of code and thus fewer bugs, and makes it easier to read and understand code than if similar commands are repeated in several places <span class="citation" data-cites="hunt2000"> </span> “keep it simple, stupid” (KISS) reduces unnecessary complexity and thus lowers risks and leads to higher maintainability <span class="citation" data-cites="Raymond:2003:AUP:829549"> </span> Fourth, we reuse widely established software packages and libraries (see above) to benefit from work done by others. This accelerates our work and reduces the amount of Sequenceserver-specific code, which in turn further reduces the likelihood of adding bugs <span class="citation" data-cites="Sametinger:1997:SER:260943"> </span> Fifth, we implemented unit and integration tests <span class="citation" data-cites="Ammann:2008:IST:1355340"></span> for many parts of Sequenceserver’s code, and use continuous integration (<a href="https://travis-ci.org/">https://travis-ci.org/</a>) to ensure these tests are automatically run whenever a change is made to the code, thus increasing the likelihood and speed of detecting errors. Sixth, we use automatic code checkers including rubocop (<a href="https://github.com/bbatsov/rubocop">https://github.com/bbatsov/rubocop</a>) and w3 validator to ensure that our code respects relevant style guides and development principles. Such respect of style standards (<em>e.g.</em>, names of variables and methods, code structure and formatting) makes code more accessible to others than if we had chosen no or different conventions <span class="citation" data-cites="Martin:2008:CCH:1388398 wurm2015winnower"> </span> Finally, we use the Code Climate platform (<a href="http://codeclimate.com">http://codeclimate.com</a>) for automated reviews of code quality.</p>
+<h2 id="user-centric-design-of-graphical-user-interface">User centric design of graphical user interface</h2>
+<p>To ensure a fluid user experience that increases researcher productivity, we designed Sequenceserver around eight modern user interface design principles. First, the interface contains only essential information to minimize distractions for the user. Second, the information is laid out in a clear and hierarchically structured manner. As part of this, we paid special attention to typography, using typefaces specifically designed for legibility and aesthetics on electronic devices (Roboto and Open Sans). Third, we used automation where possible to minimize the amount of decisions the user must make. For example, we limit the choices for algorithm selection based on query type and databases selection – this is because only a single basic BLAST algorithm is possible for all cases except for nucleotide-nucleotide search (Figure S1). Fourth, we use interactive visual feedback and cues for step-by-step discovery of the workflow. For example, the BLAST button remains disabled until the user has provided query sequence(s) and selected target databases. If the user tries to click the BLAST button while it is disabled, a tooltip indicates that a required input is missing. Similarly, the selection of protein databases is automatically disabled if the user has already selected a nucleotide database (and <em>vice versa</em>). Fifth, we remain consistent and contextual with regards to user interaction. For example, notification of detection of sequence type does not depend on how the query sequence was provided. This notification is shown below the query sequence input field – where the user is likely to look after query input – instead of using a global designated notification area or displaying pop-up windows that can be disruptive or are ignored. Similarly, a “clear query” button is shown only after the user has provided query sequence(s) and is positioned where a user is likely to look for it. Sixth, we try not to let the advantages of a graphical interface and efforts to create an easily accessible user experience limit the scope of what the user can do. For example, all possible advanced BLAST search options can be entered via a generic input field. Similarly, tooltips over report download links are only shown after the mouse pointer has hovered for at least 500ms. This delay means most users will not be bothered by tooltips after they have used the interface a few times. Seventh, we exploit intuitive human notions of colors. For example, if the user erroneously tries to combine nucleotide and amino acid sequences in the query, the query input-area is gently highlighted using a red border to indicate an error. At a different level, in the graphical overview shown for each query, the color of each hit indicates its strength, with stronger e-values being darker. Finally, the wording of error messages is similar to an informal human conversation to create empathy and familiarity, which may also clarify that Sequenceserver is built by a community of scientists.</p>
+
+<h2>Supplementary Figure</h2>
+<div class="center">
+<figure>
+<embed src="intelligent_blast_analysis_selection_algorithm.png" id="fig:algorithm_selection" style="width:60.0%" /><figcaption aria-hidden="true"><strong>Automatic BLAST algorithm selection.</strong> BLAST includes five basic algorithms (right column: blastp, blastn, tblastx, tblastn, blastx). Arrows indicate how Sequenceserver automatically selects an appropriate BLAST algorithm based on the sequence types of the query (left column) and selected databases (middle column). For the first three combinations of query and database types, only one algorithm is possible. The circle indicates that for nucleotide query and nucleotide database, the user can choose between BLASTN and TBLASTX.</figcaption>
+</figure>
+</div>
+
+<h2>Table: Research using Sequenceserver</h2>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Interplay of chimeric mating-type loci impairs fertility rescue and accounts for intra-strain variability in <em>Zygosaccharomyces rouxii</em> interspecies hybrid ATCC42981</td>
+<td style="text-align: left;"><span class="citation" data-cites="Bizzarri_2019"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A genome-wide association study of non-photochemical quenching in response to local seasonal climates in <em>Arabidopsis thaliana</em></td>
+<td style="text-align: left;"><span class="citation" data-cites="Rungrat_2019"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><em>Taraxacum kok-saghyz</em> (rubber dandelion) genomic microsatellite loci reveal modest genetic diversity and cross-amplify broadly to related species</td>
+<td style="text-align: left;"><span class="citation" data-cites="Nowicki_2019"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Developmental expression and evolution of hexamerin and haemocyanin from <em>Folsomia candida</em> (Collembola)</td>
+<td style="text-align: left;"><span class="citation" data-cites="Liang_2019"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Disentangling the mechanisms of mate choice in a captive koala population</td>
+<td style="text-align: left;"><span class="citation" data-cites="Brandies_2018"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Evidence for sexual reproduction: Identification, frequency, and spatial distribution of <em>Venturia effusa</em> (pecan scab) mating type idiomorphs</td>
+<td style="text-align: left;"><span class="citation" data-cites="Young_2018"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><em>Pseudomonas fluorescens</em> group bacterial strains are responsible for repeat and sporadic postpasteurization contamination and reduced fluid milk shelf life</td>
+<td style="text-align: left;"><span class="citation" data-cites="Reichler_2018"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Complete pathway elucidation and heterologous reconstitution of <em>Rhodiola salidroside</em> biosynthesis</td>
+<td style="text-align: left;"><span class="citation" data-cites="Torrens_Spence_2018"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Evolution of the shut-off steps of vertebrate phototransduction</td>
+<td style="text-align: left;"><span class="citation" data-cites="Lamb_2018"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">De novo draft assembly of the <em>Botrylloides leachii</em> genome provides further insight into tunicate evolution</td>
+<td style="text-align: left;"><span class="citation" data-cites="Blanchoud_2018"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Whole-genome sequence of the metastatic PC3 and LNCaP human prostate cancer cell lines</td>
+<td style="text-align: left;"><span class="citation" data-cites="Seim_2017"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fire ant social chromosomes: Differences in number, sequence and expression of odorant binding proteins</td>
+<td style="text-align: left;"><span class="citation" data-cites="Pracana_2017"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ecological genomics for the conservation of dwarf birch.</td>
+<td style="text-align: left;"><span class="citation" data-cites="Borrell_2017"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Transcriptomic discovery and comparative analysis of neuropeptide precursors in sea cucumbers (Holothuroidea)</td>
+<td style="text-align: left;"><span class="citation" data-cites="Suwansa_ard_2018"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">High-throughput genotyping analyses and image-based phenotyping in <em>Sorghum bicolor</em></td>
+<td style="text-align: left;"><span class="citation" data-cites="McCormick_2017"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bacteriocins of non-aureus staphylococci isolated from bovine milk</td>
+<td style="text-align: left;"><span class="citation" data-cites="Carson_2017"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Naturally occurring high oleic acid cottonseed oil: Identification and functional analysis of a mutant allele of <em>Gossypium barbadense</em> fatty acid desaturase-2</td>
+<td style="text-align: left;"><span class="citation" data-cites="Shockey_2016"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3D sorghum reconstructions from depth images enable identification of quantitative trait loci regulating shoot architecture</td>
+<td style="text-align: left;"><span class="citation" data-cites="mccormick20163d"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A workflow for studying specialized metabolism in nonmodel eukaryotic organisms</td>
+<td style="text-align: left;"><span class="citation" data-cites="Torrens_Spence_2016"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Transcriptomic identification of starfish neuropeptide precursors yields new insights into neuropeptide evolution</td>
+<td style="text-align: left;"><span class="citation" data-cites="Semmens_2016"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Multi-species sequence comparison reveals conservation of ghrelin gene-derived splice variants encoding a truncated ghrelin peptide</td>
+<td style="text-align: left;"><span class="citation" data-cites="Seim_2016"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Characterization of a second secologanin synthase isoform producing both secologanin and secoxyloganin allows enhanced <em>de novo</em> assembly of a <em>Catharanthus roseus</em> transcriptome</td>
+<td style="text-align: left;"><span class="citation" data-cites="Dug_de_Bernonville_2015"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Identification and heterologous expression of the chaxamycin biosynthesis gene cluster from <em>Streptomyces leeuwenhoekii</em></td>
+<td style="text-align: left;"><span class="citation" data-cites="castro2015strep"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Discovery of sea urchin NGFFFamide receptor unites a bilaterian neuropeptide family</td>
+<td style="text-align: left;"><span class="citation" data-cites="semmens2015discovery"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Comparative analysis reveals loss of the appetite-regulating peptide hormone ghrelin in falcons</td>
+<td style="text-align: left;"><span class="citation" data-cites="Seim201598"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Reconstructing SALMFamide neuropeptide precursor evolution in the phylum Echinodermata: Ophiuroid and crinoid sequence data provide new insights</td>
+<td style="text-align: left;"><span class="citation" data-cites="Elphick_2015"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Molecular biology approaches in bioadhesion research</td>
+<td style="text-align: left;"><span class="citation" data-cites="rodrigues2014"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Discovery of a novel methanogen prevalent in thawing permafrost</td>
+<td style="text-align: left;"><span class="citation" data-cites="mondav2014"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Neuropeptides and polypeptide hormones in echinoderms: New insights from analysis of the transcriptome of the sea cucumber <em>Apostichopus japonicus</em></td>
+<td style="text-align: left;"><span class="citation" data-cites="rowe2014"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Discovery of a novel neurophysin-associated neuropeptide that triggers cardiac stomach contraction and retraction in starfish</td>
+<td style="text-align: left;"><span class="citation" data-cites="semmens2013"></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The evolution and diversity of SALMFamide neuropeptides</td>
+<td style="text-align: left;"><span class="citation" data-cites="elphick2013"></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The protein precursors of peptides that affect the mechanics of connective tissue and/or muscle in the echinoderm <em>Apostichopus japonicus</em></td>
+<td style="text-align: left;"><span class="citation" data-cites="Elphick_2012"></span></td>
+</tr>
+</tbody>
+</table>
+
+
+<div id="tab:public_dbs">
+<h2>Table: Public community websites using Sequenceserver</h2>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Reference / description</strong></td>
+<td style="text-align: left;"><strong>URL</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Dieterich_2007"> </span> Genomic resources for the nematode, Pristionchus pacificus</td>
+<td style="text-align: left;"><a href="http://pristionchus.org">http://pristionchus.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Amborella_2013"> </span> Amborella genome database</td>
+<td style="text-align: left;"><a href="http://amborella.uga.edu">http://amborella.uga.edu</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="chiu2013"> </span> Spotted wing fly-base</td>
+<td style="text-align: left;"><a href="http://spottedwingflybase.org">http://spottedwingflybase.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Petrillo_2015"> </span> JRC GMO-amplicons: Database of amplicon sequences related to genetically modified organisms</td>
+<td style="text-align: left;"><a href="http://gmo-crl.jrc.ec.europa.eu/jrcgmoamplicons/db_scans/blast">http://gmo-crl.jrc.ec.europa.eu/jrcgmoamplicons/db_scans/blast</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Kirmitzoglou01072015"> </span> LCR-eXXXplorer: Explore low complexity regions in protein sequences</td>
+<td style="text-align: left;"><a href="http://repeat.biol.ucy.ac.cy/fgb2/gbrowse/swissprot/">http://repeat.biol.ucy.ac.cy/fgb2/gbrowse/swissprot/</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Brandl17112015"> </span> Planmine: Data and tools to mine planarian biology</td>
+<td style="text-align: left;"><a href="http://planmine.mpi-cbg.de">http://planmine.mpi-cbg.de</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Mun_2016"> </span> Lotus-base: Resources, tools, and datasets for the model legume Lotus japonicus</td>
+<td style="text-align: left;"><a href="http://lotus.au.dk">http://lotus.au.dk</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Liew_2016"> </span> ReefGenomics: Genomic and transcriptomic data for marine organisms</td>
+<td style="text-align: left;"><a href="http://reefgenomics.org">http://reefgenomics.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Shen_2016"> </span> Y1000+ project: Initiative to sequence 1000 wild yeasts</td>
+<td style="text-align: left;"><a href="http://y1000plus.wei.wisc.edu">http://y1000plus.wei.wisc.edu</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Nakagawa_2016"> </span> gEVE: Database of genome-based endogenous viral elements</td>
+<td style="text-align: left;"><a href="http://geve.med.u-tokai.ac.jp">http://geve.med.u-tokai.ac.jp</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Janies_2016"> </span> EchinoDB: Database of orthologous transcripts from echinoderms</td>
+<td style="text-align: left;"><a href="http://echinodb.uncc.edu">http://echinodb.uncc.edu</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Louro_2016"> </span> Assembled transcriptomes of sea bass and sea bream</td>
+<td style="text-align: left;"><a href="http://sea.ccmar.ualg.pt:4567">http://sea.ccmar.ualg.pt:4567</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Hane_2016"> </span> Lupin genome portal: Genome assembly and annotations for the narrow-leafed lupin</td>
+<td style="text-align: left;"><a href="http://lupinexpress.org">http://lupinexpress.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Challis_2016"> </span> Lepbase: Lepidopteran genome database</td>
+<td style="text-align: left;"><a href="http://lepbase.org">http://lepbase.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Zhu_2017"> </span> CottonFGD: Cotton functional genomics database</td>
+<td style="text-align: left;"><a href="http://cottonfgd.org">http://cottonfgd.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Hill_2017"> </span> Hopbase: Database for genomics of Humulus lupulus (hop)</td>
+<td style="text-align: left;"><a href="http://hopbase.org">http://hopbase.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Torres_2017"> </span> LeishDB: Database for leishmania genomic information</td>
+<td style="text-align: left;"><a href="http://leishdb.com">http://leishdb.com</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Naas_2017"> </span> BLDB: Beta-lactamase database</td>
+<td style="text-align: left;"><a href="http://bldb.eu:4567">http://bldb.eu:4567</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Elsik_2018"> </span> Hymenoptera genome database</td>
+<td style="text-align: left;"><a href="http://hymenopteragenome.org">http://hymenopteragenome.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Hagen_2018"> </span> Bovine genome database</td>
+<td style="text-align: left;"><a href="http://bovinegenome.org">http://bovinegenome.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Meng_2019"> </span> CircFunBase: A database for functional circular RNAs</td>
+<td style="text-align: left;"><a href="http://bis.zju.edu.cn/CircFunBase/">http://bis.zju.edu.cn/CircFunBase/</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="citation" data-cites="Ravindran_2018"> </span> Daphnia stressor database: Gene expression database for Daphnia</td>
+<td style="text-align: left;"><a href="http://www.daphnia-stressordb.uni-hamburg.de/dsdbstart.php">http://www.daphnia-stressordb.uni-hamburg.de/dsdbstart.php</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gene expression database for Alvinella pompejana, and Platynereis dumerilii</td>
+<td style="text-align: left;"><a href="http://Jekely-lab.tuebingen.mpg.de">http://Jekely-lab.tuebingen.mpg.de</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EFISH Genomics 2.0: web portal for electric fish genomic resources</td>
+<td style="text-align: left;"><a href="http://efishgenomics.integrativebiology.msu.edu">http://efishgenomics.integrativebiology.msu.edu</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NBIGV, Non-B cell derived immunoglobulin variable region database</td>
+<td style="text-align: left;"><a href="http://nbigv.org">http://nbigv.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">iBeetle-base: Database of Tribolium RNAi phenotypes</td>
+<td style="text-align: left;"><a href="http://ibeetle-base.uni-goettingen.de">http://ibeetle-base.uni-goettingen.de</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cacao genome database</td>
+<td style="text-align: left;"><a href="http://cacaogenomedb.org">http://cacaogenomedb.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ant genomes, predicted transcripts and proteome</td>
+<td style="text-align: left;"><a href="http://antgenomes.org">http://antgenomes.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Aplysia transcriptome</td>
+<td style="text-align: left;"><a href="http://aplysiagenetools.org:4567">http://aplysiagenetools.org:4567</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ash tree genome</td>
+<td style="text-align: left;"><a href="http://ashgenome.org">http://ashgenome.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Asparagus genome project</td>
+<td style="text-align: left;"><a href="http://asparagus.uga.edu">http://asparagus.uga.edu</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dwarf birch genome project</td>
+<td style="text-align: left;"><a href="http://birchgenome.org">http://birchgenome.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="citation" data-cites="Fallon_2018"> </span> Firefly genome database</td>
+<td style="text-align: left;"><a href="http://blast.fireflybase.org">http://blast.fireflybase.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Genome, predicted transcripts and proteins of tardigrades</td>
+<td style="text-align: left;"><a href="http://blast.tardigrades.org">http://blast.tardigrades.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Botulinum neurotoxin database</td>
+<td style="text-align: left;"><a href="http://bontbase.org">http://bontbase.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">eplant.org: Sequenced genomes of all plants to facilitate comparative genomic studies</td>
+<td style="text-align: left;"><a href="http://eplant.org:4567">http://eplant.org:4567</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FusoPortal: A Fusobacterium genome and bioinformatic repository</td>
+<td style="text-align: left;"><a href="http://fusoportal.org">http://fusoportal.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NCHU fish genome database</td>
+<td style="text-align: left;"><a href="http://lep-fish.nchu.edu.tw:4567">http://lep-fish.nchu.edu.tw:4567</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fish genome database</td>
+<td style="text-align: left;"><a href="http://brcwebportal.cos.ncsu.edu:4567">http://brcwebportal.cos.ncsu.edu:4567</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MarpolBase: Genome database for the common liverwort, Marchantia polymorpha</td>
+<td style="text-align: left;"><a href="http://marchantia.info">http://marchantia.info</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MitoFun: A curated resource of complete fungal mitochondrial genomes</td>
+<td style="text-align: left;"><a href="http://mitofun.biol.uoa.gr">http://mitofun.biol.uoa.gr</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Oat genome</td>
+<td style="text-align: left;"><a href="http://oatgenomeproject.org">http://oatgenomeproject.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Spiny mouse transcriptome</td>
+<td style="text-align: left;"><a href="http://spinymouse.erc.monash.edu">http://spinymouse.erc.monash.edu</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Measles, mumps, and rubella viruses database and analysis resource</td>
+<td style="text-align: left;"><a href="http://mmrdb.org">http://mmrdb.org</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Whole-genome sequence of the metastatic PC3 and LNCaP human prostrate cancer cell lines</td>
+<td style="text-align: left;"><a href="http://ghrelinlab.org">http://ghrelinlab.org</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10.1093/dnares/dsz003 Genome database for Iberian ribbed newt</td>
+<td style="text-align: left;"><a href="http://inewt.nibb.ac.jp:8111">http://inewt.nibb.ac.jp:8111</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Crop genomics lab’s BLAST server</td>
+<td style="text-align: left;"><a href="http://plantgenomics.snu.ac.kr">http://plantgenomics.snu.ac.kr</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Exome of Kronos durum wheat and Cadenza bread wheat mutants</td>
+<td style="text-align: left;"><a href="http://wheat-tilling.com">http://wheat-tilling.com</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gene expression analysis and visualisation for wheat</td>
+<td style="text-align: left;"><a href="http://wheat-expression.com">http://wheat-expression.com</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fungal genomics</td>
+<td style="text-align: left;"><a href="http://fungalgenomics.science.uu.nl">http://fungalgenomics.science.uu.nl</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stazione Zoologica Anton Dohrn</td>
+<td style="text-align: left;"><a href="http://glossary-blast.bioinfo.szn.it">http://glossary-blast.bioinfo.szn.it</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Georgia State University</td>
+<td style="text-align: left;"><a href="http://db.cbn.gsu.edu:4568">http://db.cbn.gsu.edu:4568</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Desplan Lab (<em>Drosophila</em> developmental biology)</td>
+<td style="text-align: left;"><a href="http://desplan-lab.bio.nyu.edu">http://desplan-lab.bio.nyu.edu</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Commonwealth Scientific and Industrial Research Organisation</td>
+<td style="text-align: left;"><a href="http://hieracium.csiro.au">http://hieracium.csiro.au</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Institute of Cytology and Genetics of Siberian Branch of the Russian Academy of Sciences</td>
+<td style="text-align: left;"><a href="http://seqserver.sysbio.cytogen.ru">http://seqserver.sysbio.cytogen.ru</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Taiwan Agricultural Genomics Resource Center</td>
+<td style="text-align: left;"><a href="http://tagrc.org:4568">http://tagrc.org:4568</a>, <a href="http://tagrc.org:4569">http://tagrc.org:4569</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2><a href="index.html">&#8592; Main Sequenceserver Publication</a><h2>
+
+    </div>
+
+    <footer
+      style="background-color: white">
+      <hr>
+      <div
+        class="container"
+        style="text-align: center; padding: 20px 0;">
+        <p>
+          <a
+            href="http://www.biorxiv.org/content/early/2015/11/27/033142">
+            Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W &amp; Wurm Y. 2015. Sequenceserver: a modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142.
+          </a>
+        </p>
+        <p>
+          SequenceServer is &copy; 5bases pvt ltd (2012-2016) and authors.
+          Parts of SequenceServer are &copy; Universit&eacute; de Lausanne
+          (2011).
+        </p>
+        <p>
+          Archived site: <a
+            href="http://www.sequenceserver.com/old/">
+            SequenceServer 0.8 (pre March 2015)</a>.
+        </p>
+      </div>
+    </footer>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="/js/jquery-2.1.3.min.js"></script>
+    <script src="/js/bootstrap-3.3.2.min.js"></script>
+  </body>
+</html>
