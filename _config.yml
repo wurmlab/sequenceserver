@@ -1,4 +1,4 @@
-exclude: ['node_modules','.DS_Store','.git-ignore', '.ruby-version','.git/','Gemfile', 'Gemfile.lock']
+exclude: ['node_modules','.DS_Store','.git-ignore', '.ruby-version','.git/','Gemfile', 'Gemfile.lock', 'README.md']
 
 collections:
   blog       :
