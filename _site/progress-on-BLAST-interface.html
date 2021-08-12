@@ -1,0 +1,392 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SequenceServer</title>
+    <meta name="author" content="Anurag Priyam">
+    <meta name="author" content="Yannick Wurm">
+    <meta name="keywords" content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
+    <meta name="description" content="Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.">
+    <!-- Support HTML5 elements and media queries on IE8 and less. -->
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Bootstrap and FontAwesome CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/googlefont-source-sans-pro.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-3.3.6.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
+    <link rel="stylesheet" type="text/css" href="/css/pygments-github.css">
+    <link rel="stylesheet" type="text/css" href="/css/seqserv.css">
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-471841-7', 'sequenceserver.com');
+      ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-fixed-top"
+      role="navigation">
+      <div
+        class="container">
+        <div
+          class="navbar-header">
+          <button
+            type="button" class="navbar-toggle"
+            data-toggle="collapse" data-target=".bs-navbar-collapse">
+            <span
+              class="sr-only">
+              Toggle navigation
+            </span>
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand-container">
+            <a
+              class="navbar-brand navbar-left" href="/">
+              <img class="logo" src="/img/logos/SequenceServer_logo.png" alt="sequenceserver_logo">
+              &nbsp;<span>1.0.14</span>
+            </a>
+            <a
+              class="navbar-brand-made-by"
+              href="//wurmlab.github.io">
+              created by Wurmlab
+            </a>
+          </div>
+        </div>
+        <div
+          class="collapse navbar-collapse bs-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="/#installation">
+                Installation
+              </a>
+            </li>
+            <li>
+              <a href="/doc">
+                Advanced configuration
+              </a>
+            </li>
+            <li>
+              <a href="/cloud/" style="font-weight: bold;">
+                Cloud service
+              </a>
+            </li>
+            <li>
+              <a href="/#license">
+                License
+              </a>
+            </li>
+            <li>
+              <a href="/#support">
+                Support
+              </a>
+            </li>
+            <li>
+              <a href="/#users">
+                Users
+              </a>
+            </li>
+            <li>
+              <a class="visible-lg"
+                href="https://antgenomes.sequenceserver.com"
+                title="Will open in new window" target="_blank">
+                <i class="fa fa-external-link" aria-hidden="true"></i>
+                Demo
+              </a>
+            </li>
+            <li>
+              <a class="visible-lg"
+                href="https://github.com/wurmlab/sequenceserver"
+                title="Will open GitHub in new window" target="_blank">
+                <i class="fa fa-external-link" aria-hidden="true"></i>
+                Code
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      class="container">
+      <h1 id="release-notes-during-the-development-of-sequenceserver-blast">Release notes during the development of Sequenceserver BLAST</h1>
+
+<h2 id="many-improvements-due-to-hacktoberfest-and-other-initiatives">2020-12-11 Many improvements due to Hacktoberfest and other initiatives</h2>
+
+<p>We are pleased to announce the next candidate release of SequenceServer 2.0.</p>
+
+<ol>
+  <li>Automatically check for incompatible databases on startup and prompt users to reformat them.</li>
+  <li>Upgrading from the older (V4) to the newer (V5) database now preserves any taxonomy information embedded in the database.</li>
+  <li>Add ability to use -taxids_map of makeblastdb during database creation. To use it, add a ‘.taxids_map.txt’ file next to the FASTA file (e.g. “/db/ants.taxids_map.txt” for “/db/ants.fa”)</li>
+  <li>Add option in the search form to open BLAST results in a new tab.</li>
+  <li>Add ‘Edit search’ and ‘New search’ links to the report page. (thanks to Tomas-Pluskal &amp; TomMD for the push)</li>
+  <li>Search form can now be cleared by reloading the page. Relevant if you use your web browser’s back button or ‘Edit search’ link and want to clear the form to start over.</li>
+  <li>Make it easier to pass command line arguments to Docker image. For example, number of BLAST threads can now be set as “docker run … wurmlab/sequenceserver sequenceserver -n 4” instead of “docker run … wurmlab/sequenceserver bundle exec bin/sequenceserver -d /db -n4” (yeah!)</li>
+  <li>Reduce size of Docker image 3-fold. (credit: Nathan Weeks, Neel Kamath)</li>
+  <li>Reduce size of gem file 3-fold. (credit: Nathan Weeks)</li>
+  <li>Fix a bug that prevented query textarea from being resized veritcally. (credit: Iain-S)</li>
+  <li>Fix a bug that prevented search form from rendering query sequences sent to it via POST request. (credit: Sam Hokin)</li>
+  <li>Fix a bug that prevented the use of keyboard shortcut ‘Ctrl-Enter’ to submit the search form.</li>
+  <li>Fix a bug that would cause an infinite loop on search form if the user had only one database.</li>
+  <li>Fix a bug that could cause new users to be prompted more than once to join the announcements list.</li>
+  <li>Fix a bug that was causing Travis builds to fail.</li>
+</ol>
+
+<p>Special thanks to <a href="https://github.com/iain-s">Iain-S</a> for introducing us to <a href="https://github.com/topics/hacktoberfest">hacktoberfest</a>. It was incredibly productive, leading to changes 8-10 above.</p>
+
+<h2 id="support-for-ncbi-blasts-v5-database-format">2020-06-23 Support for NCBI BLAST’s v5 database format</h2>
+
+<p>Based on your feedback we have fixed bugs affecting docker and sub-URI deployments, updated documentation for HPC-integration, and most importantly, we have created a path for migrating to NCBI’s newer V5 database format (see release notes below).</p>
+
+<ol>
+  <li>Running ‘sequenceserver -m’ will now automatically detect older V4 databases, and those created without the ‘-parse_seqids’ option of makeblastdb, and offer to rebuild them. This works even if you deleted the original FASTA files. Database titles are preserved when rebuilding, however, taxonomy information in the database is unfortunately not preserved.</li>
+  <li>If you do not wish to rebuild your databases yet, you can now run SequenceServer with BLAST+ 2.9.0 instead. The tradeoff is that you would have to manually download BLAST+ 2.9.0 and indicate its location in the configuration file. SequenceServer will only download 2.10 by default.</li>
+  <li>If building BLAST databases fails for some reason, the command that was tried and the resulting output is properly relayed to the user so that the problem can be diagnosed (#469). Thanks to mjcoynejr for testing the fix.</li>
+  <li>BLASTing a mix of older V4 and newer V5 databases causes error. SequenceServer now catches and informs the user of this error. Thanks to Massimiliano babbucci for reporting this issue.</li>
+  <li>On sub-URI deployments, clicking the back button would result in no databases to be displayed in the search form (#462). Fixed that. Thanks to Xiang Zhang for reporting the issue and testing the fix.</li>
+  <li>The list of databases in the search form should be alphabetically sorted. This behaviour was lost in the rewrite leading to version 2.0 and has now been fixed. Thanks to Loraine Guéguen for reporting the issue.</li>
+  <li>Docker-related optimisations: SequenceServer no longer prompts to join the mailing list when running under Docker (#468). Thanks to Matt for reporting the issue. Furthermore, we have updated the docker base image and reduced the image size by ~100 Mb.</li>
+  <li>Documentation for HPC integration was out of date with regard to how to invoke the wrapper script (#445). Thanks to Loraine Guéguen for reporting the issue, testing the fix.</li>
+</ol>
+
+<p>Thanks to Niek Art, Matt Yoder, Massimiliano babbucci, Bjoernsen, and Eric Y for reporting database compatibility issues that prompted us to create a path for migrating to the new database format.</p>
+
+<h2 id="release-candidate-2">2020-04-22 Release candidate 2</h2>
+
+<ol>
+  <li>A programming error prevented databases from being deselected when you go back to the search form after submitting a query. That’s now fixed. Thanks to Norman Johnson for reporting the issue.</li>
+  <li>Database creation step could skip FASTA files containing too many Ns at the beginning of the file. Fixed that. Thanks to Michał T. Lorenc for reporting the issue.</li>
+  <li>During the initial setup SequenceServer would print the message ‘config file not found’ multiple times. Fixed that.</li>
+  <li>Results page would fail to load completely if the submitted queries resulted in no hits. Fixed that.</li>
+  <li>Give users an option to sign up for release and other important announcements during the initial setup.</li>
+  <li>Highlight the use of non-default parameters by changing the background of advanced parameters field to yellow when filled.</li>
+  <li>Include SequenceServer version and a link to our paper in the search summary at the top of the results page.</li>
+</ol>
+
+<h3 id="new-documentation">New documentation</h3>
+
+<p>We have also been able to make many of the required changes to the website for the 2.0 release and are testing it locally: https://github.com/wurmlab/sequenceserver/tree/gh-pages2.0.</p>
+
+<h2 id="new-architecture-for-improved-flexibility-20-release-candidate-1">2020-03-15 New architecture for improved flexibility: 2.0 release candidate 1</h2>
+
+<p>Dear colleagues,</p>
+
+<p>We are pleased to announce a candidate release of SequenceServer 2.0. This completes the rearchitecting of SequenceServer 1.0 that we announced almost two years ago: https://groups.google.com/d/msg/sequenceserver/2G4_jdAr4-k/2yxQKixVBQAJ</p>
+
+<p>We have made many changes since version 1.0. The key features are:
+1. Support for BLAST 2.10.0 and the new BLAST database format.
+2. Results now open in a new page. You can share the link with colleagues or bookmark the page and return to it at a later date. Results are saved for 30 days.
+3. We have integrated three new visualisations that facilitate interpretation of BLAST results:
+Length distribution (histogram) of all hits of a query. This is inspired from our work with GeneValidator (https://academic.oup.com/bioinformatics/article/32/10/1559/1742817) and can, for example, help quality-assessment of gene predictions.
+Kablammo visualisation (https://academic.oup.com/bioinformatics/article/31/8/1305/212772) for each query-hit pair indicates clearly which parts of the query match which part of the hits.
+Circos-style plot of queries and their top hits. This is similar to the circoletto tool (https://academic.oup.com/bioinformatics/article/26/20/2620/194655). For example, it can help visually testing for conserved synteny or gene duplication.
+4. We provide a command-line mechanism for importing a BLAST XML file and visualising it in SequenceServer. This works for DIAMOND as well.
+5. The 30 hit limit for FASTA download has been removed. In addition, you can now download raw pairwise alignments.
+6. Better support for long-running BLAST searches, for rendering large BLAST results (thousands of hits), and for integrating as part of other websites.
+7. Improved error handling, security enhancements, and a new look!</p>
+
+<p>Compared to the beta releases, the biggest remaining limitations were SequenceServer’s handling of large BLAST results and back button of browsers. We have addressed those.</p>
+
+<p>We request you to try out the “candidate” release of version 2.0 and report any issues you encounter with your setup (or give us a thumbs up). We will update the documentation at http://sequenceserver.com over the next few weeks. In the meantime, please feel free to ask any question here or on GitHub.</p>
+
+<p>Upgrading is simple. If you have Ruby 2.3 or later, run:</p>
+
+<p><code class="highlighter-rouge">
+   gem install --pre sequenceserver
+</code></p>
+
+<p>This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:</p>
+
+<p><code class="highlighter-rouge">
+   gem uninstall sequenceserver
+</code></p>
+
+<p>Please report any issues here: https://github.com/wurmlab/sequenceserver/issues.</p>
+
+<p>You can also send us pull-requests. We welcome any help you may be able to provide in terms of improving test coverage and making code style checkers happy.</p>
+
+<p>Kind regards,
+Priyam &amp; Yannick</p>
+
+<h2 id="announcing-200beta4">2019-12-21 Announcing 2.0.0beta4</h2>
+
+<p>Dear all,</p>
+
+<p>We are pleased to announce the last beta release of this series. In this release, we have added a few features based on popular demand and fixed tons of bugs.</p>
+
+<p>Overall, the new architecture now feels quite robust and has seen a growing adoption within the community. We have incremented the version number to 2.0 to reflect this milestone. We thank you for your patience, encouragement, and support.</p>
+
+<h3 id="new-features-since-110-beta12">New features since 1.1.0-beta12</h3>
+
+<ul>
+  <li>Update to BLAST+ 2.9.0</li>
+  <li>Ability to import BLAST results in XML format from DIAMOND and BLAST versions 2.2.30 - 2.9.0</li>
+  <li>Ability to pre-populate textarea with server-sent query sequences (thanks to Richard Challis for feature suggestion and initial implementation)</li>
+  <li>On startup, sequenceserver now tries to determine the ip and the hostname of the server and prints two URLs that may be suitable for sharing with colleagues</li>
+  <li>Recognise PFAM and RFAM hit/subject ids and include a link to the hits PFAM or RFAM page (credit: Tomas Pluskal)</li>
+</ul>
+
+<h3 id="bug-fixes-and-refinements">Bug fixes and refinements</h3>
+
+<ul>
+  <li>In a suburi deployment (e.g., antgenomes.org/blast), take suburi into account when constructing url for the results page (thanks to Guy Leonard for reporting the issue)</li>
+  <li>Use more specific regex for determining non -parse_seqids databases. Otherwise, presence of <code class="highlighter-rouge">gn|</code> in sequence ids would disable sequence retrieval (thanks to Josh Goodman for reporting the issue)</li>
+  <li>Length of query and hit sequences are now easily accessible in the report page. This is included in the query and hit header, on the right hand side, in a gray font</li>
+  <li>Restored the ability to fold and un-fold individual hits (credit: Josh Goodman)</li>
+  <li>Removed .00 from decimal numbers (i.e., 100.00% is now shown as 100%)</li>
+  <li>Fixed vertical alignment of links and buttons provided for each hit</li>
+  <li>Removed trailing comma in HSP statistics line for BLASTP</li>
+  <li>Properly wrap text in the summary overview on top</li>
+</ul>
+
+<h4 id="circos-visualisation">Circos visualisation:</h4>
+
+<ul>
+  <li>Sequence lengths were erroneously downscaled by 100. Fixed that</li>
+  <li>Formatting of e-value and identities in the tooltips was inconsistent with the rest of the report. Fixed that</li>
+  <li>Ribbons had no colour for the specific case of 1 query and 2 hits. Fixed that</li>
+  <li>Filter out queries with no hits before drawing the visualisation</li>
+  <li>Change to more meaningful title ‘Chord diagram: queries and their top hits’</li>
+</ul>
+
+<h4 id="length-distribution-of-all-hits-for-each-query">Length distribution of all hits for each query:</h4>
+
+<ul>
+  <li>When query and database are in different sequence space (DNA or protein), normalise query length to match database space (#409)</li>
+  <li>Reduced the number of ticks in the y-axis otherwise the ticks looked too “squeezed up” when there were too many hits</li>
+  <li>Round up the number of ticks on x-axis so that the scale ends consistently in a major or a minor tick</li>
+</ul>
+
+<h3 id="code-quality-improvements">Code quality improvements</h3>
+
+<ul>
+  <li>Fixed many of the warning messages generated by React in browser console</li>
+  <li>Fixed style guide violations in both Ruby and JavaScript code</li>
+  <li>Expanded test coverage and improved automated testing</li>
+</ul>
+
+<h2 id="announcing-a-major-new-version-of-sequenceserver-110-beta">2018-03-22 Announcing a major new version of Sequenceserver 1.1.0-beta</h2>
+
+<p>Dear all,</p>
+
+<p>We are pleased to announce a “beta” release of the next major version of SequenceServer - 1.1.0-beta for testing.</p>
+
+<p>We have fundamentally restructured how SequenceServer works in order to achieve two goals.
+ 1. Most importantly, with the approach used to date, we were limited in what we could do with visualisations and filtering. The new approach overcomes all of this. 
+ 2. We felt it was important to be able to bookmark and share BLAST results, and be able to return to them at a later date.</p>
+
+<p>This new version incorporates multiple new minor features (full list below for details), but the biggest change is the “under the hood” restructuring. Today’s beta release is experimental - it has some limitations we know about, and we hope that you can help us find those that remain unknown. We expect this release to be the first of a series of small regular improvements each incorporating additional new features.</p>
+
+<p>While we have begun using this version for real things, we consider it a “development” rather than a “production” release. Please use with care and report any problems on the github tracker or on this thread.</p>
+
+<h3 id="features">Features</h3>
+
+<ul>
+  <li>Update to BLAST 2.6.0+</li>
+  <li>We put a customizable default parameter in BLAST searches to only return hits with evalues stronger than 1e-5 (BLAST’s default of evalue 10 includes too many spurious hits that are confusing to junior users)</li>
+  <li>We make it explicit that ‘-task blastn’ option is used for BLASTN (instead of BLASTN’s default behaviour of running megablast)</li>
+  <li>Stable URL for results: meaning that results page can now be bookmarked, shared, or linked to from your lab notebook</li>
+  <li>“Download FASTA of all” link in the sidebar can handle many sequences (previously it was disabled if &gt;30 hits)</li>
+  <li>Ability to download individual or all alignments in FASTA format (code from Kablammo project at http://kablammo.wasmuthlab.org/)</li>
+  <li>Ability to download alignment overview in SVG and PNG image (code from Kablammo project at http://kablammo.wasmuthlab.org/)</li>
+  <li>Use a, b, c numbering for HSPs to distinguish easily from hits</li>
+  <li>Show summary of BLAST database and search parameters at top of results page</li>
+  <li>Show coverage and identity in hits table</li>
+  <li>results can be opened in a new tab by pressing ‘Cmd’ / ‘Ctrl’ button while clicking on the submit button (like any other link).</li>
+  <li>Drop support for Ruby older than 2.3. This allows SequenceServer to be embedded in Rails 5, means we benefit from performance improvements in new Ruby, and importantly makes code and dependencies easier to maintain and test</li>
+  <li>If BLAST was downloaded by SequenceServer or path to BLAST binaries was explicitly provided by the user, BLAST searches are run in “sandbox mode”. In sandbox mode, SequenceServer cannot access any other system command. This increases security.</li>
+  <li>We no longer require BLAST databases to have been created with -parse_seqids option of makeblastdb</li>
+</ul>
+
+<h3 id="bugfixes">Bugfixes</h3>
+
+<ul>
+  <li>Alignment overview: colour each HSP by its evalue (instead using the evalue of the hit)</li>
+  <li>Fix crash when downloading amino acid sequences that include stop codons (*)</li>
+  <li>All code and fonts (except Twitter badge) are loaded locally</li>
+</ul>
+
+<h3 id="known-issues">Known issues</h3>
+
+<p>As this is beta software, a few things may not work as expected. Following is a list of known issues that we are currently working on:</p>
+
+<ul>
+  <li>Performance with many number of hits: e.g., sequenceserver doesnt load the results of BLASTing a 300 kilobase file including &gt;1000 queries against itself fails.</li>
+  <li>Deploying on suburi (e.g., antgenomes.org/sequenceserver) currently doesn’t work</li>
+  <li>Hits table can look jumbled up if BLAST search returns multiple hits with same evalue</li>
+  <li>Sidebar height is not appropriately constrained</li>
+  <li>6 tests fail on the Travis code checker</li>
+</ul>
+
+<h3 id="technical-explanation-of-changes">Technical explanation of changes</h3>
+
+<ul>
+  <li>We now use browser’s default form submission behavior instead of using AJAX. This allows results to be opened in a new tab by pressing ‘Cmd’ / ‘Ctrl’ button while clicking on the submit button (like any other link).</li>
+  <li>Previously, submitting the search form and obtaining results from the server would be accomplished in one long HTTP request. This was problematic for long running BLAST searches as production servers (e.g., Nginx, Apache) drop connections after a set interval. Now search form submission creates a ‘job’ (with a unique identifier) whose status is queried repeatedly by the result page. Such ‘asynchronous’ approach is more scalable and should also work well with job schedulers like qsub and bsub.</li>
+  <li>The server now returns results in JSON format instead of HTML format. We use the React framework along with JSX to generate HTML results directly in the browser. Access to raw results directly in the browser has enabled us to test a few different visualisations for BLAST results (not part of this release). This approach also allows the use of ‘curl’ to obtain results in command line and process the results in any scripting language.</li>
+</ul>
+
+<p>We invite you to try out this release and help us get to a stable version by reporting any bugs on our issue tracker (https://github.com/wurmlab/sequenceserver/issues) or sending us a pull-request.</p>
+
+<p>Upgrading is simple. If you have ruby 2.3 or later, run:</p>
+
+<p>gem install –version 1.1.0.beta sequenceserver</p>
+
+<p>This does not remove your current sequenceserver installation. Instead, it changes the default</p>
+
+<p>If something breaks, you can rollback by running:</p>
+
+<p>gem uninstall –version 1.1.0.beta sequenceserver</p>
+
+<p>We welcome any help you may be able to provide in terms of code review, improving test coverage, and making code style checkers happy.</p>
+
+<p>Kind regards,
+Priyam &amp; Yannick</p>
+
+<p>http://wurmlab.com
+Evolutionary genomics @ Queen Mary U London</p>
+
+    </div>
+
+    <footer
+      style="background-color: white">
+      <hr>
+      <div
+        class="container"
+        style="text-align: center; padding: 20px 0;">
+        <p>
+          <a
+            href="http://www.biorxiv.org/content/early/2015/11/27/033142">
+            Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W &amp; Wurm Y. 2015. Sequenceserver: a modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142.
+          </a>
+        </p>
+        <p>
+          SequenceServer is &copy; 5bases pvt ltd (2012-2016) and authors.
+          Parts of SequenceServer are &copy; Universit&eacute; de Lausanne
+          (2011).
+        </p>
+        <p>
+          Archived site: <a
+            href="http://www.sequenceserver.com/old/">
+            SequenceServer 0.8 (pre March 2015)</a>.
+        </p>
+      </div>
+    </footer>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="/js/jquery-2.1.3.min.js"></script>
+    <script src="/js/bootstrap-3.3.2.min.js"></script>
+  </body>
+</html>
