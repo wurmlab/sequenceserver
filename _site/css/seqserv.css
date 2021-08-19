@@ -51,13 +51,14 @@ a:hover {
   border-bottom: 1px solid #eee;
   margin-bottom: 35px;
   background-color: white;
+  padding:5px 0 0;
 }
 
 .brand-container {
   width: 279px;
 }
 .navbar-brand {
-  padding: 10px 0 0 15px;
+  padding: 10px 0 0 0;
   color: rgb(51, 51, 51);
   height: auto;
   font-size: inherit;
@@ -71,6 +72,7 @@ a:hover {
 }
 .navbar-brand-made-by {
   color: #174465;
+  text-decoration: none;
 }
 
 .navbar-brand-made-by:hover {
@@ -81,7 +83,7 @@ a:hover {
 
 .navbar-nav > li > a {
   padding: 24px 10px;
-  color: #174465;
+  color: #174465 !important;
 }
 .navbar-nav > li > a:hover {
   color: #c74f14;

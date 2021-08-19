@@ -1,125 +1,114 @@
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SequenceServer</title>
-    <meta name="author" content="Anurag Priyam">
-    <meta name="author" content="Yannick Wurm">
-    <meta name="keywords" content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
-    <meta name="description" content="Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.">
-    <!-- Support HTML5 elements and media queries on IE8 and less. -->
-    <!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SequenceServer</title>
+  <meta name="author" content="Anurag Priyam">
+  <meta name="author" content="Yannick Wurm">
+  <meta name="keywords"
+    content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
+  <meta name="description"
+    content="Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.">
+  <!-- Support HTML5 elements and media queries on IE8 and less. -->
+  <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
 
-    <!-- Bootstrap and FontAwesome CSS -->
-    <link rel="stylesheet" type="text/css" href="/css/googlefont-source-sans-pro.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-3.3.6.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
-    <link rel="stylesheet" type="text/css" href="/css/pygments-github.css">
-    <link rel="stylesheet" type="text/css" href="/css/seqserv.css">
+  <!-- Bootstrap and FontAwesome CSS -->
+  <link rel="stylesheet" type="text/css" href="/css/googlefont-source-sans-pro.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
+  <link rel="stylesheet" type="text/css" href="/css/pygments-github.css">
+  <link rel="stylesheet" type="text/css" href="/css/seqserv.css">
 
-    <!-- Google Analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  <!-- Google Analytics -->
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-471841-7', 'sequenceserver.com');
-      ga('send', 'pageview');
-    </script>
-  </head>
-
-  <body>
-    <nav
-      class="navbar navbar-fixed-top"
-      role="navigation">
-      <div
-        class="container">
-        <div
-          class="navbar-header">
-          <button
-            type="button" class="navbar-toggle"
-            data-toggle="collapse" data-target=".bs-navbar-collapse">
-            <span
-              class="sr-only">
-              Toggle navigation
-            </span>
-            <i class="fa fa-bars"></i>
-          </button>
-          <div class="brand-container">
-            <a
-              class="navbar-brand navbar-left" href="/">
-              <img class="logo" src="/img/logos/SequenceServer_logo.png" alt="sequenceserver_logo">
-              &nbsp;<span>1.0.14</span>
+    ga('create', 'UA-471841-7', 'sequenceserver.com');
+    ga('send', 'pageview');
+  </script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light  fixed-top">
+    <div class="container">
+      <div class="brand-container">
+        <a class="navbar-brand navbar-left" href="/"><img class="logo" src="/img/logos/SequenceServer_logo.png"
+            alt="sequenceserver_logo">&nbsp;<span>1.0.14</span></a>
+        <a class="navbar-brand-made-by" href="//wurmlab.github.io">
+          created by Wurmlab
+        </a>
+      </div> <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/#installation">
+              Installation
             </a>
-            <a
-              class="navbar-brand-made-by"
-              href="//wurmlab.github.io">
-              created by Wurmlab
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/doc">
+              Advanced configuration
             </a>
-          </div>
-        </div>
-        <div
-          class="collapse navbar-collapse bs-navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li>
-              <a href="/#installation">
-                Installation
-              </a>
-            </li>
-            <li>
-              <a href="/doc">
-                Advanced configuration
-              </a>
-            </li>
-            <li>
-              <a href="/cloud/" style="font-weight: bold;">
-                Cloud service
-              </a>
-            </li>
-            <li>
-              <a href="/#license">
-                License
-              </a>
-            </li>
-            <li>
-              <a href="/#support">
-                Support
-              </a>
-            </li>
-            <li>
-              <a href="/#users">
-                Users
-              </a>
-            </li>
-            <li>
-              <a class="visible-lg"
-                href="https://antgenomes.sequenceserver.com"
-                title="Will open in new window" target="_blank">
-                <i class="fa fa-external-link" aria-hidden="true"></i>
-                Demo
-              </a>
-            </li>
-            <li>
-              <a class="visible-lg"
-                href="https://github.com/wurmlab/sequenceserver"
-                title="Will open GitHub in new window" target="_blank">
-                <i class="fa fa-external-link" aria-hidden="true"></i>
-                Code
-              </a>
-            </li>
-          </ul>
-        </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/cloud/" style="font-weight: bold;">
+              Cloud service
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#license">
+              License
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#support">
+              Support
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#users">
+              Users
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#license">
+              License
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="visible-lg nav-link" href="https://antgenomes.sequenceserver.com" title="Will open in new window"
+              target="_blank">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              Demo
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="visible-lg nav-link" href="https://github.com/wurmlab/sequenceserver"
+              title="Will open GitHub in new window" target="_blank">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              Code
+            </a>
+          </li>
+        </ul>
       </div>
-    </nav>
-
+    </div>
+  </nav>
+  <div class="container">
     <div
-      class="container">
-      <div
   class="row">
   <div
     class="sidebar col-md-3 visible-md visible-lg">
@@ -274,7 +263,7 @@
         terminal to find out:
       </p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s2">"</span><span class="k">$(</span>ruby -e <span class="s1">'puts Gem.path[0]'</span><span class="k">)</span><span class="s2">/gems/sequenceserver-1.0.8"</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s2">"</span><span class="si">$(</span>ruby <span class="nt">-e</span> <span class="s1">'puts Gem.path[0]'</span><span class="si">)</span><span class="s2">/gems/sequenceserver-1.0.8"</span></code></pre></figure>
 
       <p>
         You may need to change <code>1.0.8</code> in the above command to
@@ -309,9 +298,9 @@
         to change the value of a key:
       </p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">sequenceserver -c ~/.sequenceserver.ants.conf -s -d /path/to/new/location/of/database/sequences
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">sequenceserver <span class="nt">-c</span> ~/.sequenceserver.ants.conf <span class="nt">-s</span> <span class="nt">-d</span> /path/to/new/location/of/database/sequences
 
-sequenceserver -s -b /path/to/latest/blast/binaries</code></pre></figure>
+sequenceserver <span class="nt">-s</span> <span class="nt">-b</span> /path/to/latest/blast/binaries</code></pre></figure>
 
       <br>
       <p>
@@ -567,7 +556,7 @@ sequenceserver -m -c /path/to/config_file_containing_database_dir</pre>
           href="https://github.com/yeban/ncbi-blast-dbs">ncbi-blast-dbs</a>.
       </p>
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># Install ncbi-blast-dbs</span>
-sudo gem install ncbi-blast-dbs
+<span class="nb">sudo </span>gem <span class="nb">install </span>ncbi-blast-dbs
 
 <span class="c"># View available BLAST databases.</span>
 ncbi-blast-dbs
@@ -772,7 +761,7 @@ Enter a database title or will use 'SI 2.2.3 ':
 <span class="o">[</span>Service]
 <span class="nv">Type</span><span class="o">=</span>simple
 <span class="nv">User</span><span class="o">=</span>seqservuser
-<span class="nv">ExecStart</span><span class="o">=</span>/path/to/bin/sequenceserver -c /path/to/sequenceserver.conf
+<span class="nv">ExecStart</span><span class="o">=</span>/path/to/bin/sequenceserver <span class="nt">-c</span> /path/to/sequenceserver.conf
 <span class="nv">KillMode</span><span class="o">=</span>process
 <span class="nv">Restart</span><span class="o">=</span>on-failure
 <span class="nv">RestartSec</span><span class="o">=</span>42s
@@ -785,7 +774,7 @@ Enter a database title or will use 'SI 2.2.3 ':
         Stop any SequenceServer instance you might be running and check the above works by running the following command:
       </p>
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">## let systemd know about changed files</span>
-sudo systemctl daemon-reload
+<span class="nb">sudo </span>systemctl daemon-reload
 <span class="c">## enable service for automatic start on boot</span>
 systemctl <span class="nb">enable </span>sequenceserver.service
 <span class="c">## start service immediately</span>
@@ -827,7 +816,7 @@ setuid &lt;username&gt;
         Stop any SequenceServer instance you might be running and check the
         above works by running the following command:
       </p>
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">sudo start sequenceserver</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>start sequenceserver</code></pre></figure>
 
       <p>
         See <a href="http://upstart.ubuntu.com/cookbook/">Upstart Cookbook</a>
@@ -1003,10 +992,10 @@ setuid &lt;username&gt;
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">#!/usr/bin/env sh</span>
 
-<span class="nv">blast</span><span class="o">=</span><span class="sb">`</span>basename <span class="nv">$0</span><span class="sb">`</span>
-<span class="nv">param</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span> | sed <span class="s2">"s/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ </span><span class="s2">/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ \'</span><span class="s2">/"</span> | sed <span class="s2">"s/</span><span class="se">\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/</span><span class="se">\'\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/"</span><span class="sb">`</span>
+<span class="nv">blast</span><span class="o">=</span><span class="sb">`</span><span class="nb">basename</span> <span class="nv">$0</span><span class="sb">`</span>
+<span class="nv">param</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span> | <span class="nb">sed</span> <span class="s2">"s/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ </span><span class="s2">/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ \'</span><span class="s2">/"</span> | <span class="nb">sed</span> <span class="s2">"s/</span><span class="se">\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/</span><span class="se">\'\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/"</span><span class="sb">`</span>
 
-ssh hostname /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$param</span></code></pre></figure>
+ssh <span class="nb">hostname</span> /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$param</span></code></pre></figure>
 
       <p>
         Additionally, <code>TMPDIR</code> environment variable must be set to a
@@ -1024,8 +1013,8 @@ ssh hostname /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$par
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">#!/usr/bin/env sh</span>
 
-<span class="nv">jobid</span><span class="o">=</span><span class="sb">`</span>mktemp bl.XXXX<span class="sb">`</span>
-rm <span class="nv">$jobid</span>
+<span class="nv">jobid</span><span class="o">=</span><span class="sb">`</span><span class="nb">mktemp </span>bl.XXXX<span class="sb">`</span>
+<span class="nb">rm</span> <span class="nv">$jobid</span>
 
 <span class="nv">rfile</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">efile</span><span class="o">=</span><span class="nv">$2</span>
@@ -1033,9 +1022,9 @@ rm <span class="nv">$jobid</span>
 
 <span class="nb">shift </span>3
 
-<span class="nv">param</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span> | sed <span class="s2">"s/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ </span><span class="s2">/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ \'</span><span class="s2">/"</span> | sed <span class="s2">"s/</span><span class="se">\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/</span><span class="se">\'\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/"</span><span class="sb">`</span>
+<span class="nv">param</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span> | <span class="nb">sed</span> <span class="s2">"s/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ </span><span class="s2">/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ \'</span><span class="s2">/"</span> | <span class="nb">sed</span> <span class="s2">"s/</span><span class="se">\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/</span><span class="se">\'\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/"</span><span class="sb">`</span>
 
-qsub -sync y -b y -pe slowpara 4 -N <span class="nv">$jobid</span> -o <span class="nv">$rfile</span> -e <span class="nv">$efile</span> /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$param</span></code></pre></figure>
+qsub <span class="nt">-sync</span> y <span class="nt">-b</span> y <span class="nt">-pe</span> slowpara 4 <span class="nt">-N</span> <span class="nv">$jobid</span> <span class="nt">-o</span> <span class="nv">$rfile</span> <span class="nt">-e</span> <span class="nv">$efile</span> /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$param</span></code></pre></figure>
 
       <p>
         And then modify L67 of <code>lib/sequenceserver/blast.rb</code> to
@@ -1227,35 +1216,36 @@ qsub -sync y -b y -pe slowpara 4 -N <span class="nv">$jobid</span> -o <span clas
   </div> <!-- main -->
 </div> <!-- row -->
 
+  </div>
+
+  <footer style="background-color: white">
+    <hr>
+    <div class="container" style="text-align: center; padding: 20px 0;">
+      <p>
+        <a href="http://www.biorxiv.org/content/early/2015/11/27/033142">
+          Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W &amp; Wurm
+          Y. 2015. Sequenceserver: a modern graphical user interface for custom BLAST databases. biorxiv doi:
+          10.1101/033142.
+        </a>
+      </p>
+      <p>
+        SequenceServer is &copy; 5bases pvt ltd (2012-2016) and authors.
+        Parts of SequenceServer are &copy; Universit&eacute; de Lausanne
+        (2011).
+      </p>
+      <p>
+        Archived site: <a href="http://www.sequenceserver.com/old/">
+          SequenceServer 0.8 (pre March 2015)</a>.
+      </p>
     </div>
+  </footer>
 
-    <footer
-      style="background-color: white">
-      <hr>
-      <div
-        class="container"
-        style="text-align: center; padding: 20px 0;">
-        <p>
-          <a
-            href="http://www.biorxiv.org/content/early/2015/11/27/033142">
-            Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W &amp; Wurm Y. 2015. Sequenceserver: a modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142.
-          </a>
-        </p>
-        <p>
-          SequenceServer is &copy; 5bases pvt ltd (2012-2016) and authors.
-          Parts of SequenceServer are &copy; Universit&eacute; de Lausanne
-          (2011).
-        </p>
-        <p>
-          Archived site: <a
-            href="http://www.sequenceserver.com/old/">
-            SequenceServer 0.8 (pre March 2015)</a>.
-        </p>
-      </div>
-    </footer>
+  <!-- jQuery and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
 
-    <!-- jQuery and Bootstrap JS -->
-    <script src="/js/jquery-2.1.3.min.js"></script>
-    <script src="/js/bootstrap-3.3.2.min.js"></script>
-  </body>
 </html>

@@ -1,125 +1,114 @@
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SequenceServer</title>
-    <meta name="author" content="Anurag Priyam">
-    <meta name="author" content="Yannick Wurm">
-    <meta name="keywords" content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
-    <meta name="description" content="Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.">
-    <!-- Support HTML5 elements and media queries on IE8 and less. -->
-    <!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SequenceServer</title>
+  <meta name="author" content="Anurag Priyam">
+  <meta name="author" content="Yannick Wurm">
+  <meta name="keywords"
+    content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
+  <meta name="description"
+    content="Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.">
+  <!-- Support HTML5 elements and media queries on IE8 and less. -->
+  <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
 
-    <!-- Bootstrap and FontAwesome CSS -->
-    <link rel="stylesheet" type="text/css" href="/css/googlefont-source-sans-pro.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-3.3.6.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
-    <link rel="stylesheet" type="text/css" href="/css/pygments-github.css">
-    <link rel="stylesheet" type="text/css" href="/css/seqserv.css">
+  <!-- Bootstrap and FontAwesome CSS -->
+  <link rel="stylesheet" type="text/css" href="/css/googlefont-source-sans-pro.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
+  <link rel="stylesheet" type="text/css" href="/css/pygments-github.css">
+  <link rel="stylesheet" type="text/css" href="/css/seqserv.css">
 
-    <!-- Google Analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  <!-- Google Analytics -->
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-471841-7', 'sequenceserver.com');
-      ga('send', 'pageview');
-    </script>
-  </head>
-
-  <body>
-    <nav
-      class="navbar navbar-fixed-top"
-      role="navigation">
-      <div
-        class="container">
-        <div
-          class="navbar-header">
-          <button
-            type="button" class="navbar-toggle"
-            data-toggle="collapse" data-target=".bs-navbar-collapse">
-            <span
-              class="sr-only">
-              Toggle navigation
-            </span>
-            <i class="fa fa-bars"></i>
-          </button>
-          <div class="brand-container">
-            <a
-              class="navbar-brand navbar-left" href="/">
-              <img class="logo" src="/img/logos/SequenceServer_logo.png" alt="sequenceserver_logo">
-              &nbsp;<span>1.0.14</span>
+    ga('create', 'UA-471841-7', 'sequenceserver.com');
+    ga('send', 'pageview');
+  </script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light  fixed-top">
+    <div class="container">
+      <div class="brand-container">
+        <a class="navbar-brand navbar-left" href="/"><img class="logo" src="/img/logos/SequenceServer_logo.png"
+            alt="sequenceserver_logo">&nbsp;<span>1.0.14</span></a>
+        <a class="navbar-brand-made-by" href="//wurmlab.github.io">
+          created by Wurmlab
+        </a>
+      </div> <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/#installation">
+              Installation
             </a>
-            <a
-              class="navbar-brand-made-by"
-              href="//wurmlab.github.io">
-              created by Wurmlab
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/doc">
+              Advanced configuration
             </a>
-          </div>
-        </div>
-        <div
-          class="collapse navbar-collapse bs-navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li>
-              <a href="/#installation">
-                Installation
-              </a>
-            </li>
-            <li>
-              <a href="/doc">
-                Advanced configuration
-              </a>
-            </li>
-            <li>
-              <a href="/cloud/" style="font-weight: bold;">
-                Cloud service
-              </a>
-            </li>
-            <li>
-              <a href="/#license">
-                License
-              </a>
-            </li>
-            <li>
-              <a href="/#support">
-                Support
-              </a>
-            </li>
-            <li>
-              <a href="/#users">
-                Users
-              </a>
-            </li>
-            <li>
-              <a class="visible-lg"
-                href="https://antgenomes.sequenceserver.com"
-                title="Will open in new window" target="_blank">
-                <i class="fa fa-external-link" aria-hidden="true"></i>
-                Demo
-              </a>
-            </li>
-            <li>
-              <a class="visible-lg"
-                href="https://github.com/wurmlab/sequenceserver"
-                title="Will open GitHub in new window" target="_blank">
-                <i class="fa fa-external-link" aria-hidden="true"></i>
-                Code
-              </a>
-            </li>
-          </ul>
-        </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/cloud/" style="font-weight: bold;">
+              Cloud service
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#license">
+              License
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#support">
+              Support
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#users">
+              Users
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#license">
+              License
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="visible-lg nav-link" href="https://antgenomes.sequenceserver.com" title="Will open in new window"
+              target="_blank">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              Demo
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="visible-lg nav-link" href="https://github.com/wurmlab/sequenceserver"
+              title="Will open GitHub in new window" target="_blank">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              Code
+            </a>
+          </li>
+        </ul>
       </div>
-    </nav>
-
-    <div
-      class="container">
-      <h1 id="sequence-search">Sequence Search</h1>
+    </div>
+  </nav>
+  <div class="container">
+    <h1 id="sequence-search">Sequence Search</h1>
 
 <h2 id="why-search-sequences">Why search sequences?</h2>
 
@@ -172,35 +161,36 @@ Results
 In this bird’s-eye review, we overview the evolution of main algorithmic techniques for comparing and searching biological sequences. We highlight key algorithmic ideas emerged in response to several interconnected factors: shifts of biological analytical paradigm, advent of new sequencing technologies and a substantial increase in size of the available data. We discuss the expansion of alignment-free techniques coming to replace alignment-based algorithms in large-scale analyses. We further emphasize recently emerged and growing applications of sketching methods which support comparison of massive datasets, such as metagenomics samples. Finally, we focus on the transition to population genomics and outline associated algorithmic challenges.</em></p>
 </blockquote>
 
+  </div>
+
+  <footer style="background-color: white">
+    <hr>
+    <div class="container" style="text-align: center; padding: 20px 0;">
+      <p>
+        <a href="http://www.biorxiv.org/content/early/2015/11/27/033142">
+          Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W &amp; Wurm
+          Y. 2015. Sequenceserver: a modern graphical user interface for custom BLAST databases. biorxiv doi:
+          10.1101/033142.
+        </a>
+      </p>
+      <p>
+        SequenceServer is &copy; 5bases pvt ltd (2012-2016) and authors.
+        Parts of SequenceServer are &copy; Universit&eacute; de Lausanne
+        (2011).
+      </p>
+      <p>
+        Archived site: <a href="http://www.sequenceserver.com/old/">
+          SequenceServer 0.8 (pre March 2015)</a>.
+      </p>
     </div>
+  </footer>
 
-    <footer
-      style="background-color: white">
-      <hr>
-      <div
-        class="container"
-        style="text-align: center; padding: 20px 0;">
-        <p>
-          <a
-            href="http://www.biorxiv.org/content/early/2015/11/27/033142">
-            Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W &amp; Wurm Y. 2015. Sequenceserver: a modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142.
-          </a>
-        </p>
-        <p>
-          SequenceServer is &copy; 5bases pvt ltd (2012-2016) and authors.
-          Parts of SequenceServer are &copy; Universit&eacute; de Lausanne
-          (2011).
-        </p>
-        <p>
-          Archived site: <a
-            href="http://www.sequenceserver.com/old/">
-            SequenceServer 0.8 (pre March 2015)</a>.
-        </p>
-      </div>
-    </footer>
+  <!-- jQuery and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
 
-    <!-- jQuery and Bootstrap JS -->
-    <script src="/js/jquery-2.1.3.min.js"></script>
-    <script src="/js/bootstrap-3.3.2.min.js"></script>
-  </body>
 </html>
