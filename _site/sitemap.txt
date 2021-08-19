@@ -7,6 +7,5 @@ https://sequenceserver.com/progress-on-BLAST-interface.html
 https://sequenceserver.com/sitemap.txt
 
 https://sequenceserver.com/blog/sequence-search/
-https://sequenceserver.com/blog/local-blast-on-mac/
 
 https://sequenceserver.com/cloud/index.html
