@@ -1,6 +1,7 @@
 /** Override Bootstrap. **/
+
 body {
-  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   position: relative;
   padding-top: 70px;
   font-size: 16px !important;
@@ -30,12 +31,15 @@ pre {
 dl dd {
   padding-bottom: 10px;
 }
+
 .thumbnail {
   margin-bottom: 5px;
 }
+
 a {
   color: #1B557A;
 }
+
 a:hover {
   color: #c74f14;
   text-decoration: none;
@@ -46,6 +50,7 @@ a:hover {
  *
  * Increase font size, add border, make place for subtext.
  */
+
 .navbar {
   border-radius: 0;
   border-bottom: 1px solid #eee;
@@ -56,6 +61,7 @@ a:hover {
 .brand-container {
   width: 279px;
 }
+
 .navbar-brand {
   padding: 10px 0 0 15px;
   color: rgb(51, 51, 51);
@@ -63,12 +69,14 @@ a:hover {
   font-size: inherit;
   line-height: inherit;
 }
+
 .navbar-brand>img {
   width: 215px;
   height: 28px;
   display: inline-block;
   vertical-align: baseline;
 }
+
 .navbar-brand-made-by {
   color: #174465;
 }
@@ -79,44 +87,56 @@ a:hover {
   color: #c74f14;
 }
 
-.navbar-nav > li > a {
+.navbar-nav>li>a {
   padding: 24px 10px;
   color: #174465;
 }
-.navbar-nav > li > a:hover {
+
+.navbar-nav>li>a:hover {
   color: #c74f14;
 }
+
 /**
  * Sidebar.
  */
+
 .sidebar {
   padding-top: 10px;
   border-right: 1px solid #eee;
 }
+
 @media (min-width: 992px) {
   /* MacBook Pro etc. */
   .sidebar nav.affix {
-    width: 211.5px; /* 0.25 * 970 - 30 - 1 */
+    width: 211.5px;
+    /* 0.25 * 970 - 30 - 1 */
   }
 }
+
 @media (min-width: 1200px) {
   /* iMac etc. */
   .sidebar nav.affix {
-    width: 261.5px; /* 0.25 * 1170 - 30 - 1 */
+    width: 261.5px;
+    /* 0.25 * 1170 - 30 - 1 */
   }
 }
 .sidebar nav.affix-bottom {
   position: relative;
 }
-
 .main {
   padding: 0 20px 20px 20px;
 }
+
 .page-header {
   margin: 10px 0;
 }
-.page-header > h1,
-.page-header > h2,
-.page-header > h3 {
+
+.page-header>h1, .page-header>h2, .page-header>h3 {
   margin: 0;
+}
+
+/* stats-banner */
+.stats-banner a {
+  text-decoration: none;
+  color: initial;
 }

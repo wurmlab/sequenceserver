@@ -274,7 +274,7 @@
         terminal to find out:
       </p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s2">"</span><span class="k">$(</span>ruby -e <span class="s1">'puts Gem.path[0]'</span><span class="k">)</span><span class="s2">/gems/sequenceserver-1.0.8"</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s2">"</span><span class="si">$(</span>ruby <span class="nt">-e</span> <span class="s1">'puts Gem.path[0]'</span><span class="si">)</span><span class="s2">/gems/sequenceserver-1.0.8"</span></code></pre></figure>
 
       <p>
         You may need to change <code>1.0.8</code> in the above command to
@@ -309,9 +309,9 @@
         to change the value of a key:
       </p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">sequenceserver -c ~/.sequenceserver.ants.conf -s -d /path/to/new/location/of/database/sequences
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">sequenceserver <span class="nt">-c</span> ~/.sequenceserver.ants.conf <span class="nt">-s</span> <span class="nt">-d</span> /path/to/new/location/of/database/sequences
 
-sequenceserver -s -b /path/to/latest/blast/binaries</code></pre></figure>
+sequenceserver <span class="nt">-s</span> <span class="nt">-b</span> /path/to/latest/blast/binaries</code></pre></figure>
 
       <br>
       <p>
@@ -567,7 +567,7 @@ sequenceserver -m -c /path/to/config_file_containing_database_dir</pre>
           href="https://github.com/yeban/ncbi-blast-dbs">ncbi-blast-dbs</a>.
       </p>
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># Install ncbi-blast-dbs</span>
-sudo gem install ncbi-blast-dbs
+<span class="nb">sudo </span>gem <span class="nb">install </span>ncbi-blast-dbs
 
 <span class="c"># View available BLAST databases.</span>
 ncbi-blast-dbs
@@ -772,7 +772,7 @@ Enter a database title or will use 'SI 2.2.3 ':
 <span class="o">[</span>Service]
 <span class="nv">Type</span><span class="o">=</span>simple
 <span class="nv">User</span><span class="o">=</span>seqservuser
-<span class="nv">ExecStart</span><span class="o">=</span>/path/to/bin/sequenceserver -c /path/to/sequenceserver.conf
+<span class="nv">ExecStart</span><span class="o">=</span>/path/to/bin/sequenceserver <span class="nt">-c</span> /path/to/sequenceserver.conf
 <span class="nv">KillMode</span><span class="o">=</span>process
 <span class="nv">Restart</span><span class="o">=</span>on-failure
 <span class="nv">RestartSec</span><span class="o">=</span>42s
@@ -785,7 +785,7 @@ Enter a database title or will use 'SI 2.2.3 ':
         Stop any SequenceServer instance you might be running and check the above works by running the following command:
       </p>
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">## let systemd know about changed files</span>
-sudo systemctl daemon-reload
+<span class="nb">sudo </span>systemctl daemon-reload
 <span class="c">## enable service for automatic start on boot</span>
 systemctl <span class="nb">enable </span>sequenceserver.service
 <span class="c">## start service immediately</span>
@@ -827,7 +827,7 @@ setuid &lt;username&gt;
         Stop any SequenceServer instance you might be running and check the
         above works by running the following command:
       </p>
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">sudo start sequenceserver</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>start sequenceserver</code></pre></figure>
 
       <p>
         See <a href="http://upstart.ubuntu.com/cookbook/">Upstart Cookbook</a>
@@ -1003,10 +1003,10 @@ setuid &lt;username&gt;
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">#!/usr/bin/env sh</span>
 
-<span class="nv">blast</span><span class="o">=</span><span class="sb">`</span>basename <span class="nv">$0</span><span class="sb">`</span>
-<span class="nv">param</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span> | sed <span class="s2">"s/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ </span><span class="s2">/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ \'</span><span class="s2">/"</span> | sed <span class="s2">"s/</span><span class="se">\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/</span><span class="se">\'\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/"</span><span class="sb">`</span>
+<span class="nv">blast</span><span class="o">=</span><span class="sb">`</span><span class="nb">basename</span> <span class="nv">$0</span><span class="sb">`</span>
+<span class="nv">param</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span> | <span class="nb">sed</span> <span class="s2">"s/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ </span><span class="s2">/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ \'</span><span class="s2">/"</span> | <span class="nb">sed</span> <span class="s2">"s/</span><span class="se">\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/</span><span class="se">\'\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/"</span><span class="sb">`</span>
 
-ssh hostname /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$param</span></code></pre></figure>
+ssh <span class="nb">hostname</span> /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$param</span></code></pre></figure>
 
       <p>
         Additionally, <code>TMPDIR</code> environment variable must be set to a
@@ -1024,8 +1024,8 @@ ssh hostname /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$par
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">#!/usr/bin/env sh</span>
 
-<span class="nv">jobid</span><span class="o">=</span><span class="sb">`</span>mktemp bl.XXXX<span class="sb">`</span>
-rm <span class="nv">$jobid</span>
+<span class="nv">jobid</span><span class="o">=</span><span class="sb">`</span><span class="nb">mktemp </span>bl.XXXX<span class="sb">`</span>
+<span class="nb">rm</span> <span class="nv">$jobid</span>
 
 <span class="nv">rfile</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">efile</span><span class="o">=</span><span class="nv">$2</span>
@@ -1033,9 +1033,9 @@ rm <span class="nv">$jobid</span>
 
 <span class="nb">shift </span>3
 
-<span class="nv">param</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span> | sed <span class="s2">"s/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ </span><span class="s2">/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ \'</span><span class="s2">/"</span> | sed <span class="s2">"s/</span><span class="se">\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/</span><span class="se">\'\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/"</span><span class="sb">`</span>
+<span class="nv">param</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span> | <span class="nb">sed</span> <span class="s2">"s/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ </span><span class="s2">/</span><span class="se">\-</span><span class="s2">db</span><span class="se">\ \'</span><span class="s2">/"</span> | <span class="nb">sed</span> <span class="s2">"s/</span><span class="se">\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/</span><span class="se">\'\ \-</span><span class="s2">query</span><span class="se">\ </span><span class="s2">/"</span><span class="sb">`</span>
 
-qsub -sync y -b y -pe slowpara 4 -N <span class="nv">$jobid</span> -o <span class="nv">$rfile</span> -e <span class="nv">$efile</span> /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$param</span></code></pre></figure>
+qsub <span class="nt">-sync</span> y <span class="nt">-b</span> y <span class="nt">-pe</span> slowpara 4 <span class="nt">-N</span> <span class="nv">$jobid</span> <span class="nt">-o</span> <span class="nv">$rfile</span> <span class="nt">-e</span> <span class="nv">$efile</span> /usr/local/bin/<span class="nv">$blast</span> <span class="nv">$param</span></code></pre></figure>
 
       <p>
         And then modify L67 of <code>lib/sequenceserver/blast.rb</code> to
