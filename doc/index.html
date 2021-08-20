@@ -4,7 +4,7 @@ layout: page
 <div
   class="row">
   <div
-    class="sidebar col-md-3 visible-md visible-lg">
+    class="sidebar col-md-3 d-none d-lg-block">
     <nav
       class="index"
       data-spy="affix" data-offset-top="0" data-offset-bottom="180">
@@ -139,7 +139,7 @@ layout: page
   </div> <!-- sidebar -->
 
   <div
-    class="main col-md-9">
+    class="main col-lg-9">
 
     <!-- Installation directory -->
     <section
@@ -183,7 +183,7 @@ echo "$(ruby -e 'puts Gem.path[0]')/gems/sequenceserver-1.0.8"
         line parameters or through a configuration file. SequenceServer looks
         for a configuration file by default at
         <code>~/.sequenceserver.conf</code>. This can be changed by
-        using the <code>-c</code> option: 
+        using the <code>-c</code> option:
         <code>sequenceserver -c ~/.sequenceserver.ants.conf</code>.
       </p>
       <p>

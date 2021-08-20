@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="SequenceServer" />
 <script type="application/ld+json">
-{"@type":"WebSite","description":"Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.","headline":"SequenceServer","name":"SequenceServer","url":"http://localhost:4000/","@context":"https://schema.org"}</script>
+{"headline":"SequenceServer","description":"Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.","@type":"WebSite","name":"SequenceServer","url":"http://localhost:4000/","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <meta name="author" content="Anurag Priyam">
 <meta name="author" content="Yannick Wurm">
@@ -27,179 +27,188 @@
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
 
-    <!-- Bootstrap and FontAwesome CSS -->
-    <link rel="stylesheet" type="text/css" href="/css/googlefont-source-sans-pro.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-3.3.6.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
-    <link rel="stylesheet" type="text/css" href="/css/pygments-github.css">
-    <link rel="stylesheet" type="text/css" href="/css/seqserv.css">
+  <!-- Bootstrap and FontAwesome CSS -->
+  <link rel="stylesheet" type="text/css" href="/css/googlefont-source-sans-pro.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/css/fontawesome-4.3.0.css">
+  <link rel="stylesheet" type="text/css" href="/css/pygments-github.css">
+  <link rel="stylesheet" type="text/css" href="/css/seqserv.css">
 
-    <!-- Google Analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  <!-- Google Analytics -->
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-471841-7', 'sequenceserver.com');
-      ga('send', 'pageview');
-    </script>
-  </head>
-
-  <body>
-    <nav
-      class="navbar navbar-fixed-top"
-      role="navigation">
-      <div
-        class="container">
-        <div
-          class="navbar-header">
-          <button
-            type="button" class="navbar-toggle"
-            data-toggle="collapse" data-target=".bs-navbar-collapse">
-            <span
-              class="sr-only">
-              Toggle navigation
-            </span>
-            <i class="fa fa-bars"></i>
-          </button>
-          <div class="brand-container">
-            <a
-              class="navbar-brand navbar-left" href="/">
-              <img class="logo" src="/img/logos/SequenceServer_logo.png" alt="sequenceserver_logo">
-              &nbsp;<span>1.0.14</span>
+    ga('create', 'UA-471841-7', 'sequenceserver.com');
+    ga('send', 'pageview');
+  </script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-xl navbar-light  fixed-top">
+    <div class="container">
+      <div class="brand-container">
+        <a class="navbar-brand navbar-left" href="/"><img class="logo" src="/img/logos/SequenceServer_logo.png"
+            alt="sequenceserver_logo">&nbsp;<span>1.0.14</span></a>
+        <a class="navbar-brand-made-by" href="//wurmlab.github.io">
+          created by Wurmlab
+        </a>
+      </div> <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/#installation">
+              Installation
             </a>
-            <a
-              class="navbar-brand-made-by"
-              href="//wurmlab.github.io">
-              created by Wurmlab
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/doc">
+              Advanced configuration
             </a>
-          </div>
-        </div>
-        <div
-          class="collapse navbar-collapse bs-navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li>
-              <a href="/#installation">
-                Installation
-              </a>
-            </li>
-            <li>
-              <a href="/doc">
-                Advanced configuration
-              </a>
-            </li>
-            <li>
-              <a href="/cloud/" style="font-weight: bold;">
-                Cloud service
-              </a>
-            </li>
-            <li>
-              <a href="/#license">
-                License
-              </a>
-            </li>
-            <li>
-              <a href="/#support">
-                Support
-              </a>
-            </li>
-            <li>
-              <a href="/#users">
-                Users
-              </a>
-            </li>
-            <li>
-              <a class="visible-lg"
-                href="https://antgenomes.sequenceserver.com"
-                title="Will open in new window" target="_blank">
-                <i class="fa fa-external-link" aria-hidden="true"></i>
-                Demo
-              </a>
-            </li>
-            <li>
-              <a class="visible-lg"
-                href="https://github.com/wurmlab/sequenceserver"
-                title="Will open GitHub in new window" target="_blank">
-                <i class="fa fa-external-link" aria-hidden="true"></i>
-                Code
-              </a>
-            </li>
-          </ul>
-        </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/cloud/" style="font-weight: bold;">
+              Cloud service
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#license">
+              License
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#support">
+              Support
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#users">
+              Users
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#license">
+              License
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="visible-lg nav-link" href="https://antgenomes.sequenceserver.com" title="Will open in new window"
+              target="_blank">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              Demo
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="visible-lg nav-link" href="https://github.com/wurmlab/sequenceserver"
+              title="Will open GitHub in new window" target="_blank">
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+              Code
+            </a>
+          </li>
+        </ul>
       </div>
-    </nav>
-
-    <div
-      class="container">
-      <div
-  class="row">
-  <div
-    class="sidebar col-md-3 visible-md visible-lg">
-    <h3
-      style="margin-top: 10px">
+    </div>
+  </nav>
+  <div class="container">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5 stats-banner" role="banner">
+    <div class="">
+        <div>
+            <p><i class="fa fa-quote-left" aria-hidden="true"></i> 130+ citations</p>
+        </div>
+    </div>
+    <div class="col d-flex align-items-start">
+        <div>
+            <p><i class="fa fa-users" aria-hidden="true"></i> 10,000+ users</p>
+        </div>
+    </div>
+    <div class="col d-flex align-items-start">
+        <div>
+            <p><i class="fa fa-download" aria-hidden="true"></i> 80,000+ downloads</p>
+        </div>
+    </div>
+    <div class="col d-flex align-items-start">
+        <div>
+            <a href="https://github.com/wurmlab/sequenceserver" target="_blank" rel="noreferrer"><p><i class="fa fa-star" aria-hidden="true"></i> 217 stars on GitHub</p></a>
+        </div>
+    </div>
+</div>
+    <div class="row">
+  <div class="sidebar col-md-3 d-none d-lg-block">
+    <h3 style="margin-top: 10px">
       News
     </h3>
     <p>
       <strong>
         2021-05
       </strong>
-      We have launched <strong><a href="/cloud/">SequenceServer Cloud</a></strong> - so that all can run fast BLAST searches on our servers.
+      We have launched <strong><a href="/cloud/">SequenceServer Cloud</a></strong> - so that all can run fast BLAST
+      searches on our servers.
     </p>
     <p>
       <strong>
         2020-03
       </strong>
-      Candidate release of <a href="https://groups.google.com/d/msg/sequenceserver/c98ePBzcuVE/lN-S35jVHgAJ">SequenceServer 2.0</a> - new visualisations,
+      Candidate release of <a
+        href="https://groups.google.com/d/msg/sequenceserver/c98ePBzcuVE/lN-S35jVHgAJ">SequenceServer 2.0</a> - new
+      visualisations,
       ability to share results page, and more.
     </p>
     <p>
       <strong>
         2020-05
       </strong>
-      SequenceServer now has more than 100 direct citations. 
+      SequenceServer now has more than 100 direct citations.
     </p>
     <p>
       <strong>
         2020-03
       </strong>
-      Updated <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.13">SequenceServer 1.0</a> to work with BLAST+ 2.10.0.
+      Updated <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.13">SequenceServer 1.0</a> to work
+      with BLAST+ 2.10.0.
     </p>
     <p>
       <strong>
         2019-08
       </strong>
-      Our paper describing SequenceServer is now out in <a
-        href="https://doi.org/10.1093/molbev/msz185">MBE</a>.
+      Our paper describing SequenceServer is now out in <a href="https://doi.org/10.1093/molbev/msz185">MBE</a>.
     </p>
     <p>
       <strong>
         2019-07
       </strong>
-      Presented SequenceServer 2.0 (beta) at BOSC-ISMB/ECCB 2019 [<a
-        href="Priyam_seqserv_bosc_2019.pdf">view poster</a>].
+      Presented SequenceServer 2.0 (beta) at BOSC-ISMB/ECCB 2019 [<a href="Priyam_seqserv_bosc_2019.pdf">view
+        poster</a>].
     </p>
     <p>
       <strong>
         2018-06
       </strong>
-      We have been releasing beta releases of a fundamental rewrite of Sequenceserver that incorporate a large number of new features including multiple visualisations that help to understand BLAST results. Details on how to beta test the new version <a href="https://groups.google.com/forum/?fromgroups#!topic/sequenceserver/2G4_jdAr4-k">are given here in the support forum</a>.
+      We have been releasing beta releases of a fundamental rewrite of Sequenceserver that incorporate a large number of
+      new features including multiple visualisations that help to understand BLAST results. Details on how to beta test
+      the new version <a href="https://groups.google.com/forum/?fromgroups#!topic/sequenceserver/2G4_jdAr4-k">are given
+        here in the support forum</a>.
     </p>
     <p>
     <p>
       <strong>
         2017-06
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases">1.0.10 &amp; 1.0.11</a>
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases">1.0.10 &amp; 1.0.11</a>
       - important bug fix (1.0.10) and update automated docker builds (1.0.11).
     </p>
     <p>
       <strong>
         2016-11
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.9">1.0.9</a>
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.9">1.0.9</a>
       - important bug fix.
     </p>
     <p>
@@ -209,25 +218,22 @@
       <a href="https://github.com/aniarya82">Hiten Chowdhary</a> joins the team
       to extend and improve visualisation of BLAST results in SequenceServer as
       part of
-      <a
-        href="https://summerofcode.withgoogle.com/organizations/6212058194378752/">
+      <a href="https://summerofcode.withgoogle.com/organizations/6212058194378752/">
         Google Summer of Code (GSoC) with Open Genome Informatics</a>.
     </p>
     <p>
       <strong>
         2016-03
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.8">1.0.8</a>
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.8">1.0.8</a>
       - bug fixes and improved Apache integration.
     </p>
     <p>
       <strong>
         2016-03
       </strong>
-      <a
-        href="/#quick-setup">
-      One-line setup with Docker
+      <a href="/#quick-setup">
+        One-line setup with Docker
       </a> - only need path to database sequences.
     </p>
     <p>
@@ -235,8 +241,7 @@
         2016-03
       </strong>
       Expanded, updated, and improved
-      <a
-        href="http://www.sequenceserver.com/doc">
+      <a href="http://www.sequenceserver.com/doc">
         documentation
       </a>
       to cover common scenarios.
@@ -246,46 +251,39 @@
         2016-02
       </strong>
       SequenceServer
-      <a
-        href="http://www.sequenceserver.com/#users-and-citations">
+      <a href="http://www.sequenceserver.com/#users-and-citations">
         cited in over 20 publications
       </a>
       and
-      <a
-        href="https://rubygems.org/gems/sequenceserver">
+      <a href="https://rubygems.org/gems/sequenceserver">
         downloaded over 34,000 times from RubyGems</a>.
     </p>
     <p>
       <strong>
         2015-12/2016-02
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases">1.0.6 &amp; 1.0.7</a>
-      - link to bioRxiv <a
-        href="http://biorxiv.org/content/early/2015/11/27/033142">preprint</a>.
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases">1.0.6 &amp; 1.0.7</a>
+      - link to bioRxiv <a href="http://biorxiv.org/content/early/2015/11/27/033142">preprint</a>.
     </p>
     <p>
       <strong>
         2015-11
       </strong>
-      bioRxiv preprint - <a
-        href="http://biorxiv.org/content/early/2015/11/27/033142">
+      bioRxiv preprint - <a href="http://biorxiv.org/content/early/2015/11/27/033142">
         Sequenceserver: a modern graphical user interface for custom BLAST databases</a>.
     </p>
     <p>
       <strong>
         2015-11
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.5">1.0.5</a>
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.5">1.0.5</a>
       - fixes issues on Ruby 1.8.7, minor enhancement.
     </p>
     <p>
       <strong>
         2015-05
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.4">1.0.4</a>
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.4">1.0.4</a>
       - taxonomy data in tabular output, other fixes and enhancements
       to the HTML report.
     </p>
@@ -293,32 +291,28 @@
       <strong>
         2015-05
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.3">1.0.3</a>
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.3">1.0.3</a>
       - critical bug fix, ability to embed in iframe.
     </p>
     <p>
       <strong>
         2015-03
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.2">1.0.2</a>
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.2">1.0.2</a>
       - installation and UI enhancements.
     </p>
     <p>
       <strong>
         2015-03
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.1">1.0.1</a>
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.1">1.0.1</a>
       - minor enhancement.
     </p>
     <p>
       <strong>
         2015-03
       </strong>
-      SequenceServer <a
-        href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.0">1.0.0</a>
+      SequenceServer <a href="https://github.com/wurmlab/sequenceserver/releases/tag/1.0.0">1.0.0</a>
       - completely new user interface, assistive
       setup and tons of new features.
     </p>
@@ -334,24 +328,21 @@
         2013-2014
       </strong>
       Development ongoing (check the
-      <a
-        href="https://github.com/wurmlab/sequenceserver/commits/master">
+      <a href="https://github.com/wurmlab/sequenceserver/commits/master">
         github log
       </a>
       or
-      <a
-        href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">
+      <a href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">
         mailing list
       </a>);
-      contributors, contributions  &amp; <a
-        href="#users-and-citations">citations</a> always welcome!</p>
+      contributors, contributions &amp; <a href="#users-and-citations">citations</a> always welcome!
+    </p>
     <p>
       <strong>
         2012-12
       </strong>
       Learn more or get help on
-      <a
-        href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">
+      <a href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">
         SequenceServer's Google Group
       </a>
       discussion forum.
@@ -361,8 +352,7 @@
         2012-08
       </strong>
       SequenceServer cited: Elphick MR (2012)
-      <a
-        href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">
+      <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">
         The Protein Precursors of Peptides That Affect the Mechanics of
         Connective Tissue and/or Muscle in the Echinoderm Apostichopus
         japonicus.
@@ -383,14 +373,12 @@
       </strong>
       SequenceServer needs your help. Contribute to a useful real world
       Bioinformatics project by
-      <a
-        href="https://github.com/wurmlab/sequenceserver/issues">
+      <a href="https://github.com/wurmlab/sequenceserver/issues">
         squashing some bugs or improving features
       </a>.
       Great opportunity for CS or Webdesign students interested in
       Bioinformatics or Usability. In particular, our
-      <a
-        href="http://getbootstrap.com/">
+      <a href="http://getbootstrap.com/">
         twitter bootstrap
       </a>
       CSS interface has potential. Please get in touch.
@@ -400,8 +388,7 @@
         Ongoing
       </strong>
       Bugs being resolved &amp; improvements being made. Check the
-      <a
-        href="https://github.com/wurmlab/sequenceserver">
+      <a href="https://github.com/wurmlab/sequenceserver">
         GitHub page
       </a>
       for recent activity.
@@ -423,19 +410,17 @@
         2011-02-01
       </strong>
       SequenceServer was deployed on the
-      <a
-        href="http://www.antgenomes.org">
+      <a href="http://www.antgenomes.org">
         Fourmidable ant genome database
       </a>
       simultaneously with the publication of three
-      <a
-        href="http://www.pnas.org/cgi/doi/10.1073/pnas.1009690108" title="fire ant genome">
+      <a href="http://www.pnas.org/cgi/doi/10.1073/pnas.1009690108" title="fire ant genome">
         ant genomes.
       </a>
     </p>
   </div> <!-- sidebar -->
 
-  <div class="main col-md-9">
+  <div class="main col-lg-9">
     <section id="about">
       <div class="page-header">
         <h1>
@@ -464,38 +449,28 @@
             for research in bioadhesion and environmental microbiology.
             SequenceServer is a main querying mechanism for several
             community databases (e.g.
-            <a
-              href="http://spottedwingflybase.oregonstate.edu/blast">
+            <a href="http://spottedwingflybase.oregonstate.edu/blast">
               <em>Drosophila suzukii</em></a>,
-            <a
-              href="https://planmine.mpibpc.mpg.de/planmine/blast.do">
+            <a href="https://planmine.mpibpc.mpg.de/planmine/blast.do">
               planarians</a>,
-            <a
-              href="http://birchgenome.org/sequenceserver">
+            <a href="http://birchgenome.org/sequenceserver">
               birch
             </a> and
-            <a
-              href="http://ashgenome.org/sequenceserver">
+            <a href="http://ashgenome.org/sequenceserver">
               ash
             </a> tree,
-            <a
-              href="http://amborella.uga.edu/blast/">
+            <a href="http://amborella.uga.edu/blast/">
               Amborella</a>,
-            <a
-              href="http://echinodb.uncc.edu/blast/">
+            <a href="http://echinodb.uncc.edu/blast/">
               echinoderms</a>,
-            <a
-              href="http://www.fusariumnrpspks.dk/">
+            <a href="http://www.fusariumnrpspks.dk/">
               Fusarium</a>,
-            <a
-              href="http://antgenomes.org/blast">
+            <a href="http://antgenomes.org/blast">
               ants</a>,
-            <a
-              href="http://blast.lepbase.org">
+            <a href="http://blast.lepbase.org">
               butterfly</a>),
             and is also used as an
-            <a
-              href="http://culture-bioinformatics.org/blast.shtml">
+            <a href="http://culture-bioinformatics.org/blast.shtml">
               educational resource.
             </a>
           </p>
@@ -512,9 +487,9 @@
           </blockquote>
 
           <div class="page-header">
-            <h3>
+            <h2>
               Rapidly deployed
-            </h3>
+            </h2>
           </div>
           <ul>
             <li>
@@ -540,9 +515,9 @@
           </ul>
 
           <div class="page-header">
-            <h3>
+            <h2>
               Easy to use
-            </h3>
+            </h2>
           </div>
           <ul>
             <li>
@@ -578,38 +553,27 @@
           </ul>
         </div>
 
-        <div
-          class="col-md-5" >
-          <a
-            href="img/overview/search.png">
-            <img
-            class="thumbnail"
-            src="img/overview/search.png" style="width:100%; height: auto" alt="Screenshot of search interface."/>
+        <div class="col-md-5">
+          <a href="img/overview/search.png">
+            <img class="thumbnail" src="img/overview/search.png" style="width:100%; height: auto"
+              alt="Screenshot of search interface." />
           </a>
-          <p
-            class="text-center">
+          <p class="text-center">
             Screenshot: Search interface
           </p>
           <br>
-          <a
-            href="img/overview/result.png">
-            <img
-            class="thumbnail"
-            src="img/overview/result.png" style="width:100%; height: auto" alt="Screenshot of result interface."/>
+          <a href="img/overview/result.png">
+            <img class="thumbnail" src="img/overview/result.png" style="width:100%; height: auto"
+              alt="Screenshot of result interface." />
           </a>
-          <p
-            class="text-center">
+          <p class="text-center">
             Screenshot: Result interface
           </p>
           <br>
-          <a
-            href="img/overview/setup.png">
-            <img
-            class="thumbnail"
-            src="img/overview/setup.png" style="width:100%; height: auto" alt="Setup process."/>
+          <a href="img/overview/setup.png">
+            <img class="thumbnail" src="img/overview/setup.png" style="width:100%; height: auto" alt="Setup process." />
           </a>
-          <p
-            class="text-center">
+          <p class="text-center">
             Screenshot: Setup process
           </p>
         </div>
@@ -624,17 +588,23 @@
         </h2>
       </div>
       <div class="alert alert-info" role="alert">
-	<p><strong><a href="/cloud/">SequenceServer Cloud: point click hosted BLAST servers</a></strong></p>
-	<p>Installing SequenceServer is straightforward on most UNIX systems (see below). However, this isn't for everyone.
-	  <ul>
-	    <li>Perhaps you lack the infrastructure or would <strong>prefer a point-and-click setup</strong>.</li>
-	    <li>Or you want SequenceServer BLAST to <strong>run faster</strong> at a reasonable cost. </li>
-	    Or want to be able to <strong>perform BLAST searches from anywhere</strong>, without having to worry about IPs, ports or power outages. </li>
-<li>Or you simply want to benefit from the greatest SequenceServer features <strong>without the hassle of running and updating</strong> a server.</li>
-</ul></p>
-	<p>Having spent 15 years running BLAST servers, we have now created <a href="/cloud/">SequenceServer Cloud</a>. A hassle-free, secure and cost-effective solution for labs, institutions and individuals. <a href="/cloud/">Find out more</a>.</p>
+        <p><strong><a href="/cloud/">SequenceServer Cloud: point click hosted BLAST servers</a></strong></p>
+        <p>Installing SequenceServer is straightforward on most UNIX systems (see below). However, this isn't for
+          everyone.
+        <ul>
+          <li>Perhaps you lack the infrastructure or would <strong>prefer a point-and-click setup</strong>.</li>
+          <li>Or you want SequenceServer BLAST to <strong>run faster</strong> at a reasonable cost. </li>
+          <li>Or want to be able to <strong>perform BLAST searches from anywhere</strong>, without having to worry about
+            IPs, ports or power outages. </li>
+          <li>Or you simply want to benefit from the greatest SequenceServer features <strong>without the hassle of
+              running and updating</strong> a server.</li>
+        </ul>
+        </p>
+        <p>Having spent 15 years running BLAST servers, we have now created <a href="/cloud/">SequenceServer Cloud</a>.
+          A hassle-free, secure and cost-effective solution for labs, institutions and individuals. <a
+            href="/cloud/">Find out more</a>.</p>
       </div>
-      
+
       <div class="page-header">
         <h3 id="requirements">
           Requirements for local installation
@@ -643,15 +613,13 @@
       <ul style="padding-left: 20px;">
         <li>
           <p>
-            <strong> Linux or Mac </strong> and <strong><a
-                href="http://www.ruby-lang.org">Ruby</a> (&ge;
+            <strong> Linux or Mac </strong> and <strong><a href="http://www.ruby-lang.org">Ruby</a> (&ge;
               1.8.7; preferably &ge; 2.0)</strong>
           </p>
         </li>
         <li>
           <p>
-            <a
-              href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/">
+            <a href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/">
               NCBI BLAST+
             </a> (2.2.31+) is interactively downloaded if absent
           </p>
@@ -680,11 +648,11 @@
         can be used to update SequenceServer to the latest version:
       </p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>gem <span class="nb">install </span>sequenceserver</code></pre></figure>
+      <figure class="highlight"><pre><code class="language-shell" data-lang="shell">      <span class="nb">sudo </span>gem <span class="nb">install </span>sequenceserver
+      </code></pre></figure>
 
       <div class="page-header">
-        <h3
-          id="quick-setup">
+        <h3 id="quick-setup">
           Configure and run
         </h3>
       </div>
@@ -694,15 +662,14 @@
         of directory containing database sequences, format FASTA files for use
         with BLAST+, and list them for use in the search form:
       </p>
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">sequenceserver</code></pre></figure>
+      <figure class="highlight"><pre><code class="language-shell" data-lang="shell">      sequenceserver
+      </code></pre></figure>
       <p>
         That's it! Open <a href="http://localhost:4567/">
           http://localhost:4567</a> in your web-browser and start BLAST-ing!
       </p>
       <br>
-      <div
-        id="cite"
-        style="margin-left: 20px;">
+      <div id="cite" style="margin-left: 20px;">
         <h4>
           Please cite
         </h4>
@@ -713,7 +680,8 @@
           </a>
         </blockquote>
         <p>
-          We request you to not remove the please cite line from your installation of SequenceServer. Citations are important for us to actively develop and advance SequenceServer.
+          We request you to not remove the please cite line from your installation of SequenceServer. Citations are
+          important for us to actively develop and advance SequenceServer.
         </p>
       </div>
       <div class="page-header">
@@ -723,12 +691,11 @@
       </div>
       <p>
         Alternatively, you can use SequenceServer with
-        <a
-          href="http://www.sequenceserver.com/doc">
+        <a href="http://www.sequenceserver.com/doc">
           Docker
         </a> - only need to specify the location of your database directory.
       </p>
-<pre>docker run --rm -itp 4567:4567 -v /path-to-database-dir:/db wurmlab/sequenceserver:1.0.11</pre>
+      <pre>docker run --rm -itp 4567:4567 -v /path-to-database-dir:/db wurmlab/sequenceserver:1.0.11</pre>
     </section>
 
     <!-- License ================================================== -->
@@ -741,16 +708,13 @@
       <p>
         SequenceServer is free to use by any individual or organization
         for all purposes under
-        <a
-          href="https://github.com/wurmlab/sequenceserver/blob/master/LICENSE.txt">
+        <a href="https://github.com/wurmlab/sequenceserver/blob/master/LICENSE.txt">
           GNU AGPL version 3</a>. Custom licensing is also possible if AGPL
         doesn't suit your needs -
-        <a
-          href="mailto:sequenceserver@gmail.com">
+        <a href="mailto:sequenceserver@gmail.com">
           get in touch</a>.
         Please see
-        <a
-          href="http://www.razuna.org/whatisrazuna/licensing">
+        <a href="http://www.razuna.org/whatisrazuna/licensing">
           Razuna's licensing information page
         </a>
         if in doubt. Our licensing model is same as theirs.
@@ -769,8 +733,7 @@
         working as expected? Have a tip? A feature request? Or just
         want to encourage further development? Post it to
         <strong>
-          <a
-            href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">
+          <a href="https://groups.google.com/forum/?fromgroups#!forum/sequenceserver">
             SequenceServer Google Group
           </a>
         </strong>
@@ -780,16 +743,14 @@
         </strong>
         which can range from custom support to server deployment and
         administration to implementing specific features.
-        <a
-          href="mailto:sequenceserver@gmail.com">
+        <a href="mailto:sequenceserver@gmail.com">
           Get in touch</a>.
       </p>
     </section>
 
     <!--Users ================================================== -->
     <section id="users">
-      <div class="page-header"
-        style="margin-bottom: 10px;">
+      <div class="page-header" style="margin-bottom: 10px;">
         <h2>
           Users
         </h2>
@@ -798,62 +759,58 @@
         In addition to the research conducted and resources created using
         SequenceServer (below), several users have written articles about
         installing and customising SequenceServer:
-        <ul>
-          <li>
-            2019: <a href="https://www.jianshu.com/p/137ca16d6d5f">
+      <ul>
+        <li>
+          2019: <a href="https://www.jianshu.com/p/137ca16d6d5f">
             How to set up SequenceServer and Viroblast in Chinese! </a>
-          </li>
-          <li>
-            2019: <a href="https://twitter.com/yaskaz/status/1093322668001026048">
-              Part of a chapter in the book "Information technology for
-              biological data analysis"</a> (in Japanese!)
-          </li>
-          <li>
-            2018: <a href="https://bioinfoperl.blogspot.com/2018/09/sequenceserver-nice-local-blast.html">
-              SequenceServer: nice local blast</a> by Bruno (installation on Centos 7.5)
-          </li>
-          <li>
-            2018: <a href="https://lotus.au.dk/blog/announcement/2018/11/21/lotus-blast-postmortem">
-              Post-mortem on downtime experienced by BLAST-related tools</a> by
-            Terry Mun (issues that may be encountered by community databases)
-          </li>
-          <li>
-            2018: <a href="http://jbrowse.org/docs/faq_customization.html#how-can-i-link-blast-results-to-jbrowse">
-              How can I link BLAST results to JBrowse</a> by JBrowse team
-            (linking BLAST results with JBrowse genome browser)
-          </li>
-          <li>
-            2017: <a href="https://www.jianshu.com/p/de28be1a3bea">
+        </li>
+        <li>
+          2019: <a href="https://twitter.com/yaskaz/status/1093322668001026048">
+            Part of a chapter in the book "Information technology for
+            biological data analysis"</a> (in Japanese!)
+        </li>
+        <li>
+          2018: <a href="https://bioinfoperl.blogspot.com/2018/09/sequenceserver-nice-local-blast.html">
+            SequenceServer: nice local blast</a> by Bruno (installation on Centos 7.5)
+        </li>
+        <li>
+          2018: <a href="https://lotus.au.dk/blog/announcement/2018/11/21/lotus-blast-postmortem">
+            Post-mortem on downtime experienced by BLAST-related tools</a> by
+          Terry Mun (issues that may be encountered by community databases)
+        </li>
+        <li>
+          2018: <a href="http://jbrowse.org/docs/faq_customization.html#how-can-i-link-blast-results-to-jbrowse">
+            How can I link BLAST results to JBrowse</a> by JBrowse team
+          (linking BLAST results with JBrowse genome browser)
+        </li>
+        <li>
+          2017: <a href="https://www.jianshu.com/p/de28be1a3bea">
             Tutorial for setting up SequenceServer and BLAST in Chinese!</a>
-          </li>
-          <li>
-            2016: <a href="https://togotv.dbcls.jp/20160404.html">
-              A video tutorial of SequenceServer in Japanese!</a>
-          </li>
-          <li>
-            2015: <a href="https://medium.com/coding-design/setting-up-sequenceserver-edf9d992998c">
-              Setting up SequenceServer</a> by Terry Mun (shows the level of
-            customisation that can be achieved with SequenceServer)
-          </li>
-          <li>
-            2015: <a href="http://zachcp.org/blog/2015/sequence-server-setup/">
-              Sequence Server</a> by Zach Charlop-Powers (using SequenceServer
-            on RedHat Linux)
-          </li>
-          <li>
-            2015: <a href="http://guy-leonard.co.uk/setup/sequenceserver-v1-new/">
-              SequenceServer v1.0 pre-release</a> by Guy Leonard (using
-            SequenceServer with Apache)
-          </li>
-        </ul>
+        </li>
+        <li>
+          2016: <a href="https://togotv.dbcls.jp/20160404.html">
+            A video tutorial of SequenceServer in Japanese!</a>
+        </li>
+        <li>
+          2015: <a href="https://medium.com/coding-design/setting-up-sequenceserver-edf9d992998c">
+            Setting up SequenceServer</a> by Terry Mun (shows the level of
+          customisation that can be achieved with SequenceServer)
+        </li>
+        <li>
+          2015: <a href="http://zachcp.org/blog/2015/sequence-server-setup/">
+            Sequence Server</a> by Zach Charlop-Powers (using SequenceServer
+          on RedHat Linux)
+        </li>
+        <li>
+          2015: <a href="http://guy-leonard.co.uk/setup/sequenceserver-v1-new/">
+            SequenceServer v1.0 pre-release</a> by Guy Leonard (using
+          SequenceServer with Apache)
+        </li>
+      </ul>
       </p>
-      <div
-        class="row">
-        <div
-          class="col-md-6">
-          <div
-            class="page-header"
-            style="margin-top: 0px;">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="page-header" style="margin-top: 0px;">
             <h3>
               Citations
             </h3>
@@ -874,7 +831,8 @@
             <li>
               Colin (2020)
               <a href="https://www.nature.com/articles/s41467-020-15777-w">
-                The chloroalkaloid (−)-acutumine is biosynthesized via a Fe(II)- and 2-oxoglutarate-dependent halogenase in Menispermaceae plants</a>.
+                The chloroalkaloid (−)-acutumine is biosynthesized via a Fe(II)- and 2-oxoglutarate-dependent halogenase
+                in Menispermaceae plants</a>.
               Nature Communications.
             </li>
             <li>
@@ -898,19 +856,22 @@
             <li>
               Gauthier (2020)
               <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/mec.15403">
-                Contrasting genomic and phenotypic outcomes of hybridization between pairs of mimetic butterfly taxa across a suture zone</a>.
+                Contrasting genomic and phenotypic outcomes of hybridization between pairs of mimetic butterfly taxa
+                across a suture zone</a>.
               Molecular Ecology.
             </li>
             <li>
               Dallinger (2020)
               <a href="https://pubs.rsc.org/no/content/articlehtml/2020/mt/c9mt00259f">
-                Metallomics reveals a persisting impact of cadmium on the evolution of metal-selective snail metallothioneins</a>.
+                Metallomics reveals a persisting impact of cadmium on the evolution of metal-selective snail
+                metallothioneins</a>.
               Metallomics.
             </li>
             <li>
               Koch (2020)
               <a href="https://www.nature.com/articles/s41598-020-57526-5">
-                Genomic, metabolic and phenotypic variability shapes ecological differentiation and intraspecies interactions of <em>Alteromonas macleodii</em></a>.
+                Genomic, metabolic and phenotypic variability shapes ecological differentiation and intraspecies
+                interactions of <em>Alteromonas macleodii</em></a>.
               Scientific Reports.
             </li>
             <li>
@@ -922,13 +883,15 @@
             <li>
               Wu (2020)
               <a href="https://academic.oup.com/database/article/doi/10.1093/database/baaa001/5809233">
-                PncStress: a manually curated database of experimentally validated stress-responsive non-coding RNAs in plants</a>.
+                PncStress: a manually curated database of experimentally validated stress-responsive non-coding RNAs in
+                plants</a>.
               Database.
             </li>
             <li>
               Moreland (2020)
               <a href="https://academic.oup.com/database/article/doi/10.1093/database/baaa029/5834871">
-                The <em>Mnemiopsis</em> Genome Project Portal: integrating new gene expression resources and improving data visualization</a>.
+                The <em>Mnemiopsis</em> Genome Project Portal: integrating new gene expression resources and improving
+                data visualization</a>.
               Database.
             </li>
             <li>
@@ -940,38 +903,44 @@
             <li>
               Reichler (2020)
               <a href="https://www.sciencedirect.com/science/article/pii/S0022030220304136">
-                Interventions designed to control postpasteurization contamination in high-temperature, short-time-pasteurized fluid milk processing facilities: A case study on the effect of employee training, clean-in-place chemical modification, and preventive maintenance programs</a>.
+                Interventions designed to control postpasteurization contamination in high-temperature,
+                short-time-pasteurized fluid milk processing facilities: A case study on the effect of employee
+                training, clean-in-place chemical modification, and preventive maintenance programs</a>.
               Journal of Dairy Science.
             </li>
             <li>
               Wang (2020)
               <a href="https://www.frontiersin.org/articles/10.3389/fgene.2020.00378/full">
-                Coexpression Analysis Reveals Dynamic Modules Regulating the Growth and Development of Cirri in the Rattans (<em>Calamus simplicifolius</em> and <em>Daemonorops jenkinsiana</em>)</a>.
+                Coexpression Analysis Reveals Dynamic Modules Regulating the Growth and Development of Cirri in the
+                Rattans (<em>Calamus simplicifolius</em> and <em>Daemonorops jenkinsiana</em>)</a>.
               Frontiers in Genetics.
             </li>
             <li>
               Triant (2020)
               <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/age.12962">
-                Using online tools at the Bovine Genome Database to manually annotate genes in the new reference genome</a>.
+                Using online tools at the Bovine Genome Database to manually annotate genes in the new reference
+                genome</a>.
               Animal Genetics.
             </li>
             <li>
               Goodheart (2020)
               <a href="https://www.nature.com/articles/s41598-020-67209-w">
-                Laboratory culture of the California Sea Firefly <em>Vargula tsujii</em> (Ostracoda: Cypridinidae): Developing a model system for the evolution of marine bioluminescence</a>.
+                Laboratory culture of the California Sea Firefly <em>Vargula tsujii</em> (Ostracoda: Cypridinidae):
+                Developing a model system for the evolution of marine bioluminescence</a>.
               Scientific Reports.
             </li>
             <li>
               Waterhouse (2020)
               <a href="https://link.springer.com/protocol/10.1007/978-1-0716-0259-1_1">
                 Characterization of Insect Immune Systems from Genomic Data</a>.
-                Immunity in Insects. Springer Protocols Handbooks.
+              Immunity in Insects. Springer Protocols Handbooks.
             </li>
             <li>
               Singh (2020)
               <a href="https://link.springer.com/chapter/10.1007/978-3-030-21270-4_3">
-                Overview of Genomic Resources Available for Lupins with a Focus on Narrow-Leafed Lupin (<em>Lupinus angustifolius</em>)</a>.
-                The Lupin Genome. Compendium of Plant Genomes. Springer, Cham.
+                Overview of Genomic Resources Available for Lupins with a Focus on Narrow-Leafed Lupin (<em>Lupinus
+                  angustifolius</em>)</a>.
+              The Lupin Genome. Compendium of Plant Genomes. Springer, Cham.
             </li>
             <li>
               Alves (2020)
@@ -1000,7 +969,8 @@
             <li>
               Li et al. (2019)
               <a href="https://academic.oup.com/gbe/article/11/7/1751/5512349">
-                Population Genomic Signatures of Genetic Structure and Environmental Selection in the Catadromous Roughskin Sculpin <em>Trachidermus fasciatus</em></a>.
+                Population Genomic Signatures of Genetic Structure and Environmental Selection in the Catadromous
+                Roughskin Sculpin <em>Trachidermus fasciatus</em></a>.
               Genome Biology and Evolution.
             </li>
             <li>
@@ -1064,7 +1034,7 @@
               <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/pld3.138">
                 A genome-wide association study of non-photochemical quenching
                 in response to local seasonal climates in <em>Arabidopsis
-                thaliana</em>.
+                  thaliana</em>.
               </a>
               Plant Direct.
             </li>
@@ -1161,7 +1131,7 @@
               Hagen et al. (2018)
               <a href="https://link.springer.com/protocol/10.1007/978-1-4939-7737-6_9">
                 Bovine Genome Database: Tools for mining the <em>Bos
-                taurus</em> genome.
+                  taurus</em> genome.
               </a>
               Eukaryotic Genomic Databases, Methods in Molecular Biology.
             </li>
@@ -1169,7 +1139,7 @@
               Blanchoud et al. (2018)
               <a href="https://www.nature.com/articles/s41598-018-23749-w">
                 <em>De novo</em> draft assembly of the <em>Botrylloides
-                leachii</em> genome provides further insight into
+                  leachii</em> genome provides further insight into
                 tunicate evolution.
               </a>
               Scientific Reports.
@@ -1284,8 +1254,7 @@
             </li>
             <li>
               Shockey et al. (2017)
-              <a
-                href="https://link.springer.com/article/10.1007/s00425-016-2633-0">
+              <a href="https://link.springer.com/article/10.1007/s00425-016-2633-0">
                 Naturally occurring high oleic acid cottonseed oil: identification and
                 functional analysis of a mutant allele of Gossypium barbadense fatty
                 acid desaturase-2.
@@ -1301,7 +1270,7 @@
               Database.
             </li>
             <li>
-               Torres et al. (2017)
+              Torres et al. (2017)
               <a
                 href="https://academic.oup.com/database/article/doi/10.1093/database/bax047/3867745/LeishDB-a-database-of-coding-gene-annotation-and">
                 LeishDB: a database of coding gene annotation and non-coding RNAs in
@@ -1333,8 +1302,7 @@
             </li>
             <li>
               Mun et al. (2016)
-              <a
-                href="http://www.nature.com/articles/srep39447">
+              <a href="http://www.nature.com/articles/srep39447">
                 Lotus Base: An integrated information portal for the model
                 legume <em>Lotus japonicus</em>.
               </a>
@@ -1342,8 +1310,7 @@
             </li>
             <li>
               Shen et al. (2016)
-              <a
-                href="http://www.g3journal.org/content/6/12/3927.short">
+              <a href="http://www.g3journal.org/content/6/12/3927.short">
                 Reconstructing the backbone of the Saccharomycotina yeast
                 phylogeny using genome-scale data.
               </a>
@@ -1351,8 +1318,7 @@
             </li>
             <li>
               McCormick et al. (2016)
-              <a
-                href="http://www.biorxiv.org/content/early/2016/07/15/062174">
+              <a href="http://www.biorxiv.org/content/early/2016/07/15/062174">
                 3D sorghum reconstructions from depth images enable
                 identification of quantitative trait loci
                 regulating shoot architecture.
@@ -1369,8 +1335,7 @@
             </li>
             <li>
               Louro et al. (2016)
-              <a
-                href="http://www.sciencedirect.com/science/article/pii/S1874778716301234">
+              <a href="http://www.sciencedirect.com/science/article/pii/S1874778716301234">
                 Having a BLAST: Searchable transcriptome resources for the
                 gilthead sea bream and the European sea bass.
               </a>
@@ -1378,16 +1343,14 @@
             </li>
             <li>
               Torrens-Spence et al. (2016)
-              <a
-                href="http://www.sciencedirect.com/science/article/pii/S0076687916001270">
+              <a href="http://www.sciencedirect.com/science/article/pii/S0076687916001270">
                 A Workflow for Studying Specialized Metabolism in Nonmodel
                 Eukaryotic Organisms.</a>
               Methods in Enzymology.
             </li>
             <li>
               Nakagawa et al. (2016)
-              <a
-                href="http://database.oxfordjournals.org/content/2016/baw087.full">
+              <a href="http://database.oxfordjournals.org/content/2016/baw087.full">
                 gEVE: a genome-based endogenous viral element database provides
                 comprehensive viral protein-coding sequences in mammalian
                 genomes.</a>
@@ -1395,15 +1358,13 @@
             </li>
             <li>
               Challis et al. (2016)
-              <a
-                href="http://biorxiv.org/content/early/2016/06/06/056994.abstract">
+              <a href="http://biorxiv.org/content/early/2016/06/06/056994.abstract">
                 Lepbase: the Lepidopteran genome database.</a>
               bioRxiv.
             </li>
             <li>
               Hane et al. (2016)
-              <a
-                href="http://onlinelibrary.wiley.com/doi/10.1111/pbi.12615/full">
+              <a href="http://onlinelibrary.wiley.com/doi/10.1111/pbi.12615/full">
                 A comprehensive draft genome sequence for lupin (Lupinus
                 angustifolius), an emerging health food: Insights into
                 plant‐microbe interactions and legume evolution.</a>
@@ -1411,31 +1372,27 @@
             </li>
             <li>
               Fu et al. (2016)
-              <a
-                href="https://biotechnologyforbiofuels.biomedcentral.com/articles/10.1186/s13068-016-0471-8">
+              <a href="https://biotechnologyforbiofuels.biomedcentral.com/articles/10.1186/s13068-016-0471-8">
                 Dissection of early transcriptional responses to water stress
                 in <em>Arundo donax</em> L. by unigene-based RNA-seq</a>.
               Biotechnology for Biofuels.
             </li>
             <li>
               Semmens et al. (2016)
-              <a
-                href="http://rsob.royalsocietypublishing.org/content/6/2/150224">
+              <a href="http://rsob.royalsocietypublishing.org/content/6/2/150224">
                 Transcriptomic identification of starfish neuropeptide
                 precursors yields new insights into neuropeptide evolution</a>.
               Open Biology.
             </li>
             <li>
               Page et al. (2016)
-              <a
-                href="http://bmcresnotes.biomedcentral.com/articles/10.1186/s13104-016-1938-1">
+              <a href="http://bmcresnotes.biomedcentral.com/articles/10.1186/s13104-016-1938-1">
                 blastjs: a BLAST+ wrapper for Node.js</a>.
               BMC Research Notes.
             </li>
             <li>
               Seim et al. (2016)
-              <a
-                href="http://link.springer.com/article/10.1007/s12020-015-0848-7">
+              <a href="http://link.springer.com/article/10.1007/s12020-015-0848-7">
                 Multi-species sequence comparison reveals conservation
                 of ghrelin gene-derived splice variants encoding a
                 truncated ghrelin peptide</a>.
@@ -1443,16 +1400,14 @@
             </li>
             <li>
               Janies et al. (2016)
-              <a
-                href="http://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0883-2">
+              <a href="http://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0883-2">
                 EchinoDB, an application for comparative transcriptomics
                 of deeply-sampled clades of echinoderms</a>.
               BMC Bioinformatics.
             </li>
             <li>
               Bernonville, Foureau, Parage et al. (2015)
-              <a
-                href="http://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-015-1678-y">
+              <a href="http://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-015-1678-y">
                 Characterization of a second secologanin synthase
                 isoform producing both secologanin and secoxyloganin
                 allows enhanced <em>de novo</em> assembly of a
@@ -1461,8 +1416,7 @@
             </li>
             <li>
               Castro et al. (2015)
-              <a
-                href="http://aem.asm.org/content/81/17/5820.full">
+              <a href="http://aem.asm.org/content/81/17/5820.full">
                 Identification and heterologous expression of the
                 chaxamycin biosynthesis gene cluster from
                 <em>Streptomyces leeuwenhoekii</em></a>.
@@ -1470,64 +1424,56 @@
             </li>
             <li>
               Semmens et al. (2015)
-              <a
-                href="http://rsob.royalsocietypublishing.org/content/5/4/150030">
+              <a href="http://rsob.royalsocietypublishing.org/content/5/4/150030">
                 Discovery of sea urchin NGFFFamide receptor unites a
                 bilaterian neuropeptide family</a>.
               Open Biology.
             </li>
             <li>
               Petrillo et al. (2015)
-              <a
-                href="https://doi.org/10.1093/database/bav101">
+              <a href="https://doi.org/10.1093/database/bav101">
                 JRC GMO-Amplicons: a collection of nucleic acid sequences
                 related to genetically modified organisms</a>.
               Database.
             </li>
             <li>
               Seim et al. (2015)
-              <a
-                href="http://www.sciencedirect.com/science/article/pii/S001664801400450X">
+              <a href="http://www.sciencedirect.com/science/article/pii/S001664801400450X">
                 Comparative analysis reveals loss of the
                 appetite-regulating peptide hormone ghrelin in falcons</a>.
               General and Comparative Endocrinology.
             </li>
             <li>
               Elsik et al. (2015)
-              <a
-                href="http://nar.oxfordjournals.org/content/44/D1/D793">
+              <a href="http://nar.oxfordjournals.org/content/44/D1/D793">
                 Hymenoptera Genome Database: integrating genome
                 annotations in HymenopteraMine</a>.
               Nucleic Acids Research.
             </li>
             <li>
               Brandl et al. (2015)
-              <a
-                href="http://nar.oxfordjournals.org/content/early/2015/11/16/nar.gkv1148">
+              <a href="http://nar.oxfordjournals.org/content/early/2015/11/16/nar.gkv1148">
                 PlanMine – a mineable resource of planarian biology and
                 biodiversity.</a>
               Nucleic Acids Research.
             </li>
             <li>
               Kirmitzoglou I (2015)
-              <a
-                href="http://bioinformatics.oxfordjournals.org/content/early/2015/03/30/bioinformatics.btv115.full">
+              <a href="http://bioinformatics.oxfordjournals.org/content/early/2015/03/30/bioinformatics.btv115.full">
                 LCR-eXXXplorer: a web platform to search, visualize and share data for low
                 complexity regions in protein sequences.</a>
               Bioinformatics.
             </li>
             <li>
               Elphick MR (2015)
-              <a
-                href="http://journal.frontiersin.org/article/10.3389/fendo.2015.00002/full">
+              <a href="http://journal.frontiersin.org/article/10.3389/fendo.2015.00002/full">
                 Reconstructing SALMFamide neuropeptide precursor evolution in the phylum
                 Echinodermata: ophiuroid and crinoid sequence data provide new insights</a>.
               Frontiers in Endocrinology.
             </li>
             <li>
               Gupta Y et al. (2015)
-              <a
-                href="http://www.biomedcentral.com/1471-2164/16/86/">
+              <a href="http://www.biomedcentral.com/1471-2164/16/86/">
                 <em>De novo</em> assembly and characterization of
                 transcriptomes of early-stage fruit from two genotypes
                 of <em>Annona squamosa L.</em> with contrast in seed
@@ -1536,15 +1482,13 @@
             </li>
             <li>
               Rodrigues M (2014)
-              <a
-                href="http://www.beilstein-journals.org/bjnano/single/articleFullText.htm?publicId=2190-4286-5-112">
+              <a href="http://www.beilstein-journals.org/bjnano/single/articleFullText.htm?publicId=2190-4286-5-112">
                 Molecular biology approaches in bioadhesion research</a>.
               Beilstein Journal of Nanotechnology.
             </li>
             <li>
               Sharma P (2014)
-              <a
-                href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0101144">
+              <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0101144">
                 WImpiBLAST: Web Interface for mpiBLAST to Help
                 Biologists Perform Large-Scale Annotation Using High
                 Performance Computing</a>.
@@ -1552,15 +1496,13 @@
             </li>
             <li>
               Mondav R et al. (2014)
-              <a
-                href="http://www.nature.com/ncomms/2014/140214/ncomms4212/full/ncomms4212.html">
+              <a href="http://www.nature.com/ncomms/2014/140214/ncomms4212/full/ncomms4212.html">
                 Discovery of a novel methanogen prevalent in thawing permafrost</a>.
               Nature Communications.
             </li>
             <li>
               Rowe ML et al. (2014)
-              <a
-                href="http://www.sciencedirect.com/science/article/pii/S0016648013004693">
+              <a href="http://www.sciencedirect.com/science/article/pii/S0016648013004693">
                 Neuropeptides and polypeptide hormones in echinoderms:
                 New insights from analysis of the transcriptome of the
                 sea cucumber <em>Apostichopus japonicus</em></a>.
@@ -1568,8 +1510,7 @@
             </li>
             <li>
               Chiara M et al. (2013)
-              <a
-                href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0080961">
+              <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0080961">
                 <em>De novo</em> assembly of the transcriptome of the
                 non-model plant <em>Streptocarpus rexii</em> employing
                 a novel heuristic to recover locus-specific transcript
@@ -1578,8 +1519,7 @@
             </li>
             <li>
               Semmens DC et al. (2013)
-              <a
-                href="http://jeb.biologists.org/content/216/21/4047.full">
+              <a href="http://jeb.biologists.org/content/216/21/4047.full">
                 Discovery of a novel neurophysin-associated
                 neuropeptide that triggers cardiac stomach contraction
                 and retraction in starfish</a>.
@@ -1587,24 +1527,21 @@
             </li>
             <li>
               Chiu JC et al. (2013)
-              <a
-                href="http://www.g3journal.org/content/early/2013/10/14/g3.113.008185.short">
+              <a href="http://www.g3journal.org/content/early/2013/10/14/g3.113.008185.short">
                 Genome of <em>Drosophila suzukii</em>, the Spotted Wing
                 <em>Drosophila</em></a>.
               G3.
             </li>
             <li>
               Shreve J et al. (2013)
-              <a
-                href="http://www.sciencedirect.com/science/article/pii/S002219101200296X">
+              <a href="http://www.sciencedirect.com/science/article/pii/S002219101200296X">
                 A genome-wide survey of small interfering RNA and
                 microRNA pathway genes in a galling insect</a>.
               Journal of Insect Physiology.
             </li>
             <li>
               Berlamino et al. (2013)
-              <a
-                href="http://www.biomedcentral.com/1471-2105/14/S1/S2">
+              <a href="http://www.biomedcentral.com/1471-2105/14/S1/S2">
                 SymGRASS: a database of sugarcane orthologous genes
                 involved in arbuscular mycorrhiza and root nodule
                 symbiosis</a>.
@@ -1612,36 +1549,32 @@
             </li>
             <li>
               Elphick MR et al. (2013)
-              <a
-                href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0059076">
+              <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0059076">
                 The evolution and diversity of SALMFamide
                 neuropeptides</a>.
               PLoS ONE.
             </li>
             <!--<li>-->
-              <!--Ajayi et al. (2013)-->
-              <!--<a-->
-                <!--href="http://link.springer.com/article/10.1007/s00435-013-0186-3">-->
-                <!--Presence and distribution of FMRFamide-like-->
-                <!--immunoreactivity in the sea cucumber-->
-                <!--<em>Holothuria scabra</em> (Jaeger, 1833)-->
-              <!--</a>.-->
-              <!--PLoS ONE.-->
+            <!--Ajayi et al. (2013)-->
+            <!--<a-->
+            <!--href="http://link.springer.com/article/10.1007/s00435-013-0186-3">-->
+            <!--Presence and distribution of FMRFamide-like-->
+            <!--immunoreactivity in the sea cucumber-->
+            <!--<em>Holothuria scabra</em> (Jaeger, 1833)-->
+            <!--</a>.-->
+            <!--PLoS ONE.-->
             <!--</li>-->
             <li>
               Elphick MR (2012)
-              <a
-                href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">
-                The protein precursors of peptides that affect the mechanics of connective tissue and/or muscle in the echinoderm <em>Apostichopus japonicus</em></a>.
+              <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0044492">
+                The protein precursors of peptides that affect the mechanics of connective tissue and/or muscle in the
+                echinoderm <em>Apostichopus japonicus</em></a>.
               PLoS ONE.
             </li>
           </ol>
         </div>
-        <div
-          class="col-md-6">
-          <div
-            class="page-header"
-            style="margin-top: 0px;">
+        <div class="col-md-6">
+          <div class="page-header" style="margin-top: 0px;">
             <h3>
               Community databases
             </h3>
@@ -1650,19 +1583,19 @@
             <li>
               <a href="http://wheat-tilling.com">
                 Exome of Kronos durum wheat and Cadenza bread wheat mutants</a>.
-                John Innes Centre; Earlham Institute; HHMI; Rothamsted Research.
+              John Innes Centre; Earlham Institute; HHMI; Rothamsted Research.
             </li>
             <li>
               <a href="http://wheat-expression.com">
                 Gene expression analysis and visualisation for wheat</a>. John
-                Innes Centre; Earlham Institute; BBSRC; IWYP; DFW.
+              Innes Centre; Earlham Institute; BBSRC; IWYP; DFW.
             </li>
             <li>
               <a href="http://www.bldb.eu">
                 Beta-Lactamase DataBase (BLDB)</a>. JPIAMR transnational project
-                DesInMBL; Région Ile-de-France (DIM Malinf); Laboratory of
-                Excellence in Research on Medication and Innovative Therapeutics
-                (LERMIT).
+              DesInMBL; Région Ile-de-France (DIM Malinf); Laboratory of
+              Excellence in Research on Medication and Innovative Therapeutics
+              (LERMIT).
             </li>
             <li>
               <a href="http://ghrelinlab.org">
@@ -1697,7 +1630,7 @@
               <a href="http://gmo-crl.jrc.ec.europa.eu/jrcgmoamplicons/db_scans/blast">
                 JRC GMO-Amplicons: database of sequences related to genetically
                 modified organisms</a>. Joint Research Centre, European Union
-                Reference Laborator for GM Food and Feed.
+              Reference Laborator for GM Food and Feed.
             </li>
             <li>
               <a href="http://phi-blast.phi-base.org/">Pathogen-Host
@@ -1706,48 +1639,48 @@
             <li>
               <a href="https://cottonfgd.org">
                 Cotton Functional Genomics Database (CottonFGD)</a>.
-                Biotechnology Research Institute, Chinese Academy of Agricultural
-                Sciences.
+              Biotechnology Research Institute, Chinese Academy of Agricultural
+              Sciences.
             </li>
             <li>
               <a href="https://lotus.au.dk">
                 Database for the model legume <em>Lotus japonicus</em> (Lotus
                 Base)</a>. Centre for Carbohydrate Recognition and Signalling,
-                Aarhus University.
+              Aarhus University.
             </li>
             <li>
               <a href="http://cacaogenomedb.org">
                 Cacao genome database</a>. MARS; USDA/ARS; IBM; Clemson
-                University Genomics Institute; PIPRA; HudsonAlpha Institute of
-                Biotechnology; National Center for Genome Resources; Indiana
-                University; Washington State University.
+              University Genomics Institute; PIPRA; HudsonAlpha Institute of
+              Biotechnology; National Center for Genome Resources; Indiana
+              University; Washington State University.
             </li>
             <li>
               <a href="http://blast.tardigrades.org">
                 Genome, predicted transcripts and proteins of tardigrades</a>.
-                Keio University; University of Edinburgh; BBSRC.
+              Keio University; University of Edinburgh; BBSRC.
             </li>
             <li>
               <a href="https://ibeetle-base.uni-goettingen.de">
                 Database of Tribolium RNAi phenotypes (iBeetle-Base)</a>.
-                Georg-August-Universität Göttingen.
+              Georg-August-Universität Göttingen.
             </li>
             <li>
               <a href="https://y1000plus.wei.wisc.edu/data">
                 Y1000+ project (yeast)</a>. University of Wisconsin-Madison;
-                USDA; Vanderbilt University.
+              USDA; Vanderbilt University.
             </li>
             <li>
               <a href="http://mitofun.biol.uoa.gr">
-              MitoFun: A curated resource of complete fungal mitochondrial
-              genomes</a>. Bioinformatics Research Laboratory, University of
+                MitoFun: A curated resource of complete fungal mitochondrial
+                genomes</a>. Bioinformatics Research Laboratory, University of
               Cyprus and Department of Genetics and Biotechnology, University of
               Athens
             </li>
             <li>
               <a href="http://tulab.genetics.ac.cn/medaka_omics/">
                 Medaka Omics Data Portal</a>. Tu Lab, Institute of Genetics and
-                Developmental Biology, Chinese Academy of Sciences, Beijing.
+              Developmental Biology, Chinese Academy of Sciences, Beijing.
             </li>
             <li>
               <a href="http://bovinegenome.elsiklab.missouri.edu">
@@ -1769,7 +1702,7 @@
             <li>
               <a href="http://echinodb.uncc.edu">
                 Echinoderms transcriptomes (EchinoDB)</a>. University of North
-                Carolina at Charlotte.
+              Carolina at Charlotte.
             </li>
             <li>
               <a href="http://planmine.mpi-cbg.de/planmine/blast.do">
@@ -1803,8 +1736,7 @@
               and Industrial Research Organisation.
             </li>
             <li>
-              <a
-                href="http://www.daphnia-stressordb.uni-hamburg.de/blast.php">
+              <a href="http://www.daphnia-stressordb.uni-hamburg.de/blast.php">
                 Daphnia STRESSOR database</a>. Universität Hamburg.
             </li>
             <!-- <li>
@@ -1824,7 +1756,7 @@
             <li>
               <a href="http://tagrc.org:4568">
                 <em>Phalaenopsis aphrodite</em> (plant) genome, transcripts, and proteins</a>.
-                Taiwan Agricultural Genomics Resource Center
+              Taiwan Agricultural Genomics Resource Center
             </li>
             <li>
               <a href="http://hieracium.csiro.au">
@@ -1872,7 +1804,7 @@
             <li>
               <a href="http://diamond.tuebingen.mpg.de/blast/">
                 <em>Pristionchus</em> (nematodes)</a>,
-                Max Planck Institute for Developmental Biology.
+              Max Planck Institute for Developmental Biology.
             </li>
             <li>
               <a href="http://efishgenomics.zoology.msu.edu/blast/">
@@ -1908,7 +1840,9 @@
           </ol>
           <br>
           <br>
-          <img src='img/logos/composition_of_logos.png' width="800" height="197" alt="SequenceServer has satisfied users at U Melbourne, Centre for Organismal Studies Heidelberg, Swiss Institute of Bioinformatics, IIT Karagpur, Natural History Museum London, Queen Mary University London, Benaroya Research Institute, University of Lausanne" style="max-width:100%; height:auto; align:center;"/>
+          <img src='img/logos/composition_of_logos.png' width="800" height="197"
+            alt="SequenceServer has satisfied users at U Melbourne, Centre for Organismal Studies Heidelberg, Swiss Institute of Bioinformatics, IIT Karagpur, Natural History Museum London, Queen Mary University London, Benaroya Research Institute, University of Lausanne"
+            style="max-width:100%; height:auto; align:center;" />
           <br>
           <br>
           <p>
@@ -1919,36 +1853,36 @@
     </section>
   </div> <!-- main -->
 </div> <!-- row -->
+  </div>
 
+  <footer style="background-color: white">
+    <hr>
+    <div class="container" style="text-align: center; padding: 20px 0;">
+      <p>
+        <a href="http://www.biorxiv.org/content/early/2015/11/27/033142">
+          Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W &amp; Wurm
+          Y. 2015. Sequenceserver: a modern graphical user interface for custom BLAST databases. biorxiv doi:
+          10.1101/033142.
+        </a>
+      </p>
+      <p>
+        SequenceServer is &copy; 5bases pvt ltd (2012-2016) and authors.
+        Parts of SequenceServer are &copy; Universit&eacute; de Lausanne
+        (2011).
+      </p>
+      <p>
+        Archived site: <a href="http://www.sequenceserver.com/old/">
+          SequenceServer 0.8 (pre March 2015)</a>.
+      </p>
     </div>
+  </footer>
 
-    <footer
-      style="background-color: white">
-      <hr>
-      <div
-        class="container"
-        style="text-align: center; padding: 20px 0;">
-        <p>
-          <a
-            href="http://www.biorxiv.org/content/early/2015/11/27/033142">
-            Priyam A, Woodcroft BJ, Rai V, Munagala A, Moghul I, Ter F, Gibbins MA, Moon H, Leonard G, Rumpf W &amp; Wurm Y. 2015. Sequenceserver: a modern graphical user interface for custom BLAST databases. biorxiv doi: 10.1101/033142.
-          </a>
-        </p>
-        <p>
-          SequenceServer is &copy; 5bases pvt ltd (2012-2016) and authors.
-          Parts of SequenceServer are &copy; Universit&eacute; de Lausanne
-          (2011).
-        </p>
-        <p>
-          Archived site: <a
-            href="http://www.sequenceserver.com/old/">
-            SequenceServer 0.8 (pre March 2015)</a>.
-        </p>
-      </div>
-    </footer>
+  <!-- jQuery and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
 
-    <!-- jQuery and Bootstrap JS -->
-    <script src="/js/jquery-2.1.3.min.js"></script>
-    <script src="/js/bootstrap-3.3.2.min.js"></script>
-  </body>
 </html>

@@ -10,6 +10,7 @@
        url('/fonts/source-sans-pro-v14-latin-200.woff') format('woff'), /* Modern Browsers */
        url('/fonts/source-sans-pro-v14-latin-200.ttf') format('truetype'), /* Safari, Android, iOS */
        url('/fonts/source-sans-pro-v14-latin-200.svg#SourceSansPro') format('svg'); /* Legacy iOS */
+  font-display: swap;
 }
 /* source-sans-pro-regular - latin */
 @font-face {
@@ -23,6 +24,7 @@
        url('/fonts/source-sans-pro-v14-latin-regular.woff') format('woff'), /* Modern Browsers */
        url('/fonts/source-sans-pro-v14-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
        url('/fonts/source-sans-pro-v14-latin-regular.svg#SourceSansPro') format('svg'); /* Legacy iOS */
+  font-display: swap;
 }
 /* source-sans-pro-700 - latin */
 @font-face {
@@ -36,4 +38,5 @@
        url('/fonts/source-sans-pro-v14-latin-700.woff') format('woff'), /* Modern Browsers */
        url('/fonts/source-sans-pro-v14-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
        url('/fonts/source-sans-pro-v14-latin-700.svg#SourceSansPro') format('svg'); /* Legacy iOS */
+  font-display: swap;
 }
