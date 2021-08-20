@@ -1,14 +1,29 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>SequenceServer</title>
-    <meta name="author" content="Anurag Priyam">
-    <meta name="author" content="Yannick Wurm">
-    <meta name="keywords" content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
-    <meta name="description" content="Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>SequenceServer BLAST release notes | SequenceServer</title>
+<meta name="generator" content="Jekyll v3.9.1" />
+<meta property="og:title" content="SequenceServer BLAST release notes" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science." />
+<meta property="og:description" content="Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science." />
+<link rel="canonical" href="http://localhost:4000/progress-on-BLAST-interface.html" />
+<meta property="og:url" content="http://localhost:4000/progress-on-BLAST-interface.html" />
+<meta property="og:site_name" content="SequenceServer" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-08-01T23:03:32-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SequenceServer BLAST release notes" />
+<script type="application/ld+json">
+{"@type":"BlogPosting","description":"Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.","headline":"SequenceServer BLAST release notes","dateModified":"2021-08-01T23:03:32-07:00","datePublished":"2021-08-01T23:03:32-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/progress-on-BLAST-interface.html"},"url":"http://localhost:4000/progress-on-BLAST-interface.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<meta name="author" content="Anurag Priyam">
+<meta name="author" content="Yannick Wurm">
+<meta name="keywords" content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
     <!-- Support HTML5 elements and media queries on IE8 and less. -->
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -121,7 +136,7 @@
       class="container">
       <h1 id="release-notes-during-the-development-of-sequenceserver-blast">Release notes during the development of Sequenceserver BLAST</h1>
 
-<h2 id="many-improvements-due-to-hacktoberfest-and-other-initiatives">2020-12-11 Many improvements due to Hacktoberfest and other initiatives</h2>
+<h2 id="2020-12-11-many-improvements-due-to-hacktoberfest-and-other-initiatives">2020-12-11 Many improvements due to Hacktoberfest and other initiatives</h2>
 
 <p>We are pleased to announce the next candidate release of SequenceServer 2.0.</p>
 
@@ -145,7 +160,7 @@
 
 <p>Special thanks to <a href="https://github.com/iain-s">Iain-S</a> for introducing us to <a href="https://github.com/topics/hacktoberfest">hacktoberfest</a>. It was incredibly productive, leading to changes 8-10 above.</p>
 
-<h2 id="support-for-ncbi-blasts-v5-database-format">2020-06-23 Support for NCBI BLAST’s v5 database format</h2>
+<h2 id="2020-06-23-support-for-ncbi-blasts-v5-database-format">2020-06-23 Support for NCBI BLAST’s v5 database format</h2>
 
 <p>Based on your feedback we have fixed bugs affecting docker and sub-URI deployments, updated documentation for HPC-integration, and most importantly, we have created a path for migrating to NCBI’s newer V5 database format (see release notes below).</p>
 
@@ -162,7 +177,7 @@
 
 <p>Thanks to Niek Art, Matt Yoder, Massimiliano babbucci, Bjoernsen, and Eric Y for reporting database compatibility issues that prompted us to create a path for migrating to the new database format.</p>
 
-<h2 id="release-candidate-2">2020-04-22 Release candidate 2</h2>
+<h2 id="2020-04-22-release-candidate-2">2020-04-22 Release candidate 2</h2>
 
 <ol>
   <li>A programming error prevented databases from being deselected when you go back to the search form after submitting a query. That’s now fixed. Thanks to Norman Johnson for reporting the issue.</li>
@@ -178,23 +193,25 @@
 
 <p>We have also been able to make many of the required changes to the website for the 2.0 release and are testing it locally: https://github.com/wurmlab/sequenceserver/tree/gh-pages2.0.</p>
 
-<h2 id="new-architecture-for-improved-flexibility-20-release-candidate-1">2020-03-15 New architecture for improved flexibility: 2.0 release candidate 1</h2>
+<h2 id="2020-03-15-new-architecture-for-improved-flexibility-20-release-candidate-1">2020-03-15 New architecture for improved flexibility: 2.0 release candidate 1</h2>
 
 <p>Dear colleagues,</p>
 
 <p>We are pleased to announce a candidate release of SequenceServer 2.0. This completes the rearchitecting of SequenceServer 1.0 that we announced almost two years ago: https://groups.google.com/d/msg/sequenceserver/2G4_jdAr4-k/2yxQKixVBQAJ</p>
 
-<p>We have made many changes since version 1.0. The key features are:
-1. Support for BLAST 2.10.0 and the new BLAST database format.
-2. Results now open in a new page. You can share the link with colleagues or bookmark the page and return to it at a later date. Results are saved for 30 days.
-3. We have integrated three new visualisations that facilitate interpretation of BLAST results:
+<p>We have made many changes since version 1.0. The key features are:</p>
+<ol>
+  <li>Support for BLAST 2.10.0 and the new BLAST database format.</li>
+  <li>Results now open in a new page. You can share the link with colleagues or bookmark the page and return to it at a later date. Results are saved for 30 days.</li>
+  <li>We have integrated three new visualisations that facilitate interpretation of BLAST results:
 Length distribution (histogram) of all hits of a query. This is inspired from our work with GeneValidator (https://academic.oup.com/bioinformatics/article/32/10/1559/1742817) and can, for example, help quality-assessment of gene predictions.
 Kablammo visualisation (https://academic.oup.com/bioinformatics/article/31/8/1305/212772) for each query-hit pair indicates clearly which parts of the query match which part of the hits.
-Circos-style plot of queries and their top hits. This is similar to the circoletto tool (https://academic.oup.com/bioinformatics/article/26/20/2620/194655). For example, it can help visually testing for conserved synteny or gene duplication.
-4. We provide a command-line mechanism for importing a BLAST XML file and visualising it in SequenceServer. This works for DIAMOND as well.
-5. The 30 hit limit for FASTA download has been removed. In addition, you can now download raw pairwise alignments.
-6. Better support for long-running BLAST searches, for rendering large BLAST results (thousands of hits), and for integrating as part of other websites.
-7. Improved error handling, security enhancements, and a new look!</p>
+Circos-style plot of queries and their top hits. This is similar to the circoletto tool (https://academic.oup.com/bioinformatics/article/26/20/2620/194655). For example, it can help visually testing for conserved synteny or gene duplication.</li>
+  <li>We provide a command-line mechanism for importing a BLAST XML file and visualising it in SequenceServer. This works for DIAMOND as well.</li>
+  <li>The 30 hit limit for FASTA download has been removed. In addition, you can now download raw pairwise alignments.</li>
+  <li>Better support for long-running BLAST searches, for rendering large BLAST results (thousands of hits), and for integrating as part of other websites.</li>
+  <li>Improved error handling, security enhancements, and a new look!</li>
+</ol>
 
 <p>Compared to the beta releases, the biggest remaining limitations were SequenceServer’s handling of large BLAST results and back button of browsers. We have addressed those.</p>
 
@@ -202,16 +219,14 @@ Circos-style plot of queries and their top hits. This is similar to the circolet
 
 <p>Upgrading is simple. If you have Ruby 2.3 or later, run:</p>
 
-<p><code class="highlighter-rouge">
-   gem install --pre sequenceserver
-</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   gem install --pre sequenceserver
+</code></pre></div></div>
 
 <p>This does not remove your current sequenceserver installation. Instead, it changes
 the default. If something breaks, you can rollback by running:</p>
 
-<p><code class="highlighter-rouge">
-   gem uninstall sequenceserver
-</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   gem uninstall sequenceserver
+</code></pre></div></div>
 
 <p>Please report any issues here: https://github.com/wurmlab/sequenceserver/issues.</p>
 
@@ -220,7 +235,7 @@ the default. If something breaks, you can rollback by running:</p>
 <p>Kind regards,
 Priyam &amp; Yannick</p>
 
-<h2 id="announcing-200beta4">2019-12-21 Announcing 2.0.0beta4</h2>
+<h2 id="2019-12-21-announcing-200beta4">2019-12-21 Announcing 2.0.0beta4</h2>
 
 <p>Dear all,</p>
 
@@ -242,7 +257,7 @@ Priyam &amp; Yannick</p>
 
 <ul>
   <li>In a suburi deployment (e.g., antgenomes.org/blast), take suburi into account when constructing url for the results page (thanks to Guy Leonard for reporting the issue)</li>
-  <li>Use more specific regex for determining non -parse_seqids databases. Otherwise, presence of <code class="highlighter-rouge">gn|</code> in sequence ids would disable sequence retrieval (thanks to Josh Goodman for reporting the issue)</li>
+  <li>Use more specific regex for determining non -parse_seqids databases. Otherwise, presence of <code class="language-plaintext highlighter-rouge">gn|</code> in sequence ids would disable sequence retrieval (thanks to Josh Goodman for reporting the issue)</li>
   <li>Length of query and hit sequences are now easily accessible in the report page. This is included in the query and hit header, on the right hand side, in a gray font</li>
   <li>Restored the ability to fold and un-fold individual hits (credit: Josh Goodman)</li>
   <li>Removed .00 from decimal numbers (i.e., 100.00% is now shown as 100%)</li>
@@ -277,15 +292,17 @@ Priyam &amp; Yannick</p>
   <li>Expanded test coverage and improved automated testing</li>
 </ul>
 
-<h2 id="announcing-a-major-new-version-of-sequenceserver-110-beta">2018-03-22 Announcing a major new version of Sequenceserver 1.1.0-beta</h2>
+<h2 id="2018-03-22-announcing-a-major-new-version-of-sequenceserver-110-beta">2018-03-22 Announcing a major new version of Sequenceserver 1.1.0-beta</h2>
 
 <p>Dear all,</p>
 
 <p>We are pleased to announce a “beta” release of the next major version of SequenceServer - 1.1.0-beta for testing.</p>
 
-<p>We have fundamentally restructured how SequenceServer works in order to achieve two goals.
- 1. Most importantly, with the approach used to date, we were limited in what we could do with visualisations and filtering. The new approach overcomes all of this. 
- 2. We felt it was important to be able to bookmark and share BLAST results, and be able to return to them at a later date.</p>
+<p>We have fundamentally restructured how SequenceServer works in order to achieve two goals.</p>
+<ol>
+  <li>Most importantly, with the approach used to date, we were limited in what we could do with visualisations and filtering. The new approach overcomes all of this.</li>
+  <li>We felt it was important to be able to bookmark and share BLAST results, and be able to return to them at a later date.</li>
+</ol>
 
 <p>This new version incorporates multiple new minor features (full list below for details), but the biggest change is the “under the hood” restructuring. Today’s beta release is experimental - it has some limitations we know about, and we hope that you can help us find those that remain unknown. We expect this release to be the first of a series of small regular improvements each incorporating additional new features.</p>
 

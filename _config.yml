@@ -1,3 +1,11 @@
+
+## Site variables for SEO
+title: 'SequenceServer'
+description: 'Use SequenceServer to pragmatically perform and interpret genomic comparisons using NCBI BLAST. SequenceServer accelerates your analyses so you can focus on the science.'
+url: https://sequenceserver.com
+production_url: https://sequenceserver.com
+
+
 exclude: ['node_modules','.DS_Store','.git-ignore', '.ruby-version','.git/','Gemfile', 'Gemfile.lock', 'README.md']
 
 collections:
@@ -5,4 +13,9 @@ collections:
     output    : true
     permalink : /:collection/:path/
 
-production_url : https://sequenceserver.com
+
+
+
+## Plugins
+plugins:
+  - jekyll-seo-tag
