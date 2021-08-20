@@ -1,42 +1,31 @@
 ---
 layout: page
 ---
-<div
-  class="row">
-  <div
-    class="sidebar col-md-3 d-none d-lg-block">
-    <nav
-      class="index"
-      data-spy="affix" data-offset-top="0" data-offset-bottom="180">
+<div class="row">
+  <div class="sidebar col-md-3 d-none d-lg-block">
+    <nav class="index sticky-top" style="top:90px;" data-spy="affix" data-offset-top="0" data-offset-bottom="180">
       <ul class="nav nav-pills nav-stacked">
-        <li
-          role="presentation">
-          <a
-            href="#installation-directory">
+        <li role="presentation">
+          <a href="#installation-directory">
             Where is SequenceServer installed?
           </a>
         </li>
-        <li
-          role="presentation">
-          <a
-            href="#basics">
+        <li role="presentation">
+          <a href="#basics">
             Basics of configuring SequenceServer
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#database">
             Creating BLAST databases
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#ncbi-databases">
             Using BLAST databases from NCBI
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#taxonomy">
             Getting taxonomy data from BLAST
           </a>
@@ -46,78 +35,62 @@ layout: page
             Advanced BLAST options
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#jbrowse">
             Integrating with JBrowse
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#plugin">
             Adding links to search hits
           </a>
         </li>
-        <li
-          role="presentation">
-          <a
-            href="#sharing">
+        <li role="presentation">
+          <a href="#sharing">
             Sharing with colleagues
           </a>
         </li>
-        <li
-          role="presentation">
-          <a
-            href="#autostart-systemd">
+        <li role="presentation">
+          <a href="#autostart-systemd">
             Autostart with systemd
           </a>
         </li>
-        <li
-          role="presentation">
-          <a
-            href="#ubuntu">
+        <li role="presentation">
+          <a href="#ubuntu">
             Autostart on Ubuntu / Bio Linux
           </a>
         </li>
-        <li
-          role="presentation">
-          <a
-            href="#macosx">
+        <li role="presentation">
+          <a href="#macosx">
             Autostart on Mac OS X
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#apache">
             Integrating with Apache
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#nginx">
             Reverse proxy setup with Nginx
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#password">
             Password protection
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#hpc">
             HPC integration
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#debugging">
             Debugging SequenceServer
           </a>
         </li>
-        <li
-          role="presentation">
+        <li role="presentation">
           <a href="#issues">
             Known issues and limitations
           </a>
@@ -127,10 +100,8 @@ layout: page
             Other frequently asked questions
           </a>
         </li>
-        <li
-          role="presentation">
-          <a
-            href="#blast">
+        <li role="presentation">
+          <a href="#blast">
             Understanding BLAST
           </a>
         </li>
@@ -138,15 +109,11 @@ layout: page
     </nav> <!-- index -->
   </div> <!-- sidebar -->
 
-  <div
-    class="main col-lg-9">
+  <div class="main col-lg-9">
 
     <!-- Installation directory -->
-    <section
-      id="installation-directory">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="installation-directory">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Where is SequenceServer installed?
         </h2>
@@ -156,9 +123,9 @@ layout: page
         terminal to find out:
       </p>
 
-{% highlight shell %}
-echo "$(ruby -e 'puts Gem.path[0]')/gems/sequenceserver-1.0.8"
-{%  endhighlight  %}
+      {% highlight shell %}
+      echo "$(ruby -e 'puts Gem.path[0]')/gems/sequenceserver-1.0.8"
+      {% endhighlight %}
 
       <p>
         You may need to change <code>1.0.8</code> in the above command to
@@ -167,11 +134,8 @@ echo "$(ruby -e 'puts Gem.path[0]')/gems/sequenceserver-1.0.8"
     </section>
 
     <!-- Basics of configurating SequenceServer -->
-    <section
-      id="basics">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="basics">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Basics of configuring SequenceServer
         </h2>
@@ -189,15 +153,15 @@ echo "$(ruby -e 'puts Gem.path[0]')/gems/sequenceserver-1.0.8"
       <p>
         Configuration files have a simple key-value syntax and can be viewed
         and modified with standard tools. Alternatively, <code>-s</code> option
-        can be used to add an arbitrary key-value to the configuration  file or
+        can be used to add an arbitrary key-value to the configuration file or
         to change the value of a key:
       </p>
 
-{% highlight shell %}
-sequenceserver -c ~/.sequenceserver.ants.conf -s -d /path/to/new/location/of/database/sequences
+      {% highlight shell %}
+      sequenceserver -c ~/.sequenceserver.ants.conf -s -d /path/to/new/location/of/database/sequences
 
-sequenceserver -s -b /path/to/latest/blast/binaries
-{%  endhighlight  %}
+      sequenceserver -s -b /path/to/latest/blast/binaries
+      {% endhighlight %}
 
       <br>
       <p>
@@ -206,8 +170,7 @@ sequenceserver -s -b /path/to/latest/blast/binaries
         options. Command line options take precendence over the values in
         configuration file.
       </p>
-      <table
-        class="table table-condensed table-hover">
+      <table class="table table-condensed table-hover">
         <thead>
           <tr>
             <th>
@@ -295,8 +258,7 @@ sequenceserver -s -b /path/to/latest/blast/binaries
         available. We have seen the first two already, and will discuss the
         rest in following sections.
       </p>
-      <table
-        class="table table-condensed table-hover">
+      <table class="table table-condensed table-hover">
         <thead>
           <tr>
             <th>
@@ -385,11 +347,8 @@ sequenceserver -s -b /path/to/latest/blast/binaries
     </section>
 
     <!-- BLAST databases -->
-    <section
-      id="database">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="database">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Creating BLAST databases
         </h2>
@@ -401,7 +360,7 @@ sequenceserver -s -b /path/to/latest/blast/binaries
         then used by the search algorithms:
       </p>
 
-<pre>makeblastdb -dbtype &lt;prot_or_nucl&gt; -title &lt;human_readable_name&gt; -in &lt;path_to_fasta&gt; -parse_seqids</pre>
+      <pre>makeblastdb -dbtype &lt;prot_or_nucl&gt; -title &lt;human_readable_name&gt; -in &lt;path_to_fasta&gt; -parse_seqids</pre>
 
       <p>
         SequenceServer can recursively scan a directory for FASTA files,
@@ -414,13 +373,13 @@ sequenceserver -s -b /path/to/latest/blast/binaries
         <code>database_dir</code>.
       </p>
 
-<pre>sequenceserver -m</pre>
+      <pre>sequenceserver -m</pre>
 
       <p>
         An alternative directory can be provided:
       </p>
 
-<pre>sequenceserver -m -d /path/to/directory_with_fasta_files
+      <pre>sequenceserver -m -d /path/to/directory_with_fasta_files
 sequenceserver -m -c /path/to/config_file_containing_database_dir</pre>
 
       <p>
@@ -432,11 +391,8 @@ sequenceserver -m -c /path/to/config_file_containing_database_dir</pre>
     </section>
 
     <!-- Using BLAST databases from NCBI -->
-    <section
-      id="ncbi-databases">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="ncbi-databases">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Using BLAST databases from NCBI
         </h2>
@@ -444,24 +400,23 @@ sequenceserver -m -c /path/to/config_file_containing_database_dir</pre>
       <p>
         NCBI provides publicly available sequences as pre-formatted BLAST
         databases and can be downloaded with <code>update_blastdb.pl</code>
-        script distributed with BLAST.  Since these databases are huge, they
+        script distributed with BLAST. Since these databases are huge, they
         are split across several files (volumes) and linked together with an
         alias file. SequenceServer works seamlessly with such, multi-part
         databases. We also have an alternative to
         <code>update_blastdb.pl</code> to download BLAST databases from NCBI
-        faster: <a
-          href="https://github.com/yeban/ncbi-blast-dbs">ncbi-blast-dbs</a>.
+        faster: <a href="https://github.com/yeban/ncbi-blast-dbs">ncbi-blast-dbs</a>.
       </p>
-{% highlight shell %}
-# Install ncbi-blast-dbs
-sudo gem install ncbi-blast-dbs
+      {% highlight shell %}
+      # Install ncbi-blast-dbs
+      sudo gem install ncbi-blast-dbs
 
-# View available BLAST databases.
-ncbi-blast-dbs
+      # View available BLAST databases.
+      ncbi-blast-dbs
 
-# Download one or more databases.
-ncbi-blast-dbs nt nr
-{% endhighlight %}
+      # Download one or more databases.
+      ncbi-blast-dbs nt nr
+      {% endhighlight %}
 
       <p>
         Further, SequenceServer understands NCBI sequence ids and automatically
@@ -471,11 +426,8 @@ ncbi-blast-dbs nt nr
     </section>
 
     <!-- Taxonomy data -->
-    <section
-      id="taxonomy">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="taxonomy">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Getting taxonomy data from BLAST
         </h2>
@@ -484,7 +436,7 @@ ncbi-blast-dbs nt nr
         BLAST can output scientific names, common names, BLAST names, and
         kingdoms for each hit in tabular output. For this to work, databases
         should be created with <code>-taxid</code> option of
-        <code>makeblastdb</code>  and NCBI "taxdb" must be locatable on your
+        <code>makeblastdb</code> and NCBI "taxdb" must be locatable on your
         machine by BLAST. This can be helpful when BLAST-ing against several
         species, using NR database for example. SequenceServer 1.0.4 onwards
         it is possible to get this taxonomy data in the full tabular report
@@ -494,7 +446,7 @@ ncbi-blast-dbs nt nr
       <p>
         To download NCBI taxdb, run:
       </p>
-<pre>
+      <pre>
 <code>sequenceserver --download-taxdb</code>
 </pre>
 
@@ -506,7 +458,7 @@ ncbi-blast-dbs nt nr
         run,
       </p>
 
-<pre>
+      <pre>
 <code>sequenceserver -m</code>
 </pre>
 
@@ -517,7 +469,7 @@ ncbi-blast-dbs nt nr
         For example,
       </p>
 
-<pre>
+      <pre>
 FASTA file: /Users/priyam/biodb/protein/Solenopsis_invicta/SI2.2.3.fa
 FASTA type: protein
 Proceed? [y/n] (Default: y):
@@ -528,8 +480,7 @@ Enter a database title or will use 'SI 2.2.3 ':
 
     <!-- Advanced BLAST options -->
     <section id="advanced-params">
-      <div class="page-header"
-        style="margin-top: 20px;">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Advanced BLAST options
         </h2>
@@ -551,15 +502,14 @@ Enter a database title or will use 'SI 2.2.3 ':
 
     <!-- JBrowse -->
     <section id="jbrowse">
-      <div class="page-header"
-        style="margin-top: 20px;">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Integrating with JBrowse
         </h2>
       </div>
       <p>
         JBrowse's website has an excellent tutorial in this regard:
-          <a href="https://jbrowse.org/docs/faq.html#how-can-i-link-blast-results-to-jbrowse">
+        <a href="https://jbrowse.org/docs/faq.html#how-can-i-link-blast-results-to-jbrowse">
           How can I link BLAST results to JBrowse</a>. The tutorial makes use
         of SequenceServer's plugin architecture which is described briefly in
         the next section.
@@ -567,11 +517,8 @@ Enter a database title or will use 'SI 2.2.3 ':
     </section>
 
     <!-- Plugin -->
-    <section
-      id="plugin">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="plugin">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Adding links to search hits
         </h2>
@@ -592,31 +539,39 @@ Enter a database title or will use 'SI 2.2.3 ':
 
       <p>
         You can access methods defined in the <a
-          href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/BLAST/Hit"><code>Hit</code></a> class within a link generator. Alignment coordinates are not defined on a hit, but on hsps. Calling <code>hsps</code> method (in link generator) will return an Array of <a href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/BLAST/HSP">HSP</a> objects for that Hit.
+          href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/BLAST/Hit"><code>Hit</code></a>
+        class within a link generator. Alignment coordinates are not defined on a hit, but on hsps. Calling
+        <code>hsps</code> method (in link generator) will return an Array of <a
+          href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/BLAST/HSP">HSP</a> objects for
+        that Hit.
       </p>
 
       <p>
-        Which database a hit came from is not provide by BLAST in it’s output. You can call out to <code>whichdb</code> method from your link generator to get a list of all databases that the hit could have come from. If your sequences have unique ids across _all_ FASTA files / BLAST databases, you know that the only element in the list is the database that the hit came from. <code>whichdb</code> returns an Array of <a href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/Database"><code>SequenceServer::Database</code></a> objects from which you can get database title and path. <code>whichdb</code> is slow. Alternative is to encode db info (a short name) in the sequence id, and use regex matching to decide which database a hit came from.
+        Which database a hit came from is not provide by BLAST in it’s output. You can call out to <code>whichdb</code>
+        method from your link generator to get a list of all databases that the hit could have come from. If your
+        sequences have unique ids across _all_ FASTA files / BLAST databases, you know that the only element in the list
+        is the database that the hit came from. <code>whichdb</code> returns an Array of <a
+          href="http://www.rubydoc.info/github/yannickwurm/sequenceserver/SequenceServer/Database"><code>SequenceServer::Database</code></a>
+        objects from which you can get database title and path. <code>whichdb</code> is slow. Alternative is to encode
+        db info (a short name) in the sequence id, and use regex matching to decide which database a hit came from.
       </p>
 
       <p>
-        URL parameters should be encoded. It replaces whitespace and other relevant chars in the string with % encoding followed in URLs.
+        URL parameters should be encoded. It replaces whitespace and other relevant chars in the string with % encoding
+        followed in URLs.
       </p>
     </section>
 
     <!-- Sharing -->
-    <section
-      id="sharing">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="sharing">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Sharing with colleagues
         </h2>
       </div>
       <p>
         If your IP is publicly accessible, your colleagues will be able to
-        access your SequenceServer instance at http://your-ip:4567.  You can
+        access your SequenceServer instance at http://your-ip:4567. You can
         find your IP in the Network or Sharing section of System Preferences.
         This usually requires being in the same subnetwork, or asking IT
         services to open your machine to the outside world. You may also
@@ -629,59 +584,59 @@ Enter a database title or will use 'SI 2.2.3 ':
         required to use port 80: <code>sudo sequenceserver -p 80</code>.
       </p>
       <p>
-          You can disable sharing
-          by setting <code>:host:</code> key in config file to
-          <code>127.0.0.1</code>: <code>sequenceserver -s -H 127.0.0.1</code>
-        </p>
+        You can disable sharing
+        by setting <code>:host:</code> key in config file to
+        <code>127.0.0.1</code>: <code>sequenceserver -s -H 127.0.0.1</code>
+      </p>
     </section>
 
     <!-- Autostart with systemd ============================================== -->
-    <section
-      id="autostart-systemd">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="autostart-systemd">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Autostart with systemd
         </h2>
       </div>
       <p>
-        Either put your user account or create a local user account for SequenceServer <code>sudo useradd -s /sbin/nologin seqservuser</code>.
+        Either put your user account or create a local user account for SequenceServer
+        <code>sudo useradd -s /sbin/nologin seqservuser</code>.
       </p>
       <p>
-        Create file <code>/etc/systemd/system/sequenceserver.service</code> with the following content, changing <code>ExecStart</code> (and maybe <code>User</code>) to match your environment:
+        Create file <code>/etc/systemd/system/sequenceserver.service</code> with the following content, changing
+        <code>ExecStart</code> (and maybe <code>User</code>) to match your environment:
       </p>
 
-{% highlight shell %}
-[Unit]
-Description=SequenceServer server daemon
-Documentation="file://sequenceserver --help" "http://sequenceserver.com/doc"
-After=network.target
+      {% highlight shell %}
+      [Unit]
+      Description=SequenceServer server daemon
+      Documentation="file://sequenceserver --help" "http://sequenceserver.com/doc"
+      After=network.target
 
-[Service]
-Type=simple
-User=seqservuser
-ExecStart=/path/to/bin/sequenceserver -c /path/to/sequenceserver.conf
-KillMode=process
-Restart=on-failure
-RestartSec=42s
-RestartPreventExitStatus=255
+      [Service]
+      Type=simple
+      User=seqservuser
+      ExecStart=/path/to/bin/sequenceserver -c /path/to/sequenceserver.conf
+      KillMode=process
+      Restart=on-failure
+      RestartSec=42s
+      RestartPreventExitStatus=255
 
-[Install]
-WantedBy=multi-user.target
-{% endhighlight %}
+      [Install]
+      WantedBy=multi-user.target
+      {% endhighlight %}
 
       <p>
-        Stop any SequenceServer instance you might be running and check the above works by running the following command:
+        Stop any SequenceServer instance you might be running and check the above works by running the following
+        command:
       </p>
-{% highlight shell %}
-## let systemd know about changed files
-sudo systemctl daemon-reload
-## enable service for automatic start on boot
-systemctl enable sequenceserver.service
-## start service immediately
-systemctl start sequenceserver.service
-{% endhighlight %}
+      {% highlight shell %}
+      ## let systemd know about changed files
+      sudo systemctl daemon-reload
+      ## enable service for automatic start on boot
+      systemctl enable sequenceserver.service
+      ## start service immediately
+      systemctl start sequenceserver.service
+      {% endhighlight %}
 
       <p>
         See <a href="https://freedesktop.org/wiki/Software/systemd/">systemd website</a>
@@ -690,11 +645,8 @@ systemctl start sequenceserver.service
     </section>
 
     <!-- Autostart on Ubuntu / Bio Linux =================================== -->
-    <section
-      id="ubuntu">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="ubuntu">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Autostart on Ubuntu / Bio Linux
         </h2>
@@ -705,38 +657,35 @@ systemctl start sequenceserver.service
         <code>setuid</code> lines to your name and username:
       </p>
 
-{% highlight shell %}
-description "Upstart config for SequenceServer"
-author "<full name>"
+      {% highlight shell %}
+      description "Upstart config for SequenceServer"
+      author "<full name>"
 
-start on filesystem
-stop on shutdown
+        start on filesystem
+        stop on shutdown
 
-setuid <username>
+        setuid <username>
 
-exec sequenceserver
-{% endhighlight %}
+          exec sequenceserver
+          {% endhighlight %}
 
-      <p>
-        Stop any SequenceServer instance you might be running and check the
-        above works by running the following command:
-      </p>
-{% highlight shell %}
-sudo start sequenceserver
-{% endhighlight %}
+          <p>
+            Stop any SequenceServer instance you might be running and check the
+            above works by running the following command:
+          </p>
+          {% highlight shell %}
+          sudo start sequenceserver
+          {% endhighlight %}
 
-      <p>
-        See <a href="http://upstart.ubuntu.com/cookbook/">Upstart Cookbook</a>
-        for more options and debugging if it fails.
-      </p>
+          <p>
+            See <a href="http://upstart.ubuntu.com/cookbook/">Upstart Cookbook</a>
+            for more options and debugging if it fails.
+          </p>
     </section>
 
     <!-- Autostart on Mac OS X ============================================== -->
-    <section
-      id="macosx">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="macosx">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Autostart on Mac OS X
         </h2>
@@ -746,40 +695,37 @@ sudo start sequenceserver
         with the following content:
       </p>
 
-{% highlight xml %}
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>KeepAlive</key>
-  <true/>
-  <key>Label</key>
-  <string>sequenceserver</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>/usr/local/bin/sequenceserver</string>
-  </array>
-  <key>RunAtLoad</key>
-  <true/>
-</dict>
-</plist>
-{% endhighlight %}
+      {% highlight xml %}
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+        <dict>
+          <key>KeepAlive</key>
+          <true />
+          <key>Label</key>
+          <string>sequenceserver</string>
+          <key>ProgramArguments</key>
+          <array>
+            <string>/usr/local/bin/sequenceserver</string>
+          </array>
+          <key>RunAtLoad</key>
+          <true />
+        </dict>
+      </plist>
+      {% endhighlight %}
 
       <p>
         Stop any SequenceServer instance you might be running and check the
         above works by running the following command:
       </p>
-{% highlight shell %}
-launchctl load ~/Library/LaunchAgents/sequenceserver
-{%  endhighlight  %}
+      {% highlight shell %}
+      launchctl load ~/Library/LaunchAgents/sequenceserver
+      {% endhighlight %}
     </section>
 
     <!-- Apache -->
-    <section
-      id="apache">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="apache">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Integrating with Apache
         </h2>
@@ -792,16 +738,23 @@ launchctl load ~/Library/LaunchAgents/sequenceserver
         available when server restarts.
       </p>
       <p>
-        To setup SequenceServer with Apache, first install Phusion Passenger™ by following the <a href="https://www.phusionpassenger.com/library/install/apache/install/oss/">instructions at their website</a>. Then configure Apache to load SequenceServer by following their guide on <a href="https://www.phusionpassenger.com/library/deploy/apache/deploy/ruby/">deploying a Ruby applicaion</a>, replacing <code>/path-to-your-app</code> with SequenceServer's installation directory. Finally, go to the directory where SequenceServer is installed and edit <code>config.ru</code> to indicate absolute path to SequenceServer's config file and <code>DOTDIR</code> which are respectively <code>~/.sequenceserver.conf</code> and <code>~/.sequenceserver</code> by default:
+        To setup SequenceServer with Apache, first install Phusion Passenger™ by following the <a
+          href="https://www.phusionpassenger.com/library/install/apache/install/oss/">instructions at their website</a>.
+        Then configure Apache to load SequenceServer by following their guide on <a
+          href="https://www.phusionpassenger.com/library/deploy/apache/deploy/ruby/">deploying a Ruby applicaion</a>,
+        replacing <code>/path-to-your-app</code> with SequenceServer's installation directory. Finally, go to the
+        directory where SequenceServer is installed and edit <code>config.ru</code> to indicate absolute path to
+        SequenceServer's config file and <code>DOTDIR</code> which are respectively <code>~/.sequenceserver.conf</code>
+        and <code>~/.sequenceserver</code> by default:
       </p>
-{% highlight ruby %}
-# Remove this line.
-SequenceServer.init
+      {% highlight ruby %}
+      # Remove this line.
+      SequenceServer.init
 
-# And add these two, changing the path.
-SequenceServer::DOTDIR = "/home/foo/.sequenceserver"
-SequenceServer.init :config_file => "/home/foo/.sequenceserver.conf"
-{% endhighlight %}
+      # And add these two, changing the path.
+      SequenceServer::DOTDIR = "/home/foo/.sequenceserver"
+      SequenceServer.init :config_file => "/home/foo/.sequenceserver.conf"
+      {% endhighlight %}
 
       <p>
         For SequenceServer 1.0.7 and earlier, you will additionally need to
@@ -812,7 +765,7 @@ SequenceServer.init :config_file => "/home/foo/.sequenceserver.conf"
       <p>
         If you plan to deploy multiple SequenceServer instances, you should
         <a href="https://groups.google.com/d/msg/sequenceserver/FWI0Dq_2erw/SV6H_tTxBgAJ">
-        deploy each to a sub-uri</a>.
+          deploy each to a sub-uri</a>.
       </p>
 
       <p>
@@ -824,44 +777,49 @@ SequenceServer.init :config_file => "/home/foo/.sequenceserver.conf"
       </p>
 
       <p>
-      Further, because BLAST searches can take time, you may additionally want to configure <a href="https://httpd.apache.org/docs/2.4/mod/core.html#timeout"><code>Timeout</code></a> in your Apache config to a suitable value (e.g., 5 minutes) so that the Apache doesn't close the connection before a BLAST search has been performed.
+        Further, because BLAST searches can take time, you may additionally want to configure <a
+          href="https://httpd.apache.org/docs/2.4/mod/core.html#timeout"><code>Timeout</code></a> in your Apache config
+        to a suitable value (e.g., 5 minutes) so that the Apache doesn't close the connection before a BLAST search has
+        been performed.
       </p>
     </section>
 
     <!-- Nginx -->
-    <section
-      id="nginx">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="nginx">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Reverse proxy setup with Nginx
         </h2>
       </div>
       <p>
-        In reverse proxy setup, requests are forwarded from Nginx (or Apache) to SequenceServer's built-in server. Following config indicates how to proxy requests from Nginx to SequenceServer from a sub-uri of your domain (my-domain.com/sequenceserver). Nginx will timeout requests if it can't connect to SequenceServer within 8 seconds or if it doesn't hear back from SequenceServer within 180 seconds (3 minutes) after it forwarded the request (that is, BLAST requests that take more than than 3 minutes will be timed out by Nginx). Please see Nginx documentation for details info of each directive.
+        In reverse proxy setup, requests are forwarded from Nginx (or Apache) to SequenceServer's built-in server.
+        Following config indicates how to proxy requests from Nginx to SequenceServer from a sub-uri of your domain
+        (my-domain.com/sequenceserver). Nginx will timeout requests if it can't connect to SequenceServer within 8
+        seconds or if it doesn't hear back from SequenceServer within 180 seconds (3 minutes) after it forwarded the
+        request (that is, BLAST requests that take more than than 3 minutes will be timed out by Nginx). Please see
+        Nginx documentation for details info of each directive.
       </p>
 
-{% highlight nginx %}
-location /sequenceserver/ {
-    root /home/priyam/sequenceserver/public/dist;
-    proxy_pass http://localhost:4567/;
-    proxy_intercept_errors on;
-    proxy_connect_timeout 8;
-    proxy_read_timeout 180;
-}
-{% endhighlight %}
+      {% highlight nginx %}
+      location /sequenceserver/ {
+      root /home/priyam/sequenceserver/public/dist;
+      proxy_pass http://localhost:4567/;
+      proxy_intercept_errors on;
+      proxy_connect_timeout 8;
+      proxy_read_timeout 180;
+      }
+      {% endhighlight %}
 
       <p>
-        SequenceServer can be integrated with Nginx similar to Apache, using Phusion Passenger. And Apache can be used instead of Nginx to proxy connections as well. Whether to use reverse proxy or Phusion Passenger and Apache or Nginx is up to the user. A discussion of pros and cons of each is beyond the scope of this documentation.
+        SequenceServer can be integrated with Nginx similar to Apache, using Phusion Passenger. And Apache can be used
+        instead of Nginx to proxy connections as well. Whether to use reverse proxy or Phusion Passenger and Apache or
+        Nginx is up to the user. A discussion of pros and cons of each is beyond the scope of this documentation.
       </p>
     </section>
 
     <!-- Password protection -->
-    <section
-      id="password">
-      <div
-        class="page-header">
+    <section id="password">
+      <div class="page-header">
         <h2>
           Password protection
         </h2>
@@ -869,8 +827,7 @@ location /sequenceserver/ {
       <p>
         If you are using SequenceServer with Apache or Nginx then you can
         easily password protect your data using HTTP basic authentication
-        scheme. These tutorials from <a
-          href="https://www.digitalocean.com">DigitalOcean</a> detail the
+        scheme. These tutorials from <a href="https://www.digitalocean.com">DigitalOcean</a> detail the
         steps required for both
         <a
           href="https://www.digitalocean.com/community/tutorials/how-to-set-up-password-authentication-with-apache-on-ubuntu-14-04">Apache</a>
@@ -883,18 +840,16 @@ location /sequenceserver/ {
         line number 57 in <code>lib/sequenceserver/routes.rb</code>, change the
         password ('admin') to something more and secure, and restart SequenceServer.
       </p>
-{% highlight ruby %}
-use Rack::Auth::Basic, "Restricted Area" do |username, password|
-  username == 'admin' and password == 'admin'
-end
-{% endhighlight %}
+      {% highlight ruby %}
+      use Rack::Auth::Basic, "Restricted Area" do |username, password|
+      username == 'admin' and password == 'admin'
+      end
+      {% endhighlight %}
     </section>
 
     <!-- HPC -->
-    <section
-      id="hpc">
-      <div
-        class="page-header">
+    <section id="hpc">
+      <div class="page-header">
         <h2>
           HPC integration
         </h2>
@@ -907,14 +862,14 @@ end
         computer using SSH.
       </p>
 
-{% highlight shell %}
-#!/usr/bin/env sh
+      {% highlight shell %}
+      #!/usr/bin/env sh
 
-blast=`basename $0`
-param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /"`
+      blast=`basename $0`
+      param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /"`
 
-ssh hostname /usr/local/bin/$blast $param
-{% endhighlight %}
+      ssh hostname /usr/local/bin/$blast $param
+      {% endhighlight %}
 
       <p>
         Additionally, <code>TMPDIR</code> environment variable must be set to a
@@ -925,35 +880,34 @@ ssh hostname /usr/local/bin/$blast $param
         Using a job queuing system such as <code>qsub</code> may be a bit
         involved depending on the flexibility afforded by the system.
         Fortunately, we have a solution for <code>qsub</code> thanks
-        to <a
-          href="https://groups.google.com/d/msg/sequenceserver/Ed05cYtHyPY/cMNYUxeaBQAJ">
+        to <a href="https://groups.google.com/d/msg/sequenceserver/Ed05cYtHyPY/cMNYUxeaBQAJ">
           Andy Foster</a>. Create the following script:
       </p>
 
-{% highlight shell %}
-#!/usr/bin/env sh
+      {% highlight shell %}
+      #!/usr/bin/env sh
 
-jobid=`mktemp bl.XXXX`
-rm $jobid
+      jobid=`mktemp bl.XXXX`
+      rm $jobid
 
-rfile=$1
-efile=$2
-blast=$3
+      rfile=$1
+      efile=$2
+      blast=$3
 
-shift 3
+      shift 3
 
-param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /"`
+      param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /"`
 
-qsub -sync y -b y -pe slowpara 4 -N $jobid -o $rfile -e $efile /usr/local/bin/$blast $param
-{% endhighlight %}
+      qsub -sync y -b y -pe slowpara 4 -N $jobid -o $rfile -e $efile /usr/local/bin/$blast $param
+      {% endhighlight %}
 
       <p>
         And then modify L67 of <code>lib/sequenceserver/blast.rb</code> to
       </p>
 
-{% highlight ruby %}
-system("/path/to/script #{rfile.path} #{efile.path} #{command}")
-{% endhighlight %}
+      {% highlight ruby %}
+      system("/path/to/script #{rfile.path} #{efile.path} #{command}")
+      {% endhighlight %}
 
       <p>
         As above, <code>TMPDIR</code> environment variable must be set to a
@@ -963,10 +917,8 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
     </section>
 
     <!-- Debugging ========================================================= -->
-    <section
-      id="debugging">
-      <div
-        class="page-header">
+    <section id="debugging">
+      <div class="page-header">
         <h2>
           Debugging SequenceServer
         </h2>
@@ -986,10 +938,8 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
     </section>
 
     <!-- Known issues and limitations ====================================== -->
-    <section
-      id="issues">
-      <div
-        class="page-header">
+    <section id="issues">
+      <div class="page-header">
         <h2>
           Known issues and limitations
         </h2>
@@ -1028,60 +978,55 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
         </h2>
       </div>
       <p>
-        <dl>
-          <dt>
-            1. Can I use SequenceServer as an access-point for a community
-            genome database?
-          </dt>
-          <dd>
-            Yes. SequenceServer is used as data querying mechnism in over 30
-            <a href="/#users-and-citations/">community databases</a>.
-            You can use SequenceServer as it is along with supporting pages
-            describing the data and related resources (e.g., <a
-              href="http://hopbase.org">HopBase</a>), customise it
-            extensively (e.g., <a href="https://lotus.au.dk">Lotus Base</a>),
-            or integrate it with InterMine (e.g., <a
-              href="http://planmine.mpi-cbg.de/planmine">PlanMine</a>).
-          </dd>
-          <dt>
-            2. Does SequenceServer include a genome browser?
-          </dt>
-          <dd>
+      <dl>
+        <dt>
+          1. Can I use SequenceServer as an access-point for a community
+          genome database?
+        </dt>
+        <dd>
+          Yes. SequenceServer is used as data querying mechnism in over 30
+          <a href="/#users-and-citations/">community databases</a>.
+          You can use SequenceServer as it is along with supporting pages
+          describing the data and related resources (e.g., <a href="http://hopbase.org">HopBase</a>), customise it
+          extensively (e.g., <a href="https://lotus.au.dk">Lotus Base</a>),
+          or integrate it with InterMine (e.g., <a href="http://planmine.mpi-cbg.de/planmine">PlanMine</a>).
+        </dd>
+        <dt>
+          2. Does SequenceServer include a genome browser?
+        </dt>
+        <dd>
           No, but any web based genome browser such as
           <a href="https://jbrowse.org">JBrowse</a>,
           <a href="http://www.biodalliance.org">Biodalliance</a>, or
           <a href="https://github.com/igvteam/igv.js">igv.js</a> can be
           used. Also see: <a href="#jbrowse">Integrating with JBrowse</a>
           and <a href="#plugin">Adding links to search hits</a>.
-          </dd>
-        </dl>
+        </dd>
+      </dl>
       </p>
     </section>
 
     <!-- Understanding BLAST =============================================== -->
-    <section
-      id="blast">
-      <div
-        class="page-header"
-        style="margin-top: 20px;">
+    <section id="blast">
+      <div class="page-header" style="margin-top: 20px;">
         <h2>
           Understanding BLAST
         </h2>
       </div>
       <!--<dt>-->
-        <!--Q. How does BLAST identify similar regions? Why don't the-->
-        <!--ends match? What is the bitscore? What is the e-value that BLAST-->
-        <!--returns? What do these numbers mean?-->
-        <!--</dt>-->
+      <!--Q. How does BLAST identify similar regions? Why don't the-->
+      <!--ends match? What is the bitscore? What is the e-value that BLAST-->
+      <!--returns? What do these numbers mean?-->
+      <!--</dt>-->
       <!--<dd>-->
-        <!--Many detailed explanations exist egarding such questions, including-->
-        <!--<a-->
-          <!--href="http://www.ncbi.nlm.nih.gov/books/NBK21097/">-->
-          <!--at NCBI-->
-          <!--</a>-->
-        <!--and in the original BLAST articles. Here's our executive-->
-        <!--summary:-->
-        <!--<blockquote>-->
+      <!--Many detailed explanations exist egarding such questions, including-->
+      <!--<a-->
+      <!--href="http://www.ncbi.nlm.nih.gov/books/NBK21097/">-->
+      <!--at NCBI-->
+      <!--</a>-->
+      <!--and in the original BLAST articles. Here's our executive-->
+      <!--summary:-->
+      <!--<blockquote>-->
       <p>
         BLAST is a heuristic, i.e., it is fast and approximate instead of
         being slow and perfect. It starts by looking for a minimal 100%
@@ -1092,8 +1037,7 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
         points. If too many points are lost, it stops aligning. BLAST
         might not stop at the exact best place, alignment ends might be
         wrong.
-        <a
-          href="http://www.ncbi.nlm.nih.gov/books/NBK21106/def-item/app8/">
+        <a href="http://www.ncbi.nlm.nih.gov/books/NBK21106/def-item/app8/">
           bitscore
         </a>
         is the total number of points for the aligning region. The bigger
@@ -1107,25 +1051,22 @@ system("/path/to/script #{rfile.path} #{efile.path} #{command}")
           in the database</strong>. It is easier to talk about
         <em>strong</em> E-values (e.g. 1e-100 = 10<sup>-100</sup> = almost
         zero; impossible to obtain by chance) vs <em>weak</em> E-values
-        (e.g 0.1;  for similarity that may be due to chance) than small vs
+        (e.g 0.1; for similarity that may be due to chance) than small vs
         large (which is always a bit confusing).
       </p>
 
       <p>
-        <a
-          href="publications/ncbiBlast.pdf">
+        <a href="publications/ncbiBlast.pdf">
           BLAST
         </a>
         has been rewritten several times - most recently by NCBI as BLAST+.
         NCBI now use and recommend using BLAST+.
-        <a
-          href="publications/blastplus.pdf">
+        <a href="publications/blastplus.pdf">
           The BLAST+ publication
         </a>
         explains why BLAST+ is easier to use and faster than the old
         <em>legacy</em> BLAST. WU-BLAST is now commercial and called
-        <a
-          href="http://blast.advbiocomp.com/">
+        <a href="http://blast.advbiocomp.com/">
           AB-BLAST</a>.
         There is probably no good reason to use either alternative. Note
         that the output formats change slightly from one BLAST
