@@ -98,21 +98,27 @@ a:hover {
   color: #c74f14;
 }
 
-
 /**
  * Sidebar.
  */
 
 .sidebar {
-  padding-top: 10px;
   border-right: 1px solid #eee;
 }
-.sidebar  li a{
-position: relative;
-display: block;
-padding: 10px 15px;
-text-decoration:none;
+
+.sidebar li {
+  position: relative;
+  display: block;
+  width: 100%;
 }
+
+.sidebar li a {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+
 @media (min-width: 992px) {
   /* MacBook Pro etc. */
   .sidebar nav.affix {
@@ -153,6 +159,7 @@ text-decoration:none;
     padding-bottom: 1.5rem !important;
   }
 }
+
 @media (min-width: 359px) {
   .stats-banner {
     padding-top: 1.5rem !important;
@@ -160,9 +167,9 @@ text-decoration:none;
   }
 }
 
-.stats-banner div{
+.stats-banner div {
   width: auto;
-  }
+}
 
 .stats-banner a {
   text-decoration: none;
