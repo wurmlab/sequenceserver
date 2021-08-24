@@ -196,3 +196,10 @@ a:hover {
   text-decoration: none;
   color: initial;
 }
+
+/* improve mobile display of ordered lists */
+@media (max-width: 767px) {
+  ol {
+    padding-left: 30px !important;
+  }
+}
