@@ -5,16 +5,12 @@ description: 'Use SequenceServer to pragmatically perform and interpret genomic 
 url: https://sequenceserver.com
 production_url: https://sequenceserver.com
 
-
 exclude: ['node_modules','.DS_Store','.git-ignore', '.ruby-version','.git/','Gemfile', 'Gemfile.lock', 'README.md']
 
 collections:
   blog       :
     output    : true
     permalink : /:collection/:path/
-
-
-
 
 ## Plugins
 plugins:
