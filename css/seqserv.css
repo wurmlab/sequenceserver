@@ -10,6 +10,8 @@ body {
 section {
   padding-top: 50px;
   margin-top: -50px;
+  /* add margin when anchor tag scrolls to section  -mh */
+  scroll-margin-top: 30px;
 }
 
 table, blockquote {
@@ -25,7 +27,22 @@ code {
 }
 
 pre {
-  border: none;
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #333;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden
+}
+
+pre>code {
+  margin-bottom: -2rem;
 }
 
 dl dd {
@@ -139,8 +156,12 @@ a:hover {
   position: relative;
 }
 
-.main {
-  padding: 0 20px 20px 20px;
+/* additional padding is only needed on large screens where sidebar is present */
+
+@media (min-width: 992px) {
+  .main {
+    padding: 0 20px 20px 20px;
+  }
 }
 
 .page-header {

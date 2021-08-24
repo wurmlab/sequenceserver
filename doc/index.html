@@ -123,9 +123,7 @@ layout: page
         terminal to find out:
       </p>
 
-      {% highlight shell %}
-      echo "$(ruby -e 'puts Gem.path[0]')/gems/sequenceserver-1.0.8"
-      {% endhighlight %}
+      {% highlight shell %}echo "$(ruby -e 'puts Gem.path[0]')/gems/sequenceserver-1.0.8"{% endhighlight %}
 
       <p>
         You may need to change <code>1.0.8</code> in the above command to
@@ -157,11 +155,9 @@ layout: page
         to change the value of a key:
       </p>
 
-      {% highlight shell %}
-      sequenceserver -c ~/.sequenceserver.ants.conf -s -d /path/to/new/location/of/database/sequences
-
-      sequenceserver -s -b /path/to/latest/blast/binaries
-      {% endhighlight %}
+{% highlight shell %}
+sequenceserver -c ~/.sequenceserver.ants.conf -s -d /path/to/new/location/of/database/sequences
+sequenceserver -s -b /path/to/latest/blast/binaries{% endhighlight %}
 
       <br>
       <p>
@@ -407,16 +403,16 @@ sequenceserver -m -c /path/to/config_file_containing_database_dir</pre>
         <code>update_blastdb.pl</code> to download BLAST databases from NCBI
         faster: <a href="https://github.com/yeban/ncbi-blast-dbs">ncbi-blast-dbs</a>.
       </p>
-      {% highlight shell %}
-      # Install ncbi-blast-dbs
-      sudo gem install ncbi-blast-dbs
+{% highlight shell %}
+# Install ncbi-blast-dbs
+sudo gem install ncbi-blast-dbs
 
-      # View available BLAST databases.
-      ncbi-blast-dbs
+# View available BLAST databases.
+ncbi-blast-dbs
 
-      # Download one or more databases.
-      ncbi-blast-dbs nt nr
-      {% endhighlight %}
+# Download one or more databases.
+ncbi-blast-dbs nt nr
+{% endhighlight %}
 
       <p>
         Further, SequenceServer understands NCBI sequence ids and automatically
@@ -606,37 +602,37 @@ Enter a database title or will use 'SI 2.2.3 ':
         <code>ExecStart</code> (and maybe <code>User</code>) to match your environment:
       </p>
 
-      {% highlight shell %}
-      [Unit]
-      Description=SequenceServer server daemon
-      Documentation="file://sequenceserver --help" "http://sequenceserver.com/doc"
-      After=network.target
+{% highlight shell %}
+[Unit]
+Description=SequenceServer server daemon
+Documentation="file://sequenceserver --help" "http://sequenceserver.com/doc"
+After=network.target
 
-      [Service]
-      Type=simple
-      User=seqservuser
-      ExecStart=/path/to/bin/sequenceserver -c /path/to/sequenceserver.conf
-      KillMode=process
-      Restart=on-failure
-      RestartSec=42s
-      RestartPreventExitStatus=255
+[Service]
+Type=simple
+User=seqservuser
+ExecStart=/path/to/bin/sequenceserver -c /path/to/sequenceserver.conf
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+RestartPreventExitStatus=255
 
-      [Install]
-      WantedBy=multi-user.target
-      {% endhighlight %}
+[Install]
+WantedBy=multi-user.target
+{% endhighlight %}
 
       <p>
         Stop any SequenceServer instance you might be running and check the above works by running the following
         command:
       </p>
-      {% highlight shell %}
-      ## let systemd know about changed files
-      sudo systemctl daemon-reload
-      ## enable service for automatic start on boot
-      systemctl enable sequenceserver.service
-      ## start service immediately
-      systemctl start sequenceserver.service
-      {% endhighlight %}
+{% highlight shell %}
+## let systemd know about changed files
+sudo systemctl daemon-reload
+## enable service for automatic start on boot
+systemctl enable sequenceserver.service
+## start service immediately
+systemctl start sequenceserver.service
+{% endhighlight %}
 
       <p>
         See <a href="https://freedesktop.org/wiki/Software/systemd/">systemd website</a>
@@ -657,25 +653,25 @@ Enter a database title or will use 'SI 2.2.3 ':
         <code>setuid</code> lines to your name and username:
       </p>
 
-      {% highlight shell %}
-      description "Upstart config for SequenceServer"
-      author "<full name>"
+{% highlight shell %}
+description "Upstart config for SequenceServer"
+author "<full name>"
 
-        start on filesystem
-        stop on shutdown
+start on filesystem
+stop on shutdown
 
-        setuid <username>
+setuid <username>
 
-          exec sequenceserver
-          {% endhighlight %}
+exec sequenceserver
+{% endhighlight %}
 
-          <p>
-            Stop any SequenceServer instance you might be running and check the
-            above works by running the following command:
-          </p>
-          {% highlight shell %}
-          sudo start sequenceserver
-          {% endhighlight %}
+<p>
+Stop any SequenceServer instance you might be running and check the
+above works by running the following command:
+</p>
+{% highlight shell %}
+sudo start sequenceserver
+{% endhighlight %}
 
           <p>
             See <a href="http://upstart.ubuntu.com/cookbook/">Upstart Cookbook</a>
@@ -695,32 +691,32 @@ Enter a database title or will use 'SI 2.2.3 ':
         with the following content:
       </p>
 
-      {% highlight xml %}
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>KeepAlive</key>
-          <true />
-          <key>Label</key>
-          <string>sequenceserver</string>
-          <key>ProgramArguments</key>
-          <array>
-            <string>/usr/local/bin/sequenceserver</string>
-          </array>
-          <key>RunAtLoad</key>
-          <true />
-        </dict>
-      </plist>
-      {% endhighlight %}
+{% highlight xml %}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>KeepAlive</key>
+    <true />
+    <key>Label</key>
+    <string>sequenceserver</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/local/bin/sequenceserver</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true />
+  </dict>
+</plist>
+{% endhighlight %}
 
       <p>
         Stop any SequenceServer instance you might be running and check the
         above works by running the following command:
       </p>
-      {% highlight shell %}
-      launchctl load ~/Library/LaunchAgents/sequenceserver
-      {% endhighlight %}
+{% highlight shell %}
+launchctl load ~/Library/LaunchAgents/sequenceserver
+{% endhighlight %}
     </section>
 
     <!-- Apache -->
@@ -747,14 +743,14 @@ Enter a database title or will use 'SI 2.2.3 ':
         SequenceServer's config file and <code>DOTDIR</code> which are respectively <code>~/.sequenceserver.conf</code>
         and <code>~/.sequenceserver</code> by default:
       </p>
-      {% highlight ruby %}
-      # Remove this line.
-      SequenceServer.init
+{% highlight ruby %}
+# Remove this line.
+SequenceServer.init
 
-      # And add these two, changing the path.
-      SequenceServer::DOTDIR = "/home/foo/.sequenceserver"
-      SequenceServer.init :config_file => "/home/foo/.sequenceserver.conf"
-      {% endhighlight %}
+# And add these two, changing the path.
+SequenceServer::DOTDIR = "/home/foo/.sequenceserver"
+SequenceServer.init :config_file => "/home/foo/.sequenceserver.conf"
+{% endhighlight %}
 
       <p>
         For SequenceServer 1.0.7 and earlier, you will additionally need to
@@ -800,15 +796,15 @@ Enter a database title or will use 'SI 2.2.3 ':
         Nginx documentation for details info of each directive.
       </p>
 
-      {% highlight nginx %}
-      location /sequenceserver/ {
-      root /home/priyam/sequenceserver/public/dist;
-      proxy_pass http://localhost:4567/;
-      proxy_intercept_errors on;
-      proxy_connect_timeout 8;
-      proxy_read_timeout 180;
-      }
-      {% endhighlight %}
+{% highlight nginx %}
+location /sequenceserver/ {
+    root /home/priyam/sequenceserver/public/dist;
+    proxy_pass http://localhost:4567/;
+    proxy_intercept_errors on;
+    proxy_connect_timeout 8;
+    proxy_read_timeout 180;
+}
+{% endhighlight %}
 
       <p>
         SequenceServer can be integrated with Nginx similar to Apache, using Phusion Passenger. And Apache can be used
@@ -840,11 +836,11 @@ Enter a database title or will use 'SI 2.2.3 ':
         line number 57 in <code>lib/sequenceserver/routes.rb</code>, change the
         password ('admin') to something more and secure, and restart SequenceServer.
       </p>
-      {% highlight ruby %}
-      use Rack::Auth::Basic, "Restricted Area" do |username, password|
-      username == 'admin' and password == 'admin'
-      end
-      {% endhighlight %}
+{% highlight ruby %}
+use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  username == 'admin' and password == 'admin'
+end
+{% endhighlight %}
     </section>
 
     <!-- HPC -->
@@ -862,14 +858,14 @@ Enter a database title or will use 'SI 2.2.3 ':
         computer using SSH.
       </p>
 
-      {% highlight shell %}
-      #!/usr/bin/env sh
+{% highlight shell %}
+#!/usr/bin/env sh
 
-      blast=`basename $0`
-      param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /"`
+blast=`basename $0`
+param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /"`
 
-      ssh hostname /usr/local/bin/$blast $param
-      {% endhighlight %}
+ssh hostname /usr/local/bin/$blast $param
+{% endhighlight %}
 
       <p>
         Additionally, <code>TMPDIR</code> environment variable must be set to a
@@ -884,30 +880,30 @@ Enter a database title or will use 'SI 2.2.3 ':
           Andy Foster</a>. Create the following script:
       </p>
 
-      {% highlight shell %}
-      #!/usr/bin/env sh
+{% highlight shell %}
+#!/usr/bin/env sh
 
-      jobid=`mktemp bl.XXXX`
-      rm $jobid
+jobid=`mktemp bl.XXXX`
+rm $jobid
 
-      rfile=$1
-      efile=$2
-      blast=$3
+rfile=$1
+efile=$2
+blast=$3
 
-      shift 3
+shift 3
 
-      param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /"`
+param=`echo "$@" | sed "s/\-db\ /\-db\ \'/" | sed "s/\ \-query\ /\'\ \-query\ /"`
 
-      qsub -sync y -b y -pe slowpara 4 -N $jobid -o $rfile -e $efile /usr/local/bin/$blast $param
-      {% endhighlight %}
+qsub -sync y -b y -pe slowpara 4 -N $jobid -o $rfile -e $efile /usr/local/bin/$blast $param
+{% endhighlight %}
 
       <p>
         And then modify L67 of <code>lib/sequenceserver/blast.rb</code> to
       </p>
 
-      {% highlight ruby %}
-      system("/path/to/script #{rfile.path} #{efile.path} #{command}")
-      {% endhighlight %}
+{% highlight ruby %}
+system("/path/to/script #{rfile.path} #{efile.path} #{command}")
+{% endhighlight %}
 
       <p>
         As above, <code>TMPDIR</code> environment variable must be set to a
