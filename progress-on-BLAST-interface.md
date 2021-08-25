@@ -6,8 +6,11 @@ layout: page
 
 # Release notes during the development of Sequenceserver BLAST
 
+--
 
 ## 2020-12-11 Many improvements due to Hacktoberfest and other initiatives
+
+
 
 We are pleased to announce the next candidate release of SequenceServer 2.0.
 
@@ -29,8 +32,11 @@ We are pleased to announce the next candidate release of SequenceServer 2.0.
 
 Special thanks to [Iain-S](https://github.com/iain-s) for introducing us to [hacktoberfest](https://github.com/topics/hacktoberfest). It was incredibly productive, leading to changes 8-10 above.
 
+--
 
 ## 2020-06-23 Support for NCBI BLAST's v5 database format
+
+
 
 Based on your feedback we have fixed bugs affecting docker and sub-URI deployments, updated documentation for HPC-integration, and most importantly, we have created a path for migrating to NCBI’s newer V5 database format (see release notes below).
 
@@ -45,6 +51,7 @@ Based on your feedback we have fixed bugs affecting docker and sub-URI deploymen
 
 Thanks to Niek Art, Matt Yoder, Massimiliano babbucci, Bjoernsen, and Eric Y for reporting database compatibility issues that prompted us to create a path for migrating to the new database format.
 
+--
 
 ## 2020-04-22 Release candidate 2
 
@@ -61,7 +68,7 @@ Thanks to Niek Art, Matt Yoder, Massimiliano babbucci, Bjoernsen, and Eric Y for
 We have also been able to make many of the required changes to the website for the 2.0 release and are testing it locally: https://github.com/wurmlab/sequenceserver/tree/gh-pages2.0. 
 
 
-
+--
 
 ## 2020-03-15 New architecture for improved flexibility: 2.0 release candidate 1
 
@@ -88,14 +95,14 @@ We request you to try out the "candidate" release of version 2.0 and report any 
 Upgrading is simple. If you have Ruby 2.3 or later, run:
 
 ```
-   gem install --pre sequenceserver
+gem install --pre sequenceserver
 ```
 
 This does not remove your current sequenceserver installation. Instead, it changes
 the default. If something breaks, you can rollback by running:
 
 ```
-   gem uninstall sequenceserver
+gem uninstall sequenceserver
 ```
 
 Please report any issues here: https://github.com/wurmlab/sequenceserver/issues.
@@ -104,6 +111,8 @@ You can also send us pull-requests. We welcome any help you may be able to provi
 
 Kind regards,
 Priyam & Yannick
+
+--
 
 ## 2019-12-21 Announcing 2.0.0beta4
 
@@ -153,6 +162,572 @@ Overall, the new architecture now feels quite robust and has seen a growing adop
 - Expanded test coverage and improved automated testing
 
 
+--
+
+## 2018-12-20 Announcing the last release of the SequenceServer beta series, and version 2.0
+
+Dear all,
+
+We are pleased to announce the last beta release of this series. In this release,
+we have added a few features based on popular demand and fixed tons of bugs.
+
+You can find a detailed list of changes on our GitHub release page:
+https://github.com/wurmlab/sequenceserver/releases/tag/2.0.0.beta4.
+
+Overall, the new architecture now feels quite robust and has seen a growing
+adoption within the community. We have incremented the version number to 2.0 to
+reflect this milestone. We thank you for your patience, encouragement, and support.
+
+We invite you to try it out and help us get to stable version by sending us a
+pull-request or reporting any bugs on our issue tracker:
+https://github.com/wurmlab/sequenceserver/issues
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
+
+## 2018-09-10 Announcing a 12th Beta release of SequenceServer 1.1.0 for testing
+
+Hello,
+
+We are pleased to announce 12th beta release of SequenceServer 1.1.0. This
+release includes a few small enhancements and several code-style improvements.
+
+Changelog
+---------
+- Write default BLAST options that were previously defined only in the code
+  to config file during setup. Since old config files won't have this info
+  available, retain the old behaviour of automatically adding '-task blastn'
+  to BLASTN searches and log this during startup.
+  (issue raised by Niek Art)
+- Multipart database volumes can have 3 digit suffixes (e.g.
+  refseq_genomic.100). Our regex allowed for only 2 digit
+  suffixes (e.g. nr.00). Fixed that.
+  (issue raised by Niek Art)
+- Show location of config file by default during startup
+- Code-style improvements.
+  (credit: Emeline Favreau, Esteban Gomez)
+
+We invite you to try out the beta releases and help us get to stable version
+by sending us a pull-request or reporting any bugs on our issue tracker:
+https://github.com/wurmlab/sequenceserver/issues
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
+
+## 2018-07-10 Announcing a 11th Beta release of SequenceServer 1.1.0 for testing
+
+Hello,
+
+We are pleased to announce 11th beta release of SequenceServer 1.1.0. This
+release includes many small-small bug fixes and enhancements.
+
+Changelog
+---------
+- Display of large results are handled by rendering results of fifty queries at
+  a time. However, in each cycle of update, instead of focusing only on the
+  next fifty queries, React would automatically also check if previously
+  rendered queries needed to be updated as well. This resulted in each cycle of
+  update to take more and more time. Prevent that by returning false from
+  shouldComponentUpdate lifecycle method if the query is already rendered.
+- Kablammo / graphical HSP overview:
+  - Reverse order of HSPs for drawing so that the HSP with stronger evalue
+    are drawn last, and thus end up on top of HSP with weaker evalue if
+    overlapping.
+  - Handle hover events more efficiently.
+- Copy-pasting hit sequence from sequence viewer should eliminate whitespace
+  introduced by grouping of residues, but it didn't. So disabled grouping of
+  residues in sequence viewer so that the sequence can be copy-pasted as it
+  is.
+- SVG and PNG download links would break into two lines on smaller windows.
+  Fixed that.
+- Do not change padding when hit is selected. Further, apply orange border
+  to selected hits only on the left side instead of on all sides.
+- Downloading alignments of selected hits wouldn’t work if sequence ids
+  included a pipe character. Fixed this.
+- Last line of the alignment would sometimes not be shown. Fixed that.
+- Expanded error handling:
+  - Inform user if BLAST's XML output is invalid, and suggest deduplicating
+    sequence ids or rerunning with a single database (issue #194) (credits:
+    Ben Woodcroft, Tomáš Pluskal, and others).
+  - Inform user if BLAST ran out of memory and ask to retry with smaller
+    query. Should be rare, but is good to know when this happens.
+  - Inform user if SequenceServer doesn't have permission to create job
+    directory. Should be particularly helpful when setting up with
+    Apache.
+  - Inform user if SequenceServer/BLAST runs out of disk space.
+  - Inform user if BLAST produced empty output.
+- Update Dockerfile so that docker image is built from the source. This
+  ensures that the tag applied to docker image and software version are
+  in sync. (credit: Michał T. Lorenc)
+- Don't use symlinks inside of the repository as symlinks are not
+  supported on all platform and can thus cause installation to
+  fail.
+- Ensure the new version can be deployed to a suburi.
+
+Roadmap
+-------
+https://docs.google.com/document/d/1Vt2MmaD5h5oN8XrmokLVnjUfRLWqKVWeEja3w9SIeBw (comments welcome)
+
+We invite you to try out the beta releases and help us get to stable version
+by sending us a pull-request or reporting any bugs on our issue tracker:
+https://github.com/wurmlab/sequenceserver/issues
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
+
+## 2018-06-19 Announcing a 10th Beta release of SequenceServer 1.1.0 for testing
+
+Hello,
+
+We are pleased to announce 10th beta release of SequenceServer 1.1.0. Based on
+popular demand we added a button to select all databases. We have further made
+several visual and speed improvements to the results page and fixed an
+important bug.
+
+Features
+--------
+- Added a button to select all databases.
+- Meta data on top of report page now includes date (as well as labels
+  for program, databases, parameters).
+- Reduce overall amount of vertical space on the report page so that more
+  results fit in the same height.
+- Detailed space reduction effort were needed for pairwise alignments,
+  which now use almost 2x less vertical space. Importantly, alignments are
+  now "pretty formatted" in the browser instead of on the server so that all
+  available horizontal space is known beforehand. Previously we were restricted
+  to assuming 60 characters per line.
+- For displaying pairwise alignments we previously used nested tables. We now
+  use list of divs and pre tags. This reduces memory usage and increases speed
+  (crucial for large reports).
+- Eliminate borders from around graphs to reduce clutter and free up vertical
+  space.
+- Add % sign for when identity, gaps, positive are shown as percentage.
+- Use more meaningful headers for hits and hsp overview graphs.
+
+Bug fixes
+---------
+- Consecutive blank spaces in the middle line of the alignment were truncated
+  while parsing BLAST’s XML output.  Fix it.
+
+Roadmap
+-------
+https://docs.google.com/document/d/1Vt2MmaD5h5oN8XrmokLVnjUfRLWqKVWeEja3w9SIeBw (comments welcome)
+
+We invite you to try out the beta releases and help us get to stable version
+by sending us a pull-request or reporting any bugs on our issue tracker:
+https://github.com/wurmlab/sequenceserver/issues
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
+
+## 2018-05-30 Announcing a 8th Beta release of SequenceServer 1.1.0 for testing
+
+Hello,
+
+We are pleased to announce 8th beta release of SequenceServer 1.1.0. This
+is a small release that fixes an issue introduced by the previous release.
+
+Changelog
+---------
+- Fix programming errors in Report.fetchResults so that it behaves as intended
+  (poll with decreasing frequency and updates page when results are available).
+  Reported by Devon Ryan.
+- Change title of hits overview visualisation to matching sequences.
+
+
+We invite you to try out the beta releases and help us get to stable version
+by sending us a pull-request or reporting any bugs on our issue tracker:
+https://github.com/wurmlab/sequenceserver/issues
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+Roadmap: https://docs.google.com/document/d/1Vt2MmaD5h5oN8XrmokLVnjUfRLWqKVWeEja3w9SIeBw (comments welcome)
+
+--
+
+## 2018-05-26 Announcing a 7th Beta release of SequenceServer 1.1.0 for testing
+
+Hello,
+
+We are pleased to announce 7th beta release of SequenceServer 1.1.0. In this
+release we have addressed inconsistencies created by asynchronous rendering
+of results that was introduced in previous release, made a few enhancements
+and bug fixes, and introduced one final visualisation.
+
+Changelog
+---------
+- Add Kablammo (http://kablammo.wasmuthlab.org) to visualise HSPs per hit
+  (credit: Alekhya Munagala).
+- Ensure all scripting of results HTML (such as binding event handlers)
+  is done at appropriate stages of rendering process.
+- Report page repeatedly pings the server for results. The frequency of
+  pings was meant to decrease with time. However, a bug in the code
+  resulted in frequency of pinging to remain the same. Fix that.
+- When there are too many hits to create circos visualisation, show a
+  message explaining the same (credit: Hiten Chowdhary).
+- Do not add circos visualisation to page if there are no hits to
+  visualise (credit: Hiten Chowdhary).
+
+What's next
+-----------
+The idea is to continue with optimising results page and individual
+visualisations. Apart from optimisations, only a few more small-small
+features remain to be implemented before the final release.
+
+Roadmap: https://docs.google.com/document/d/1Vt2MmaD5h5oN8XrmokLVnjUfRLWqKVWeEja3w9SIeBw (comments welcome)
+
+
+We invite you to try out this release and help us get to a stable version
+by sending us a pull-request or reporting any bugs on our issue tracker:
+https://github.com/wurmlab/sequenceserver/issues
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
+
+## 2018-05-21 Announcing a 6th Beta release of SequenceServer 1.1.0 for testing
+
+Hello,
+
+We are pleased to announce 6th beta release of SequenceServer 1.1.0
+for testing. In this release we have enabled one more visualisation,
+focused on optimising the results page, and fixed some bugs.
+
+Changelog
+---------
+- Show length distribution of hits per query (credit: Hiten Chowdhary). Like
+  circos, this visualisation is drawn only when user clicks the corresponding
+  button.
+- Do not draw alignments overview (per query) on page load if number of queries
+  is >250. In this case, the user must click the corresponding button to render
+  the visualisation.
+- Once all results have been retrieved from the server, update the page with
+  results of 50 queries every 500 ms. Along with the optimisation above, this
+  allows us to render large results - tested up to 1200 queries and 1500 hits.
+  The page remains responsive (e.g., scrolling) while it is being updated and
+  after, however, there are two caveats still when viewing large results (we
+  plan to address these in the next beta release):
+    - Some features, such as selecting hits for download, ability to download
+      FASTA and pairwise alignments for a single hit, and affixing of sidebar
+      are not activated till the entire result has been rendered and currently
+      there is no clear way to communicate this to the user.
+    - Visualisations are slow to render and hide on click.
+- Displaying of appropriate error messages when BLAST failed was broken due to
+  a typo in the code. Fixed it (credit: Tomáš Pluskal).
+- Make entering taxid optional again when creating BLAST databases from FASTA
+  file (reported by: Tomáš Pluskal)
+
+What's next (comments welcome)
+------------------------------
+https://docs.google.com/document/d/1Vt2MmaD5h5oN8XrmokLVnjUfRLWqKVWeEja3w9SIeBw
+
+
+We invite you to try out this release and help us get to a stable version
+by sending us a pull-request or reporting any bugs on our issue tracker:
+https://github.com/wurmlab/sequenceserver/issues
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
+
+## 2018-04-27 Announcing a 5th Beta release of SequenceServer 1.1.0 for testing
+
+Hello,
+
+We are pleased to announce 5th beta release of SequenceServer 1.1.0. This
+release activates the circos visualisation for testing and fixes a few
+other bugs. Detailed changelog and a rough roadmap to stable release
+below.
+
+Changelog
+---------
+- Enable Circos visualisation (experimental). The visualisation is drawn
+  specifically on clicking the ‘CIRCOS’ link on the report page. Works
+  best when total number of matching hits and hsps is small.
+- Entering non-numeric taxid when creating BLAST databases would cause
+  SequenceServer to crash. Instead, it now prompts user to re-input
+  taxid.
+- Anchor tags as well as buttons are used on the report page for different
+  actions. Ensure both are consistently styled.
+- We use SauceLabs browser testing platform for testing the user-interface.
+  Duly credit SauceLabs in README by linking to their website.
+
+Roadmap (comments welcome)
+-------------------------
+https://docs.google.com/document/d/1Vt2MmaD5h5oN8XrmokLVnjUfRLWqKVWeEja3w9SIeBw
+
+
+We invite you to try out this release and help us get to a stable version
+by sending us a pull-rquest or reporting any bugs on our issue tracker:
+https://github.com/wurmlab/sequenceserver/issues
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
+
+## 2018-04-20 Announcing a 4th Beta release of SequenceServer 1.1.0 for testing
+
+Hello,
+
+We are pleased to announce 4th beta release of SequenceServer 1.1.0 for testing.
+
+Changelog
+---------
+- Retain the order in which hits and hsps are returned by BLAST. In previous
+  beta releases, hits and hsps were sorted by evalue, which didn't work well
+  when multiple evalues were similar.
+- Show error message (SystemError) if no permission to create job
+  directory, or no disk space.
+- By default, delete finished jobs after 30 days instead of 7 days.
+- Ensure browser cache is refreshed for new releases.
+- Do not show backtrace when job not found.
+- Refactoring in previous beta release had broken XML and tabular
+  report download link on the results page - fix it.
+- Slightly modify citation line.
+
+We invite you to try out this release and help us get to a stable version by
+reporting any bugs on our issue tracker
+(https://github.com/wurmlab/sequenceserver/issues) or sending us a
+pull-request.
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
+
+## 2018-04-12 Announcing a 3rd Beta release of SequenceServer 1.1.0 for testing
+
+
+Hello,
+
+We are pleased to announce 3rd beta release of SequenceServer 1.1.0 for testing.
+
+Changelog
+---------
+- Expanded User Interface (UI) testing to cover more scenarios:
+  - All five basic BLAST algorithms are now tested using a multi-fasta query
+    with no defline for the first sequence, and at least two databases.
+    UI tests previously covered selected BLAST algorithms and were
+    restricted to single query sequence and single database.
+- Expanded platforms on which automated UI tests are run (powered by:
+  SauceLabs) -
+  - Latest Chrome and Firefox on Linux, macOS 10.13, and Windows 10
+  - Latest Safari on macOS 10.13
+  - Latest Edge on Windows 10
+  Previously we tested only on latest Firefox on Linux.
+- Update error handling mechanism to work with the new asynchronous nature
+  of running BLAST searches (credit: Hiten Chowdhary).
+- Improve error reporting:
+  - Fix parsing of error message when BLAST exit status is 1 (incorrect
+    advanced params or weird error in query sequence)
+  - BLAST results are deleted after 7 days. If user attempts to access
+    a deleted job, show 'job not found' message instead of treating it
+    like other errors.
+
+For those interested in using SequenceServer API to run BLAST searches using
+curl or so,
+- Errors are now reported in JSON format as well instead of HTML (error body
+  may still contain HTML links)
+
+We invite you to try out this release and help us get to a stable version by
+reporting any bugs on our issue tracker
+(https://github.com/wurmlab/sequenceserver/issues) or sending us a
+pull-request. Some standing issues:
+
+- The expanded UI testing has revealed problems with Chrome 48 on Linux and
+  latest Edge 16 on Windows 10 (other failures in the browser matrix in
+  README are from temporary network issues)
+
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
+
+## 2018-03-30 Announcing a 2nd Beta release of SequenceServer 1.1.0 for testing
+
+Hello,
+
+We are pleased to announce 2nd beta release of SequenceServer 1.1.0 for testing.
+
+Changelog
+---------
+- Addressed all the failing tests - all tests now pass! Thanks to Hiroyuki
+  Nakamura for fixing Travis test script.
+- Show the clickable list of query ids in the sidebar for only up to 8
+  queries, so that the sidebar doesn't spill over onto the footer.
+- Update to Sinatra 2.0, so that SequenceServer can be embedded in
+  Rails 5 (credit Hiroyuki Nakamura).
+- Speed up page load time by compressing server's response on the go. Both
+  the search form and short BLAST results now load significantly faster.
+
+
+We invite you to try out this release and help us get to a stable version
+by reporting any bugs on our issue tracker
+(https://github.com/wurmlab/sequenceserver/issues) or sending us a
+pull-request.
+
+Upgrading is simple. If you have Ruby 2.3 or later, run:
+
+```
+gem install --pre sequenceserver
+```
+
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
+
+```
+gem uninstall sequenceserver
+```
+
+
+We welcome any help you may be able to provide in terms of code review,
+improving test coverage, and making code style checkers happy.
+
+--
 
 ## 2018-03-22 Announcing a major new version of Sequenceserver 1.1.0-beta 
 
@@ -211,16 +786,18 @@ As this is beta software, a few things may not work as expected. Following is a 
 
 We invite you to try out this release and help us get to a stable version by reporting any bugs on our issue tracker (https://github.com/wurmlab/sequenceserver/issues) or sending us a pull-request.
 
-Upgrading is simple. If you have ruby 2.3 or later, run:
+Upgrading is simple. If you have Ruby 2.3 or later, run:
 
-   gem install --version 1.1.0.beta sequenceserver
+```
+gem install --pre sequenceserver
+```
 
+This does not remove your current sequenceserver installation. Instead, it changes
+the default. If something breaks, you can rollback by running:
 
-This does not remove your current sequenceserver installation. Instead, it changes the default 
-
-If something breaks, you can rollback by running:
-
-   gem uninstall --version 1.1.0.beta sequenceserver
+```
+gem uninstall sequenceserver
+```
 
 
 We welcome any help you may be able to provide in terms of code review, improving test coverage, and making code style checkers happy.
