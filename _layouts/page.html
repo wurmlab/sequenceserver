@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-{% seo -%}
-<meta name="author" content="Anurag Priyam">
-<meta name="author" content="Yannick Wurm">
-<meta name="keywords" content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
-    <!-- Support HTML5 elements and media queries on IE8 and less. -->
-    <!--[if lt IE 9]>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% seo -%}
+  <meta name="author" content="Anurag Priyam">
+  <meta name="author" content="Yannick Wurm">
+  <meta name="keywords"
+    content="local NCBI BLAST, custom BLAST, local BLAST server, BLAST web frontend, local BLAST, BLAST web interface, galaxy, viroblast">
+  <!-- Support HTML5 elements and media queries on IE8 and less. -->
+  <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <![endif]-->
 
@@ -34,6 +36,7 @@
     ga('send', 'pageview');
   </script>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-xl navbar-light fixed-top">
     <div class="container">
@@ -81,8 +84,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/#license">
-              License
+            <a class="nav-link" href="/paper">
+              Paper
             </a>
           </li>
           <li class="nav-item">
@@ -104,7 +107,7 @@
     </div>
   </nav>
   <div class="container">
-{% include stats-banner.html %}
+    {% include stats-banner.html %}
     {{ content }}
   </div>
 
@@ -123,10 +126,6 @@
         Parts of SequenceServer are &copy; Universit&eacute; de Lausanne
         (2011).
       </p>
-      <p>
-        Archived site: <a href="http://www.sequenceserver.com/old/">
-          SequenceServer 0.8 (pre March 2015)</a>.
-      </p>
     </div>
   </footer>
 
@@ -136,14 +135,14 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
-    <script>
-      $(function(){
-        var navMain = $(".navbar-collapse");
-        navMain.on("click", "a:not([data-toggle])", null, function () {
-            navMain.collapse('hide');
-        });
+  <script>
+    $(function () {
+      var navMain = $(".navbar-collapse");
+      navMain.on("click", "a:not([data-toggle])", null, function () {
+        navMain.collapse('hide');
+      });
     });
-    </script>
+  </script>
 </body>
 
 </html>
