@@ -10,10 +10,11 @@ keywords: Visualization, BLAST, comparative genomics, sequence analysisgg
 <p>Anurag Priyam, Ben J Woodcroft, Vivek Rai, Ismail Moghul, Alekhya Munagala, Filip Ter, Hiten Chowdhary, Iwo Pieniak,
   Lawrence J Maynard, Mark Anthony Gibbins, HongKee Moon, Austin Davis-Richardson, Mahmut Uludag, Nathan S Watson-Haigh,
   Richard Challis, Hiroyuki Nakamura, Emeline Favreau, Esteban A Gómez, Tomás Pluskal, Guy Leonard, Wolfgang Rumpf, <a
-    href="https://wurmlab.com" alt="ant genomics">Yannick Wurm</a></p>
-
-<em>Molecular Biology and Evolution</em>, Volume 36, Issue 12, December 2019, Pages 2922–2924, <a
-  href="https://doi.org/10.1093/molbev/msz185">https://doi.org/10.1093/molbev/msz185</a></p>
+    href="https://wurmlab.com">Yannick Wurm</a></p>
+<p>
+  <em>Molecular Biology and Evolution</em>, Volume 36, Issue 12, December 2019, Pages 2922–2924, <a
+    href="https://doi.org/10.1093/molbev/msz185">https://doi.org/10.1093/molbev/msz185</a>
+</p>
 
 
 <h2>Abstract</h2>
@@ -53,19 +54,23 @@ keywords: Visualization, BLAST, comparative genomics, sequence analysisgg
 <p>Installing Sequenceserver on computers running macOS or Linux is typically rapid, requiring only one or few commands
   (see online documentation). If necessary, Sequenceserver automates the download of BLAST (Camacho et al. 2009)
   binaries and can manage the conversion of FASTA files to BLAST databases. A user accesses Sequenceserver’s graphical
-  interface in a web browser at <a  href="http://localhost:4567"
-    target="_blank" rel="noopener">http://localhost:4567</a> (fig. 1A). All detected BLAST databases are automatically
+  interface in a web browser at <a href="http://localhost:4567" target="_blank" rel="noopener">http://localhost:4567</a>
+  (fig. 1A). All detected BLAST databases are automatically
   listed here. The user types, pastes or drag-and-drops FASTA format query sequences into a text-field (fig. 1A). To
   prevent common errors, an alert message is shown and query submission is disabled if the query is invalid (e.g.,
   combining nucleotide and protein sequences). The user then selects databases. The appropriate basic BLAST algorithm
-  will automatically be used (supplementary fig. S1, <a path-from-xml="sup1"
+  will automatically be used (supplementary fig. S1, <a
     href="blast-interface-design-and-implementation.html">Supplementary Material</a> online). When multiple algorithms
   are appropriate, a pull-down in the BLAST submission button allows the user to toggle between them. An “advanced
   parameters” field provides access to all standard BLAST parameters.</p>
 <div data-id="msz185-F1" class="fig fig-section js-fig-section">
   <div class="label fig-label"><span class="small-caps">Fig</span>. 1.</div>
-  <div class="graphic-wrap"><img class="content-image" width="1000px" src="sequenceserver_blast_user_interface.jpg"
-      alt="(A) Partial screenshot of the query interface. Numbers circled in red highlight the steps involved and some specific features. (1) Three or more sequences were pasted into the query field (typewriter font; only the identifier is visible for the third sequence); a message confirms to the user that these are amino acid sequences. (2) The Swiss-Prot protein database was the first database to be selected. As a result, additional database selections are limited to protein databases; nucleotide databases are disabled. (3) Optional advanced parameters were entered which constrain the results to the ten strongest hits with E-values stronger than 10−10. (4) The BLAST button is automatically activated and labeled “BlastP” as this is the only possible basic BLAST algorithm for the given query-database combination. As the user’s mouse pointer hovers over the BlastP button, a tooltip indicates that a keyboard shortcut exists for this button. (B) Partial screenshot of a Sequenceserver BLAST report. An interactive version of this figure is online at https://sequenceserver.com/paper/resultsinteractive (last accessed August 25, 2019). Three amino acid sequences were compared against the Swiss-Prot database using BlastP with an E-value cutoff of 10−10 and keeping only the ten strongest hits per query. This screenshot shows a portion of the results for the first query. Numbers circled in red highlight some specific features of this report. (1) An index overview summarizes the query and database information and provides clickable links to query-specific results. (2) Results for the first query are shown. These include a graphical overview indicating which parts of the query sequence align to each hit, a tabular summary of all hits, and alignment details for each hit. (3) The first hit is selected for download; its alignment details have been folded away. (4) The user is studying the second hit; the mouse pointer hovers over the link to the hit’s UniProt page. (C) Sequenceserver usage as of June 11, 2019. These include download statistics from https://rubygems.org/gems/sequenceserver, Google Analytics statistics for https://sequenceserver.com, and citation statistics from https://app.dimensions.ai/details/publication/pub.1085102830, and GitHub statistics from https://github.com/wurmlab/sequenceserver." />
+
+  <div class="graphic-wrap">
+    <div class="graphic-wrap image" style="overflow-x: scroll;">
+      <img class="content-image" width="1000" src="sequenceserver_blast_user_interface.jpg"
+        alt="(A) Partial screenshot of the query interface. Numbers circled in red highlight the steps involved and some specific features. (1) Three or more sequences were pasted into the query field (typewriter font; only the identifier is visible for the third sequence); a message confirms to the user that these are amino acid sequences. (2) The Swiss-Prot protein database was the first database to be selected. As a result, additional database selections are limited to protein databases; nucleotide databases are disabled. (3) Optional advanced parameters were entered which constrain the results to the ten strongest hits with E-values stronger than 10−10. (4) The BLAST button is automatically activated and labeled “BlastP” as this is the only possible basic BLAST algorithm for the given query-database combination. As the user’s mouse pointer hovers over the BlastP button, a tooltip indicates that a keyboard shortcut exists for this button. (B) Partial screenshot of a Sequenceserver BLAST report. An interactive version of this figure is online at https://sequenceserver.com/paper/resultsinteractive (last accessed August 25, 2019). Three amino acid sequences were compared against the Swiss-Prot database using BlastP with an E-value cutoff of 10−10 and keeping only the ten strongest hits per query. This screenshot shows a portion of the results for the first query. Numbers circled in red highlight some specific features of this report. (1) An index overview summarizes the query and database information and provides clickable links to query-specific results. (2) Results for the first query are shown. These include a graphical overview indicating which parts of the query sequence align to each hit, a tabular summary of all hits, and alignment details for each hit. (3) The first hit is selected for download; its alignment details have been folded away. (4) The user is studying the second hit; the mouse pointer hovers over the link to the hit’s UniProt page. (C) Sequenceserver usage as of June 11, 2019. These include download statistics from https://rubygems.org/gems/sequenceserver, Google Analytics statistics for https://sequenceserver.com, and citation statistics from https://app.dimensions.ai/details/publication/pub.1085102830, and GitHub statistics from https://github.com/wurmlab/sequenceserver." />
+    </div>
     <div class="caption fig-caption" style="font-weight:bold;">
       <p>(<em>A</em>) Partial screenshot of the query interface. Numbers circled in red highlight the steps involved and
         some specific features. (1) Three or more sequences were pasted into the query field (typewriter font; only the
@@ -77,8 +82,8 @@ keywords: Visualization, BLAST, comparative genomics, sequence analysisgg
         possible basic BLAST algorithm for the given query-database combination. As the user’s mouse pointer hovers over
         the BlastP button, a tooltip indicates that a keyboard shortcut exists for this button. (<em>B</em>) Partial
         screenshot of a Sequenceserver BLAST report. An interactive version of this figure is online at <a
-           href="https://sequenceserver.com/paper/resultsinteractive"
-          target="_blank" rel="noopener" rel="noopener">https://sequenceserver.com/paper/resultsinteractive</a> (last
+          href="https://sequenceserver.com/paper/resultsinteractive" target="_blank"
+          rel="noopener">https://sequenceserver.com/paper/resultsinteractive</a> (last
         accessed August 25, 2019). Three amino acid sequences were compared against the Swiss-Prot database using BlastP
         with an <em>E</em>-value cutoff of 10<sup>−10</sup> and keeping only the ten strongest hits per query. This
         screenshot shows a portion of the results for the first query. Numbers circled in red highlight some specific
@@ -88,120 +93,119 @@ keywords: Visualization, BLAST, comparative genomics, sequence analysisgg
         alignment details for each hit. (3) The first hit is selected for download; its alignment details have been
         folded away. (4) The user is studying the second hit; the mouse pointer hovers over the link to the hit’s
         UniProt page. (<em>C</em>) Sequenceserver usage as of June 11, 2019. These include download statistics from <a
-           href="https://rubygems.org/gems/sequenceserver" target="_blank"
+          href="https://rubygems.org/gems/sequenceserver" target="_blank"
           rel="noopener">https://rubygems.org/gems/sequenceserver</a>, Google Analytics statistics for <a
-           href="https://sequenceserver.com" target="_blank"
-          rel="noopener">https://sequenceserver.com</a>, and citation statistics from <a
-           href="https://app.dimensions.ai/details/publication/pub.1085102830"
-          target="_blank" rel="noopener">https://app.dimensions.ai/details/publication/pub.1085102830</a>, and GitHub
-        statistics from <a  href="https://github.com/wurmlab/sequenceserver"
-          target="_blank" rel="noopener">https://github.com/wurmlab/sequenceserver</a>.</p>
+          href="https://sequenceserver.com" target="_blank" rel="noopener">https://sequenceserver.com</a>, and citation
+        statistics from <a href="https://app.dimensions.ai/details/publication/pub.1085102830" target="_blank"
+          rel="noopener">https://app.dimensions.ai/details/publication/pub.1085102830</a>, and GitHub
+        statistics from <a href="https://github.com/wurmlab/sequenceserver" target="_blank"
+          rel="noopener">https://github.com/wurmlab/sequenceserver</a>.</p>
     </div>
+
   </div>
-  <div content-id="msz185-F1" class="fig fig-modal reveal-modal">
+  <div class="fig fig-modal reveal-modal">
     <div class="label fig-label"><span class="small-caps">Fig</span>. 1.</div>
-    <div class="graphic-wrap">
-      <p>The Sequenceserver results page is designed to facilitate navigation, interpretation, and follow-up analysis
-        (fig. 1B and <a href="https://sequenceserver.com/paper/resultsinteractive" target="_blank" rel="noopener">https://sequenceserver.com/paper/resultsinteractive</a>; last accessed August 25, 2018).
-        Results are visually structured and will feel familiar to users of NCBI BLAST. If multiple query sequences were
-        submitted, a clickable index of queries is shown. Queries, hits, and BLAST HSPs (high-scoring segment pairs) are
-        numbered to facilitate navigation. For each query, identified hits are summarized in a table and an overview
-        graphic. Each hit includes links for FASTA download, sequence visualization, and potentially to other resources.
-        Such links can be automatically added based on regular expression analysis of identifiers (see online
-        documentation). BLAST results can be downloaded in XML or tab-delimited table formats for further analysis.
-        Similarly, a FASTA file containing all hit sequences, or a selection of hit sequences can be downloaded.</p>
-      <h2 id="186351746" class="section-title js-splitscreen-section-title">Usage by Individual Researchers and as Part
-        of Community Databases</h2>
-      <p>Usage statistics including downloads, preprint citations, GitHub, and mailing list participation (fig. 1C)
-        indicate that Sequenceserver is extensively used for molecular-genetic research on emerging model organisms
-        (<span class="link link-data-supplement" data-supplement-target="sup1"></span><span
-          class="content-section supplementary-material"><a path-from-xml="sup1"
-            href="blast-interface-design-and-implementation.html">supplementary table S1</a></span>, <span
-          class="link link-data-supplement" data-supplement-target="sup1"></span><span
-          class="content-section supplementary-material"><a path-from-xml="sup1"
-            href="blast-interface-design-and-implementation.html">Supplementary Material</a></span> online). For
-        example, Sequenceserver installations on personal computers helped characterize the evolution of tunicate
-        genomes (Blanchoud et al. 2018), fire ant olfactory genes (Pracana et al. 2017), and loci affecting Sorghum
-        shoot architecture (McCormick et al. 2016). Sequenceserver has also been used to analyze human prostate cancer
-        genomes (Seim et al. 2017) and to identify bacteria affecting shelf life of milk (Reichler et al. 2018).</p>
-      <p>Importantly, Sequenceserver also represents a main querying mechanism for more than 50 community genome
-        databases (<span class="link link-data-supplement" data-supplement-target="sup1"></span><span
-          class="content-section supplementary-material"><a path-from-xml="sup1"
-            href="blast-interface-design-and-implementation.html">supplementary table S2</a></span>, <span
-          class="link link-data-supplement" data-supplement-target="sup1"></span><span
-          class="content-section supplementary-material"><a path-from-xml="sup1"
-            href="blast-interface-design-and-implementation.html">Supplementary Material</a></span> online), including
-        the PHI-base database of genes underpinning pathogen–host interactions (Winnenburg et al. 2006), an initiative
-        to sequence 1,000 wild yeast genomes (Shen et al. 2016), and the <a
-          href="http://reefgenomics.org" target="_blank" rel="noopener">http://reefgenomics.org</a> coral genomics
-        database; last accessed August 25, 2019 (Liew et al. 2016). Such community resources typically integrate
-        Sequenceserver as part of larger web servers (e.g., Nginx [Reese 2008]) and customize it by adding links from
-        BLAST hits to genome browsers or other gene-specific information. Additionally, many password-protected
-        Sequenceserver instances exist for unpublished data.</p>
-      <h2 id="186351749" class="section-title js-splitscreen-section-title">Outlook</h2>
-      <p>In creating Sequenceserver, we aimed to respect user-centric design principles, open-source, and sustainable
-        software engineering practices (<span class="link link-data-supplement"
-          data-supplement-target="sup1"></span><span class="content-section supplementary-material"><a
-            path-from-xml="sup1" href="blast-interface-design-and-implementation.html">Supplementary Material</a></span>
-        online). Our software is built using Ruby and Javascript frameworks commonly used for professional software
-        development. The resulting robust architecture and flexibility facilitate customization and integration with
-        other tools. This has led to contributions of improvements and bug-fixes by 21 bioinformaticians unrelated to
-        the initial project; many are now coauthors. Our community is testing the ability to import preexisting BLAST or
-        DIAMOND XML result files (Buchfink et al. 2015), and new manners of visualizing results (Wintersinger and
-        Wasmuth 2015, Cui et al. 2016). Such efforts will continue to improve the ability of researchers to analyze and
-        interpret genomic data.</p>
-      <h2 id="186351751" class="section-title js-splitscreen-section-title">Data Availability</h2>
-      <p>Source code is available under GNU Affero General Public License (AGPL) 3.0 at <a
-           href="https://github.com/wurmlab/sequenceserver" target="_blank"
-          rel="noopener">https://github.com/wurmlab/sequenceserver</a> (last accessed August 25, 2019). Additional
-        documentation is available online at <a
-          href="https://sequenceserver.com" target="_blank" rel="noopener">https://sequenceserver.com</a> (last accessed
-        August 25, 2019).</p>
-      <h2 id="186351753" class="section-title js-splitscreen-section-title">Supplementary Material</h2>
-      <p><span class="link link-data-supplement" data-supplement-target="sup1"></span><span
-          class="content-section supplementary-material"><a path-from-xml="sup1"
-            href="blast-interface-design-and-implementation.html">Supplementary materials are available
-        online.</a></p>
-      <h2 id="186351755" class="backacknowledgements-title js-splitscreen-backacknowledgements-title"
-        data-legacy-id=AK1>Acknowledgments</h2>
-      <p>We thank the many Sequenceserver users and contributors for their input. During the creation of Sequenceserver,
-        Y.W. was funded by a European Research Council grant to Laurent Keller. B.J.W. was supported by the United
-        States Department of Energy (DE-SC0004632). While writing this manuscript, Y.W. and A.P. were supported by the
-        Biotechnology and Biological Sciences Research Council (BB/K004204/1) and the Natural Environment Research
-        Council (NE/L00626X/1).</p>
-
-      <h2>References</h2>
-      <p>Altschul SF, Gish W, Miller W, Myers EW, Lipman DJ. 1990. Basic Local Alignment Search Tool. J Mol Biol.
-        2153:403–410.</p>
-      <p>Blanchoud S, Rutherford K, Zondag L, Gemmell NJ, Wilson MJ. 2018. De novo draft assembly of the Botrylloides
-        leachii genome provides further insight into tunicate evolution. Sci Rep. 81:5518.</p>
-      <p>Buchfink B, Xie C, Huson DH. 2015. Fast and sensitive protein alignment using DIAMOND. Nat Methods. 121:59–60.
-      </p>
-      <p>Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL. 2009. BLAST+: architecture and
-        applications. BMC Bioinformatics 10:421. </p>
-      <p>Cui Y, Chen X, Luo H, Fan Z, Luo J, He S, Yue H, Zhang P, Chen R. 2016. BioCircos.js: an interactive Circos
-        JavaScript library for biological data visualization on web applications. Bioinformatics 3211:1740–1742. </p>
-      <p>Garrett JJ. 2011. The elements of user experience: user-centered design for the Web and beyond. Berkeley (CA):
-        New Riders.</p>
-      <p>Liew YJ, Aranda M, Voolstra CR. 2016. Reefgenomics.org—a repository for marine genomics data. Database
-        2016:baw152.</p>
-      <p>McCormick RF, Truong SK, Mullet JE. 2016. 3D sorghum reconstructions from depth images identify QTL regulating
-        shoot architecture. Plant Physiol. 1722:823–834.</p>
-      <p>Pracana R, Levantis I, Martínez-Ruiz C, Stolle E, Priyam A, Wurm Y. 2017. <a
-          href="https://doi.org/10.1002/evl3.22" target="_blank" rel="noreferrer">Fire ant social chromosomes: differences in number, sequence and
-          expression of odorant binding proteins. Evol Lett. 14:199–210</a>.</p>
-      <p>Reese W. 2008. Nginx: the high-performance web server and reverse proxy. Linux J. 173:2.</p>
-      <p>Reichler S, Trmčić A, Martin N, Boor K, Wiedmann M. 2018. Pseudomonas fluorescens group bacterial strains are
-        responsible for repeat and sporadic postpasteurization contamination and reduced fluid milk shelf life. J Dairy
-        Sci. 1019:7780.</p>
-      <p>Seim I, Jeffery PL, Thomas PB, Nelson CC, Chopin LK. 2017. Whole-genome sequence of the metastatic PC3 and
-        LNCaP human prostate cancer cell lines. G3 (Bethesda) 76:1731–1741.</p>
-      <p>Shen XX, Zhou X, Kominek J, Kurtzman CP, Hittinger CT, Rokas A. 2016. Reconstructing the backbone of the
-        Saccharomycotina yeast phylogeny using genome-scale data. G3 (Bethesda) 612:3927–3939.</p>
-      <p>Winnenburg R, Baldwin TK, Urban M, Rawlings C, Köhler J, Hammond-Kosack KE. 2006. PHI-base: a new database for
-        pathogen host interactions. Nucleic Acids Res. 34(Database issue):D459–D464.</p>
-      <p>Wintersinger JA, Wasmuth JD. 2015. Kablammo: an interactive, web-based blast results visualizer. Bioinformatics
-        318:1305–1306.</p>
-      </body>
-
-      </html>
+    <p>The Sequenceserver results page is designed to facilitate navigation, interpretation, and follow-up analysis
+      (fig. 1B and <a href="https://sequenceserver.com/paper/resultsinteractive" target="_blank"
+        rel="noopener">https://sequenceserver.com/paper/resultsinteractive</a>; last accessed August 25, 2018).
+      Results are visually structured and will feel familiar to users of NCBI BLAST. If multiple query sequences were
+      submitted, a clickable index of queries is shown. Queries, hits, and BLAST HSPs (high-scoring segment pairs) are
+      numbered to facilitate navigation. For each query, identified hits are summarized in a table and an overview
+      graphic. Each hit includes links for FASTA download, sequence visualization, and potentially to other resources.
+      Such links can be automatically added based on regular expression analysis of identifiers (see online
+      documentation). BLAST results can be downloaded in XML or tab-delimited table formats for further analysis.
+      Similarly, a FASTA file containing all hit sequences, or a selection of hit sequences can be downloaded.</p>
+    <h2 id="186351746" class="section-title js-splitscreen-section-title">Usage by Individual Researchers and as Part
+      of Community Databases</h2>
+    <p>Usage statistics including downloads, preprint citations, GitHub, and mailing list participation (fig. 1C)
+      indicate that Sequenceserver is extensively used for molecular-genetic research on emerging model organisms
+      (<span class="link link-data-supplement" data-supplement-target="sup1"></span><span
+        class="content-section supplementary-material"><a
+          href="blast-interface-design-and-implementation.html">supplementary table S1</a></span>, <span
+        class="link link-data-supplement" data-supplement-target="sup1"></span><span
+        class="content-section supplementary-material"><a
+          href="blast-interface-design-and-implementation.html">Supplementary Material</a></span> online). For
+      example, Sequenceserver installations on personal computers helped characterize the evolution of tunicate
+      genomes (Blanchoud et al. 2018), fire ant olfactory genes (Pracana et al. 2017), and loci affecting Sorghum
+      shoot architecture (McCormick et al. 2016). Sequenceserver has also been used to analyze human prostate cancer
+      genomes (Seim et al. 2017) and to identify bacteria affecting shelf life of milk (Reichler et al. 2018).</p>
+    <p>Importantly, Sequenceserver also represents a main querying mechanism for more than 50 community genome
+      databases (<span class="link link-data-supplement" data-supplement-target="sup1"></span><span
+        class="content-section supplementary-material"><a
+          href="blast-interface-design-and-implementation.html">supplementary table S2</a></span>, <span
+        class="link link-data-supplement" data-supplement-target="sup1"></span><span
+        class="content-section supplementary-material"><a
+          href="blast-interface-design-and-implementation.html">Supplementary Material</a></span> online), including
+      the PHI-base database of genes underpinning pathogen–host interactions (Winnenburg et al. 2006), an initiative
+      to sequence 1,000 wild yeast genomes (Shen et al. 2016), and the <a href="http://reefgenomics.org" target="_blank"
+        rel="noopener">http://reefgenomics.org</a> coral genomics
+      database; last accessed August 25, 2019 (Liew et al. 2016). Such community resources typically integrate
+      Sequenceserver as part of larger web servers (e.g., Nginx [Reese 2008]) and customize it by adding links from
+      BLAST hits to genome browsers or other gene-specific information. Additionally, many password-protected
+      Sequenceserver instances exist for unpublished data.</p>
+    <h2 id="186351749" class="section-title js-splitscreen-section-title">Outlook</h2>
+    <p>In creating Sequenceserver, we aimed to respect user-centric design principles, open-source, and sustainable
+      software engineering practices (<span class="link link-data-supplement" data-supplement-target="sup1"></span><span
+        class="content-section supplementary-material"><a
+          href="blast-interface-design-and-implementation.html">Supplementary Material</a></span>
+      online). Our software is built using Ruby and Javascript frameworks commonly used for professional software
+      development. The resulting robust architecture and flexibility facilitate customization and integration with
+      other tools. This has led to contributions of improvements and bug-fixes by 21 bioinformaticians unrelated to
+      the initial project; many are now coauthors. Our community is testing the ability to import preexisting BLAST or
+      DIAMOND XML result files (Buchfink et al. 2015), and new manners of visualizing results (Wintersinger and
+      Wasmuth 2015, Cui et al. 2016). Such efforts will continue to improve the ability of researchers to analyze and
+      interpret genomic data.</p>
+    <h2 id="186351751" class="section-title js-splitscreen-section-title">Data Availability</h2>
+    <p>Source code is available under GNU Affero General Public License (AGPL) 3.0 at <a
+        href="https://github.com/wurmlab/sequenceserver" target="_blank"
+        rel="noopener">https://github.com/wurmlab/sequenceserver</a> (last accessed August 25, 2019). Additional
+      documentation is available online at <a href="https://sequenceserver.com" target="_blank"
+        rel="noopener">https://sequenceserver.com</a> (last accessed
+      August 25, 2019).</p>
+    <h2 id="186351753" class="section-title js-splitscreen-section-title">Supplementary Material</h2>
+    <p>
+      <a href="blast-interface-design-and-implementation.html">Supplementary materials are available
+        online.</a>
+    </p>
+    <h2 id="186351755" class="backacknowledgements-title js-splitscreen-backacknowledgements-title" data-legacy-id=AK1>
+      Acknowledgments</h2>
+    <p>We thank the many Sequenceserver users and contributors for their input. During the creation of Sequenceserver,
+      Y.W. was funded by a European Research Council grant to Laurent Keller. B.J.W. was supported by the United
+      States Department of Energy (DE-SC0004632). While writing this manuscript, Y.W. and A.P. were supported by the
+      Biotechnology and Biological Sciences Research Council (BB/K004204/1) and the Natural Environment Research
+      Council (NE/L00626X/1).</p>
+  </div>
+  <h2>References</h2>
+  <p>Altschul SF, Gish W, Miller W, Myers EW, Lipman DJ. 1990. Basic Local Alignment Search Tool. J Mol Biol.
+    2153:403–410.</p>
+  <p>Blanchoud S, Rutherford K, Zondag L, Gemmell NJ, Wilson MJ. 2018. De novo draft assembly of the Botrylloides
+    leachii genome provides further insight into tunicate evolution. Sci Rep. 81:5518.</p>
+  <p>Buchfink B, Xie C, Huson DH. 2015. Fast and sensitive protein alignment using DIAMOND. Nat Methods. 121:59–60.
+  </p>
+  <p>Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL. 2009. BLAST+: architecture and
+    applications. BMC Bioinformatics 10:421. </p>
+  <p>Cui Y, Chen X, Luo H, Fan Z, Luo J, He S, Yue H, Zhang P, Chen R. 2016. BioCircos.js: an interactive Circos
+    JavaScript library for biological data visualization on web applications. Bioinformatics 3211:1740–1742. </p>
+  <p>Garrett JJ. 2011. The elements of user experience: user-centered design for the Web and beyond. Berkeley (CA):
+    New Riders.</p>
+  <p>Liew YJ, Aranda M, Voolstra CR. 2016. Reefgenomics.org—a repository for marine genomics data. Database
+    2016:baw152.</p>
+  <p>McCormick RF, Truong SK, Mullet JE. 2016. 3D sorghum reconstructions from depth images identify QTL regulating
+    shoot architecture. Plant Physiol. 1722:823–834.</p>
+  <p>Pracana R, Levantis I, Martínez-Ruiz C, Stolle E, Priyam A, Wurm Y. 2017. <a href="https://doi.org/10.1002/evl3.22"
+      target="_blank" rel="noreferrer">Fire ant social chromosomes:
+      differences in number, sequence and
+      expression of odorant binding proteins. Evol Lett. 14:199–210</a>.</p>
+  <p>Reese W. 2008. Nginx: the high-performance web server and reverse proxy. Linux J. 173:2.</p>
+  <p>Reichler S, Trmčić A, Martin N, Boor K, Wiedmann M. 2018. Pseudomonas fluorescens group bacterial strains are
+    responsible for repeat and sporadic postpasteurization contamination and reduced fluid milk shelf life. J Dairy
+    Sci. 1019:7780.</p>
+  <p>Seim I, Jeffery PL, Thomas PB, Nelson CC, Chopin LK. 2017. Whole-genome sequence of the metastatic PC3 and
+    LNCaP human prostate cancer cell lines. G3 (Bethesda) 76:1731–1741.</p>
+  <p>Shen XX, Zhou X, Kominek J, Kurtzman CP, Hittinger CT, Rokas A. 2016. Reconstructing the backbone of the
+    Saccharomycotina yeast phylogeny using genome-scale data. G3 (Bethesda) 612:3927–3939.</p>
+  <p>Winnenburg R, Baldwin TK, Urban M, Rawlings C, Köhler J, Hammond-Kosack KE. 2006. PHI-base: a new database for
+    pathogen host interactions. Nucleic Acids Res. 34(Database issue):D459–D464.</p>
+  <p>Wintersinger JA, Wasmuth JD. 2015. Kablammo: an interactive, web-based blast results visualizer. Bioinformatics
+    318:1305–1306.</p>
+</div>
