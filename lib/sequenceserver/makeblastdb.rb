@@ -139,7 +139,7 @@ module SequenceServer
 
     def get_format(path, type)
       exts = Dir["#{path}.*"].map { |p| p.split('.').last }.sort
-      EXPECTED_EXTENSIONS[type][exts]
+      EXPECTED_EXTENSIONS[type][exts] || []
     end
 
     # Determines which FASTA files in the database directory require
