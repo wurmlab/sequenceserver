@@ -138,7 +138,7 @@ module SequenceServer
     end
 
     def get_format(path, type)
-      exts = Dir["#{path}.*"].map { |p| p.split('.').last }.sort
+      exts = Dir["#{path}.#{type[0]}*"].map { |p| p.split('.').last }.sort
       EXPECTED_EXTENSIONS[type][exts] || []
     end
 
@@ -161,7 +161,7 @@ module SequenceServer
         next if @formatted_fastas.any? { |f| f[0] == path }
 
         @fastas_to_format << [path,
-          make_db_title(File.basename(path)),
+          make_db_title(path),
           guess_sequence_type_in_fasta(path)]
       end
     end
@@ -310,7 +310,8 @@ module SequenceServer
     # For example:
     # Cobs1.4.proteins.fasta -> Cobs 1.4 proteins
     # S_invicta.xx.2.5.small.nucl.fa -> S invicta xx 2.5 small nucl
-    def make_db_title(db_name)
+    def make_db_title(path)
+      db_name = File.basename(path)
       db_name.tr!('"', "'")
       # removes .fasta like extension names
       db_name.gsub!(File.extname(db_name), '')
