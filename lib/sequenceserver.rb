@@ -78,9 +78,9 @@ module SequenceServer
       Thread.abort_on_exception = true if development?
 
       # Now locate binaries, scan databases directory, require any plugin files.
+      load_extension
       init_binaries
       init_database
-      load_extension
 
       # The above methods validate bin dir, database dir, and path to plugin
       # files. Port and host settings don't need to be validated: if running
