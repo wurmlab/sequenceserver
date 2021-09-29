@@ -155,7 +155,10 @@ module SequenceServer
     # Determines which FASTA files in the database directory are
     # unformatted. Adds to @fastas_to_format.
     def determine_unformatted_fastas
-      Find.find(database_dir) do |path|
+      # Add a trailing slash to database_dir - Find.find doesn't work as
+      # expected without the trailing slash if database_dir is a symlink
+      # inside a docker container.
+      Find.find(database_dir + '/') do |path|
         next if File.directory?(path)
         next unless probably_fasta?(path)
         next if @formatted_fastas.any? { |f| f[0] == path }
