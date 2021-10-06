@@ -240,8 +240,8 @@ module SequenceServer
     end
 
     def _make_blast_database(file, type, title, taxonomy)
-      cmd = "makeblastdb -parse_seqids -hash_index -in #{file} " \
-            "-dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
+      cmd = "makeblastdb -parse_seqids -hash_index -in '#{file}'" \
+            " -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
             " #{taxonomy}"
       out, err = sys(cmd, path: config[:bin])
       puts out.strip
