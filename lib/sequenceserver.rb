@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'English'
 require 'socket'
 require 'resolv'
@@ -205,7 +206,7 @@ module SequenceServer
 
       makeblastdb.scan
       fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if !makeblastdb.any_formatted?
-      fail INCOMPATIBLE_BLAST_DATABASES, config[:database_dir] if makeblastdb.any_incompatible?
+#      fail INCOMPATIBLE_BLAST_DATABASES, config[:database_dir] if makeblastdb.any_incompatible?
 
       Database.collection = makeblastdb.formatted_fastas
       Database.each do |database|
