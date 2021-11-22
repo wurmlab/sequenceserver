@@ -137,6 +137,8 @@ module SequenceServer
               text: db.title,
               icon: 'glyphicon glyphicon-file'
             }
+
+          yield(db, data[db.type].last) if block_given?
         end
       end
 
