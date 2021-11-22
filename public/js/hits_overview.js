@@ -49,7 +49,7 @@ class Graph {
             });
             _hsps.hitId = hit.id;
             _hsps.hitDef = 'Query_'+number+'_hit_'+hit.number;
-            _hsps.hitEvalue = hit.evalue;
+            _hsps.hitEvalue = hit.hsps[0].evalue;
             hits.push(_hsps);
         });
         return hits;
