@@ -205,15 +205,17 @@ module SequenceServer
 
       makeblastdb.scan
       fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if !makeblastdb.any_formatted?
-      fail INCOMPATIBLE_BLAST_DATABASES, config[:database_dir] if makeblastdb.any_incompatible?
 
       Database.collection = makeblastdb.formatted_fastas
       Database.each do |database|
-        logger.debug("Found #{database.type} database '#{database.title}'" \
-                     " at '#{database.name}'")
+        logger.debug "Found #{database.type} database '#{database.title}' at '#{database.path}'"
         if database.non_parse_seqids?
-          logger.warn("Database '#{database.title}' created without" \
-            " -parse_seqids option. Will disable FASTA download links.")
+          logger.warn "Database '#{database.title}' was created without using the" \
+                      ' -parse_seqids option of makeblastdb. FASTA download will' \
+                      ' not work correctly'
+        elsif database.v4?
+          logger.warn "Database '#{database.title}' is of older format. Mixing" \
+                      ' old and new format databases can be problematic.'
         end
       end
     end

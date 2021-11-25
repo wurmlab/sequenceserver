@@ -308,45 +308,6 @@ begin
             exit! unless set?
           end
         end
-      rescue SequenceServer::INCOMPATIBLE_BLAST_DATABASES => e
-        unless list_databases? || make_blast_databases?
-          # Print error raised.
-          puts
-          puts e
-
-          # Offer user to format the FASTA files.
-          database_dir = SequenceServer.config[:database_dir]
-          puts
-          puts <<~MSG
-            BLAST database format has changed over the years. If you
-            are seeing this message, you likely have a mix of databases
-            created using BLAST+ version 2.10.0 or higher and BLAST+ version
-            2.9.0 or lower. Mixing different database formats can cause BLAST
-            searches to fail.
-
-            You can view older format BLAST databases and choose to reformat them
-            below. Alternatively, please remove them from databases directory.
-
-            Note that the process may be slow for large databases and can fail if
-            sequence identifiers are longer than 50 characters.
-
-            We suggest you backup your databases directory before reformatting.
-            Please ask for help on our Google Group/GitHub if something goes
-            wrong or is unclear.
-
-            View incompatible databases? [y/n] (Default: y).
-          MSG
-          puts
-          print '>> '
-          response = STDIN.gets.to_s.strip
-          unless response =~ /^[n]$/i
-            reformatted = SequenceServer.makeblastdb.reformat
-            exit! if reformatted.empty? && !set?
-            redo unless set?
-          else
-            exit! unless set?
-          end
-        end
       rescue SequenceServer::ENOENT,
         SequenceServer::CONFIG_FILE_ERROR,
         SequenceServer::BLAST_DATABASE_ERROR,
@@ -393,8 +354,28 @@ begin
 
       if make_blast_databases?
         if SequenceServer.makeblastdb.scan
-          SequenceServer.makeblastdb.run
-        else
+          puts
+          puts <<~MSG
+          SequenceServer has scanned your databases directory and will now offer
+          to convert FASTA files into BLAST databases. It will also offer to
+          reformat any old-format BLAST databases and those created without
+          the -parse_seqids option of makeblastdb (-parse_seqids option is
+          required for sequence retrieval to correctly work).
+
+          Note that reformatting process can be slow large BLAST databases and
+          fail if sequence identifiers are longer than 50 characters. While we
+          exepect the reformatting process to work in most other cases, things
+          can inevitably go wrong. Thus, please back up your databases before
+          reformatting and post any issues to our Google Group/GitHub so that
+          we can all learn from it.
+
+          Proceed? [y/n] (Default: y).
+          MSG
+          puts
+          print '>> '
+          response = STDIN.gets.to_s.strip
+          SequenceServer.makeblastdb.run unless response =~ /^[n]$/i
+          else
           puts "All FASTA files in #{SequenceServer.config[:database_dir]} " \
                'are formatted.'
         end
