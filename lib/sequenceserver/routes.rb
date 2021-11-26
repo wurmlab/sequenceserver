@@ -8,6 +8,8 @@ require 'sequenceserver/report'
 require 'sequenceserver/database'
 require 'sequenceserver/sequence'
 
+require_relative '../../../logger/logger'
+
 module SequenceServer
   # Controller.
   class Routes < Sinatra::Base
@@ -98,6 +100,7 @@ module SequenceServer
         erb :search, layout: true
       else
         job = Job.create(params)
+        ServerLogger.log_job('job-submitted', session['session_id'])
         redirect to("/#{job.id}")
       end
     end
