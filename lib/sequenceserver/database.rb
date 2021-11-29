@@ -26,6 +26,7 @@ module SequenceServer
     def_delegators SequenceServer, :config, :sys
 
     def initialize(*args)
+      args[2].downcase!   # type
       args.each(&:freeze)
       super
 
@@ -56,19 +57,28 @@ module SequenceServer
     end
 
     def v4?
-      format.include? 'v4'
+      format == '4'
     end
 
     def v5?
-      format.include? 'v5'
+      format == '5'
     end
 
-    def alias?
-      format.include? 'alias'
-    end
-
+    # Return true if the database was _not_ created using the -parse_seqids
+    # option of makeblastdb.
     def non_parse_seqids?
-      !alias? && !format.include?('parse_seqids')
+      return if alias?
+      case format
+      when '5'
+        (%w[nog nos pog pos] & extensions).length != 2
+      when '4'
+        (%w[nog nsd nsi pod psd psi] & extensions).length != 3
+      end
+    end
+
+    # Returns true if the database was created using blastdb_aliastool.
+    def alias?
+      (%w[nal pal] & extensions).length == 1 && extensions.count == 1
     end
 
     def ==(other)
@@ -81,6 +91,16 @@ module SequenceServer
 
     def to_json(*args)
       to_h.update(id: id).to_json(*args)
+    end
+
+    private
+
+    def extensions
+      # The glob pattern used here is quite relaxed. This is to capture
+      # multipart databases as well. It is possible that non-blast-database
+      # extensions may also be picked. However, that shouldn't be a problem
+      # as we only check whether certain required extensions are present or not.
+      @extensions ||= Dir["#{path}*{n,p}*"].map { |p| p.split('.').last }.sort.uniq
     end
   end
 

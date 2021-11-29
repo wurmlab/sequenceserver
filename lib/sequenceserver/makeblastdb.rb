@@ -11,31 +11,6 @@ module SequenceServer
   #   makeblastdb.scan && makeblastdb.run
   #
   class MAKEBLASTDB
-    # Expected extensions for nucleotide and proteind databases created with or
-    # without -parse_seqids and -hash_index options.
-    EXPECTED_EXTENSIONS = {
-      'nucleotide' => {
-        %w[nal]                                         => %w[alias],
-        %w[nhr nin nsq]                                 => %w[v4],
-        %w[nhr nin nog nsd nsi nsq]                     => %w[v4 parse_seqids],
-        %w[nhd nhi nhr nin nog nsd nsi nsq]             => %w[v4 parse_seqids hash_index],
-        %w[ndb nhr nin not nsq ntf nto]                 => %w[v5],
-        %w[ndb nhr nin nog nos not nsq ntf nto]         => %w[v5 parse_seqids],
-        %w[ndb nhd nhi nhr nin nog nos not nsq ntf nto] => %w[v5 parse_seqids hash_index],
-        %w[ndb nhd nhi nhr nin nog not nsq ntf nto]     => %w[v5 hash_index]
-      },
-      'protein' => {
-        %w[pal]                                         => %w[alias],
-        %w[phr pin psq]                                 => %w[v4],
-        %w[phr pin pog psd psi psq]                     => %w[v4 parse_seqids],
-        %w[phd phi phr pin pog psd psi psq]             => %w[v4 parse_seqids hash_index],
-        %w[pdb phr pin pot psq ptf pto]                 => %w[v5],
-        %w[pdb phr pin pog pos pot psq ptf pto]         => %w[v5 parse_seqids],
-        %w[pdb phd phi phr pin pog pos pot psq ptf pto] => %w[v5 parse_seqids hash_index],
-        %w[pdb phd phi phr pin pog pot psq ptf pto]     => %w[v5 hash_index]
-      }
-    }
-
     extend Forwardable
 
     def_delegators SequenceServer, :config, :sys
@@ -128,18 +103,11 @@ module SequenceServer
     # formatted. Adds to @formatted_fastas.
     def determine_formatted_fastas
       blastdbcmd.each_line do |line|
-        path, title, type, *rest = line.split("\t")
-        type.downcase!
+        path, *rest = line.chomp.split("\t")
         next if multipart_database_name?(path)
-        rest << get_format(path, type)
         rest << get_categories(path)
-        @formatted_fastas << Database.new(path, title, type, *rest)
+        @formatted_fastas << Database.new(path, *rest)
       end
-    end
-
-    def get_format(path, type)
-      exts = Dir["#{path}.#{type[0]}*"].map { |p| p.split('.').last }.sort
-      EXPECTED_EXTENSIONS[type][exts] || []
     end
 
     # Determines which FASTA files in the database directory require
@@ -174,7 +142,7 @@ module SequenceServer
     # by `determine_formatted_fastas`.
     def blastdbcmd
       cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
-            ' -list_outfmt "%f	%t	%p	%n	%l	%d"'
+            ' -list_outfmt "%f	%t	%p	%n	%l	%d	%v"'
       out, err = sys(cmd, path: config[:bin])
       errpat = /BLAST Database error/
       fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
