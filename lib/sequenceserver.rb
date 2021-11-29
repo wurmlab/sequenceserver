@@ -5,11 +5,7 @@ require 'resolv'
 # Top level module / namespace.
 module SequenceServer
   # The default version of BLAST that will be downloaded and configured for use.
-  BLAST_VERSION = '2.10.0+'.freeze
-  # The minimum version of BLAST that SequenceServer is happy to run with. This
-  # is for compatiblity with older database formats. Users will download BLAST
-  # themselves.
-  MIN_BLAST_VERSION = '2.9.0+'.freeze
+  BLAST_VERSION = '2.12.0+'.freeze
 
   # Default location of configuration file.
   DEFAULT_CONFIG_FILE = '~/.sequenceserver.conf'.freeze
@@ -251,7 +247,7 @@ module SequenceServer
       end
       version = out.split[1]
       fail BLAST_NOT_INSTALLED_OR_NOT_EXECUTABLE if version.empty?
-      fail BLAST_NOT_COMPATIBLE, version unless is_compatible(version, MIN_BLAST_VERSION)
+      fail BLAST_NOT_COMPATIBLE, version unless is_compatible(version, BLAST_VERSION)
     end
 
     def server_url
