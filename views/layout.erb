@@ -11,7 +11,7 @@
   <meta name="author" content="Vivek Rai">
   <meta name="author" content="Cedric Wurm">
   <meta name="author" content="Yannick Wurm">
-  <meta name="description" content="Custom BLAST server provided by SequenceServer (http://www.sequenceserver.com)"/>
+  <meta name="description" content="Custom BLAST server provided by SequenceServer (https://www.sequenceserver.com)"/>
 
   <!-- CSS -->
   <% if settings.production? || settings.test? %>
@@ -28,7 +28,7 @@
       class="container">
       <a
         class="navbar-brand"
-        href="http://sequenceserver.com" target="_blank">
+        href="https://sequenceserver.com" target="_blank">
         <img class="logo" src="SequenceServer_logo.png" alt="sequenceserver_logo">
         <small>
           <%= SequenceServer::VERSION %>
@@ -70,15 +70,23 @@
       class="container">
       <p
         class="text-center">
-        <a
-          href='http://www.sequenceserver.com'>
+	Please cite data sources and <a style='vertical-align: baseline' href="https://doi.org/10.1093/molbev/msz185">the paper</a> describing <a href="https://wurmlab.com">Wurmlab</a>'s <a href="https://sequenceserver.com">SequenceServer BLAST interface</a>. 
+        <a style='vertical-align: baseline'
+          href='https://sequenceserver.com'>
           <%=
             quote = [
+	      "Visualize BLAST results.",
               "Run BLAST on local computer.",
+	      "BLAST on Mac.",
+	      "BLAST on Windows.",
+	      "Run blast on mac.",
+	      "Blast analysis software.",
+	      "Sequence Search on local computer.",
+	      "Blast DNA sequence search.",
               "Custom BLAST search.",
               "Install blast on Mac.",
-              "Perform BLAST analyses with SequenceServer.",
-              "Custom BLAST web interface by SequenceServer.",
+              "Perform BLAST analyses.",
+              "Custom BLAST web interface.",
               "SequenceServer: Local BLAST with bespoke html interface.",
               "Set up custom BLAST interface with SequenceServer.",
               "Easy BLASTing with SequenceServer.",
@@ -87,19 +95,9 @@
               "Run BLAST locally on Mac OSX with SequenceServer.",
               "Run BLAST locally on Ubuntu with SequenceServer.",
               "Run BLAST locally on Linux with SequenceServer."
-            ][rand(9)]
+            ][rand(19)]
           %>
         </a>
-        <a
-          class="twitter-share-button"
-          href="https://twitter.com/share"
-          data-url="http://www.sequenceserver.com" data-text="<%= quote %>" data-via="yeban" data-hashtags="bioinformatics">
-         Tweet
-        </a>
-        <br>
-        Please cite relevant data sources and:
-        <a href="https://doi.org/10.1093/molbev/msz185">
-          Priyam et al. (2019) Sequenceserver: a modern graphical user interface for custom BLAST databases</a>.
       </p>
     </div> <!-- /container -->
   </div>
