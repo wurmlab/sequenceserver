@@ -24,12 +24,12 @@ before_install:
   - wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz" && tar xvf geckodriver-*.tar.gz -C bin
   # Download codeclimate test reporter to bin and make it executable
   - wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
-  # Download and extract NCBI BLAST+ 2.10.0
-  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.10.0/ncbi-blast-2.10.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
+  # Download and extract NCBI BLAST+ 2.12.0
+  - wget -c "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
   # Conclude installation by adding opt/bin/ containing codeclimate test reporter
-  # and geckodriver, and opt/ncbi-blast-2.10.0+/bin containing BLAST+ binaries to
+  # and geckodriver, and opt/ncbi-blast-2.12.0+/bin containing BLAST+ binaries to
   # PATH.
-  - export PATH="$PWD/bin:$PWD/ncbi-blast-2.10.0+/bin:$PATH"
+  - export PATH="$PWD/bin:$PWD/ncbi-blast-2.12.0+/bin:$PATH"
   # Reset working directory or subsequent steps may fail.
   - cd ..
   # Update bundler. Travis was using bundler 1.16.2 at the time of this writing
