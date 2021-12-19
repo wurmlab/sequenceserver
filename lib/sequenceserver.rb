@@ -137,7 +137,8 @@ module SequenceServer
         puts "     -  http://#{ip_address}:#{config[:port]}"
         puts "     -  http://#{hostname}:#{config[:port]}" if hostname
         puts '   To share your setup with anyone in the world, ask your IT team'
-        puts '   for a public IP address.'
+        puts '   for a public IP address or consider the SequenceServer cloud'
+        puts '   hosting service: https://sequenceserver.com/cloud'
         puts '   To disable sharing, set :host: key in config file to 127.0.0.1'
         puts '   and restart server.'
       end
