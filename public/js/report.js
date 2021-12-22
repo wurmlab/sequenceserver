@@ -306,7 +306,9 @@ var Report = React.createClass({
                 { this.shouldShowSidebar() &&
                     (
                         <div className="col-md-3 hidden-sm hidden-xs">
-                            <Sidebar data={this.state} shouldShowIndex={this.shouldShowIndex()}/>
+                            <Sidebar data={this.state}
+                                atLeastOneHit={this.atLeastOneHit()}
+                                shouldShowIndex={this.shouldShowIndex()} />
                         </div>
                     )
                 }
