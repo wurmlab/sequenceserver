@@ -303,16 +303,12 @@ var Report = React.createClass({
     resultsJSX: function () {
         return (
             <div className="row">
-                { this.shouldShowSidebar() &&
-                    (
-                        <div className="col-md-3 hidden-sm hidden-xs">
-                            <Sidebar data={this.state}
-                                atLeastOneHit={this.atLeastOneHit()}
-                                shouldShowIndex={this.shouldShowIndex()} />
-                        </div>
-                    )
-                }
-                <div className={this.shouldShowSidebar() ? 'col-md-9' : 'col-md-12'}>
+                <div className="col-md-3 hidden-sm hidden-xs">
+                    <Sidebar data={this.state}
+                        atLeastOneHit={this.atLeastOneHit()}
+                        shouldShowIndex={this.shouldShowIndex()} />
+                </div>
+                <div className="col-md-9">
                     { this.overviewJSX() }
                     { this.circosJSX() }
                     { this.state.results }
@@ -389,17 +385,6 @@ var Report = React.createClass({
             hit_num += query.hits.length;
             return hit_num > 1;
         });
-    },
-
-    /**
-     * Returns true if sidebar should be shown.
-     *
-     * Sidebar is not shown if there is only one query and there are no hits
-     * corresponding to the query.
-     */
-    shouldShowSidebar: function () {
-        return !(this.state.queries.length == 1 &&
-                 this.state.queries[0].hits.length == 0);
     },
 
     /**
