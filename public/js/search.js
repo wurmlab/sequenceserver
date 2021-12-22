@@ -705,6 +705,7 @@ var Databases = React.createClass({
             $(`.${type} .database input:checked`).click();
             break;
         }
+        this.forceUpdate();
     },
 
     render: function () {
