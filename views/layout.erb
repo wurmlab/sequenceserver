@@ -70,7 +70,7 @@
       class="container">
       <p
         class="text-center">
-	Please cite data sources and <a style='vertical-align: baseline' href="https://doi.org/10.1093/molbev/msz185">the paper</a> describing <a href="https://wurmlab.com">our</a> <a href="https://sequenceserver.com">SequenceServer BLAST interface</a>. 
+	Please cite data sources and <a style='vertical-align: baseline' href="https://doi.org/10.1093/molbev/msz185">the paper</a> describing <a href="https://wurmlab.com">our</a> <a href="https://sequenceserver.com">SequenceServer BLAST interface</a>.
         <a style='vertical-align: baseline'
           href='https://sequenceserver.com'><em>
           <%=
@@ -99,6 +99,7 @@
           %>
         </em></a>
       </p>
+      <%= File.read(File.join(settings.root, '../website-extras/footer.html')) if File.exists?(File.join(settings.root, '../website-extras/footer.html')) %>
     </div> <!-- /container -->
   </div>
 
