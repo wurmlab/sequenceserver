@@ -25,6 +25,7 @@ module SequenceServer
       def initialize(job)
         super do
           @queries = []
+          @querydb = job.databases
         end
       end
 
@@ -81,13 +82,12 @@ module SequenceServer
       # Get database information (title and type) from job yaml or from XML.
       # Sets `querydb` and `dbtype` attributes.
       def extract_db_info(ir)
-        if job.databases.empty?
+        if @querydb.empty?
           @querydb = ir[3].split.map do |path|
             { title: File.basename(path) }
           end
           @dbtype = dbtype_from_program
         else
-          @querydb = job.databases
           @dbtype = @querydb.first.type
         end
       end
