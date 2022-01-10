@@ -177,6 +177,7 @@ module SequenceServer
       def parse_xml(xml)
         node_to_array Ox.parse(xml).root
       rescue Ox::ParseError
+        fail 'Error parsing XML file' if job.imported_xml_file
         fail InputError, <<~MSG
           BLAST generated incorrect XML output. This can happen if sequence ids in your
           databases are not unique across all files. As a temporary workaround, you can
