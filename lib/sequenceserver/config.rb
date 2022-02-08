@@ -11,12 +11,19 @@ module SequenceServer
 
     def initialize(data = {})
       @data = normalize data
+
       @config_file = @data.delete(:config_file)
       if @config_file
         @config_file = File.expand_path(@config_file)
-        @data = parse_config_file.update @data
+        @data = merge(parse_config_file, @data)
       end
-      @data = defaults.update @data
+
+      @data = merge(defaults, @data)
+
+      if @upgraded
+        logger.info 'You are using old configuration syntax. ' \
+                    'Run `sequenceserver -s` to update your config file syntax.'
+      end
     end
 
     attr_reader :data, :config_file
@@ -46,35 +53,45 @@ module SequenceServer
 
     private
 
-    # Symbolizes keys. Changes `database` key to `database_dir`.
+    # Symbolizes keys. Rename/reformat key-values.
     def normalize(data)
       return {} unless data
 
       # Symbolize keys.
       data = Hash[data.map { |k, v| [k.to_sym, v] }]
 
-      # The newer config file version replaces the older database key with
-      # database_dir for correctness. Let's honour the old version as well.
+      # Very old config files may have a key called `database`.
+      # Rename it to `database_dir`
       if data[:database]
         database_dir = data.delete(:database)
         data[:database_dir] ||= database_dir
+        @upgrade = true
       end
 
-      # We would like a persistent :options: key in the config file, explicitly
-      # stating the parameters to use. Recommended values are written to config
-      # file on the first run. However, existing users won't have :options: key
-      # available from before. For them, we retain the old behaviour of
-      # automatically adding `-task blastn` for BLASTN searches.
-      if blast_opts = data.dig(:options, :blastn)
-        unless blast_opts.join.match('-task')
-          # Issue a warning.
-          logger.info "BLASTN will be run using '-task blastn' option." +
-                      " You can override this through configuration file."
-          data[:options][:blastn].push '-task blastn'
+      # Old config files may have an options hash with array values. We turn the
+      # array values into a hash. The logic is simple: If the array value is the
+      # same as default, we give it the key 'default', otherwise we give it the
+      # key 'custom'
+      if data[:options]
+        data[:options].each do |key, val|
+          next if val.is_a? Hash
+          if val == defaults[:options][key][:default]
+            data[:options][key] = { default: val }
+          else
+            data[:options][key] = { custom: val }
+          end
+          @upgraded = true
         end
       end
 
       data
+    end
+
+    # Deep merge Hashes.
+    def merge(target, new_data)
+      target.merge(new_data) do |key, oldval, newval|
+        if oldval.is_a? Hash then merge(oldval, newval) else newval end
+      end
     end
 
     # Parses and returns data from config_file if it exists. Returns {}
@@ -96,16 +113,26 @@ module SequenceServer
 
     # Default configuration data.
     def defaults
-      {
+      @defaults ||= {
         host: '0.0.0.0',
         port: 4567,
         databases_widget: 'classic',
         options: {
-          blastn:  ['-task blastn', '-evalue 1e-5'],
-          blastp:  ['-evalue 1e-5'],
-          blastx:  ['-evalue 1e-5'],
-          tblastx: ['-evalue 1e-5'],
-          tblastn: ['-evalue 1e-5']
+          blastn:  {
+            default: ['-task blastn', '-evalue 1e-5']
+          },
+          blastp:  {
+            default: ['-evalue 1e-5']
+          },
+          blastx:  {
+            default: ['-evalue 1e-5']
+          },
+          tblastx: {
+            default: ['-evalue 1e-5']
+          },
+          tblastn: {
+            default: ['-evalue 1e-5']
+          }
         },
         num_threads: 1,
         num_jobs: 1,

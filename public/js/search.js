@@ -315,11 +315,12 @@ var Form = React.createClass({
     handleAlgoChanged: function (algo) {
         if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
             this.refs.opts.setState({
-                preOpts: this.state.preDefinedOpts[algo].join(' ')
+                preOpts: this.state.preDefinedOpts[algo],
+                value: this.state.preDefinedOpts[algo].default.join(' ')
             });
         }
         else {
-            this.refs.opts.setState({preOpts: ''});
+            this.refs.opts.setState({ preOpts: {}, value: '' });
         }
     },
 
@@ -801,18 +802,17 @@ var Databases = React.createClass({
 var Options = React.createClass({
     // State of this component is the advanced params text.
     getInitialState: function () {
-        return { preOpts: '' };
+        return { preOpts: {}, value: '' };
     },
 
-    updateBox: function (evt) {
-        this.setState({
-            preOpts: evt.target.value
-        });
+    updateBox: function (value) {
+        this.setState({ value: value });
     },
 
     render: function () {
         var classNames = 'form-control';
-        if (this.state.preOpts.trim()) {
+        console.log(this.state.preOpts);
+        if (this.state.value.trim()) {
             classNames += ' yellow-background';
         }
         return (
@@ -822,23 +822,51 @@ var Options = React.createClass({
                         <div className="input-group">
                             <label className="control-label" htmlFor="advanced">
                                 Advanced parameters:
+                                <sup style={{marginLeft: '2px'}}>
+                                    <a href=''
+                                        data-toggle="modal" data-target="#help">
+                                        <i className="fa fa-question-circle"></i>
+                                    </a>
+                                </sup>
                             </label>
-                            <input type="text" className={classNames} onChange={this.updateBox}
-                                id="advanced" name="advanced" value={this.state.preOpts}
+                            <input type="text" className={classNames}
+                                onChange={e => this.updateBox(e.target.value)}
+                                id="advanced" name="advanced" value={this.state.value}
                                 placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
                                 title="View, and enter advanced parameters."
                             />
-                            <div
-                                className="input-group-addon cursor-pointer"
-                                data-toggle="modal" data-target="#help">
-                                <i className="fa fa-question"></i>
-                            </div>
+                            { Object.keys(this.state.preOpts).length > 1 && this.optionsJSX() }
                         </div>
                     </div>
                 </div>
             </div>
         );
-    }
+    },
+
+    optionsJSX: function () {
+        return <span className="input-group-btn dropdown">
+            <button className="btn bnt-sm btn-default dropdown-toggle"
+                data-toggle="dropdown">
+                <i className="fa fa-caret-down"></i>
+            </button>
+            <ul id='advanced-params-dropdown'
+                className="dropdown-menu dropdown-menu-right">
+            {
+                Object.entries(this.state.preOpts).map(
+                    ([key, value], index) => {
+                        value = value.join(' ');
+                        if (value.trim() === this.state.value.trim())
+                            var className = 'yellow-background';
+                        return <li key={index} className={className}
+                            onClick={() => this.updateBox(value)}>
+                            <strong>{key}:</strong>&nbsp;{value}
+                        </li>;
+                    }
+                )
+            }
+            </ul>
+        </span>;
+    } 
 });
 
 /**

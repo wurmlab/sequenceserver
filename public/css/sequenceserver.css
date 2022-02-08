@@ -621,3 +621,17 @@ input[type=checkbox] {
 .hit-header {
   display: table-cell;
 }
+
+
+/** For advanced params dropdown **/
+.input-group-btn {
+  vertical-align: top;
+}
+#advanced-params-dropdown {
+  padding: 0;
+}
+#advanced-params-dropdown li {
+  padding: 10px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
