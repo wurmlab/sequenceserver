@@ -216,6 +216,7 @@ module SequenceServer
       method = job.method.to_sym
       if job.advanced && job.advanced !=
            searchdata[:options][method][:default].join(' ')
+        searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end
     end

@@ -24,6 +24,7 @@ module SequenceServer
   require 'sequenceserver/job_remover'
   require 'sequenceserver/exceptions'
   require 'sequenceserver/sys'
+  require 'sequenceserver/refinements'
 
   # The singleton methods defined below constitute the "runtime" environment of
   # SequenceServer.
