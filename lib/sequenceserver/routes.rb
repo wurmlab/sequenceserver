@@ -213,7 +213,11 @@ module SequenceServer
       # default advanced parameters from the advanced params input field. In
       # this case, we do want the advanced params input field to be empty when
       # the user hits the back button. Thus we do not test for empty string.
-      searchdata[:options][job.method] = [job.advanced] if job.advanced
+      method = job.method.to_sym
+      if job.advanced && job.advanced !=
+           searchdata[:options][method][:default].join(' ')
+        searchdata[:options][method]['last search'] = [job.advanced]
+      end
     end
   end
 end

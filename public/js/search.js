@@ -314,9 +314,11 @@ var Form = React.createClass({
 
     handleAlgoChanged: function (algo) {
         if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
+            var preDefinedOpts = this.state.preDefinedOpts[algo];
             this.refs.opts.setState({
-                preOpts: this.state.preDefinedOpts[algo],
-                value: this.state.preDefinedOpts[algo].default.join(' ')
+                preOpts: preDefinedOpts,
+                value: (preDefinedOpts['last search'] ||
+                        preDefinedOpts['default']).join(' ')
             });
         }
         else {
@@ -811,7 +813,6 @@ var Options = React.createClass({
 
     render: function () {
         var classNames = 'form-control';
-        console.log(this.state.preOpts);
         if (this.state.value.trim()) {
             classNames += ' yellow-background';
         }
