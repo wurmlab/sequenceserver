@@ -15,10 +15,10 @@ module SequenceServer
       @config_file = @data.delete(:config_file)
       if @config_file
         @config_file = File.expand_path(@config_file)
-        @data = merge(parse_config_file, @data)
+        @data = parse_config_file.deep_merge @data
       end
 
-      @data = merge(defaults, @data)
+      @data = defaults.deep_merge @data
 
       if @upgraded
         logger.info 'You are using old configuration syntax. ' \
@@ -85,13 +85,6 @@ module SequenceServer
       end
 
       data
-    end
-
-    # Deep merge Hashes.
-    def merge(target, new_data)
-      target.merge(new_data) do |key, oldval, newval|
-        if oldval.is_a? Hash then merge(oldval, newval) else newval end
-      end
     end
 
     # Parses and returns data from config_file if it exists. Returns {}
