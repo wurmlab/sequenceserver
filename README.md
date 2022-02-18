@@ -104,23 +104,23 @@ For this, first install CodeClimate following the instructions at https://github
 
 Once CodeClimate is installed, install the required codeclimate 'engines':
 
-  codeclimate engines:install
+    codeclimate engines:install
 
 To run all the style checkers:
 
-  codeclimate analyze
+    codeclimate analyze
 
 To run eslint:
 
-  codeclimate analyze -e eslint
+    codeclimate analyze -e eslint
 
 To run rubocop:
 
-  codeclimate analyze -e rubocop
+    codeclimate analyze -e rubocop
 
 stylelint is used for CSS:
 
-  codeclimate analyze -e stylelint
+    codeclimate analyze -e stylelint
 
 The above commands respect the respective style checker's config files, e.g., .rubocopy.yml for Rubocop and so on.
 
