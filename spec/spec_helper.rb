@@ -29,7 +29,7 @@ RSpec.configure do |config|
 
   # Setup capybara tests.
   config.before :context, type: :feature do
-    Capybara.app = SequenceServer.init
+    Capybara.app = SequenceServer
     Capybara.server = :webrick
     Capybara.default_max_wait_time = 30
 

@@ -71,7 +71,7 @@ module SequenceServer
     end
 
     before do
-      SequenceServer.init
+      SequenceServer.init(database_dir: database_dir_v5)
     end
 
     it 'can tell FASTA file' do

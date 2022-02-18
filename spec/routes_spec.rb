@@ -9,7 +9,7 @@ module SequenceServer
     include Rack::Test::Methods
 
     before do
-      SequenceServer.init
+      SequenceServer.init(database_dir: "#{__dir__}/database/v5/sample")
     end
 
     before :each do

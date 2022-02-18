@@ -17,13 +17,7 @@ module SequenceServer
     end
 
     before do
-      SequenceServer.init
-    end
-
-    before :each do
-      # Empty Database collection so we can use different directories as
-      # needed.
-      Database.clear
+      SequenceServer.init(database_dir: database_dir_sample)
     end
 
     let 'solenopsis_protein_database' do
@@ -34,8 +28,6 @@ module SequenceServer
     end
 
     it 'knows if a given accession is in the database or not' do
-      SequenceServer.config[:database_dir] = database_dir_sample
-      SequenceServer.send(:init_database)
       solenopsis_protein_database.include?('SI2.2.0_06267').should be_truthy
     end
   end
