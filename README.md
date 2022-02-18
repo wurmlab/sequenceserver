@@ -1,16 +1,11 @@
-[![gem version](https://img.shields.io/badge/version-1.0.x%20(old%20stable)-green.svg)](http://rubygems.org/gems/sequenceserver)
-[![build status](https://www.travis-ci.com/wurmlab/sequenceserver.svg?branch=1.0.x)](https://travis-ci.com/wurmlab/sequenceserver)
+[![gem version](https://img.shields.io/badge/version-2.0-green.svg)](http://rubygems.org/gems/sequenceserver)
 [![total downloads](http://ruby-gem-downloads-badge.herokuapp.com/sequenceserver?type=total&color=brightgreen)](http://rubygems.org/gems/sequenceserver)
+[![coverage](https://codeclimate.com/github/wurmlab/sequenceserver/badges/coverage.svg)](https://codeclimate.com/github/wurmlab/sequenceserver)
+[![build status](https://www.travis-ci.com/wurmlab/sequenceserver.svg?branch=master)](https://travis-ci.com/wurmlab/sequenceserver)
 [![gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/wurmlab/sequenceserver)
-
-**Beta version:** 
-[![new gem version](https://img.shields.io/badge/version-2.0%20(beta)-yellowgreen.svg)](http://rubygems.org/gems/sequenceserver) **GitHub Master:** [![build status](https://www.travis-ci.com/wurmlab/sequenceserver.svg?branch=master)](https://travis-ci.com/wurmlab/sequenceserver)
-
-
 
 
 <!--[![code climate](https://codeclimate.com/github/wurmlab/sequenceserver/badges/gpa.svg)](https://codeclimate.com/github/wurmlab/sequenceserver)-->
-<!--[![coverage](https://codeclimate.com/github/wurmlab/sequenceserver/badges/coverage.svg)](https://codeclimate.com/github/wurmlab/sequenceserver)-->
 <!--[![browser matrix](https://saucelabs.com/browser-matrix/yeban.svg)](https://saucelabs.com/u/yeban)-->
 
 # SequenceServer - BLAST searching made easy!
@@ -24,50 +19,29 @@ If you use SequenceServer, please cite:
   (2019).](https://doi.org/10.1093/molbev/msz185)
 
 
-## Stable (version 1.0.14)
-
-- Release date: May 2020
-- Works with BLAST 2.2.30 and higher
-
-### Installation
+## Installation
 
 For installation instructions and how to use SequenceServer please see
-https://sequenceserver.com/#installation.
+https://sequenceserver.com/
 
 If you want to run SequenceServer directly from source code, please see
 'Develop and contribute' section below.
 
-## Beta (version 2.0)
+## Release notes
 
-SequenceServer 2.0 includes three new visualisations to help interpret BLAST results, enables sharing of BLAST results and visualising of externally generated BLAST XML file (including from DIAMOND), removes the 30 hit limit for FASTA download and adds ability to download pairwise alignment, is better equipped to handle long-running BLAST jobs and rendering of large search results (thousands of hits), supports BLAST 2.10.0+ and the new database format (including migrating your old databases to the new format), contains additional hooks for integrating as part of other websites and several other enhancements under the hood.
+New releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver/), while our [GitHub project board](https://github.com/wurmlab/sequenceserver/projects/3) provides an overview of ongoing development efforts.
 
-Read more about SequenceServer 2.0 and extensive testing of the candidate releases by the community: https://groups.google.com/d/msg/sequenceserver/c98ePBzcuVE/lN-S35jVHgAJ.
+(Read about extensive testing of SequenceServer 2.0 candidate releases by the community: https://groups.google.com/d/msg/sequenceserver/c98ePBzcuVE/lN-S35jVHgAJ.)
 
-New candidate releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver/), while our [GitHub project board](https://github.com/wurmlab/sequenceserver/projects/3) provides an overview of what remains to migrate from candidate to stable release.
-
-We invite you to try out the latest candidate release and help us out by reporting any issues you may encounter with your setup (instructions below).
-
-### Install and configure
-
-To get the latest 2.0 (beta) release, run:
-
-    gem install --pre sequenceserver
-
-If you are new to the above command, please consult the 'Install or update'
-section on our website http://sequenceserver.com.
-
-If you want to run SequenceServer beta directly from source code, please see
-'Develop and contribute' section below.
-
-### Reporting issues
+## Reporting issues
 
 Please report any issues here: https://github.com/wurmlab/sequenceserver/issues
 
-### Develop and contribute
+## Develop and contribute
 
-To develop and contribute, you will need to run SequenceServer from source.
+To develop and contribute, you will need to run SequenceServer from source (see below).
 
-#### Run SequenceServer from source code
+### Run SequenceServer from source code
 
 You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubygems.org/):
 
@@ -87,7 +61,7 @@ You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubyg
 If you do not plan to develop, you can skip installing development dependencies
 by running `bundle install --without=development`.
 
-#### Making changes to the code
+### Making changes to the code
 
 During development, you should use `-D` option to run SequenceServer in development mode. In this mode, SequenceServer logs verbosely and uses raw front-end files.
 
@@ -106,9 +80,9 @@ Or if you are using docker, you can build the frontend code and include it in th
 
     docker build . -t seqserv-with-customisations --target=minify
 
-#### Testing
+### Testing
 
-We use RSpec and Capybara for testing. Our test suite covers 87% of the codebase. Running all tests can take considerable time (~2 hrs). We recommend using Travis to automatically run all tests when you push your code to your fork. Tests are also run automatically when you open a pull-request (see Getting code merged section below). Although, it may be desirable sometimes to run a single test, whole file, or all tests locally:
+We use RSpec and Capybara for testing. Our test suite covers 87% of the codebase. Tests are run automatically when you open a pull-request (see Getting code merged section below) but it may be desirable sometimes to run a single test, whole file, or all tests locally:
 
 To run a single test (a.k.a, scenario):
 
@@ -122,29 +96,39 @@ To run all tests:
 
     bundle exec rspec
 
-#### Getting code merged
+### Linting
+
+We use CodeClimate for static code analysis. CodeClimate is run automatically when you open a pull-request (see Getting code merged section below) but it may be desirable sometimes to run it locally.
+
+For this, first install CodeClimate following the instructions at https://github.com/codeclimate/codeclimate.
+
+Once CodeClimate is installed, install the required codeclimate 'engines':
+
+  codeclimate engines:install
+
+To run all the style checkers:
+
+  codeclimate analyze
+
+To run eslint:
+
+  codeclimate analyze -e eslint
+
+To run rubocop:
+
+  codeclimate analyze -e rubocop
+
+stylelint is used for CSS:
+
+  codeclimate analyze -e stylelint
+
+The above commands respect the respective style checker's config files, e.g., .rubocopy.yml for Rubocop and so on.
+
+### Getting code merged
 
 Please open a pull-request on GitHub to get code merged. Our test suite and the CodeClimate static code analysis system will be automatically run on your pull-request. These should pass for your code to be merged. If you want to add a new feature to SequenceServer, please also add tests. In addition, code should be `rubocop` and `eslint` compliant, and hard-wrapped to 80 chars per line.
 
 If you change frontend code (JavaScript and CSS), please build (i.e., minify and compress) and commit the resulting JS and CSS bundles before opening a pull-request. This is because SequenceServer is run in production mode by the test suite.
-
-## Docker builds
-
-Both the old stable and new beta versions of SequenceServer are available as
-Docker images.
-
-```
-# With database fasta files inside a folder named db
-docker run --rm -ti -p 4567:4567 -v $(pwd)/db:/db wurmlab/sequenceserver
-```
-
-This will use the new beta release of SequenceServer. To use the old stable
-release, add the version tag to the command:
-
-```
-# With database fasta files inside a folder named db
-docker run --rm -ti -p 4567:4567 -v $(pwd)/db:/db wurmlab/sequenceserver:1.0.11
-```
 
 ## Contact
 
