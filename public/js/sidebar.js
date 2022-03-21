@@ -88,13 +88,27 @@ export default React.createClass({
         return false;
     },
 
-
+    /**
+     * Handles copying the URL into the user's clipboard. Modified from: https://stackoverflow.com/a/49618964/18117380
+     * */
+    copyURL: function () {
+        var element = document.createElement('input'),
+        url = window.location.href;
+        document.body.appendChild(element);
+        element.value = url;
+        element.select();
+        document.execCommand('copy');
+        document.body.removeChild(element);
+        alert("URL Copied!");
+    },
+        
     // JSX //
     render: function () {
         return (
             <div className="sidebar">
                 { this.topPanelJSX() }
                 { this.downloadsPanelJSX() }
+                { this.sharingPanelJSX() }
             </div>
         );
     },
@@ -106,6 +120,7 @@ export default React.createClass({
         // Deriving rootURL this way is required for subURI deployments
         // - we cannot just send to '/'.
         var rootURL = path.join('/');
+        
 
         return (
             <div className="sidebar-top-panel">
@@ -223,6 +238,28 @@ export default React.createClass({
                                 title="Results in XML format."
                                 href={'download/' + this.props.data.search_id + '.xml'}>
                                 Full XML report
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        );
+    },
+
+    sharingPanelJSX: function () {
+        return (
+            <div className="downloads">
+                <div className="section-header-sidebar">
+                    <h4>
+                        Share Results
+                    </h4>
+                </div>
+                
+                <ul className="nav">
+                    {
+                        <li>
+                            <a className ="btn-link download" data-toggle="tooltip"
+                                title="Copy URL." onClick={this.copyURL} > Copy URL to clipboard
                             </a>
                         </li>
                     }
