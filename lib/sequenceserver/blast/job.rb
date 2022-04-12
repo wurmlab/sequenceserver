@@ -24,13 +24,16 @@ module SequenceServer
             @databases = Database[params[:databases]]
             @advanced  = params[:advanced].to_s.strip
             @options   = @advanced + defaults
+            @num_threads = Integer(config[:num_threads])
+            @query_length = File.size(@qfile)
+            @total_database_length = database_ncharacter_length
           end
         end
       end
 
       # :nodoc:
       # Attributes used by us - should be considered private.
-      attr_reader :method, :qfile, :databases, :advanced, :options
+      attr_reader :method, :qfile, :databases, :advanced, :options, :num_threads, :query_length, :total_database_length
 
       # :nodoc:
       # Deprecated; see Report#extract_params
@@ -48,6 +51,11 @@ module SequenceServer
       def command
         @command ||= "#{method} -db '#{databases.map(&:name).join(' ')}'" \
                      " -query '#{qfile}' #{options}"
+      end
+
+      def database_ncharacter_length
+        total_database_length_arr = databases.map(&:ncharacters)
+        total_database_length = total_database_length_arr.map(&:to_i).reduce(:+) 
       end
 
       # Override Job#raise! to raise specific API errors based on exitstatus
