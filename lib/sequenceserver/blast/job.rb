@@ -33,7 +33,14 @@ module SequenceServer
 
       # :nodoc:
       # Attributes used by us - should be considered private.
-      attr_reader :method, :qfile, :databases, :advanced, :options, :num_threads, :query_length, :total_database_length
+      attr_reader :advanced
+      attr_reader :databases
+      attr_reader :method
+      attr_reader :num_threads
+      attr_reader :options
+      attr_reader :query_length
+      attr_reader :qfile
+      attr_reader :total_database_length
 
       # :nodoc:
       # Deprecated; see Report#extract_params
@@ -55,7 +62,7 @@ module SequenceServer
 
       def database_ncharacter_length
         total_database_length_arr = databases.map(&:ncharacters)
-        total_database_length = total_database_length_arr.map(&:to_i).reduce(:+) 
+        total_database_length_arr.map(&:to_i).reduce(:+)
       end
 
       # Override Job#raise! to raise specific API errors based on exitstatus
