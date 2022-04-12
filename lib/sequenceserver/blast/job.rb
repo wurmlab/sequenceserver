@@ -26,7 +26,7 @@ module SequenceServer
             @options   = @advanced + defaults
             @num_threads = Integer(config[:num_threads])
             @query_length = File.size(@qfile)
-            @total_database_length = database_ncharacter_length
+            @total_database_length = database_lengths
           end
         end
       end
@@ -60,7 +60,7 @@ module SequenceServer
                      " -query '#{qfile}' #{options}"
       end
 
-      def database_ncharacter_length
+      def database_lengths
         total_database_length_arr = databases.map(&:ncharacters)
         total_database_length_arr.map(&:to_i).reduce(:+)
       end
