@@ -1,6 +1,6 @@
 # Build variables. These need to be declared befored the first FROM
 # for the variables to be accessible in FROM instruction.
-ARG BLAST_VERSION=2.12.0
+ARG BLAST_VERSION=2.13.0
 
 ## Stage 1: gem dependencies.
 FROM ruby:2.7-slim-buster AS builder
