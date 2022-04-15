@@ -24,7 +24,7 @@ module SequenceServer
             @databases = Database[params[:databases]]
             @advanced  = params[:advanced].to_s.strip
             @options   = @advanced + defaults
-            @num_threads = Integer(config[:num_threads])
+            @num_threads = config[:num_threads]
             @query_length = File.size(@qfile)
             @total_database_length = database_lengths
           end
