@@ -1,5 +1,5 @@
 import './jquery_world'; // for custom $.tooltip function
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'underscore';
 
 import Sidebar from './sidebar';
@@ -15,16 +15,42 @@ import ErrorModal from './error_modal';
  * Base component of report page. This component is later rendered into page's
  * '#view' element.
  */
-var Page = React.createClass({
-    render: function () {
+class Page extends Component {
+    constructor(props) {
+        super(props);
+        this.showSequenceModal = this.showSequenceModal.bind(this);
+        this.showErrorModal = this.showErrorModal.bind(this);
+        this.getCharacterWidth = this.getCharacterWidth.bind(this);
+    }
+    componentDidMount() {
+        var job_id = location.pathname.split('/').pop();
+        sessionStorage.setItem('job_id', job_id);
+    }
+
+    showSequenceModal(url) {
+        this.refs.sequenceModal.show(url);
+    }
+
+    showErrorModal(errorData, beforeShow) {
+        this.refs.errorModal.show(errorData, beforeShow);
+    }
+
+    getCharacterWidth() {
+        if (!this.characterWidth) {
+            var $hspChars = $(React.findDOMNode(this.refs.hspChars));
+            this.characterWidth = $hspChars.width() / 29;
+        }
+        return this.characterWidth;
+    }
+    render() {
         return (
             <div>
                 {/* Provide bootstrap .container element inside the #view for
                     the Report component to render itself in. */}
                 <div className="container">
-                    <Report showSequenceModal={ _ => this.showSequenceModal(_) }
-                        getCharacterWidth={ () => this.getCharacterWidth() }
-                        showErrorModal={ (...args) => this.showErrorModal(...args) } />
+                    <Report showSequenceModal={_ => this.showSequenceModal(_)}
+                        getCharacterWidth={() => this.getCharacterWidth()}
+                        showErrorModal={(...args) => this.showErrorModal(...args)} />
                 </div>
 
                 {/* Add a hidden span tag containing chars used in HSPs */}
@@ -36,45 +62,22 @@ var Page = React.createClass({
                 <canvas id="png-exporter" hidden></canvas>
 
                 <SequenceModal ref="sequenceModal"
-                    showErrorModal={ (...args) => this.showErrorModal(...args) }/>
+                    showErrorModal={(...args) => this.showErrorModal(...args)} />
 
                 <ErrorModal ref="errorModal" />
             </div>
         );
-    },
-
-    componentDidMount: function () {
-        var job_id = location.pathname.split('/').pop();
-        sessionStorage.setItem('job_id', job_id);
-    },
-
-    showSequenceModal: function (url) {
-        this.refs.sequenceModal.show(url);
-    },
-
-    showErrorModal: function (errorData, beforeShow) {
-        this.refs.errorModal.show(errorData, beforeShow);
-    },
-
-    getCharacterWidth: function () {
-        if (!this.characterWidth) {
-            var $hspChars = $(React.findDOMNode(this.refs.hspChars));
-            this.characterWidth = $hspChars.width() / 29;
-        }
-        return this.characterWidth;
     }
-});
+}
 
 /**
  * Renders entire report.
  *
  * Composed of Query and Sidebar components.
  */
-var Report = React.createClass({
-
-    // Model //
-
-    getInitialState: function () {
+class Report extends Component {
+    constructor(props) {
+        super(props);
         this.fetchResults();
 
         // Properties below are internal state used to render results in small
@@ -84,29 +87,27 @@ var Report = React.createClass({
         this.nextHit = 0;
         this.nextHSP = 0;
         this.maxHSPs = 3; // max HSPs to render in a cycle
-
-        return {
-            search_id:       '',
+        this.state = {
+            search_id: '',
             seqserv_version: '',
-            program:         '',
+            program: '',
             program_version: '',
-            submitted_at:    '',
-            queries:         [],
-            results:         [],
-            querydb:         [],
-            params:          [],
-            stats:           []
+            submitted_at: '',
+            queries: [],
+            results: [],
+            querydb: [],
+            params: [],
+            stats: []
         };
-    },
-
+    }
     /**
      * Fetch results.
      */
-    fetchResults: function () {
+    fetchResults() {
         var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
         var component = this;
 
-        function poll () {
+        function poll() {
             $.getJSON(location.pathname + '.json')
                 .complete(function (jqXHR) {
                     switch (jqXHR.status) {
@@ -133,33 +134,26 @@ var Report = React.createClass({
         }
 
         poll();
-    },
+    }
 
     /**
      * Calls setState after any required modification to responseJSON.
      */
-    setStateFromJSON: function(responseJSON) {
+    setStateFromJSON(responseJSON) {
         this.lastTimeStamp = Date.now();
         this.setState(responseJSON);
-    },
-
-    // Life-cycle methods //
-    render: function () {
-        return this.isResultAvailable() ?
-            this.resultsJSX() : this.loadingJSX();
-    },
-
+    }
     /**
      * Called as soon as the page has loaded and the user sees the loading spinner.
      * We use this opportunity to setup services that make use of delegated events
      * bound to the window, document, or body.
      */
-    componentDidMount: function () {
+    componentDidMount() {
         // This sets up an event handler which enables users to select text from
         // hit header without collapsing the hit.
         this.preventCollapseOnSelection();
         this.toggleTable();
-    },
+    }
 
     /**
      * Called for the first time after as BLAST results have been retrieved from
@@ -167,9 +161,9 @@ var Report = React.createClass({
      * and circos would have been rendered at this point. At this stage we kick
      * start iteratively adding 1 HSP to the page every 25 milli-seconds.
      */
-    componentDidUpdate: function () {
+    componentDidUpdate() {
         // Log to console how long the last update take?
-        console.log((Date.now() - this.lastTimeStamp)/1000);
+        console.log((Date.now() - this.lastTimeStamp) / 1000);
 
         // Lock sidebar in its position on the first update.
         if (this.nextQuery == 0 && this.nextHit == 0 && this.nextHSP == 0) {
@@ -186,12 +180,12 @@ var Report = React.createClass({
         else {
             this.componentFinishedUpdating();
         }
-    },
+    }
 
     /**
      * Push next slice of results to React for rendering.
      */
-    updateState: function() {
+    updateState() {
         var results = [];
         var numHSPsProcessed = 0;
         while (this.nextQuery < this.state.queries.length) {
@@ -200,7 +194,7 @@ var Report = React.createClass({
             // 3 hsps or are rendered in each cycle, but we want to create the
             // corresponding Query component only the first time we see it.
             if (this.nextHit == 0 && this.nextHSP == 0) {
-                results.push(<Query key={'Query_'+query.number} query={query}
+                results.push(<Query key={'Query_' + query.number} query={query}
                     program={this.state.program} querydb={this.state.querydb}
                     showQueryCrumbs={this.state.queries.length > 1}
                     non_parse_seqids={this.state.non_parse_seqids}
@@ -214,7 +208,7 @@ var Report = React.createClass({
                 // 10 hsps are rendered in each cycle, but we want to create the
                 // corresponding Hit component only the first time we see it.
                 if (this.nextHSP == 0) {
-                    results.push(<Hit key={'Query_'+query.number+'_Hit_'+hit.number} query={query}
+                    results.push(<Hit key={'Query_' + query.number + '_Hit_' + hit.number} query={query}
                         hit={hit} algorithm={this.state.program} querydb={this.state.querydb}
                         selectHit={this.selectHit} imported_xml={this.state.imported_xml}
                         non_parse_seqids={this.state.non_parse_seqids}
@@ -229,7 +223,7 @@ var Report = React.createClass({
                     // Get nextHSP and increment the counter.
                     var hsp = hit.hsps[this.nextHSP++];
                     results.push(
-                        <HSP key={'Query_'+query.number+'_Hit_'+hit.number+'_HSP_'+hsp.number}
+                        <HSP key={'Query_' + query.number + '_Hit_' + hit.number + '_HSP_' + hsp.number}
                             query={query} hit={hit} hsp={hsp} algorithm={this.state.program}
                             showHSPNumbers={hit.hsps.length > 1} {... this.props} />
                     );
@@ -261,19 +255,19 @@ var Report = React.createClass({
             results: this.state.results.concat(results),
             veryBig: this.numUpdates >= 250
         });
-    },
+    }
 
     /**
      * Called after all results have been rendered.
      */
-    componentFinishedUpdating: function () {
+    componentFinishedUpdating() {
         this.shouldShowIndex() && this.setupScrollSpy();
-    },
+    }
 
     /**
      * Returns loading message
      */
-    loadingJSX: function () {
+    loadingJSX() {
         return (
             <div
                 className="row">
@@ -283,24 +277,24 @@ var Report = React.createClass({
                         <i className="fa fa-cog fa-spin"></i>&nbsp; BLAST-ing
                     </h1>
                     <p>
-                        <br/>
+                        <br />
                         This can take some time depending on the size of your query and
                         database(s). The page will update automatically when BLAST is
                         done.
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         You can bookmark the page and come back to it later or share
                         the link with someone.
                     </p>
                 </div>
             </div>
         );
-    },
+    }
 
     /**
      * Return results JSX.
      */
-    resultsJSX: function () {
+    resultsJSX() {
         return (
             <div className="row">
                 <div className="col-md-3 hidden-sm hidden-xs">
@@ -309,18 +303,18 @@ var Report = React.createClass({
                         shouldShowIndex={this.shouldShowIndex()} />
                 </div>
                 <div className="col-md-9">
-                    { this.overviewJSX() }
-                    { this.circosJSX() }
-                    { this.state.results }
+                    {this.overviewJSX()}
+                    {this.circosJSX()}
+                    {this.state.results}
                 </div>
             </div>
         );
-    },
+    }
 
     /**
      * Renders report overview.
      */
-    overviewJSX: function () {
+    overviewJSX() {
         return (
             <div className="overview">
                 <p>
@@ -345,17 +339,17 @@ var Report = React.createClass({
                 </p>
             </div>
         );
-    },
+    }
 
     /**
      * Return JSX for circos if we have at least one hit.
      */
-    circosJSX: function () {
+    circosJSX() {
         return this.atLeastTwoHits()
             ? <Circos queries={this.state.queries}
-                program={this.state.program} collapsed="true"/>
+                program={this.state.program} collapsed="true" />
             : <span></span>;
-    },
+    }
 
     // Controller //
 
@@ -364,42 +358,42 @@ var Report = React.createClass({
      *
      * A holding message is shown till results are fetched.
      */
-    isResultAvailable: function () {
+    isResultAvailable() {
         return this.state.queries.length >= 1;
-    },
+    }
 
     /**
      * Returns true if we have at least one hit.
      */
-    atLeastOneHit: function () {
+    atLeastOneHit() {
         return this.state.queries.some(query => query.hits.length > 0);
-    },
+    }
 
     /**
      * Does the report have at least two hits? This is used to determine
      * whether Circos should be enabled or not.
      */
-    atLeastTwoHits: function () {
+    atLeastTwoHits() {
         var hit_num = 0;
         return this.state.queries.some(query => {
             hit_num += query.hits.length;
             return hit_num > 1;
         });
-    },
+    }
 
     /**
      * Returns true if index should be shown in the sidebar. Index is shown
      * only for 2 and 8 queries.
      */
-    shouldShowIndex: function () {
+    shouldShowIndex() {
         var num_queries = this.state.queries.length;
         return num_queries >= 2 && num_queries <= 12;
-    },
+    }
 
     /**
      * Prevents folding of hits during text-selection.
      */
-    preventCollapseOnSelection: function () {
+    preventCollapseOnSelection() {
         $('body').on('mousedown', '.hit > .section-header > h4', function (event) {
             var $this = $(this);
             $this.on('mouseup mousemove', function handler(event) {
@@ -415,10 +409,10 @@ var Report = React.createClass({
                 $this.off('mouseup mousemove', handler);
             });
         });
-    },
+    }
 
     /* Handling the fa icon when Hit Table is collapsed */
-    toggleTable: function () {
+    toggleTable() {
         $('body').on('mousedown', '.resultn > .section-content > .table-hit-overview > .caption', function (event) {
             var $this = $(this);
             $this.on('mouseup mousemove', function handler(event) {
@@ -426,14 +420,14 @@ var Report = React.createClass({
                 $this.off('mouseup mousemove', handler);
             });
         });
-    },
+    }
 
 
 
     /**
      * Affixes the sidebar.
      */
-    affixSidebar: function () {
+    affixSidebar() {
         var $sidebar = $('.sidebar');
         var sidebarOffset = $sidebar.offset();
         if (sidebarOffset) {
@@ -443,24 +437,24 @@ var Report = React.createClass({
                 }
             });
         }
-    },
+    }
 
     /**
      * For the query in viewport, highlights corresponding entry in the index.
      */
-    setupScrollSpy: function () {
-        $('body').scrollspy({target: '.sidebar'});
-    },
+    setupScrollSpy() {
+        $('body').scrollspy({ target: '.sidebar' });
+    }
 
     /**
      * Event-handler when hit is selected
      * Adds glow to hit component.
      * Updates number of Fasta that can be downloaded
      */
-    selectHit: function (id) {
+    selectHit(id) {
 
         var checkbox = $('#' + id);
-        var num_checked  = $('.hit-links :checkbox:checked').length;
+        var num_checked = $('.hit-links :checkbox:checked').length;
 
         if (!checkbox || !checkbox.val()) {
             return;
@@ -483,9 +477,8 @@ var Report = React.createClass({
 
         var $a = $('.download-fasta-of-selected');
         var $b = $('.download-alignment-of-selected');
-        
-        if (num_checked >= 1)
-        {
+
+        if (num_checked >= 1) {
             $a.find('.text-bold').html(num_checked);
             $b.find('.text-bold').html(num_checked);
         }
@@ -494,7 +487,11 @@ var Report = React.createClass({
             $a.addClass('disabled').find('.text-bold').html('');
             $b.addClass('disabled').find('.text-bold').html('');
         }
-    },
-});
+    }
 
-React.render(<Page/>, document.getElementById('view'));
+    render() {
+        return this.isResultAvailable() ?
+            this.resultsJSX() : this.loadingJSX();
+    }
+}
+React.render(<Page />, document.getElementById('view'));
