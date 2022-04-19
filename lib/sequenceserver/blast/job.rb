@@ -25,8 +25,8 @@ module SequenceServer
             @advanced  = params[:advanced].to_s.strip
             @options   = @advanced + defaults
             @num_threads = config[:num_threads]
-            @query_length = File.size(@qfile)
-            @total_database_length = database_lengths
+            @query_length = query_size
+            @total_database_length = ncharacters_total
           end
         end
       end
@@ -60,11 +60,19 @@ module SequenceServer
                      " -query '#{qfile}' #{options}"
       end
 
-      def database_lengths
-        total_database_length_arr = databases.map(&:ncharacters)
-        total_database_length_arr.map(&:to_i).reduce(:+)
+      def ncharacters_total
+        databases.map(&:ncharacters).map(&:to_i).reduce(:+)
       end
 
+      def query_size
+        size = 0
+        IO.foreach(@qfile) do |line|
+          next if line[0] == '>'
+          size += line.strip.length
+        end
+        size
+      end
+      
       # Override Job#raise! to raise specific API errors based on exitstatus
       # and using contents of stderr to provide context about the error.
       #
