@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import _ from 'underscore';
 
 import HSPOverview from './kablammo';

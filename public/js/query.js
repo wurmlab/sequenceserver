@@ -3,7 +3,7 @@ import _ from 'underscore';
 
 import HitsOverview from './hits_overview';
 import LengthDistribution from './length_distribution'; // length distribution of hits
-import Utils from './utils'; // to use as mixin in HitsTable
+import Utils from './utils';
 
 /**
  * Query component displays query defline, graphical overview, length
@@ -86,7 +86,6 @@ export default class extends Component {
 class HitsTable extends Component {
     constructor(props) {
         super(props);
-        this.mixins = [Utils];
     }
     render() {
         var hasName = _.every(this.props.query.hits, function (hit) {
@@ -142,8 +141,8 @@ class HitsTable extends Component {
                                             }
                                             {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
                                             <td className="text-right">{hit.total_score}</td>
-                                            <td className="text-right">{this.inExponential(hit.hsps[0].evalue)}</td>
-                                            <td className="text-right">{this.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>
+                                            <td className="text-right">{Utils.inExponential(hit.hsps[0].evalue)}</td>
+                                            <td className="text-right">{Utils.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>
                                         </tr>
                                     );
                                 }, this))
