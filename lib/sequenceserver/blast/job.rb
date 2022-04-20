@@ -72,6 +72,7 @@ module SequenceServer
         end
         size
       end
+      
       # Override Job#raise! to raise specific API errors based on exitstatus
       # and using contents of stderr to provide context about the error.
       #
