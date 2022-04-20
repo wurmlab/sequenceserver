@@ -4,7 +4,7 @@ import _ from 'underscore';
 
 import Sidebar from './sidebar';
 import Circos from './circos';
-import Query from './query';
+import { ReportQuery } from './query';
 import Hit from './hit';
 import HSP from './hsp';
 
@@ -194,7 +194,7 @@ class Report extends Component {
             // 3 hsps or are rendered in each cycle, but we want to create the
             // corresponding Query component only the first time we see it.
             if (this.nextHit == 0 && this.nextHSP == 0) {
-                results.push(<Query key={'Query_' + query.number} query={query}
+                results.push(<ReportQuery key={'Query_' + query.number} query={query}
                     program={this.state.program} querydb={this.state.querydb}
                     showQueryCrumbs={this.state.queries.length > 1}
                     non_parse_seqids={this.state.non_parse_seqids}

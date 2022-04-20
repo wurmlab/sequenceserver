@@ -1,57 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'underscore';
 import Jstree from 'vakata/jstree';
+import { Databases } from './databases';
 
-
-export default class extends Component {
+export default class extends Databases {
     constructor(props) {
         super(props);
-        this.state = { type: '' };
-        this.databases = this.databases.bind(this);
-        this.categories = this.categories.bind(this);
-        this.handleClick = this.handleClick.bind(this);
         this.handleLoadTree = this.handleLoadTree.bind(this);
         this.renderDatabases = this.renderDatabases.bind(this);
         this.renderDatabaseSearch = this.renderDatabaseSearch.bind(this);
         this.renderDatabaseTree = this.renderDatabaseTree.bind(this);
-        this.renderDatabase = this.renderDatabase.bind(this);
-    }
-    componentDidUpdate() {
-        if (this.databases() && this.databases().length === 1) {
-            $('.databases').find('input').prop('checked', true);
-            this.handleClick(this.databases()[0]);
-        }
-
-        if (this.props.preSelectedDbs) {
-            var selectors = this.props.preSelectedDbs.map(db => `input[value=${db.id}]`);
-            $(...selectors).prop('checked', true);
-            this.handleClick(this.props.preSelectedDbs[0]);
-            this.props.preSelectedDbs = null;
-        }
-        this.props.onDatabaseTypeChanged(this.state.type);
-    }
-
-    databases(category) {
-        var databases = this.props.databases;
-        if (category) {
-            databases = _.select(databases, database => database.type === category);
-        }
-
-        return _.sortBy(databases, 'title');
-    }
-
-    nselected() {
-        return $('input[name="databases[]"]:checked').length;
-    }
-
-    categories() {
-        return _.uniq(_.map(this.props.databases,
-            _.iteratee('type'))).sort();
-    }
-
-    handleClick(database) {
-        var type = this.nselected() ? database.type : '';
-        if (type != this.state.type) this.setState({ type: type });
     }
 
     handleLoadTree(category) {
@@ -96,16 +54,7 @@ export default class extends Component {
         var search_for = $('#' + search_id).val();
         $('#' + tree_id).jstree(true).search(search_for);
     }
-    handleToggle(toggleState, type) {
-        switch (toggleState) {
-        case '[Select all]':
-            $(`.${type} .database input:not(:checked)`).click();
-            break;
-        case '[Deselect all]':
-            $(`.${type} .database input:checked`).click();
-            break;
-        }
-    }
+
     renderDatabases(category) {
         // Panel name and column width.
         var panelTitle = category[0].toUpperCase() +
@@ -192,31 +141,4 @@ export default class extends Component {
         );
     }
 
-    renderDatabase(database) {
-        var disabled = this.state.type && this.state.type !== database.type;
-
-        return (
-            <label
-                className={disabled && 'disabled database' || 'database'}>
-                <input
-                    type='checkbox' name='databases[]' value={database.id}
-                    data-type={database.type} disabled={disabled}
-                    onChange=
-                        {
-                            _.bind(function () {
-                                this.handleClick(database);
-                            }, this)
-                        } />
-                {' ' + (database.title || database.name)}
-            </label>
-        );
-    }
-
-    render() {
-        return (
-            <div className='form-group databases-container'>
-                {_.map(this.categories(), this.renderDatabases)}
-            </div>
-        );
-    }
 }
