@@ -12,13 +12,6 @@
   "github:jspm/nodelibs-fs@0.1.2": {},
   "github:systemjs/plugin-json@0.1.0": {},
   "github:vakata/jstree@3.3.8": {},
-  "npm:react@0.14.10": {
-    "fbjs": "npm:fbjs@^0.6.1",
-    "process": "github:jspm/nodelibs-process@^0.1.0"
-  },
-  "npm:fbjs@0.6.1": {
-    "process": "github:jspm/nodelibs-process@^0.1.0"
-  },
   "npm:util@0.10.3": {
     "inherits": "npm:inherits@2.0.1",
     "process": "github:jspm/nodelibs-process@^0.1.0"
@@ -72,7 +65,59 @@
   },
   "npm:ieee754@1.2.1": {},
   "npm:base64-js@1.5.1": {},
-  "npm:react-dom@0.14.10": {
-    "react": "npm:react@^0.14.10"
+  "npm:react-dom@17.0.2": {
+    "loose-envify": "npm:loose-envify@^1.1.0",
+    "object-assign": "npm:object-assign@^4.1.1",
+    "scheduler": "npm:scheduler@^0.20.2",
+    "react": "npm:react@17.0.2",
+    "process": "github:jspm/nodelibs-process@^0.1.0",
+    "stream": "github:jspm/nodelibs-stream@^0.1.0"
+  },
+  "npm:react@17.0.2": {
+    "loose-envify": "npm:loose-envify@^1.1.0",
+    "object-assign": "npm:object-assign@^4.1.1",
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:loose-envify@1.4.0": {
+    "js-tokens": "npm:js-tokens@^4.0.0",
+    "fs": "github:jspm/nodelibs-fs@^0.1.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0",
+    "stream": "github:jspm/nodelibs-stream@^0.1.0",
+    "util": "github:jspm/nodelibs-util@^0.1.0"
+  },
+  "npm:js-tokens@4.0.0": {},
+  "npm:scheduler@0.20.2": {
+    "loose-envify": "npm:loose-envify@^1.1.0",
+    "object-assign": "npm:object-assign@^4.1.1",
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "github:jspm/nodelibs-stream@0.1.0": {
+    "stream-browserify": "npm:stream-browserify@^1.0.0"
+  },
+  "npm:stream-browserify@1.0.0": {
+    "inherits": "npm:inherits@~2.0.1",
+    "readable-stream": "npm:readable-stream@^1.0.27-1",
+    "events": "github:jspm/nodelibs-events@^0.1.1"
+  },
+  "npm:readable-stream@1.1.14": {
+    "core-util-is": "npm:core-util-is@~1.0.0",
+    "inherits": "npm:inherits@~2.0.1",
+    "isarray": "npm:isarray@0.0.1",
+    "string_decoder": "npm:string_decoder@~0.10.0",
+    "stream-browserify": "npm:stream-browserify@^1.0.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0",
+    "buffer": "github:jspm/nodelibs-buffer@^0.1.0",
+    "events": "github:jspm/nodelibs-events@^0.1.1"
+  },
+  "npm:string_decoder@0.10.31": {
+    "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
+  },
+  "npm:core-util-is@1.0.3": {
+    "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
+  },
+  "npm:isarray@0.0.1": {},
+  "npm:events@1.0.2": {},
+  "github:jspm/nodelibs-events@0.1.1": {
+    "events": "npm:events@1.0.2"
   }
 }
