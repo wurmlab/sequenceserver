@@ -1,5 +1,6 @@
 import './jquery_world';
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
 import { DnD } from './dnd';
 import { Form } from './form';
 /**
@@ -33,4 +34,4 @@ class Page extends Component {
 
 
 
-React.render(<Page />, document.getElementById('view'));
+ReactDOM.render(<Page />, document.getElementById('view'));

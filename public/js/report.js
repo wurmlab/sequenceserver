@@ -1,5 +1,6 @@
 import './jquery_world'; // for custom $.tooltip function
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
 import _ from 'underscore';
 
 import Sidebar from './sidebar';
@@ -494,4 +495,4 @@ class Report extends Component {
             this.resultsJSX() : this.loadingJSX();
     }
 }
-React.render(<Page />, document.getElementById('view'));
+ReactDOM.render(<Page />, document.getElementById('view'));

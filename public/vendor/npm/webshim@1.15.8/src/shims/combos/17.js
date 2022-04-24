@@ -2876,4 +2876,4 @@
       }
     })();
   });
-})(require("process"));
+})(require('process'));

@@ -161,7 +161,7 @@ module.exports = function(grunt) {
     }
   });
   grunt.registerTask('webshimscombos', 'create combos from polyfiller.js.', function() {
-    var phantomjs = require("phantomjs");
+    var phantomjs = require('phantomjs');
     var done = this.async();
     var combos = {};
     grunt.util.spawn({
@@ -200,7 +200,7 @@ module.exports = function(grunt) {
   });
   grunt.registerTask('cfgcopymin', 'config min and copy tasks.', function() {
     var files = getFiles('src', false, '**', 'demos/js-webshim/dev', '*.js');
-    var path = require("path");
+    var path = require('path');
     var copyTask = {};
     var minTask = {};
     var minPath,
@@ -263,8 +263,8 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', ['webshimscombos', 'concat', 'cfgcopymin', 'copy:main', 'sass', 'watch']);
   grunt.registerTask('release', ['versiontest', 'clean', 'default', 'bytesize']);
   function getFiles(srcdir, destdir, wildcard, compareDir, compareMatch) {
-    var path = require("path");
-    var fs = require("fs");
+    var path = require('path');
+    var fs = require('fs');
     var existsSync = fs.existsSync || path.existsSync;
     var files = {};
     grunt.file.expand({cwd: srcdir}, wildcard).forEach(function(relpath) {

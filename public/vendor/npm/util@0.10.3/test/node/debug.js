@@ -1,7 +1,7 @@
 /* */ 
 (function(process) {
-  var assert = require("assert");
-  var util = require("../../util");
+  var assert = require('assert');
+  var util = require('../../util');
   if (process.argv[2] === 'child')
     child();
   else
@@ -21,7 +21,7 @@
     }
     var expectOut = 'ok\n';
     var didTest = false;
-    var spawn = require("child_process").spawn;
+    var spawn = require('child_process').spawn;
     var child = spawn(process.execPath, [__filename, 'child'], {env: {NODE_DEBUG: environ}});
     expectErr = expectErr.split('%PID%').join(child.pid);
     var err = '';
@@ -51,4 +51,4 @@
     debug('number=%d string=%s obj=%j', 1234, 'asdf', {foo: 'bar'});
     console.log('ok');
   }
-})(require("process"));
+})(require('process'));
