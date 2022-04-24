@@ -1,6 +1,6 @@
 import "./jquery_world"; // for custom $.tooltip function
 import React, { Component, createRef } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import _ from "underscore";
 
 import Sidebar from "./sidebar";
@@ -534,4 +534,6 @@ class Report extends Component {
     return this.isResultAvailable() ? this.resultsJSX() : this.loadingJSX();
   }
 }
-ReactDOM.render(<Page />, document.getElementById("view"));
+
+const root = createRoot(document.getElementById("view"));
+root.render(<Page />);

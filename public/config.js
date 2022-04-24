@@ -25,8 +25,8 @@ System.config({
     "jquery": "github:components/jquery@2.1.4",
     "jquery-ui": "github:components/jqueryui@1.11.4",
     "nicgirault/circosJs": "github:nicgirault/circosJs@1.7.0",
-    "react": "npm:react@17.0.2",
-    "react-dom": "npm:react-dom@17.0.2",
+    "react": "npm:react@18.0.0",
+    "react-dom": "npm:react-dom@18.0.0",
     "underscore": "npm:underscore@1.8.3",
     "vakata/jstree": "github:vakata/jstree@3.3.8",
     "webshim": "npm:webshim@1.15.8",
@@ -103,17 +103,16 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
-    "npm:react-dom@17.0.2": {
+    "npm:react-dom@18.0.0": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.1",
       "loose-envify": "npm:loose-envify@1.4.0",
-      "object-assign": "npm:object-assign@4.1.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "react": "npm:react@17.0.2",
-      "scheduler": "npm:scheduler@0.20.2",
+      "react": "npm:react@18.0.0",
+      "scheduler": "npm:scheduler@0.21.0",
       "stream": "github:jspm/nodelibs-stream@0.1.0"
     },
-    "npm:react@17.0.2": {
+    "npm:react@18.0.0": {
       "loose-envify": "npm:loose-envify@1.4.0",
-      "object-assign": "npm:object-assign@4.1.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:readable-stream@1.1.14": {
@@ -126,9 +125,8 @@ System.config({
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
     },
-    "npm:scheduler@0.20.2": {
+    "npm:scheduler@0.21.0": {
       "loose-envify": "npm:loose-envify@1.4.0",
-      "object-assign": "npm:object-assign@4.1.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:stream-browserify@1.0.0": {

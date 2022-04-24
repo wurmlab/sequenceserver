@@ -65,19 +65,6 @@
   },
   "npm:ieee754@1.2.1": {},
   "npm:base64-js@1.5.1": {},
-  "npm:react-dom@17.0.2": {
-    "loose-envify": "npm:loose-envify@^1.1.0",
-    "object-assign": "npm:object-assign@^4.1.1",
-    "scheduler": "npm:scheduler@^0.20.2",
-    "react": "npm:react@17.0.2",
-    "process": "github:jspm/nodelibs-process@^0.1.0",
-    "stream": "github:jspm/nodelibs-stream@^0.1.0"
-  },
-  "npm:react@17.0.2": {
-    "loose-envify": "npm:loose-envify@^1.1.0",
-    "object-assign": "npm:object-assign@^4.1.1",
-    "process": "github:jspm/nodelibs-process@^0.1.0"
-  },
   "npm:loose-envify@1.4.0": {
     "js-tokens": "npm:js-tokens@^4.0.0",
     "fs": "github:jspm/nodelibs-fs@^0.1.0",
@@ -86,11 +73,6 @@
     "util": "github:jspm/nodelibs-util@^0.1.0"
   },
   "npm:js-tokens@4.0.0": {},
-  "npm:scheduler@0.20.2": {
-    "loose-envify": "npm:loose-envify@^1.1.0",
-    "object-assign": "npm:object-assign@^4.1.1",
-    "process": "github:jspm/nodelibs-process@^0.1.0"
-  },
   "github:jspm/nodelibs-stream@0.1.0": {
     "stream-browserify": "npm:stream-browserify@^1.0.0"
   },
@@ -119,5 +101,21 @@
   "npm:events@1.0.2": {},
   "github:jspm/nodelibs-events@0.1.1": {
     "events": "npm:events@1.0.2"
+  },
+  "npm:react@18.0.0": {
+    "loose-envify": "npm:loose-envify@^1.1.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:scheduler@0.21.0": {
+    "loose-envify": "npm:loose-envify@^1.1.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:react-dom@18.0.0": {
+    "loose-envify": "npm:loose-envify@^1.1.0",
+    "scheduler": "npm:scheduler@^0.21.0",
+    "react": "npm:react@^18.0.0",
+    "stream": "github:jspm/nodelibs-stream@^0.1.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0",
+    "buffer": "github:jspm/nodelibs-buffer@^0.1.0"
   }
 }
