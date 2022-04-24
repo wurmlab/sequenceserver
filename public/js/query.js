@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import _ from 'underscore';
 
 import HitsOverview from './hits_overview';
@@ -103,6 +103,9 @@ export class SearchQueryWidget extends Component {
         this.type = this.type.bind(this);
         this.guessSequenceType = this.guessSequenceType.bind(this);
         this.notify = this.notify.bind(this);
+
+        this.textareaRef = createRef()
+        this.controlsRef = createRef()
     }
 
 
@@ -175,11 +178,11 @@ export class SearchQueryWidget extends Component {
     // Internal helpers. //
 
     textarea() {
-        return $(this.refs.textarea.getDOMNode());
+        return $(this.textareaRef.current);
     }
 
     controls() {
-        return $(this.refs.controls.getDOMNode());
+        return $(this.controlsRef.current);
     }
 
     handleInput(evt) {
@@ -310,7 +313,7 @@ export class SearchQueryWidget extends Component {
                 <div
                     className="sequence">
                     <textarea
-                        id="sequence" ref="textarea"
+                        id="sequence" ref={this.textareaRef}
                         className="form-control text-monospace"
                         name="sequence" value={this.state.value}
                         placeholder="Paste query sequence(s) or drag file
@@ -322,7 +325,7 @@ export class SearchQueryWidget extends Component {
                 <div
                     className="hidden"
                     style={{ position: 'absolute', top: '4px', right: '19px' }}
-                    ref="controls">
+                    ref={this.controlsRef}>
                     <button
                         type="button"
                         className="btn btn-sm btn-default" id="btn-sequence-clear"
