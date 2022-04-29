@@ -5,6 +5,7 @@ export class Databases extends Component {
     constructor(props) {
         super(props);
         this.state = { type: '' };
+        this.preSelectedDbs = this.props.preSelectedDbs;
         this.databases = this.databases.bind(this);
         this.nselected = this.nselected.bind(this);
         this.categories = this.categories.bind(this);
@@ -19,18 +20,18 @@ export class Databases extends Component {
             this.handleClick(this.databases()[0]);
         }
 
-        if (this.props.preSelectedDbs) {
-            var selectors = this.props.preSelectedDbs.map(db => `input[value=${db.id}]`);
+        if (this.preSelectedDbs) {
+            var selectors = this.preSelectedDbs.map((db) => `input[value=${db.id}]`);
             $(selectors.join(',')).prop('checked', true);
-            this.handleClick(this.props.preSelectedDbs[0]);
-            this.props.preSelectedDbs = null;
+            this.handleClick(this.preSelectedDbs[0]);
+            this.preSelectedDbs = null;
         }
         this.props.onDatabaseTypeChanged(this.state.type);
     }
     databases(category) {
         var databases = this.props.databases;
         if (category) {
-            databases = _.select(databases, database => database.type === category);
+            databases = _.select(databases, (database) => database.type === category);
         }
 
         return _.sortBy(databases, 'title');
@@ -41,8 +42,7 @@ export class Databases extends Component {
     }
 
     categories() {
-        return _.uniq(_.map(this.props.databases,
-            _.iteratee('type'))).sort();
+        return _.uniq(_.map(this.props.databases, _.iteratee('type'))).sort();
     }
 
     handleClick(database) {
@@ -62,11 +62,9 @@ export class Databases extends Component {
         this.forceUpdate();
     }
     renderDatabases(category) {
-        // Panel name and column width.
-        var panelTitle = category[0].toUpperCase() +
-            category.substring(1).toLowerCase() + ' databases';
-        var columnClass = this.categories().length === 1 ? 'col-md-12' :
-            'col-md-6';
+    // Panel name and column width.
+        var panelTitle = category[0].toUpperCase() + category.substring(1).toLowerCase() + ' databases';
+        var columnClass = this.categories().length === 1 ? 'col-md-12' : 'col-md-6';
 
         // Toggle button.
         var toggleState = '[Select all]';
@@ -85,21 +83,31 @@ export class Databases extends Component {
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <h4 style={{ display: 'inline' }}>{panelTitle}</h4> &nbsp;&nbsp;
-                        <button type="button" className={toggleClass} disabled={toggleDisabled}
-                            onClick={function () { this.handleToggle(toggleState, category); }.bind(this)}>
+                        <button
+                            type="button"
+                            className={toggleClass}
+                            disabled={toggleDisabled}
+                            onClick={function () {
+                                this.handleToggle(toggleState, category);
+                            }.bind(this)}
+                        >
                             {toggleState}
                         </button>
                     </div>
                     <ul className={'list-group databases ' + category}>
-                        {
-                            _.map(this.databases(category), _.bind(function (database, index) {
+                        {_.map(
+                            this.databases(category),
+                            _.bind(function (database, index) {
                                 return (
-                                    <li className="list-group-item" key={'DB_' + category + index}>
+                                    <li
+                                        className="list-group-item"
+                                        key={'DB_' + category + index}
+                                    >
                                         {this.renderDatabase(database)}
                                     </li>
                                 );
-                            }, this))
-                        }
+                            }, this)
+                        )}
                     </ul>
                 </div>
             </div>
@@ -110,17 +118,17 @@ export class Databases extends Component {
         var disabled = this.state.type && this.state.type !== database.type;
 
         return (
-            <label
-                className={disabled && 'disabled database' || 'database'}>
+            <label className={(disabled && 'disabled database') || 'database'}>
                 <input
-                    type="checkbox" name="databases[]" value={database.id}
-                    data-type={database.type} disabled={disabled}
-                    onChange=
-                        {
-                            _.bind(function () {
-                                this.handleClick(database);
-                            }, this)
-                        } />
+                    type="checkbox"
+                    name="databases[]"
+                    value={database.id}
+                    data-type={database.type}
+                    disabled={disabled}
+                    onChange={_.bind(function () {
+                        this.handleClick(database);
+                    }, this)}
+                />
                 {' ' + (database.title || database.name)}
             </label>
         );

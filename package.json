@@ -8,45 +8,50 @@
     "name": "Anurag Priyam",
     "email": "anurag08priyam@gmail.com"
   },
-  "dependencies": {},
+  "scripts": {
+    "test": "jest /js/tests",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.5",
+    "circos": "^2.1.0",
+    "d3": "^3.5.6",
+    "font-awesome": "^4.4.0",
+    "jquery": "^2.1.4",
+    "jquery-ui": "^1.13.1",
+    "jsdom": "^19.0.0",
+    "jstree": "^3.3.8",
+    "react": "18",
+    "react-dom": "18",
+    "react-scripts": "^5.0.1",
+    "underscore": "^1.8.3",
+    "webshim": "^1.15.8"
+  },
   "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/node": "^7.16.8",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.1.1",
+    "@testing-library/user-event": "^14.1.1",
+    "babel-jest": "^28.0.1",
+    "babel-loader": "^8.2.5",
     "clean-css": "^3.4.1",
     "eslint": "^6.5.1",
     "eslint-plugin-react": "^7.16.0",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^28.0.1",
+    "jest-jspm": "^0.1.2",
     "jspm": "^0.16.2",
+    "path": "^0.12.7",
+    "react-test-renderer": "^18.1.0",
     "stylelint": "^13.13.1",
-    "stylelint-config-standard": "^22.0.0"
-  },
-  "scripts": {
-    "build": "jspm bundle-sfx --minify --skip-source-maps js/search.js public/sequenceserver-search.min.js && jspm bundle-sfx --minify --skip-source-maps js/report.js public/sequenceserver-report.min.js && cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css"
-  },
-  "jspm": {
-    "directories": {
-      "baseURL": "public",
-      "packages": "public/vendor"
-    },
-    "dependencies": {
-      "bootstrap": "github:twbs/bootstrap@^3.3.5",
-      "d3": "github:mbostock/d3@^3.5.6",
-      "font-awesome": "npm:font-awesome@^4.4.0",
-      "jquery": "github:components/jquery@^2.1.4",
-      "jquery-ui": "github:components/jqueryui@^1.11.4",
-      "nicgirault/circosJs": "github:nicgirault/circosJs@^1.7.0",
-      "react": "npm:react@18",
-      "react-dom": "npm:react-dom@18",
-      "underscore": "npm:underscore@^1.8.3",
-      "vakata/jstree": "github:vakata/jstree@^3.3.8",
-      "webshim": "npm:webshim@^1.15.8"
-    },
-    "devDependencies": {
-      "babel": "npm:babel-core@^5.8.22",
-      "babel-runtime": "npm:babel-runtime@^5.8.20",
-      "core-js": "npm:core-js@^1.1.0"
-    },
-    "overrides": {
-      "npm:webshim@1.15.8": {
-        "main": "js-webshim/minified/polyfiller"
-      }
-    }
+    "stylelint-config-standard": "^22.0.0",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.8.1"
   }
 }

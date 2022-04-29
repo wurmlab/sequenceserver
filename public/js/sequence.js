@@ -139,7 +139,7 @@ var EVT_ON_SELECTION_CHANGE= "onSelectionChange";
 var EVT_ON_SELECTION_CHANGED= "onSelectionChanged";
 var EVT_ON_ANNOTATION_CLICKED= "onAnnotationClicked";
 
-Sequence = Class(
+var Sequence = Class(
 /** @lends Sequence# */
 {	
 	constructor: function (options) {

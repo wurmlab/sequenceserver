@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'underscore';
-import Jstree from 'vakata/jstree';
+import Jstree from 'jstree';
 import { Databases } from './databases';
 
 export default class extends Databases {

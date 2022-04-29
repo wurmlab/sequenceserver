@@ -1,6 +1,6 @@
 import 'jquery';
-import 'jquery-ui/ui/effect-drop';
-import 'jquery-ui/ui/effect-bounce';
+import 'jquery-ui/ui/effects/effect-drop';
+import 'jquery-ui/ui/effects/effect-bounce';
 import 'bootstrap';
 import 'webshim';
 
@@ -50,7 +50,7 @@ import 'webshim';
      * Initialise Bootstrap tooltip on an element with presets. Takes title.
      */
     $.fn._tooltip = $.fn.tooltip;
-    $.fn.tooltip  = function (options) {
+    $.fn.tooltip = function (options) {
         return this
             ._tooltip('destroy')
             ._tooltip($.extend({
