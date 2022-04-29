@@ -142,6 +142,7 @@ module SequenceServer
       end
 
       def validate_databases(database_ids)
+        ids = Database.ids
         return true if database_ids.is_a?(Array) && !database_ids.empty? &&
                        (ids & database_ids).length == database_ids.length
         fail InputError, "Database id should be one of: #{ids.join("\n")}."
