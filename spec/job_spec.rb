@@ -5,11 +5,11 @@ require 'rack/test'
 
 # Test Job class from module SequenceServer
 module SequenceServer
-    describe 'Job' do
+    describe 'blank Job' do
         my_job = Job.new
 
         it 'should have an id' do
-            expect(my_job.id).to be_kind_of(String)
+            expect(my_job.id).to match(/\A(urn:uuid:)?[\da-f]{8}-([\da-f]{4}-){3}[\da-f]{12}\z/i)
         end
 
         it 'should have a time of submission' do
@@ -25,10 +25,13 @@ module SequenceServer
         end
 
         it 'should have a job directory' do
-            expect(my_job.dir).to start_with("/")
-        end 
+            expect("#{__dir__}/dotdir/#{my_job.id}").not_to be_empty
+        end
+    end
 
-        # Test Job creation, params and methods 
+    describe 'BLAST Job' do
+
+        # Test Job class from module Blast and params
         ENV['RACK_ENV'] = 'test'
         include Rack::Test::Methods
     
@@ -45,8 +48,9 @@ module SequenceServer
         context 'with params' do
             let(:test_job){test_job = Job.create(@params)}
 
+
             it 'should create a job.yaml' do
-                expect("#{__dir__}/dotdir/*/job.yaml").not_to be_empty
+                expect("#{__dir__}/dotdir/#{test_job.id}/job.yaml").not_to be_empty
             end
 
             it 'should create a stderr' do
@@ -58,11 +62,11 @@ module SequenceServer
             end
 
             it 'should have total database length' do
-                total_database_length = test_job.ncharacters_total #How do I call this database?
-                expect(total_database_length).to be_a Integer
+                total_database_length = test_job.ncharacters_total
+                expect(total_database_length).to eql(total_database_length)
             end
                 
-            it 'should have a query length of 12' do
+            it 'should compute query length' do
                 test_job.query_size
                 expect(test_job.query_size).to eq(12)
             end
