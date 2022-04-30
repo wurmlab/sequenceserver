@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import Circos from './circosJS@1.7.0';
+import Circos from '../packages/circosJS@1.7.0';
 import _ from 'underscore'; 
 
 import Grapher from './grapher';

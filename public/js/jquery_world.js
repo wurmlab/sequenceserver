@@ -1,9 +1,9 @@
-import 'jquery';
-import 'jquery-ui/ui/effects/effect-drop';
-import 'jquery-ui/ui/effects/effect-bounce';
+import $ from 'jquery';
+import '../packages/jquery-ui@1.11.4';
 import 'bootstrap';
 import 'webshim';
 
+global.$ = $;
 /**
  * Simple, small jQuery extensions for convenience.
  */
