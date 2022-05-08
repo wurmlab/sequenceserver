@@ -77,8 +77,8 @@ export class SearchButton extends Component {
                 var title = 'Click to BLAST or press Ctrl+Enter.';
                 if (this.state.methods.length > 1) {
                     title +=
-            ' Click dropdown button on the right for other' +
-            ' BLAST algorithms that can be used.';
+                        ' Click dropdown button on the right for other' +
+                        ' BLAST algorithms that can be used.';
                 }
                 return title;
             }, this),
@@ -141,7 +141,7 @@ export class SearchButton extends Component {
                 <div className="form-group">
                     <div className="col-md-12">
                         <div
-                            className={multi && 'input-group'}
+                            className={multi ? 'input-group' : ''}
                             id="methods"
                             ref={this.inputGroupRef}
                             onMouseOver={this.showTooltip}

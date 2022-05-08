@@ -318,7 +318,7 @@ export class SearchQueryWidget extends Component {
                         name="sequence" value={this.state.value}
                         placeholder="Paste query sequence(s) or drag file
                         containing query sequence(s) in FASTA format here ..."
-                        spellCheck="false" autoFocus="true"
+                        spellCheck="false" autoFocus
                         onChange={this.handleInput}>
                     </textarea>
                 </div>
