@@ -24,9 +24,10 @@ module SequenceServer
             @databases = Database[params[:databases]]
             @advanced  = params[:advanced].to_s.strip
             @options   = @advanced + defaults
+            # The following params are for analytics only
             @num_threads = config[:num_threads]
-            @query_length = query_size
-            @total_database_length = ncharacters_total
+            @query_length = calculate_query_size
+            @databases_ncharacters_total = calculate_databases_ncharacters_total
           end
         end
       end
@@ -35,12 +36,12 @@ module SequenceServer
       # Attributes used by us - should be considered private.
       attr_reader :advanced
       attr_reader :databases
+      attr_reader :databases_ncharacters_total
       attr_reader :method
       attr_reader :num_threads
       attr_reader :options
-      attr_reader :query_length
       attr_reader :qfile
-      attr_reader :total_database_length
+      attr_reader :query_length
 
       # :nodoc:
       # Deprecated; see Report#extract_params
@@ -58,19 +59,6 @@ module SequenceServer
       def command
         @command ||= "#{method} -db '#{databases.map(&:name).join(' ')}'" \
                      " -query '#{qfile}' #{options}"
-      end
-
-      def ncharacters_total
-        databases.map(&:ncharacters).map(&:to_i).reduce(:+)
-      end
-
-      def query_size
-        size = 0
-        IO.foreach(@qfile) do |line|
-          next if line[0] == '>'
-          size += line.strip.length
-        end
-        size
       end
 
       # Override Job#raise! to raise specific API errors based on exitstatus
@@ -118,6 +106,19 @@ module SequenceServer
       # rubocop:enable Metrics/CyclomaticComplexity
 
       private
+
+      def calculate_databases_ncharacters_total
+        databases.map(&:ncharacters).map(&:to_i).reduce(:+)
+      end
+
+      def calculate_query_size
+        size = 0
+        IO.foreach(@qfile) do |line|
+          next if line[0] == '>'
+          size += line.strip.length
+        end
+        size
+      end
 
       def validate(params)
         validate_method params[:method]
