@@ -47,8 +47,9 @@ module SequenceServer
 
       # Execute the shell command, redirect stdout and stderr to the
       # temporary files.
-      exec("#{command} 1>#{temp_files[:stdout].path}" \
-           " 2>#{temp_files[:stderr].path}")
+      exec(command, out: temp_files[:stdout].path.to_s, \
+                    err: temp_files[:stderr].path.to_s)
+
     end
 
     # Wait for the termination of the child process.
