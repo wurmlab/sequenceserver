@@ -52,37 +52,37 @@ module SequenceServer
     end
 
     # all databases used here are v5 databases included in
-    # SequenceServer.init(database_dir: "#{__dir__}/database/v5")
-    # [0] = funky ids (nucleotide)
-    # [1] = Solenopsis invicta gnG subset (nucleotide)
-    # [2] = Sinvicta 2-2-3 prot subset (protein_)
-    # [4] = Sinvicta 2-2-3 cdna subset (nucleotide)
-    # [5] = without_parse_seqids.fa (protein)
-    # [6] = 2020-11-Swiss-Prot insecta (subset taxid 102803) (protein)
+    # SequenceServer.init(database_dir: "#{__dir__}/database")
+    # [15] = funky ids (nucleotide)
+    # [16] = Solenopsis invicta gnG subset (nucleotide)
+    # [17] = Sinvicta 2-2-3 prot subset (protein_)
+    # [19] = Sinvicta 2-2-3 cdna subset (nucleotide)
+    # [20] = without_parse_seqids.fa (protein)
+    # [21] = 2020-11-Swiss-Prot insecta (subset taxid 102803) (protein)
     before do
-      SequenceServer.init(database_dir: "#{__dir__}/database/v5")
+      SequenceServer.init(database_dir: "#{__dir__}/database")
 
       @params_prot_1db = {
         sequence: protein_seq,
-        databases: [Database.ids[2]],
+        databases: [Database.ids[17]],
         method: 'blastp'
       }
 
       @params_prot_3dbs = {
         sequence: protein_seq,
-        databases: [Database.ids[2], Database.ids[5], Database.ids[6]],
+        databases: [Database.ids[17], Database.ids[20], Database.ids[21]],
         method: 'blastp'
       }
 
       @params_nucleo_1db = {
         sequence: nucleotide_seq,
-        databases: [Database.ids[0]],
+        databases: [Database.ids[15]],
         method: 'blastn'
       }
 
       @params_nucleo_3dbs = {
         sequence: nucleotide_seq,
-        databases: [Database.ids[0], Database.ids[1], Database.ids[4]],
+        databases: [Database.ids[15], Database.ids[16], Database.ids[19]],
         method: 'blastn'
       }
     end
