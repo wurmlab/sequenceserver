@@ -115,7 +115,7 @@ module SequenceServer
         size = 0
         IO.foreach(@qfile) do |line|
           next if line[0] == '>'
-          size += line.strip.length
+          size += line.gsub(/\s+/, '').length
         end
         size
       end
