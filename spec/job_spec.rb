@@ -9,7 +9,7 @@ module SequenceServer
     my_job = Job.new
 
     it 'should have an id' do
-      regex = /\A(urn:uuid:)?[\da-f]{8}-([\da-f]{4}-){3}[\da-f]{12}\z/i
+      regex = /\A(urn:uuid:)?[\da-z]{8}-([\da-z]{4}-){3}[\da-z]{12}\z/i
       expect(my_job.id).to match(regex)
     end
 
@@ -31,29 +31,107 @@ module SequenceServer
   end
 
   describe 'BLAST Job' do
-    # Test Job class from module Blast and params
+    # Test Job class from module Blast and situational params
     ENV['RACK_ENV'] = 'test'
     include Rack::Test::Methods
 
-    before do
-      SequenceServer.init(database_dir: "#{__dir__}/database/v5/sample")
+    let(:nucleotide_seq) do
+      ">   SI2.2.0_11917 Si_gnF.scaffold05747[1091012..1091951].pep_1\n"\
+      "  AATT   CCGG  TCTCTCTCTC AC AC AC AC AC GACGT AGTC    G\n"\
+      ">gnl|dmel|ID  \n  G A G A C G C G G C     \n"\
+      ">abcdef##$%^&*(funky_header)!  \n  AATCT   CTC  TTAT  \n"
+    end
 
-      @params = {
-        sequence: ">seq1\nAGCTAGCTAGCT\n>seq2\nAATAGCTA",
-        databases: [Database.first.id],
-        method: (Database.first.id == 'protein' ? 'blastp' : 'blastn')
+    let(:protein_seq) do
+      '>SI2.2.0_1322 locus=Si_gnF.scaffold06207[1925625..1928536].pep_1 '\
+      "quality=100.00   \n MSANR     LNVLVTLMLAV     LSNALQI       IC \n" \
+      '>SI2.2.0_1426  locus=Si_gnF.scaffold07837[1480027..1480908].pep_1' \
+      "quality=100.00 merge_with=SI2.2.0_80956\n MM KK XX LL PP O R TY \n"\
+      '>SI2.2.0_14266 locus=Si_gnF.scaff07837[,funky:,><*()!@#$%&]tag=gw_'\
+      "corrected\n YUOP POKJ M NAHAA JJHFGF YERTQ                        "
+    end
+
+    # all databases used here are v5 databases included in
+    # SequenceServer.init(database_dir: "#{__dir__}/database/v5")
+    # [0] = funky ids (nucleotide)
+    # [1] = Solenopsis invicta gnG subset (nucleotide)
+    # [2] = Sinvicta 2-2-3 prot subset (protein_)
+    # [4] = Sinvicta 2-2-3 cdna subset (nucleotide)
+    # [5] = without_parse_seqids.fa (protein)
+    # [6] = 2020-11-Swiss-Prot insecta (subset taxid 102803) (protein)
+    before do
+      SequenceServer.init(database_dir: "#{__dir__}/database/v5")
+
+      @params_prot_1db = {
+        sequence: protein_seq,
+        databases: [Database.ids[2]],
+        method: 'blastp'
+      }
+
+      @params_prot_3dbs = {
+        sequence: protein_seq,
+        databases: [Database.ids[2], Database.ids[5], Database.ids[6]],
+        method: 'blastp'
+      }
+
+      @params_nucleo_1db = {
+        sequence: nucleotide_seq,
+        databases: [Database.ids[0]],
+        method: 'blastn'
+      }
+
+      @params_nucleo_3dbs = {
+        sequence: nucleotide_seq,
+        databases: [Database.ids[0], Database.ids[1], Database.ids[4]],
+        method: 'blastn'
       }
     end
 
-    context 'with params' do
-      let(:test_job) { Job.create(@params) }
+    context 'with one protein database' do
+      let(:test_job1) { Job.create(@params_prot_1db) }
 
-      it 'should compute total characters of databases used' do
-        expect(test_job.databases_ncharacters_total).to eql(39_185_542)
+      it 'should accurately compute total characters of databases used' do
+        expect(test_job1.databases_ncharacters_total).to eql(280_047)
       end
 
-      it 'should compute query length' do
-        expect(test_job.query_length).to eq(20)
+      it 'should accurately compute query length' do
+        expect(test_job1.query_length).to eq(64)
+      end
+    end
+
+    context 'with several protein database' do
+      let(:test_job2) { Job.create(@params_prot_3dbs) }
+
+      it 'should accurately compute total characters of databases used' do
+        expect(test_job2.databases_ncharacters_total).to eql(280_685)
+      end
+
+      it 'should accurately compute query length' do
+        expect(test_job2.query_length).to eq(64)
+      end
+    end
+
+    context 'with one nucleotide database' do
+      let(:test_job3) { Job.create(@params_nucleo_1db) }
+
+      it 'should accurately compute total characters of databases used' do
+        expect(test_job3.databases_ncharacters_total).to eql(312)
+      end
+
+      it 'should accurately compute query length' do
+        expect(test_job3.query_length).to eq(60)
+      end
+    end
+
+    context 'with several nucleotide databases' do
+      let(:test_job4) { Job.create(@params_nucleo_3dbs) }
+
+      it 'should accurately compute total characters of databases used' do
+        expect(test_job4.databases_ncharacters_total).to eql(39_473_606)
+      end
+
+      it 'should accurately compute query length' do
+        expect(test_job4.query_length).to eq(60)
       end
     end
   end
