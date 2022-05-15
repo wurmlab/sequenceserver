@@ -1,5 +1,5 @@
 require File.expand_path('lib/sequenceserver/version.rb',
-                          File.dirname(__FILE__))
+                         File.dirname(__FILE__))
 Gem::Specification.new do |s|
 # meta
 s.name        = 'sequenceserver'
