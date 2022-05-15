@@ -33,7 +33,8 @@ module SequenceServer
       def fetch(id)
         job_file = File.join(DOTDIR, id, 'job.yaml')
         fail NotFound unless File.exist?(job_file)
-        YAML.load_file(job_file)
+        YAML.load_file(job_file, permitted_classes: [Time, Symbol, SequenceServer::BLAST::Job, \
+                                                     SequenceServer::Database, SequenceServer::Job])
       end
 
       # Deletes job with the given id.

@@ -1,61 +1,59 @@
-AllCops:
-  TargetRubyVersion: 2.3
-  Exclude:
-    # Because these are vendor files.
-    - 'node_modules/**/*'
+require File.expand_path('lib/sequenceserver/version.rb',
+                         File.dirname(__FILE__))
+Gem::Specification.new do |s|
+  # meta
+  s.name        = 'sequenceserver'
+  s.version     = SequenceServer::VERSION
+  s.authors     = ['Anurag Priyam', 'Ben J Woodcroft',
+                   'Vivek Rai', 'Yannick Wurm']
+  s.email       = ['anurag08priyam@gmail.com', 'b.woodcroft@uq.edu.au']
+  s.homepage    = 'http://sequenceserver.com'
+  s.license     = 'AGPL-3.0'
 
-Metrics/AbcSize:
-  Exclude:
-    # TODO
-    - 'lib/sequenceserver.rb'
-Metrics/MethodLength:
-  # Because 15 lines in a method is just about as good as 10 (default). And we
-  # have a couple that can't be helped.
-  Max: 15
-  Exclude:
-    # TODO:
-    - 'lib/sequenceserver.rb'
-Metrics/ModuleLength:
-  Exclude:
-    # TODO:
-    #   Revisit later.
-    - 'lib/sequenceserver.rb'
-    - 'spec/blast_spec.rb'
-Metrics/ClassLength:
-  Max: 150
-Metrics/BlockNesting:
-  Exclude:
-    - 'bin/sequenceserver'
-Metrics/BlockLength:
-  Exclude:
-    - 'bin/sequenceserver'
-    - 'sequenceserver.gemspec'
+  s.summary     = 'BLAST search made easy!'
+  s.description = <<~DESC
+    SequenceServer lets you rapidly set up a BLAST+ server with an intuitive
+    user interface for use locally or over the web.
+  DESC
 
-Style/UnlessElse:
-  # TODO:
-  #   Fix in bin/sequenceserver and re-enable.
-  Enabled: false
-Naming/ClassAndModuleCamelCase:
-  Exclude:
-    # TODO:
-    #   Revisit later.
-    - 'lib/sequenceserver/exceptions.rb'
-Style/Lambda:
-  Exclude:
-    # Because we support 1.8.7.
-    - '**/*.rb'
-Style/EachWithObject:
-  Exclude:
-    # Because we support 1.8.7.
-    - '**/*.rb'
-Style/AsciiComments:
-  # Nothing wrong with non-ascii chars, like © in comments.
-  Enabled: false
-Style/SignalException:
-  # Roughly, use fail to fail and raise to signal.
-  EnforcedStyle: semantic
-Style/FrozenStringLiteralComment:
-  # Immutability is good. Switching to immutable strings is like a paradigm
-  # shift and should be approached more carefully. Thus, disabling this cop
-  # for now.
-  Enabled: false
+  # dependencies
+  s.required_ruby_version = '>= 2.3.0'
+
+  s.add_dependency('json_pure', '~> 1.8',  '>= 1.8.2')
+  s.add_dependency('ox',        '~> 2.1',  '>= 2.1.1')
+  s.add_dependency('sinatra',   '~> 2.0',  '>= 2.0.0')
+  s.add_dependency('slop',      '~> 3.6',  '>= 3.6.0')
+  s.add_dependency('webrick', '~> 1.7')
+
+
+  s.add_development_dependency('capybara', '~> 3.15', '>= 3.15.1')
+  s.add_development_dependency('capybara-screenshot', '~> 1.0', '>= 1.0.23')
+  s.add_development_dependency('rack-test', '~> 1.0', '>= 1.0.0')
+  s.add_development_dependency('rspec', '~> 3.7', '>= 3.7.0')
+  s.add_development_dependency('rubocop', '~>1.26.1')
+  s.add_development_dependency('selenium-webdriver', '~> 3.142', '>= 3.142.3')
+  s.add_development_dependency('simplecov', '~> 0.17.0', '>= 0.17.0')
+
+
+  # gem
+  s.files         = Dir['{bin,lib,public,views}/**/*'] +
+                     %w[config.ru COPYRIGHT.txt LICENSE]
+  s.executables   = ['sequenceserver']
+  s.require_paths = ['lib']
+
+  # post install information
+  s.post_install_message = <<~INFO
+
+    ------------------------------------------------------------------------
+      Thank you for installing SequenceServer :)
+
+      To launch SequenceServer execute 'sequenceserver' from command line.
+
+        $ sequenceserver
+
+
+      Visit http://sequenceserver.com for more.
+    ------------------------------------------------------------------------
+
+  INFO
+end
