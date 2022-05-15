@@ -101,7 +101,7 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
-  arm64-darwin-21
+  ruby
 
 DEPENDENCIES
   capybara (~> 3.15, >= 3.15.1)
