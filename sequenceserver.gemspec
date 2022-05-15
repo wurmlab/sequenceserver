@@ -1,23 +1,22 @@
 require File.expand_path('lib/sequenceserver/version.rb',
-  File.dirname(__FILE__))
+                          File.dirname(__FILE__))
 Gem::Specification.new do |s|
 # meta
 s.name        = 'sequenceserver'
 s.version     = SequenceServer::VERSION
-s.authors     = ['Anurag Priyam', 'Ben J Woodcroft',
-'Vivek Rai', 'Yannick Wurm']
+s.authors     = ['Anurag Priyam', 'Ben J Woodcroft', 'Vivek Rai', 'Yannick Wurm']
 s.email       = ['anurag08priyam@gmail.com', 'b.woodcroft@uq.edu.au']
 s.homepage    = 'http://sequenceserver.com'
 s.license     = 'AGPL-3.0'
 
 s.summary     = 'BLAST search made easy!'
 s.description = <<~DESC
-SequenceServer lets you rapidly set up a BLAST+ server with an intuitive
-user interface for use locally or over the web.
+  SequenceServer lets you rapidly set up a BLAST+ server with an intuitive
+  user interface for use locally or over the web.
 DESC
 
 # dependencies
-s.required_ruby_version = '>= 2.3.0'
+s.required_ruby_version = '>= 3.1.2'
 
 s.add_dependency('json_pure', '~> 1.8',  '>= 1.8.2')
 s.add_dependency('ox',        '~> 2.1',  '>= 2.1.1')
