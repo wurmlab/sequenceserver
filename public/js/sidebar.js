@@ -91,13 +91,13 @@ export default React.createClass({
     /**
      * Returns an array of at most 15 databases used for the "Send by email" functionality.   
      */
-     usedDatabases: function() {
+    usedDatabases: function() {
         // Iterates over the databases used and appends the first 15 to an array with string formatting  
         var dbsArr = [];
         let i = 0;
-        while (this.props.data.querydb[i] && i < 16){
+        while (this.props.data.querydb[i] && i < 15){
             dbsArr.push(' '+ (i+1) + '. ' + this.props.data.querydb[i].title);
-            i +=1 ;
+            i +=1;
         }
         return dbsArr;
     },
