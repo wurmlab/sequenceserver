@@ -616,4 +616,4 @@
       webshims.isReady('canvas', true);
     })(document);
   }
-})(require('process'));
+})(require("process"));

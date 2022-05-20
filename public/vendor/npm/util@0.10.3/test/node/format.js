@@ -1,6 +1,6 @@
 /* */ 
-var assert = require('assert');
-var util = require('../../util');
+var assert = require("assert");
+var util = require("../../util");
 assert.equal(util.format(), '');
 assert.equal(util.format(''), '');
 assert.equal(util.format([]), '[]');

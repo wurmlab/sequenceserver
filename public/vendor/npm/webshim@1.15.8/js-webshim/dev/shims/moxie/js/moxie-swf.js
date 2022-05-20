@@ -3189,4 +3189,4 @@
     }
     return o;
   })(this);
-})(require('process'));
+})(require("process"));

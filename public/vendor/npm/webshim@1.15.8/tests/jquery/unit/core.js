@@ -1095,4 +1095,4 @@
       equal(jQuery.camelCase(key), val, "Converts: " + key + " => " + val);
     });
   });
-})(require('process'));
+})(require("process"));

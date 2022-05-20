@@ -1,7 +1,7 @@
 /* */ 
 (function(Buffer) {
-  var assert = require('assert');
-  var util = require('../../util');
+  var assert = require("assert");
+  var util = require("../../util");
   suite('is');
   test('util.isArray', function() {
     assert.equal(true, util.isArray([]));
@@ -74,4 +74,4 @@
     assert.equal(false, util.isRegExp(new Date()));
     assert.equal(true, util.isBuffer(Object.create(Buffer.prototype)));
   });
-})(require('buffer').Buffer);
+})(require("buffer").Buffer);

@@ -5,7 +5,15 @@
 <div id="view"></div>
 
 <!-- JS -->
+<% if settings.production? || settings.test? %>
   <script src="sequenceserver-search.min.js?ver=<%= SequenceServer::VERSION %>"></script>
+<% else %>
+  <script src="vendor/system.js"></script>
+  <script src="config.js"></script>
+  <script>
+    System.import('js/search.js')
+  </script>
+<% end %>
 
 <!-- Markup for advanced options modal -->
 <div

@@ -24,8 +24,8 @@ class Graph {
 
     constructor($svgContainer, props) {
         this.svg_container = $svgContainer;
-        var $queryDiv = $svgContainer.parents('.resultn');
-        var hits = this.extractData(props.query.hits, props.query.number);
+        $queryDiv = $svgContainer.parents('.resultn');
+        hits = this.extractData(props.query.hits, props.query.number);
         this.graphIt($queryDiv, $svgContainer, 0, 20, null, hits);
     }
 

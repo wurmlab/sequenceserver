@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'underscore';
 
 import downloadFASTA from './download_fasta';
@@ -8,32 +8,20 @@ import AlignmentExporter from './alignment_exporter'; // to download textual ali
  * Renders links for downloading hit information in different formats.
  * Renders links for navigating to each query.
  */
-export default class extends Component {
-
-    constructor(props) {
-        super(props);
-        this.downloadFastaOfAll = this.downloadFastaOfAll.bind(this);
-        this.downloadFastaOfSelected = this.downloadFastaOfSelected.bind(this);
-        this.downloadAlignmentOfAll = this.downloadAlignmentOfAll.bind(this);
-        this.downloadAlignmentOfSelected = this.downloadAlignmentOfSelected.bind(this);
-        this.topPanelJSX = this.topPanelJSX.bind(this);
-        this.summaryString = this.summaryString.bind(this);
-        this.indexJSX = this.indexJSX.bind(this);
-        this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
-    }
+export default React.createClass({
     /**
-         * Clear sessionStorage - useful to initiate a new search in the same tab.
-         * Passing sessionStorage.clear directly as onclick callback didn't work
-         * (on macOS Chrome).
-        */
-    clearSession() {
+     * Clear sessionStorage - useful to initiate a new search in the same tab.
+     * Passing sessionStorage.clear directly as onclick callback didn't work
+     * (on macOS Chrome).
+    */
+    clearSession: function () {
         sessionStorage.clear();
-    }
+    },
 
     /**
      * Event-handler for downloading fasta of all hits.
      */
-    downloadFastaOfAll() {
+    downloadFastaOfAll: function () {
         var sequence_ids = [];
         this.props.data.queries.forEach(
             (query) => query.hits.forEach(
@@ -41,21 +29,21 @@ export default class extends Component {
         var database_ids = this.props.data.querydb.map((querydb) => querydb.id);
         downloadFASTA(sequence_ids, database_ids);
         return false;
-    }
+    },
 
     /**
      * Handles downloading fasta of selected hits.
      */
-    downloadFastaOfSelected() {
+    downloadFastaOfSelected: function () {
         var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
             return this.value;
         }).get();
         var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
         downloadFASTA(sequence_ids, database_ids);
         return false;
-    }
+    },
 
-    downloadAlignmentOfAll() {
+    downloadAlignmentOfAll: function() {
         // Get number of hits and array of all hsps.
         var num_hits = 0;
         var hsps_arr = [];
@@ -76,15 +64,15 @@ export default class extends Component {
         var file_name = `alignment-${num_hits}_hits`;
         aln_exporter.export_alignments(hsps_arr, file_name);
         return false;
-    }
+    },
 
-    downloadAlignmentOfSelected() {
+    downloadAlignmentOfSelected: function () {
         var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
             return this.value;
         }).get();
         var hsps_arr = [];
         var aln_exporter = new AlignmentExporter();
-        console.log('check ' + sequence_ids.toString());
+        console.log('check '+sequence_ids.toString());
         _.each(this.props.data.queries, _.bind(function (query) {
             _.each(query.hits, function (hit) {
                 if (_.indexOf(sequence_ids, hit.id) != -1) {
@@ -96,11 +84,22 @@ export default class extends Component {
                 }
             });
         }, this));
-        aln_exporter.export_alignments(hsps_arr, 'alignment-' + sequence_ids.length + '_hits');
+        aln_exporter.export_alignments(hsps_arr, 'alignment-'+sequence_ids.length+'_hits');
         return false;
-    }
+    },
 
-    topPanelJSX() {
+
+    // JSX //
+    render: function () {
+        return (
+            <div className="sidebar">
+                { this.topPanelJSX() }
+                { this.downloadsPanelJSX() }
+            </div>
+        );
+    },
+
+    topPanelJSX: function () {
         var path = location.pathname.split('/');
         // Get job id.
         var job_id = path.pop();
@@ -112,7 +111,7 @@ export default class extends Component {
             <div className="sidebar-top-panel">
                 <div className="section-header-sidebar">
                     <h4>
-                        {this.summaryString()}
+                        { this.summaryString() }
                     </h4>
                 </div>
                 <div>
@@ -125,12 +124,12 @@ export default class extends Component {
                         <i className="fa fa-file-o"></i> New search
                     </a>
                 </div>
-                {this.props.shouldShowIndex && this.indexJSX()}
+                { this.props.shouldShowIndex && this.indexJSX() }
             </div>
         );
-    }
+    },
 
-    summaryString() {
+    summaryString: function () {
         var program = this.props.data.program;
         var numqueries = this.props.data.queries.length;
         var numquerydb = this.props.data.querydb.length;
@@ -140,12 +139,12 @@ export default class extends Component {
             numqueries + ' ' + (numqueries > 1 ? 'queries' : 'query') + ', ' +
             numquerydb + ' ' + (numquerydb > 1 ? 'databases' : 'database')
         );
-    }
+    },
 
-    indexJSX() {
+    indexJSX: function () {
         return <ul className="nav hover-reset active-bold"> {
-            _.map(this.props.data.queries, (query) => {
-                return <li key={'Side_bar_' + query.id}>
+            _.map(this.props.data.queries, (query)=> {
+                return <li key={'Side_bar_'+query.id}>
                     <a className="btn-link nowrap-ellipsis hover-bold"
                         title={'Query= ' + query.id + ' ' + query.title}
                         href={'#Query_' + query.number}>
@@ -155,9 +154,9 @@ export default class extends Component {
             })
         }
         </ul>;
-    }
+    },
 
-    downloadsPanelJSX() {
+    downloadsPanelJSX: function () {
         return (
             <div className="downloads">
                 <div className="section-header-sidebar">
@@ -230,14 +229,6 @@ export default class extends Component {
                 </ul>
             </div>
         );
-    }
-    render() {
-        return (
-            <div className="sidebar">
-                {this.topPanelJSX()}
-                {this.downloadsPanelJSX()}
-            </div>
-        );
-    }
-}
+    },
+});
 

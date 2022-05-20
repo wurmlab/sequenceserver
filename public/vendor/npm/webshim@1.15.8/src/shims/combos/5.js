@@ -3059,4 +3059,4 @@
       }
     })();
   });
-})(require('process'));
+})(require("process"));

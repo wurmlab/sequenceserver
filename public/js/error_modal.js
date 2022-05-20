@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 
 /**
  * Takes errorData object with title, message, and more_info keys as props. The
@@ -14,13 +14,12 @@ export default class ErrorModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = { errorData: {} };
-        this.modal = createRef();
     }
 
     // HTML for Bootstrap modal.
     render() {
         return (
-            <div id="error" ref={this.modal} className="modal fade"
+            <div id="error" ref="modal" className="modal fade"
                 data-keyboard="false" data-backdrop="static">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
@@ -43,6 +42,14 @@ export default class ErrorModal extends React.Component {
             </div>
         );
     }
+
+    /*
+    * Returns jQuery reference to the main modal container.
+    */
+    modal () {
+        return $(React.findDOMNode(this.refs.modal));
+    }
+
     /**
      * Shows error viewer.
      */
@@ -52,7 +59,7 @@ export default class ErrorModal extends React.Component {
         // modal. This is helpful if the caller wants to finish some work
         // before showing error modal.
         setTimeout(() => {
-            $(this.modal.current).modal('show');
+            this.modal().modal('show');
         }, beforeShow || 0);
     }
 }

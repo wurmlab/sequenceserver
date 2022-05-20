@@ -2,4 +2,12 @@
 <div id="view"></div>
 
 <!-- JS -->
+<% if settings.production? || settings.test? %>
   <script src="sequenceserver-report.min.js?ver=<%= SequenceServer::VERSION %>"></script>
+<% else %>
+  <script src="vendor/system.js"></script>
+  <script src="config.js"></script>
+  <script>
+    System.import('js/report.js')
+  </script>
+<% end %>

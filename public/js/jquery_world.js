@@ -1,9 +1,9 @@
-import $ from 'jquery';
-import '../packages/jquery-ui@1.11.4';
+import 'jquery';
+import 'jquery-ui/ui/effect-drop';
+import 'jquery-ui/ui/effect-bounce';
 import 'bootstrap';
 import 'webshim';
 
-global.$ = $;
 /**
  * Simple, small jQuery extensions for convenience.
  */
@@ -50,7 +50,7 @@ global.$ = $;
      * Initialise Bootstrap tooltip on an element with presets. Takes title.
      */
     $.fn._tooltip = $.fn.tooltip;
-    $.fn.tooltip = function (options) {
+    $.fn.tooltip  = function (options) {
         return this
             ._tooltip('destroy')
             ._tooltip($.extend({

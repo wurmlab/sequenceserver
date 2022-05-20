@@ -1,1 +1,0 @@
-module.exports = require("npm:core-util-is@1.0.3/lib/util.js");

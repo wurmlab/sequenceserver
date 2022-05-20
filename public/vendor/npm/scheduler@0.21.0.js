@@ -1,1 +1,0 @@
-module.exports = require("npm:scheduler@0.21.0/index.js");

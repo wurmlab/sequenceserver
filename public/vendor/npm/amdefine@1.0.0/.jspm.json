@@ -1,0 +1,55 @@
+{
+  "name": "amdefine",
+  "description": "Provide AMD's define() API for declaring modules in the AMD format",
+  "version": "1.0.0",
+  "homepage": "http://github.com/jrburke/amdefine",
+  "author": {
+    "name": "James Burke",
+    "email": "jrburke@gmail.com",
+    "url": "http://github.com/jrburke"
+  },
+  "license": "BSD-3-Clause AND MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrburke/amdefine.git"
+  },
+  "main": "./amdefine.js",
+  "engines": {
+    "node": ">=0.4.2"
+  },
+  "gitHead": "578bc4a3f7dede33f3f3e10edde0c1607005d761",
+  "bugs": {
+    "url": "https://github.com/jrburke/amdefine/issues"
+  },
+  "_id": "amdefine@1.0.0",
+  "scripts": {},
+  "_shasum": "fd17474700cb5cc9c2b709f0be9d23ce3c198c33",
+  "_from": ".",
+  "_npmVersion": "2.12.1",
+  "_nodeVersion": "0.10.36",
+  "_npmUser": {
+    "name": "jrburke",
+    "email": "jrburke@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "jrburke",
+      "email": "jrburke@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "fd17474700cb5cc9c2b709f0be9d23ce3c198c33",
+    "tarball": "http://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
+  },
+  "format": "cjs",
+  "ignore": [
+    "node_modules"
+  ],
+  "registry": "npm",
+  "dependencies": {
+    "path": "github:jspm/nodelibs-path@^0.1.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0",
+    "module": "github:jspm/nodelibs-module@^0.1.0",
+    "fs": "github:jspm/nodelibs-fs@^0.1.0"
+  }
+}

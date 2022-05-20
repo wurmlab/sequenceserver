@@ -269,4 +269,4 @@
       root.punycode = punycode;
     }
   }(this));
-})(require('process'));
+})(require("process"));

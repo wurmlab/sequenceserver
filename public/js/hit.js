@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import _ from 'underscore';
 
 import HSPOverview from './kablammo';
@@ -8,84 +8,63 @@ import AlignmentExporter from './alignment_exporter'; // to download textual ali
 /**
  * Component for each hit. Receives props from Report. Has no state.
  */
-export default class extends Component {
-    constructor(props) {
-        super(props);
-        this.accession = this.accession.bind(this);
-        this.sequenceID = this.sequenceID.bind(this);
-        this.hitLength = this.hitLength.bind(this);
-        this.numHSPs = this.numHSPs.bind(this);
-        this.domID = this.domID.bind(this);
-        this.databaseIDs = this.databaseIDs.bind(this);
-        this.showSequenceViewer = this.showSequenceViewer.bind(this);
-        this.viewSequenceLink = this.viewSequenceLink.bind(this);
-        this.downloadFASTA = this.downloadFASTA.bind(this);
-        this.downloadAlignment = this.downloadAlignment.bind(this);
-        this.headerJSX = this.headerJSX.bind(this);
-        this.contentJSX = this.contentJSX.bind(this);
-        this.hitLinks = this.hitLinks.bind(this);
-        this.viewSequenceButton = this.viewSequenceButton.bind(this);
-        this.downloadFASTAButton = this.downloadFASTAButton.bind(this);
-    }
-    shouldComponentUpdate() {
-        return !this.props.hit;
-    }
+export default React.createClass({
     /**
-         * Returns accession number of the hit sequence.
-         */
-    accession() {
+     * Returns accession number of the hit sequence.
+     */
+    accession: function () {
         return this.props.hit.accession;
-    }
+    },
 
     /**
      * Returns id of the hit sequence.
      */
-    sequenceID() {
+    sequenceID: function () {
         return this.props.hit.id;
-    }
+    },
 
     /**
      * Returns length of the hit sequence.
      */
-    hitLength() {
+    hitLength: function () {
         return this.props.hit.length;
-    }
+    },
 
-    numHSPs() {
+    numHSPs: function () {
         return this.props.hit.hsps.length;
-    }
+    },
 
     // Internal helpers. //
 
     /**
      * Returns id that will be used for the DOM node corresponding to the hit.
      */
-    domID() {
+    domID: function () {
         return 'Query_' + this.props.query.number + '_hit_' + this.props.hit.number;
-    }
+    },
 
-    databaseIDs() {
+    databaseIDs: function () {
         return _.map(this.props.querydb, _.iteratee('id'));
-    }
+    },
 
-    showSequenceViewer() {
+    showSequenceViewer: function () {
         this.props.showSequenceModal(this.viewSequenceLink());
-    }
+    },
 
-    viewSequenceLink() {
+    viewSequenceLink: function () {
         var sequenceIDs = encodeURIComponent(this.sequenceID());
         var databaseIDs = encodeURIComponent(this.databaseIDs());
         return `get_sequence/?sequence_ids=${sequenceIDs}&database_ids=${databaseIDs}`;
-    }
+    },
 
-    downloadFASTA(event) {
+    downloadFASTA: function (event) {
         var sequenceIDs = [this.sequenceID()];
         downloadFASTA(sequenceIDs, this.databaseIDs());
-    }
+    },
 
     // Event-handler for exporting alignments.
     // Calls relevant method on AlignmentExporter defined in alignment_exporter.js.
-    downloadAlignment(event) {
+    downloadAlignment: function (event) {
         var hsps = _.map(this.props.hit.hsps, _.bind(function (hsp) {
             hsp.query_id = this.props.query.id;
             hsp.hit_id = this.props.hit.id;
@@ -93,9 +72,27 @@ export default class extends Component {
         }, this));
 
         var aln_exporter = new AlignmentExporter();
-        aln_exporter.export_alignments(hsps, this.props.query.id + '_' + this.props.hit.id);
-    }
-    headerJSX() {
+        aln_exporter.export_alignments(hsps, this.props.query.id+'_'+this.props.hit.id);
+    },
+
+
+    // Life cycle methods //
+
+    render: function () {
+        return (
+            <div className="hit" id={this.domID()} data-hit-def={this.props.hit.id}
+                data-hit-len={this.props.hit.length} data-hit-evalue={this.props.hit.evalue}>
+                { this.headerJSX() } { this.contentJSX() }
+            </div>
+        );
+    },
+
+    // See Query.shouldComponentUpdate. The same applies for hits.
+    shouldComponentUpdate: function () {
+        return !this.props.hit;
+    },
+
+    headerJSX: function () {
         var meta = `length: ${this.hitLength().toLocaleString()}`;
 
         if (this.props.showQueryCrumbs && this.props.showHitCrumbs) {
@@ -119,19 +116,19 @@ export default class extends Component {
             </h4>
             <span className="label label-reset pos-label">{meta}</span>
         </div>;
-    }
+    },
 
-    contentJSX() {
+    contentJSX: function () {
         return <div className="section-content" data-parent-hit={this.domID()}>
-            {this.hitLinks()}
+            { this.hitLinks() }
             <HSPOverview key={'kablammo' + this.props.query.id} query={this.props.query}
                 hit={this.props.hit} algorithm={this.props.algorithm}
                 showHSPCrumbs={this.numHSPs() > 1 && this.numHSPs() < 27}
                 collapsed={this.props.veryBig} />
         </div>;
-    }
+    },
 
-    hitLinks() {
+    hitLinks: function () {
         var btns = [];
         if (!(this.props.imported_xml || this.props.non_parse_seqids)) {
             btns = btns.concat([
@@ -162,10 +159,10 @@ export default class extends Component {
                 }
             </div>
         );
-    }
+    },
 
     // Return JSX for view sequence button.
-    viewSequenceButton() {
+    viewSequenceButton: function () {
         if (this.hitLength() > 10000) {
             return {
                 text: 'Sequence',
@@ -183,27 +180,27 @@ export default class extends Component {
             };
 
         }
-    }
+    },
 
-    downloadFASTAButton() {
+    downloadFASTAButton: function () {
         return {
             text: 'FASTA',
             icon: 'fa-download',
             className: 'download-fa',
             onClick: () => this.downloadFASTA()
         };
-    }
+    },
 
-    downloadAlignmentButton() {
+    downloadAlignmentButton: function () {
         return {
             text: 'Alignment',
             icon: 'fa-download',
             className: 'download-aln',
             onClick: () => this.downloadAlignment()
         };
-    }
+    },
 
-    button({ text, icon, title, className, onClick }) {
+    button: function ({text, icon, title, className, onClick}) {
         if (onClick) {
             return <button className={`btn-link ${className}`}
                 title={title} onClick={onClick}><i className={`fa ${icon}`}></i> {text}
@@ -215,12 +212,12 @@ export default class extends Component {
                 <i className={`fa ${icon}`}></i> {text}
             </button>;
         }
-    }
+    },
 
     /**
      * Render URL for sequence-viewer.
      */
-    a(link) {
+    a: function (link) {
         if (!link.title || !link.url) return;
 
         let className = 'btn btn-link';
@@ -230,12 +227,4 @@ export default class extends Component {
             {' ' + link.title + ' '}
         </a>;
     }
-    render() {
-        return (
-            <div className="hit" id={this.domID()} data-hit-def={this.props.hit.id}
-                data-hit-len={this.props.hit.length} data-hit-evalue={this.props.hit.evalue}>
-                {this.headerJSX()} {this.contentJSX()}
-            </div>
-        );
-    }
-}
+});

@@ -1663,4 +1663,4 @@
     };
     main();
   });
-})(require('process'));
+})(require("process"));

@@ -2287,4 +2287,4 @@
     }
     document.createElement('img').src = webshims.cfg.basePath + 'jpicker/images/Maps.png';
   });
-})(require('process'));
+})(require("process"));

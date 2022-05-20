@@ -1,7 +1,7 @@
 /* */ 
 (function(process) {
-  var assert = require('assert');
-  var util = require('../../util');
+  var assert = require("assert");
+  var util = require("../../util");
   assert.ok(process.stdout.writable);
   assert.ok(process.stderr.writable);
   var stdout_write = global.process.stdout.write;
@@ -47,4 +47,4 @@
     assert.equal(match[1], test.output);
   });
   global.process.stdout.write = stdout_write;
-})(require('process'));
+})(require("process"));
