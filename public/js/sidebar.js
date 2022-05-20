@@ -92,7 +92,6 @@ export default React.createClass({
      * Returns an array of at most 15 databases used for the "Send by email" functionality.   
      */
      usedDatabases: function() {
-
         // Iterates over the databases used and appends the first 15 to an array with string formatting  
         var dbsArr = [];
         let i = 0;
@@ -249,10 +248,10 @@ export default React.createClass({
 
     sharingPanelJSX: function () {
         return (
-            <div className="downloads">
+            <div className="sharing-panel">
                 <div className="section-header-sidebar">
                     <h4>
-                        Share Results
+                        Share results
                     </h4>
                 </div>
                 
