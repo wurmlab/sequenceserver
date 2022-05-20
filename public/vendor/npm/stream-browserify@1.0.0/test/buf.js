@@ -1,9 +1,9 @@
 /* */ 
 (function(Buffer) {
-  var path = require("path");
-  var test = require("tape");
-  var Writable = require("../index").Writable;
-  var inherits = require("inherits");
+  var path = require('path');
+  var test = require('tape');
+  var Writable = require('../index').Writable;
+  var inherits = require('inherits');
   inherits(TestWritable, Writable);
   function TestWritable(opt) {
     if (!(this instanceof TestWritable))
@@ -24,4 +24,4 @@
     t.equal(writable._written[0].toString(), 'X');
     t.end();
   });
-})(require("buffer").Buffer);
+})(require('buffer').Buffer);

@@ -2373,4 +2373,4 @@
       }
     })();
   });
-})(require("process"));
+})(require('process'));

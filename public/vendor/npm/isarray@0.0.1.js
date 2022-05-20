@@ -1,1 +1,1 @@
-module.exports = require("npm:isarray@0.0.1/index");
+module.exports = require("npm:isarray@0.0.1/index.js");

@@ -1,6 +1,6 @@
 /* */ 
-var assert = require("assert");
-var events = require("../events");
+var assert = require('assert');
+var events = require('../events');
 var gotEvent = false;
 var e = new events.EventEmitter();
 e.on('maxListeners', function() {
