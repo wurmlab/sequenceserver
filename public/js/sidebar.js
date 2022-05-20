@@ -89,17 +89,18 @@ export default React.createClass({
     },
 
     /**
-     * Handles copying the URL into the user's clipboard. Modified from: https://stackoverflow.com/a/49618964/18117380
-     * */
-    copyURL: function () {
-        var element = document.createElement('input'),
-        url = window.location.href;
-        document.body.appendChild(element);
-        element.value = url;
-        element.select();
-        document.execCommand('copy');
-        document.body.removeChild(element);
-        alert("URL Copied!");
+     * Returns an array of at most 15 databases used for the "Send by email" functionality.   
+     */
+     usedDatabases: function() {
+
+        // Iterates over the databases used and appends the first 15 to an array with string formatting  
+        var dbsArr = [];
+        let i = 0;
+        while (this.props.data.querydb[i] && i < 16){
+            dbsArr.push(' '+ (i+1) + '. ' + this.props.data.querydb[i].title);
+            i +=1 ;
+        }
+        return dbsArr;
     },
         
     // JSX //
@@ -256,10 +257,20 @@ export default React.createClass({
                 </div>
                 
                 <ul className="nav">
-                    {
+                    { 
                         <li>
-                            <a className ="btn-link download" data-toggle="tooltip"
-                                title="Copy URL." onClick={this.copyURL} > Copy URL to clipboard
+                            <a id="sendEmail" className ="btn-link email-URL" data-toggle="tooltip"
+                                title="Send by email" 
+                                href= {`mailto:?subject=SeqServ results &body=Thank you for using SequenceServer.
+                                %0DBelow, you will find a link to the results of your most recent search. While using SequenceServer, you may use this link to access previous results.
+                                %0DYou will also find the unique ID of your query and the first 15 databases used in your search.
+                                %0D%0DLink: `+ window.location.href + 
+                                '%0DQuery id: ' + this.props.data.search_id +
+                                '%0DDatabases:'  + this.usedDatabases() +
+                                '%0D%0DPlease cite: https://doi.org/10.1093/molbev/msz185'}
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                <i className="fa fa-envelope"></i> Send by email
                             </a>
                         </li>
                     }

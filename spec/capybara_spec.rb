@@ -202,6 +202,19 @@ describe 'a browser', type: :feature, js: true do
     clear_downloads
   end
 
+  it 'can send the URL by email' do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                  databases: protein_databases.values_at(0))
+
+    # Checks for mailto, URL and databases used in the message. 
+    href = page.find('#sendEmail')['href']
+    expect(href).to include("mailto:?subject=SeqServ results")
+    expect(href).to include(page.current_url)
+    expect(href).to include(protein_databases.values_at(0).join())
+  end
+
   it 'can show hit sequences in a modal' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
