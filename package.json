@@ -9,6 +9,7 @@
     "email": "anurag08priyam@gmail.com"
   },
   "scripts": {
+    "watch": "webpack --watch",
     "test": "jest /js/tests",
     "build": "webpack"
   },
