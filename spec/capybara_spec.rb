@@ -202,6 +202,16 @@ describe 'a browser', type: :feature, js: true do
     clear_downloads
   end
 
+  it 'can copy URL to clipboard' do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                  databases: protein_databases.values_at(0))
+
+    find('#copyTooltip').click
+    page.should have_content('Copied!')
+  end
+  
   it 'can send the URL by email' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.

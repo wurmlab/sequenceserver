@@ -89,6 +89,32 @@ export default React.createClass({
     },
 
     /**
+     * Fixes tooltips in the sidebar, allows tooltip display on click
+     */
+    componentDidMount: function () {
+        $(function () {
+            $('.sidebar [data-toggle="tooltip"]').tooltip();
+            $('#copyTooltip').tooltip({title:'Copied!',trigger:'click'});
+        });
+    },
+    
+    /**
+     * Handles copying the URL into the user's clipboard. Modified from: https://stackoverflow.com/a/49618964/18117380
+     * Hides the 'Copied!' tooltip after 3 seconds 
+     */
+    copyURL: function () {
+        var element = document.createElement('input'), url = window.location.href;
+        document.body.appendChild(element);
+        element.value = url;
+        element.select();
+        document.execCommand('copy');
+        document.body.removeChild(element);
+        
+        setTimeout(function(){
+            $('#copyTooltip').tooltip('hide');},3000);
+    },
+
+    /**
      * Returns an array of at most 15 databases used for the "Send by email" functionality.   
      */
     usedDatabases: function() {
@@ -256,6 +282,14 @@ export default React.createClass({
                 </div>
                 
                 <ul className="nav">
+                    {
+                        <li>
+                            <a id="copyTooltip" className ="btn-link copy-URL" data-toggle="tooltip"
+                                onClick={this.copyURL}> 
+                                <i className="fa fa-copy"></i> Copy URL to clipboard
+                            </a> 
+                        </li>  
+                    } 
                     { 
                         <li>
                             <a id="sendEmail" className ="btn-link email-URL" data-toggle="tooltip"
