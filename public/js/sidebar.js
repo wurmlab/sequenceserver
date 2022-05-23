@@ -259,16 +259,12 @@ export default React.createClass({
                     { 
                         <li>
                             <a id="sendEmail" className ="btn-link email-URL" data-toggle="tooltip"
-                                title="Send by email" 
-                                href= {`mailto:?subject=SeqServ results &body=Thank you for using SequenceServer.
+                                title="Send by email" href= {`mailto:?subject=SeqServ results &body=Thank you for using SequenceServer.
                                 %0DBelow, you will find a link to the results of your most recent search. While using SequenceServer, you may use this link to access previous results.
                                 %0DYou will also find the unique ID of your query and the first 15 databases used in your search.
-                                %0D%0DLink: `+ window.location.href + 
-                                '%0DQuery id: ' + this.props.data.search_id +
-                                '%0DDatabases:'  + this.usedDatabases() +
-                                '%0D%0DPlease cite: https://doi.org/10.1093/molbev/msz185'}
-                                target="_blank"
-                                rel="noopener noreferrer">
+                                %0D%0DLink: `+ window.location.href + '%0DQuery id: ' + this.props.data.search_id +
+                                '%0DDatabases:'  + this.usedDatabases() + '%0D%0DPlease cite: https://doi.org/10.1093/molbev/msz185'}
+                                target="_blank" rel="noopener noreferrer">
                                 <i className="fa fa-envelope"></i> Send by email
                             </a>
                         </li>
