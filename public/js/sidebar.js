@@ -286,7 +286,6 @@ export default class extends Component {
                         Share results
                     </h4>
                 </div>
-                
                 <ul className="nav">
                     {
                         <li>
