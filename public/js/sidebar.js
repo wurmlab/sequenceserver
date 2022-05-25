@@ -16,7 +16,6 @@ export default class extends Component {
         this.downloadFastaOfSelected = this.downloadFastaOfSelected.bind(this);
         this.downloadAlignmentOfAll = this.downloadAlignmentOfAll.bind(this);
         this.downloadAlignmentOfSelected = this.downloadAlignmentOfSelected.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
         this.copyURL = this.copyURL.bind(this);
         this.usedDatabases = this.usedDatabases.bind(this);
         this.topPanelJSX = this.topPanelJSX.bind(this);
