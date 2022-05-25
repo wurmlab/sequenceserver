@@ -8,6 +8,7 @@ branches:
   only:
     - 1.0.x  # stable
     - master
+    - investigate-travis-issues
 
 cache:
   directories:
