@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'underscore';
 
 import downloadFASTA from './download_fasta';
@@ -8,20 +8,32 @@ import AlignmentExporter from './alignment_exporter'; // to download textual ali
  * Renders links for downloading hit information in different formats.
  * Renders links for navigating to each query.
  */
-export default React.createClass({
+export default class extends Component {
+
+    constructor(props) {
+        super(props);
+        this.downloadFastaOfAll = this.downloadFastaOfAll.bind(this);
+        this.downloadFastaOfSelected = this.downloadFastaOfSelected.bind(this);
+        this.downloadAlignmentOfAll = this.downloadAlignmentOfAll.bind(this);
+        this.downloadAlignmentOfSelected = this.downloadAlignmentOfSelected.bind(this);
+        this.topPanelJSX = this.topPanelJSX.bind(this);
+        this.summaryString = this.summaryString.bind(this);
+        this.indexJSX = this.indexJSX.bind(this);
+        this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
+    }
     /**
-     * Clear sessionStorage - useful to initiate a new search in the same tab.
-     * Passing sessionStorage.clear directly as onclick callback didn't work
-     * (on macOS Chrome).
-    */
-    clearSession: function () {
+         * Clear sessionStorage - useful to initiate a new search in the same tab.
+         * Passing sessionStorage.clear directly as onclick callback didn't work
+         * (on macOS Chrome).
+        */
+    clearSession() {
         sessionStorage.clear();
-    },
+    }
 
     /**
      * Event-handler for downloading fasta of all hits.
      */
-    downloadFastaOfAll: function () {
+    downloadFastaOfAll() {
         var sequence_ids = [];
         this.props.data.queries.forEach(
             (query) => query.hits.forEach(
@@ -29,21 +41,21 @@ export default React.createClass({
         var database_ids = this.props.data.querydb.map((querydb) => querydb.id);
         downloadFASTA(sequence_ids, database_ids);
         return false;
-    },
+    }
 
     /**
      * Handles downloading fasta of selected hits.
      */
-    downloadFastaOfSelected: function () {
+    downloadFastaOfSelected() {
         var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
             return this.value;
         }).get();
         var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
         downloadFASTA(sequence_ids, database_ids);
         return false;
-    },
+    }
 
-    downloadAlignmentOfAll: function() {
+    downloadAlignmentOfAll() {
         // Get number of hits and array of all hsps.
         var num_hits = 0;
         var hsps_arr = [];
@@ -64,15 +76,15 @@ export default React.createClass({
         var file_name = `alignment-${num_hits}_hits`;
         aln_exporter.export_alignments(hsps_arr, file_name);
         return false;
-    },
+    }
 
-    downloadAlignmentOfSelected: function () {
+    downloadAlignmentOfSelected() {
         var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
             return this.value;
         }).get();
         var hsps_arr = [];
         var aln_exporter = new AlignmentExporter();
-        console.log('check '+sequence_ids.toString());
+        console.log('check ' + sequence_ids.toString());
         _.each(this.props.data.queries, _.bind(function (query) {
             _.each(query.hits, function (hit) {
                 if (_.indexOf(sequence_ids, hit.id) != -1) {
@@ -84,36 +96,11 @@ export default React.createClass({
                 }
             });
         }, this));
-        aln_exporter.export_alignments(hsps_arr, 'alignment-'+sequence_ids.length+'_hits');
+        aln_exporter.export_alignments(hsps_arr, 'alignment-' + sequence_ids.length + '_hits');
         return false;
-    },
+    }
 
-    /**
-     * Returns an array of at most 15 databases used for the "Send by email" functionality.   
-     */
-    usedDatabases: function() {
-        // Iterates over the databases used and appends the first 15 to an array with string formatting  
-        var dbsArr = [];
-        let i = 0;
-        while (this.props.data.querydb[i] && i < 15){
-            dbsArr.push(' '+ (i+1) + '. ' + this.props.data.querydb[i].title);
-            i +=1;
-        }
-        return dbsArr;
-    },
-        
-    // JSX //
-    render: function () {
-        return (
-            <div className="sidebar">
-                { this.topPanelJSX() }
-                { this.downloadsPanelJSX() }
-                { this.sharingPanelJSX() }
-            </div>
-        );
-    },
-
-    topPanelJSX: function () {
+    topPanelJSX() {
         var path = location.pathname.split('/');
         // Get job id.
         var job_id = path.pop();
@@ -126,7 +113,7 @@ export default React.createClass({
             <div className="sidebar-top-panel">
                 <div className="section-header-sidebar">
                     <h4>
-                        { this.summaryString() }
+                        {this.summaryString()}
                     </h4>
                 </div>
                 <div>
@@ -139,12 +126,12 @@ export default React.createClass({
                         <i className="fa fa-file-o"></i> New search
                     </a>
                 </div>
-                { this.props.shouldShowIndex && this.indexJSX() }
+                {this.props.shouldShowIndex && this.indexJSX()}
             </div>
         );
-    },
+    }
 
-    summaryString: function () {
+    summaryString() {
         var program = this.props.data.program;
         var numqueries = this.props.data.queries.length;
         var numquerydb = this.props.data.querydb.length;
@@ -154,12 +141,12 @@ export default React.createClass({
             numqueries + ' ' + (numqueries > 1 ? 'queries' : 'query') + ', ' +
             numquerydb + ' ' + (numquerydb > 1 ? 'databases' : 'database')
         );
-    },
+    }
 
-    indexJSX: function () {
+    indexJSX() {
         return <ul className="nav hover-reset active-bold"> {
-            _.map(this.props.data.queries, (query)=> {
-                return <li key={'Side_bar_'+query.id}>
+            _.map(this.props.data.queries, (query) => {
+                return <li key={'Side_bar_' + query.id}>
                     <a className="btn-link nowrap-ellipsis hover-bold"
                         title={'Query= ' + query.id + ' ' + query.title}
                         href={'#Query_' + query.number}>
@@ -169,9 +156,9 @@ export default React.createClass({
             })
         }
         </ul>;
-    },
+    }
 
-    downloadsPanelJSX: function () {
+    downloadsPanelJSX() {
         return (
             <div className="downloads">
                 <div className="section-header-sidebar">
@@ -244,34 +231,14 @@ export default React.createClass({
                 </ul>
             </div>
         );
-    },
-
-    sharingPanelJSX: function () {
+    }
+    render() {
         return (
-            <div className="sharing-panel">
-                <div className="section-header-sidebar">
-                    <h4>
-                        Share results
-                    </h4>
-                </div>
-                
-                <ul className="nav">
-                    { 
-                        <li>
-                            <a id="sendEmail" className ="btn-link email-URL" data-toggle="tooltip"
-                                title="Send by email" href= {`mailto:?subject=SeqServ results &body=Thank you for using SequenceServer.
-                                %0DBelow, you will find a link to the results of your most recent search. While using SequenceServer, you may use this link to access previous results.
-                                %0DYou will also find the unique ID of your query and the first 15 databases used in your search.
-                                %0D%0DLink: `+ window.location.href + '%0DQuery id: ' + this.props.data.search_id +
-                                '%0DDatabases:'  + this.usedDatabases() + '%0D%0DPlease cite: https://doi.org/10.1093/molbev/msz185'}
-                                target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-envelope"></i> Send by email
-                            </a>
-                        </li>
-                    }
-                </ul>
+            <div className="sidebar">
+                {this.topPanelJSX()}
+                {this.downloadsPanelJSX()}
             </div>
         );
-    },
-});
+    }
+}
 

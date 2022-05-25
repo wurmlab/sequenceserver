@@ -391,7 +391,7 @@
     return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || typeof arg === 'symbol' || typeof arg === 'undefined';
   }
   exports.isPrimitive = isPrimitive;
-  exports.isBuffer = require("./support/isBufferBrowser");
+  exports.isBuffer = require('./support/isBufferBrowser');
   function objectToString(o) {
     return Object.prototype.toString.call(o);
   }
@@ -407,7 +407,7 @@
   exports.log = function() {
     console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
   };
-  exports.inherits = require("inherits");
+  exports.inherits = require('inherits');
   exports._extend = function(origin, add) {
     if (!add || !isObject(add))
       return origin;
@@ -421,4 +421,4 @@
   function hasOwnProperty(obj, prop) {
     return Object.prototype.hasOwnProperty.call(obj, prop);
   }
-})(require("process"));
+})(require('process'));

@@ -1,7 +1,7 @@
 /* */ 
-var common = require("./common");
-var assert = require("assert");
-var events = require("../events");
+var common = require('./common');
+var assert = require('assert');
+var events = require('../events');
 var count = 0;
 function listener1() {
   console.log('listener1');

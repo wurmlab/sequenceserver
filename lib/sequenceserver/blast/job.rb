@@ -24,13 +24,24 @@ module SequenceServer
             @databases = Database[params[:databases]]
             @advanced  = params[:advanced].to_s.strip
             @options   = @advanced + defaults
+            # The following params are for analytics only
+            @num_threads = config[:num_threads]
+            @query_length = calculate_query_size
+            @databases_ncharacters_total = calculate_databases_ncharacters_total
           end
         end
       end
 
       # :nodoc:
       # Attributes used by us - should be considered private.
-      attr_reader :method, :qfile, :databases, :advanced, :options
+      attr_reader :advanced
+      attr_reader :databases
+      attr_reader :databases_ncharacters_total
+      attr_reader :method
+      attr_reader :num_threads
+      attr_reader :options
+      attr_reader :qfile
+      attr_reader :query_length
 
       # :nodoc:
       # Deprecated; see Report#extract_params
@@ -95,6 +106,19 @@ module SequenceServer
       # rubocop:enable Metrics/CyclomaticComplexity
 
       private
+
+      def calculate_databases_ncharacters_total
+        databases.map(&:ncharacters).map(&:to_i).reduce(:+)
+      end
+
+      def calculate_query_size
+        size = 0
+        IO.foreach(@qfile) do |line|
+          next if line[0] == '>'
+          size += line.gsub(/\s+/, '').length
+        end
+        size
+      end
 
       def validate(params)
         validate_method params[:method]

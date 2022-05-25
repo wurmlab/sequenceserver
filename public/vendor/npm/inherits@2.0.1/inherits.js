@@ -1,2 +1,2 @@
 /* */ 
-module.exports = require("util").inherits;
+module.exports = require('util').inherits;

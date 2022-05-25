@@ -1773,4 +1773,4 @@
       }
     })();
   });
-})(require("process"));
+})(require('process'));

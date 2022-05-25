@@ -63,20 +63,25 @@ by running `bundle install --without=development`.
 
 ### Making changes to the code
 
-During development, you should use `-D` option to run SequenceServer in development mode. In this mode, SequenceServer logs verbosely and uses raw front-end files.
+During development, you should use `-D` option to run SequenceServer in development mode. In this mode, SequenceServer will log verbosely.
 
     # Run SequenceServer in development mode
     bundle exec bin/sequenceserver -D
 
-You will need [Node and npm](https://nodejs.org/) if you want to modify and build frontend code:
+If you want to modify and build frontend code, you will additionally need [Node and npm](https://nodejs.org/). You can then run a watch server that will automatically build any changes you make the frontend code:
 
     # Install frontend dependencies
     npm install
 
+    # Run watch server to automatically build changes to the frontend code
+    npm run-script watch
+
+Alternatively, you can manually build the frontend code after you have made your changes:
+
     # Build minified JS and CSS bundles
     npm run-script build
 
-Or if you are using docker, you can build the frontend code and include it in the image by specifying '--target=minify' to the docker build command:
+If you are using docker, you can build the frontend code and include it in the image by specifying '--target=minify' to the docker build command:
 
     docker build . -t seqserv-with-customisations --target=minify
 

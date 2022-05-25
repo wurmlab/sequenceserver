@@ -1,6 +1,6 @@
 /* */ 
-var assert = require("assert");
-var util = require("../../util");
+var assert = require('assert');
+var util = require('../../util');
 suite('inspect');
 test('util.inspect - test for sparse array', function() {
   var a = ['foo', 'bar', 'baz'];

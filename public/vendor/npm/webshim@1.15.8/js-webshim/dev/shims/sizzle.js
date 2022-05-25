@@ -1264,4 +1264,4 @@
       webshims.isReady('sizzle', true);
     })(window.webshims && window.webshims.$ || window.jQuery, window.Sizzle);
   })(window);
-})(require("process"));
+})(require('process'));

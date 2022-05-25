@@ -1,13 +1,13 @@
 /* */ 
 module.exports = Stream;
-var EE = require("events").EventEmitter;
-var inherits = require("inherits");
+var EE = require('events').EventEmitter;
+var inherits = require('inherits');
 inherits(Stream, EE);
-Stream.Readable = require("readable-stream/readable");
-Stream.Writable = require("readable-stream/writable");
-Stream.Duplex = require("readable-stream/duplex");
-Stream.Transform = require("readable-stream/transform");
-Stream.PassThrough = require("readable-stream/passthrough");
+Stream.Readable = require('readable-stream/readable');
+Stream.Writable = require('readable-stream/writable');
+Stream.Duplex = require('readable-stream/duplex');
+Stream.Transform = require('readable-stream/transform');
+Stream.PassThrough = require('readable-stream/passthrough');
 Stream.Stream = Stream;
 function Stream() {
   EE.call(this);

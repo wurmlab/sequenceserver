@@ -4051,4 +4051,4 @@
       return p;
     });
   })(window);
-})(require("process"));
+})(require('process'));
