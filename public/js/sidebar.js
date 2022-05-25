@@ -16,10 +16,14 @@ export default class extends Component {
         this.downloadFastaOfSelected = this.downloadFastaOfSelected.bind(this);
         this.downloadAlignmentOfAll = this.downloadAlignmentOfAll.bind(this);
         this.downloadAlignmentOfSelected = this.downloadAlignmentOfSelected.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.copyURL = this.copyURL.bind(this);
+        this.usedDatabases = this.usedDatabases.bind(this);
         this.topPanelJSX = this.topPanelJSX.bind(this);
         this.summaryString = this.summaryString.bind(this);
         this.indexJSX = this.indexJSX.bind(this);
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
+        this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -98,6 +102,47 @@ export default class extends Component {
         }, this));
         aln_exporter.export_alignments(hsps_arr, 'alignment-' + sequence_ids.length + '_hits');
         return false;
+    }
+
+    /**
+     * Fixes tooltips in the sidebar, allows tooltip display on click
+     */
+    componentDidMount() {
+        $(function () {
+            $('.sidebar [data-toggle="tooltip"]').tooltip({placement: 'right'});
+            $('#copyTooltip').tooltip({title:'Copied!',trigger:'click', placement: 'right'});
+        });
+    }
+
+    /**
+     * Handles copying the URL into the user's clipboard. Modified from: https://stackoverflow.com/a/49618964/18117380
+     * Hides the 'Copied!' tooltip after 3 seconds 
+     */
+
+    copyURL() {
+        var element = document.createElement('input'), url = window.location.href;
+        document.body.appendChild(element);
+        element.value = url;
+        element.select();
+        document.execCommand('copy');
+        document.body.removeChild(element);
+        
+        setTimeout(function(){
+            $('#copyTooltip').tooltip('hide');},3000);
+    }
+
+    /**
+     * Returns an array of at most 15 databases used for the "Send by email" functionality.   
+     */
+    usedDatabases() {
+        // Iterates over the databases used and appends the first 15 to an array with string formatting  
+        var dbsArr = [];
+        let i = 0;
+        while (this.props.data.querydb[i] && i < 15){
+            dbsArr.push(' '+ (i+1) + '. ' + this.props.data.querydb[i].title);
+            i +=1;
+        }
+        return dbsArr;
     }
 
     topPanelJSX() {
@@ -232,11 +277,48 @@ export default class extends Component {
             </div>
         );
     }
+
+    sharingPanelJSX() {
+        return (
+            <div className="sharing-panel">
+                <div className="section-header-sidebar">
+                    <h4>
+                        Share results
+                    </h4>
+                </div>
+                
+                <ul className="nav">
+                    {
+                        <li>
+                            <a id="copyTooltip" className ="btn-link copy-URL" data-toggle="tooltip"
+                                onClick={this.copyURL}> 
+                                <i className="fa fa-copy"></i> Copy URL to clipboard
+                            </a> 
+                        </li>  
+                    } 
+                    { 
+                        <li>
+                            <a id="sendEmail" className ="btn-link email-URL" data-toggle="tooltip"
+                                title="Send by email" href= {`mailto:?subject=SeqServ results &body=Thank you for using SequenceServer.
+                                %0DBelow, you will find a link to the results of your most recent search. While using SequenceServer, you may use this link to access previous results.
+                                %0DYou will also find the unique ID of your query and the first 15 databases used in your search.
+                                %0D%0DLink: `+ window.location.href + '%0DQuery id: ' + this.props.data.search_id +
+                                '%0DDatabases:'  + this.usedDatabases() + '%0D%0DPlease cite: https://doi.org/10.1093/molbev/msz185'}
+                                target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-envelope"></i> Send by email
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        );
+    }
     render() {
         return (
             <div className="sidebar">
                 {this.topPanelJSX()}
                 {this.downloadsPanelJSX()}
+                {this.sharingPanelJSX()}
             </div>
         );
     }
