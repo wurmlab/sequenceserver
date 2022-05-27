@@ -109,7 +109,7 @@ export default class extends Component {
     componentDidMount() {
         $(function () {
             $('.sidebar [data-toggle="tooltip"]').tooltip({placement: 'right'});
-            $('#copyTooltip').tooltip({title:'Copied!',trigger:'click', placement: 'right'});
+            $('#copyTooltip').tooltip({title:'Copied!',trigger:'click', placement: 'right',delay: 0});
         });
     }
 
@@ -127,7 +127,7 @@ export default class extends Component {
         document.body.removeChild(element);
         
         setTimeout(function(){
-            $('#copyTooltip').tooltip('hide');},3000);
+            $('#copyTooltip')._tooltip('hide');},3000);
     }
 
     /**
