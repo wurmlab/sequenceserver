@@ -4127,4 +4127,4 @@
     }
     return jQuery;
   }));
-})(require("process"));
+})(require('process'));

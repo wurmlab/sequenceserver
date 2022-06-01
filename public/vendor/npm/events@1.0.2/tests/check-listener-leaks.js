@@ -1,7 +1,7 @@
 /* */ 
 (function(process) {
-  var assert = require("assert");
-  var events = require("../events");
+  var assert = require('assert');
+  var events = require('../events');
   var e = new events.EventEmitter();
   for (var i = 0; i < 10; i++) {
     e.on('default', function() {});
@@ -48,4 +48,4 @@
   e.on('uno', function() {});
   assert.ok(e._events['uno'].hasOwnProperty('warned'));
   assert.strictEqual(e, e.setMaxListeners(1));
-})(require("process"));
+})(require('process'));

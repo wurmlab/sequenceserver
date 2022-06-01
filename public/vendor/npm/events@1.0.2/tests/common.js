@@ -1,5 +1,5 @@
 /* */ 
-var assert = require("assert");
+var assert = require('assert');
 var mustCallChecks = [];
 function runCallChecks() {
   var failed_count = 0;

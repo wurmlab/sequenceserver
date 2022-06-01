@@ -146,4 +146,4 @@
     return str.substr(start, len);
   };
   ;
-})(require("process"));
+})(require('process'));

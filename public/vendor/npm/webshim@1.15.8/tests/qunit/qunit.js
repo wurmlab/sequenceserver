@@ -1129,4 +1129,4 @@
       };
     })();
   })(this);
-})(require("process"));
+})(require('process'));

@@ -1,7 +1,7 @@
 /* */ 
-var assert = require("assert");
-var EventEmitter = require("../events").EventEmitter;
-var util = require("util");
+var assert = require('assert');
+var EventEmitter = require('../events').EventEmitter;
+var util = require('util');
 util.inherits(MyEE, EventEmitter);
 function MyEE(cb) {
   this.once(1, cb);

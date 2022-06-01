@@ -76,7 +76,7 @@ FROM node:15-alpine3.12 AS node
 
 RUN apk add --no-cache git
 WORKDIR /usr/src/app
-COPY ./package.json .
+COPY ./package.json ./package-lock.json ./webpack.config.js ./babel.config.js ./
 RUN npm install
 ENV PATH=${PWD}/node_modules/.bin:${PATH}
 COPY public public

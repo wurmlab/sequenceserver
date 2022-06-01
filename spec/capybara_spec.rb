@@ -36,7 +36,7 @@ describe 'a browser', type: :feature, js: true do
     visit '/'
     fill_in('sequence', with: nucleotide_query)
     check(nucleotide_databases.first)
-    page.has_css?('button.dropdown-toggle').should eq(true)
+    page.has_css?('#methods button.dropdown-toggle').should eq(true)
   end
 
   it 'can run a simple blastn search' do
@@ -325,8 +325,8 @@ describe 'a browser', type: :feature, js: true do
     fill_in('sequence', with: query)
     databases.each { |db| check db }
     if method == 'tblastx'
-      find('.dropdown-toggle').click
-      find('.dropdown-menu li').click
+      find('#methods .dropdown-toggle').click
+      find('#methods .dropdown-menu li').click
     end
     click_button('method')
 
