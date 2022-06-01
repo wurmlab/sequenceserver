@@ -1,21 +1,27 @@
 version: "3.5"
 services:
   wb:
-    image: wurmlab/sequenceserver:2.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./db/wormbase:/db
       - ./conf/sequenceserver.wormbase.conf:/root/.sequenceserver.conf
     ports:
       - "5001:4567"
   fb:
-    image: wurmlab/sequenceserver:2.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./db/flybase:/db
       - ./conf/sequenceserver.flybase.conf:/root/.sequenceserver.conf
     ports:
       - "5002:4567"
   sgd:
-    image: wurmlab/sequenceserver:2.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./db/sgd:/db
       - ./conf/sequenceserver.sgd.conf:/root/.sequenceserver.conf
