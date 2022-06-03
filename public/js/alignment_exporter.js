@@ -1,5 +1,6 @@
 import * as Exporter from './exporter';
 import _ from 'underscore';
+import { toLetters } from './visualisation_helpers';
 export default class AlignmentExporter {
     constructor() {}
 
