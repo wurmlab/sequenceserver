@@ -1,0 +1,94 @@
+--- !ruby/object:SequenceServer::BLAST::Job
+id: 0edebfc5-022a-4606-9f0e-d732c18f8fc4
+submitted_at: 2022-06-03 12:08:30.681169000 +01:00
+databases:
+- !ruby/struct:SequenceServer::Database
+  name: "/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa"
+  title: funky ids (v5)
+  type: nucleotide
+  nsequences: '8'
+  ncharacters: '312'
+  updated_on: Aug 13, 2020  11:23 AM
+  format: '5'
+  categories:
+  - v5
+  - funky_ids
+  id: d3a2b237ee195f745a4d1ce68cb25c3b
+  extensions:
+  - ndb
+  - nhd
+  - nhi
+  - nhr
+  - nin
+  - nog
+  - nos
+  - not
+  - nsq
+  - ntf
+  - nto
+- !ruby/struct:SequenceServer::Database
+  name: "/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta"
+  title: Solenopsis invicta gnG subset
+  type: nucleotide
+  nsequences: '8'
+  ncharacters: '39185542'
+  updated_on: Jun 17, 2020  4:51 PM
+  format: '5'
+  categories:
+  - v5
+  - sample
+  - genome
+  - Solenopsis_invicta
+  id: 38b84655b16b2b43fc21ff9a414d59c6
+  extensions:
+  - ndb
+  - nhd
+  - nhi
+  - nhr
+  - nin
+  - nog
+  - nos
+  - not
+  - nsq
+  - ntf
+  - nto
+- !ruby/struct:SequenceServer::Database
+  name: "/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta"
+  title: Sinvicta 2-2-3 cdna subset
+  type: nucleotide
+  nsequences: '473'
+  ncharacters: '287752'
+  updated_on: Jun 17, 2020  4:52 PM
+  format: '5'
+  categories:
+  - v5
+  - sample
+  - transcripts
+  - Solenopsis_invicta
+  id: 3c900b509011e8919ff05e20dd703714
+  extensions:
+  - ndb
+  - nhd
+  - nhi
+  - nhr
+  - nin
+  - nog
+  - nos
+  - not
+  - nsq
+  - ntf
+  - nto
+completed_at: 2022-06-03 12:08:31.760135000 +01:00
+exitstatus: 0
+method: blastn
+qfile: "/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/dotdir/0edebfc5-022a-4606-9f0e-d732c18f8fc4/query.fa"
+advanced: ''
+options: " -outfmt '11 qcovs qcovhsp' -num_threads 1"
+num_threads: 1
+query_length: 60
+databases_ncharacters_total: 39473606
+command: blastn -db '/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa
+  /Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta
+  /Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta'
+  -query '/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/dotdir/0edebfc5-022a-4606-9f0e-d732c18f8fc4/query.fa'  -outfmt
+  '11 qcovs qcovhsp' -num_threads 1

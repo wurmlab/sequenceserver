@@ -1,0 +1,78 @@
+--- !ruby/object:SequenceServer::BLAST::Job
+id: 82299932-3c06-4fe3-a9c2-48f881ec7c31
+submitted_at: 2022-06-03 12:08:16.455751000 +01:00
+databases:
+- !ruby/struct:SequenceServer::Database
+  name: "/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/sample/proteins/Solenopsis_invicta/Sinvicta2-2-3.prot.subset.fasta"
+  title: Sinvicta 2-2-3 prot subset
+  type: protein
+  nsequences: '1189'
+  ncharacters: '280047'
+  updated_on: Jun 17, 2020  4:52 PM
+  format: '5'
+  categories:
+  - v5
+  - sample
+  - proteins
+  - Solenopsis_invicta
+  id: 7146d58da61021c4a598ad71f4ff5650
+  extensions:
+  - pdb
+  - phd
+  - phi
+  - phr
+  - pin
+  - pog
+  - pos
+  - pot
+  - psq
+  - ptf
+  - pto
+- !ruby/struct:SequenceServer::Database
+  name: "/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/using_blastdb_aliastool/2020-11-Swiss-Prot_insecta_subset_taxid_102803"
+  title: 2020-11-Swiss-Prot insecta (subset taxid 102803)
+  type: protein
+  nsequences: '1'
+  ncharacters: '253'
+  updated_on: Nov 25, 2020  12:45 PM
+  format: '5'
+  categories:
+  - v5
+  - using_blastdb_aliastool
+  id: 96d1b910faa05a72929dc4c556b14691
+  extensions:
+  - pal
+- !ruby/struct:SequenceServer::Database
+  name: "/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/without_parse_seqids/without_parse_seqids.fa"
+  title: without_parse_seqids.fa
+  type: protein
+  nsequences: '2'
+  ncharacters: '385'
+  updated_on: Jun 2, 2021  10:37 AM
+  format: '5'
+  categories:
+  - v5
+  - without_parse_seqids
+  id: ad9bef379305b6ea7f5ae5fef87ba1e9
+  extensions:
+  - pdb
+  - phr
+  - pin
+  - pot
+  - psq
+  - ptf
+  - pto
+completed_at: 2022-06-03 12:08:17.579034000 +01:00
+exitstatus: 0
+method: blastp
+qfile: "/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/dotdir/82299932-3c06-4fe3-a9c2-48f881ec7c31/query.fa"
+advanced: ''
+options: " -outfmt '11 qcovs qcovhsp' -num_threads 1"
+num_threads: 1
+query_length: 64
+databases_ncharacters_total: 280685
+command: blastp -db '/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/sample/proteins/Solenopsis_invicta/Sinvicta2-2-3.prot.subset.fasta
+  /Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/using_blastdb_aliastool/2020-11-Swiss-Prot_insecta_subset_taxid_102803
+  /Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/database/v5/without_parse_seqids/without_parse_seqids.fa'
+  -query '/Users/carlo/Documents/branches/hsp-alignment-reformat/sequenceserver/spec/dotdir/82299932-3c06-4fe3-a9c2-48f881ec7c31/query.fa'  -outfmt
+  '11 qcovs qcovhsp' -num_threads 1

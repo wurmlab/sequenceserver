@@ -89,6 +89,7 @@ export default class extends Component {
         var hsps = _.map(this.props.hit.hsps, _.bind(function (hsp) {
             hsp.query_id = this.props.query.id;
             hsp.hit_id = this.props.hit.id;
+            hsp.hit_number = this.props.hit.number;
             return hsp;
         }, this));
 

@@ -66,6 +66,7 @@ export default class extends Component {
                     hit.hsps.forEach((hsp) => {
                         hsp.query_id = query.id;
                         hsp.hit_id = hit.id;
+                        hsp.hit_number = hit.number;
                         hsps_arr.push(hsp);
                     });
                 }
@@ -91,6 +92,7 @@ export default class extends Component {
                     _.each(hit.hsps, function (hsp) {
                         hsp.hit_id = hit.id;
                         hsp.query_id = query.id;
+                        hsp.hit_number = hit.number;
                         hsps_arr.push(hsp);
                     });
                 }
