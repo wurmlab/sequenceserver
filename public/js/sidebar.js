@@ -155,7 +155,7 @@ export default class extends Component {
         
         Please cite: https://doi.org/10.1093/molbev/msz185`;
 
-        var message = encodeURI(mailto);
+        var message = encodeURI(mailto).replace(/(%20){2,}/g, '');
         return message;
     }
 

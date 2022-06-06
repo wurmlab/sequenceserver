@@ -223,7 +223,6 @@ describe 'a browser', type: :feature, js: true do
     expect(href).to include("mailto:?subject=SeqServ%20results")
     expect(href).to include(page.current_url)
     expect(href).to include(protein_databases.values_at(0).join() && '%20')
-    
   end
 
   it 'can show hit sequences in a modal' do
