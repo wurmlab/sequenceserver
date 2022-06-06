@@ -202,7 +202,7 @@ describe 'a browser', type: :feature, js: true do
     clear_downloads
   end
 
-  it 'can copy URL to clipboard', :gd_dependent =>:true do
+  it 'can copy URL to clipboard' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
     perform_search(query: protein_query,
@@ -212,7 +212,7 @@ describe 'a browser', type: :feature, js: true do
     page.should have_content('Copied!')
   end
   
-  it 'can send the URL by email', :gd_dependent =>:true do
+  it 'can send the URL by email' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
     perform_search(query: protein_query,
@@ -220,9 +220,10 @@ describe 'a browser', type: :feature, js: true do
 
     # Checks for mailto, URL and databases used in the message. 
     href = page.find('#sendEmail')['href']
-    expect(href).to include("mailto:?subject=SeqServ results")
+    expect(href).to include("mailto:?subject=SeqServ%20results")
     expect(href).to include(page.current_url)
-    expect(href).to include(protein_databases.values_at(0).join())
+    expect(href).to include(protein_databases.values_at(0).join() && '%20')
+    
   end
 
   it 'can show hit sequences in a modal' do

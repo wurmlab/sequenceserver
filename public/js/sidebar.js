@@ -17,7 +17,7 @@ export default class extends Component {
         this.downloadAlignmentOfAll = this.downloadAlignmentOfAll.bind(this);
         this.downloadAlignmentOfSelected = this.downloadAlignmentOfSelected.bind(this);
         this.copyURL = this.copyURL.bind(this);
-        this.usedDatabases = this.usedDatabases.bind(this);
+        this.mailtoLink = this.mailtoLink.bind(this);
         this.topPanelJSX = this.topPanelJSX.bind(this);
         this.summaryString = this.summaryString.bind(this);
         this.indexJSX = this.indexJSX.bind(this);
@@ -108,8 +108,8 @@ export default class extends Component {
      */
     componentDidMount() {
         $(function () {
-            $('.sidebar [data-toggle="tooltip"]').tooltip({placement: 'right'});
-            $('#copyTooltip').tooltip({title:'Copied!',trigger:'click', placement: 'right',delay: 0});
+            $('.sidebar [data-toggle="tooltip"]').tooltip({ placement: 'right' });
+            $('#copyTooltip').tooltip({ title: 'Copied!', trigger: 'click', placement: 'right', delay: 0 });
         });
     }
 
@@ -119,29 +119,44 @@ export default class extends Component {
      */
 
     copyURL() {
-        var element = document.createElement('input'), url = window.location.href;
+        var element = document.createElement('input');
+        var url = window.location.href;
         document.body.appendChild(element);
         element.value = url;
         element.select();
         document.execCommand('copy');
         document.body.removeChild(element);
-        
-        setTimeout(function(){
-            $('#copyTooltip')._tooltip('hide');},3000);
+
+        setTimeout(function () {
+            $('#copyTooltip')._tooltip('hide');
+        }, 3000);
     }
 
     /**
-     * Returns an array of at most 15 databases used for the "Send by email" functionality.   
+     * Returns a mailto message with at most 15 databases used  
      */
-    usedDatabases() {
+    mailtoLink() {
         // Iterates over the databases used and appends the first 15 to an array with string formatting  
         var dbsArr = [];
         let i = 0;
-        while (this.props.data.querydb[i] && i < 15){
-            dbsArr.push(' '+ (i+1) + '. ' + this.props.data.querydb[i].title);
-            i +=1;
+        while (this.props.data.querydb[i] && i < 15) {
+            dbsArr.push(' ' + (i + 1) + '. ' + this.props.data.querydb[i].title);
+            i += 1;
         }
-        return dbsArr;
+        
+        // retruns the mailto message
+        var mailto = `mailto:?subject=SeqServ results &body=Thank you for using SequenceServer.
+        Below, you will find a link to the results of your most recent search. While using SequenceServer, you may use this link to access previous results.
+        You will also find the unique ID of your query and the first 15 databases used in your search.
+
+        Link: ${window.location.href}
+        Query id: ${this.props.data.search_id}
+        Databases: ${dbsArr}
+        
+        Please cite: https://doi.org/10.1093/molbev/msz185`;
+
+        var message = encodeURI(mailto);
+        return message;
     }
 
     topPanelJSX() {
@@ -288,20 +303,16 @@ export default class extends Component {
                 <ul className="nav">
                     {
                         <li>
-                            <a id="copyTooltip" className ="btn-link copy-URL" data-toggle="tooltip"
-                                onClick={this.copyURL}> 
+                            <a id="copyTooltip" className="btn-link copy-URL cursor-pointer" data-toggle="tooltip"
+                                onClick={this.copyURL}>
                                 <i className="fa fa-copy"></i> Copy URL to clipboard
-                            </a> 
-                        </li>  
+                            </a>
+                        </li>
                     } 
-                    { 
+                    {
                         <li>
-                            <a id="sendEmail" className ="btn-link email-URL" data-toggle="tooltip"
-                                title="Send by email" href= {`mailto:?subject=SeqServ results &body=Thank you for using SequenceServer.
-                                %0DBelow, you will find a link to the results of your most recent search. While using SequenceServer, you may use this link to access previous results.
-                                %0DYou will also find the unique ID of your query and the first 15 databases used in your search.
-                                %0D%0DLink: `+ window.location.href + '%0DQuery id: ' + this.props.data.search_id +
-                                '%0DDatabases:'  + this.usedDatabases() + '%0D%0DPlease cite: https://doi.org/10.1093/molbev/msz185'}
+                            <a id="sendEmail" className="btn-link email-URL cursor-pointer" data-toggle="tooltip"
+                                title="Send by email" href={this.mailtoLink()}
                                 target="_blank" rel="noopener noreferrer">
                                 <i className="fa fa-envelope"></i> Send by email
                             </a>
