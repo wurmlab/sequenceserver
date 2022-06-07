@@ -27,8 +27,15 @@ RSpec.configure do |config|
   # For file downloading.
   config.include DownloadHelpers, type: :feature
 
+  # Check if geckodriver is installed for capybara tests.
+  def geckodriver_installed?
+    # geckodriver 0.31.0 
+    system('geckodriver -V')
+  end
+
   # Setup capybara tests.
-  config.before :context, type: :feature do
+  config.before :context, type: :feature do |context|
+    context.skip('Install geckodriver first. Try: sudo apt install firefox-geckodriver.') unless geckodriver_installed?
     Capybara.app = SequenceServer
     Capybara.server = :webrick
     Capybara.default_max_wait_time = 30
