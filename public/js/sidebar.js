@@ -108,7 +108,6 @@ export default class extends Component {
         // - we cannot just send to '/'.
         var rootURL = path.join('/');
         
-
         return (
             <div className="sidebar-top-panel">
                 <div className="section-header-sidebar">
