@@ -1,5 +1,6 @@
 import * as Exporter from './exporter';
 import _ from 'underscore';
+import { toLetters } from './visualisation_helpers';
 export default class AlignmentExporter {
     constructor() {}
 
@@ -23,12 +24,13 @@ export default class AlignmentExporter {
         var fasta = '';
 
         _.each(hsps, _.bind(function (hsp) {
-            fasta += '>'+hsp.query_id+':'+hsp.qstart+'-'+hsp.qend+'\n';
+            fasta += '>'+hsp.query_id+':'+hsp.qstart+'-'+hsp.qend+'_hit_'+hsp.hit_number+'_hsp_'+toLetters(hsp.number)+'\n';
             fasta += hsp.qseq+'\n';
-            fasta += '>'+hsp.query_id+':'+hsp.qstart+'-'+hsp.qend+'_alignment_'+hsp.hit_id+':'+hsp.sstart+'-'+hsp.send+'\n';
+            fasta += '>'+hsp.query_id+':'+hsp.qstart+'-'+hsp.qend+'_hit_'+hsp.hit_number+'_hsp_'+toLetters(hsp.number)+
+            '_alignment_'+hsp.hit_id+':'+hsp.sstart+'-'+hsp.send+'\n';
             fasta += hsp.midline+'\n';
-            fasta += '>'+hsp.hit_id+':'+hsp.sstart+'-'+hsp.send+'\n';
-            fasta += hsp.sseq+'\n';
+            fasta += '>'+hsp.hit_id+':'+hsp.sstart+'-'+hsp.send+'_hit_'+hsp.hit_number+'_hsp_'+toLetters(hsp.number)+'\n';
+            fasta += hsp.sseq+'\n\n';
         }, this));
         return fasta;
     }
