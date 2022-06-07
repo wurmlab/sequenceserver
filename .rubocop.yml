@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 3.1.2
+  TargetRubyVersion: 2.5
   Exclude:
     # Because these are vendor files.
     - 'node_modules/**/*'
