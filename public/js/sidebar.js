@@ -107,7 +107,6 @@ export default class extends Component {
         // Deriving rootURL this way is required for subURI deployments
         // - we cannot just send to '/'.
         var rootURL = path.join('/');
-        
 
         return (
             <div className="sidebar-top-panel">
