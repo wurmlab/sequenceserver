@@ -151,13 +151,13 @@ export default class extends Component {
                     /> Select
                 </label>
                 {
-                    btns.map((btn) => {
-                        return [<span className="line">|</span>, this.button(btn)];
+                    btns.map((btn, index) => {
+                        return [<span className="line" key={`btn-${index}`}>|</span>, this.button(Object.assign(btn, { key: index }))];
                     })
                 }
                 {
-                    this.props.hit.links.map((link) => {
-                        return [<span className="line">|</span>, this.a(link)];
+                    this.props.hit.links.map((link, index) => {
+                        return [<span className="line" key={`link-${index}`}>|</span>, this.a(link, index)];
                     })
                 }
             </div>
@@ -203,15 +203,15 @@ export default class extends Component {
         };
     }
 
-    button({ text, icon, title, className, onClick }) {
+    button({ text, icon, title, className, onClick, key }) {
         if (onClick) {
-            return <button className={`btn-link ${className}`}
+            return <button key={key} className={`btn-link ${className}`}
                 title={title} onClick={onClick}><i className={`fa ${icon}`}></i> {text}
             </button>;
         }
         else {
-            return <button className="btn-link view-sequence disabled"
-                title={title} disabled="true">
+            return <button key={key} className="btn-link view-sequence disabled"
+                title={title} disabled={true}>
                 <i className={`fa ${icon}`}></i> {text}
             </button>;
         }
@@ -220,12 +220,12 @@ export default class extends Component {
     /**
      * Render URL for sequence-viewer.
      */
-    a(link) {
+    a(link, key) {
         if (!link.title || !link.url) return;
 
         let className = 'btn btn-link';
         if (link.class) className = `${className} ${link.class}`;
-        return <a href={link.url} className={className} target='_blank'>
+        return <a href={link.url} key={`${link.url}-${key}`} className={className} target='_blank'>
             {link.icon && <i className={'fa ' + link.icon}></i>}
             {' ' + link.title + ' '}
         </a>;
