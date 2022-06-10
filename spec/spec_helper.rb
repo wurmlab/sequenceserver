@@ -60,4 +60,8 @@ RSpec.configure do |config|
   config.after :context, type: :feature do
     FileUtils.rm_rf Dir[SequenceServer::DOTDIR + '/*-*-*-*-*']
   end
+
+  config.after :context do
+    SequenceServer::Database.clear
+  end
 end
