@@ -54,3 +54,9 @@ pkg
 .gems/*
 Gemfile.lock
 node_modules
+
++# ENV files
++.env
++
++# DB directory
++db

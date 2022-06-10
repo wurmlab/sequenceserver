@@ -72,7 +72,7 @@ ENTRYPOINT ["bundle", "exec"]
 CMD ["sequenceserver"]
 
 ## Stage 4 (optional) minify CSS & JS.
-FROM node:15-alpine3.12 AS node
+FROM node:16-alpine3.14 AS node
 
 RUN apk add --no-cache git
 WORKDIR /usr/src/app

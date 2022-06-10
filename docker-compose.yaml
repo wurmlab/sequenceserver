@@ -4,35 +4,39 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: ${WB_IMAGE}
+    command: ["sequenceserver", "-c", "conf/sequenceserver.wormbase.conf"]
     volumes:
       - ./db/wormbase:/db
-      - ./conf/sequenceserver.wormbase.conf:/root/.sequenceserver.conf
     ports:
       - "5001:4567"
   fb:
     build:
       context: .
       dockerfile: Dockerfile
+    image: ${FB_IMAGE}
+    command: ["sequenceserver", "-c", "conf/sequenceserver.flybase.conf"]
     volumes:
       - ./db/flybase:/db
-      - ./conf/sequenceserver.flybase.conf:/root/.sequenceserver.conf
     ports:
       - "5002:4567"
   sgd:
     build:
       context: .
       dockerfile: Dockerfile
+    image: ${SGD_IMAGE}
+    command: ["sequenceserver", "-c", "conf/sequenceserver.sgd.conf"]
     volumes:
       - ./db/sgd:/db
-      - ./conf/sequenceserver.sgd.conf:/root/.sequenceserver.conf
     ports:
       - "5003:4567"
   xenbase:
     build:
       context: .
       dockerfile: Dockerfile
+    image: ${XB_IMAGE}
+    command: ["sequenceserver", "-c", "conf/sequenceserver.xenbase.conf"]
     volumes:
-      - ./db/sgd:/db
-      - ./conf/sequenceserver.xenbase.conf:/root/.sequenceserver.conf
+      - ./db/xenbase:/db
     ports:
       - "5004:4567"
