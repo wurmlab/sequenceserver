@@ -27,3 +27,12 @@ services:
       - ./conf/sequenceserver.sgd.conf:/root/.sequenceserver.conf
     ports:
       - "5003:4567"
+  xenbase:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./db/sgd:/db
+      - ./conf/sequenceserver.xenbase.conf:/root/.sequenceserver.conf
+    ports:
+      - "5004:4567"
