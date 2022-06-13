@@ -375,13 +375,15 @@ class HitsTable extends Component {
                     <table
                         className="table table-hover table-condensed tabular-view ">
                         <thead>
-                            <th className="text-left">#</th>
-                            <th width={`${seqwidth}%`}>Similar sequences</th>
-                            {hasName && <th width="15%" className="text-left">Species</th>}
-                            {!this.props.imported_xml && <th width="15%" className="text-right">Query coverage (%)</th>}
-                            <th width="10%" className="text-right">Total score</th>
-                            <th width="10%" className="text-right">E value</th>
-                            <th width="10%" className="text-right">Identity (%)</th>
+                            <tr>
+                                <th className="text-left">#</th>
+                                <th width={`${seqwidth}%`}>Similar sequences</th>
+                                {hasName && <th width="15%" className="text-left">Species</th>}
+                                {!this.props.imported_xml && <th width="15%" className="text-right">Query coverage (%)</th>}
+                                <th width="10%" className="text-right">Total score</th>
+                                <th width="10%" className="text-right">E value</th>
+                                <th width="10%" className="text-right">Identity (%)</th>
+                            </tr>
                         </thead>
                         <tbody>
                             {
