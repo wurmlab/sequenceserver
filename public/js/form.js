@@ -69,6 +69,11 @@ export class Form extends Component {
                 $button.trigger('click');
             }
         });
+
+        // show overlay to create visual feedback on button click 
+        $('#method').on('click', () => {
+            $('#overlay').css('display', 'block');
+        });
     }
 
     useTreeWidget() {
@@ -155,6 +160,7 @@ export class Form extends Component {
     render() {
         return (
             <div className="container">
+                <div id="overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vw', background: 'rgba(0, 0, 0, 0.2)', display: 'none', zIndex: 99 }} />
                 <form id="blast" method="post" className="form-horizontal">
                     <div className="form-group query-container">
                         <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
