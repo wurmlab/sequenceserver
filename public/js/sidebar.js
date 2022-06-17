@@ -20,6 +20,7 @@ export default class extends Component {
         this.summaryString = this.summaryString.bind(this);
         this.indexJSX = this.indexJSX.bind(this);
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
+        this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -230,11 +231,34 @@ export default class extends Component {
             </div>
         );
     }
+
+    sharingPanelJSX() {
+        return (
+            <div className="sharing-panel">
+                <div className="section-header-sidebar">
+                    <h4>
+                        Share results
+                    </h4>
+                </div>
+                <ul className="nav">
+                    {
+                        <li>
+                            <a className="btn-link cloud-Share cursor-pointer" data-toggle="tooltip"
+                                title="Share to cloud">
+                                <i className="fa fa-cloud"></i> Share to cloud
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        );
+    }
     render() {
         return (
             <div className="sidebar">
                 {this.topPanelJSX()}
                 {this.downloadsPanelJSX()}
+                {this.sharingPanelJSX()}
             </div>
         );
     }
