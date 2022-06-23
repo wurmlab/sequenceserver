@@ -244,7 +244,7 @@ export default class extends Component {
                     {
                         <li>
                             <a className="btn-link cloud-Share cursor-pointer" data-toggle="tooltip"
-                                title="Share to cloud">
+                                title="Share to cloud" href= {'/cloudShare/'+ this.props.data.search_id}>
                                 <i className="fa fa-cloud"></i> Share to cloud
                             </a>
                         </li>

@@ -149,6 +149,17 @@ module SequenceServer
       send_file out.file, filename: out.filename, type: out.mime
     end
 
+    # Copies the job into another folder
+    get '/cloudShare/:jid' do |jid|
+      system("echo Copying job to cloudJobs...")
+
+      # copy works. Now we need the actual job folder
+      job = Job.fetch(jid)
+      system("cp -a ~/.sequenceserver/#{job.id} #{cloud_dir}")
+      system("echo Done!")
+      redirect to("/#{job.id}")
+    end
+
     # Catches any exception raised within the app and returns JSON
     # representation of the error:
     # {
@@ -219,6 +230,11 @@ module SequenceServer
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end
+    end
+
+    # Folder to store job in route to cloud
+    def cloud_dir
+      File.expand_path('~/cloudJobs').freeze
     end
   end
 end
