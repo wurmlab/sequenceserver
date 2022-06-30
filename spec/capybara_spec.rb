@@ -201,7 +201,7 @@ describe 'a browser', type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('sequenceserver-xml_report.xml')
     clear_downloads
   end
-
+  
   it 'can show hit sequences in a modal' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
