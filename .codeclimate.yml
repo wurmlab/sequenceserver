@@ -17,8 +17,9 @@ plugins:
     enabled: true
   duplication:
     enabled: true
+    # exclude_patterns:
+    # - public/js/sidebar.js
     config:
-      # the following two lines are for debugging
       # dump_ast: true
       # debug: true
       languages:
@@ -28,13 +29,11 @@ plugins:
           # Statement node with anything in it, with an AssignmentExpression node with any
           #  value etc...
           filters:
-          - "(BlockStatement(body(ExpressionStatement(_(AssignmentExpression _(_(MemberExpression\
+          - "(ExpressionStatement(_(AssignmentExpression _(_(MemberExpression\
           (_(_ _))(_(_ _))_))(_(MemberExpression(_(_ _))(_(_ _))_)))))(ExpressionStatement\
           (_(AssignmentExpression _(_(MemberExpression(_ (_ _)) (_ (_ _)) _))(_(_ (_ (_ _))\
           (_ (_ _))_)))))(ExpressionStatement(_(CallExpression(_(MemberExpression(_ (_ _))\
-          (_ (_ _))_))(_ (_ _))))))(_))"
-        ruby:
-          mass_threshold: 35    
+          (_ (_ _))_))(_ (_ _)))))(_)"
 exclude_patterns:
 - public/css/sequenceserver.min.css
 - public/sequenceserver-*.min.js
