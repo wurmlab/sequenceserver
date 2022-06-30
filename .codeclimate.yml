@@ -1,9 +1,6 @@
 ---
 version: "2"
 checks:
-  similar-code:
-    config:
-      threshold: 80
   file-lines:
     config:
       threshold: 1000
@@ -18,6 +15,25 @@ plugins:
     enabled: true
   stylelint:
     enabled: true
+  duplication:
+    enabled: true
+    # exclude_patterns:
+    # - public/js/sidebar.js
+    config:
+      # dump_ast: true
+      # debug: true
+      languages:
+        javascript:
+          # Filter for sidebar.js to prevent duplication call by the following pattern
+          # Reads like this: "Any BlockStatement node, with a body and an Expression
+          # Statement node with anything in it, with an AssignmentExpression node with any
+          #  value etc...
+          filters:
+          - "(BlockStatement(body(ExpressionStatement(_(AssignmentExpression _(_(MemberExpression\
+          (_(_ _))(_(_ _))_))(_(MemberExpression(_(_ _))(_(_ _))_)))))(ExpressionStatement\
+          (_(AssignmentExpression _(_(MemberExpression(_ (_ _)) (_ (_ _)) _))(_(_ (_ (_ _))\
+          (_ (_ _))_)))))(ExpressionStatement(_(CallExpression(_(MemberExpression(_ (_ _))\
+          (_ (_ _))_))(_ (_ _))))))(_))"
 exclude_patterns:
 - public/css/sequenceserver.min.css
 - public/sequenceserver-*.min.js
