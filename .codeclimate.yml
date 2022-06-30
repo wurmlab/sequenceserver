@@ -17,8 +17,6 @@ plugins:
     enabled: true
   duplication:
     enabled: true
-    # exclude_patterns:
-    # - public/js/sidebar.js
     config:
       # dump_ast: true
       # debug: true
