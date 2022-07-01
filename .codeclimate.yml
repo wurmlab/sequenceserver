@@ -17,25 +17,38 @@ plugins:
     enabled: true
   duplication:
     enabled: true
-    # exclude_patterns:
-    # - public/js/sidebar.js
+    # dump_ast and debug are optional for debugging to show the parsing tree
     config:
       # dump_ast: true
       # debug: true
       languages:
         javascript:
           # Filter for sidebar.js to prevent duplication call by the following pattern
-          # Reads like this: "Any BlockStatement node, with a body and an Expression
-          # Statement node with anything in it, with an AssignmentExpression node with any
-          #  value etc...
+          # Reads like this: "An ExpressionStatement node, with a expression node and an
+          # AssignmentExpression node with any value, that contains a left MemberExpression node
+          # with an object and any Identifier and a property with any Identifier plus a right
+          # MemberExpression node with an object and any Identifier and a property with any Identifier
           filters:
-          - "(BlockStatement(_(ExpressionStatement(_(AssignmentExpression _(_(MemberExpression\
-          (_(_ _))(_(_ _))_))(_(MemberExpression(_(_ _))(_(_ _))_)))))(ExpressionStatement\
-          (_(AssignmentExpression _(_(MemberExpression(_ (_ _)) (_ (_ _)) _))(_(_ (_ (_ _))\
-          (_ (_ _))_)))))(ExpressionStatement(_(CallExpression(_(MemberExpression(_ (_ _))\
-          (_ (_ _))_))(_ (_ _))))))(_))"
+          - "(ExpressionStatement (expression (AssignmentExpression _ (left(MemberExpression\
+          (object (Identifier _))(property (Identifier _))false))(right(MemberExpression(object\
+          (Identifier _))(property (Identifier _))false)))))"
+
+          # Filter parsing tree explicitly for the generate_fasta function inside alignment_exporter.js
+          # to prevent duplication call
+          - "(ExpressionStatement(expression(AssignmentExpression _(left(Identifier _))(right\
+          (BinaryExpression(left(BinaryExpression(left(BinaryExpression(left(BinaryExpression(left(BinaryExpression\
+          (left(BinaryExpression(left(BinaryExpression(left(BinaryExpression(left(BinaryExpression(left(BinaryExpression(left\
+          (StringLiteral _ _ _))_(right(MemberExpression(object (Identifier _))(property (Identifier _))false))))_(right\
+          (StringLiteral _ _ _))))_(right(MemberExpression(object (Identifier _))(property (Identifier _))false))))_(right\
+          (StringLiteral _ _ _))))_(right(MemberExpression(object (Identifier _))(property (Identifier _))false))))_(right\
+          (StringLiteral _ _ _))))_(right(MemberExpression(object (Identifier _))(property (Identifier _))false))))_\
+          (right, (StringLiteral _ _ _))))_(right(CallExpression(callee (Identifier _))(arguments(MemberExpression\
+          (object (Identifier _))(property (Identifier _))false))))))_(right (StringLiteral _ _ _)))))))"
+
+          # 45 is default from codeclimate as long as there is no explicit reason to change, we should keep it
           mass_threshold: 45
         ruby:
+          # default from codeclimate
           mass_threshold: 25
 exclude_patterns:
 - public/css/sequenceserver.min.css
