@@ -187,9 +187,10 @@ module SequenceServer
 
     get '/cloudSharePost/:jid' do
       erb :report, layout: true
+      # redirect back
     end
 
-    ## get with :jid to simplify posting -trying it out with working method
+    ## get with :jid to simplify posting -trying it out with working method. Only works when get. No problem.
     post '/cloudSharePost/:jid' do 
       jobby = params['jid']
       puts "This is the job: #{jobby}"
@@ -208,8 +209,6 @@ module SequenceServer
        redirect_to("/#{job.id}")
       
     end
-
-    
 
   post '/:jid', host_name: 'antgenomes.sequenceserver.com'  do 
       job = params["jid"]
