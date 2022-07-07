@@ -271,7 +271,7 @@ export default class extends Component {
                             <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
                                 title="Post to cloud" href= "#"
                                 onClick = {this.shareToCloud}>
-                                <i className="fa fa-cloud"></i> Post to cloud new
+                                <i className="fa fa-cloud"></i> Post to cloud
                             </a>
                         </li>
                     }
@@ -279,7 +279,7 @@ export default class extends Component {
                         <li>
                             <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
                                 title="Post to cloud new" href= {'/cloudSharePost/' + this.props.data.search_id}>
-                                <i className="fa fa-cloud"></i> SIMPLE POST
+                                <i className="fa fa-cloud"></i> Post with :jid
                             </a>
                         </li>
                     }
@@ -287,7 +287,7 @@ export default class extends Component {
                         <li>
                             <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
                                 title="Post to cloud new" href= {'https://antgenomes.sequenceserver.com/' + this.props.data.search_id}>
-                                <i className="fa fa-email"></i> Cloud service
+                                <i className="fa fa-email"></i> Post to cloud service
                             </a>
                         </li>
                     }
