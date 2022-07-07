@@ -151,14 +151,72 @@ module SequenceServer
 
     # Copies the job into another folder
     get '/cloudShare/:jid' do |jid|
-      system("echo Copying job to cloudJobs...")
-
-      # copy works. Now we need the actual job folder
+      
+      puts "Copying job to cloudJobs..."
       job = Job.fetch(jid)
       system("cp -a ~/.sequenceserver/#{job.id} #{cloud_dir}")
-      system("echo Done!")
+      puts "Done!"
       redirect to("/#{job.id}")
     end
+    
+    # POSTS the folder of the job ID to the server. 
+    post '/SharePost' do 
+      # sinatra_job_id does have what it should from front end. 
+      
+      #gets job
+      jobID = params["sinatra_job_id"]
+      puts "This is the jobID: #{jobID}"
+      job = Job.fetch(jobID)
+      puts "Job was fetched"
+
+      # defines path of the yaml file
+      ruta = File.join(job_dir,job.id,"job.yaml")
+      puts "this is the path #{ruta}"
+
+      ## send file doesnt work  testing path - file doesnt exist. problem is path
+      puts "Copying job to cloudJobs..."
+      system("cp -a #{ruta} #{cloud_dir}")
+      puts "Done!"
+
+      send_file(ruta)
+      # redirect to ("/#{jobID}")
+      redirect back
+      
+      # send_file
+      # see download fasta button for how this is done
+      # all JS post might not be necessary - next step is send file 
+    end
+
+    get '/SharePost' do
+      erb :report, layout: true
+    end
+
+
+    ## get with :jid to simplify posting -trying it out with working method
+    get '/cloudSharePost/:jid' do 
+      jobby = params['jid']
+      puts "This is the job: #{jobby}"
+      job = Job.fetch(jobby)
+      puts "Job was fetched"
+      
+      # path = "~/.sequenceserver/#{job.id}"
+      # ruta = File.join(job_dir,job.id)
+      ruta = File.join(job_dir,job.id,"job.yaml")
+      puts "this is the path #{ruta}"
+    
+      
+      # send_file (ruta, filename: job.id)
+
+       redirect back
+      
+    end
+
+  post '/:jid', host_name: 'antgenomes.sequenceserver.com'  do 
+      job = params["jid"]
+      file = File.join(job_dir,job.id,"job.yaml")
+      send_file(file)
+      redirect_to("https://antgenomes.sequenceserver.com/#{job.id}")
+  end     
 
     # Catches any exception raised within the app and returns JSON
     # representation of the error:
@@ -235,6 +293,11 @@ module SequenceServer
     # Folder to store job in route to cloud
     def cloud_dir
       File.expand_path('~/cloudJobs').freeze
+    end
+
+    # Job Folder 
+    def job_dir
+      File.expand_path('~/.sequenceserver')
     end
   end
 end

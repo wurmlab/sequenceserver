@@ -21,6 +21,8 @@ export default class extends Component {
         this.indexJSX = this.indexJSX.bind(this);
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
+        //bind the function that POSTs the job ID.
+        this.shareToCloud = this.shareToCloud.bind(this);
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -99,6 +101,20 @@ export default class extends Component {
         }, this));
         aln_exporter.export_alignments(hsps_arr, 'alignment-' + sequence_ids.length + '_hits');
         return false;
+    }
+
+    // Create a function that POSTS the ID of the job
+    shareToCloud() {
+        var form = $('<form/>').attr('method', 'post').attr('action', 'SharePost');
+        var jobID = this.props.data.search_id;
+        addField('sinatra_job_id',jobID);
+        form.appendTo('body').submit().remove();
+
+        function addField(name, val) {
+            form.append(
+                $('<input>').attr('type', 'hidden').attr('name', name).val(val)
+            );
+        }
     }
 
     topPanelJSX() {
@@ -244,8 +260,34 @@ export default class extends Component {
                     {
                         <li>
                             <a className="btn-link cloud-Share cursor-pointer" data-toggle="tooltip"
-                                title="Share to cloud" href= {'/cloudShare/'+ this.props.data.search_id}>
+                                title="Click to share these results with a non-user of SequenceServer"
+                                href= {'/cloudShare/'+ this.props.data.search_id}>
                                 <i className="fa fa-cloud"></i> Share to cloud
+                            </a>
+                        </li>
+                    }
+                    {
+                        <li>
+                            <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
+                                title="Post to cloud" href= "#"
+                                onClick = {this.shareToCloud}>
+                                <i className="fa fa-cloud"></i> Post to cloud new
+                            </a>
+                        </li>
+                    }
+                    {
+                        <li>
+                            <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
+                                title="Post to cloud new" href= {'/cloudSharePost/' + this.props.data.search_id}>
+                                <i className="fa fa-cloud"></i> SIMPLE POST
+                            </a>
+                        </li>
+                    }
+                    {
+                        <li>
+                            <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
+                                title="Post to cloud new" href= {'https://antgenomes.sequenceserver.com/' + this.props.data.search_id}>
+                                <i className="fa fa-email"></i> Cloud service
                             </a>
                         </li>
                     }
