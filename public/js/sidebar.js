@@ -20,6 +20,20 @@ export default class extends Component {
         this.summaryString = this.summaryString.bind(this);
         this.indexJSX = this.indexJSX.bind(this);
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
+        this.handleQueryIndexChange = this.handleQueryIndexChange.bind(this);
+        this.state = {
+            queryIndex: 0
+        };
+    }
+
+    componentDidMount() {
+        //keep track of the current queryIndex so it doesn't get lost on page reload
+        const urlMatch = window.location.href.match(/#Query_(\d+)/);
+        if (urlMatch && urlMatch.length > 1) {
+            const queryNumber = +urlMatch[1];
+            const index = this.props.data.queries.findIndex(query => query.number === queryNumber);
+            this.setState({ queryIndex: Math.max(0, index) });
+        }
         this.copyURL = this.copyURL.bind(this);
         this.mailtoLink = this.mailtoLink.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
@@ -34,7 +48,20 @@ export default class extends Component {
     clearSession() {
         sessionStorage.clear();
     }
-
+    /**
+     * 
+     * handle next and previous query button clicks
+     */
+    handleQueryIndexChange(nextQuery) {
+        if (nextQuery < 0 || nextQuery > this.props.data.queries.length - 1) return;
+        const anchorEl = document.createElement('a');
+        anchorEl.setAttribute('href', '#Query_' + this.props.data.queries[nextQuery].number);
+        anchorEl.setAttribute('hidden', true);
+        document.body.appendChild(anchorEl);
+        anchorEl.click();
+        document.body.removeChild(anchorEl);
+        this.setState({ queryIndex: nextQuery });
+    }
     /**
      * Event-handler for downloading fasta of all hits.
      */
@@ -181,6 +208,7 @@ export default class extends Component {
                         {this.summaryString()}
                     </h4>
                 </div>
+                {this.props.data.queries.length > 12 && this.queryIndexButtons()}
                 <div>
                     <a href={`${rootURL}/?job_id=${job_id}`}>
                         <i className="fa fa-pencil"></i> Edit search
@@ -208,6 +236,16 @@ export default class extends Component {
         );
     }
 
+    queryIndexButtons() {
+        const buttonStyle = {
+            outline: 'none', border: 'none', background: 'none'
+        };
+        return <div style={{ display: 'flex', width: '100%', }}>
+            <button className="btn-link nowrap-ellipsis hover-bold" disabled={this.state.queryIndex === 0} style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex - 1)}>Previous query</button>
+            <span className="line">|</span>
+            <button className="btn-link nowrap-ellipsis hover-bold" disabled={this.state.queryIndex === this.props.data.queries.length - 1} style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex + 1)}>Next query</button>
+        </div>;
+    }
     indexJSX() {
         return <ul className="nav hover-reset active-bold"> {
             _.map(this.props.data.queries, (query) => {
