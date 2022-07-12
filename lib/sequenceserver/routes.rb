@@ -212,10 +212,17 @@ module SequenceServer
 
   post '/:jid', host_name: 'antgenomes.sequenceserver.com'  do 
       job = params["jid"]
+      puts "TESTING POST"
       file = File.join(job_dir,job.id,"job.yaml")
       send_file(file)
-      redirect_to("https://antgenomes.sequenceserver.com/#{job.id}")
-  end     
+      # redirect_to("https://antgenomes.sequenceserver.com/#{job.id}")
+  end 
+  
+  get '/:jid', host_name: 'antgenomes.sequenceserver.com'  do 
+    puts "GET job form antgenomes"
+    # redirect_to("https://antgenomes.sequenceserver.com/#{job.id}")
+  end
+
 
     # Catches any exception raised within the app and returns JSON
     # representation of the error:
