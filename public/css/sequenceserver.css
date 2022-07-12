@@ -519,8 +519,10 @@ input[type=checkbox] {
 }
 
 .hsp-stats {
-  font-size: 12px;
+  font-size: 13px;
+  letter-spacing: 0.7px;
   color: #5f5f5f;
+  font-weight: 600;
 }
 
 .hsp-lines {
