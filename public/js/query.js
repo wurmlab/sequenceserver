@@ -296,11 +296,12 @@ export class SearchQueryWidget extends Component {
         if (type) {
             $('#' + type + '-sequence-notification').show('drop', { direction: 'up' }).addClass('active');
 
-            this.notification_timeout = setTimeout(function () {
-                $('.notifications .active').hide('drop', { direction: 'up' }).removeClass('active');
-            }, 5000);
-
-            if (type === 'mixed') {
+            //hide notification after 5s only for non-mixed sequences
+            if (type !== 'mixed') {
+                this.notification_timeout = setTimeout(function () {
+                    $('.notifications .active').hide('drop', { direction: 'up' }).removeClass('active');
+                }, 5000);
+            } else {
                 this.indicateError();
             }
         }
