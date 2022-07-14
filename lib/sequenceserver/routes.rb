@@ -1,12 +1,14 @@
 require 'json'
 require 'tilt/erb'
 require 'sinatra/base'
+require 'rest-client'
 
 require 'sequenceserver/job'
 require 'sequenceserver/blast'
 require 'sequenceserver/report'
 require 'sequenceserver/database'
 require 'sequenceserver/sequence'
+require 'sequenceserver/server'
 
 module SequenceServer
   # Controller.
@@ -192,9 +194,9 @@ module SequenceServer
 
     ## get with :jid to simplify posting -trying it out with working method. Only works when get. No problem.
     post '/cloudSharePost/:jid' do 
-      jobby = params['jid']
-      puts "This is the job: #{jobby}"
-      job = Job.fetch(jobby)
+      jid = params['jid']
+      puts "This is the job: #{jid}"
+      job = Job.fetch(jid)
       puts "Job was fetched"
       
        # defines path of the yaml file
@@ -209,18 +211,47 @@ module SequenceServer
        redirect_to("/#{job.id}")
       
     end
+ 
+  # get '/:jid', host_name: 'antgenomes.sequenceserver.com'  do 
+  #   puts "GET job form antgenomes"
+  #    redirect_to("https://antgenomes.sequenceserver.com/#{job.id}")
+  # end
 
-  post '/:jid', host_name: 'antgenomes.sequenceserver.com'  do 
-      job = params["jid"]
-      puts "TESTING POST"
-      file = File.join(job_dir,job.id,"job.yaml")
-      send_file(file)
-      # redirect_to("https://antgenomes.sequenceserver.com/#{job.id}")
-  end 
+
+  # Runs results in another port
+  # get '/switchPort/:jid' do
+  #   jid = params["jid"]
+  #   job = Job.fetch(jid)
+  #   system("echo Hello there")
+  #   puts "Executing in port 9293"
+  #   # Run on another terminal? 
+  #   system("bundle exec bin/sequenceserver -p 9293")
+  #   redirect to("/http://localhost:9293/#{job.id}")
+    
+  # end
+
+  get '/switchPort/:jid' do |jid|
+    job = Job.fetch(jid)
+    puts "This is the job #{job.id}"
+    send_job(job.id)
+    puts "Your job was sent"
+    # return "Your job was sent, you will be redirected back to your results"
+    sleep 5
+    redirect to("/#{job.id}")
+
+  end
   
-  get '/:jid', host_name: 'antgenomes.sequenceserver.com'  do 
-    puts "GET job form antgenomes"
-    # redirect_to("https://antgenomes.sequenceserver.com/#{job.id}")
+  # Sends a post request to the specified URL with a job.yaml file
+  # e.response and img can be debugged using pry (see e.response.methods)
+
+  def send_job(job_ID)
+    begin
+      img =  RestClient.post('http://localhost:4567/image',
+        :myfile  => File.new(File.join(job_dir,job_ID,'job.yaml'),'rb'))
+  
+    rescue RestClient::ExceptionWithResponse => e
+      e.response
+    end
   end
 
 

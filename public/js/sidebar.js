@@ -291,6 +291,14 @@ export default class extends Component {
                             </a>
                         </li>
                     }
+                    {
+                        <li>
+                            <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
+                                title="Post to cloud new" href={'/switchPort/' + this.props.data.search_id}>
+                                <i className="fa fa-fort-awesome"></i> Post to Port
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         );
