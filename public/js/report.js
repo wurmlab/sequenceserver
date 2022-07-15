@@ -171,10 +171,7 @@ class Report extends Component {
    * and circos would have been rendered at this point. At this stage we kick
    * start iteratively adding 1 HSP to the page every 25 milli-seconds.
    */
-    componentDidUpdate(props, state) {
-        if (this.getDatabaseListString() !== this.getDatabaseListString(state.querydb)) {
-            this.setState({ databasesList: this.getDatabaseListString().substring(0, this.maxDatabasesStringLength) + '...' });
-        }
+    componentDidUpdate() {
         // Log to console how long the last update take?
         console.log((Date.now() - this.lastTimeStamp) / 1000);
 
@@ -347,6 +344,7 @@ class Report extends Component {
             </div>
         );
     }
+
     getDatabaseListString(querydb = this.state.querydb) {
         return querydb
             .map((db) => {
@@ -354,12 +352,14 @@ class Report extends Component {
             })
             .join(', ');
     }
+
     toggleShowDatabases() {
         const databases = this.state.showMore ? `${this.getDatabaseListString().substring(0, this.maxDatabasesStringLength)}...` : `${this.getDatabaseListString()}`;
         this.setState({ databasesList: databases, showMore: !this.state.showMore });
     }
+
     renderToggleDatabasesList() {
-        return <span onClick={this.toggleShowDatabases}>{this.state.databasesList}<span style={{ cursor: 'pointer' }} className="btn-link hover-bold">&nbsp;&nbsp;{this.state.showMore ? 'Show Less' : 'Show More'}</span></span>;
+        return <span onClick={this.toggleShowDatabases}>{this.state.databasesList || this.getDatabaseListString().substring(0, this.maxDatabasesStringLength) + '...'}<span style={{ cursor: 'pointer' }} className="btn-link hover-bold">&nbsp;&nbsp;{this.state.showMore ? 'Show Less' : 'Show More'}</span></span>;
     }
     /**
    * Renders report overview.
