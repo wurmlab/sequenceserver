@@ -4,7 +4,7 @@ PATH
     sequenceserver (2.0.0)
       json_pure (~> 1.8, >= 1.8.2)
       ox (~> 2.1, >= 2.1.1)
-      rest-client
+      rest-client (~> 2.1.0)
       sinatra (~> 2.0, >= 2.0.0)
       slop (~> 3.6, >= 3.6.0)
 

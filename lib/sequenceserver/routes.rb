@@ -212,42 +212,32 @@ module SequenceServer
       
     end
  
-  # get '/:jid', host_name: 'antgenomes.sequenceserver.com'  do 
-  #   puts "GET job form antgenomes"
-  #    redirect_to("https://antgenomes.sequenceserver.com/#{job.id}")
-  # end
-
-
-  # Runs results in another port
-  # get '/switchPort/:jid' do
-  #   jid = params["jid"]
-  #   job = Job.fetch(jid)
-  #   system("echo Hello there")
-  #   puts "Executing in port 9293"
-  #   # Run on another terminal? 
-  #   system("bundle exec bin/sequenceserver -p 9293")
-  #   redirect to("/http://localhost:9293/#{job.id}")
-    
-  # end
 
   get '/switchPort/:jid' do |jid|
     job = Job.fetch(jid)
     puts "This is the job #{job.id}"
     send_job(job.id)
     puts "Your job was sent"
-    # return "Your job was sent, you will be redirected back to your results"
+    "Your job was sent, you will be redirected back to your results"
     sleep 5
     redirect to("/#{job.id}")
-
   end
+
   
   # Sends a post request to the specified URL with a job.yaml file
   # e.response and img can be debugged using pry (see e.response.methods)
 
   def send_job(job_ID)
     begin
-      img =  RestClient.post('http://localhost:4567/image',
-        :myfile  => File.new(File.join(job_dir,job_ID,'job.yaml'),'rb'))
+      cloudJob =  RestClient.post('http://localhost:4567/image',
+        :jobid => job_ID,
+        :myjob  => File.new(File.join(job_dir,job_ID,'job.yaml'),'rb'),
+        :myquery => File.new(File.join(job_dir,job_ID,'query.fa'),'rb'),
+        :tsvReport => File.new(File.join(job_dir,job_ID,'sequenceserver-custom_tsv_report.tsv'),'rb'),
+        :xmlReport => File.new(File.join(job_dir,job_ID,'sequenceserver-xml_report.xml'),'rb'),
+        :stderr => File.new(File.join(job_dir,job_ID,'stderr'),'rb'),
+        :stdout => File.new(File.join(job_dir,job_ID,'stdout'),'rb')
+      )
   
     rescue RestClient::ExceptionWithResponse => e
       e.response
@@ -334,7 +324,7 @@ module SequenceServer
 
     # Job Folder 
     def job_dir
-      File.expand_path('~/.sequenceserver')
+      File.expand_path('~/.sequenceserver').freeze
     end
   end
 end
