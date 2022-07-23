@@ -23,6 +23,7 @@ export default class extends Component {
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
         //bind the function that POSTs the job ID.
         this.shareToCloud = this.shareToCloud.bind(this);
+        this.shareCloudEmail = this.shareCloudEmail.bind(this);
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -107,7 +108,7 @@ export default class extends Component {
     shareToCloud() {
         var form = $('<form/>').attr('method', 'post').attr('action', 'SharePost');
         var jobID = this.props.data.search_id;
-        addField('sinatra_job_id',jobID);
+        addField('id',jobID);
         form.appendTo('body').submit().remove();
 
         function addField(name, val) {
@@ -115,6 +116,29 @@ export default class extends Component {
                 $('<input>').attr('type', 'hidden').attr('name', name).val(val)
             );
         }
+    }
+
+    shareCloudEmail() {
+        let emails = prompt("Please insert the email address(es) to share these results. Use a ',' to separate each email");
+        let emailList = emails.split(',');
+        // check emais with regex
+        // href to generate the post
+        //create post request: job id and list of emails. Receive at the other end. 
+
+       
+        var form = $('<form/>').attr('method', 'post').attr('action', 'switchPort');
+        var jobID = this.props.data.search_id;
+        addField('id',jobID);
+        addField('emails', emailList);
+        form.appendTo('body').submit().remove();
+
+        function addField(name, val) {
+            form.append(
+                $('<input>').attr('type', 'hidden').attr('name', name).val(val)
+            );
+        }
+        
+        console.log(emailList)
     }
 
     topPanelJSX() {
@@ -286,8 +310,8 @@ export default class extends Component {
                     {
                         <li>
                             <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                title="Post to cloud new" href= {'https://antgenomes.sequenceserver.com/' + this.props.data.search_id}>
-                                <i className="fa fa-bug"></i> Post to cloud service
+                                title="Post to cloud new" onClick = {this.shareCloudEmail} href = '#'>
+                                <i className="fa fa-bug"></i> Takes emails
                             </a>
                         </li>
                     }

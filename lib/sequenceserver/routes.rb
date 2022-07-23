@@ -212,38 +212,70 @@ module SequenceServer
       
     end
  
-
+  # Deprecated
   get '/switchPort/:jid' do |jid|
     job = Job.fetch(jid)
     puts "This is the job #{job.id}"
     send_job(job.id)
     puts "Your job was sent"
-    "Your job was sent, you will be redirected back to your results"
-    sleep 5
-    redirect to("/#{job.id}")
+    # sleep 5
+    # redirect to("/#{job.id}")
+    # flash[:jid] = "Yo were feeling blah at the time"
+    # flash[:jid]
+  end
+
+  post'/switchPort' do
+  
+    identif = params['id']
+    emails = params['emails']
+
+    # get job directory
+    job = Job.fetch(identif)
+    puts "Sending job..."
+
+    send_job(job.id,emails)
+
+    #Response
+    puts "Done"
+
+
   end
 
   
   # Sends a post request to the specified URL with a job.yaml file
   # e.response and img can be debugged using pry (see e.response.methods)
 
-  def send_job(job_ID)
-    begin
-      cloudJob =  RestClient.post('http://localhost:4567/image',
-        :jobid => job_ID,
-        :myjob  => File.new(File.join(job_dir,job_ID,'job.yaml'),'rb'),
-        :myquery => File.new(File.join(job_dir,job_ID,'query.fa'),'rb'),
-        :tsvReport => File.new(File.join(job_dir,job_ID,'sequenceserver-custom_tsv_report.tsv'),'rb'),
-        :xmlReport => File.new(File.join(job_dir,job_ID,'sequenceserver-xml_report.xml'),'rb'),
-        :stderr => File.new(File.join(job_dir,job_ID,'stderr'),'rb'),
-        :stdout => File.new(File.join(job_dir,job_ID,'stdout'),'rb')
-      )
-  
-    rescue RestClient::ExceptionWithResponse => e
-      e.response
+  def send_job(job_ID, emailList)
+      cloudJob =  RestClient.post('http://localhost:4567/object',
+        {
+          payload: {
+            jobid: job_ID,
+            myjob: File.new(File.join(job_dir,job_ID,'job.yaml'),'rb'),
+            myquery: File.new(File.join(job_dir,job_ID,'query.fa'),'rb'),
+            tsvReport: File.new(File.join(job_dir,job_ID,'sequenceserver-custom_tsv_report.tsv'),'rb'),
+            xmlReport: File.new(File.join(job_dir,job_ID,'sequenceserver-xml_report.xml'),'rb'),
+            stderr: File.new(File.join(job_dir,job_ID,'stderr'),'rb'),
+            stdout: File.new(File.join(job_dir,job_ID,'stdout'),'rb')
+      },
+          headers: {
+            email: emailList
+            # other data we might require
+      }
+      }) do |response|
+        case response.code
+          # response.body
+          when 200
+          p 'Job Shared Successfully' unless response.body.include? 'Invalid' 
+          response.body
+          # response.body
+          when 500
+          # raise 'Invalid files were uploaded, check files and format. Check HTTP code 500 for more details.'
+          response.body
+          else
+          response.body
+        end
+      end
     end
-  end
-
 
     # Catches any exception raised within the app and returns JSON
     # representation of the error:
