@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'underscore';
+import _, { get } from 'underscore';
 
 import downloadFASTA from './download_fasta';
 import AlignmentExporter from './alignment_exporter'; // to download textual alignment
@@ -21,9 +21,7 @@ export default class extends Component {
         this.indexJSX = this.indexJSX.bind(this);
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
-        //bind the function that POSTs the job ID.
-        this.shareToCloud = this.shareToCloud.bind(this);
-        this.shareCloudEmail = this.shareCloudEmail.bind(this);
+        this.shareCloud = this.shareCloud.bind(this);
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -103,30 +101,18 @@ export default class extends Component {
         aln_exporter.export_alignments(hsps_arr, 'alignment-' + sequence_ids.length + '_hits');
         return false;
     }
-
-    // Create a function that POSTS the ID of the job
-    shareToCloud() {
-        var form = $('<form/>').attr('method', 'post').attr('action', 'SharePost');
-        var jobID = this.props.data.search_id;
-        addField('id',jobID);
-        form.appendTo('body').submit().remove();
-
-        function addField(name, val) {
-            form.append(
-                $('<input>').attr('type', 'hidden').attr('name', name).val(val)
-            );
-        }
-    }
-
-    shareCloudEmail() {
+    
+    shareCloud() {
+        
+        // Takes emails from the user into an array.
         let emails = prompt("Please insert the email address(es) to share these results. Use a ',' to separate each email");
         let emailList = emails.split(',');
-        // check emais with regex
-        // href to generate the post
-        //create post request: job id and list of emails. Receive at the other end. 
+        
 
-       
-        var form = $('<form/>').attr('method', 'post').attr('action', 'switchPort');
+       console.log("Creating form for post")
+
+       // Creates a form and posts the email list and job_id to the local server 
+        var form = $('<form/>').attr('method', 'post').attr('action', 'cloudShare');
         var jobID = this.props.data.search_id;
         addField('id',jobID);
         addField('emails', emailList);
@@ -136,9 +122,29 @@ export default class extends Component {
             form.append(
                 $('<input>').attr('type', 'hidden').attr('name', name).val(val)
             );
+
         }
+
+        console.log("Posted")
+
         
-        console.log(emailList)
+        // Fetches the response from the cloud server and displays an alert.
+        
+        // Function to request the response
+        function fetchResponse(){
+            var response = fetch('/response')
+                .then(resp => resp.json())
+                .then(data => alert(data +'\n You will be redirected to your results now'));
+            return response
+        }
+
+        // Delays the the request to the response to allow the cloud server to respond back.
+        setTimeout(()=>{
+            fetchResponse(),2000
+        });
+
+        console.log("Done fetching")
+
     }
 
     topPanelJSX() {
@@ -283,43 +289,9 @@ export default class extends Component {
                 <ul className="nav">
                     {
                         <li>
-                            <a className="btn-link cloud-Share cursor-pointer" data-toggle="tooltip"
-                                title="Click to share these results with a non-user of SequenceServer"
-                                href= {'/cloudShare/'+ this.props.data.search_id}>
-                                <i className="fa fa-cloud"></i> Share to cloud
-                            </a>
-                        </li>
-                    }
-                    {
-                        <li>
                             <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                title="Post to cloud" href= "#"
-                                onClick = {this.shareToCloud}>
-                                <i className="fa fa-cloud-upload"></i> Post to cloud
-                            </a>
-                        </li>
-                    }
-                    {
-                        <li>
-                            <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                title="Post to cloud new" href= {'/cloudSharePost/' + this.props.data.search_id}>
-                                <i className="fa fa-envelope"></i> Post with :jid
-                            </a>
-                        </li>
-                    }
-                    {
-                        <li>
-                            <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                title="Post to cloud new" onClick = {this.shareCloudEmail} href = '#'>
-                                <i className="fa fa-bug"></i> Takes emails
-                            </a>
-                        </li>
-                    }
-                    {
-                        <li>
-                            <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                title="Post to cloud new" href={'/switchPort/' + this.props.data.search_id}>
-                                <i className="fa fa-fort-awesome"></i> Post to Port
+                                href = '#' title="Post to cloud new" onClick = {this.shareCloud}>
+                                <i className="fa fa-cloud"></i> Share to Cloud
                             </a>
                         </li>
                     }

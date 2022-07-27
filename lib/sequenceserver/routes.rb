@@ -72,6 +72,13 @@ module SequenceServer
       erb :search, layout: true
     end
 
+    
+    get '/response' do
+      $response ||= 'No results have been submitted to the cloud'.to_json
+      puts "testing response"
+      $response
+    end
+
     # Returns data that is used to render the search form client side. These
     # include available databases and user-defined search options.
     get '/searchdata.json' do
@@ -151,130 +158,52 @@ module SequenceServer
       send_file out.file, filename: out.filename, type: out.mime
     end
 
-    # Copies the job into another folder
-    get '/cloudShare/:jid' do |jid|
-      
-      puts "Copying job to cloudJobs..."
-      job = Job.fetch(jid)
-      system("cp -a ~/.sequenceserver/#{job.id} #{cloud_dir}")
-      puts "Done!"
-      redirect to("/#{job.id}")
-    end
+    post'/cloudShare' do
+      # Initialize global variable to check status of job sharing
     
-    # Gets after posting the job id
-    get '/SharePost' do
-      erb :report, layout: true
+      # Extracts values from frontend
+      identif = params['id']
+      emails = params['emails']
+
+      # gets job directory
+      job = Job.fetch(identif)
+      puts "Sending job..."
+
+      # Sends job to server and stores it in the global variable
+      $response = send_job(job.id,emails)
+      puts "CloudSequenceServer says: #{$response}"
+
+      # sleep 2
+      #Response
+      puts "Done"
+
+      sleep 7
+      # Redirects user to original job
+      redirect to("/#{job.id}")
+      # redirect to("/cloudShareStatus/#{job.id}")
+      # redirect to ('/response')
     end
 
-    # POSTS the folder of the job ID to the server. WORKS
-    post '/SharePost' do 
-      # sinatra_job_id does have what it should from front end. 
-      
-      #gets job
-      jobID = params["sinatra_job_id"]
-      puts "This is the jobID: #{jobID}"
-      job = Job.fetch(jobID)
-      puts "Job was fetched"
-
-      # defines path of the yaml file
-      ruta = File.join(job_dir,job.id,"job.yaml")
-      puts "this is the path #{ruta}"
-
-      # Downloads file locally. 
-      send_file(ruta, filename: job.id)
-      # Redirects back to /jid
-      redirect back
-    end
-
-
-    get '/cloudSharePost/:jid' do
-      erb :report, layout: true
-      # redirect back
-    end
-
-    ## get with :jid to simplify posting -trying it out with working method. Only works when get. No problem.
-    post '/cloudSharePost/:jid' do 
-      jid = params['jid']
-      puts "This is the job: #{jid}"
-      job = Job.fetch(jid)
-      puts "Job was fetched"
-      
-       # defines path of the yaml file
-      ruta = File.join(job_dir,job.id,"job.yaml")
-      puts "this is the path #{ruta}"
-
-    #   # Downloads file locally. 
-      send_file(ruta)
-      puts 'Downloaded'
-
-    #   # Redirects back to /jid
-       redirect_to("/#{job.id}")
-      
-    end
- 
-  # Deprecated
-  get '/switchPort/:jid' do |jid|
-    job = Job.fetch(jid)
-    puts "This is the job #{job.id}"
-    send_job(job.id)
-    puts "Your job was sent"
-    # sleep 5
-    # redirect to("/#{job.id}")
-    # flash[:jid] = "Yo were feeling blah at the time"
-    # flash[:jid]
-  end
-
-  post'/switchPort' do
-  
-    identif = params['id']
-    emails = params['emails']
-
-    # get job directory
-    job = Job.fetch(identif)
-    puts "Sending job..."
-
-    send_job(job.id,emails)
-
-    #Response
-    puts "Done"
-
-
-  end
-
-  
-  # Sends a post request to the specified URL with a job.yaml file
-  # e.response and img can be debugged using pry (see e.response.methods)
-
-  def send_job(job_ID, emailList)
-      cloudJob =  RestClient.post('http://localhost:4567/object',
-        {
-          payload: {
-            jobid: job_ID,
-            myjob: File.new(File.join(job_dir,job_ID,'job.yaml'),'rb'),
-            myquery: File.new(File.join(job_dir,job_ID,'query.fa'),'rb'),
-            tsvReport: File.new(File.join(job_dir,job_ID,'sequenceserver-custom_tsv_report.tsv'),'rb'),
-            xmlReport: File.new(File.join(job_dir,job_ID,'sequenceserver-xml_report.xml'),'rb'),
-            stderr: File.new(File.join(job_dir,job_ID,'stderr'),'rb'),
-            stdout: File.new(File.join(job_dir,job_ID,'stdout'),'rb')
-      },
-          headers: {
-            email: emailList
-            # other data we might require
-      }
-      }) do |response|
-        case response.code
-          # response.body
-          when 200
-          p 'Job Shared Successfully' unless response.body.include? 'Invalid' 
-          response.body
-          # response.body
-          when 500
-          # raise 'Invalid files were uploaded, check files and format. Check HTTP code 500 for more details.'
-          response.body
-          else
-          response.body
+    # Helper function to send a POST request to the server. Returns a custom message with the status of the request
+    def send_job(job_ID, emailList)
+        cloudJob =  RestClient.post('http://localhost:4567/object',
+          {
+            payload: {
+              jobid: job_ID,
+              myjob: File.new(File.join(job_dir,job_ID,'job.yaml'),'rb'),
+              myquery: File.new(File.join(job_dir,job_ID,'query.fa'),'rb'),
+              tsvReport: File.new(File.join(job_dir,job_ID,'sequenceserver-custom_tsv_report.tsv'),'rb'),
+              xmlReport: File.new(File.join(job_dir,job_ID,'sequenceserver-xml_report.xml'),'rb'),
+              stderr: File.new(File.join(job_dir,job_ID,'stderr'),'rb'),
+              stdout: File.new(File.join(job_dir,job_ID,'stdout'),'rb')
+        },
+            headers: {
+              email: emailList
+              # other data we might require
+        }
+        }) do |response|
+          response.body.to_json
         end
-      end
     end
 
     # Catches any exception raised within the app and returns JSON
