@@ -72,11 +72,11 @@ module SequenceServer
       erb :search, layout: true
     end
 
-    
-    get '/response' do
-      $response ||= 'No results have been submitted to the cloud'.to_json
-      puts "testing response"
+    # Returns base HTML with the response of cloudShare POST request.
+    get '/response'do
+      $response ||= 'No results have been submitted to the cloud.'.to_json
       $response
+      erb :response, layout: true
     end
 
     # Returns data that is used to render the search form client side. These
@@ -171,21 +171,18 @@ module SequenceServer
 
       # Sends job to server and stores it in the global variable
       $response = send_job(job.id,emails)
-      puts "CloudSequenceServer says: #{$response}"
-
-      # sleep 2
-      #Response
+      puts
+      puts "Cloud server says: #{$response}"
       puts "Done"
+      puts "Thank you for using SequenceServer's cloud sharing feature :)" 
 
-      sleep 7
-      # Redirects user to original job
-      redirect to("/#{job.id}")
-      # redirect to("/cloudShareStatus/#{job.id}")
-      # redirect to ('/response')
+      # redirect user to see the response
+      redirect to ('/response')
     end
 
     # Helper function to send a POST request to the server. Returns a custom message with the status of the request
     def send_job(job_ID, emailList)
+      begin
         cloudJob =  RestClient.post('http://localhost:4567/object',
           {
             payload: {
@@ -202,8 +199,11 @@ module SequenceServer
               # other data we might require
         }
         }) do |response|
-          response.body.to_json
+            response.body.to_json
         end
+      rescue Errno::ECONNREFUSED
+        return "Whoops.. looks like the server is offline, please try again later.".to_json
+      end
     end
 
     # Catches any exception raised within the app and returns JSON

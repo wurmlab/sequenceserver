@@ -3,6 +3,9 @@ import _, { get } from 'underscore';
 
 import downloadFASTA from './download_fasta';
 import AlignmentExporter from './alignment_exporter'; // to download textual alignment
+import { data } from 'jquery';
+// import {getEmails, fetchResponse} from './share_to_cloud';
+
 
 /**
  * Renders links for downloading hit information in different formats.
@@ -22,6 +25,8 @@ export default class extends Component {
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
         this.shareCloud = this.shareCloud.bind(this);
+        this.getEmails = this.getEmails.bind(this);
+        this.fetchResponse = this.fetchResponse.bind(this);
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -102,49 +107,81 @@ export default class extends Component {
         return false;
     }
     
-    shareCloud() {
-        
-        // Takes emails from the user into an array.
+    getEmails() {
         let emails = prompt("Please insert the email address(es) to share these results. Use a ',' to separate each email");
         let emailList = emails.split(',');
-        
 
-       console.log("Creating form for post")
+        let invalidEmails = []
 
-       // Creates a form and posts the email list and job_id to the local server 
+        for (let i=0; i <= emailList.length; i++) {
+            if (/@/.test(emailList[i]) == false ) {
+              invalidEmails.push(emailList[i]);
+            }
+        }
+
+        if (invalidEmails.length > 0) {
+            return alert(`Invalid email address(es): ${invalidEmails}\nPlease try again.`);
+        }
+    
         var form = $('<form/>').attr('method', 'post').attr('action', 'cloudShare');
         var jobID = this.props.data.search_id;
-        addField('id',jobID);
+        addField('id', jobID);
         addField('emails', emailList);
         form.appendTo('body').submit().remove();
-
+    
         function addField(name, val) {
             form.append(
                 $('<input>').attr('type', 'hidden').attr('name', name).val(val)
             );
-
+    
         }
+        console.log(emails);
+        return emailList;
+    }
 
-        console.log("Posted")
+    fetchResponse(url) {
+        fetch(url)
+            .then(resp => resp.json())
+            .then(data => console.log(data));
+    }
+
+    shareCloud() {
+
+        // let respuestaInit = this.fetchResponse('/response');
+        // this.getEmails();
+        // let initPromise = new Promise(function(resolve,reject) {
+        //     while (respuestaInit == 'No results have been submitted to the cloud.'.json){
+        //         resolve (respuestaInit = this.fetchResponse('/response'));
+        //     }
+        // });
+        // initPromise.then(this.fetchResponse('/response'));
+
+        // Polling - based on: https://stackoverflow.com/questions/30505960/use-promise-to-wait-until-polled-condition-is-satisfied
 
         
-        // Fetches the response from the cloud server and displays an alert.
+        // let respuestaInit = this.fetchResponse('/response');
+        // this.getEmails();
+
+        // function ensureResponse() {
+        //     return new Promise(function (resolve, reject) {
+        //         (function waitResponse(){
+        //             if (respuestaInit != 'No results have been submitted to the cloud.') {
+        //                 console.log(respuestaInit)
+        //                 return resolve();
+        //             }
+        //             else {
+        //                 setTimeout(waitResponse, 30);
+        //             }
+                    
+        //         })();
+        //     });
+        // }
+
+        // ensureResponse();
+
+        this.getEmails();
+        setTimeout(this.fetchResponse('/response'), 2000)
         
-        // Function to request the response
-        function fetchResponse(){
-            var response = fetch('/response')
-                .then(resp => resp.json())
-                .then(data => alert(data +'\n You will be redirected to your results now'));
-            return response
-        }
-
-        // Delays the the request to the response to allow the cloud server to respond back.
-        setTimeout(()=>{
-            fetchResponse(),2000
-        });
-
-        console.log("Done fetching")
-
     }
 
     topPanelJSX() {
@@ -289,8 +326,8 @@ export default class extends Component {
                 <ul className="nav">
                     {
                         <li>
-                            <a className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                href = '#' title="Post to cloud new" onClick = {this.shareCloud}>
+                            <a href = '#' className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
+                                 title="Post to cloud new" onClick = {this.shareCloud}>
                                 <i className="fa fa-cloud"></i> Share to Cloud
                             </a>
                         </li>
