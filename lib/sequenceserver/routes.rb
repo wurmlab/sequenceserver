@@ -173,9 +173,9 @@ module SequenceServer
       $response = send_job(job.id,emails)
       puts
       puts "Cloud server says: #{$response}"
-      puts "Done"
-      puts "Thank you for using SequenceServer's cloud sharing feature :)" 
-
+      puts 'Done'
+      puts "Thank you for using SequenceServer's cloud sharing feature :)"
+      puts
       # redirect user to see the response
       redirect to ('/response')
     end

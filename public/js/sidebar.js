@@ -108,21 +108,20 @@ export default class extends Component {
     }
     
     getEmails() {
+        let invalidEmails = []
         let emails = prompt("Please insert the email address(es) to share these results. Use a ',' to separate each email");
         let emailList = emails.split(',');
 
-        let invalidEmails = []
-
-        for (let i=0; i <= emailList.length; i++) {
+        for (let i=0; i < emailList.length; i++) {
             if (/@/.test(emailList[i]) == false ) {
-              invalidEmails.push(emailList[i]);
-            }
+                invalidEmails.push(emailList[i]);
+            }   
         }
 
         if (invalidEmails.length > 0) {
-            return alert(`Invalid email address(es): ${invalidEmails}\nPlease try again.`);
+            return alert(`Invalid email adress(es): ${invalidEmails}.\nPlease try again.`);
         }
-    
+
         var form = $('<form/>').attr('method', 'post').attr('action', 'cloudShare');
         var jobID = this.props.data.search_id;
         addField('id', jobID);
@@ -135,8 +134,10 @@ export default class extends Component {
             );
     
         }
-        console.log(emails);
-        return emailList;
+            // console.log(emails);
+            // return emailList;
+        
+        
     }
 
     fetchResponse(url) {
@@ -180,8 +181,8 @@ export default class extends Component {
         // ensureResponse();
 
         this.getEmails();
-        setTimeout(this.fetchResponse('/response'), 2000)
-        
+        // setTimeout(this.fetchResponse('/response'), 2000) 
+        // if emails fails, this causes a JSON parse error because of the non JSON in response
     }
 
     topPanelJSX() {
