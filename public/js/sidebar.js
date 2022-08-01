@@ -107,7 +107,7 @@ export default class extends Component {
         return false;
     }
     
-    getEmails() {
+    getEmails(){
         let invalidEmails = []
         let emails = prompt("Please insert the email address(es) to share these results. Use a ',' to separate each email");
         let emailList = emails.split(',');
@@ -118,8 +118,8 @@ export default class extends Component {
             }   
         }
 
-        if (invalidEmails.length > 0) {
-            return alert(`Invalid email adress(es): ${invalidEmails}.\nPlease try again.`);
+        if (invalidEmails.length > 0 || emailList.length < 1 ) {
+            return alert(`Invalid email adress(es): ${invalidEmails}\nPlease try again.`);
         }
 
         var form = $('<form/>').attr('method', 'post').attr('action', 'cloudShare');

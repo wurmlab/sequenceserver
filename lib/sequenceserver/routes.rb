@@ -74,6 +74,7 @@ module SequenceServer
 
     # Returns base HTML with the response of cloudShare POST request.
     get '/response'do
+    # Initalises a global variable to update cloudShare status. 
       $response ||= 'No results have been submitted to the cloud.'.to_json
       $response
       erb :response, layout: true
@@ -159,7 +160,6 @@ module SequenceServer
     end
 
     post'/cloudShare' do
-      # Initialize global variable to check status of job sharing
     
       # Extracts values from frontend
       identif = params['id']
@@ -181,21 +181,21 @@ module SequenceServer
     end
 
     # Helper function to send a POST request to the server. Returns a custom message with the status of the request
-    def send_job(job_ID, emailList)
+    def send_job(job_id, email_list)
       begin
-        cloudJob =  RestClient.post('http://localhost:4567/object',
+        cloudJob =  RestClient.post('http://localhost:4567/shareResults',
           {
             payload: {
-              jobid: job_ID,
-              myjob: File.new(File.join(job_dir,job_ID,'job.yaml'),'rb'),
-              myquery: File.new(File.join(job_dir,job_ID,'query.fa'),'rb'),
-              tsvReport: File.new(File.join(job_dir,job_ID,'sequenceserver-custom_tsv_report.tsv'),'rb'),
-              xmlReport: File.new(File.join(job_dir,job_ID,'sequenceserver-xml_report.xml'),'rb'),
-              stderr: File.new(File.join(job_dir,job_ID,'stderr'),'rb'),
-              stdout: File.new(File.join(job_dir,job_ID,'stdout'),'rb')
+              jobid: job_id,
+              myjob: File.new(File.join(job_dir,job_id,'job.yaml'),'rb'),
+              myquery: File.new(File.join(job_dir,job_id,'query.fa'),'rb'),
+              tsvReport: File.new(File.join(job_dir,job_id,'sequenceserver-custom_tsv_report.tsv'),'rb'),
+              xmlReport: File.new(File.join(job_dir,job_id,'sequenceserver-xml_report.xml'),'rb'),
+              stderr: File.new(File.join(job_dir,job_id,'stderr'),'rb'),
+              stdout: File.new(File.join(job_dir,job_id,'stdout'),'rb')
         },
             headers: {
-              email: emailList
+              email: email_list
               # other data we might require
         }
         }) do |response|
