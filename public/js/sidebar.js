@@ -5,6 +5,7 @@ import downloadFASTA from './download_fasta';
 import AlignmentExporter from './alignment_exporter'; // to download textual alignment
 import { data } from 'jquery';
 // import {getEmails, fetchResponse} from './share_to_cloud';
+import  postValues  from './post_function';
 
 
 /**
@@ -106,38 +107,27 @@ export default class extends Component {
         aln_exporter.export_alignments(hsps_arr, 'alignment-' + sequence_ids.length + '_hits');
         return false;
     }
-    
+
+    // Requests user to input an array of emails to send the results over
     getEmails(){
         let invalidEmails = []
         let emails = prompt("Please insert the email address(es) to share these results. Use a ',' to separate each email");
         let emailList = emails.split(',');
 
+        // Checks every email for '@', if invalid, they are appended to an array. 
         for (let i=0; i < emailList.length; i++) {
             if (/@/.test(emailList[i]) == false ) {
                 invalidEmails.push(emailList[i]);
             }   
         }
 
+        // Checks for invalid emails or empty inputs. Notifies the user of the wrong inputs. 
         if (invalidEmails.length > 0 || emailList.length < 1 ) {
             return alert(`Invalid email adress(es): ${invalidEmails}\nPlease try again.`);
         }
 
-        var form = $('<form/>').attr('method', 'post').attr('action', 'cloudShare');
-        var jobID = this.props.data.search_id;
-        addField('id', jobID);
-        addField('emails', emailList);
-        form.appendTo('body').submit().remove();
-    
-        function addField(name, val) {
-            form.append(
-                $('<input>').attr('type', 'hidden').attr('name', name).val(val)
-            );
-    
-        }
-            // console.log(emails);
-            // return emailList;
-        
-        
+        // Posts job.id and emails to backend '/cloudShare'
+        postValues('cloudShare', {'id': this.props.data.search_id,'emails': emailList});
     }
 
     fetchResponse(url) {
