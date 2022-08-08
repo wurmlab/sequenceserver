@@ -1,3 +1,6 @@
+require 'spec_helper'
+require 'rack/test'
+
 describe 'a browser', type: :feature, js: true do
   before :all do
     SequenceServer.init(database_dir: "#{__dir__}/database/v5")
@@ -313,6 +316,29 @@ describe 'a browser', type: :feature, js: true do
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.png')
     clear_downloads
+  end
+
+  it 'can trigger prompt for emails to send results' do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+
+    
+    # id = page.current_path.delete!
+    id = page.current_path[1...]
+    puts id
+    
+    # Click 'Share to cloud'.
+    message = accept_prompt(with: 'testEmail@email.com') do
+      click_link('Share to cloud')
+    end
+    expect(message).to eq("Please insert the email address(es) to share these results. Use a ',' to separate each email")
+
+    # visit '/response'
+    # page.should have_content('olah')
+
   end
 
   ## Helpers ##

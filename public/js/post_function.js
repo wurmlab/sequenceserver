@@ -13,9 +13,10 @@ export default function postValues(url, keyValuePairs) {
     form.appendTo('body').submit().remove();
 
     
-}
+
     function addField(name, val) {
         form.append(
             $('<input>').attr('type', 'hidden').attr('name', name).val(val)
         );
+    }
 }

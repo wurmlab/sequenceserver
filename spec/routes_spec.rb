@@ -89,5 +89,10 @@ module SequenceServer
       last_response.should be_redirect
       last_response.status.should == 302
     end
+
+    it 'gets /response (200) when no job has been submitted to cloud server' do
+      get '/response'
+      last_response.status.should == 200
+    end
   end
 end

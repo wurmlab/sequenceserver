@@ -5,7 +5,7 @@ import downloadFASTA from './download_fasta';
 import AlignmentExporter from './alignment_exporter'; // to download textual alignment
 import { data } from 'jquery';
 // import {getEmails, fetchResponse} from './share_to_cloud';
-import  postValues  from './post_function';
+import postValues from './post_function';
 
 
 /**
@@ -108,26 +108,40 @@ export default class extends Component {
         return false;
     }
 
-    // Requests user to input an array of emails to send the results over
-    getEmails(){
+    // Requests user to input their email and an array of emails to send the results to sharing service.
+    getEmails() {
+        // Get sender's email
+        let senderEmail = prompt("Please type your email\n(We will only use this to inform the receipents of your results know who sent it)")
+
+        // Check if email is valid
+        if (/@/.test(senderEmail) == false || senderEmail.length < 1) {
+            return alert(`Invalid input: ${senderEmail}`)
+        }
+
+        // Check receipents' emails, initialize invalid list of emails
         let invalidEmails = []
         let emails = prompt("Please insert the email address(es) to share these results. Use a ',' to separate each email");
         let emailList = emails.split(',');
 
-        // Checks every email for '@', if invalid, they are appended to an array. 
-        for (let i=0; i < emailList.length; i++) {
-            if (/@/.test(emailList[i]) == false ) {
+        // Checks every email for '@', if invalid, they are appended to invalid array. 
+        for (let i = 0; i < emailList.length; i++) {
+            if (/@/.test(emailList[i]) == false) {
                 invalidEmails.push(emailList[i]);
-            }   
+            }
         }
 
-        // Checks for invalid emails or empty inputs. Notifies the user of the wrong inputs. 
-        if (invalidEmails.length > 0 || emailList.length < 1 ) {
+        // Checks for invalid emails or empty inputs. Notifies the user of the error. 
+        if (invalidEmails.length > 0) {
             return alert(`Invalid email adress(es): ${invalidEmails}\nPlease try again.`);
         }
+        else if (emailList.length < 1) {
+            return alert('No emails were inserted.\nPlease try again.');
+        }
 
-        // Posts job.id and emails to backend '/cloudShare'
-        postValues('cloudShare', {'id': this.props.data.search_id,'emails': emailList});
+
+        // Posts job.id, sender's email and receipents' emails to backend '/cloudshare'
+        postValues('cloudshare', { 'id': this.props.data.search_id, 'sender': senderEmail,'emails': emailList });
+
     }
 
     fetchResponse(url) {
@@ -137,39 +151,6 @@ export default class extends Component {
     }
 
     shareCloud() {
-
-        // let respuestaInit = this.fetchResponse('/response');
-        // this.getEmails();
-        // let initPromise = new Promise(function(resolve,reject) {
-        //     while (respuestaInit == 'No results have been submitted to the cloud.'.json){
-        //         resolve (respuestaInit = this.fetchResponse('/response'));
-        //     }
-        // });
-        // initPromise.then(this.fetchResponse('/response'));
-
-        // Polling - based on: https://stackoverflow.com/questions/30505960/use-promise-to-wait-until-polled-condition-is-satisfied
-
-        
-        // let respuestaInit = this.fetchResponse('/response');
-        // this.getEmails();
-
-        // function ensureResponse() {
-        //     return new Promise(function (resolve, reject) {
-        //         (function waitResponse(){
-        //             if (respuestaInit != 'No results have been submitted to the cloud.') {
-        //                 console.log(respuestaInit)
-        //                 return resolve();
-        //             }
-        //             else {
-        //                 setTimeout(waitResponse, 30);
-        //             }
-                    
-        //         })();
-        //     });
-        // }
-
-        // ensureResponse();
-
         this.getEmails();
         // setTimeout(this.fetchResponse('/response'), 2000) 
         // if emails fails, this causes a JSON parse error because of the non JSON in response
@@ -317,9 +298,9 @@ export default class extends Component {
                 <ul className="nav">
                     {
                         <li>
-                            <a href = '#' className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                 title="Post to cloud new" onClick = {this.shareCloud}>
-                                <i className="fa fa-cloud"></i> Share to Cloud
+                            <a href='#' className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
+                                title="Post to cloud new" onClick={this.shareCloud}>
+                                <i className="fa fa-cloud"></i> Share to cloud
                             </a>
                         </li>
                     }
