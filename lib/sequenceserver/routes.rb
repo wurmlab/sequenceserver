@@ -2,6 +2,7 @@ require 'json'
 require 'tilt/erb'
 require 'sinatra/base'
 require 'rest-client'
+require 'socket'
 
 require 'sequenceserver/job'
 require 'sequenceserver/blast'
@@ -73,11 +74,14 @@ module SequenceServer
     end
 
     # Returns base HTML with the response of cloudShare POST request.
-    get '/response'do
+    get '/response' do
     # Initalises a global variable to update cloudShare status. 
       $response ||= 'No results have been submitted to the cloud.'.to_json
       $response
       erb :response, layout: true
+      
+      # @jobid = prams[:identif]
+      # , locals: {jobid: params[:identif]}
     end
 
     # Returns data that is used to render the search form client side. These
@@ -159,51 +163,30 @@ module SequenceServer
       send_file out.file, filename: out.filename, type: out.mime
     end
 
-    post'/cloudShare' do
+    # Posts jobs to the sharing cloud service.
+    post'/cloudshare' do
     
       # Extracts values from frontend
-      identif = params['id']
+      id = params['id']
+      sender = params['sender']
       emails = params['emails']
 
       # gets job directory
-      job = Job.fetch(identif)
-      puts "Sending job..."
+      job = Job.fetch(id)
+      logger.debug ("Sending job #{job.id}")
 
       # Sends job to server and stores it in the global variable
-      $response = send_job(job.id,emails)
+      $response = send_job(job.id,sender,emails)
       puts
-      puts "Cloud server says: #{$response}"
+      logger.debug("Cloud server says: #{$response}")
       puts 'Done'
       puts "Thank you for using SequenceServer's cloud sharing feature :)"
       puts
-      # redirect user to see the response
-      redirect to ('/response')
-    end
 
-    # Helper function to send a POST request to the server. Returns a custom message with the status of the request
-    def send_job(job_id, email_list)
-      begin
-        cloudJob =  RestClient.post('http://localhost:4567/shareResults',
-          {
-            payload: {
-              jobid: job_id,
-              myjob: File.new(File.join(job_dir,job_id,'job.yaml'),'rb'),
-              myquery: File.new(File.join(job_dir,job_id,'query.fa'),'rb'),
-              tsvReport: File.new(File.join(job_dir,job_id,'sequenceserver-custom_tsv_report.tsv'),'rb'),
-              xmlReport: File.new(File.join(job_dir,job_id,'sequenceserver-xml_report.xml'),'rb'),
-              stderr: File.new(File.join(job_dir,job_id,'stderr'),'rb'),
-              stdout: File.new(File.join(job_dir,job_id,'stdout'),'rb')
-        },
-            headers: {
-              email: email_list
-              # other data we might require
-        }
-        }) do |response|
-            response.body.to_json
-        end
-      rescue Errno::ECONNREFUSED
-        return "Whoops.. looks like the server is offline, please try again later.".to_json
-      end
+      # redirect user to see the response
+      redirect to('/response')
+
+      # redirect to("/response?job_id=#{identif}"), job_id: identif
     end
 
     # Catches any exception raised within the app and returns JSON
@@ -253,6 +236,39 @@ module SequenceServer
       error_data.to_json
     end
 
+    # Helper function to send a POST request to the server. Returns a custom message with the status of the request
+    def send_job(job_id, email_sender ,email_list)
+      begin
+        cloudJob =  RestClient.post('http://localhost:4567/shareresults',
+          {
+            payload: {
+              jobid: job_id,
+              myjob: File.new(File.join(job_dir,job_id,'job.yaml'),'rb'),
+              myquery: File.new(File.join(job_dir,job_id,'query.fa'),'rb'),
+              tsvReport: File.new(File.join(job_dir,job_id,'sequenceserver-custom_tsv_report.tsv'),'rb'),
+              xmlReport: File.new(File.join(job_dir,job_id,'sequenceserver-xml_report.xml'),'rb'),
+              stderr: File.new(File.join(job_dir,job_id,'stderr'),'rb'),
+              stdout: File.new(File.join(job_dir,job_id,'stdout'),'rb')
+        },
+            headers: {
+              sender: email_sender,
+              emails: email_list,
+              ip_address: sender_ip
+              # other data we might require
+        }
+        }) do |response|
+            response.body.to_json
+        end
+      rescue Errno::ECONNREFUSED
+        return "Whoops.. looks like the server is offline, please try again later.".to_json
+      end
+    end
+
+    def sender_ip # from https://stackoverflow.com/a/39367219/18117380
+      ip = Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
+      ip.ip_address
+    end
+
     # Get the query sequences, selected databases, and advanced params used.
     def update_searchdata_from_job(searchdata)
       job = Job.fetch(params[:job_id])
@@ -276,11 +292,6 @@ module SequenceServer
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end
-    end
-
-    # Folder to store job in route to cloud
-    def cloud_dir
-      File.expand_path('~/cloudJobs').freeze
     end
 
     # Job Folder 
