@@ -4,7 +4,7 @@ import _, { get } from 'underscore';
 import downloadFASTA from './download_fasta';
 import AlignmentExporter from './alignment_exporter'; // to download textual alignment
 import { data } from 'jquery';
-// import {getEmails, fetchResponse} from './share_to_cloud';
+import getEmails from './share_to_cloud';
 import postValues from './post_function';
 
 
@@ -26,8 +26,6 @@ export default class extends Component {
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
         this.shareCloud = this.shareCloud.bind(this);
-        this.getEmails = this.getEmails.bind(this);
-        this.fetchResponse = this.fetchResponse.bind(this);
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -108,52 +106,11 @@ export default class extends Component {
         return false;
     }
 
-    // Requests user to input their email and an array of emails to send the results to sharing service.
-    getEmails() {
-        // Get sender's email
-        let senderEmail = prompt("Please type your email\n(We will only use this to inform the receipents of your results know who sent it)")
-
-        // Check if email is valid
-        if (/@/.test(senderEmail) == false || senderEmail.length < 1) {
-            return alert(`Invalid input: ${senderEmail}`)
-        }
-
-        // Check receipents' emails, initialize invalid list of emails
-        let invalidEmails = []
-        let emails = prompt("Please insert the email address(es) to share these results. Use a ',' to separate each email");
-        let emailList = emails.split(',');
-
-        // Checks every email for '@', if invalid, they are appended to invalid array. 
-        for (let i = 0; i < emailList.length; i++) {
-            if (/@/.test(emailList[i]) == false) {
-                invalidEmails.push(emailList[i]);
-            }
-        }
-
-        // Checks for invalid emails or empty inputs. Notifies the user of the error. 
-        if (invalidEmails.length > 0) {
-            return alert(`Invalid email adress(es): ${invalidEmails}\nPlease try again.`);
-        }
-        else if (emailList.length < 1) {
-            return alert('No emails were inserted.\nPlease try again.');
-        }
-
-
-        // Posts job.id, sender's email and receipents' emails to backend '/cloudshare'
-        postValues('cloudshare', { 'id': this.props.data.search_id, 'sender': senderEmail,'emails': emailList });
-
-    }
-
-    fetchResponse(url) {
-        fetch(url)
-            .then(resp => resp.json())
-            .then(data => console.log(data));
-    }
-
+    // Posts job_id and emails to server.
     shareCloud() {
-        this.getEmails();
-        // setTimeout(this.fetchResponse('/response'), 2000) 
-        // if emails fails, this causes a JSON parse error because of the non JSON in response
+        let headers = getEmails();
+        headers['id'] = this.props.data.search_id;
+        postValues('cloudshare', headers);
     }
 
     topPanelJSX() {

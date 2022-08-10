@@ -72,14 +72,14 @@ module SequenceServer
     get '/' do
       erb :search, layout: true
     end
-
+    
     # Returns base HTML with the response of cloudShare POST request.
     get '/response' do
-    # Initalises a global variable to update cloudShare status. 
+      # Initalises a global variable to update cloudShare status.
       $response ||= 'No results have been submitted to the cloud.'.to_json
-      $response
-      erb :response, layout: true
       
+      erb :response, layout: true
+
       # @jobid = prams[:identif]
       # , locals: {jobid: params[:identif]}
     end
@@ -152,7 +152,7 @@ module SequenceServer
       database_ids = params['database_ids'].split(',')
       sequences = Sequence::Retriever.new(sequence_ids, database_ids, true)
       send_file(sequences.file.path,
-                type:     sequences.mime,
+                type: sequences.mime,
                 filename: sequences.filename)
     end
 
@@ -164,25 +164,19 @@ module SequenceServer
     end
 
     # Posts jobs to the sharing cloud service.
-    post'/cloudshare' do
-    
-      # Extracts values from frontend
-      id = params['id']
+    post '/cloudshare' do
+      # Extracts values from frontend gets job directory
+      job = Job.fetch(params['id'])
       sender = params['sender']
       emails = params['emails']
-
-      # gets job directory
-      job = Job.fetch(id)
-      logger.debug ("Sending job #{job.id}")
-
       # Sends job to server and stores it in the global variable
-      $response = send_job(job.id,sender,emails)
+      logger.debug "Sending job #{job.id} to #{post_url}"
+      $response = send_job(job.id, sender, emails)
       puts
       logger.debug("Cloud server says: #{$response}")
       puts 'Done'
       puts "Thank you for using SequenceServer's cloud sharing feature :)"
       puts
-
       # redirect user to see the response
       redirect to('/response')
 
@@ -236,39 +230,6 @@ module SequenceServer
       error_data.to_json
     end
 
-    # Helper function to send a POST request to the server. Returns a custom message with the status of the request
-    def send_job(job_id, email_sender ,email_list)
-      begin
-        cloudJob =  RestClient.post('http://localhost:4567/shareresults',
-          {
-            payload: {
-              jobid: job_id,
-              myjob: File.new(File.join(job_dir,job_id,'job.yaml'),'rb'),
-              myquery: File.new(File.join(job_dir,job_id,'query.fa'),'rb'),
-              tsvReport: File.new(File.join(job_dir,job_id,'sequenceserver-custom_tsv_report.tsv'),'rb'),
-              xmlReport: File.new(File.join(job_dir,job_id,'sequenceserver-xml_report.xml'),'rb'),
-              stderr: File.new(File.join(job_dir,job_id,'stderr'),'rb'),
-              stdout: File.new(File.join(job_dir,job_id,'stdout'),'rb')
-        },
-            headers: {
-              sender: email_sender,
-              emails: email_list,
-              ip_address: sender_ip
-              # other data we might require
-        }
-        }) do |response|
-            response.body.to_json
-        end
-      rescue Errno::ECONNREFUSED
-        return "Whoops.. looks like the server is offline, please try again later.".to_json
-      end
-    end
-
-    def sender_ip # from https://stackoverflow.com/a/39367219/18117380
-      ip = Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
-      ip.ip_address
-    end
-
     # Get the query sequences, selected databases, and advanced params used.
     def update_searchdata_from_job(searchdata)
       job = Job.fetch(params[:job_id])
@@ -288,15 +249,63 @@ module SequenceServer
       # the user hits the back button. Thus we do not test for empty string.
       method = job.method.to_sym
       if job.advanced && job.advanced !=
-           searchdata[:options][method][:default].join(' ')
+        searchdata[:options][method][:default].join(' ')
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end
     end
 
-    # Job Folder 
+    # cloudshare Helpers
+
+    # Job Folder
     def job_dir
       File.expand_path('~/.sequenceserver').freeze
+    end
+
+    # Helper function to send a POST request to the server.
+    # Returns a custom message with the status of the request.
+
+    def send_job(job_id, email_sender, email_list)
+      RestClient.post(post_url,
+                      payload: {
+                        jobid: job_id,
+                        myjob: File.new(File.join(job_dir, job_id, 'job.yaml'), 'rb'),
+                        myquery: File.new(File.join(job_dir, job_id, 'query.fa'), 'rb'),
+                        tsvReport: File.new(File.join(job_dir, job_id, 'sequenceserver-custom_tsv_report.tsv'), 'rb'),
+                        xmlReport: File.new(File.join(job_dir, job_id, 'sequenceserver-xml_report.xml'), 'rb'),
+                        stderr: File.new(File.join(job_dir, job_id, 'stderr'), 'rb'),
+                        stdout: File.new(File.join(job_dir, job_id, 'stdout'), 'rb')
+                      },
+                      headers: {
+                        sender: email_sender,
+                        emails: email_list,
+                        ip_address: sender_ip
+                        # other data we might require
+                      }) do |response|
+        case response.code
+        when 302
+          'Whoops... looks like the production server is offline. Please try again later'.to_json
+        else
+          response.body.to_json
+        end
+      end
+    rescue Errno::ECONNREFUSED
+      'Whoops... looks like the development server is offline, please try again later.'.to_json
+    end
+
+    # Define the URL to post depending on environment
+    def post_url
+      @post_url ||= if ENV['RACK_ENV'] == 'production'
+                      'https://sharing.sequenceserver.com'
+                    else
+                      'http://localhost:4567/shareresults'
+                    end
+    end
+
+    # Gets sender's ip address to append to post request from https://stackoverflow.com/a/39367219/18117380
+    def sender_ip
+      ip = Socket.ip_address_list.detect(&:ipv4_private?)
+      ip.ip_address
     end
   end
 end
