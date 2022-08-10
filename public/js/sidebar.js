@@ -20,6 +20,11 @@ export default class extends Component {
         this.summaryString = this.summaryString.bind(this);
         this.indexJSX = this.indexJSX.bind(this);
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
+        this.copyURL = this.copyURL.bind(this);
+        this.mailtoLink = this.mailtoLink.bind(this);
+        this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
+        
+        
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -98,6 +103,65 @@ export default class extends Component {
         }, this));
         aln_exporter.export_alignments(hsps_arr, 'alignment-' + sequence_ids.length + '_hits');
         return false;
+    }
+
+    /**
+     * Fixes tooltips in the sidebar, allows tooltip display on click
+     */
+    componentDidMount() {
+        $(function () {
+            $('.sidebar [data-toggle="tooltip"]').tooltip({ placement: 'right' });
+            $('#copyURL').tooltip({ title: 'Copied!', trigger: 'click', placement: 'right', delay: 0 });
+        });
+    }
+
+    /**
+     * Handles copying the URL into the user's clipboard. Modified from: https://stackoverflow.com/a/49618964/18117380
+     * Hides the 'Copied!' tooltip after 3 seconds 
+     */
+
+    copyURL() {
+        var element = document.createElement('input');
+        var url = window.location.href;
+        document.body.appendChild(element);
+        element.value = url;
+        element.select();
+        document.execCommand('copy');
+        document.getSelection().removeAllRanges();
+        document.body.removeChild(element);
+
+        setTimeout(function () {
+            $('#copyURL')._tooltip('destroy');
+        }, 3000);
+    }
+
+    /**
+     * Returns a mailto message with at most 15 databases used  
+     */
+    mailtoLink() {
+        // Iterates over the databases used and appends the first 15 to an array with string formatting  
+        var dbsArr = [];
+        let i = 0;
+        while (this.props.data.querydb[i] && i < 15) {
+            dbsArr.push(' ' + (i + 1) + '. ' + this.props.data.querydb[i].title);
+            i += 1;
+        }
+        
+        // retruns the mailto message
+        var mailto = `mailto:?subject=SequenceServer results &body=Thank you for using SequenceServer.
+        
+        Below, you will find a link to the results of a recent BLAST. 
+        While using SequenceServer, you may use this link to access previous results. Make sure you have access to the IP address in the link.
+        You will also find the unique ID of the query and the first 15 databases used in the search.
+
+        Link: ${window.location.href}
+        Query id: ${this.props.data.search_id}
+        Databases: ${dbsArr}
+        
+        Please cite: https://doi.org/10.1093/molbev/msz185`;
+
+        var message = encodeURI(mailto).replace(/(%20){2,}/g, '');
+        return message;
     }
 
     topPanelJSX() {
@@ -230,11 +294,44 @@ export default class extends Component {
             </div>
         );
     }
+
+    sharingPanelJSX() {
+        return (
+            <div className="sharing-panel">
+                <div className="section-header-sidebar">
+                    <h4>
+                        Share results
+                    </h4>
+                </div>
+                <ul className="nav">
+                    {
+                        <li>
+                            <a id="copyURL" className="btn-link copy-URL cursor-pointer" data-toggle="tooltip"
+                                onClick={this.copyURL}>
+                                <i className="fa fa-copy"></i> Copy URL to clipboard
+                            </a>
+                        </li>
+                    } 
+                    {
+                        <li>
+                            <a id="sendEmail" className="btn-link email-URL cursor-pointer" data-toggle="tooltip"
+                                title="Send by email" href={this.mailtoLink()}
+                                target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-envelope"></i> Send by email
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        );
+    }
+
     render() {
         return (
             <div className="sidebar">
                 {this.topPanelJSX()}
                 {this.downloadsPanelJSX()}
+                {this.sharingPanelJSX()}
             </div>
         );
     }
