@@ -29,9 +29,7 @@ If you want to run SequenceServer directly from source code, please see
 
 ## Release notes
 
-New releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on [Google Group](https://groups.google.com/forum/#!forum/sequenceserver/), while our [GitHub project board](https://github.com/wurmlab/sequenceserver/projects/3) provides an overview of ongoing development efforts.
-
-(Read about extensive testing of SequenceServer 2.0 candidate releases by the community: https://groups.google.com/d/msg/sequenceserver/c98ePBzcuVE/lN-S35jVHgAJ.)
+New releases are announced on [GitHub release page](https://github.com/wurmlab/sequenceserver/releases) and on our [Support Page](https://support.sequenceserver.com).
 
 ## Reporting issues
 
@@ -139,4 +137,4 @@ If you change frontend code (JavaScript and CSS), please build (i.e., minify and
 
 * Anurag Priyam (architect) - [email](mailto:anurag08priyam@gmail.com) | [@yeban](//twitter.com/yeban)
 * Yannick Wurm  (PI) - [email](mailto:yannickwurm@gmail.com) | [@yannick\_\_](//twitter.com/yannick__)
-* [Mailing list / forum](https://groups.google.com/forum/#!forum/sequenceserver)
+* [Mailing list / forum](https://support.sequenceserver.com)
