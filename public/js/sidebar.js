@@ -23,8 +23,8 @@ export default class extends Component {
         this.copyURL = this.copyURL.bind(this);
         this.mailtoLink = this.mailtoLink.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
-        
-        
+
+
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -117,7 +117,7 @@ export default class extends Component {
 
     /**
      * Handles copying the URL into the user's clipboard. Modified from: https://stackoverflow.com/a/49618964/18117380
-     * Hides the 'Copied!' tooltip after 3 seconds 
+     * Hides the 'Copied!' tooltip after 3 seconds
      */
 
     copyURL() {
@@ -136,29 +136,33 @@ export default class extends Component {
     }
 
     /**
-     * Returns a mailto message with at most 15 databases used  
+     * Returns a mailto message with at most 15 databases used
      */
     mailtoLink() {
-        // Iterates over the databases used and appends the first 15 to an array with string formatting  
+        // Iterates over the databases used and appends the first 15 to an array with string formatting
         var dbsArr = [];
         let i = 0;
         while (this.props.data.querydb[i] && i < 15) {
-            dbsArr.push(' ' + (i + 1) + '. ' + this.props.data.querydb[i].title);
+            dbsArr.push(' ' + this.props.data.querydb[i].title);
             i += 1;
         }
-        
-        // retruns the mailto message
-        var mailto = `mailto:?subject=SequenceServer results &body=Thank you for using SequenceServer.
-        
-        Below, you will find a link to the results of a recent BLAST. 
-        While using SequenceServer, you may use this link to access previous results. Make sure you have access to the IP address in the link.
-        You will also find the unique ID of the query and the first 15 databases used in the search.
 
-        Link: ${window.location.href}
-        Query id: ${this.props.data.search_id}
-        Databases: ${dbsArr}
-        
-        Please cite: https://doi.org/10.1093/molbev/msz185`;
+        // returns the mailto message
+        var mailto = `mailto:?subject=SequenceServer ${this.props.data.program.toUpperCase()} analysis results &body=Hello,
+
+        Here is a link to my recent ${this.props.data.program.toUpperCase()} analysis of ${this.props.data.queries.length} sequences.
+            ${window.location.href}
+
+        The following databases were used (up to 15 are shown):
+            ${dbsArr}
+
+        The link will work if you have access to that particular SequenceServer instance.
+
+        Thank you for using SequenceServer, and please remember to cite our paper.
+
+        Best regards,
+
+        https://sequenceserver.com`;
 
         var message = encodeURI(mailto).replace(/(%20){2,}/g, '');
         return message;
@@ -311,7 +315,7 @@ export default class extends Component {
                                 <i className="fa fa-copy"></i> Copy URL to clipboard
                             </a>
                         </li>
-                    } 
+                    }
                     {
                         <li>
                             <a id="sendEmail" className="btn-link email-URL cursor-pointer" data-toggle="tooltip"
