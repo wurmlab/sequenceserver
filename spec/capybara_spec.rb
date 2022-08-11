@@ -220,7 +220,7 @@ describe 'a browser', type: :feature, js: true do
 
     # Checks for mailto, URL and databases used in the message.
     href = page.find('#sendEmail')['href']
-    expect(href).to include('mailto:?subject=SequenceServer%20results')
+    expect(href).to include('mailto:?subject=SequenceServer%20BLASTP%20analysis')
     expect(href).to include(page.current_url)
     expect(href).to include(protein_databases.values_at(0).join() && '%20')
   end
