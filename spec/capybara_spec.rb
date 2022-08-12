@@ -201,7 +201,30 @@ describe 'a browser', type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('sequenceserver-xml_report.xml')
     clear_downloads
   end
-  
+
+  it 'can copy URL to clipboard' do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    find('#copyURL').click
+    page.should have_content('Copied!')
+  end
+
+  it 'can send the URL by email' do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    # Checks for mailto, URL and databases used in the message.
+    href = page.find('#sendEmail')['href']
+    expect(href).to include('mailto:?subject=SequenceServer%20BLASTP%20analysis')
+    expect(href).to include(page.current_url)
+    expect(href).to include(protein_databases.values_at(0).join() && '%20')
+  end
+
   it 'can show hit sequences in a modal' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
