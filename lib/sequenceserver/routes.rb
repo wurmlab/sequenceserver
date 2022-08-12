@@ -72,12 +72,13 @@ module SequenceServer
     get '/' do
       erb :search, layout: true
     end
-    
+
     # Returns base HTML with the response of cloudShare POST request.
     get '/response' do
       # Initalises a global variable to update cloudShare status.
-      $response ||= 'No results have been submitted to the cloud.'.to_json
-      
+      # $response ||= 'No results have been submitted to the cloud.'.to_json
+      session[:response] ||= 'No results have been submitted to the cloud.'.to_json
+
       erb :response, layout: true
 
       # @jobid = prams[:identif]
@@ -163,17 +164,22 @@ module SequenceServer
       send_file out.file, filename: out.filename, type: out.mime
     end
 
+    ## Send results with non-SequenceServer users
+
+    # Enables sessions to send the post response to the /response route https://sinatrarb.com/faq.html#sessions
+    enable :sessions
+
     # Posts jobs to the sharing cloud service.
     post '/cloudshare' do
       # Extracts values from frontend gets job directory
       job = Job.fetch(params['id'])
       sender = params['sender']
       emails = params['emails']
-      # Sends job to server and stores it in the global variable
+      # Sends job to server and stores it in a session variable
       logger.debug "Sending job #{job.id} to #{post_url}"
-      $response = send_job(job.id, sender, emails)
+      session[:response] = send_job(job.id, sender, emails)
       puts
-      logger.debug("Cloud server says: #{$response}")
+      logger.debug("Cloud server says: #{session[:response]}")
       puts 'Done'
       puts "Thank you for using SequenceServer's cloud sharing feature :)"
       puts
@@ -236,7 +242,7 @@ module SequenceServer
       return if job.imported_xml_file
 
       # Only read job.qfile if we are not going to use Database.retrieve.
-      searchdata[:query] = File.read(job.qfile) if !params[:query]
+      searchdata[:query] = File.read(job.qfile) unless params[:query]
 
       # Which databases to pre-select.
       searchdata[:preSelectedDbs] = job.databases
@@ -249,7 +255,7 @@ module SequenceServer
       # the user hits the back button. Thus we do not test for empty string.
       method = job.method.to_sym
       if job.advanced && job.advanced !=
-        searchdata[:options][method][:default].join(' ')
+                         searchdata[:options][method][:default].join(' ')
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end
