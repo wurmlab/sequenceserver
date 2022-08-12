@@ -127,7 +127,6 @@ export default class extends Component {
         element.value = url;
         element.select();
         document.execCommand('copy');
-        document.getSelection().removeAllRanges();
         document.body.removeChild(element);
 
         setTimeout(function () {
