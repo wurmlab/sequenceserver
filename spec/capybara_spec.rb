@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'rack/test'
 
+
 describe 'a browser', type: :feature, js: true do
   before :all do
     SequenceServer.init(database_dir: "#{__dir__}/database/v5")
@@ -11,10 +12,10 @@ describe 'a browser', type: :feature, js: true do
     fill_in('sequence', with: nucleotide_query)
 
     prot = page.evaluate_script("$('.protein .database').text().trim()")
-    prot.should eq("2020-11 Swiss-Prot insecta 2020-11-Swiss-Prot insecta (subset taxid 102803) Sinvicta 2-2-3 prot subset without_parse_seqids.fa")
+    prot.should eq('2020-11 Swiss-Prot insecta 2020-11-Swiss-Prot insecta (subset taxid 102803) Sinvicta 2-2-3 prot subset without_parse_seqids.fa')
 
     nucl = page.evaluate_script("$('.nucleotide .database').text().trim()")
-    nucl.should eq("Sinvicta 2-2-3 cdna subset Solenopsis invicta gnG subset funky ids (v5)")
+    nucl.should eq('Sinvicta 2-2-3 cdna subset Solenopsis invicta gnG subset funky ids (v5)')
   end
 
   it 'properly controls blast button' do
@@ -204,7 +205,7 @@ describe 'a browser', type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('sequenceserver-xml_report.xml')
     clear_downloads
   end
-  
+
   it 'can show hit sequences in a modal' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
@@ -318,27 +319,21 @@ describe 'a browser', type: :feature, js: true do
     clear_downloads
   end
 
-  it 'can trigger prompt for emails to send results' do
+  it 'can send results to cloudshare server' do
     # Do a BLASTP search. protein_query refers to the first two sequence in
     # protein_databases[0], so the top hits are the query sequences themselves.
     perform_search(query: protein_query,
                    databases: protein_databases.values_at(0))
 
-
-    
-    # id = page.current_path.delete!
-    id = page.current_path[1...]
-    puts id
-    
-    # Click 'Share to cloud'.
-    message = accept_prompt(with: 'testEmail@email.com') do
-      click_link('Share to cloud')
+    # Clicks 'Share to cloud', fills the prompts.
+    accept_prompt(with: 'recipientsEmail@email.com') do
+      accept_prompt(with: 'sendersEmail@email.com') do
+        click_link('Share to cloud')
+      end
     end
-    expect(message).to eq("Please insert the email address(es) to share these results. Use a ',' to separate each email")
-
-    # visit '/response'
-    # page.should have_content('olah')
-
+    # Check content of page
+    page.should have_content('Everything checks out'),\
+                'In case of failure, check the receiving app is running.'
   end
 
   ## Helpers ##

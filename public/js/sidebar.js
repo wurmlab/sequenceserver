@@ -4,7 +4,7 @@ import _, { get } from 'underscore';
 import downloadFASTA from './download_fasta';
 import AlignmentExporter from './alignment_exporter'; // to download textual alignment
 import { data } from 'jquery';
-import getEmails from './share_to_cloud';
+import getEmails from './get_emails';
 import postValues from './post_function';
 
 
@@ -256,7 +256,10 @@ export default class extends Component {
                     {
                         <li>
                             <a href='#' className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                title="Post to cloud new" onClick={this.shareCloud}>
+                                title="Share these results with anyone via email.
+                                Type your email, the email(s) of those you want 
+                                to share it with, and we will send them an email 
+                                with the link to access these results." onClick={this.shareCloud}>
                                 <i className="fa fa-cloud"></i> Share to cloud
                             </a>
                         </li>

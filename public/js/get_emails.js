@@ -1,5 +1,5 @@
 // /**
-//  * Function to capture sender's email and receipents' emails. 
+//  * Function to capture sender's email and recipients' emails. 
 //  *
 //  * Author: Diego Pava
 //  */
@@ -11,14 +11,14 @@
     
 export default function getEmails() {
     // Get sender's email
-    let senderEmail = prompt('Please type your email\n(We will only use this to inform the receipents of your results know who sent it)');
+    let senderEmail = prompt('Please type your email\n(We will only use this to inform the recipients of your results know who sent it)');
 
     // Check if email is valid
     if (/@/.test(senderEmail) == false || senderEmail.length < 1) {
         return alert(`Invalid input: ${senderEmail}`);
     }
 
-    // Check receipents' emails, initialize invalid list of emails
+    // Check recipients' emails, initialize invalid list of emails
     let invalidEmails = [];
     let emails = prompt('Please insert the email address(es) to share these results. Use a \',\' to separate each email');
     let emailList = emails.split(',');

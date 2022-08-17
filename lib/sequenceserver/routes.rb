@@ -75,14 +75,11 @@ module SequenceServer
 
     # Returns base HTML with the response of cloudShare POST request.
     get '/response' do
-      # Initalises a global variable to update cloudShare status.
-      # $response ||= 'No results have been submitted to the cloud.'.to_json
-      session[:response] ||= 'No results have been submitted to the cloud.'.to_json
+      # Initalises a sessionvariable to update cloudShare status.
+      session[:response] ||= 'No results have been submitted to the cloud.'
 
+      # Renders the message on the response template
       erb :response, layout: true
-
-      # @jobid = prams[:identif]
-      # , locals: {jobid: params[:identif]}
     end
 
     # Returns data that is used to render the search form client side. These
@@ -171,17 +168,17 @@ module SequenceServer
 
     # Posts jobs to the sharing cloud service.
     post '/cloudshare' do
-      # Extracts values from frontend gets job directory
+      # Extracts values from frontend and fetches the job
       job = Job.fetch(params['id'])
       sender = params['sender']
       emails = params['emails']
+
       # Sends job to server and stores it in a session variable
       logger.debug "Sending job #{job.id} to #{post_url}"
       session[:response] = send_job(job.id, sender, emails)
       puts
       logger.debug("Cloud server says: #{session[:response]}")
-      puts 'Done'
-      puts "Thank you for using SequenceServer's cloud sharing feature :)"
+      puts "Thank you for using SequenceServer's cloud sharing feature :)."
       puts
       # redirect user to see the response
       redirect to('/response')
@@ -261,16 +258,10 @@ module SequenceServer
       end
     end
 
-    # cloudshare Helpers
-
-    # Job Folder
-    def job_dir
-      File.expand_path('~/.sequenceserver').freeze
-    end
+    # /cloudshare Helpers
 
     # Helper function to send a POST request to the server.
     # Returns a custom message with the status of the request.
-
     def send_job(job_id, email_sender, email_list)
       RestClient.post(post_url,
                       payload: {
@@ -290,22 +281,31 @@ module SequenceServer
                       }) do |response|
         case response.code
         when 302
-          'Whoops... looks like the production server is offline. Please try again later'.to_json
+          'Whoops... looks like the production server is offline. Please try again later'
         else
-          response.body.to_json
+          response.body
         end
       end
     rescue Errno::ECONNREFUSED
-      'Whoops... looks like the development server is offline, please try again later.'.to_json
+      'Whoops... looks like the development server is offline, please try again later.'
     end
 
     # Define the URL to post depending on environment
     def post_url
       @post_url ||= if ENV['RACK_ENV'] == 'production'
-                      'https://sharing.sequenceserver.com'
+                      'https://sharing.sequenceserver.com/shareresults'
                     else
                       'http://localhost:4567/shareresults'
                     end
+    end
+
+    # Define the URL to fetch jobs from
+    def job_dir
+      @job_dir ||= if ENV['RACK_ENV'] == 'test'
+                     File.expand_path('spec/dotdir').freeze
+                   else
+                     File.expand_path('~/.sequenceserver').freeze
+                  end
     end
 
     # Gets sender's ip address to append to post request from https://stackoverflow.com/a/39367219/18117380
