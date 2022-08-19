@@ -29,8 +29,6 @@ export default class extends Component {
         this.copyURL = this.copyURL.bind(this);
         this.mailtoLink = this.mailtoLink.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
-
-
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
