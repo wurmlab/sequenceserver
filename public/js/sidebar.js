@@ -26,6 +26,11 @@ export default class extends Component {
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
         this.shareCloud = this.shareCloud.bind(this);
+        this.copyURL = this.copyURL.bind(this);
+        this.mailtoLink = this.mailtoLink.bind(this);
+        this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
+
+
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -104,6 +109,68 @@ export default class extends Component {
         }, this));
         aln_exporter.export_alignments(hsps_arr, 'alignment-' + sequence_ids.length + '_hits');
         return false;
+    }
+
+    /**
+     * Fixes tooltips in the sidebar, allows tooltip display on click
+     */
+    componentDidMount() {
+        $(function () {
+            $('.sidebar [data-toggle="tooltip"]').tooltip({ placement: 'right' });
+            $('#copyURL').tooltip({ title: 'Copied!', trigger: 'click', placement: 'right', delay: 0 });
+        });
+    }
+
+    /**
+     * Handles copying the URL into the user's clipboard. Modified from: https://stackoverflow.com/a/49618964/18117380
+     * Hides the 'Copied!' tooltip after 3 seconds
+     */
+
+    copyURL() {
+        var element = document.createElement('input');
+        var url = window.location.href;
+        document.body.appendChild(element);
+        element.value = url;
+        element.select();
+        document.execCommand('copy');
+        document.body.removeChild(element);
+
+        setTimeout(function () {
+            $('#copyURL')._tooltip('destroy');
+        }, 3000);
+    }
+
+    /**
+     * Returns a mailto message with at most 15 databases used
+     */
+    mailtoLink() {
+        // Iterates over the databases used and appends the first 15 to an array with string formatting
+        var dbsArr = [];
+        let i = 0;
+        while (this.props.data.querydb[i] && i < 15) {
+            dbsArr.push(' ' + this.props.data.querydb[i].title);
+            i += 1;
+        }
+
+        // returns the mailto message
+        var mailto = `mailto:?subject=SequenceServer ${this.props.data.program.toUpperCase()} analysis results &body=Hello,
+
+        Here is a link to my recent ${this.props.data.program.toUpperCase()} analysis of ${this.props.data.queries.length} sequences.
+            ${window.location.href}
+
+        The following databases were used (up to 15 are shown):
+            ${dbsArr}
+
+        The link will work if you have access to that particular SequenceServer instance.
+
+        Thank you for using SequenceServer, and please remember to cite our paper.
+
+        Best regards,
+
+        https://sequenceserver.com`;
+
+        var message = encodeURI(mailto).replace(/(%20){2,}/g, '');
+        return message;
     }
 
     // Posts job_id and emails to server.
@@ -268,6 +335,38 @@ export default class extends Component {
             </div>
         );
     }
+
+    sharingPanelJSX() {
+        return (
+            <div className="sharing-panel">
+                <div className="section-header-sidebar">
+                    <h4>
+                        Share results
+                    </h4>
+                </div>
+                <ul className="nav">
+                    {
+                        <li>
+                            <a id="copyURL" className="btn-link copy-URL cursor-pointer" data-toggle="tooltip"
+                                onClick={this.copyURL}>
+                                <i className="fa fa-copy"></i> Copy URL to clipboard
+                            </a>
+                        </li>
+                    }
+                    {
+                        <li>
+                            <a id="sendEmail" className="btn-link email-URL cursor-pointer" data-toggle="tooltip"
+                                title="Send by email" href={this.mailtoLink()}
+                                target="_blank" rel="noopener noreferrer">
+                                <i className="fa fa-envelope"></i> Send by email
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        );
+    }
+
     render() {
         return (
             <div className="sidebar">

@@ -11,10 +11,10 @@ describe 'a browser', type: :feature, js: true do
     fill_in('sequence', with: nucleotide_query)
 
     prot = page.evaluate_script("$('.protein .database').text().trim()")
-    prot.should eq('2020-11 Swiss-Prot insecta 2020-11-Swiss-Prot insecta (subset taxid 102803) Sinvicta 2-2-3 prot subset without_parse_seqids.fa')
+    prot.should eq("2020-11 Swiss-Prot insecta 2020-11-Swiss-Prot insecta (subset taxid 102803) Sinvicta 2-2-3 prot subset without_parse_seqids.fa")
 
     nucl = page.evaluate_script("$('.nucleotide .database').text().trim()")
-    nucl.should eq('Sinvicta 2-2-3 cdna subset Solenopsis invicta gnG subset funky ids (v5)')
+    nucl.should eq("Sinvicta 2-2-3 cdna subset Solenopsis invicta gnG subset funky ids (v5)")
   end
 
   it 'properly controls blast button' do
@@ -203,6 +203,29 @@ describe 'a browser', type: :feature, js: true do
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('sequenceserver-xml_report.xml')
     clear_downloads
+  end
+
+  it 'can copy URL to clipboard' do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    find('#copyURL').click
+    page.should have_content('Copied!')
+  end
+
+  it 'can send the URL by email' do
+    # Do a BLASTP search. protein_query refers to the first two sequence in
+    # protein_databases[0], so the top hits are the query sequences themselves.
+    perform_search(query: protein_query,
+                   databases: protein_databases.values_at(0))
+
+    # Checks for mailto, URL and databases used in the message.
+    href = page.find('#sendEmail')['href']
+    expect(href).to include('mailto:?subject=SequenceServer%20BLASTP%20analysis')
+    expect(href).to include(page.current_url)
+    expect(href).to include(protein_databases.values_at(0).join() && '%20')
   end
 
   it 'can show hit sequences in a modal' do
