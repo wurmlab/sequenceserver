@@ -350,11 +350,7 @@ export default class extends Component {
             </div>
         );
     }
-
-
-
-
-
+    
     render() {
         return (
             <div className="sidebar">
