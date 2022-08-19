@@ -7,12 +7,12 @@
 
 export default function postValues(url, keyValuePairs) {
     var form = $('<form/>').attr('method', 'post').attr('action', url);
-    for (const [ key, value ] of Object.entries(keyValuePairs)) {
-        addField(key,value);
+    for (const [key, value] of Object.entries(keyValuePairs)) {
+        addField(key, value);
     }
     form.appendTo('body').submit().remove();
 
-    
+
 
     function addField(name, val) {
         form.append(

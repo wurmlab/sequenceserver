@@ -8,7 +8,7 @@
 // Requests user to input their email and an array of emails 
 // Checks emails' validity
 // If email input is invalid, returns an alert to feedback the user. 
-    
+
 export default function getEmails() {
     // Get sender's email
     let senderEmail = prompt('Please type your email\n(We will only use this to inform the recipients of your results know who sent it)');

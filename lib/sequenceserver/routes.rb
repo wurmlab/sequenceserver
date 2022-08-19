@@ -75,7 +75,7 @@ module SequenceServer
 
     # Returns base HTML with the response of cloudShare POST request.
     get '/response' do
-      # Initalises a sessionvariable to update cloudShare status.
+      # Initalises a session variable to update cloudShare status.
       session[:response] ||= 'No results have been submitted to the cloud.'
 
       # Renders the message on the response template
@@ -161,9 +161,9 @@ module SequenceServer
       send_file out.file, filename: out.filename, type: out.mime
     end
 
-    ## Send results with non-SequenceServer users
+    ## Share results with non-SequenceServer users
 
-    # Enables sessions to send the post response to the /response route https://sinatrarb.com/faq.html#sessions
+    # Enables sessions to send the post's response to the /response route https://sinatrarb.com/faq.html#sessions
     enable :sessions
 
     # Posts jobs to the sharing cloud service.
@@ -176,14 +176,12 @@ module SequenceServer
       # Sends job to server and stores it in a session variable
       logger.debug "Sending job #{job.id} to #{post_url}"
       session[:response] = send_job(job.id, sender, emails)
-      puts
       logger.debug("Cloud server says: #{session[:response]}")
+      puts
       puts "Thank you for using SequenceServer's cloud sharing feature :)."
       puts
       # redirect user to see the response
       redirect to('/response')
-
-      # redirect to("/response?job_id=#{identif}"), job_id: identif
     end
 
     # Catches any exception raised within the app and returns JSON
@@ -277,7 +275,6 @@ module SequenceServer
                         sender: email_sender,
                         emails: email_list,
                         ip_address: sender_ip
-                        # other data we might require
                       }) do |response|
         case response.code
         when 302
@@ -295,7 +292,7 @@ module SequenceServer
       @post_url ||= if ENV['RACK_ENV'] == 'production'
                       'https://sharing.sequenceserver.com/shareresults'
                     else
-                      'http://localhost:4567/shareresults'
+                      'http://localhost:8335/shareresults'
                     end
     end
 
@@ -305,7 +302,7 @@ module SequenceServer
                      File.expand_path('spec/dotdir').freeze
                    else
                      File.expand_path('~/.sequenceserver').freeze
-                  end
+                   end
     end
 
     # Gets sender's ip address to append to post request from https://stackoverflow.com/a/39367219/18117380
