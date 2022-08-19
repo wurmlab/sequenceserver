@@ -322,31 +322,6 @@ export default class extends Component {
                 <ul className="nav">
                     {
                         <li>
-                            <a href='#' className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                title="Share these results with anyone via email.
-                                Type your email, the email(s) of those you want 
-                                to share it with, and we will send them an email 
-                                with the link to access these results." onClick={this.shareCloud}>
-                                <i className="fa fa-cloud"></i> Share to cloud
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
-        );
-    }
-
-    sharingPanelJSX() {
-        return (
-            <div className="sharing-panel">
-                <div className="section-header-sidebar">
-                    <h4>
-                        Share results
-                    </h4>
-                </div>
-                <ul className="nav">
-                    {
-                        <li>
                             <a id="copyURL" className="btn-link copy-URL cursor-pointer" data-toggle="tooltip"
                                 onClick={this.copyURL}>
                                 <i className="fa fa-copy"></i> Copy URL to clipboard
@@ -359,6 +334,17 @@ export default class extends Component {
                                 title="Send by email" href={this.mailtoLink()}
                                 target="_blank" rel="noopener noreferrer">
                                 <i className="fa fa-envelope"></i> Send by email
+                            </a>
+                        </li>
+                    }
+                    {
+                        <li>
+                            <a href='#' className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
+                                title="Share these results with anyone via email.
+                                Type your email, the email(s) of those you want 
+                                to share it with, and we will send them an email 
+                                with the link to access these results." onClick={this.shareCloud}>
+                                <i className="fa fa-cloud"></i> Share to cloud
                             </a>
                         </li>
                     }
