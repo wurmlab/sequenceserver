@@ -29,8 +29,6 @@ export default class extends Component {
         this.copyURL = this.copyURL.bind(this);
         this.mailtoLink = this.mailtoLink.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
-
-
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -351,7 +349,7 @@ export default class extends Component {
             </div>
         );
     }
-
+    
     render() {
         return (
             <div className="sidebar">
