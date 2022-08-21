@@ -340,7 +340,9 @@ export default class extends Component {
                             <a href='#' className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
                                 title="Share these results with anyone via email.
                                 Type your email, the email(s) of those you want 
-                                to share it with, and we will send them an access URL." onClick={this.shareCloud}>
+                                to share it with, and we will send them an access URL.
+                                Make sure alerts are enabled for this feature to work
+                                properly." onClick={this.shareCloud}>
                                 <i className="fa fa-cloud"></i> Share to cloud
                             </a>
                         </li>
