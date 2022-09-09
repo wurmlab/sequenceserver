@@ -111,12 +111,6 @@ export class SearchQueryWidget extends Component {
 
     // LIFECYCLE Methods
 
-    componentDidMount() {
-        $('body').click(function () {
-            $('.notifications .active').hide('drop', { direction: 'up' }).removeClass('active');
-        });
-    }
-
     componentDidUpdate() {
         this.hideShowButton();
         var type = this.type();
