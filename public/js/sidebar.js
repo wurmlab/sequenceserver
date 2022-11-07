@@ -21,24 +21,105 @@ export default class extends Component {
         this.indexJSX = this.indexJSX.bind(this);
         this.downloadsPanelJSX = this.downloadsPanelJSX.bind(this);
         this.handleQueryIndexChange = this.handleQueryIndexChange.bind(this);
+        this.isElementInViewPort = this.isElementInViewPort.bind(this);
+        this.setVisibleQueryIndex = this.setVisibleQueryIndex.bind(this);
+        this.debounceScrolling = this.debounceScrolling.bind(this);
+        this.scrollListener = this.scrollListener.bind(this);
+        this.copyURL = this.copyURL.bind(this);
+        this.mailtoLink = this.mailtoLink.bind(this);
+        this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
+        this.timeout = null;
+        this.queryElems = [];
         this.state = {
-            queryIndex: 0
+            queryIndex: 1
         };
     }
 
     componentDidMount() {
+        /**
+         * Fixes tooltips in the sidebar, allows tooltip display on click
+         */
+        $(function () {
+            $('.sidebar [data-toggle="tooltip"]').tooltip({ placement: 'right' });
+            $('#copyURL').tooltip({ title: 'Copied!', trigger: 'click', placement: 'right', delay: 0 });
+        });
+
         //keep track of the current queryIndex so it doesn't get lost on page reload
         const urlMatch = window.location.href.match(/#Query_(\d+)/);
         if (urlMatch && urlMatch.length > 1) {
             const queryNumber = +urlMatch[1];
             const index = this.props.data.queries.findIndex(query => query.number === queryNumber);
-            this.setState({ queryIndex: Math.max(0, index) });
+            this.setState({ queryIndex: index + 1 });
         }
-        this.copyURL = this.copyURL.bind(this);
-        this.mailtoLink = this.mailtoLink.bind(this);
-        this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
+        window.addEventListener('scroll', this.scrollListener);
+        $('a[href^="#Query_"]').on('click', this.animateAnchorElements);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.scrollListener);
+    }
+    componentDidUpdate(prevProps) {
+        if (this.props.allQueriesLoaded && !prevProps.allQueriesLoaded) {
+            /**
+             * storing all query elements in this variable once they all become available so we don't have to fetch them all over again
+             */
+            this.queryElems = Array.from(document.querySelectorAll('.resultn'));
+        }
+    }
 
 
+    /**
+     * to avoid unnecessary computations, we debounce the scroll listener so it only fires after user has stopped scrolling for some milliseconds
+     */
+    scrollListener() {
+        this.debounceScrolling(this.setVisibleQueryIndex, 500);
+    }
+
+    debounceScrolling(callback, timer) {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+        this.timeout = setTimeout(callback, timer);
+    }
+
+    /**
+     * This method makes the page aware of what query is visible so that clicking previous / next button at any point 
+     * navigates to the proper query
+     */
+    setVisibleQueryIndex() {
+        const queryElems = this.queryElems.length ? this.queryElems : Array.from(document.querySelectorAll('.resultn'));
+        // get the first visible element and marks it as the current query
+        const topmostEl = queryElems.find(this.isElementInViewPort);
+        if (topmostEl) {
+            const queryIndex = Number(topmostEl.id.match(/Query_(\d+)/)[1]);
+            let hash = `#Query_${queryIndex}`;
+            // if we can guarantee that the browser can handle change in url hash without the page jumping,
+            // then we update the url hash after scroll. else, hash is only updated on click of next or prev button
+            if (window.history.pushState) {
+                window.history.pushState(null, null, hash);
+            }
+            this.setState({ queryIndex });
+        }
+    }
+    animateAnchorElements(e) {
+        e.preventDefault();
+        $('html, body').animate({
+            scrollTop: $(this.hash).offset().top
+        }, 300);
+        if (window.history.pushState) {
+            window.history.pushState(null, null, this.hash);
+        } else {
+            window.location.hash = this.hash;
+        }
+
+    }
+    isElementInViewPort(elem) {
+        const { top, left, right, bottom } = elem.getBoundingClientRect();
+        return (
+            top >= 0 &&
+            left >= 0 &&
+            bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
     }
     /**
          * Clear sessionStorage - useful to initiate a new search in the same tab.
@@ -53,11 +134,14 @@ export default class extends Component {
      * handle next and previous query button clicks
      */
     handleQueryIndexChange(nextQuery) {
-        if (nextQuery < 0 || nextQuery > this.props.data.queries.length - 1) return;
+        if (nextQuery < 1 || nextQuery > this.props.data.queries.length) return;
         const anchorEl = document.createElement('a');
-        anchorEl.setAttribute('href', '#Query_' + this.props.data.queries[nextQuery].number);
+        //indexing at [nextQuery - 1] because array is 0-indexed
+        anchorEl.setAttribute('href', '#Query_' + this.props.data.queries[nextQuery - 1].number);
         anchorEl.setAttribute('hidden', true);
         document.body.appendChild(anchorEl);
+        // add smooth scrolling animation with jquery
+        $(anchorEl).on('click', this.animateAnchorElements);
         anchorEl.click();
         document.body.removeChild(anchorEl);
         this.setState({ queryIndex: nextQuery });
@@ -132,15 +216,7 @@ export default class extends Component {
         return false;
     }
 
-    /**
-     * Fixes tooltips in the sidebar, allows tooltip display on click
-     */
-    componentDidMount() {
-        $(function () {
-            $('.sidebar [data-toggle="tooltip"]').tooltip({ placement: 'right' });
-            $('#copyURL').tooltip({ title: 'Copied!', trigger: 'click', placement: 'right', delay: 0 });
-        });
-    }
+
 
     /**
      * Handles copying the URL into the user's clipboard. Modified from: https://stackoverflow.com/a/49618964/18117380
@@ -240,10 +316,10 @@ export default class extends Component {
         const buttonStyle = {
             outline: 'none', border: 'none', background: 'none'
         };
-        return <div style={{ display: 'flex', width: '100%', }}>
-            <button className="btn-link nowrap-ellipsis hover-bold" disabled={this.state.queryIndex === 0} style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex - 1)}>Previous query</button>
-            <span className="line">|</span>
-            <button className="btn-link nowrap-ellipsis hover-bold" disabled={this.state.queryIndex === this.props.data.queries.length - 1} style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex + 1)}>Next query</button>
+        return <div style={{ display: 'flex', width: '100%', margin: '7px 0' }}>
+            <button className="btn-link nowrap-ellipsis hover-bold" hidden={this.state.queryIndex === 1} style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex - 1)}>Previous query</button>
+            <span className="line" hidden={this.state.queryIndex === 1 || this.state.queryIndex === this.props.data.queries.length}>|</span>
+            <button className="btn-link nowrap-ellipsis hover-bold" hidden={this.state.queryIndex === this.props.data.queries.length} style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex + 1)}>Next query</button>
         </div>;
     }
     indexJSX() {

@@ -104,6 +104,7 @@ class Report extends Component {
             querydb: [],
             params: [],
             stats: [],
+            allQueriesLoaded: false
         };
     }
     /**
@@ -290,7 +291,9 @@ class Report extends Component {
    * Called after all results have been rendered.
    */
     componentFinishedUpdating() {
+        if (this.state.allQueriesLoaded) return;
         this.shouldShowIndex() && this.setupScrollSpy();
+        this.setState({ allQueriesLoaded: true });
     }
 
     /**
@@ -322,12 +325,13 @@ class Report extends Component {
    */
     resultsJSX() {
         return (
-            <div className="row">
+            <div className="row" id="results">
                 <div className="col-md-3 hidden-sm hidden-xs">
                     <Sidebar
                         data={this.state}
                         atLeastOneHit={this.atLeastOneHit()}
                         shouldShowIndex={this.shouldShowIndex()}
+                        allQueriesLoaded={this.state.allQueriesLoaded}
                     />
                 </div>
                 <div className="col-md-9">
