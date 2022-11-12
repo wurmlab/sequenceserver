@@ -87,8 +87,9 @@ export default class extends Component {
      */
     setVisibleQueryIndex() {
         const queryElems = this.queryElems.length ? this.queryElems : Array.from(document.querySelectorAll('.resultn'));
+        const hits = Array.from(document.querySelectorAll('.hit[id^=Query_]'));
         // get the first visible element and marks it as the current query
-        const topmostEl = queryElems.find(this.isElementInViewPort);
+        const topmostEl = queryElems.find(this.isElementInViewPort) || hits.find(this.isElementInViewPort);
         if (topmostEl) {
             const queryIndex = Number(topmostEl.id.match(/Query_(\d+)/)[1]);
             let hash = `#Query_${queryIndex}`;
