@@ -14,6 +14,17 @@ const nextQueryButton = () => screen.queryByRole('button', { name: /next query/i
 
 const previousQueryButton = () => screen.queryByRole('button', { name: /previous query/i });
 
+const TestSidebar = ({ long }) => {
+    const data = long ? longResponseJSON : shortResponseJSON;
+    const { queries } = data;
+    return <Sidebar
+        atLeastOneHit
+        data={data}
+        allQueriesLoaded
+        shouldShowIndex={queries.length >= 2 && queries.length <= 12}
+    />;
+};
+
 describe('REPORT PAGE', () => {
     it('should render the report component with initial loading state', () => {
         render(<Report />);
@@ -36,11 +47,7 @@ describe('REPORT PAGE', () => {
         it('should render the sidebar component with correct heading', () => {
             setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
             const { queries, program, querydb } = shortResponseJSON;
-            const { container } = render(<Sidebar
-                data={shortResponseJSON}
-                atLeastOneHit
-                shouldShowIndex={queries.length >= 2 && queries.length <= 12}
-                allQueriesLoaded />);
+            const { container } = render(<TestSidebar />);
             expect(container.querySelector('.sidebar')).toBeInTheDocument();
             const sidebar_heading_text = `${program.toUpperCase()}: ${queries.length} queries, ${querydb.length} databases`;
             expect(screen.getByRole('heading', { name: sidebar_heading_text })).toBeInTheDocument();
@@ -49,46 +56,25 @@ describe('REPORT PAGE', () => {
         describe('SHORT QUERIES (<=12)', () => {
             it('should show navigation links for short queries', () => {
                 const { queries } = shortResponseJSON;
-                const { container } = render(<Sidebar
-                    data={shortResponseJSON}
-                    atLeastOneHit
-                    shouldShowIndex={queries.length >= 2 && queries.length <= 12}
-                    allQueriesLoaded />);
+                const { container } = render(<TestSidebar />);
                 expect(container.querySelectorAll('a[href^="#Query_"]').length).toEqual(queries.length);
 
             });
         });
 
         describe('LONG QUERIES (>12)', () => {
+
             it('should not show navigation links for long queries', () => {
-                const { queries } = longResponseJSON;
-                const { container } = render(<Sidebar
-                    data={longResponseJSON}
-                    atLeastOneHit
-                    shouldShowIndex={queries.length >= 2 && queries.length <= 12}
-                    allQueriesLoaded
-                />);
+                const { container } = render(<TestSidebar long />);
                 expect(container.querySelectorAll('a[href^="#Query_"]').length).toBe(0);
             });
             it('should show only next button if on first query ', () => {
-                const { queries } = longResponseJSON;
-                render(<Sidebar
-                    data={longResponseJSON}
-                    atLeastOneHit
-                    shouldShowIndex={queries.length >= 2 && queries.length <= 12}
-                    allQueriesLoaded
-                />);
+                render(<TestSidebar long />);
                 expect(nextQueryButton()).toBeInTheDocument();
                 expect(previousQueryButton()).not.toBeInTheDocument();
             });
             it('should show both previous and next buttons if not on first query', () => {
-                const { queries } = longResponseJSON;
-                render(<Sidebar
-                    data={longResponseJSON}
-                    atLeastOneHit
-                    shouldShowIndex={queries.length >= 2 && queries.length <= 12}
-                    allQueriesLoaded
-                />);
+                render(<TestSidebar long />);
                 const nextBtn = nextQueryButton();
                 expect(nextBtn).toBeInTheDocument();
                 fireEvent.click(nextBtn);
@@ -98,12 +84,7 @@ describe('REPORT PAGE', () => {
             });
             it('should show only previous button if on last query', () => {
                 const { queries } = longResponseJSON;
-                render(<Sidebar
-                    data={longResponseJSON}
-                    atLeastOneHit
-                    shouldShowIndex={queries.length >= 2 && queries.length <= 12}
-                    allQueriesLoaded
-                />);
+                render(<TestSidebar long />);
                 expect(nextQueryButton()).toBeInTheDocument();
                 expect(previousQueryButton()).not.toBeInTheDocument();
 

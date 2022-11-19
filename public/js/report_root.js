@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './jquery_world'; // for custom $.tooltip function
 import React, { Component, createRef } from 'react';
 import { createRoot } from 'react-dom/client';

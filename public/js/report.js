@@ -1,6 +1,5 @@
 import './jquery_world'; // for custom $.tooltip function
-import React, { Component, createRef } from 'react';
-import { createRoot } from 'react-dom/client';
+import React, { Component } from 'react';
 import _ from 'underscore';
 
 import Sidebar from './sidebar';
@@ -88,9 +87,9 @@ class Report extends Component {
    * bound to the window, document, or body.
    */
     componentDidMount() {
-    this.fetchResults();
-    // This sets up an event handler which enables users to select text from
-    // hit header without collapsing the hit.
+        this.fetchResults();
+        // This sets up an event handler which enables users to select text from
+        // hit header without collapsing the hit.
         this.preventCollapseOnSelection();
         this.toggleTable();
     }
