@@ -329,9 +329,9 @@ export default class extends Component {
         const handleNextBtnClick = () => this.handleQueryIndexChange(this.state.queryIndex + 1);
 
         // eslint-disable-next-line no-unused-vars
-        const NavButton = ({ text, onClick }) => {
-            <button className={buttonClasses} onClick={onClick} style={buttonStyle}>{text}</button>;
-        };
+        const NavButton = ({ text, onClick }) => (
+            <button className={buttonClasses} onClick={onClick} style={buttonStyle}>{text}</button>
+        );
         return <div style={{ display: 'flex', width: '100%', margin: '7px 0' }}>
             {this.state.queryIndex > 1 && <NavButton text="Previous Query" onClick={handlePreviousBtnClick} />}
             {this.state.queryIndex > 1 && this.state.queryIndex < this.props.data.queries.length && <span className="line">|</span>}
