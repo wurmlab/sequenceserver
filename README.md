@@ -83,21 +83,41 @@ If you are using docker, you can build the frontend code and include it in the i
 
     docker build . -t seqserv-with-customisations --target=minify
 
-### Testing
+## **Testing**
+
+### **Ruby**
 
 We use RSpec and Capybara for testing. Our test suite covers 87% of the codebase. Tests are run automatically when you open a pull-request (see Getting code merged section below) but it may be desirable sometimes to run a single test, whole file, or all tests locally:
 
 To run a single test (a.k.a, scenario):
 
-    bundle exec rspec spec/foo_spec.rb -e 'bar'
+`bundle exec rspec spec/foo_spec.rb -e 'bar'`
 
 To run all tests in a single file:
 
-    bundle exec rspec spec/foo_spec.rb
+`bundle exec rspec spec/foo_spec.rb`
 
 To run all tests:
 
-    bundle exec rspec
+`bundle exec rspec`
+
+
+### **Javascript**
+
+Unit tests for the React frontend are written using React Testing Library and jest. 
+
+To run a single test :
+
+`npm run test -e "test name"`
+
+To run all tests in a single file:
+
+`npm run test file_name`
+
+To run all tests:
+
+`npm run test`
+
 
 ### Linting
 
