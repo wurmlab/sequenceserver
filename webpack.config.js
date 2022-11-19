@@ -9,7 +9,7 @@ module.exports = {
             filename: './sequenceserver-search.min.js',
         },
         report: {
-            import: './public/js/report.js',
+            import: './public/js/report_root.js',
             filename: './sequenceserver-report.min.js',
         },
     },
@@ -34,6 +34,10 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
+        }),
+        new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
+        new webpack.DefinePlugin({
+            process: { env: {} }
         }),
     ],
 };

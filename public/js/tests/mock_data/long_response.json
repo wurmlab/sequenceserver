@@ -1,0 +1,269 @@
+{
+  "querydb": [
+    {
+      "name": "/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta",
+      "title": "Sinvicta 2-2-3 cdna subset",
+      "type": "nucleotide",
+      "nsequences": "473",
+      "ncharacters": "287752",
+      "updated_on": "Jun 17, 2020  4:52 PM",
+      "format": "5",
+      "categories": ["sample", "transcripts", "Solenopsis_invicta"],
+      "id": "045f6f2637f2776f95c93ed2f62ebc51"
+    },
+    {
+      "name": "/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta",
+      "title": "Solenopsis invicta gnG subset",
+      "type": "nucleotide",
+      "nsequences": "8",
+      "ncharacters": "39185542",
+      "updated_on": "Jun 17, 2020  4:51 PM",
+      "format": "5",
+      "categories": ["sample", "genome", "Solenopsis_invicta"],
+      "id": "c0bb1dadfeda93ea1f53732109df0959"
+    },
+    {
+      "name": "/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa",
+      "title": "funky ids (v5)",
+      "type": "nucleotide",
+      "nsequences": "8",
+      "ncharacters": "312",
+      "updated_on": "Aug 13, 2020  11:23 AM",
+      "format": "5",
+      "categories": ["funky_ids"],
+      "id": "b71a337accf1e099aace6c859fba5e99"
+    }
+  ],
+  "program": "blastn",
+  "program_version": "BLASTN 2.13.0+",
+  "params": {
+    "task": "blastn",
+    "evalue": "1e-05",
+    "sc-match": "2",
+    "sc-mismatch": "-3",
+    "gap-open": "5",
+    "gap-extend": "2",
+    "filter": "L;m;"
+  },
+  "stats": {
+    "nsequences": "489",
+    "ncharacters": "39473606",
+    "hsp_length": "26",
+    "search_space": "15547591448",
+    "kappa": "0.41",
+    "labmda": "0.625",
+    "entropy": "0.78"
+  },
+  "queries": [
+    {
+      "number": 1,
+      "id": "SiOBP1-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 420,
+      "hits": [
+        {
+          "number": 1,
+          "id": "ref|NW_011796848.1|",
+          "accession": "NW_011796848",
+          "title": "",
+          "length": 6355204,
+          "total_score": 821,
+          "qcovs": 96,
+          "sciname": "",
+          "hsps": [
+            {
+              "number": 1,
+              "bit_score": 189.738,
+              "score": 209,
+              "evalue": 2.21904e-47,
+              "qstart": 231,
+              "qend": 337,
+              "sstart": 657803,
+              "send": 657909,
+              "qframe": 1,
+              "sframe": 1,
+              "identity": 106,
+              "positives": 106,
+              "gaps": 0,
+              "length": 107,
+              "qcovhsp": 25,
+              "qseq": "TTTGGTCGATGAAGACGGTAATTTGGAAGCTGAGATGCTGATAAGTGTTATCCCGGAAGAATTTCAAGAGATAGGTAACAAGATTTTGAACAAATGCGCCGTACAAG",
+              "sseq": "TTAGGTCGATGAAGACGGTAATTTGGAAGCTGAGATGCTGATAAGTGTTATCCCGGAAGAATTTCAAGAGATAGGTAACAAGATTTTGAACAAATGCGCCGTACAAG",
+              "midline": "|| ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+            },
+            {
+              "number": 2,
+              "bit_score": 169,
+              "score": 186,
+              "evalue": 2.07832e-41,
+              "qstart": 144,
+              "qend": 236,
+              "sstart": 657642,
+              "send": 657734,
+              "qframe": 1,
+              "sframe": 1,
+              "identity": 93,
+              "positives": 93,
+              "gaps": 0,
+              "length": 93,
+              "qcovhsp": 22,
+              "qseq": "AGCGCTTATTGACGAAGTTAACGATGGGAAACTCTCGAATGACCGGTCTATCACGTGCTACATGAACTGCCTTCTCGACGCCTTCAGTTTGGT",
+              "sseq": "AGCGCTTATTGACGAAGTTAACGATGGGAAACTCTCGAATGACCGGTCTATCACGTGCTACATGAACTGCCTTCTCGACGCCTTCAGTTTGGT",
+              "midline": "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+            },
+            {
+              "number": 3,
+              "bit_score": 156.376,
+              "score": 172,
+              "evalue": 1.31157e-37,
+              "qstart": 60,
+              "qend": 145,
+              "sstart": 657355,
+              "send": 657440,
+              "qframe": 1,
+              "sframe": 1,
+              "identity": 86,
+              "positives": 86,
+              "gaps": 0,
+              "length": 86,
+              "qcovhsp": 20,
+              "qseq": "GCCACCCGACTGGATACCCCCGGAAATGTTGGAGATGGTTCAAGGTGACAAGGAGCGATGCATGGCCGAACACGGAACGAGTCAAG",
+              "sseq": "GCCACCCGACTGGATACCCCCGGAAATGTTGGAGATGGTTCAAGGTGACAAGGAGCGATGCATGGCCGAACACGGAACGAGTCAAG",
+              "midline": "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+            },
+            {
+              "number": 4,
+              "bit_score": 122.112,
+              "score": 134,
+              "evalue": 2.70573e-27,
+              "qstart": 336,
+              "qend": 402,
+              "sstart": 658004,
+              "send": 658070,
+              "qframe": 1,
+              "sframe": 1,
+              "identity": 67,
+              "positives": 67,
+              "gaps": 0,
+              "length": 67,
+              "qcovhsp": 16,
+              "qseq": "AGACGGCGCGGATAAATGCGAAAAGATCTACAATGTGGCGAAATGCGTCCAAGGAACAGTACCAGAG",
+              "sseq": "AGACGGCGCGGATAAATGCGAAAAGATCTACAATGTGGCGAAATGCGTCCAAGGAACAGTACCAGAG",
+              "midline": "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+            },
+            {
+              "number": 5,
+              "bit_score": 109.488,
+              "score": 120,
+              "evalue": 1.7075e-23,
+              "qstart": 1,
+              "qend": 60,
+              "sstart": 657094,
+              "send": 657153,
+              "qframe": 1,
+              "sframe": 1,
+              "identity": 60,
+              "positives": 60,
+              "gaps": 0,
+              "length": 60,
+              "qcovhsp": 14,
+              "qseq": "ATGCACGTGTCGGTGATTCTCGGCGTAGTGTTGCTACAGGCGATTTACGTGTCCGCCGCG",
+              "sseq": "ATGCACGTGTCGGTGATTCTCGGCGTAGTGTTGCTACAGGCGATTTACGTGTCCGCCGCG",
+              "midline": "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+            }
+          ],
+          "links": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "SiOBP2-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 459,
+      "hits": []
+    },
+    {
+      "number": 3,
+      "id": "SiOBP3-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 462,
+      "hits": []
+    },
+    {
+      "number": 4,
+      "id": "SiOBP4-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 462,
+      "hits": []
+    },
+    {
+      "number": 5,
+      "id": "SiOBP5-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 435,
+      "hits": []
+    },
+    {
+      "number": 6,
+      "id": "SiOBP6-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 441,
+      "hits": []
+    },
+    {
+      "number": 7,
+      "id": "SiOBP7-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 402,
+      "hits": []
+    },
+    {
+      "number": 8,
+      "id": "SiOBP8-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 462,
+      "hits": []
+    },
+    {
+      "number": 9,
+      "id": "SiOBP9-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 390,
+      "hits": []
+    },
+    {
+      "number": 10,
+      "id": "SiOBP10-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 432,
+      "hits": []
+    },
+    {
+      "number": 11,
+      "id": "SiOBP11-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 450,
+      "hits": []
+    },
+    {
+      "number": 12,
+      "id": "SiOBP12-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 528,
+      "hits": []
+    },
+    {
+      "number": 13,
+      "id": "SiOBP13-mRNA",
+      "title": "[organism=Solenopsis invicta]",
+      "length": 483,
+      "hits": []
+    }
+  ],
+  "search_id": "39809010-b82c-46e5-a316-1f6bb2739535",
+  "submitted_at": "2022-11-13 09:56:25 UTC",
+  "imported_xml": false,
+  "seqserv_version": "2.0.0",
+  "non_parse_seqids": false
+}

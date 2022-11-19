@@ -5,6 +5,11 @@ import downloadFASTA from './download_fasta';
 import AlignmentExporter from './alignment_exporter'; // to download textual alignment
 
 /**
+ * checks whether code is being run by jest
+ */
+// eslint-disable-next-line no-undef
+const isTestMode = () => process.env.JEST_WORKER_ID !== undefined || process.env.NODE_ENV === 'test';
+/**
  * Renders links for downloading hit information in different formats.
  * Renders links for navigating to each query.
  */
@@ -102,6 +107,8 @@ export default class extends Component {
         }
     }
     animateAnchorElements(e) {
+        // allow normal behavior in test mode to prevent warnings or errors from jquery
+        if (isTestMode()) return;
         e.preventDefault();
         $('html, body').animate({
             scrollTop: $(this.hash).offset().top
@@ -111,7 +118,6 @@ export default class extends Component {
         } else {
             window.location.hash = this.hash;
         }
-
     }
     isElementInViewPort(elem) {
         const { top, left, right, bottom } = elem.getBoundingClientRect();
@@ -318,9 +324,9 @@ export default class extends Component {
             outline: 'none', border: 'none', background: 'none'
         };
         return <div style={{ display: 'flex', width: '100%', margin: '7px 0' }}>
-            <button className="btn-link nowrap-ellipsis hover-bold" hidden={this.state.queryIndex === 1} style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex - 1)}>Previous query</button>
-            <span className="line" hidden={this.state.queryIndex === 1 || this.state.queryIndex === this.props.data.queries.length}>|</span>
-            <button className="btn-link nowrap-ellipsis hover-bold" hidden={this.state.queryIndex === this.props.data.queries.length} style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex + 1)}>Next query</button>
+            {this.state.queryIndex > 1 && <button className="btn-link nowrap-ellipsis hover-bold" style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex - 1)}>Previous query</button>}
+            {this.state.queryIndex > 1 && this.state.queryIndex < this.props.data.queries.length && <span className="line">|</span>}
+            {this.state.queryIndex < this.props.data.queries.length && <button className="btn-link nowrap-ellipsis hover-bold" style={buttonStyle} onClick={() => this.handleQueryIndexChange(this.state.queryIndex + 1)}>Next query</button>}
         </div>;
     }
     indexJSX() {
