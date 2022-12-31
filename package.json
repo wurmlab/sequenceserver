@@ -52,7 +52,7 @@
     "html-webpack-plugin": "^5.5.0",
     "jest": "^28.0.1",
     "jest-jspm": "^0.1.2",
-    "jspm": "^0.16.2",
+    "jspm": "^0.16.55",
     "path": "^0.12.7",
     "react-test-renderer": "^18.1.0",
     "stylelint": "^13.13.1",
