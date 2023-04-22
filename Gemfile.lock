@@ -6,6 +6,7 @@ PATH
       ox (~> 2.1, >= 2.1.1)
       sinatra (~> 2.0, >= 2.0.0)
       slop (~> 3.6, >= 3.6.0)
+      webrick (~> 1.8, >= 1.8.0)
 
 GEM
   remote: http://rubygems.org/
@@ -33,16 +34,18 @@ GEM
     launchy (2.4.3)
       addressable (~> 2.3)
     mini_mime (1.0.2)
-    mini_portile2 (2.4.0)
-    mustermann (1.1.1)
+    mini_portile2 (2.8.1)
+    mustermann (1.1.2)
       ruby2_keywords (~> 0.0.1)
-    nokogiri (1.10.7)
-      mini_portile2 (~> 2.4.0)
-    ox (2.13.4)
+    nokogiri (1.14.3)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
+    ox (2.14.16)
     parallel (1.19.1)
     parser (2.7.0.2)
       ast (~> 2.4.0)
     public_suffix (4.0.3)
+    racc (1.6.2)
     rack (2.1.2)
     rack-protection (2.0.8.1)
       rack
@@ -87,8 +90,9 @@ GEM
       rack-protection (= 2.0.8.1)
       tilt (~> 2.0)
     slop (3.6.0)
-    tilt (2.0.10)
+    tilt (2.1.0)
     unicode-display_width (1.6.1)
+    webrick (1.8.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
