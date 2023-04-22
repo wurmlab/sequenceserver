@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   # dependencies
   s.required_ruby_version = '>= 3.0.6'
 
-  s.add_dependency('json_pure', '~> 1.8',  '>= 1.8.2')
+  s.add_dependency('json_pure', '~> 2.6',  '>= 2.6.3')
   s.add_dependency('ox',        '~> 2.1',  '>= 2.1.1')
   s.add_dependency('sinatra',   '~> 2.0',  '>= 2.0.0')
   s.add_dependency('slop',      '~> 3.6',  '>= 3.6.0')
@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('capybara-screenshot', '~> 1.0', '>= 1.0.23')
   s.add_development_dependency('rack-test', '~> 1.0', '>= 1.0.0')
   s.add_development_dependency('rspec', '~> 3.7', '>= 3.7.0')
-  s.add_development_dependency('rubocop', '~> 0.75', '>= 0.75.1')
+  s.add_development_dependency('rubocop', '~> 1.50', '>= 1.50.1')
   s.add_development_dependency('selenium-webdriver', '~> 3.142', '>= 3.142.3')
   s.add_development_dependency('simplecov', '~> 0.17.0', '>= 0.17.0')
 
