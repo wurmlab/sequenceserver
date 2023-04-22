@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   DESC
 
   # dependencies
-  s.required_ruby_version = '>= 2.3.0'
+  s.required_ruby_version = '>= 3.0.6'
 
   s.add_dependency('json_pure', '~> 1.8',  '>= 1.8.2')
   s.add_dependency('ox',        '~> 2.1',  '>= 2.1.1')
