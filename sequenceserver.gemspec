@@ -4,10 +4,9 @@ Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
   s.version     = SequenceServer::VERSION
-  s.authors     = ['Anurag Priyam', 'Ben J Woodcroft',
-                   'Vivek Rai', 'Yannick Wurm']
-  s.email       = ['anurag08priyam@gmail.com', 'b.woodcroft@uq.edu.au']
-  s.homepage    = 'http://sequenceserver.com'
+  s.authors     = ['Anurag Priyam', 'Yannick Wurm', 'Many others', 'Queen Mary University of London', 'Pragmatic Genomics Ltd']
+  s.email       = ['anurag08priyam@gmail.com', 'yannickwurm@gmail.com']
+  s.homepage    = 'https://sequenceserver.com'
   s.license     = 'AGPL-3.0'
 
   s.summary     = 'BLAST search made easy!'
@@ -44,13 +43,13 @@ Gem::Specification.new do |s|
 
     ------------------------------------------------------------------------
       Thank you for installing SequenceServer :)
-
       To launch SequenceServer execute 'sequenceserver' from command line.
 
         $ sequenceserver
 
-
-      Visit http://sequenceserver.com for more.
+      More information at https://sequenceserver.com
+      Community support: https://support.sequenceserver.com
+      For point-and-click setup, check out SequenceServer Cloud.  
     ------------------------------------------------------------------------
 
   INFO
