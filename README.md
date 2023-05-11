@@ -106,6 +106,8 @@ To run all tests:
 
 Unit tests for the React frontend are written using React Testing Library and jest. 
 
+One option for installing jest: `npm install --save-dev jest`
+
 To run a single test :
 
 `npm run test -e "test name"`
