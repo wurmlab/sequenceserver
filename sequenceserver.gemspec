@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency('capybara', '~> 3.15', '>= 3.15.1')
   s.add_development_dependency('capybara-screenshot', '~> 1.0', '>= 1.0.23')
+  s.add_development_dependency('pry')
   s.add_development_dependency('rack-test', '~> 1.0', '>= 1.0.0')
   s.add_development_dependency('rspec', '~> 3.7', '>= 3.7.0')
   s.add_development_dependency('rubocop', '~> 1.50', '>= 1.50.1')
@@ -49,7 +50,7 @@ Gem::Specification.new do |s|
 
       More information at https://sequenceserver.com
       Community support: https://support.sequenceserver.com
-      For point-and-click setup, check out SequenceServer Cloud.  
+      For point-and-click setup, check out SequenceServer Cloud.
     ------------------------------------------------------------------------
 
   INFO
