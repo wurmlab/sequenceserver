@@ -156,16 +156,17 @@ export class Form extends Component {
     }
 
     handleAlgoChanged(algo) {
-        if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
+        if (algo in this.state.preDefinedOpts) {
             var preDefinedOpts = this.state.preDefinedOpts[algo];
             this.refs.opts.setState({
+                method: algo,
                 preOpts: preDefinedOpts,
                 value: (preDefinedOpts['last search'] ||
                     preDefinedOpts['default']).join(' ')
             });
         }
         else {
-            this.refs.opts.setState({ preOpts: {}, value: '' });
+            this.refs.opts.setState({ preOpts: {}, value: '', method: '' });
         }
     }
 

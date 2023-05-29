@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 export class Options extends Component {
     constructor(props) {
         super(props);
-        this.state = { preOpts: {}, value: '' };
+        this.state = { preOpts: {}, value: '', method: '' };
         this.updateBox = this.updateBox.bind(this);
         this.optionsJSX = this.optionsJSX.bind(this);
+        this.showAdvancedOptions = this.showAdvancedOptions.bind(this);
     }
 
     updateBox(value) {
@@ -37,7 +38,20 @@ export class Options extends Component {
             </ul>
         </span>;
     }
-
+    showAdvancedOptions(e) {
+        const ids = ['blastn', 'tblastn', 'blastp', 'blastx', 'tblastx'];
+        const method = this.state.method.toLowerCase();
+        if (!method) {
+            // prevent modal from opening if no algorithm is selected
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+        // hide options for other algorithms and only show for selected algorithm
+        for (const id of ids) {
+            $(`#${id}`)[id === method ? 'show' : 'hide']();
+        }
+    }
     render() {
         var classNames = 'form-control';
         if (this.state.value.trim()) {
@@ -52,6 +66,7 @@ export class Options extends Component {
                                 Advanced parameters:
                                 <sup style={{ marginLeft: '2px' }}>
                                     <a href=''
+                                        onClick={this.showAdvancedOptions}
                                         data-toggle="modal" data-target="#help">
                                         <i className="fa fa-question-circle"></i>
                                     </a>
