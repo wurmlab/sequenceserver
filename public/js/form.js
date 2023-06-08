@@ -85,7 +85,7 @@ export class Form extends Component {
         evt.preventDefault();
         const form = this.formRef.current;
         const formData = new FormData(form);
-        formData.append('method', this.determineBlastMethod()[0]);
+        formData.append('method', this.refs.button.state.methods[0]);
         fetch(window.location.href, {
             method: 'POST',
             body: formData
