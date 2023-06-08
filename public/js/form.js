@@ -22,7 +22,6 @@ export class Form extends Component {
         this.determineBlastMethod = this.determineBlastMethod.bind(this);
         this.handleSequenceTypeChanged = this.handleSequenceTypeChanged.bind(this);
         this.handleDatabaseTypeChanaged = this.handleDatabaseTypeChanaged.bind(this);
-        this.handleNewTabCheckbox = this.handleNewTabCheckbox.bind(this);
         this.handleAlgoChanged = this.handleAlgoChanged.bind(this);
         this.handleFormSubmission = this.handleFormSubmission.bind(this);
         this.formRef = createRef();
@@ -95,7 +94,7 @@ export class Form extends Component {
             $('#overlay').css('display', 'none');
             // redirect
             if (res.redirected && res.url) {
-                window.location.href = res.url;
+                window.open(res.url, $('#toggleNewTab').is(':checked') ? '_blank' : '_self');
             }
         });
     }
@@ -166,16 +165,6 @@ export class Form extends Component {
         }
     }
 
-    handleNewTabCheckbox() {
-        setTimeout(() => {
-            if ($('#toggleNewTab').is(':checked')) {
-                $('#blast').attr('target', '_blank');
-            }
-            else {
-                $('#blast').attr('target', '_self');
-            }
-        });
-    }
     render() {
         return (
             <div className="container">
@@ -204,9 +193,7 @@ export class Form extends Component {
                         <div className="col-md-2">
                             <div className="form-group" style={{ 'textAlign': 'center', 'padding': '7px 0' }}>
                                 <label>
-                                    <input type="checkbox" id="toggleNewTab"
-                                        onChange={() => { this.handleNewTabCheckbox(); }}
-                                    /> Open results in new tab
+                                    <input type="checkbox" id="toggleNewTab" /> Open results in new tab
                                 </label>
                             </div>
                         </div>
