@@ -173,7 +173,7 @@ export class Form extends Component {
         return (
             <div className="container">
                 <div id="overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vw', background: 'rgba(0, 0, 0, 0.2)', display: 'none', zIndex: 99 }} />
-                <form id="blast" method="post" ref={this.formRef} onSubmit={this.handleFormSubmission} className="form-horizontal">
+                <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission} className="form-horizontal">
                     <div className="form-group query-container">
                         <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
                     </div>
