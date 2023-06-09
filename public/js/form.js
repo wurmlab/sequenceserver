@@ -94,7 +94,11 @@ export class Form extends Component {
             $('#overlay').css('display', 'none');
             // redirect
             if (res.redirected && res.url) {
-                window.open(res.url, $('#toggleNewTab').is(':checked') ? '_blank' : '_self');
+                // setTimeout is needed here as a workaround because safari doesnt allow async calling of window.open
+                // so setTimeout makes the method get called on the main thread.
+                setTimeout(() => {
+                    window.open(res.url, $('#toggleNewTab').is(':checked') ? '_blank' : '_self');
+                }, 0);
             }
         });
     }
