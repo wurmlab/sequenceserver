@@ -94,7 +94,11 @@ export class Form extends Component {
             $('#overlay').css('display', 'none');
             // redirect
             if (res.redirected && res.url) {
-                window.open(res.url, $('#toggleNewTab').is(':checked') ? '_blank' : '_self');
+                // setTimeout is needed here as a workaround because safari doesnt allow async calling of window.open
+                // so setTimeout makes the method get called on the main thread.
+                setTimeout(() => {
+                    window.open(res.url, $('#toggleNewTab').is(':checked') ? '_blank' : '_self');
+                }, 0);
             }
         });
     }
@@ -169,7 +173,7 @@ export class Form extends Component {
         return (
             <div className="container">
                 <div id="overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vw', background: 'rgba(0, 0, 0, 0.2)', display: 'none', zIndex: 99 }} />
-                <form id="blast" method="post" ref={this.formRef} onSubmit={this.handleFormSubmission} className="form-horizontal">
+                <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission} className="form-horizontal">
                     <div className="form-group query-container">
                         <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
                     </div>
