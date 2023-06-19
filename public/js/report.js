@@ -474,6 +474,9 @@ class Report extends Component {
             $b.addClass('disabled').find('.text-bold').html('');
         }
     }
+    populate_hsp_array(hit, query_id){
+        return hit.hsps.map(hsp => Object.assign(hsp, {hit_id: hit.id, query_id}));
+    }
 
     prepareAlignmentOfSelectedHits() {
         var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
@@ -482,9 +485,7 @@ class Report extends Component {
 
         if(!sequence_ids.length){
             // remove attributes from link if sequence_ids array is empty
-            $('.download-alignment-of-selected')
-                .attr('href', '#')
-                .removeAttr('download');
+            $('.download-alignment-of-selected').attr('href', '#').removeAttr('download');
             return;
                 
         }
@@ -494,27 +495,21 @@ class Report extends Component {
         }
         var hsps_arr = [];
         var aln_exporter = new AlignmentExporter();
+        const self = this;
         _.each(this.state.queries, _.bind(function (query) {
             _.each(query.hits, function (hit) {
                 if (_.indexOf(sequence_ids, hit.id) != -1) {
-                    _.each(hit.hsps, function (hsp) {
-                        hsp.hit_id = hit.id;
-                        hsp.query_id = query.id;
-                        hsps_arr.push(hsp);
-                    });
+                    hsps_arr = hsps_arr.concat(self.populate_hsp_array(hit, query.id));
                 }
             });
         }, this));
         const filename = 'alignment-' + sequence_ids.length + '_hits';
         const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, filename);
         // set required download attributes for link
-        $('.download-alignment-of-selected')
-            .attr('href', blob_url)
-            .attr('download', filename);
+        $('.download-alignment-of-selected').attr('href', blob_url).attr('download', filename);
         // track new url for future removal
         this.setState({alignment_blob_url: blob_url});
     }
-
 
     prepareAlignmentOfAllHits() {
         // Get number of hits and array of all hsps.
@@ -527,11 +522,7 @@ class Report extends Component {
             (query) => query.hits.forEach(
                 (hit) => {
                     num_hits++;
-                    hit.hsps.forEach((hsp) => {
-                        hsp.query_id = query.id;
-                        hsp.hit_id = hit.id;
-                        hsps_arr.push(hsp);
-                    });
+                    hsps_arr = hsps_arr.concat(this.populate_hsp_array(hit, query.id));
                 }
             )
         );

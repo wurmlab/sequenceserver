@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import _ from 'underscore';
 
 import downloadFASTA from './download_fasta';
-import AlignmentExporter from './alignment_exporter'; // to download textual alignment
 
 /**
  * checks whether code is being run by jest
