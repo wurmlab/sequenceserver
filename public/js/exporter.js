@@ -10,13 +10,17 @@ export function download_url(url, filename) {
     }, 100);
 }
 
+export function generate_blob_url(blob) {
+    const url = window.URL.createObjectURL(blob);
+    return url;
+}
+
 export function download_blob(blob, filename) {
     if (typeof window.navigator.msSaveOrOpenBlob !== 'undefined') {
         window.navigator.msSaveOrOpenBlob(blob, filename);
-        return;
+    }else{
+        download_url(generate_blob_url(blob), filename);
     }
-
-    download_url(window.URL.createObjectURL(blob), filename);
 }
 
 export function sanitize_filename(str) {

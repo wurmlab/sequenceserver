@@ -19,8 +19,6 @@ export default class extends Component {
         super(props);
         this.downloadFastaOfAll = this.downloadFastaOfAll.bind(this);
         this.downloadFastaOfSelected = this.downloadFastaOfSelected.bind(this);
-        this.downloadAlignmentOfAll = this.downloadAlignmentOfAll.bind(this);
-        this.downloadAlignmentOfSelected = this.downloadAlignmentOfSelected.bind(this);
         this.topPanelJSX = this.topPanelJSX.bind(this);
         this.summaryString = this.summaryString.bind(this);
         this.indexJSX = this.indexJSX.bind(this);
@@ -178,50 +176,6 @@ export default class extends Component {
         return false;
     }
 
-    downloadAlignmentOfAll() {
-        // Get number of hits and array of all hsps.
-        var num_hits = 0;
-        var hsps_arr = [];
-        this.props.data.queries.forEach(
-            (query) => query.hits.forEach(
-                (hit) => {
-                    num_hits++;
-                    hit.hsps.forEach((hsp) => {
-                        hsp.query_id = query.id;
-                        hsp.hit_id = hit.id;
-                        hsps_arr.push(hsp);
-                    });
-                }
-            )
-        );
-
-        var aln_exporter = new AlignmentExporter();
-        var file_name = `alignment-${num_hits}_hits`;
-        aln_exporter.export_alignments(hsps_arr, file_name);
-        return false;
-    }
-
-    downloadAlignmentOfSelected() {
-        var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
-            return this.value;
-        }).get();
-        var hsps_arr = [];
-        var aln_exporter = new AlignmentExporter();
-        console.log('check ' + sequence_ids.toString());
-        _.each(this.props.data.queries, _.bind(function (query) {
-            _.each(query.hits, function (hit) {
-                if (_.indexOf(sequence_ids, hit.id) != -1) {
-                    _.each(hit.hsps, function (hsp) {
-                        hsp.hit_id = hit.id;
-                        hsp.query_id = query.id;
-                        hsps_arr.push(hsp);
-                    });
-                }
-            });
-        }, this));
-        aln_exporter.export_alignments(hsps_arr, 'alignment-' + sequence_ids.length + '_hits');
-        return false;
-    }
 
 
 
@@ -379,14 +333,12 @@ export default class extends Component {
                         </li>
                     }
                     <li>
-                        <a href="#" className={`btn-link download-alignment-of-all ${!this.props.atLeastOneHit && 'disabled'}`}
-                            onClick={this.downloadAlignmentOfAll}>
+                        <a href="#" className={`btn-link download-alignment-of-all ${!this.props.atLeastOneHit && 'disabled'}`}>
                             Alignment of all hits
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="btn-link download-alignment-of-selected disabled"
-                            onClick={this.downloadAlignmentOfSelected}>
+                        <a href="#" className="btn-link download-alignment-of-selected disabled">
                             Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>

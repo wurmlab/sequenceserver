@@ -7,6 +7,7 @@ import Circos from './circos';
 import { ReportQuery } from './query';
 import Hit from './hit';
 import HSP from './hsp';
+import AlignmentExporter from './alignment_exporter';
 
 
 
@@ -37,8 +38,12 @@ class Report extends Component {
             querydb: [],
             params: [],
             stats: [],
+            alignment_blob_url: '',
             allQueriesLoaded: false
         };
+        this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
+        this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
+        this.setStateFromJSON = this.setStateFromJSON.bind(this);
     }
     /**
    * Fetch results.
@@ -79,7 +84,8 @@ class Report extends Component {
    */
     setStateFromJSON(responseJSON) {
         this.lastTimeStamp = Date.now();
-        this.setState(responseJSON);
+        // the callback prepares the download link for all alignments
+        this.setState(responseJSON, this.prepareAlignmentOfAllHits);
     }
     /**
    * Called as soon as the page has loaded and the user sees the loading spinner.
@@ -165,6 +171,7 @@ class Report extends Component {
                             showQueryCrumbs={this.state.queries.length > 1}
                             showHitCrumbs={query.hits.length > 1}
                             veryBig={this.state.veryBig}
+                            onChange={this.prepareAlignmentOfSelectedHits}
                             {...this.props}
                         />
                     );
@@ -466,6 +473,76 @@ class Report extends Component {
             $a.addClass('disabled').find('.text-bold').html('');
             $b.addClass('disabled').find('.text-bold').html('');
         }
+    }
+
+    prepareAlignmentOfSelectedHits() {
+        var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+
+        if(!sequence_ids.length){
+            // remove attributes from link if sequence_ids array is empty
+            $('.download-alignment-of-selected')
+                .attr('href', '#')
+                .removeAttr('download');
+            return;
+                
+        }
+        if(this.state.alignment_blob_url){
+            // always revoke existing url if any because this method will always create a new url
+            window.URL.revokeObjectURL(this.state.alignment_blob_url);
+        }
+        var hsps_arr = [];
+        var aln_exporter = new AlignmentExporter();
+        _.each(this.state.queries, _.bind(function (query) {
+            _.each(query.hits, function (hit) {
+                if (_.indexOf(sequence_ids, hit.id) != -1) {
+                    _.each(hit.hsps, function (hsp) {
+                        hsp.hit_id = hit.id;
+                        hsp.query_id = query.id;
+                        hsps_arr.push(hsp);
+                    });
+                }
+            });
+        }, this));
+        const filename = 'alignment-' + sequence_ids.length + '_hits';
+        const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, filename);
+        // set required download attributes for link
+        $('.download-alignment-of-selected')
+            .attr('href', blob_url)
+            .attr('download', filename);
+        // track new url for future removal
+        this.setState({alignment_blob_url: blob_url});
+    }
+
+
+    prepareAlignmentOfAllHits() {
+        // Get number of hits and array of all hsps.
+        var num_hits = 0;
+        var hsps_arr = [];
+        if(!this.state.queries.length){
+            return;
+        }
+        this.state.queries.forEach(
+            (query) => query.hits.forEach(
+                (hit) => {
+                    num_hits++;
+                    hit.hsps.forEach((hsp) => {
+                        hsp.query_id = query.id;
+                        hsp.hit_id = hit.id;
+                        hsps_arr.push(hsp);
+                    });
+                }
+            )
+        );
+
+        var aln_exporter = new AlignmentExporter();
+        var file_name = `alignment-${num_hits}_hits`;
+        const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, file_name);
+        $('.download-alignment-of-all')
+            .attr('href', blob_url)
+            .attr('download', file_name);
+        return false;
     }
 
     render() {
