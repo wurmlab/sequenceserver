@@ -1,7 +1,10 @@
 import * as Exporter from './exporter';
 import _ from 'underscore';
 export default class AlignmentExporter {
-    constructor() {}
+    constructor() {
+        this.prepare_alignments_for_export = this.prepare_alignments_for_export.bind(this);
+        this.export_alignments = this.export_alignments.bind(this);
+    }
 
     wrap_string(str, width) {
         var idx = 0;
@@ -33,17 +36,22 @@ export default class AlignmentExporter {
         return fasta;
     }
 
-    export_alignments(hsps, filename_prefix) {
+    get_alignments_download_metadata(hsps, filename_prefix){
         var fasta = this.generate_fasta(hsps);
-
         var blob = new Blob([fasta], { type: 'text/fasta' });
-        // var filename_prefix = query_def + '_' + subject_def;
-        // var filename_prefix = query_id + '_' + subject_id;
         var filename = Exporter.sanitize_filename(filename_prefix) + '.txt';
-        Exporter.download_blob(blob, filename);
+        return {filename, blob};
     }
 
-    export_alignments_of_all(hsps, name) {
-
+    
+    prepare_alignments_for_export(hsps, filename_prefix) {
+        const { filename, blob } = this.get_alignments_download_metadata(hsps, filename_prefix);
+        const blob_url = Exporter.generate_blob_url(blob, filename);
+        return blob_url;
+    }
+    
+    export_alignments(hsps, filename_prefix) {
+        const { filename, blob } = this.get_alignments_download_metadata(hsps, filename_prefix);
+        Exporter.download_blob(blob, filename);
     }
 }
