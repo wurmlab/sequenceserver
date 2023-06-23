@@ -41,12 +41,6 @@ export class Options extends Component {
     showAdvancedOptions(e) {
         const ids = ['blastn', 'tblastn', 'blastp', 'blastx', 'tblastx'];
         const method = this.state.method.toLowerCase();
-        if (!method) {
-            // prevent modal from opening if no algorithm is selected
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-        }
         // hide options for other algorithms and only show for selected algorithm
         for (const id of ids) {
             $(`#${id}`)[id === method ? 'show' : 'hide']();
@@ -64,13 +58,14 @@ export class Options extends Component {
                         <div className="input-group">
                             <label className="control-label" htmlFor="advanced">
                                 Advanced parameters:
-                                <sup style={{ marginLeft: '2px' }}>
+                                {/* only show link to advanced parameters if blast method is known */}
+                                {this.state.method && <sup style={{ marginLeft: '2px' }}>
                                     <a href=''
                                         onClick={this.showAdvancedOptions}
                                         data-toggle="modal" data-target="#help">
                                         <i className="fa fa-question-circle"></i>
                                     </a>
-                                </sup>
+                                </sup>}
                             </label>
                             <input type="text" className={classNames}
                                 onChange={e => this.updateBox(e.target.value)}
