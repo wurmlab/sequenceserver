@@ -26,6 +26,7 @@ const TestSidebar = ({ long }) => {
 };
 
 describe('REPORT PAGE', () => {
+    global.URL.createObjectURL = jest.fn();
     it('should render the report component with initial loading state', () => {
         render(<Report />);
         expect(screen.getByRole('heading', { name: 'BLAST-ing' })).toBeInTheDocument();
