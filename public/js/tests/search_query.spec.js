@@ -3,20 +3,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SearchQueryWidget } from '../query';
 import { Form } from '../form';
-import userEvent from '@testing-library/user-event';
+import { AMINO_ACID_SEQUENCE, NUCLEOTIDE_SEQUENCE } from './mock_data/sequences';
 import '@testing-library/jest-dom/extend-expect';
 import '@testing-library/react/dont-cleanup-after-each';
 
-export const AMINO_ACID_SEQUENCE = `MNTLWLSLWDYPGKLPLNFMVFDTKDDLQAAYWRDPYSIPLAVIFEDPQPISQRLIYEIR
-TNPSYTLPPPPTKLYSAPISCRKNKTGHWMDDILSIKTGESCPVNNYLHSGFLALQMITD
-ITKIKLENSDVTIPDIKLIMFPKEPYTADWMLAFRVVIPLYMVLALSQFITYLLILIVGE
-KENKIKEGMKMMGLNDSVF
->SI2.2.0_13722 locus=Si_gnF.scaffold06207[1925625..1928536].pep_1 quality=100.00
-MSANRLNVLVTLMLAVALLVTESGNAQVDGYLQFNPKRSAVSSPQKYCGKKLSNALQIIC
-DGVYNSMFKKSGQDFPPQNKRHIAHRINGNEEESFTTLKSNFLNWCVEVYHRHYRFVFVS
-EMEMADYPLAYDISPYLPPFLSRARARGMLDGRFAGRRYRRESRGIHEECCINGCTINEL
-TSYCGP
-`;
+
 describe('SEARCH COMPONENT', () => {
     const getInputElement = () => screen.getByRole('textbox', { name: '' });
     test('should render the search component textarea', () => {
@@ -37,5 +28,41 @@ describe('SEARCH COMPONENT', () => {
         fireEvent.change(inputEl, { target: { value: '' } });
         expect(getButtonWrapper()).toHaveClass('hidden');
 
+    });
+
+    test('should correctly detect the amino-acid sequence type and show notification', () => {
+        const { container }  = render(<Form onSequenceTypeChanged={() => { }
+        } />);
+        const inputEl = getInputElement();
+        // populate search
+        fireEvent.change(inputEl, { target: { value: AMINO_ACID_SEQUENCE } });
+        const activeNotification = container.querySelector('.notification.active');
+        expect(activeNotification.id).toBe('protein-sequence-notification');
+        const alertWrapper = activeNotification.children[0];
+        expect(alertWrapper).toHaveTextContent('Detected: amino-acid sequence(s).');
+    });
+
+    test('should correctly detect the nucleotide sequence type and show notification', () => {
+        const { container }  = render(<Form onSequenceTypeChanged={() => { }
+        } />);
+        const inputEl = getInputElement();
+        // populate search
+        fireEvent.change(inputEl, { target: { value: NUCLEOTIDE_SEQUENCE } });
+        const activeNotification = container.querySelector('.notification.active');
+        expect(activeNotification.id).toBe('nucleotide-sequence-notification');
+        const alertWrapper = activeNotification.children[0];
+        expect(alertWrapper).toHaveTextContent('Detected: nucleotide sequence(s).');
+    });
+    
+    test('should correctly detect the mixed sequences and show error notification', () => {
+        const { container }  = render(<Form onSequenceTypeChanged={() => { }
+        } />);
+        const inputEl = getInputElement();
+        // populate search
+        fireEvent.change(inputEl, { target: { value: `${NUCLEOTIDE_SEQUENCE}${AMINO_ACID_SEQUENCE}` } });
+        const activeNotification = container.querySelector('.notification.active');
+        expect(activeNotification.id).toBe('mixed-sequence-notification');
+        const alertWrapper = activeNotification.children[0];
+        expect(alertWrapper).toHaveTextContent('Error: mixed nucleotide and amino-acid sequences detected.');
     });
 });
