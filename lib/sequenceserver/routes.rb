@@ -1,6 +1,7 @@
 require 'json'
 require 'tilt/erb'
 require 'sinatra/base'
+require 'rest-client'
 
 require 'sequenceserver/job'
 require 'sequenceserver/blast'
@@ -147,6 +148,46 @@ module SequenceServer
       job = Job.fetch(jid)
       out = BLAST::Formatter.new(job, type)
       send_file out.file, filename: out.filename, type: out.mime
+    end
+
+    post '/cloud_share' do
+      job = Job.fetch(params[:job_id])
+
+      raise "A job needs to be completed before it can be shared" unless job.done?
+      raise "Cloud sharing is not configured" unless SequenceServer.config[:cloud_share_url]
+
+      begin
+        job.as_archived_file do |archived_job_file|
+          cloud_share_response = RestClient.post(
+            SequenceServer.config[:cloud_share_url],
+            {
+              shared_job: {
+                sender: {
+                  email: "sequence-server@localhost.com",
+                },
+                archived_job_file: archived_job_file,
+                original_job_id: job.id
+              }
+            }
+          )
+
+          puts JSON.parse(cloud_share_response.body)["shareable_url"]
+          redirect to("/#{job.id}")
+        end
+
+
+      rescue RestClient::ExceptionWithResponse => e
+        cloud_share_response = e.response
+        case cloud_share_response.code
+          when 422
+            errors = JSON.parse(cloud_share_response.body)['errors']
+            raise "Cloudshare error: #{errors.join(', ')}"
+          else
+            raise "Unexpected Cloudshare response: #{cloud_share_response.code}"
+          end
+      rescue Errno::ECONNREFUSED => e
+        raise "Sorry, the cloud sharing server might not be running. Try again later."
+      end
     end
 
     # Catches any exception raised within the app and returns JSON

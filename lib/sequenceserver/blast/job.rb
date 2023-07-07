@@ -1,4 +1,5 @@
 require 'sequenceserver/job'
+require 'sequenceserver/zip_file_generator'
 
 module SequenceServer
   # BLAST module.
@@ -104,6 +105,21 @@ module SequenceServer
         end
       end
       # rubocop:enable Metrics/CyclomaticComplexity
+
+      # Use it with a block to get a self-cleaning temporary archive file
+      # of the contents of the job directory.
+      # job.as_archived_file do |tmp_file|
+      #    # do things with tmp_file
+      # end
+      def as_archived_file
+        Dir.mktmpdir(id.to_s) do |tmp_dir|
+          file_path = "#{tmp_dir}/#{id}.zip"
+          ZipFileGenerator.new(dir, file_path).write
+          File.open(file_path, 'r') do |file|
+            yield file
+          end
+        end
+      end
 
       private
 
