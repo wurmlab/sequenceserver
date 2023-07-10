@@ -7,67 +7,70 @@ describe 'a browser', type: :feature, js: true do
     visit '/'
     fill_in('sequence', with: nucleotide_query)
 
-    prot = page.evaluate_script("$('.protein .database').text().trim()")
-    prot.should eq("2020-11 Swiss-Prot insecta 2020-11-Swiss-Prot insecta (subset taxid 102803) Sinvicta 2-2-3 prot subset without_parse_seqids.fa")
+    expect(page).to have_selector('.protein .database', text: /\A2020-11 Swiss-Prot insecta\z/)
+    expect(page).to have_selector('.protein .database', text: '2020-11-Swiss-Prot insecta (subset taxid 102803)')
+    expect(page).to have_selector('.protein .database', text: 'Sinvicta 2-2-3 prot subset')
+    expect(page).to have_selector('.protein .database', text: 'without_parse_seqids.fa')
 
-    nucl = page.evaluate_script("$('.nucleotide .database').text().trim()")
-    nucl.should eq("Sinvicta 2-2-3 cdna subset Solenopsis invicta gnG subset funky ids (v5)")
+    expect(page).to have_selector('.nucleotide .database', text: 'Sinvicta 2-2-3 cdna subset')
+    expect(page).to have_selector('.nucleotide .database', text: 'Solenopsis invicta gnG subset')
+    expect(page).to have_selector('.nucleotide .database', text: 'funky ids (v5)')
   end
 
-  it 'properly controls blast button' do
+  it 'keeps the CTA disabled until a sequence is provided and database selected' do
     visit '/'
 
     fill_in('sequence', with: nucleotide_query)
-    page.evaluate_script("$('#method').is(':disabled')").should eq(true)
+    expect(page).to have_selector('#method:disabled')
 
     check(nucleotide_databases.first)
-    page.evaluate_script("$('#method').is(':disabled')").should eq(false)
+    expect(page).to have_selector('#method:enabled')
   end
 
-  it 'properly controls interaction with database listing' do
+  it 'disables protein DB selection if a nucleotide DB is already selected' do
     visit '/'
     fill_in('sequence', with: nucleotide_query)
     check(nucleotide_databases.first)
-    page.evaluate_script("$('.protein .database').first().hasClass('disabled')")
-        .should eq(true)
+
+    expect(page).to have_no_selector('.protein .database:enabled')
   end
 
   it 'shows a dropdown menu when other blast methods are available' do
     visit '/'
     fill_in('sequence', with: nucleotide_query)
     check(nucleotide_databases.first)
-    page.has_css?('#methods button.dropdown-toggle').should eq(true)
+    expect(page).to have_selector('#methods button.dropdown-toggle')
   end
 
   it 'can run a simple blastn search' do
     perform_search query: nucleotide_query,
                    databases: nucleotide_databases
-    page.should have_content('BLASTN')
+    expect(page).to have_content('BLASTN')
   end
 
   it 'can run a simple blastp search' do
     perform_search query: protein_query,
                    databases: protein_databases
-    page.should have_content('BLASTP')
+    expect(page).to have_content('BLASTP')
   end
 
   it 'can run a simple blastx search' do
     perform_search query: nucleotide_query,
                    databases: protein_databases
-    page.should have_content('BLASTX')
+    expect(page).to have_content('BLASTX')
   end
 
   it 'can run a simple tblastx search' do
     perform_search query: nucleotide_query,
                    databases: nucleotide_databases,
                    method: 'tblastx'
-    page.should have_content('TBLASTX')
+    expect(page).to have_content('TBLASTX')
   end
 
   it 'can run a simple tblastn search' do
     perform_search query: protein_query,
                    databases: nucleotide_databases
-    page.should have_content('TBLASTN')
+    expect(page).to have_content('TBLASTN')
   end
 
   ### Test aspects of the generated report.
@@ -80,7 +83,7 @@ describe 'a browser', type: :feature, js: true do
 
     # Click on the first FASTA download button on the page and wait for the
     # download to finish.
-    page.execute_script("$('.download-fa:eq(0)').click()")
+    page.first('.download-fa').click
     wait_for_download
 
     # Test name and content of the downloaded file.
@@ -141,7 +144,7 @@ describe 'a browser', type: :feature, js: true do
 
     # Click on the first Alignment download button on the page and wait for the
     # download to finish.
-    page.execute_script("$('.download-aln:eq(0)').click()")
+    page.first('.download-aln').click
     wait_for_download
 
     # Test name and content of the downloaded file.
@@ -222,7 +225,7 @@ describe 'a browser', type: :feature, js: true do
     href = page.find('#sendEmail')['href']
     expect(href).to include('mailto:?subject=SequenceServer%20BLASTP%20analysis')
     expect(href).to include(page.current_url)
-    expect(href).to include(protein_databases.values_at(0).join() && '%20')
+    expect(href).to include(protein_databases.values_at(0).join && '%20')
   end
 
   it 'can show hit sequences in a modal' do
@@ -232,7 +235,7 @@ describe 'a browser', type: :feature, js: true do
                    databases: protein_databases.values_at(0))
 
     # Click on the first sequence viewer link in the report.
-    page.execute_script("$('.view-sequence:eq(0)').click()")
+    page.first('.view-sequence').click
 
     within('.sequence-viewer') do
       page.should have_content('SI2.2.0_06267')
@@ -245,11 +248,12 @@ describe 'a browser', type: :feature, js: true do
       SEQ
     end
 
-    # Dismiss the first modal.
-    page.execute_script("$('.sequence-viewer').modal('hide')")
+    # Dismiss the modal.
+    page.find('.sequence-viewer').send_keys(:escape)
+    expect(page).to have_no_css('.sequence-viewer')
 
     # Click on the second sequence viewer link in the report.
-    page.execute_script("$('.view-sequence:eq(1)').click()")
+    page.find_all('.view-sequence')[1].click
 
     within('.sequence-viewer') do
       page.should have_content('SI2.2.0_13722')
@@ -272,7 +276,7 @@ describe 'a browser', type: :feature, js: true do
                    databases: nucleotide_databases.values_at(0))
 
     # Check that the sequence viewer links are disabled.
-    page.evaluate_script("$('.view-sequence').is(':disabled')").should eq(true)
+    expect(page).to have_selector('.view-sequence:disabled')
   end
 
   it 'can download visualisations in svg and png format' do
@@ -282,60 +286,66 @@ describe 'a browser', type: :feature, js: true do
                    databases: protein_databases.values_at(0))
 
     ## Check that there is a circos vis and unfold it.
-    page.should have_content('Queries and their top hits: chord diagram')
-    page.execute_script("$('.circos > .grapher-header > h4').click()")
-    sleep 1
+    page.find('.circos > .grapher-header > h4', text: 'Queries and their top hits: chord diagram').click
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
-    wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Circos-visualisation.svg')
-    clear_downloads
+    within('.circos.grapher') do
+      page.click_on('SVG')
+      wait_for_download
+      expect(File.basename(downloaded_file)).to eq('Circos-visualisation.svg')
+      clear_downloads
 
-    page.execute_script("$('.export-to-png:eq(0)').click()")
-    wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Circos-visualisation.png')
+      page.click_on('PNG')
+      wait_for_download
+      expect(File.basename(downloaded_file)).to eq('Circos-visualisation.png')
+    end
     clear_downloads
 
     ## Check that there is a graphical overview of hits.
-    page.should have_content('Graphical overview of hits')
+    expect(page).to have_content('Graphical overview of hits')
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
-    wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-Query_1.svg')
-    clear_downloads
+    within('#Query_1 .alignment-overview.grapher') do
+      page.click_on('SVG')
+      wait_for_download
+      expect(File.basename(downloaded_file)).to eq('Alignment-Overview-Query_1.svg')
+      clear_downloads
 
-    page.execute_script("$('.export-to-png:eq(1)').click()")
-    wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Alignment-Overview-Query_1.png')
-    clear_downloads
+      page.click_on('PNG')
+      wait_for_download
+      expect(File.basename(downloaded_file)).to eq('Alignment-Overview-Query_1.png')
+      clear_downloads
+    end
 
     ## Check that there is a length distribution of matching sequences.
-    page.should have_content('Length distribution of matching sequences')
-    page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
-    sleep 1
+    expect(page).to have_content('Length distribution of matching sequences')
+    page.find('#Query_1 .length-distribution > .grapher-header > h4',
+              text: 'Length distribution of matching sequences').click
 
-    page.execute_script("$('.export-to-svg:eq(2)').click()")
-    wait_for_download
-    expect(File.basename(downloaded_file)).to eq('length-distribution-Query_1.svg')
-    clear_downloads
+    within('#Query_1 .length-distribution.grapher') do
+      page.click_on('SVG')
+      wait_for_download
+      expect(File.basename(downloaded_file)).to eq('length-distribution-Query_1.svg')
+      clear_downloads
 
-    page.execute_script("$('.export-to-png:eq(2)').click()")
-    wait_for_download
-    expect(File.basename(downloaded_file)).to eq('length-distribution-Query_1.png')
-    clear_downloads
+      page.click_on('PNG')
+      wait_for_download
+      expect(File.basename(downloaded_file)).to eq('length-distribution-Query_1.png')
+      clear_downloads
+    end
 
     ## Check that there is a kablammo vis of query vs hit.
-    page.should have_content('Graphical overview of aligning region(s)')
+    expect(page).to have_content('Graphical overview of aligning region(s)')
 
-    page.execute_script("$('.export-to-svg:eq(3)').click()")
-    wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.svg')
-    clear_downloads
+    within('#Query_1_hit_1 .kablammo.grapher') do
+      page.click_on('SVG')
+      wait_for_download
+      expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.svg')
+      clear_downloads
 
-    page.execute_script("$('.export-to-png:eq(3)').click()")
-    wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.png')
-    clear_downloads
+      page.click_on('PNG')
+      wait_for_download
+      expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.png')
+      clear_downloads
+    end
   end
 
   ## Helpers ##

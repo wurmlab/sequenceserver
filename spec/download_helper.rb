@@ -1,7 +1,9 @@
 # Based on https://stackoverflow.com/a/29544674
 module DownloadHelpers
+  DOWNLOADS_DIR = File.join(__dir__, 'downloads')
+
   def downloads_dir
-    File.join(__dir__, 'downloads')
+    DOWNLOADS_DIR
   end
 
   def wait_for_download
