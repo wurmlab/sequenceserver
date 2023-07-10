@@ -33,9 +33,8 @@
           run: wget -c "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
         - name: BLAST PATH
           run: mkdir /opt/bin && echo "/opt/bin:/opt/ncbi-blast-2.12.0+/bin" >> $GITHUB_PATH
-        - name: Get GeckoDriver
-          working-directory: /opt
-          run: wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz" && tar xvf geckodriver-*.tar.gz -C bin
+        - name: Get Chromium
+          run: apt-get update && apt-get install -y chromium-bsu
         - name: Get CodeClimate
           working-directory: /opt        
           run: wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
