@@ -487,7 +487,7 @@ class Report extends Component {
             // remove attributes from link if sequence_ids array is empty
             $('.download-alignment-of-selected').attr('href', '#').removeAttr('download');
             return;
-                
+
         }
         if(this.state.alignment_blob_url){
             // always revoke existing url if any because this method will always create a new url
@@ -503,7 +503,7 @@ class Report extends Component {
                 }
             });
         }, this));
-        const filename = 'alignment-' + sequence_ids.length + '_hits';
+        const filename = 'alignment-' + sequence_ids.length + '_hits.txt';
         const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, filename);
         // set required download attributes for link
         $('.download-alignment-of-selected').attr('href', blob_url).attr('download', filename);
@@ -528,7 +528,7 @@ class Report extends Component {
         );
 
         var aln_exporter = new AlignmentExporter();
-        var file_name = `alignment-${num_hits}_hits`;
+        var file_name = `alignment-${num_hits}_hits.txt`;
         const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, file_name);
         $('.download-alignment-of-all')
             .attr('href', blob_url)
