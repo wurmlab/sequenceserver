@@ -148,6 +148,17 @@ stylelint is used for CSS:
 
 The above commands respect the respective style checker's config files, e.g., .rubocopy.yml for Rubocop and so on.
 
+### GitHub Workflows
+
+To run workflows locally, ensure [nektos/act](https://github.com/nektos/act) is installed
+as a [GitHub CLI extension](https://github.com/nektos/act#installation-as-github-cli-extension).
+
+Then, for instance, `.github/workflows/test.yml` would be run by:
+
+```
+gh act -j test
+```
+
 ### Getting code merged
 
 Please open a pull-request on GitHub to get code merged. Our test suite and the CodeClimate static code analysis system will be automatically run on your pull-request. These should pass for your code to be merged. If you want to add a new feature to SequenceServer, please also add tests. In addition, code should be `rubocop` and `eslint` compliant, and hard-wrapped to 80 chars per line.
