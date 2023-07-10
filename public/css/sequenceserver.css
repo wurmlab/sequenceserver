@@ -344,6 +344,15 @@ td.nowrap-ellipsis {
   font-size: 18px;
 }
 
+.modal-error {
+  color: red;
+  font-size: 18px;
+  border: 1px solid red;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
 .biojs-vis-sequence pre {
   margin: 0 0;
   border: none;
@@ -640,4 +649,15 @@ input[type=checkbox] {
   padding: 10px;
   cursor: pointer;
   letter-spacing: 1px;
+}
+
+.share-url-component input[type="text"] {
+  width: 100%;
+}
+
+.share-url-component .actions {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  display: flex;
+  justify-content: space-between;
 }

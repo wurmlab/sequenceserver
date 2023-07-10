@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import _ from 'underscore';
 
 import downloadFASTA from './download_fasta';
+import CloudShareModal from './cloud_share_modal';
 
 /**
  * checks whether code is being run by jest
@@ -29,6 +30,7 @@ export default class extends Component {
         this.scrollListener = this.scrollListener.bind(this);
         this.copyURL = this.copyURL.bind(this);
         this.mailtoLink = this.mailtoLink.bind(this);
+        this.shareCloudInit = this.shareCloudInit.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
         this.timeout = null;
         this.queryElems = [];
@@ -84,7 +86,7 @@ export default class extends Component {
     }
 
     /**
-     * This method makes the page aware of what query is visible so that clicking previous / next button at any point 
+     * This method makes the page aware of what query is visible so that clicking previous / next button at any point
      * navigates to the proper query
      */
     setVisibleQueryIndex() {
@@ -134,7 +136,7 @@ export default class extends Component {
         sessionStorage.clear();
     }
     /**
-     * 
+     *
      * handle next and previous query button clicks
      */
     handleQueryIndexChange(nextQuery) {
@@ -228,6 +230,10 @@ export default class extends Component {
 
         var message = encodeURI(mailto).replace(/(%20){2,}/g, '');
         return message;
+    }
+
+    shareCloudInit() {
+        this.refs.cloudShareModal.show();
     }
 
     topPanelJSX() {
@@ -405,7 +411,22 @@ export default class extends Component {
                             </a>
                         </li>
                     }
+                    {
+                        <li>
+                            <button className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
+                                title="Upload results to SequenceServer Cloud where it will become accessable
+                                to everyone who has a link." onClick={this.shareCloudInit}>
+                                <i className="fa fa-cloud"></i> Share to cloud
+                            </button>
+                        </li>
+                    }
                 </ul>
+                {
+                    <CloudShareModal
+                        ref="cloudShareModal"
+                        showErrorModal={(...args) => this.showErrorModal(...args)}
+                    />
+                }
             </div>
         );
     }

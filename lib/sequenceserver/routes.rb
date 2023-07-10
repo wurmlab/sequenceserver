@@ -151,10 +151,19 @@ module SequenceServer
     end
 
     post '/cloud_share' do
-      job = Job.fetch(params[:job_id])
+      content_type :json
+      request_params = JSON.parse(request.body.read)
+      job = Job.fetch(request_params['job_id'])
 
-      raise "A job needs to be completed before it can be shared" unless job.done?
-      raise "Cloud sharing is not configured" unless SequenceServer.config[:cloud_share_url]
+      unless job.done?
+        status 422
+        { errors: ["Job #{request_params['job_id']} is not finished yet."]}.to_json
+      end
+
+      unless SequenceServer.config[:cloud_share_url]
+        status 503
+        { errors: ["Sorry, cloud sharing is not enabled on this server."]}.to_json
+      end
 
       begin
         job.as_archived_file do |archived_job_file|
@@ -163,7 +172,7 @@ module SequenceServer
             {
               shared_job: {
                 sender: {
-                  email: "sequence-server@localhost.com",
+                  email: request_params['sender_email'],
                 },
                 archived_job_file: archived_job_file,
                 original_job_id: job.id
@@ -171,8 +180,7 @@ module SequenceServer
             }
           )
 
-          puts JSON.parse(cloud_share_response.body)["shareable_url"]
-          redirect to("/#{job.id}")
+          return cloud_share_response.body
         end
 
 
@@ -180,13 +188,12 @@ module SequenceServer
         cloud_share_response = e.response
         case cloud_share_response.code
           when 422
-            errors = JSON.parse(cloud_share_response.body)['errors']
-            raise "Cloudshare error: #{errors.join(', ')}"
+            halt 422, JSON.parse(cloud_share_response.body).to_json
           else
-            raise "Unexpected Cloudshare response: #{cloud_share_response.code}"
+            error cloud_share_response.code, { errors: ["Unexpected Cloudshare response: #{cloud_share_response.code}"]}.to_json
           end
       rescue Errno::ECONNREFUSED => e
-        raise "Sorry, the cloud sharing server might not be running. Try again later."
+        error 503, { errors: ["Sorry, the cloud sharing server may not be running. Try again later."]}.to_json
       end
     end
 
@@ -214,6 +221,7 @@ module SequenceServer
     # more_info.
     error 400..500 do
       error = env['sinatra.error']
+      return unless error
 
       # All errors will have a message.
       error_data = { message: error.message }
