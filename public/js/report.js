@@ -39,7 +39,8 @@ class Report extends Component {
             params: [],
             stats: [],
             alignment_blob_url: '',
-            allQueriesLoaded: false
+            allQueriesLoaded: false,
+            cloud_sharing_enabled: false,
         };
         this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
         this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
@@ -273,6 +274,7 @@ class Report extends Component {
                         atLeastOneHit={this.atLeastOneHit()}
                         shouldShowIndex={this.shouldShowIndex()}
                         allQueriesLoaded={this.state.allQueriesLoaded}
+                        cloudSharingEnabled={this.state.cloud_sharing_enabled}
                     />
                 </div>
                 <div className="col-md-9">

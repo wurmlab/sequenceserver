@@ -123,7 +123,7 @@ export default class CloudShareModal extends React.Component {
             type="email"
             id="emailInput"
             className="form-control"
-            placeholder="Enter your email"
+            placeholder="person@example.com"
             name="email"
             value={email}
             onChange={this.handleChange}

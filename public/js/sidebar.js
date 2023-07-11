@@ -411,7 +411,7 @@ export default class extends Component {
                             </a>
                         </li>
                     }
-                    {
+                    {this.props.cloudSharingEnabled &&
                         <li>
                             <button className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
                                 title="Upload results to SequenceServer Cloud where it will become accessable
