@@ -26,7 +26,8 @@ const TestSidebar = ({ long }) => {
 };
 
 describe('REPORT PAGE', () => {
-    global.URL.createObjectURL = jest.fn();
+    global.URL.createObjectURL = jest.fn();//.mockReturnValue('xyz.test');
+    global.setTimeout = (cb) => cb();
     it('should render the report component with initial loading state', () => {
         render(<Report />);
         expect(screen.getByRole('heading', { name: 'BLAST-ing' })).toBeInTheDocument();
@@ -40,7 +41,7 @@ describe('REPORT PAGE', () => {
     });
     it('it should render the report page correctly if there\'s a response provided', () => {
         setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
-        const { container } = render(<Report />);
+        const { container } = render(<Report getCharacterWidth={jest.fn()} />);
         expect(container.querySelector('#results')).toBeInTheDocument();
 
     });
@@ -96,5 +97,64 @@ describe('REPORT PAGE', () => {
                 expect(previousQueryButton()).toBeInTheDocument();
             });
         });
+
+        describe('ALIGNMENT DOWNLOAD', () => {
+            it('should generate a blob url and filename for downloading alignment of all hits on render', () => {
+                setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
+                const { container } = render(<Report getCharacterWidth={jest.fn()}  />);
+                const alignment_download_link = container.querySelector('.download-alignment-of-all');
+                const expected_num_hits = container.querySelectorAll('.hit-links input[type="checkbox"]').length;
+                const file_name = `alignment-${expected_num_hits}_hits.txt`;
+                expect(alignment_download_link.download).toEqual(file_name);
+                expect(alignment_download_link.hred).not.toEqual('#');
+            });
+            it('link for downloading alignment of specific number of selected hits should be disabled on initial load', () => {
+                setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
+                const { container } = render(<Report getCharacterWidth={jest.fn()}  />);
+                const alignment_download_link = container.querySelector('.download-alignment-of-selected');
+                expect(alignment_download_link.classList.contains('disabled')).toBeTruthy();
+
+            });
+            it('should generate a blob url and filename for downloading alignment of specific number of selected hits', () => {
+                setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
+                const { container } = render(<Report getCharacterWidth={jest.fn()}  />);
+                const alignment_download_link = container.querySelector('.download-alignment-of-selected');
+                
+                // QUERY ALL HIT LINKS CHECKBOXES
+                const checkboxes = container.querySelectorAll('.hit-links input[type="checkbox"]');
+                // SELECT 4 CHECKBOXES
+                Array.from(checkboxes).slice(0, 4).forEach((checkbox) => {
+                    fireEvent.click(checkbox);
+                });
+                const file_name = 'alignment-4_hits.txt';
+                expect(alignment_download_link.textContent).toEqual('Alignment of 4 selected hit(s)');
+                expect(alignment_download_link.download).toEqual(file_name);
+            });
+        });
+
+        describe('FASTA DOWNLOAD', () => {
+            it('link for downloading fasta of specific number of selected hits should be disabled on initial load', () => {
+                setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
+                const { container } = render(<Report getCharacterWidth={jest.fn()}  />);
+                const fasta_download_link = container.querySelector('.download-fasta-of-selected');
+                expect(fasta_download_link.classList.contains('disabled')).toBeTruthy();
+
+            });
+
+            it('link for downloading fasta of specific number of selected hits should be active after selection', () => {
+                setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
+                const { container } = render(<Report getCharacterWidth={jest.fn()}  />);
+                const fasta_download_link = container.querySelector('.download-fasta-of-selected');
+                
+                // QUERY ALL HIT LINKS CHECKBOXES
+                const checkboxes = container.querySelectorAll('.hit-links input[type="checkbox"]');
+                // SELECT 5 CHECKBOXES
+                Array.from(checkboxes).slice(0, 5).forEach((checkbox) => {
+                    fireEvent.click(checkbox);
+                });
+                expect(fasta_download_link.textContent).toEqual('FASTA of 5 selected hit(s)');
+            });
+        });
     });
+
 });
