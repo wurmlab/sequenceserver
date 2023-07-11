@@ -3,6 +3,7 @@ import _ from 'underscore';
 
 import downloadFASTA from './download_fasta';
 import CloudShareModal from './cloud_share_modal';
+import asMailtoHref from './mailto';
 
 /**
  * checks whether code is being run by jest
@@ -29,7 +30,6 @@ export default class extends Component {
         this.debounceScrolling = this.debounceScrolling.bind(this);
         this.scrollListener = this.scrollListener.bind(this);
         this.copyURL = this.copyURL.bind(this);
-        this.mailtoLink = this.mailtoLink.bind(this);
         this.shareCloudInit = this.shareCloudInit.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
         this.timeout = null;
@@ -197,39 +197,6 @@ export default class extends Component {
         setTimeout(function () {
             $('#copyURL')._tooltip('destroy');
         }, 3000);
-    }
-
-    /**
-     * Returns a mailto message with at most 15 databases used
-     */
-    mailtoLink() {
-        // Iterates over the databases used and appends the first 15 to an array with string formatting
-        var dbsArr = [];
-        let i = 0;
-        while (this.props.data.querydb[i] && i < 15) {
-            dbsArr.push(' ' + this.props.data.querydb[i].title);
-            i += 1;
-        }
-
-        // returns the mailto message
-        var mailto = `mailto:?subject=SequenceServer ${this.props.data.program.toUpperCase()} analysis results &body=Hello,
-
-        Here is a link to my recent ${this.props.data.program.toUpperCase()} analysis of ${this.props.data.queries.length} sequences.
-            ${window.location.href}
-
-        The following databases were used (up to 15 are shown):
-            ${dbsArr}
-
-        The link will work if you have access to that particular SequenceServer instance.
-
-        Thank you for using SequenceServer, and please remember to cite our paper.
-
-        Best regards,
-
-        https://sequenceserver.com`;
-
-        var message = encodeURI(mailto).replace(/(%20){2,}/g, '');
-        return message;
     }
 
     shareCloudInit() {
@@ -405,7 +372,7 @@ export default class extends Component {
                     {!this.props.cloudSharingEnabled &&
                         <li>
                             <a id="sendEmail" className="btn-link email-URL cursor-pointer" data-toggle="tooltip"
-                                title="Send by email" href={this.mailtoLink()}
+                                title="Send by email" href={asMailtoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
                                 target="_blank" rel="noopener noreferrer">
                                 <i className="fa fa-envelope"></i> Send by email
                             </a>
@@ -424,7 +391,9 @@ export default class extends Component {
                 {
                     <CloudShareModal
                         ref="cloudShareModal"
-                        showErrorModal={(...args) => this.showErrorModal(...args)}
+                        querydb={this.props.data.querydb}
+                        program={this.props.data.program}
+                        queryLength={this.props.data.queries.length}
                     />
                 }
             </div>
