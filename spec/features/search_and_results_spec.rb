@@ -1,14 +1,14 @@
-describe 'a browser', type: :feature, js: true do
+describe 'Search and results', type: :feature, js: true do
   before :all do
-    SequenceServer.init(database_dir: "#{__dir__}/database/v5")
+    SequenceServer.init(database_dir: "#{__dir__}/../database/v5")
   end
 
   def nucleotide_query
-    File.read File.join(__dir__, 'sequences', 'nucleotide_query.fa')
+    File.read File.join(__dir__, '..', 'sequences', 'nucleotide_query.fa')
   end
 
   let(:protein_query) do
-    File.read File.join(__dir__, 'sequences', 'protein_query.fa')
+    File.read File.join(__dir__, '..', 'sequences', 'protein_query.fa')
   end
 
   let(:funkyid_query) do
@@ -117,7 +117,7 @@ describe 'a browser', type: :feature, js: true do
     expect(File.basename(downloaded_file))
       .to eq('sequenceserver-SI2.2.0_06267.fa')
     expect(File.read(downloaded_file))
-      .to eq(File.read("#{__dir__}/sequences/sequenceserver-SI2.2.0_06267.fa"))
+      .to eq(File.read("#{__dir__}/../sequences/sequenceserver-SI2.2.0_06267.fa"))
   end
 
   it 'can download FASTA of selected hits' do
@@ -177,7 +177,7 @@ describe 'a browser', type: :feature, js: true do
     # Test name and content of the downloaded file.
     expect(File.basename(downloaded_file)).to eq('Query_1_SI2_2_0_06267.txt')
     expect(File.read(downloaded_file))
-      .to eq(File.read("#{__dir__}/sequences/Query_1_SI2_2_0_06267.txt"))
+      .to eq(File.read("#{__dir__}/../sequences/Query_1_SI2_2_0_06267.txt"))
   end
 
   it 'can download Alignment of selected hits' do
