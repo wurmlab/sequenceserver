@@ -126,6 +126,7 @@ export default class CloudShareModal extends React.Component {
             placeholder="person@example.com"
             name="email"
             value={email}
+            required="required"
             onChange={this.handleChange}
           />
         </div>

@@ -10,7 +10,7 @@ const ShareURLComponent = ({ url }) => {
 
   return (
     <div className="share-url-component">
-      <input type="text" value={url} readOnly />
+      <input name="shareableUrl" type="text" value={url} readOnly />
       <div className="actions">
         <button className="btn btn-primary" onClick={copyToClipboard}>{copied ? 'Copied!' : 'Copy to Clipboard'}</button>
         <a href={`mailto:?subject=SequenceServer result&body=${encodeURIComponent(url)}`}>Share via email</a>
