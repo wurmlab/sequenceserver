@@ -224,8 +224,8 @@ module SequenceServer
         ids = Database.ids
         return true if database_ids.is_a?(Array) && !database_ids.empty? &&
                        (ids & database_ids).length == database_ids.length
-        fail ArgumentError, 'Database id should be one of:' \
-                            " #{ids.join("\n")}."
+        fail DatabaseUnreachableError.new('Database id should be one of:' \
+                            " #{ids.join("\n")}")
       end
 
       # rubocop:disable Metrics/MethodLength

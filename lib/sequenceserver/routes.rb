@@ -242,7 +242,13 @@ module SequenceServer
         error_data[:more_info] = error.backtrace.join("\n")
       end
 
-      error_data.to_json
+      if request.env['HTTP_ACCEPT'].to_s.include?('application/json')
+        content_type :json
+        error_data.to_json
+      else
+        content_type :html
+        erb :error, locals: { error_data: error_data }, layout: true
+      end
     end
 
     # Get the query sequences, selected databases, and advanced params used.

@@ -1,8 +1,30 @@
 module SequenceServer
+  Error = Class.new(StandardError)
+
+  # DatabaseUnreachableError is raised when the serialised Job object is
+  # refering to a database that is not present in the current filesystem.
+  class DatabaseUnreachableError < Error
+    attr_reader :more_info
+
+    def initialize(more_info)
+      super
+      @more_info = more_info
+    end
+
+    def title
+      'Sequence database unreachable'
+    end
+
+    def message
+      "The action you're trying to perform is not possible because \
+        the database is unreachable. This can happen if the database has \
+        been deleted or you are performing an action on an imported job."
+    end
+  end
+
   # API errors have an http status, title, message, and additional information
   # like stacktrace or information from program output.
-  class APIError < StandardError
-  end
+  APIError = Class.new(Error)
 
   # Job not found (404).
   class NotFound < APIError
