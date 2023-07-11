@@ -394,7 +394,7 @@ export default class extends Component {
                     </h4>
                 </div>
                 <ul className="nav">
-                    {
+                    {!this.props.cloudSharingEnabled &&
                         <li>
                             <a id="copyURL" className="btn-link copy-URL cursor-pointer" data-toggle="tooltip"
                                 onClick={this.copyURL}>
@@ -402,7 +402,7 @@ export default class extends Component {
                             </a>
                         </li>
                     }
-                    {
+                    {!this.props.cloudSharingEnabled &&
                         <li>
                             <a id="sendEmail" className="btn-link email-URL cursor-pointer" data-toggle="tooltip"
                                 title="Send by email" href={this.mailtoLink()}

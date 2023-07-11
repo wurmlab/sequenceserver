@@ -2,7 +2,10 @@ describe 'Search and results', type: :feature, js: true do
   include CapybaraHelpers
 
   before :all do
-    SequenceServer.init(database_dir: "#{__dir__}/../database/v5")
+    SequenceServer.init(
+      database_dir: "#{__dir__}/../database/v5",
+      cloud_share_url: nil
+    )
   end
 
   def nucleotide_query
