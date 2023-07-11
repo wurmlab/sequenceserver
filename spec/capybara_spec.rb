@@ -3,6 +3,33 @@ describe 'a browser', type: :feature, js: true do
     SequenceServer.init(database_dir: "#{__dir__}/database/v5")
   end
 
+  def nucleotide_query
+    File.read File.join(__dir__, 'sequences', 'nucleotide_query.fa')
+  end
+
+  let(:protein_query) do
+    File.read File.join(__dir__, 'sequences', 'protein_query.fa')
+  end
+
+  let(:funkyid_query) do
+    'GATGAACGCTGGCGGCGTGCCTAATACATGCAAGTCGAG'
+  end
+
+  let(:nucleotide_databases) do
+    [
+      'Solenopsis invicta gnG subset',
+      'Sinvicta 2-2-3 cdna subset',
+      'funky ids (v5)'
+    ]
+  end
+
+  let(:protein_databases) do
+    [
+      'Sinvicta 2-2-3 prot subset',
+      '2020-11 Swiss-Prot insecta'
+    ]
+  end
+
   it 'sorts databases alphabetically' do
     visit '/'
     fill_in('sequence', with: nucleotide_query)
@@ -212,7 +239,7 @@ describe 'a browser', type: :feature, js: true do
                    databases: protein_databases.values_at(0))
 
     find('#copyURL').click
-    page.should have_content('Copied!')
+    expect(page).to have_content('Copied!')
   end
 
   it 'can send the URL by email' do
@@ -238,8 +265,8 @@ describe 'a browser', type: :feature, js: true do
     page.first('.view-sequence').click
 
     within('.sequence-viewer') do
-      page.should have_content('SI2.2.0_06267')
-      page.should have_content(<<~SEQ.chomp)
+      expect(page).to have_content('SI2.2.0_06267')
+      expect(page).to have_content(<<~SEQ.chomp)
         MNTLWLSLWDYPGKLPLNFMVFDTKDDLQAAYWRDPYSIP
         LAVIFEDPQPISQRLIYEIRTNPSYTLPPPPTKLYSAPIS
         CRKNKTGHWMDDILSIKTGESCPVNNYLHSGFLALQMITD
@@ -256,8 +283,8 @@ describe 'a browser', type: :feature, js: true do
     page.find_all('.view-sequence')[1].click
 
     within('.sequence-viewer') do
-      page.should have_content('SI2.2.0_13722')
-      page.should have_content(<<~SEQ.chomp)
+      expect(page).to have_content('SI2.2.0_13722')
+      expect(page).to have_content(<<~SEQ.chomp)
         MSANRLNVLVTLMLAVALLVTESGNAQVDGYLQFNPKRSA
         VSSPQKYCGKKLSNALQIICDGVYNSMFKKSGQDFPPQNK
         RHIAHRINGNEEESFTTLKSNFLNWCVEVYHRHYRFVFVS
@@ -368,33 +395,6 @@ describe 'a browser', type: :feature, js: true do
 
     # It is important to have this line or the examples end prematurely with a
     # failure.
-    page.should have_content('Query')
-  end
-
-  def nucleotide_query
-    File.read File.join(__dir__, 'sequences', 'nucleotide_query.fa')
-  end
-
-  def protein_query
-    File.read File.join(__dir__, 'sequences', 'protein_query.fa')
-  end
-
-  def funkyid_query
-    'GATGAACGCTGGCGGCGTGCCTAATACATGCAAGTCGAG'
-  end
-
-  def nucleotide_databases
-    [
-      'Solenopsis invicta gnG subset',
-      'Sinvicta 2-2-3 cdna subset',
-      'funky ids (v5)'
-    ]
-  end
-
-  def protein_databases
-    [
-      'Sinvicta 2-2-3 prot subset',
-      '2020-11 Swiss-Prot insecta'
-    ]
+    expect(page).to have_content('Query')
   end
 end
