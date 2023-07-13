@@ -12,7 +12,7 @@ module SequenceServer
 
     def initialize(job_lifetime)
       @job_lifetime = job_lifetime || DEFAULT_JOB_LIFETIME
-      return if @job_lifetime == Float::INFINITY
+      return if @job_lifetime == "Infinity" || @job_lifetime == Float::INFINITY
       @job_lifetime = Integer(@job_lifetime) * 60
       spawn_cleanup
     end

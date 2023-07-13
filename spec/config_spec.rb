@@ -79,9 +79,9 @@ module SequenceServer
     it 'merges arguments with defaults and values from config_file,' \
        'arguments taking precedence' do
       config = Config.new(:config_file => sample_config_file,
-                          :num_threads => 20, :job_lifetime => "INF")
+                          :num_threads => 20, :job_lifetime => "Infinity")
       config[:num_threads].should eq 20
-      config[:job_lifetime].should eq "INF"
+      config[:job_lifetime].should eq "Infinity"
     end
   end
 end
