@@ -55,3 +55,10 @@
         - name: CodeClimate after-build (failure)
           if: steps.rpsec.outcome != 'success'
           run: cc-test-reporter after-build --exit-code 1
+
+        - name: upload code coverage results
+          uses: actions/upload-artifact@v3
+          with:
+            name: code-coverage-report
+            path: coverage
+          
