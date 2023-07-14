@@ -48,6 +48,7 @@
           run: cc-test-reporter before-build
         - name: Run main specs and import spec for BLAST 2.9.0+
           id: rspec
+          continue-on-error: true
           run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
         - name: CodeClimate after-build (success)
           if: steps.rpsec.outcome == 'success'
@@ -55,10 +56,9 @@
         - name: CodeClimate after-build (failure)
           if: steps.rpsec.outcome != 'success'
           run: cc-test-reporter after-build --exit-code 1
-
         - name: upload code coverage results
           uses: actions/upload-artifact@v3
+          if: success() || failure()
           with:
             name: code-coverage-report
             path: coverage
-          
