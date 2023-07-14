@@ -13,10 +13,10 @@
   on:
     push:
       branches:
-        - chrome-actions-grg
+       - chrome-actions-grg
     pull_request:
       branches:
-        - chrome-actions-grg
+       - chrome-actions-grg
   env:
     CC_TEST_REPORTER_ID: ec48bb03c72db6b43ce71fd488110b4707abfde4386c144d886d711378d8db64
   jobs:
@@ -32,6 +32,8 @@
         - name: Get GeckoDriver
           working-directory: /opt
           run: wget -c "https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz" && tar xvf geckodriver-*.tar.gz -C bin
+        - name: Get Chromium
+          run: apt-get update && apt-get install -y chromium-bsu chromium-driver
         - name: Get CodeClimate
           working-directory: /opt
           run: wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
