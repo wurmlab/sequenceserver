@@ -159,6 +159,8 @@ Then, for instance, `.github/workflows/test.yml` would be run by:
 gh act -j test
 ```
 
+[action-validator](https://github.com/mpalmer/action-validator) is claimed as a yaml validator for GitHub workflows.
+
 ### Getting code merged
 
 Please open a pull-request on GitHub to get code merged. Our test suite and the CodeClimate static code analysis system will be automatically run on your pull-request. These should pass for your code to be merged. If you want to add a new feature to SequenceServer, please also add tests. In addition, code should be `rubocop` and `eslint` compliant, and hard-wrapped to 80 chars per line.
