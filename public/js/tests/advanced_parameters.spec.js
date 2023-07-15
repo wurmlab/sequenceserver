@@ -15,14 +15,14 @@ describe('ADVANCED PARAMETERS', () => {
     const getInputElement = () => screen.getByRole('textbox', { name: '' });
     test('should not render the link to advanced parameters modal if blast algorithm is unknown', () => {
         setMockJSONResult(data);
-       const {container } =render(<Form onSequenceTypeChanged={() => { }
+        const {container } =render(<Form onSequenceTypeChanged={() => { }
         } />);
         const modalButton = container.querySelector('[data-target="#help"]');
         expect(modalButton).toBeNull();
     });
     test('should render the link to advanced parameters modal if blast algorithm is known', () => {
         setMockJSONResult(data);
-       const {container } =render(<Form onSequenceTypeChanged={() => { }
+        const {container } =render(<Form onSequenceTypeChanged={() => { }
         } />);
         
         const inputEl = getInputElement();
