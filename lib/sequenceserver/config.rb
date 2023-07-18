@@ -129,7 +129,8 @@ module SequenceServer
         },
         num_threads: 1,
         num_jobs: 1,
-        job_lifetime: 43200
+        job_lifetime: 43200,
+        cloud_share_url: "https://share.sequenceserver.com/api/v1/shared-job" # Set to 'disabled' to disable the cloud sharing feature
       }
     end
   end
