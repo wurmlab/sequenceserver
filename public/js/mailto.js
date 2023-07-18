@@ -1,27 +1,36 @@
 export default function asMailtoHref(querydb, program, numQueries, url, isOpenAccess) {
-  var dbsArr = [];
-  let i = 0;
-  while (querydb[i] && i < 15) {
-    dbsArr.push(' ' + querydb[i].title);
-    i += 1;
-  }
+    const dbsArr = formatDatabases(querydb);
+    const mailto = composeEmail(dbsArr, program, numQueries, url, isOpenAccess);
+    return encodeEmail(mailto);
+}
 
-  var mailto = `mailto:?subject=SequenceServer ${program.toUpperCase()} analysis results &body=Hello,
+function formatDatabases(querydb) {
+    return querydb
+        .slice(0, 15)
+        .map(db => ' ' + db.title);
+}
 
-      Here is a link to my recent ${program.toUpperCase()} analysis of ${numQueries} sequences.
-          ${url}
+function composeEmail(dbsArr, program, numQueries, url, isOpenAccess) {
+    const upperProgram = program.toUpperCase();
+    const accessStatement = isOpenAccess ? '' : 'The link will work if you have access to that particular SequenceServer instance.';
 
-      The following databases were used (up to 15 are shown):
-          ${dbsArr}
+    return `mailto:?subject=SequenceServer ${upperProgram} analysis results &body=Hello,
 
-      ${isOpenAccess ? '' : 'The link will work if you have access to that particular SequenceServer instance.'}
+        Here is a link to my recent ${upperProgram} analysis of ${numQueries} sequences.
+            ${url}
 
-      Thank you for using SequenceServer, and please remember to cite our paper.
+        The following databases were used (up to 15 are shown):
+            ${dbsArr}
 
-      Best regards,
+        ${accessStatement}
 
-      https://sequenceserver.com`;
+        Thank you for using SequenceServer, and please remember to cite our paper.
 
-  var message = encodeURI(mailto).replace(/(%20){2,}/g, '');
-  return message;
+        Best regards,
+
+        https://sequenceserver.com`;
+}
+
+function encodeEmail(mailto) {
+    return encodeURI(mailto).replace(/(%20){2,}/g, '');
 }

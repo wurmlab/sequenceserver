@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import asMailtoHref from './mailto';
 
 const ShareURLComponent = ({ querydb, program, queryLength, url }) => {
@@ -18,6 +18,6 @@ const ShareURLComponent = ({ querydb, program, queryLength, url }) => {
             </div>
         </div>
     );
-  };
+};
 
 export default ShareURLComponent;

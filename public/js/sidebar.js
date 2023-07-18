@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import _ from 'underscore';
 
 import downloadFASTA from './download_fasta';
-import CloudShareModal from './cloud_share_modal';
 import asMailtoHref from './mailto';
+import CloudShareModal from './cloud_share_modal';
 
 /**
  * checks whether code is being run by jest
