@@ -8,7 +8,7 @@ Metrics/AbcSize:
   Exclude:
     # TODO
     - 'lib/sequenceserver.rb'
-    - 'spec/**'
+    - 'spec/**/*'
 Metrics/MethodLength:
   # Because 15 lines in a method is just about as good as 10 (default). And we
   # have a couple that can't be helped.
@@ -31,7 +31,7 @@ Metrics/BlockLength:
   Exclude:
     - 'bin/sequenceserver'
     - 'sequenceserver.gemspec'
-    - 'spec/**'
+    - 'spec/**/*'
 
 Style/UnlessElse:
   # TODO:
