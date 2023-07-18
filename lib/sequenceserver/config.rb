@@ -59,7 +59,7 @@ module SequenceServer
       return {} unless data
 
       # Symbolize keys.
-      data = Hash[data.map { |k, v| [k.to_sym, v] }]
+      data = data.transform_keys(&:to_sym)
 
       # Very old config files may have a key called `database`.
       # Rename it to `database_dir`
@@ -73,17 +73,15 @@ module SequenceServer
       # array values into a hash. The logic is simple: If the array value is the
       # same as default, we give it the key 'default', otherwise we give it the
       # key 'custom'
-      if data[:options]
-        data[:options].each do |key, val|
-          next if val.is_a? Hash
+      data[:options]&.each do |key, val|
+        next if val.is_a? Hash
 
-          data[:options][key] = if val == defaults[:options][key][:default]
-                                  { default: val }
-                                else
-                                  { custom: val }
-                                end
-          @upgraded = true
-        end
+        data[:options][key] = if val == defaults[:options][key][:default]
+                                { default: val }
+                              else
+                                { custom: val }
+                              end
+        @upgraded = true
       end
 
       data

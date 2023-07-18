@@ -186,14 +186,15 @@ module SequenceServer
         case cloud_share_response.code
         when 413
           halt 413,
-               { errors: ['Sorry, the results are too large to share, please consider using https://sequenceserver.com/cloud'] }.to_json
+               { errors: ['Sorry, the results are too large to share, please consider \
+                  using https://sequenceserver.com/cloud'] }.to_json
         when 422
           halt 422, JSON.parse(cloud_share_response.body).to_json
         else
           error cloud_share_response.code,
                 { errors: ["Unexpected Cloudshare response: #{cloud_share_response.code}"] }.to_json
         end
-      rescue Errno::ECONNREFUSED => e
+      rescue Errno::ECONNREFUSED
         error 503, { errors: ['Sorry, the cloud sharing server may not be running. Try again later.'] }.to_json
       end
     end

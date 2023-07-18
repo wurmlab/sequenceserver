@@ -26,7 +26,7 @@ module SequenceServer
       Thread.new do
         loop do
           now = Time.now
-          finished_jobs = Job.all.select { |f| f.done? }
+          finished_jobs = Job.all.select(&:done?)
 
           # Cleanup finished jobs that have lived a lifetime.
           expired_jobs = finished_jobs.select do |job|

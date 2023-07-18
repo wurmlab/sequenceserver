@@ -17,7 +17,7 @@ module DownloadHelpers
 
   def downloaded_file
     warn '*** Multiple files in downloads directory. Expected one. ***' if downloads.length > 1
-    downloads.sort_by { |f| File.mtime(f) }.last
+    downloads.max_by { |f| File.mtime(f) }
   end
 
   def clear_downloads

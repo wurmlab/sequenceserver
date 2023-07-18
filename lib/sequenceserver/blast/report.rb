@@ -42,7 +42,7 @@ module SequenceServer
           h
         end.update(search_id: job.id,
                    submitted_at: job.submitted_at.utc,
-                   imported_xml: !!job.imported_xml_file,
+                   imported_xml: !job.imported_xml_file.nil?,
                    seqserv_version: SequenceServer::VERSION,
                    cloud_sharing_enabled: SequenceServer.config[:cloud_share_url].start_with?('http'),
                    non_parse_seqids: !!job.databases&.any?(&:non_parse_seqids?)).to_json
