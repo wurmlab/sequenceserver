@@ -5,7 +5,6 @@ require 'capybara-screenshot/rspec'
 
 Dir[File.expand_path('spec/support/**/*.rb')].sort.each { |file| require file }
 
-
 # Start SimpleCov.
 SimpleCov.start
 

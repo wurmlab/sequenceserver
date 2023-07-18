@@ -80,9 +80,7 @@ module SequenceServer
         options: SequenceServer.config[:options]
       }
 
-      if SequenceServer.config[:databases_widget] == 'tree'
-        searchdata.update(tree: Database.tree)
-      end
+      searchdata.update(tree: Database.tree) if SequenceServer.config[:databases_widget] == 'tree'
 
       # If a job_id is specified, update searchdata from job meta data (i.e.,
       # query, pre-selected databases, advanced options used). Query is only
@@ -139,7 +137,7 @@ module SequenceServer
       database_ids = params['database_ids'].split(',')
       sequences = Sequence::Retriever.new(sequence_ids, database_ids, true)
       send_file(sequences.file.path,
-                type:     sequences.mime,
+                type: sequences.mime,
                 filename: sequences.filename)
     end
 
@@ -157,12 +155,12 @@ module SequenceServer
 
       unless job.done?
         status 422
-        { errors: ["Job #{request_params['job_id']} is not finished yet."]}.to_json
+        { errors: ["Job #{request_params['job_id']} is not finished yet."] }.to_json
       end
 
       unless SequenceServer.config[:cloud_share_url]
         status 503
-        { errors: ["Sorry, cloud sharing is not enabled on this server."]}.to_json
+        { errors: ['Sorry, cloud sharing is not enabled on this server.'] }.to_json
       end
 
       begin
@@ -172,7 +170,7 @@ module SequenceServer
             {
               shared_job: {
                 sender: {
-                  email: request_params['sender_email'],
+                  email: request_params['sender_email']
                 },
                 archived_job_file: archived_job_file,
                 original_job_id: job.id
@@ -182,21 +180,21 @@ module SequenceServer
 
           return cloud_share_response.body
         end
-
-
       rescue RestClient::ExceptionWithResponse => e
         cloud_share_response = e.response
 
         case cloud_share_response.code
-          when 413
-            halt 413, { errors: ["Sorry, the results are too large to share, please consider using https://sequenceserver.com/cloud"]}.to_json
-          when 422
-            halt 422, JSON.parse(cloud_share_response.body).to_json
-          else
-            error cloud_share_response.code, { errors: ["Unexpected Cloudshare response: #{cloud_share_response.code}"]}.to_json
-          end
+        when 413
+          halt 413,
+               { errors: ['Sorry, the results are too large to share, please consider using https://sequenceserver.com/cloud'] }.to_json
+        when 422
+          halt 422, JSON.parse(cloud_share_response.body).to_json
+        else
+          error cloud_share_response.code,
+                { errors: ["Unexpected Cloudshare response: #{cloud_share_response.code}"] }.to_json
+        end
       rescue Errno::ECONNREFUSED => e
-        error 503, { errors: ["Sorry, the cloud sharing server may not be running. Try again later."]}.to_json
+        error 503, { errors: ['Sorry, the cloud sharing server may not be running. Try again later.'] }.to_json
       end
     end
 
@@ -260,7 +258,7 @@ module SequenceServer
       return if job.imported_xml_file
 
       # Only read job.qfile if we are not going to use Database.retrieve.
-      searchdata[:query] = File.read(job.qfile) if !params[:query]
+      searchdata[:query] = File.read(job.qfile) unless params[:query]
 
       # Which databases to pre-select.
       searchdata[:preSelectedDbs] = job.databases
@@ -273,7 +271,7 @@ module SequenceServer
       # the user hits the back button. Thus we do not test for empty string.
       method = job.method.to_sym
       if job.advanced && job.advanced !=
-           searchdata[:options][method][:default].join(' ')
+                         searchdata[:options][method][:default].join(' ')
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end

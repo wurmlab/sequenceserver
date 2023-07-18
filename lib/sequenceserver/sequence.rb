@@ -136,6 +136,7 @@ module SequenceServer
         # Returns a file name to use for the temporary file.
         def filename
           return @filename if @filename
+
           name = sequence_ids.first            if sequence_ids.length == 1
           name = "#{sequence_ids.length}_hits" if sequence_ids.length >= 2
           @filename = "sequenceserver-#{name}.fa"
@@ -182,14 +183,12 @@ module SequenceServer
         validate && run
       end
 
-      attr_reader :sequence_ids, :database_ids, :in_file
+      attr_reader :sequence_ids, :database_ids, :in_file, :sequences
 
-      attr_reader :sequences
-
-      def to_json
+      def to_json(*_args)
         {
           error_msgs: error_msgs,
-          sequences:  sequences.map(&:info)
+          sequences: sequences.map(&:info)
         }.to_json
       end
 
@@ -224,13 +223,15 @@ module SequenceServer
         ids = Database.ids
         return true if database_ids.is_a?(Array) && !database_ids.empty? &&
                        (ids & database_ids).length == database_ids.length
-        fail DatabaseUnreachableError.new('Database id should be one of:' \
-                            " #{ids.join("\n")}")
+
+        fail DatabaseUnreachableError, 'Database id should be one of:' \
+                            " #{ids.join("\n")}"
       end
 
       # rubocop:disable Metrics/MethodLength
       def error_msgs
         return [] if sequences.length == sequence_ids.length
+
         [
           ['ERROR: incorrect number of sequences found.',
            <<~MSG

@@ -36,13 +36,7 @@ module SequenceServer
       # :nodoc:
       # Attributes used by us - should be considered private.
       attr_reader :advanced
-      attr_reader :databases
-      attr_reader :databases_ncharacters_total
-      attr_reader :method
-      attr_reader :num_threads
-      attr_reader :options
-      attr_reader :qfile
-      attr_reader :query_length
+      attr_reader :databases, :databases_ncharacters_total, :method, :num_threads, :options, :qfile, :query_length
 
       # :nodoc:
       # Deprecated; see Report#extract_params
@@ -65,7 +59,6 @@ module SequenceServer
       # Override Job#raise! to raise specific API errors based on exitstatus
       # and using contents of stderr to provide context about the error.
       #
-      # rubocop:disable Metrics/CyclomaticComplexity
       def raise!
         # Return true exit status is 0 and stdout is not empty.
         return true if exitstatus.zero? && !File.zero?(stdout)
@@ -104,19 +97,18 @@ module SequenceServer
           MSG
         end
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
 
       # Use it with a block to get a self-cleaning temporary archive file
       # of the contents of the job directory.
       # job.as_archived_file do |tmp_file|
       #    # do things with tmp_file
       # end
-      def as_archived_file
+      def as_archived_file(&block)
         Dir.mktmpdir(id.to_s) do |tmp_dir|
           file_path = "#{tmp_dir}/#{id}.zip"
           ZipFileGenerator.new(dir, file_path).write
           File.open(file_path, 'r') do |file|
-            yield file
+            block.call(file)
           end
         end
       end
@@ -131,6 +123,7 @@ module SequenceServer
         size = 0
         IO.foreach(@qfile) do |line|
           next if line[0] == '>'
+
           size += line.gsub(/\s+/, '').length
         end
         size
@@ -149,12 +142,14 @@ module SequenceServer
 
       def validate_method(method)
         return true if ALGORITHMS.include? method
+
         fail InputError, 'BLAST algorithm should be one of:' \
                             " #{ALGORITHMS.join(', ')}."
       end
 
       def validate_sequences(sequences)
         return true if sequences.is_a?(String) && !sequences.empty?
+
         fail InputError, 'Sequences should be a non-empty string.'
       end
 
@@ -162,6 +157,7 @@ module SequenceServer
         ids = Database.ids
         return true if database_ids.is_a?(Array) && !database_ids.empty? &&
                        (ids & database_ids).length == database_ids.length
+
         fail InputError, "Database id should be one of: #{ids.join("\n")}."
       end
 
@@ -173,9 +169,7 @@ module SequenceServer
         return true if !options || (options.is_a?(String) &&
                                     options.strip.empty?)
 
-        unless allowed_chars.match(options)
-          fail InputError, 'Invalid characters detected in options.'
-        end
+        fail InputError, 'Invalid characters detected in options.' unless allowed_chars.match(options)
 
         if disallowed_options.match(options)
           failedopt = Regexp.last_match[0]
@@ -186,7 +180,7 @@ module SequenceServer
       end
 
       def allowed_chars
-        /\A[a-z0-9\-_\. ',]*\Z/i
+        /\A[a-z0-9\-_. ',]*\Z/i
       end
 
       def disallowed_options

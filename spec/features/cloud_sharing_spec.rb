@@ -3,7 +3,7 @@ describe 'Sharing results on cloud', type: :feature, js: true do
   before :all do
     SequenceServer.init(
       database_dir: "#{__dir__}/../database/v5",
-      cloud_share_url: "http://localhost:3000/v1/shared-job"
+      cloud_share_url: 'http://localhost:3000/v1/shared-job'
     )
   end
 
@@ -18,11 +18,9 @@ describe 'Sharing results on cloud', type: :feature, js: true do
     ]
   end
 
-
   it 'Allows sharing results to cloud' do
     perform_search(query: protein_query,
                    databases: protein_databases.values_at(0))
-
 
     click_on 'Share to cloud'
 
@@ -38,14 +36,14 @@ describe 'Sharing results on cloud', type: :feature, js: true do
   context 'when successful' do
     before do
       allow(RestClient).to receive(:post).and_return(
-        double(body: { shareable_url: 'http://share.sequenceserver.com/mock-id'}.to_json, headers: { 'Content-Type' => 'application/json' })
+        double(body: { shareable_url: 'http://share.sequenceserver.com/mock-id' }.to_json,
+               headers: { 'Content-Type' => 'application/json' })
       )
     end
 
     it 'generates a URL and allows copying it' do
       perform_search(query: protein_query,
-                   databases: protein_databases.values_at(0))
-
+                     databases: protein_databases.values_at(0))
 
       click_on 'Share to cloud'
 
@@ -65,14 +63,14 @@ describe 'Sharing results on cloud', type: :feature, js: true do
   context 'when the request fails' do
     before do
       allow(RestClient).to receive(:post).and_return(
-        double(body: { errors: ['An example error has occured']}.to_json, headers: { 'Content-Type' => 'application/json' }, code: 422)
+        double(body: { errors: ['An example error has occured'] }.to_json,
+               headers: { 'Content-Type' => 'application/json' }, code: 422)
       )
     end
 
     it 'generates a URL and allows copying it' do
       perform_search(query: protein_query,
-                   databases: protein_databases.values_at(0))
-
+                     databases: protein_databases.values_at(0))
 
       click_on 'Share to cloud'
 

@@ -4,7 +4,8 @@ Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
   s.version     = SequenceServer::VERSION
-  s.authors     = ['Anurag Priyam', 'Yannick Wurm', 'Many others', 'Queen Mary University of London', 'Pragmatic Genomics Ltd']
+  s.authors     = ['Anurag Priyam', 'Yannick Wurm', 'Many others', 'Queen Mary University of London',
+                   'Pragmatic Genomics Ltd']
   s.email       = ['anurag08priyam@gmail.com', 'yannickwurm@gmail.com']
   s.homepage    = 'https://sequenceserver.com'
   s.license     = 'AGPL-3.0'
@@ -37,7 +38,7 @@ Gem::Specification.new do |s|
 
   # gem
   s.files         = Dir['{bin,lib,public,views}/**/*'] +
-                     %w[config.ru COPYRIGHT.txt LICENSE]
+                    %w[config.ru COPYRIGHT.txt LICENSE]
   s.executables   = ['sequenceserver']
   s.require_paths = ['lib']
 

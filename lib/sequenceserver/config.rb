@@ -20,10 +20,10 @@ module SequenceServer
 
       @data = defaults.deep_merge @data
 
-      if @upgraded
-        logger.info 'You are using old configuration syntax. ' \
-                    'Run `sequenceserver -s` to update your config file syntax.'
-      end
+      return unless @upgraded
+
+      logger.info 'You are using old configuration syntax. ' \
+                  'Run `sequenceserver -s` to update your config file syntax.'
     end
 
     attr_reader :data, :config_file
@@ -46,6 +46,7 @@ module SequenceServer
     # Write config data to config file.
     def write_config_file
       return unless config_file
+
       File.open(config_file, 'w') do |f|
         f.puts(data.delete_if { |_, v| v.nil? }.to_yaml)
       end
@@ -75,11 +76,12 @@ module SequenceServer
       if data[:options]
         data[:options].each do |key, val|
           next if val.is_a? Hash
-          if val == defaults[:options][key][:default]
-            data[:options][key] = { default: val }
-          else
-            data[:options][key] = { custom: val }
-          end
+
+          data[:options][key] = if val == defaults[:options][key][:default]
+                                  { default: val }
+                                else
+                                  { custom: val }
+                                end
           @upgraded = true
         end
       end
@@ -96,8 +98,8 @@ module SequenceServer
       end
       logger.info "Reading configuration file: #{config_file}."
       normalize YAML.load_file(config_file)
-    rescue => error
-      raise CONFIG_FILE_ERROR.new(config_file, error)
+    rescue StandardError => e
+      raise CONFIG_FILE_ERROR.new(config_file, e)
     end
 
     def file?(file)
@@ -111,13 +113,13 @@ module SequenceServer
         port: 4567,
         databases_widget: 'classic',
         options: {
-          blastn:  {
+          blastn: {
             default: ['-task blastn', '-evalue 1e-5']
           },
-          blastp:  {
+          blastp: {
             default: ['-evalue 1e-5']
           },
-          blastx:  {
+          blastx: {
             default: ['-evalue 1e-5']
           },
           tblastx: {
@@ -129,8 +131,9 @@ module SequenceServer
         },
         num_threads: 1,
         num_jobs: 1,
-        job_lifetime: 43200,
-        cloud_share_url: "https://share.sequenceserver.com/api/v1/shared-job" # Set to 'disabled' to disable the cloud sharing feature
+        job_lifetime: 43_200,
+        # Set cloud_share_url to 'disabled' to disable the cloud sharing feature
+        cloud_share_url: 'https://share.sequenceserver.com/api/v1/shared-job'
       }
     end
   end
