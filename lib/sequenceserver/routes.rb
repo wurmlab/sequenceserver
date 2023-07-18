@@ -186,7 +186,10 @@ module SequenceServer
 
       rescue RestClient::ExceptionWithResponse => e
         cloud_share_response = e.response
+
         case cloud_share_response.code
+          when 413
+            halt 413, { errors: ["Sorry, the results are too large to share, please consider using https://sequenceserver.com/cloud"]}.to_json
           when 422
             halt 422, JSON.parse(cloud_share_response.body).to_json
           else
