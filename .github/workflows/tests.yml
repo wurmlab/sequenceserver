@@ -1,3 +1,5 @@
+# Run the old Travis tests within GitHub Actions, and upload the CodeClimate Report
+#
 # If nektos/act is installed as a GitHub CLI extension...
 # https://github.com/nektos/act#installation-as-github-cli-extension
 # ...then run this locally with:
@@ -6,17 +8,23 @@
 # Conditionals predicated on status-codes:
 # https://github.com/orgs/community/discussions/25809
 #
+# One can *try* action-validator, but there are false-negatives:
+# (https://github.com/mpalmer/action-validator 
+#
 # State does *not* persist between jobs...
 # https://github.com/actions/checkout/issues/19
 # ...so all this needs to happen in a single job.
-  name: Test
+#
+name: Tests
   on:
     push:
       branches:
-       - chrome-actions-grg
+       - 1.0.x
+       - master
     pull_request:
       branches:
-       - chrome-actions-grg
+       - 1.0.x
+       - master
   env:
     CC_TEST_REPORTER_ID: ec48bb03c72db6b43ce71fd488110b4707abfde4386c144d886d711378d8db64
   jobs:
