@@ -15,16 +15,18 @@
 # https://github.com/actions/checkout/issues/19
 # ...so all this needs to happen in a single job.
 #
-name: Tests
+  name: Tests
   on:
     push:
       branches:
-       - 1.0.x
-       - master
+       - chrome-actions-grg
+#       - 1.0.x
+#       - master
     pull_request:
       branches:
-       - 1.0.x
-       - master
+       - chrome-actions-grg
+#       - 1.0.x
+#       - master
   env:
     CC_TEST_REPORTER_ID: ec48bb03c72db6b43ce71fd488110b4707abfde4386c144d886d711378d8db64
   jobs:
@@ -58,10 +60,10 @@ name: Tests
           continue-on-error: true
           run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
         - name: CodeClimate after-build (success)
-          if: steps.rpsec.outcome == 'success'
+          if: steps.rspec.outcome == 'success'
           run: cc-test-reporter after-build --exit-code 0
         - name: CodeClimate after-build (failure)
-          if: steps.rpsec.outcome != 'success'
+          if: steps.rspec.outcome != 'success'
           run: cc-test-reporter after-build --exit-code 1
         - name: upload code coverage results
           uses: actions/upload-artifact@v3
