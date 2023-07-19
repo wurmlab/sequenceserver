@@ -3,7 +3,7 @@ require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'capybara-screenshot/rspec'
 
-require_relative 'download_helper'
+Dir[File.expand_path('spec/support/**/*.rb')].sort.each { |file| require file }
 
 # Start SimpleCov.
 SimpleCov.start

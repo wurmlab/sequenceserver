@@ -4,7 +4,8 @@ Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
   s.version     = SequenceServer::VERSION
-  s.authors     = ['Anurag Priyam', 'Yannick Wurm', 'Many others', 'Queen Mary University of London', 'Pragmatic Genomics Ltd']
+  s.authors     = ['Anurag Priyam', 'Yannick Wurm', 'Many others', 'Queen Mary University of London',
+                   'Pragmatic Genomics Ltd']
   s.email       = ['anurag08priyam@gmail.com', 'yannickwurm@gmail.com']
   s.homepage    = 'https://sequenceserver.com'
   s.license     = 'AGPL-3.0'
@@ -18,11 +19,13 @@ Gem::Specification.new do |s|
   # dependencies
   s.required_ruby_version = '>= 3.0.6'
 
-  s.add_dependency('json_pure', '~> 2.6',  '>= 2.6.3')
-  s.add_dependency('ox',        '~> 2.1',  '>= 2.1.1')
-  s.add_dependency('sinatra',   '~> 2.0',  '>= 2.0.0')
-  s.add_dependency('slop',      '~> 3.6',  '>= 3.6.0')
-  s.add_dependency('webrick',   '~> 1.8',  '>= 1.8.0')
+  s.add_dependency('json_pure',   '~> 2.6',  '>= 2.6.3')
+  s.add_dependency('ox',          '~> 2.1',  '>= 2.1.1')
+  s.add_dependency('rest-client', '~> 2.1', '>= 2.1.0')
+  s.add_dependency('rubyzip',     '~> 2.3', '>= 2.3.2')
+  s.add_dependency('sinatra',     '~> 2.0',  '>= 2.0.0')
+  s.add_dependency('slop',        '~> 3.6',  '>= 3.6.0')
+  s.add_dependency('webrick',     '~> 1.8',  '>= 1.8.0')
 
   s.add_development_dependency('capybara', '~> 3.15', '>= 3.15.1')
   s.add_development_dependency('capybara-screenshot', '~> 1.0', '>= 1.0.23')
@@ -30,12 +33,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rack-test', '~> 1.0', '>= 1.0.0')
   s.add_development_dependency('rspec', '~> 3.7', '>= 3.7.0')
   s.add_development_dependency('rubocop', '~> 1.50', '>= 1.50.1')
-  s.add_development_dependency('selenium-webdriver', '~> 3.142', '>= 3.142.3')
+  s.add_development_dependency('selenium-webdriver', '~> 4.10.0', '>= 4.10.0')
   s.add_development_dependency('simplecov', '~> 0.17.0', '>= 0.17.0')
 
   # gem
   s.files         = Dir['{bin,lib,public,views}/**/*'] +
-                     %w[config.ru COPYRIGHT.txt LICENSE]
+                    %w[config.ru COPYRIGHT.txt LICENSE]
   s.executables   = ['sequenceserver']
   s.require_paths = ['lib']
 
