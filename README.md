@@ -119,7 +119,6 @@ To run all tests:
 
 `bundle exec rspec`
 
-
 ### **Javascript**
 
 Unit tests for the React frontend are written using React Testing Library and jest. 
@@ -166,6 +165,19 @@ stylelint is used for CSS:
     codeclimate analyze -e stylelint
 
 The above commands respect the respective style checker's config files, e.g., .rubocopy.yml for Rubocop and so on.
+
+### GitHub Workflows
+
+To run workflows locally, ensure [nektos/act](https://github.com/nektos/act) is installed
+as a [GitHub CLI extension](https://github.com/nektos/act#installation-as-github-cli-extension).
+
+Then, for instance, `.github/workflows/test.yml` would be run by:
+
+```
+gh act -j test
+```
+
+[action-validator](https://github.com/mpalmer/action-validator) is claimed as a yaml validator for GitHub workflows.
 
 ### Getting code merged
 
