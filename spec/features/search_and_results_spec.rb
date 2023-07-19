@@ -1,6 +1,38 @@
-describe 'a browser', type: :feature, js: true do
+describe 'Search and results', type: :feature, js: true do
+  include CapybaraHelpers
+
   before :all do
-    SequenceServer.init(database_dir: "#{__dir__}/database/v5")
+    SequenceServer.init(
+      database_dir: "#{__dir__}/../database/v5",
+      cloud_share_url: 'disabled'
+    )
+  end
+
+  def nucleotide_query
+    File.read File.join(__dir__, '..', 'sequences', 'nucleotide_query.fa')
+  end
+
+  let(:protein_query) do
+    File.read File.join(__dir__, '..', 'sequences', 'protein_query.fa')
+  end
+
+  let(:funkyid_query) do
+    'GATGAACGCTGGCGGCGTGCCTAATACATGCAAGTCGAG'
+  end
+
+  let(:nucleotide_databases) do
+    [
+      'Solenopsis invicta gnG subset',
+      'Sinvicta 2-2-3 cdna subset',
+      'funky ids (v5)'
+    ]
+  end
+
+  let(:protein_databases) do
+    [
+      'Sinvicta 2-2-3 prot subset',
+      '2020-11 Swiss-Prot insecta'
+    ]
   end
 
   it 'sorts databases alphabetically' do
@@ -90,7 +122,7 @@ describe 'a browser', type: :feature, js: true do
     expect(File.basename(downloaded_file))
       .to eq('sequenceserver-SI2.2.0_06267.fa')
     expect(File.read(downloaded_file))
-      .to eq(File.read("#{__dir__}/sequences/sequenceserver-SI2.2.0_06267.fa"))
+      .to eq(File.read("#{__dir__}/../sequences/sequenceserver-SI2.2.0_06267.fa"))
   end
 
   it 'can download FASTA of selected hits' do
@@ -150,7 +182,7 @@ describe 'a browser', type: :feature, js: true do
     # Test name and content of the downloaded file.
     expect(File.basename(downloaded_file)).to eq('Query_1_SI2_2_0_06267.txt')
     expect(File.read(downloaded_file))
-      .to eq(File.read("#{__dir__}/sequences/Query_1_SI2_2_0_06267.txt"))
+      .to eq(File.read("#{__dir__}/../sequences/Query_1_SI2_2_0_06267.txt"))
   end
 
   it 'can download Alignment of selected hits' do
@@ -212,7 +244,7 @@ describe 'a browser', type: :feature, js: true do
                    databases: protein_databases.values_at(0))
 
     find('#copyURL').click
-    page.should have_content('Copied!')
+    expect(page).to have_content('Copied!')
   end
 
   it 'can send the URL by email' do
@@ -238,8 +270,8 @@ describe 'a browser', type: :feature, js: true do
     page.first('.view-sequence').click
 
     within('.sequence-viewer') do
-      page.should have_content('SI2.2.0_06267')
-      page.should have_content(<<~SEQ.chomp)
+      expect(page).to have_content('SI2.2.0_06267')
+      expect(page).to have_content(<<~SEQ.chomp)
         MNTLWLSLWDYPGKLPLNFMVFDTKDDLQAAYWRDPYSIP
         LAVIFEDPQPISQRLIYEIRTNPSYTLPPPPTKLYSAPIS
         CRKNKTGHWMDDILSIKTGESCPVNNYLHSGFLALQMITD
@@ -256,8 +288,8 @@ describe 'a browser', type: :feature, js: true do
     page.find_all('.view-sequence')[1].click
 
     within('.sequence-viewer') do
-      page.should have_content('SI2.2.0_13722')
-      page.should have_content(<<~SEQ.chomp)
+      expect(page).to have_content('SI2.2.0_13722')
+      expect(page).to have_content(<<~SEQ.chomp)
         MSANRLNVLVTLMLAVALLVTESGNAQVDGYLQFNPKRSA
         VSSPQKYCGKKLSNALQIICDGVYNSMFKKSGQDFPPQNK
         RHIAHRINGNEEESFTTLKSNFLNWCVEVYHRHYRFVFVS
@@ -346,55 +378,5 @@ describe 'a browser', type: :feature, js: true do
       expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.png')
       clear_downloads
     end
-  end
-
-  ## Helpers ##
-
-  def perform_search(query:, databases:, method: nil)
-    # Load search form.
-    visit '/'
-
-    # Fill in query, select databases, submit form.
-    fill_in('sequence', with: query)
-    databases.each { |db| check db }
-    if method == 'tblastx'
-      find('#methods .dropdown-toggle').click
-      find('#methods .dropdown-menu li').click
-    end
-    click_button('method')
-
-    # Switch to new window because link opens in new window
-    page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-
-    # It is important to have this line or the examples end prematurely with a
-    # failure.
-    page.should have_content('Query')
-  end
-
-  def nucleotide_query
-    File.read File.join(__dir__, 'sequences', 'nucleotide_query.fa')
-  end
-
-  def protein_query
-    File.read File.join(__dir__, 'sequences', 'protein_query.fa')
-  end
-
-  def funkyid_query
-    'GATGAACGCTGGCGGCGTGCCTAATACATGCAAGTCGAG'
-  end
-
-  def nucleotide_databases
-    [
-      'Solenopsis invicta gnG subset',
-      'Sinvicta 2-2-3 cdna subset',
-      'funky ids (v5)'
-    ]
-  end
-
-  def protein_databases
-    [
-      'Sinvicta 2-2-3 prot subset',
-      '2020-11 Swiss-Prot insecta'
-    ]
   end
 end

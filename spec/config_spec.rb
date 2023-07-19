@@ -33,33 +33,33 @@ module SequenceServer
       config.include?(:key).should be_truthy
       config[:key].should eq 'value'
 
-      config = Config.new(:config_file => sample_config_file)
+      config = Config.new(config_file: sample_config_file)
       config.include?('num_threads').should be_falsey
       config.include?(:num_threads).should be_truthy
     end
 
     it 'changes database key, if present, to database_dir' do
       # Does so for data Hash passed to Config.new.
-      config = Config.new(:database => 'database_dir')
+      config = Config.new(database: 'database_dir')
       config.include?(:database).should be_falsey
       config[:database_dir].should eq 'database_dir'
 
       # Does so for data parsed from config_file.
-      config = Config.new(:config_file => sample_config_file)
+      config = Config.new(config_file: sample_config_file)
       config.include?(:database).should be_falsey
       config[:database_dir].should eq 'database_dir'
 
       # If both database and database_dir key are present, database key is
       # removed and database_dir key takes preecedence.
-      config = Config.new(:database     => 'database',
-                          :database_dir => 'database_dir')
+      config = Config.new(database: 'database',
+                          database_dir: 'database_dir')
       config.include?(:database).should be_falsey
       config[:database_dir].should eq 'database_dir'
     end
 
     it 'parses config_file and merges with defaults, values from config_file' \
        'taking preecedence' do
-      config = Config.new(:config_file => sample_config_file)
+      config = Config.new(config_file: sample_config_file)
 
       # config_file key becomes config.config_file
       config.include?(:config_file).should be_falsey
@@ -78,10 +78,10 @@ module SequenceServer
 
     it 'merges arguments with defaults and values from config_file,' \
        'arguments taking precedence' do
-      config = Config.new(:config_file => sample_config_file,
-                          :num_threads => 20, :job_lifetime => "INF")
+      config = Config.new(config_file: sample_config_file,
+                          num_threads: 20, job_lifetime: 'Infinity')
       config[:num_threads].should eq 20
-      config[:job_lifetime].should eq "INF"
+      config[:job_lifetime].should eq 'Infinity'
     end
   end
 end
