@@ -15,7 +15,7 @@
 # https://github.com/actions/checkout/issues/19
 # ...so all this needs to happen in a single job.
 #
-name: Tests
+  name: Tests
   on:
     push:
       branches:
@@ -58,10 +58,10 @@ name: Tests
           continue-on-error: true
           run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
         - name: CodeClimate after-build (success)
-          if: steps.rpsec.outcome == 'success'
+          if: steps.rspec.outcome == 'success'
           run: cc-test-reporter after-build --exit-code 0
         - name: CodeClimate after-build (failure)
-          if: steps.rpsec.outcome != 'success'
+          if: steps.rspec.outcome != 'success'
           run: cc-test-reporter after-build --exit-code 1
         - name: upload code coverage results
           uses: actions/upload-artifact@v3
