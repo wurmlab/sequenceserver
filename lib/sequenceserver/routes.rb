@@ -1,6 +1,7 @@
 require 'json'
 require 'tilt/erb'
 require 'sinatra/base'
+require 'rest-client'
 
 require 'sequenceserver/job'
 require 'sequenceserver/blast'
@@ -79,9 +80,7 @@ module SequenceServer
         options: SequenceServer.config[:options]
       }
 
-      if SequenceServer.config[:databases_widget] == 'tree'
-        searchdata.update(tree: Database.tree)
-      end
+      searchdata.update(tree: Database.tree) if SequenceServer.config[:databases_widget] == 'tree'
 
       # If a job_id is specified, update searchdata from job meta data (i.e.,
       # query, pre-selected databases, advanced options used). Query is only
@@ -138,7 +137,7 @@ module SequenceServer
       database_ids = params['database_ids'].split(',')
       sequences = Sequence::Retriever.new(sequence_ids, database_ids, true)
       send_file(sequences.file.path,
-                type:     sequences.mime,
+                type: sequences.mime,
                 filename: sequences.filename)
     end
 
@@ -147,6 +146,57 @@ module SequenceServer
       job = Job.fetch(jid)
       out = BLAST::Formatter.new(job, type)
       send_file out.file, filename: out.filename, type: out.mime
+    end
+
+    post '/cloud_share' do
+      content_type :json
+      request_params = JSON.parse(request.body.read)
+      job = Job.fetch(request_params['job_id'])
+
+      unless job.done?
+        status 422
+        { errors: ["Job #{request_params['job_id']} is not finished yet."] }.to_json
+      end
+
+      unless SequenceServer.config[:cloud_share_url]
+        status 503
+        { errors: ['Sorry, cloud sharing is not enabled on this server.'] }.to_json
+      end
+
+      begin
+        job.as_archived_file do |archived_job_file|
+          cloud_share_response = RestClient.post(
+            SequenceServer.config[:cloud_share_url],
+            {
+              shared_job: {
+                sender: {
+                  email: request_params['sender_email']
+                },
+                archived_job_file: archived_job_file,
+                original_job_id: job.id
+              }
+            }
+          )
+
+          return cloud_share_response.body
+        end
+      rescue RestClient::ExceptionWithResponse => e
+        cloud_share_response = e.response
+
+        case cloud_share_response.code
+        when 413
+          halt 413,
+               { errors: ['Sorry, the results are too large to share, please consider \
+                  using https://sequenceserver.com/cloud'] }.to_json
+        when 422
+          halt 422, JSON.parse(cloud_share_response.body).to_json
+        else
+          error cloud_share_response.code,
+                { errors: ["Unexpected Cloudshare response: #{cloud_share_response.code}"] }.to_json
+        end
+      rescue Errno::ECONNREFUSED
+        error 503, { errors: ['Sorry, the cloud sharing server may not be running. Try again later.'] }.to_json
+      end
     end
 
     # Catches any exception raised within the app and returns JSON
@@ -173,6 +223,7 @@ module SequenceServer
     # more_info.
     error 400..500 do
       error = env['sinatra.error']
+      return unless error
 
       # All errors will have a message.
       error_data = { message: error.message }
@@ -193,7 +244,13 @@ module SequenceServer
         error_data[:more_info] = error.backtrace.join("\n")
       end
 
-      error_data.to_json
+      if request.env['HTTP_ACCEPT'].to_s.include?('application/json')
+        content_type :json
+        error_data.to_json
+      else
+        content_type :html
+        erb :error, locals: { error_data: error_data }, layout: true
+      end
     end
 
     # Get the query sequences, selected databases, and advanced params used.
@@ -202,7 +259,7 @@ module SequenceServer
       return if job.imported_xml_file
 
       # Only read job.qfile if we are not going to use Database.retrieve.
-      searchdata[:query] = File.read(job.qfile) if !params[:query]
+      searchdata[:query] = File.read(job.qfile) unless params[:query]
 
       # Which databases to pre-select.
       searchdata[:preSelectedDbs] = job.databases
@@ -215,7 +272,7 @@ module SequenceServer
       # the user hits the back button. Thus we do not test for empty string.
       method = job.method.to_sym
       if job.advanced && job.advanced !=
-           searchdata[:options][method][:default].join(' ')
+                         searchdata[:options][method][:default].join(' ')
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end

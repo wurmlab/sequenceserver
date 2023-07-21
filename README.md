@@ -55,9 +55,27 @@ You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubyg
     # Use bundler to run SequenceServer
     bundle exec bin/sequenceserver
 
-
 If you do not plan to develop, you can skip installing development dependencies
 by running `bundle install --without=development`.
+
+### Run SequenceServer from Docker
+
+Having [installed Docker](https://docs.docker.com/get-docker/), to run SequenceServer locally as a
+Docker container, using the example database from the
+[ncbi-blast+ debian package](https://packages.debian.org/sid/ncbi-blast+):
+
+* Change `from final` at the end of the `Dockerfile` to `from dev`.
+* Build the image with:
+```bash
+docker build -t sequenceserver .
+```
+* Run a container with...
+```bash
+docker run --rm -it -p 4567:4567 sequenceserver
+```
+* then select the defaults when prompted.
+
+Otherwise, a database will need to be copied to the `db` volume.
 
 ### Making changes to the code
 
@@ -100,7 +118,6 @@ To run all tests in a single file:
 To run all tests:
 
 `bundle exec rspec`
-
 
 ### **Javascript**
 
@@ -148,6 +165,19 @@ stylelint is used for CSS:
     codeclimate analyze -e stylelint
 
 The above commands respect the respective style checker's config files, e.g., .rubocopy.yml for Rubocop and so on.
+
+### GitHub Workflows
+
+To run workflows locally, ensure [nektos/act](https://github.com/nektos/act) is installed
+as a [GitHub CLI extension](https://github.com/nektos/act#installation-as-github-cli-extension).
+
+Then, for instance, `.github/workflows/test.yml` would be run by:
+
+```
+gh act -j test
+```
+
+[action-validator](https://github.com/mpalmer/action-validator) is claimed as a yaml validator for GitHub workflows.
 
 ### Getting code merged
 

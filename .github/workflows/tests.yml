@@ -1,0 +1,71 @@
+# Run the old Travis tests within GitHub Actions, and upload the CodeClimate Report
+#
+# If nektos/act is installed as a GitHub CLI extension...
+# https://github.com/nektos/act#installation-as-github-cli-extension
+# ...then run this locally with:
+# gh act -j test
+# Appending to $PATH: https://www.scivision.dev/github-actions-path-append/
+# Conditionals predicated on status-codes:
+# https://github.com/orgs/community/discussions/25809
+#
+# One can *try* action-validator, but there are false-negatives:
+# (https://github.com/mpalmer/action-validator 
+#
+# State does *not* persist between jobs...
+# https://github.com/actions/checkout/issues/19
+# ...so all this needs to happen in a single job.
+#
+  name: Tests
+  on:
+    push:
+      branches:
+       - 1.0.x
+       - master
+    pull_request:
+      branches:
+       - 1.0.x
+       - master
+  env:
+    CC_TEST_REPORTER_ID: ec48bb03c72db6b43ce71fd488110b4707abfde4386c144d886d711378d8db64
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - name: Get BLAST
+          working-directory: /opt
+          run: wget -c "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
+        - name: BLAST PATH
+          run: mkdir /opt/bin && echo "/opt/bin:/opt/ncbi-blast-2.12.0+/bin" >> $GITHUB_PATH
+        - name: Get Chromium
+          run: sudo apt-get update && sudo apt-get install -y chromium-bsu chromium-driver
+        - name: Get CodeClimate
+          working-directory: /opt
+          run: wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
+        - name: Set up Ruby
+          uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: '3.2'
+            bundler-cache: true
+        - name: Install dependencies
+          run: bundle install
+        - name: Create SequenceServer config file
+          run: bundle exec bin/sequenceserver -s -d spec/database/v5/sample
+        - name: CodeClimate before-build hook
+          run: cc-test-reporter before-build
+        - name: Run main specs and import spec for BLAST 2.9.0+
+          id: rspec
+          continue-on-error: true
+          run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
+        - name: CodeClimate after-build (success)
+          if: steps.rspec.outcome == 'success'
+          run: cc-test-reporter after-build --exit-code 0
+        - name: CodeClimate after-build (failure)
+          if: steps.rspec.outcome != 'success'
+          run: cc-test-reporter after-build --exit-code 1
+        - name: upload code coverage results
+          uses: actions/upload-artifact@v3
+          if: success() || failure()
+          with:
+            name: code-coverage-report
+            path: coverage
