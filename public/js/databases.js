@@ -58,6 +58,7 @@ export class DatabaseCategory extends Component {
         this.nselected = this.nselected.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
+        this.renderPanelHeading = this.renderPanelHeading.bind(this);
         this.renderDatabase = this.renderDatabase.bind(this);
 
     }
@@ -125,39 +126,44 @@ export class DatabaseCategory extends Component {
         );
     }
 
-    render() {
+    renderPanelHeading(){
         // Panel name and column width.
         var panelTitle =
-          this.category[0].toUpperCase() +
-          this.category.substring(1).toLowerCase() +
-          ' databases';
-        var columnClass = this.getCategories().length === 1 ? 'col-md-12' : 'col-md-6';
-    
+         this.category[0].toUpperCase() +
+         this.category.substring(1).toLowerCase() +
+         ' databases';
         // Toggle button.
         var toggleState =
-          this.state.allSelected ? '[Deselect all]' : '[Select all]';
+         this.state.allSelected ? '[Deselect all]' : '[Select all]';
         var toggleClass = 'btn-link';
         var toggleShown = this.getDatabases(this.category).length > 1;
         var toggleDisabled = this.props.type && this.props.type !== this.category;
         if (toggleShown && toggleDisabled) toggleClass += ' disabled';
         if (!toggleShown) toggleClass += ' hidden';
+        return  (
+            <div className="panel-heading">
+                <h4 style={{ display: 'inline' }}>{panelTitle}</h4> &nbsp;&nbsp;
+                <button
+                    type="button"
+                    className={toggleClass}
+                    disabled={toggleDisabled}
+                    onClick={function () {
+                        this.handleToggle(this.category);
+                    }.bind(this)}
+                >
+                    {toggleState}
+                </button>
+            </div>);
+    }
+
+    render() {
+        var columnClass = this.getCategories().length === 1 ? 'col-md-12' : 'col-md-6';
+
         // JSX.
         return (
             <div className={columnClass} key={'DB_' + this.category}>
                 <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <h4 style={{ display: 'inline' }}>{panelTitle}</h4> &nbsp;&nbsp;
-                        <button
-                            type="button"
-                            className={toggleClass}
-                            disabled={toggleDisabled}
-                            onClick={function () {
-                                this.handleToggle(this.category);
-                            }.bind(this)}
-                        >
-                            {toggleState}
-                        </button>
-                    </div>
+                    {this.renderPanelHeading()}
                     <ul className={'list-group databases ' + this.category}>
                         {_.map(
                             this.getDatabases(this.category),
