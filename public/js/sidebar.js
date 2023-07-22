@@ -27,6 +27,7 @@ export default class extends Component {
         this.handleQueryIndexChange = this.handleQueryIndexChange.bind(this);
         this.isElementInViewPort = this.isElementInViewPort.bind(this);
         this.setVisibleQueryIndex = this.setVisibleQueryIndex.bind(this);
+        this.animateScroll = this.animateScroll.bind(this);
         this.debounceScrolling = this.debounceScrolling.bind(this);
         this.scrollListener = this.scrollListener.bind(this);
         this.copyURL = this.copyURL.bind(this);
@@ -56,7 +57,7 @@ export default class extends Component {
             this.setState({ queryIndex: index + 1 });
         }
         window.addEventListener('scroll', this.scrollListener);
-        $('a[href^="#Query_"]').on('click', this.animateAnchorElements);
+        $('a[href^="#Query_"]').on('click', this.animateScroll);
     }
     componentWillUnmount() {
         window.removeEventListener('scroll', this.scrollListener);
@@ -99,25 +100,34 @@ export default class extends Component {
             let hash = `#Query_${queryIndex}`;
             // if we can guarantee that the browser can handle change in url hash without the page jumping,
             // then we update the url hash after scroll. else, hash is only updated on click of next or prev button
-            if (window.history.pushState) {
-                window.history.pushState(null, null, hash);
-            }
+            this.replaceUrlHash(hash);
             this.setState({ queryIndex });
         }
     }
-    animateAnchorElements(e) {
-        // allow normal behavior in test mode to prevent warnings or errors from jquery
-        if (isTestMode()) return;
-        e.preventDefault();
-        $('html, body').animate({
-            scrollTop: $(this.hash).offset().top
-        }, 300);
-        if (window.history.pushState) {
-            window.history.pushState(null, null, this.hash);
+
+    replaceUrlHash(hash) {
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, hash);
         } else {
-            window.location.hash = this.hash;
+            window.location.hash = hash;
         }
     }
+
+    /**
+     * this method is called on the element to be brought to the top of the page and animates the scroll process
+     * @param {*} e target element
+     */
+    animateScroll(e) {
+        // allow normal scroll behavior in test mode to prevent warnings or errors from jquery
+        if (isTestMode()) return;
+        e.preventDefault();
+        const hash = e.target.hash;
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top
+        }, 300);
+        this.replaceUrlHash(hash);
+    }
+    
     isElementInViewPort(elem) {
         const { top, left, right, bottom } = elem.getBoundingClientRect();
         return (
@@ -146,8 +156,7 @@ export default class extends Component {
         anchorEl.setAttribute('href', '#Query_' + this.props.data.queries[nextQuery - 1].number);
         anchorEl.setAttribute('hidden', true);
         document.body.appendChild(anchorEl);
-        // add smooth scrolling animation with jquery
-        $(anchorEl).on('click', this.animateAnchorElements);
+        $(anchorEl).on('click', this.animateScroll);
         anchorEl.click();
         document.body.removeChild(anchorEl);
         this.setState({ queryIndex: nextQuery });
