@@ -30,7 +30,6 @@ class Report extends Component {
     }
 
     init(){
-        this.fetchResults();
         // Properties below are internal state used to render results in small
         // slices (see updateState).
         this.numUpdates = 0;
