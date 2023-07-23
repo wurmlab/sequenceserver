@@ -1,0 +1,12 @@
+<div class="container">
+  <h1>An error has occured</h1>
+  <h1><%= error_data[:title] %></h1>
+
+  <p><%= error_data[:message] %></p>
+
+  <% if error_data[:more_info] && !settings.production? %>
+    <pre class="yellow-background">
+      <%= error_data[:more_info] %>
+    </pre>
+  <% end %>
+</div>

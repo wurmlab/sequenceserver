@@ -1,5 +1,5 @@
 [![gem version](https://img.shields.io/badge/version-2.0-green.svg)](http://rubygems.org/gems/sequenceserver)
-[![total downloads](http://ruby-gem-downloads-badge.herokuapp.com/sequenceserver?type=total&color=brightgreen)](http://rubygems.org/gems/sequenceserver)
+<!--[![total downloads](http://ruby-gem-downloads-badge.herokuapp.com/sequenceserver?type=total&color=brightgreen)](http://rubygems.org/gems/sequenceserver) -->
 [![coverage](https://codeclimate.com/github/wurmlab/sequenceserver/badges/coverage.svg)](https://codeclimate.com/github/wurmlab/sequenceserver)
 [![build status](https://www.travis-ci.com/wurmlab/sequenceserver.svg?branch=master)](https://travis-ci.com/github/wurmlab/sequenceserver)
 [![gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/wurmlab/sequenceserver)
@@ -55,9 +55,27 @@ You will need [Ruby](https://www.ruby-lang.org/en/) and [RubyGems](https://rubyg
     # Use bundler to run SequenceServer
     bundle exec bin/sequenceserver
 
-
 If you do not plan to develop, you can skip installing development dependencies
 by running `bundle install --without=development`.
+
+### Run SequenceServer from Docker
+
+Having [installed Docker](https://docs.docker.com/get-docker/), to run SequenceServer locally as a
+Docker container, using the example database from the
+[ncbi-blast+ debian package](https://packages.debian.org/sid/ncbi-blast+):
+
+* Change `from final` at the end of the `Dockerfile` to `from dev`.
+* Build the image with:
+```bash
+docker build -t sequenceserver .
+```
+* Run a container with...
+```bash
+docker run --rm -it -p 4567:4567 sequenceserver
+```
+* then select the defaults when prompted.
+
+Otherwise, a database will need to be copied to the `db` volume.
 
 ### Making changes to the code
 
@@ -83,21 +101,42 @@ If you are using docker, you can build the frontend code and include it in the i
 
     docker build . -t seqserv-with-customisations --target=minify
 
-### Testing
+## **Testing**
+
+### **Ruby**
 
 We use RSpec and Capybara for testing. Our test suite covers 87% of the codebase. Tests are run automatically when you open a pull-request (see Getting code merged section below) but it may be desirable sometimes to run a single test, whole file, or all tests locally:
 
 To run a single test (a.k.a, scenario):
 
-    bundle exec rspec spec/foo_spec.rb -e 'bar'
+`bundle exec rspec spec/foo_spec.rb -e 'bar'`
 
 To run all tests in a single file:
 
-    bundle exec rspec spec/foo_spec.rb
+`bundle exec rspec spec/foo_spec.rb`
 
 To run all tests:
 
-    bundle exec rspec
+`bundle exec rspec`
+
+### **Javascript**
+
+Unit tests for the React frontend are written using React Testing Library and jest. 
+
+One option for installing jest: `npm install --save-dev jest`
+
+To run a single test :
+
+`npm run test -e "test name"`
+
+To run all tests in a single file:
+
+`npm run test file_name`
+
+To run all tests:
+
+`npm run test`
+
 
 ### Linting
 
@@ -126,6 +165,19 @@ stylelint is used for CSS:
     codeclimate analyze -e stylelint
 
 The above commands respect the respective style checker's config files, e.g., .rubocopy.yml for Rubocop and so on.
+
+### GitHub Workflows
+
+To run workflows locally, ensure [nektos/act](https://github.com/nektos/act) is installed
+as a [GitHub CLI extension](https://github.com/nektos/act#installation-as-github-cli-extension).
+
+Then, for instance, `.github/workflows/test.yml` would be run by:
+
+```
+gh act -j test
+```
+
+[action-validator](https://github.com/mpalmer/action-validator) is claimed as a yaml validator for GitHub workflows.
 
 ### Getting code merged
 

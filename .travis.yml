@@ -1,8 +1,8 @@
 language: ruby
 
 rvm:
-  - 2.3
-  # - 2.5
+  - 3.0
+  - 3.2
 
 branches:
   only:

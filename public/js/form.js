@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { SearchButton } from './search_button';
 import { SearchQueryWidget } from './query';
 import DatabasesTree from './databases_tree';
@@ -22,8 +22,9 @@ export class Form extends Component {
         this.determineBlastMethod = this.determineBlastMethod.bind(this);
         this.handleSequenceTypeChanged = this.handleSequenceTypeChanged.bind(this);
         this.handleDatabaseTypeChanaged = this.handleDatabaseTypeChanaged.bind(this);
-        this.handleNewTabCheckbox = this.handleNewTabCheckbox.bind(this);
         this.handleAlgoChanged = this.handleAlgoChanged.bind(this);
+        this.handleFormSubmission = this.handleFormSubmission.bind(this);
+        this.formRef = createRef();
     }
 
     componentDidMount() {
@@ -80,6 +81,27 @@ export class Form extends Component {
         return !_.isEmpty(this.state.tree);
     }
 
+    handleFormSubmission(evt) {
+        evt.preventDefault();
+        const form = this.formRef.current;
+        const formData = new FormData(form);
+        formData.append('method', this.refs.button.state.methods[0]);
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData
+        }).then(res => {
+            //remove overlay when form is submitted
+            $('#overlay').css('display', 'none');
+            // redirect
+            if (res.redirected && res.url) {
+                // setTimeout is needed here as a workaround because safari doesnt allow async calling of window.open
+                // so setTimeout makes the method get called on the main thread.
+                setTimeout(() => {
+                    window.open(res.url, $('#toggleNewTab').is(':checked') ? '_blank' : '_self');
+                }, 0);
+            }
+        });
+    }
     determineBlastMethod() {
         var database_type = this.databaseType;
         var sequence_type = this.sequenceType;
@@ -134,34 +156,25 @@ export class Form extends Component {
     }
 
     handleAlgoChanged(algo) {
-        if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
+        if (algo in this.state.preDefinedOpts) {
             var preDefinedOpts = this.state.preDefinedOpts[algo];
             this.refs.opts.setState({
+                method: algo,
                 preOpts: preDefinedOpts,
                 value: (preDefinedOpts['last search'] ||
                     preDefinedOpts['default']).join(' ')
             });
         }
         else {
-            this.refs.opts.setState({ preOpts: {}, value: '' });
+            this.refs.opts.setState({ preOpts: {}, value: '', method: '' });
         }
     }
 
-    handleNewTabCheckbox() {
-        setTimeout(() => {
-            if ($('#toggleNewTab').is(':checked')) {
-                $('#blast').attr('target', '_blank');
-            }
-            else {
-                $('#blast').attr('target', '_self');
-            }
-        });
-    }
     render() {
         return (
             <div className="container">
                 <div id="overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vw', background: 'rgba(0, 0, 0, 0.2)', display: 'none', zIndex: 99 }} />
-                <form id="blast" method="post" className="form-horizontal">
+                <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission} className="form-horizontal">
                     <div className="form-group query-container">
                         <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
                     </div>
@@ -185,9 +198,7 @@ export class Form extends Component {
                         <div className="col-md-2">
                             <div className="form-group" style={{ 'textAlign': 'center', 'padding': '7px 0' }}>
                                 <label>
-                                    <input type="checkbox" id="toggleNewTab"
-                                        onChange={() => { this.handleNewTabCheckbox(); }}
-                                    /> Open results in new tab
+                                    <input type="checkbox" id="toggleNewTab" /> Open results in new tab
                                 </label>
                             </div>
                         </div>

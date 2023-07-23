@@ -1,6 +1,5 @@
 import './jquery_world'; // for custom $.tooltip function
-import React, { Component, createRef } from 'react';
-import { createRoot } from 'react-dom/client';
+import React, { Component } from 'react';
 import _ from 'underscore';
 
 import Sidebar from './sidebar';
@@ -8,73 +7,10 @@ import Circos from './circos';
 import { ReportQuery } from './query';
 import Hit from './hit';
 import HSP from './hsp';
+import AlignmentExporter from './alignment_exporter';
 
-import SequenceModal from './sequence_modal';
-import ErrorModal from './error_modal';
 
-/**
- * Base component of report page. This component is later rendered into page's
- * '#view' element.
- */
-class Page extends Component {
-    constructor(props) {
-        super(props);
-        this.showSequenceModal = this.showSequenceModal.bind(this);
-        this.showErrorModal = this.showErrorModal.bind(this);
-        this.getCharacterWidth = this.getCharacterWidth.bind(this);
-        this.hspChars = createRef();
-    }
-    componentDidMount() {
-        var job_id = location.pathname.split('/').pop();
-        sessionStorage.setItem('job_id', job_id);
-    }
 
-    showSequenceModal(url) {
-        this.refs.sequenceModal.show(url);
-    }
-
-    showErrorModal(errorData, beforeShow) {
-        this.refs.errorModal.show(errorData, beforeShow);
-    }
-
-    getCharacterWidth() {
-        if (!this.characterWidth) {
-            var $hspChars = $(this.hspChars.current);
-            this.characterWidth = $hspChars.width() / 29;
-        }
-        return this.characterWidth;
-    }
-    render() {
-        return (
-            <div>
-                {/* Provide bootstrap .container element inside the #view for
-                    the Report component to render itself in. */}
-                <div className="container">
-                    <Report
-                        showSequenceModal={(_) => this.showSequenceModal(_)}
-                        getCharacterWidth={() => this.getCharacterWidth()}
-                        showErrorModal={(...args) => this.showErrorModal(...args)}
-                    />
-                </div>
-
-                {/* Add a hidden span tag containing chars used in HSPs */}
-                <pre className="pre-reset hsp-lines" ref={this.hspChars} hidden>
-                    ABCDEFGHIJKLMNOPQRSTUVWXYZ +-
-                </pre>
-
-                {/* Required by Grapher for SVG and PNG download */}
-                <canvas id="png-exporter" hidden></canvas>
-
-                <SequenceModal
-                    ref="sequenceModal"
-                    showErrorModal={(...args) => this.showErrorModal(...args)}
-                />
-
-                <ErrorModal ref="errorModal" />
-            </div>
-        );
-    }
-}
 
 /**
  * Renders entire report.
@@ -109,8 +45,14 @@ class Report extends Component {
             params: [],
             stats: [],
             databasesList: '',
-            showMore: false
+            showMore: false,
+            alignment_blob_url: '',
+            allQueriesLoaded: false,
+            cloud_sharing_enabled: false,
         };
+        this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
+        this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
+        this.setStateFromJSON = this.setStateFromJSON.bind(this);
     }
     /**
    * Fetch results.
@@ -151,7 +93,8 @@ class Report extends Component {
    */
     setStateFromJSON(responseJSON) {
         this.lastTimeStamp = Date.now();
-        this.setState(responseJSON);
+        // the callback prepares the download link for all alignments
+        this.setState(responseJSON, this.prepareAlignmentOfAllHits);
     }
     /**
    * Called as soon as the page has loaded and the user sees the loading spinner.
@@ -159,6 +102,7 @@ class Report extends Component {
    * bound to the window, document, or body.
    */
     componentDidMount() {
+        this.fetchResults();
         // This sets up an event handler which enables users to select text from
         // hit header without collapsing the hit.
         this.preventCollapseOnSelection();
@@ -236,6 +180,7 @@ class Report extends Component {
                             showQueryCrumbs={this.state.queries.length > 1}
                             showHitCrumbs={query.hits.length > 1}
                             veryBig={this.state.veryBig}
+                            onChange={this.prepareAlignmentOfSelectedHits}
                             {...this.props}
                         />
                     );
@@ -296,7 +241,9 @@ class Report extends Component {
    * Called after all results have been rendered.
    */
     componentFinishedUpdating() {
+        if (this.state.allQueriesLoaded) return;
         this.shouldShowIndex() && this.setupScrollSpy();
+        this.setState({ allQueriesLoaded: true });
     }
 
     /**
@@ -328,12 +275,14 @@ class Report extends Component {
    */
     resultsJSX() {
         return (
-            <div className="row">
+            <div className="row" id="results">
                 <div className="col-md-3 hidden-sm hidden-xs">
                     <Sidebar
                         data={this.state}
                         atLeastOneHit={this.atLeastOneHit()}
                         shouldShowIndex={this.shouldShowIndex()}
+                        allQueriesLoaded={this.state.allQueriesLoaded}
+                        cloudSharingEnabled={this.state.cloud_sharing_enabled}
                     />
                 </div>
                 <div className="col-md-9">
@@ -547,11 +496,71 @@ class Report extends Component {
             $b.addClass('disabled').find('.text-bold').html('');
         }
     }
+    populate_hsp_array(hit, query_id){
+        return hit.hsps.map(hsp => Object.assign(hsp, {hit_id: hit.id, query_id}));
+    }
+
+    prepareAlignmentOfSelectedHits() {
+        var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+
+        if(!sequence_ids.length){
+            // remove attributes from link if sequence_ids array is empty
+            $('.download-alignment-of-selected').attr('href', '#').removeAttr('download');
+            return;
+
+        }
+        if(this.state.alignment_blob_url){
+            // always revoke existing url if any because this method will always create a new url
+            window.URL.revokeObjectURL(this.state.alignment_blob_url);
+        }
+        var hsps_arr = [];
+        var aln_exporter = new AlignmentExporter();
+        const self = this;
+        _.each(this.state.queries, _.bind(function (query) {
+            _.each(query.hits, function (hit) {
+                if (_.indexOf(sequence_ids, hit.id) != -1) {
+                    hsps_arr = hsps_arr.concat(self.populate_hsp_array(hit, query.id));
+                }
+            });
+        }, this));
+        const filename = 'alignment-' + sequence_ids.length + '_hits.txt';
+        const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, filename);
+        // set required download attributes for link
+        $('.download-alignment-of-selected').attr('href', blob_url).attr('download', filename);
+        // track new url for future removal
+        this.setState({alignment_blob_url: blob_url});
+    }
+
+    prepareAlignmentOfAllHits() {
+        // Get number of hits and array of all hsps.
+        var num_hits = 0;
+        var hsps_arr = [];
+        if(!this.state.queries.length){
+            return;
+        }
+        this.state.queries.forEach(
+            (query) => query.hits.forEach(
+                (hit) => {
+                    num_hits++;
+                    hsps_arr = hsps_arr.concat(this.populate_hsp_array(hit, query.id));
+                }
+            )
+        );
+
+        var aln_exporter = new AlignmentExporter();
+        var file_name = `alignment-${num_hits}_hits.txt`;
+        const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, file_name);
+        $('.download-alignment-of-all')
+            .attr('href', blob_url)
+            .attr('download', file_name);
+        return false;
+    }
 
     render() {
         return this.isResultAvailable() ? this.resultsJSX() : this.loadingJSX();
     }
 }
 
-const root = createRoot(document.getElementById('view'));
-root.render(<Page />);
+export default Report;

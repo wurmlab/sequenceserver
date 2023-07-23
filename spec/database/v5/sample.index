@@ -1,0 +1,4 @@
+/Users/tadas/code/QMUL/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta	Solenopsis invicta gnG subset	Nucleotide	8	39185542	Jun 17, 2020  4:51 PM	5
+/Users/tadas/code/QMUL/sequenceserver/spec/database/v5/sample/proteins/Solenopsis_invicta/Sinvicta2-2-3.prot.subset.fasta	Sinvicta 2-2-3 prot subset	Protein	1189	280047	Jun 17, 2020  4:52 PM	5
+/Users/tadas/code/QMUL/sequenceserver/spec/database/v5/sample/proteins/uniprot/2020-11-Swiss-Prot_insecta.fasta	 2020-11 Swiss-Prot insecta	Protein	9383	4062633	Nov 25, 2020  12:45 PM	5
+/Users/tadas/code/QMUL/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta	Sinvicta 2-2-3 cdna subset	Nucleotide	473	287752	Jun 17, 2020  4:52 PM	5

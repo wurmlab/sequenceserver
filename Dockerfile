@@ -1,9 +1,9 @@
 # Build variables. These need to be declared befored the first FROM
 # for the variables to be accessible in FROM instruction.
-ARG BLAST_VERSION=2.12.0
+ARG BLAST_VERSION=2.14.0
 
 ## Stage 1: gem dependencies.
-FROM ruby:2.7-slim-buster AS builder
+FROM ruby:3.2.0-slim-buster AS builder
 
 # Copy over files required for installing gem dependencies.
 WORKDIR /sequenceserver
@@ -17,13 +17,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install gem dependencies using bundler.
 RUN bundle install --without=development
 
-
 ## Stage 2: BLAST+ binaries.
 # We will copy them from NCBI's docker image.
 FROM ncbi/blast:${BLAST_VERSION} AS ncbi-blast
 
 ## Stage 3: Puting it together.
-FROM ruby:2.7-slim-buster AS final
+FROM ruby:3.2.0-slim-buster AS final
 
 LABEL Description="Intuitive local web frontend for the BLAST bioinformatics tool"
 LABEL MailingList="https://groups.google.com/forum/#!forum/sequenceserver"
@@ -51,7 +50,7 @@ ENV PATH=/blast/bin:${PATH}
 # Setup working directory, volume for databases, port, and copy the code.
 # SequenceServer code.
 WORKDIR /sequenceserver
-VOLUME ["/db"]
+RUN mkdir /db
 EXPOSE 4567
 COPY . .
 
@@ -88,4 +87,20 @@ FROM final AS minify
 COPY --from=node /usr/src/app/public/sequenceserver-*.min.js public/
 COPY --from=node /usr/src/app/public/css/sequenceserver.min.css public/css/
 
+## Stage 6 (optional) Pull the example database from the debian package.
+FROM ruby:3.2.0-slim-buster AS example_db
+
+WORKDIR /tmp
+RUN apt-get update && apt-get download ncbi-blast+ && dpkg-deb -xv ncbi-blast+*.deb .
+
+FROM final AS dev
+
+RUN bundle install
+
+COPY --from=example_db /tmp/usr/share/doc/ncbi-blast+/examples /db/
+
+VOLUME ["/db"]
+
 FROM final
+
+VOLUME ["/db"]

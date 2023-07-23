@@ -35,16 +35,17 @@ module SequenceServer
       # Attributes parsed from job metadata and BLAST output.
       attr_reader :querydb, :dbtype, :params
 
-      def to_json
-        [:querydb, :program, :program_version, :params, :stats,
-         :queries].inject({}) { |h, k|
+      def to_json(*_args)
+        %i[querydb program program_version params stats
+           queries].inject({}) do |h, k|
           h[k] = send(k)
           h
-        }.update(search_id: job.id,
-                 submitted_at: job.submitted_at.utc,
-                 imported_xml: !!job.imported_xml_file,
-                 seqserv_version: SequenceServer::VERSION,
-                 non_parse_seqids: !!job.databases&.any?(&:non_parse_seqids?)).to_json
+        end.update(search_id: job.id,
+                   submitted_at: job.submitted_at.utc,
+                   imported_xml: !job.imported_xml_file.nil?,
+                   seqserv_version: SequenceServer::VERSION,
+                   cloud_sharing_enabled: SequenceServer.config[:cloud_share_url].start_with?('http'),
+                   non_parse_seqids: !!job.databases&.any?(&:non_parse_seqids?)).to_json
       end
 
       private
@@ -56,9 +57,9 @@ module SequenceServer
         tsv_ir = nil
         if job.imported_xml_file
           xml_ir = parse_xml File.read(job.imported_xml_file)
-          tsv_ir = Hash.new do |h1,k1|
-            h1[k1] = Hash.new do |h2,k2|
-              h2[k2]=['','',[]]
+          tsv_ir = Hash.new do |h1, k1|
+            h1[k1] = Hash.new do |h2, k2|
+              h2[k2] = ['', '', []]
             end
           end
         else
@@ -122,13 +123,13 @@ module SequenceServer
       def extract_stats(ir)
         stats  = ir[8].first[5][0]
         @stats = {
-          nsequences:   stats[0],
-          ncharacters:  stats[1],
-          hsp_length:   stats[2],
+          nsequences: stats[0],
+          ncharacters: stats[1],
+          hsp_length: stats[2],
           search_space: stats[3],
-          kappa:        stats[4],
-          labmda:       stats[5],
-          entropy:      stats[6]
+          kappa: stats[4],
+          labmda: stats[5],
+          entropy: stats[6]
         }
       end
 
@@ -144,6 +145,7 @@ module SequenceServer
       # Create Hit objects for the given query from the given ir.
       def extract_hits(xml_ir, tsv_ir, query)
         return if xml_ir == ["\n"] # => No hits.
+
         xml_ir.each do |n|
           # If hit comes from a non -parse_seqids database, then id (n[1]) is a
           # BLAST assigned internal id of the format 'gnl|BL_ORD_ID|serial'. We
@@ -169,7 +171,7 @@ module SequenceServer
       def extract_hsps(xml_ir, tsv_ir, hit)
         xml_ir.each_with_index do |n, i|
           n.insert(14, tsv_ir[i])
-          hsp = HSP.new(*[hit, *n])
+          hsp = HSP.new(hit, *n)
           hit.hsps << hsp
         end
       end
@@ -177,8 +179,9 @@ module SequenceServer
       def parse_xml(xml)
         node_to_array Ox.parse(xml).root
       rescue Ox::ParseError
-        fail 'Error parsing XML file' if job.imported_xml_file
-        fail InputError, <<~MSG
+        raise 'Error parsing XML file' if job.imported_xml_file
+
+        raise InputError, <<~MSG
           BLAST generated incorrect XML output. This can happen if sequence ids in your
           databases are not unique across all files. As a temporary workaround, you can
           repeat the search with one database at a time. Proper fix is to recreate the
@@ -231,9 +234,12 @@ module SequenceServer
       #    ...
       # }
       def parse_tsv(tsv)
-        ir = Hash.new {|h, k| h[k] = {} }
+        ir = Hash.new { |h, k| h[k] = {} }
         tsv.each_line do |line|
-          next if line.start_with? '#'; row = line.chomp.split("\t")
+          next if line.start_with? '#'
+
+          row = line.chomp.split("\t")
+
           (ir[row[0]][row[1]] ||= [row[2], row[3], []])[2] << row[4]
         end
         ir
@@ -246,14 +252,14 @@ module SequenceServer
 
         param_list.each_with_index do |word, i|
           nxt = param_list[i + 1]
-          if word.start_with? '-'
-            word.sub!('-', '')
-            unless nxt.nil? || nxt.start_with?('-')
-              res[word] = nxt
-            else
-              res[word] = 'True'
-            end
-          end
+          next unless word.start_with? '-'
+
+          word.sub!('-', '')
+          res[word] = unless nxt.nil? || nxt.start_with?('-')
+                        nxt
+                      else
+                        'True'
+                      end
         end
         res
       end

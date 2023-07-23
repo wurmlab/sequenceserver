@@ -1,7 +1,9 @@
 # Based on https://stackoverflow.com/a/29544674
 module DownloadHelpers
+  DOWNLOADS_DIR = File.join(__dir__, 'downloads')
+
   def downloads_dir
-    File.join(__dir__, 'downloads')
+    DOWNLOADS_DIR
   end
 
   def wait_for_download
@@ -14,8 +16,8 @@ module DownloadHelpers
   end
 
   def downloaded_file
-    warn "*** Multiple files in downloads directory. Expected one. ***" if downloads.length > 1
-    downloads.sort_by { |f| File.mtime(f) }.last
+    warn '*** Multiple files in downloads directory. Expected one. ***' if downloads.length > 1
+    downloads.max_by { |f| File.mtime(f) }
   end
 
   def clear_downloads

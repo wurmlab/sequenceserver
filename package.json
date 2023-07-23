@@ -10,7 +10,7 @@
   },
   "scripts": {
     "watch": "webpack --watch",
-    "test": "jest /js/tests",
+    "test": "jest",
     "minify:css": "cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css",
     "build": "webpack && npm run minify:css"
   },

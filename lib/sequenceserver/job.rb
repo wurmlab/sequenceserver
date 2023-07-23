@@ -25,15 +25,19 @@ module SequenceServer
       # Creates and queues a job. Returns created job object.
       def create(params)
         job = BLAST::Job.new(params) # TODO: Dynamic dispatch.
-        pool.queue { job.run }
-        job
+        enqueue(job)
       end
 
       # Fetches job with the given id.
       def fetch(id)
         job_file = File.join(DOTDIR, id, 'job.yaml')
         fail NotFound unless File.exist?(job_file)
-        YAML.load_file(job_file)
+        if RUBY_VERSION < '3.1.0'
+          YAML.load_file(job_file)
+        else
+          YAML.load_file(job_file, permitted_classes: [Time, Symbol, SequenceServer::BLAST::Job, \
+                                                       SequenceServer::Database, SequenceServer::Job])
+        end
       end
 
       # Deletes job with the given id.
@@ -45,6 +49,12 @@ module SequenceServer
       def all
         Dir["#{DOTDIR}/**/job.yaml"]
           .map { |f| fetch File.basename File.dirname f }
+      end
+
+      # Enqueues a job that is already created, returns the job object
+      def enqueue(job)
+        pool.queue { job.run }
+        job
       end
 
       private

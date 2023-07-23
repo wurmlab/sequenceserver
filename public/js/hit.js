@@ -95,6 +95,7 @@ export default class extends Component {
         var aln_exporter = new AlignmentExporter();
         aln_exporter.export_alignments(hsps, this.props.query.id + '_' + this.props.hit.id);
     }
+
     headerJSX() {
         var meta = `length: ${this.hitLength().toLocaleString()}`;
 
@@ -147,6 +148,7 @@ export default class extends Component {
                     <input type="checkbox" id={this.domID() + '_checkbox'}
                         value={this.sequenceID()} onChange={function () {
                             this.props.selectHit(this.domID() + '_checkbox');
+                            this.props.onChange();
                         }.bind(this)} data-target={'#' + this.domID()}
                     /> Select
                 </label>
