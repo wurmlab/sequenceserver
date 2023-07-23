@@ -20,12 +20,17 @@ import AlignmentExporter from './alignment_exporter';
 class Report extends Component {
     constructor(props) {
         super(props);
-        this.fetchResults();
+        this.init();
         this.getDatabaseListString = this.getDatabaseListString.bind(this);
         this.toggleShowDatabases = this.toggleShowDatabases.bind(this);
         this.renderToggleDatabasesList = this.renderToggleDatabasesList.bind(this);
-        this.maxDatabasesStringLength = 200;
+        this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
+        this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
+        this.setStateFromJSON = this.setStateFromJSON.bind(this);
+    }
 
+    init(){
+        this.fetchResults();
         // Properties below are internal state used to render results in small
         // slices (see updateState).
         this.numUpdates = 0;
@@ -33,6 +38,7 @@ class Report extends Component {
         this.nextHit = 0;
         this.nextHSP = 0;
         this.maxHSPs = 3; // max HSPs to render in a cycle
+        this.maxDatabasesStringLength = 200;
         this.state = {
             search_id: '',
             seqserv_version: '',
@@ -50,10 +56,8 @@ class Report extends Component {
             allQueriesLoaded: false,
             cloud_sharing_enabled: false,
         };
-        this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
-        this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
-        this.setStateFromJSON = this.setStateFromJSON.bind(this);
     }
+
     /**
    * Fetch results.
    */
