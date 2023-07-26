@@ -38,6 +38,8 @@
         - name: Get CodeClimate
           working-directory: /opt
           run: wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
+        - name: Instal Jest
+          run: npm install --save-dev jest
         - name: Set up Ruby
           uses: ruby/setup-ruby@v1
           with:
