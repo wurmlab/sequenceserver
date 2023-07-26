@@ -37,8 +37,6 @@
           run: wget -c "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
         - name: BLAST PATH
           run: mkdir /opt/bin && echo "/opt/bin:/opt/ncbi-blast-2.12.0+/bin" >> $GITHUB_PATH
-        - name: Get Chromium
-          run: sudo apt-get update && sudo apt-get install -y chromium-bsu chromium-driver
         - name: Get CodeClimate
           working-directory: /opt
           run: wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
@@ -57,6 +55,8 @@
           id: rspec
           continue-on-error: true
           run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
+        - name: Jest tests
+          run: npm test -- --coverage
         - name: CodeClimate after-build (success)
           if: steps.rspec.outcome == 'success'
           run: cc-test-reporter after-build --exit-code 0
