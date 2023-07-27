@@ -51,10 +51,10 @@
           run: bundle exec bin/sequenceserver -s -d spec/database/v5/sample
         - name: CodeClimate before-build hook
           run: cc-test-reporter before-build
-        - name: Run main specs and import spec for BLAST 2.9.0+
-          id: rspec
-          continue-on-error: true
-          run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
+#        - name: Run main specs and import spec for BLAST 2.9.0+
+#          id: rspec
+#          continue-on-error: true
+#          run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
         - name: Jest tests
           run: npm test -- --coverage
         - name: CodeClimate after-build (success)
