@@ -4,9 +4,9 @@ Gem::Specification.new do |s|
   # meta
   s.name        = 'sequenceserver'
   s.version     = SequenceServer::VERSION
-  s.authors     = ['Anurag Priyam', 'Yannick Wurm', 'Many others', 'Queen Mary University of London',
+  s.authors     = ['Queen Mary University of London',
                    'Pragmatic Genomics Ltd']
-  s.email       = ['anurag08priyam@gmail.com', 'yannickwurm@gmail.com']
+  s.email       = ['contact@sequenceserver.com']
   s.homepage    = 'https://sequenceserver.com'
   s.license     = 'AGPL-3.0'
 
@@ -53,7 +53,8 @@ Gem::Specification.new do |s|
 
       More information at https://sequenceserver.com
       Community support: https://support.sequenceserver.com
-      For point-and-click setup, check out SequenceServer Cloud.
+      For point-and-click setup, and to avoid the hassle of running your own
+      servers, check SequenceServer Cloud: https://sequenceserver.com/cloud
     ------------------------------------------------------------------------
 
   INFO
