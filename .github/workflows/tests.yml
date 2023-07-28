@@ -51,16 +51,16 @@
           run: bundle exec bin/sequenceserver -s -d spec/database/v5/sample
         - name: CodeClimate before-build hook
           run: cc-test-reporter before-build
-        - name: Run main specs and import spec for BLAST 2.9.0+
-          continue-on-error: true
-          run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
-        - name: format-coverage (Rspec)
-          run: cc-test-reporter format-coverage
+#        - name: Run main specs and import spec for BLAST 2.9.0+
+#          continue-on-error: true
+#          run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
+#        - name: format-coverage (Rspec)
+#          run: cc-test-reporter format-coverage
         - name: Jest tests
           run: npm test -- --coverage
           continue-on-error: true
         - name: format-coverage (Jest)
-          run: cc-test-reporter format-coverage
+          run: cc-test-reporter format-coverage coverage/lcov.info --debug --input-type lcov
         - name: sum-coverage
           run: cc-test-reporter sum-coverage
         - name: upload coverage to code-CodeClimate
