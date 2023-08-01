@@ -60,7 +60,7 @@
           run: npm test -- --coverage
           continue-on-error: true
         - name: format-coverage (Jest)
-          run: cc-test-reporter format-coverage coverage/lcov.info --debug --input-type lcov
+          run: cc-test-reporter format-coverage coverage/lcov.info --input-type lcov
         - name: sum-coverage
           run: cc-test-reporter sum-coverage
         - name: upload coverage to code-CodeClimate
