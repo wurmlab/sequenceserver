@@ -55,14 +55,14 @@
           continue-on-error: true
           run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
         - name: format-coverage (Rspec)
-          run: cc-test-reporter format-coverage
+          run: cc-test-reporter format-coverage --output coverage/codeclimate_rspec.json
         - name: Jest tests
           run: npm test -- --coverage
           continue-on-error: true
         - name: format-coverage (Jest)
-          run: cc-test-reporter format-coverage coverage/lcov.info --input-type lcov
+          run: cc-test-reporter format-coverage coverage/lcov.info --input-type lcov --output coverage/codeclimate_jest.json
         - name: sum-coverage
-          run: cc-test-reporter sum-coverage --parts 2
+          run: cc-test-reporter sum-coverage --parts 2 coverage/codeclimate_*.json
         - name: upload coverage to code-CodeClimate
           run: cc-test-reporter upload-coverage 
         - name: upload code coverage results to action
