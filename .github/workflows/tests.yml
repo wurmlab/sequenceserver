@@ -68,7 +68,7 @@
         - name: upload Jest coverage report
           uses: actions/upload-artifact@v3
           with:
-            name: rspec-code-coverage-report
+            name: jest-code-coverage-report
             path: coverage/lcov-report/
         - name: format-coverage (Jest)
           run: cc-test-reporter format-coverage coverage/lcov.info --input-type lcov --output coverage/codeclimate_jest.json
