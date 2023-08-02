@@ -54,23 +54,28 @@
           id: rspec_tests
           continue-on-error: true
           run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
+        - name: upload rspec coverage report
+          uses: actions/upload-artifact@v3
+          with:
+            name: rspec-code-coverage-report
+            path: coverage
         - name: format-coverage (Rspec)
           run: cc-test-reporter format-coverage --output coverage/codeclimate_rspec.json
         - name: Jest tests
           id: jest_tests
           run: npm test -- --coverage
           continue-on-error: true
+        - name: upload Jest coverage report
+          uses: actions/upload-artifact@v3
+          with:
+            name: rspec-code-coverage-report
+            path: coverage/lcov-report/
         - name: format-coverage (Jest)
           run: cc-test-reporter format-coverage coverage/lcov.info --input-type lcov --output coverage/codeclimate_jest.json
         - name: sum-coverage
           run: cc-test-reporter sum-coverage --parts 2 coverage/codeclimate_*.json
         - name: upload coverage to code-CodeClimate
           run: cc-test-reporter upload-coverage 
-        - name: upload code coverage results to action
-          uses: actions/upload-artifact@v3
-          with:
-            name: code-coverage-report
-            path: coverage
         - name: Assert both test suites passed in full
           if: steps.rspec_tests.outcome != 'success' || steps.jest_tests.outcome != 'success'
           run: exit 1
