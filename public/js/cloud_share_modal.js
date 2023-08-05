@@ -84,7 +84,7 @@ export default class CloudShareModal extends React.Component {
   renderResults() {
     const { shareableurl } = this.state;
 
-    return <ShareURLComponent url={shareableurl} querydb={this.props.querydb} program={this.props.program} queryLength={this.props.queryLength} />;
+    return <ShareURLComponent url={shareableurl} querydb={this.props.querydb} program={this.props.program} queries={this.props.queries} />;
   }
 
   renderError() {

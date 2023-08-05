@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import asMailtoHref from './mailto';
 
-const ShareURLComponent = ({ querydb, program, queryLength, url }) => {
+const ShareURLComponent = ({ querydb, program, queries, url }) => {
     const [copied, setCopied] = useState(false);
 
     const copyToClipboard = () => {
@@ -14,7 +14,7 @@ const ShareURLComponent = ({ querydb, program, queryLength, url }) => {
             <input name="shareableUrl" type="text" value={url} readOnly />
             <div className="actions">
                 <button className="btn btn-primary" onClick={copyToClipboard}>{copied ? 'Copied!' : 'Copy to Clipboard'}</button>
-                <a href={asMailtoHref(querydb, program, queryLength, url, true)}>Share via email</a>
+                <a href={asMailtoHref(querydb, program, queries, url, true)}>Share via email</a>
             </div>
         </div>
     );
