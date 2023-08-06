@@ -5,7 +5,6 @@ export class Databases extends Component {
     constructor(props) {
         super(props);
         this.state = { type: '' };
-        this.preSelectedDbs = this.props.preSelectedDbs;
         this.databases = this.databases.bind(this);
         this.nselected = this.nselected.bind(this);
         this.categories = this.categories.bind(this);
@@ -15,6 +14,7 @@ export class Databases extends Component {
         this.renderDatabase = this.renderDatabase.bind(this);
     }
     componentDidUpdate() {
+        this.preSelectedDbs = this.props.preSelectedDbs;
         if (this.databases() && this.databases().length === 1) {
             $('.databases').find('input').prop('checked', true);
             this.handleClick(this.databases()[0]);
