@@ -25,7 +25,14 @@ const TestSidebar = ({ long }) => {
     />;
 };
 
+const clickCheckboxes = (checkboxes, count) => {
+    Array.from(checkboxes).slice(0, count).forEach((checkbox) => {
+        fireEvent.click(checkbox);
+    });
+};
 describe('REPORT PAGE', () => {
+    global.URL.createObjectURL = jest.fn();//.mockReturnValue('xyz.test');
+    global.setTimeout = (cb) => cb();
     it('should render the report component with initial loading state', () => {
         render(<Report />);
         expect(screen.getByRole('heading', { name: 'BLAST-ing' })).toBeInTheDocument();
@@ -39,7 +46,7 @@ describe('REPORT PAGE', () => {
     });
     it('it should render the report page correctly if there\'s a response provided', () => {
         setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
-        const { container } = render(<Report />);
+        const { container } = render(<Report getCharacterWidth={jest.fn()} />);
         expect(container.querySelector('#results')).toBeInTheDocument();
 
     });
@@ -63,18 +70,18 @@ describe('REPORT PAGE', () => {
         });
 
         describe('LONG QUERIES (>12)', () => {
-
+            let container;
+            beforeEach(() => {
+                container = render(<TestSidebar long />).container;
+            });
             it('should not show navigation links for long queries', () => {
-                const { container } = render(<TestSidebar long />);
                 expect(container.querySelectorAll('a[href^="#Query_"]').length).toBe(0);
             });
             it('should show only next button if on first query ', () => {
-                render(<TestSidebar long />);
                 expect(nextQueryButton()).toBeInTheDocument();
                 expect(previousQueryButton()).not.toBeInTheDocument();
             });
             it('should show both previous and next buttons if not on first query', () => {
-                render(<TestSidebar long />);
                 const nextBtn = nextQueryButton();
                 expect(nextBtn).toBeInTheDocument();
                 fireEvent.click(nextBtn);
@@ -84,7 +91,6 @@ describe('REPORT PAGE', () => {
             });
             it('should show only previous button if on last query', () => {
                 const { queries } = longResponseJSON;
-                render(<TestSidebar long />);
                 expect(nextQueryButton()).toBeInTheDocument();
                 expect(previousQueryButton()).not.toBeInTheDocument();
 
@@ -95,5 +101,55 @@ describe('REPORT PAGE', () => {
                 expect(previousQueryButton()).toBeInTheDocument();
             });
         });
+
+        describe('DOWNLOAD LINKS', () => {
+            let container;
+            beforeEach(() => {
+                setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
+                container = render(<Report getCharacterWidth={jest.fn()}  />).container;
+            });
+            describe('ALIGNMENT DOWNLOAD', () => {
+                it('should generate a blob url and filename for downloading alignment of all hits on render', () => {
+                    const alignment_download_link = container.querySelector('.download-alignment-of-all');
+                    const expected_num_hits = container.querySelectorAll('.hit-links input[type="checkbox"]').length;
+                    const file_name = `alignment-${expected_num_hits}_hits.txt`;
+                    expect(alignment_download_link.download).toEqual(file_name);
+                    expect(alignment_download_link.hred).not.toEqual('#');
+                });
+                it('link for downloading alignment of specific number of selected hits should be disabled on initial load', () => {
+                    const alignment_download_link = container.querySelector('.download-alignment-of-selected');
+                    expect(alignment_download_link.classList.contains('disabled')).toBeTruthy();
+    
+                });
+                it('should generate a blob url and filename for downloading alignment of specific number of selected hits', () => {
+                    const alignment_download_link = container.querySelector('.download-alignment-of-selected');
+                    // QUERY ALL HIT LINKS CHECKBOXES
+                    const checkboxes = container.querySelectorAll('.hit-links input[type="checkbox"]');
+                    // SELECT 4 CHECKBOXES
+                    clickCheckboxes(checkboxes, 4);
+                    const file_name = 'alignment-4_hits.txt';
+                    expect(alignment_download_link.textContent).toEqual('Alignment of 4 selected hit(s)');
+                    expect(alignment_download_link.download).toEqual(file_name);
+                });
+            });
+    
+            describe('FASTA DOWNLOAD', () => {
+                let fasta_download_link;
+                beforeEach(() => {
+                    fasta_download_link = container.querySelector('.download-fasta-of-selected');
+                });
+                it('link for downloading fasta of selected number of hits should be disabled on initial load', () => {
+                    expect(fasta_download_link.classList.contains('disabled')).toBeTruthy();
+                });
+    
+                it('link for downloading fasta of specific number of selected hits should be active after selection', () => {
+                    const checkboxes = container.querySelectorAll('.hit-links input[type="checkbox"]');
+                    // SELECT 5 CHECKBOXES
+                    clickCheckboxes(checkboxes, 5);
+                    expect(fasta_download_link.textContent).toEqual('FASTA of 5 selected hit(s)');
+                });
+            });
+        });
     });
+
 });
