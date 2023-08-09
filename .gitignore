@@ -52,7 +52,7 @@ pkg
 *.swp
 *.~*~
 .gems/*
-Gemfile.lock
+
 node_modules
 
 spec/dotdir/*
