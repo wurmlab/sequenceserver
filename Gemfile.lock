@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sequenceserver (2.0.0)
+    sequenceserver (2.1.0)
       json_pure (~> 2.6, >= 2.6.3)
       ox (~> 2.1, >= 2.1.1)
       rest-client (~> 2.1, >= 2.1.0)
