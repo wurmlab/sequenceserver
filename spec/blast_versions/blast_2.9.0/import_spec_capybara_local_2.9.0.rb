@@ -172,6 +172,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
 
     clear_downloads
+
     page.all('.export-to-svg')[0].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
@@ -180,13 +181,13 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the first hit available and
     # compare the downloaded content.
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.all('.export-to-png')[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.all('.export-to-svg')[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.svg')
     page.should have_content('BLASTX')
