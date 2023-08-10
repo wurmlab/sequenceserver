@@ -19,7 +19,8 @@
   on:
     push:
       branches:
-       - test-cases-grg
+       - 1.0.x
+       - master
     pull_request:
       branches:
        - 1.0.x
