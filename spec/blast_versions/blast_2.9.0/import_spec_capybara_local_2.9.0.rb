@@ -49,13 +49,13 @@ describe 'report generated from imported XML',type: :feature, js: true do
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
 
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.all('.export-to-png')[0].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.all('.export-to-svg')[0].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.svg')
 
@@ -64,7 +64,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     # Click on the PNG/SVG download button of the first hit available and
     # compare the downloaded content.
 
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.all('.export-to-png')[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_1099170394_ref_XP_018868681_1.png')
 
@@ -128,7 +128,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     # Click on the first Alignment download button on the page and wait for the
     # download to finish.
 
-    page.execute_script("$('.download-aln:eq(0)').click()")
+    page.all('.download-aln')[0].click
     wait_for_download
 
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1486783307_gb_AYF55702_1.txt')
@@ -167,13 +167,12 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.all('.export-to-png')[0].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
 
     clear_downloads
-
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.all('.export-to-svg')[0].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
 
@@ -241,7 +240,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     # Click on the first Alignment download button on the page and wait for the
     # download to finish.
 
-    page.execute_script("$('.download-aln:eq(0)').click()")
+    page.all('.download-aln')[0].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1486783306_gb_MH011443_1.txt')
     expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/MH011443_1_gi_1486783306_gb_MH011443_1.txt"))
@@ -277,7 +276,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.all('.export-to-png')[0].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
 
@@ -354,7 +353,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     # Click on the first Alignment download button on the page and wait for the
     # download to finish.
 
-    page.execute_script("$('.download-aln:eq(0)').click()")
+    pagel.all('.download-aln')[0].click()
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('sp_P04637_P53_HUMAN_gi_395440626_gb_JQ694049_1.txt')
     expect(File.read(downloaded_file)).to eq(File.read("spec/sequences/sp_P04637_P53_HUMAN_gi_395440626_gb_JQ694049_1.txt"))
@@ -390,7 +389,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.all('.export-to-png')[0].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.png')
 
@@ -467,7 +466,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
     # Click on the first Alignment download button on the page and wait for the
     # download to finish.
 
-    page.execute_script("$('.download-aln:eq(1)').click()")
+    page.all('.download-aln')[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1528997474_gb_MH447967_1.txt')
     expect(File.read(downloaded_file)). to eq(File.read("spec/sequences/MH011443_1_gi_1528997474_gb_MH447967_1.txt"))
@@ -503,7 +502,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.all('.export-to-png')[0].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
 
