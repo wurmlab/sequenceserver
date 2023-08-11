@@ -22,8 +22,7 @@
        - actions-grg
     pull_request:
       branches:
-       - 1.0.x
-       - master
+       - actions-grg
   env:
     CC_TEST_REPORTER_ID: ec48bb03c72db6b43ce71fd488110b4707abfde4386c144d886d711378d8db64
   jobs:
