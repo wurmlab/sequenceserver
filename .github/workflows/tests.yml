@@ -19,8 +19,7 @@
   on:
     push:
       branches:
-       - 1.0.x
-       - master
+       - actions-grg
     pull_request:
       branches:
        - 1.0.x
