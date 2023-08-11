@@ -20,7 +20,7 @@ module SequenceServer
         else
           validate params
           super do
-            @method    = params[:method]
+            @method = params[:method]
             @query = params[:sequence]
             @qfile     = store('query.fa', params[:sequence])
             @databases = Database[params[:databases]]
@@ -37,8 +37,15 @@ module SequenceServer
 
       # :nodoc:
       # Attributes used by us - should be considered private.
-      attr_reader :advanced
-      attr_reader :databases, :databases_ncharacters_total, :method, :num_threads, :options, :qfile, :query_length, :number_of_sequences
+      attr_reader :advanced,
+                  :databases,
+                  :databases_ncharacters_total,
+                  :method,
+                  :num_threads,
+                  :options,
+                  :qfile,
+                  :query_length,
+                  :number_of_sequences
 
       # :nodoc:
       # Deprecated; see Report#extract_params
