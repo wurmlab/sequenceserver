@@ -134,10 +134,8 @@ module SequenceServer
       def calculate_number_of_sequences
         # splitting the query by ">" starting a new line lets us determine number of sequences
         sequences = @query.split(/\n\s*>\s*+/)
-        puts "Number of sequences: #{sequences}"
         # Remove any empty strings from the split result
         sequences.reject!(&:empty?)
-
         sequences.length
       end
 
