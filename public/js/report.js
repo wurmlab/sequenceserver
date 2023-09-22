@@ -28,6 +28,8 @@ class Report extends Component {
         this.nextHSP = 0;
         this.maxHSPs = 3; // max HSPs to render in a cycle
         this.state = {
+            user_warning: null,
+            download_links: [],
             search_id: '',
             seqserv_version: '',
             program: '',
@@ -52,9 +54,8 @@ class Report extends Component {
     fetchResults() {
         var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
         var component = this;
-
         function poll() {
-            $.getJSON(location.pathname + '.json').complete(function (jqXHR) {
+            $.getJSON(location.pathname + '.json' + location.search).complete(function (jqXHR) {
                 switch (jqXHR.status) {
                 case 202:
                     var interval;
@@ -86,7 +87,11 @@ class Report extends Component {
     setStateFromJSON(responseJSON) {
         this.lastTimeStamp = Date.now();
         // the callback prepares the download link for all alignments
-        this.setState(responseJSON, this.prepareAlignmentOfAllHits);
+        if (responseJSON.user_warning == 'LARGE_RESULT') {
+            this.setState({user_warning: responseJSON.user_warning, download_links: responseJSON.download_links});
+        } else {
+            this.setState(responseJSON, this.prepareAlignmentOfAllHits);
+        }
     }
     /**
    * Called as soon as the page has loaded and the user sees the loading spinner.
@@ -108,8 +113,8 @@ class Report extends Component {
    * start iteratively adding 1 HSP to the page every 25 milli-seconds.
    */
     componentDidUpdate() {
-    // Log to console how long the last update take?
-        console.log((Date.now() - this.lastTimeStamp) / 1000);
+        // Log to console how long the last update take?
+        // console.log((Date.now() - this.lastTimeStamp) / 1000);
 
         // Lock sidebar in its position on the first update.
         if (this.nextQuery == 0 && this.nextHit == 0 && this.nextHSP == 0) {
@@ -286,6 +291,40 @@ class Report extends Component {
         );
     }
 
+
+    warningJSX() {
+        return(
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6 col-md-offset-3 text-center">
+                        <h1>
+                            <i className="fa fa-exclamation-triangle"></i>&nbsp; Warning
+                        </h1>
+                        <p>
+                            <br />
+                            The BLAST result might be too large to load in the browser. If you have a powerful machine you can try loading the results anyway. Otherwise, you can download the results and view them locally.
+                        </p>
+                        <br />
+                        <p>
+                            {this.state.download_links.map((link, index) => {
+                                return (
+                                    <a href={link.url} className="btn btn-secondary" key={'download_link_' + index} >
+                                        {link.name}
+                                    </a>
+                                );
+                            })}
+                        </p>
+                        <br />
+                        <p>
+                            <a href={location.pathname + '?bypass_file_size_warning=true'} className="btn btn-primary">
+                                View results in browser anyway
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     /**
    * Renders report overview.
    */
@@ -348,6 +387,15 @@ class Report extends Component {
    */
     isResultAvailable() {
         return this.state.queries.length >= 1;
+    }
+
+    /**
+     * Indicates the response contains a warning message for the user
+     * in which case we should not render the results and render the
+     * warning instead.
+     **/
+    isUserWarningPresent() {
+        return this.state.user_warning;
     }
 
     /**
@@ -539,7 +587,13 @@ class Report extends Component {
     }
 
     render() {
-        return this.isResultAvailable() ? this.resultsJSX() : this.loadingJSX();
+        if (this.isUserWarningPresent()) {
+            return this.warningJSX();
+        } else if (this.isResultAvailable()) {
+            return this.resultsJSX();
+        } else {
+            return this.loadingJSX();
+        }
     }
 }
 

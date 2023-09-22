@@ -48,6 +48,10 @@ module SequenceServer
                    non_parse_seqids: !!job.databases&.any?(&:non_parse_seqids?)).to_json
       end
 
+      def xml_file_size
+        xml_formatter.size
+      end
+
       private
 
       # Generate report.
@@ -63,14 +67,22 @@ module SequenceServer
             end
           end
         else
-          xml_ir = parse_xml File.read(Formatter.run(job, 'xml').file)
-          tsv_ir = parse_tsv File.read(Formatter.run(job, 'custom_tsv').file)
+          xml_ir = parse_xml(xml_formatter.read_file)
+          tsv_ir = parse_tsv(tsv_formatter.read_file)
         end
         extract_program_info xml_ir
         extract_db_info xml_ir
         extract_params xml_ir
         extract_stats xml_ir
         extract_queries xml_ir, tsv_ir
+      end
+
+      def xml_formatter
+        @xml_formatter ||= Formatter.run(job, 'xml')
+      end
+
+      def tsv_formatter
+        @tsv_formatter ||= Formatter.run(job, 'custom_tsv')
       end
 
       # Make program name and program name + version available via `program`

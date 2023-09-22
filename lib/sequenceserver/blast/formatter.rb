@@ -25,12 +25,20 @@ module SequenceServer
 
       attr_reader :format, :mime, :specifiers
 
-      def file
-        @file ||= File.join(job.dir, filename)
+      def filepath
+        @filepath ||= File.join(job.dir, filename)
+      end
+
+      def size
+        File.size(filepath)
       end
 
       def filename
         @filename ||= "sequenceserver-#{type}_report.#{mime}"
+      end
+
+      def read_file
+        File.read(filepath)
       end
 
       private
@@ -38,10 +46,11 @@ module SequenceServer
       attr_reader :job, :type
 
       def run
-        return if File.exist?(file)
+        return if File.exist?(filepath)
+
         command = "blast_formatter -archive '#{job.stdout}'" \
           " -outfmt '#{format} #{specifiers}'"
-        sys(command, path: config[:bin], dir: DOTDIR, stdout: file)
+        sys(command, path: config[:bin], dir: DOTDIR, stdout: filepath)
       rescue CommandFailed => e
         # Mostly we will never get here: empty archive file,
         # file permissions, broken BLAST binaries, etc. will
