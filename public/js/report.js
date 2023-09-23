@@ -20,6 +20,16 @@ import AlignmentExporter from './alignment_exporter';
 class Report extends Component {
     constructor(props) {
         super(props);
+        this.init();
+        this.getDatabaseListString = this.getDatabaseListString.bind(this);
+        this.toggleShowDatabases = this.toggleShowDatabases.bind(this);
+        this.renderToggleDatabasesList = this.renderToggleDatabasesList.bind(this);
+        this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
+        this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
+        this.setStateFromJSON = this.setStateFromJSON.bind(this);
+    }
+
+    init(){
         // Properties below are internal state used to render results in small
         // slices (see updateState).
         this.numUpdates = 0;
@@ -27,6 +37,7 @@ class Report extends Component {
         this.nextHit = 0;
         this.nextHSP = 0;
         this.maxHSPs = 3; // max HSPs to render in a cycle
+        this.maxDatabasesStringLength = 200;
         this.state = {
             search_id: '',
             seqserv_version: '',
@@ -38,14 +49,14 @@ class Report extends Component {
             querydb: [],
             params: [],
             stats: [],
+            databasesList: '',
+            showMore: false,
             alignment_blob_url: '',
             allQueriesLoaded: false,
             cloud_sharing_enabled: false,
         };
-        this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
-        this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
-        this.setStateFromJSON = this.setStateFromJSON.bind(this);
     }
+
     /**
    * Fetch results.
    */
@@ -108,7 +119,7 @@ class Report extends Component {
    * start iteratively adding 1 HSP to the page every 25 milli-seconds.
    */
     componentDidUpdate() {
-    // Log to console how long the last update take?
+        // Log to console how long the last update take?
         console.log((Date.now() - this.lastTimeStamp) / 1000);
 
         // Lock sidebar in its position on the first update.
@@ -185,11 +196,11 @@ class Report extends Component {
                         <HSP
                             key={
                                 'Query_' +
-                query.number +
-                '_Hit_' +
-                hit.number +
-                '_HSP_' +
-                hsp.number
+                                query.number +
+                                '_Hit_' +
+                                hit.number +
+                                '_HSP_' +
+                                hsp.number
                             }
                             query={query}
                             hit={hit}
@@ -250,12 +261,12 @@ class Report extends Component {
                     </h1>
                     <p>
                         <br />
-            This can take some time depending on the size of your query and
-            database(s). The page will update automatically when BLAST is done.
+                        This can take some time depending on the size of your query and
+                        database(s). The page will update automatically when BLAST is done.
                         <br />
                         <br />
-            You can bookmark the page and come back to it later or share the
-            link with someone.
+                        You can bookmark the page and come back to it later or share the
+                        link with someone.
                     </p>
                 </div>
             </div>
@@ -286,6 +297,22 @@ class Report extends Component {
         );
     }
 
+    getDatabaseListString(querydb = this.state.querydb) {
+        return querydb
+            .map((db) => {
+                return db.title;
+            })
+            .join(', ');
+    }
+
+    toggleShowDatabases() {
+        const databases = this.state.showMore ? `${this.getDatabaseListString().substring(0, this.maxDatabasesStringLength)}...` : `${this.getDatabaseListString()}`;
+        this.setState({ databasesList: databases, showMore: !this.state.showMore });
+    }
+
+    renderToggleDatabasesList() {
+        return <span onClick={this.toggleShowDatabases}>{this.state.databasesList || this.getDatabaseListString().substring(0, this.maxDatabasesStringLength) + '...'}<span style={{ cursor: 'pointer' }} className="btn-link hover-bold">&nbsp;&nbsp;{this.state.showMore ? 'Show Less' : 'Show More'}</span></span>;
+    }
     /**
    * Renders report overview.
    */
@@ -296,16 +323,12 @@ class Report extends Component {
                     <strong>SequenceServer {this.state.seqserv_version}</strong> using{' '}
                     <strong>{this.state.program_version}</strong>
                     {this.state.submitted_at &&
-            `, query submitted on ${this.state.submitted_at}`}
+                        `, query submitted on ${this.state.submitted_at}`}
                 </p>
                 <p>
                     <strong> Databases: </strong>
-                    {this.state.querydb
-                        .map((db) => {
-                            return db.title;
-                        })
-                        .join(', ')}{' '}
-          ({this.state.stats.nsequences} sequences,&nbsp;
+                    {this.getDatabaseListString().length <= this.maxDatabasesStringLength ? this.getDatabaseListString() : this.renderToggleDatabasesList()}{' '}
+                    ({this.state.stats.nsequences} sequences,&nbsp;
                     {this.state.stats.ncharacters} characters)
                 </p>
                 <p>
@@ -315,9 +338,9 @@ class Report extends Component {
                     }).join(', ')}
                 </p>
                 <p>
-          Please cite:{' '}
+                    Please cite:{' '}
                     <a href="https://doi.org/10.1093/molbev/msz185">
-            https://doi.org/10.1093/molbev/msz185
+                        https://doi.org/10.1093/molbev/msz185
                     </a>
                 </p>
             </div>
