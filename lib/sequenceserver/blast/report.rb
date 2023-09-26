@@ -36,6 +36,8 @@ module SequenceServer
       attr_reader :querydb, :dbtype, :params
 
       def to_json(*_args)
+        generate
+
         %i[querydb program program_version params stats
            queries].inject({}) do |h, k|
           h[k] = send(k)
@@ -49,13 +51,15 @@ module SequenceServer
       end
 
       def xml_file_size
+        generate
+
         xml_formatter.size
       end
 
-      private
-
       # Generate report.
       def generate
+        return self if @_generated
+
         job.raise!
         xml_ir = nil
         tsv_ir = nil
@@ -75,7 +79,17 @@ module SequenceServer
         extract_params xml_ir
         extract_stats xml_ir
         extract_queries xml_ir, tsv_ir
+
+        @_generated = true
+
+        self
       end
+
+      def done?
+        File.exist?(xml_formatter.filepath) && File.exist?(tsv_formatter.filepath)
+      end
+
+      private
 
       def xml_formatter
         @xml_formatter ||= Formatter.run(job, 'xml')

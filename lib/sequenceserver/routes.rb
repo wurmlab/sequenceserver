@@ -106,7 +106,9 @@ module SequenceServer
     get '/:jid.json' do |jid|
       job = Job.fetch(jid)
       halt 202 unless job.done?
+
       report = Report.generate(job)
+      halt 202 unless report.done?
 
       display_large_result_warning =
         SequenceServer.config[:large_result_warning_threshold].to_i.positive? &&

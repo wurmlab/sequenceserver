@@ -7,11 +7,8 @@ module SequenceServer
   # own report subclass.
   class Report
     class << self
-      # Generates report for the given job. Returns generated report object.
-      #
-      # TODO: Dynamic dispatch.
       def generate(job)
-        BLAST::Report.new(job)
+        BLAST::Report.new(job).generate
       end
     end
 
@@ -23,7 +20,6 @@ module SequenceServer
     def initialize(job)
       @job = job
       yield if block_given?
-      generate
     end
 
     attr_reader :job
