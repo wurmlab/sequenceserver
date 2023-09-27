@@ -1,12 +1,13 @@
 require 'spec_helper'
 require 'sequenceserver/database'
 
-# Test Database class.
 module SequenceServer
-  describe 'Database' do
+  describe 'makeblastdb' do
     let 'root' do
       __dir__
     end
+
+    let(:disposable_database_dir) { File.join(root, 'tmp', 'databases') }
 
     let 'makeblastdb' do
       SequenceServer.makeblastdb
@@ -53,16 +54,6 @@ module SequenceServer
     let 'binary_file' do
       File.join(database_dir_v5, 'proteins', 'Solenopsis_invicta',
                 'Sinvicta2-2-3.prot.subset.fasta.phr')
-    end
-
-    let 'data_for_makeblastdb' do
-      [
-        File.join(database_dir_unformatted, 'Cardiocondyla_obscurior',
-                  'Cobs1.4.proteins.fa'),
-        :protein,
-        'Cobs 1.4 proteins',
-        true
-      ]
     end
 
     let 'makeblastdb_result_pattern' do
@@ -128,6 +119,41 @@ module SequenceServer
       expect(makeblastdb.send(:multipart_database_name?, sample_name1)).to be_falsey
       expect(makeblastdb.send(:multipart_database_name?, sample_name2)).to be_truthy
       expect(makeblastdb.send(:multipart_database_name?, sample_name3)).to be_truthy
+    end
+
+    describe '#make_blast_database' do
+      context 'duplicate sequence ids' do
+        before do
+          FileUtils.rm_rf(disposable_database_dir)
+          allow($stdin).to receive(:gets).exactly(3).times.and_return("\n") # Accept default option prompted by the CLI
+          allow_any_instance_of(Object).to receive(:exit!).and_return(nil) # Prevents the CLI from killing Rspec process
+          FileUtils.mkdir_p(disposable_database_dir)
+          FileUtils.cp_r(File.join(database_dir, 'invalid', 'duplicate_ids.fasta'), disposable_database_dir)
+        end
+
+        after do
+          FileUtils.rm_rf(disposable_database_dir)
+        end
+
+        let(:duplicated_id_database) { File.join(disposable_database_dir, 'duplicate_ids.fasta') }
+
+        it 'it records errors in a file' do
+          makeblastdb = SequenceServer::MAKEBLASTDB.new(disposable_database_dir)
+          makeblastdb.scan
+          makeblastdb.format
+
+          expect(File.read("#{duplicated_id_database}.makeblastdbstderr")).to match(/Duplicate seq_ids are found/)
+        end
+
+        it 'it prints errors to stdout' do
+          allow($stdout).to receive(:puts).and_call_original
+          makeblastdb = SequenceServer::MAKEBLASTDB.new(disposable_database_dir)
+          makeblastdb.scan
+          makeblastdb.format
+
+          expect($stdout).to have_received(:puts).with(/Duplicate seq_ids are found/)
+        end
+      end
     end
   end
 end
