@@ -19,10 +19,7 @@ module SequenceServer
       @database_dir = database_dir
     end
 
-    attr_reader :database_dir
-    attr_reader :formatted_fastas
-    attr_reader :fastas_to_format
-    attr_reader :fastas_to_reformat
+    attr_reader :database_dir, :formatted_fastas, :fastas_to_format, :fastas_to_reformat
 
     # Scans the database directory to determine which FASTA files require
     # formatting or re-formatting.
@@ -64,6 +61,7 @@ module SequenceServer
     def any_incompatible?
       return false if @formatted_fastas.all? { |ff| ff.v4? || ff.alias? }
       return false if @formatted_fastas.all? { |ff| ff.v5? || ff.alias? }
+
       true
     end
 
@@ -81,6 +79,7 @@ module SequenceServer
       # Make the intent clear as well as ensure the program won't crash if we
       # accidentally call format before calling scan.
       return unless @fastas_to_format
+
       @fastas_to_format.select do |path, title, type|
         make_blast_database('format', path, title, type)
       end
@@ -92,6 +91,7 @@ module SequenceServer
       # Make the intent clear as well as ensure the program won't crash if
       # we accidentally call reformat before calling scan.
       return unless @fastas_to_reformat
+
       @fastas_to_reformat.select do |path, title, type, non_parse_seqids|
         make_blast_database('reformat', path, title, type, non_parse_seqids)
       end
@@ -105,6 +105,7 @@ module SequenceServer
       blastdbcmd.each_line do |line|
         path, *rest = line.chomp.split("\t")
         next if multipart_database_name?(path)
+
         rest << get_categories(path)
         @formatted_fastas << Database.new(path, *rest)
       end
@@ -114,9 +115,7 @@ module SequenceServer
     # reformatting. Adds to @fastas_to_format.
     def determine_fastas_to_reformat
       @formatted_fastas.each do |ff|
-        if ff.v4? || ff.non_parse_seqids?
-          @fastas_to_reformat << [ff.path, ff.title, ff.type, ff.non_parse_seqids?]
-        end
+        @fastas_to_reformat << [ff.path, ff.title, ff.type, ff.non_parse_seqids?] if ff.v4? || ff.non_parse_seqids?
       end
     end
 
@@ -132,8 +131,8 @@ module SequenceServer
         next if @formatted_fastas.any? { |f| f[0] == path }
 
         @fastas_to_format << [path,
-          make_db_title(path),
-          guess_sequence_type_in_fasta(path)]
+                              make_db_title(path),
+                              guess_sequence_type_in_fasta(path)]
       end
     end
 
@@ -146,14 +145,16 @@ module SequenceServer
       out, err = sys(cmd, path: config[:bin])
       errpat = /BLAST Database error/
       fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
-      return out
+
+      out
     rescue CommandFailed => e
-      fail BLAST_DATABASE_ERROR.new(cmd, e.stderr)
+      raise BLAST_DATABASE_ERROR.new(cmd, e.stderr)
     end
 
     # Create BLAST database, given FASTA file and sequence type in FASTA file.
     def make_blast_database(action, file, title, type, non_parse_seqids = false)
       return unless make_blast_database?(action, file, type)
+
       title = confirm_database_title(title)
       extract_fasta(file) unless File.exist?(file)
       taxonomy = taxid_map(file, non_parse_seqids) || taxid
@@ -188,9 +189,10 @@ module SequenceServer
     # using blastdbcmd.
     def taxid_map(db, non_parse_seqids)
       return if non_parse_seqids
+
       taxid_map = db.sub(/#{File.extname(db)}$/, '.taxid_map.txt')
-      extract_taxid_map(db, taxid_map) if !File.exist?(taxid_map)
-      "-taxid_map #{taxid_map}" if !File.zero?(taxid_map)
+      extract_taxid_map(db, taxid_map) unless File.exist?(taxid_map)
+      "-taxid_map #{taxid_map}" unless File.zero?(taxid_map)
     end
 
     # Get taxid from the user. Returns user input or 0.
@@ -211,10 +213,24 @@ module SequenceServer
       cmd = "makeblastdb -parse_seqids -hash_index -in '#{file}'" \
             " -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
             " #{taxonomy}"
-      out, err = sys(cmd, path: config[:bin])
+
+      output = if File.directory?(file)
+                 File.join(file, 'makeblastdb')
+               else
+                 "#{file}.makeblastdb"
+               end
+
+      out, err = sys(
+        cmd,
+        path: config[:bin],
+        stderr: [output, 'stderr'].join,
+        stdout: [output, 'stdout'].join
+      )
+
       puts out.strip
       puts err.strip
-      return true
+
+      true
     rescue CommandFailed => e
       puts <<~MSG
         Could not create BLAST database for: #{file}
@@ -261,7 +277,7 @@ module SequenceServer
     # /home/ben/pd.ben/sequenceserver/db/nr00 => no
     # /mnt/blast-db/refseq_genomic.100 => yes
     def multipart_database_name?(db_name)
-      !(db_name.match(%r{.+/\S+\.\d{2,3}$}).nil?)
+      !db_name.match(%r{.+/\S+\.\d{2,3}$}).nil?
     end
 
     def get_categories(path)
@@ -274,6 +290,7 @@ module SequenceServer
     # Returns true if first character of the file is '>'.
     def probably_fasta?(file)
       return false unless file.match(/((cds)|(fasta)|(fna)|(pep)|(cdna)|(fa)|(prot)|(fas)|(genome)|(nuc)|(dna)|(nt))$/i)
+
       File.read(file, 1) == '>'
     end
 
