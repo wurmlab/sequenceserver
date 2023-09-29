@@ -106,7 +106,28 @@ module SequenceServer
     get '/:jid.json' do |jid|
       job = Job.fetch(jid)
       halt 202 unless job.done?
-      Report.generate(job).to_json
+
+      report = Report.generate(job)
+      halt 202 unless report.done?
+
+      display_large_result_warning =
+        SequenceServer.config[:large_result_warning_threshold].to_i.positive? &&
+        params[:bypass_file_size_warning] != 'true' &&
+        report.xml_file_size > SequenceServer.config[:large_result_warning_threshold]
+
+      if display_large_result_warning
+        halt 200,
+             {
+               user_warning: 'LARGE_RESULT',
+               download_links: [
+                 { name: 'Standard Tabular Report', url: "download/#{jid}.std_tsv" },
+                 { name: 'Full Tabular Report', url: "/download/#{jid}.full_tsv" },
+                 { name: 'Results in XML', url: "/download/#{jid}.xml" }
+               ]
+             }.to_json
+      end
+
+      report.to_json
     end
 
     # Returns base HTML. Rest happens client-side: polling for and rendering
@@ -145,7 +166,7 @@ module SequenceServer
     get '/download/:jid.:type' do |jid, type|
       job = Job.fetch(jid)
       out = BLAST::Formatter.new(job, type)
-      send_file out.file, filename: out.filename, type: out.mime
+      send_file out.filepath, filename: out.filename, type: out.mime
     end
 
     post '/cloud_share' do

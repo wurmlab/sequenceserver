@@ -1,5 +1,5 @@
 module CapybaraHelpers
-  def perform_search(query:, databases:, method: nil)
+  def perform_search(query:, databases:, method: nil, wait_for_results: true)
     # Load search form.
     visit '/'
 
@@ -17,6 +17,6 @@ module CapybaraHelpers
 
     # It is important to have this line or the examples end prematurely with a
     # failure.
-    expect(page).to have_content('Query')
+    expect(page).to have_content('Query') if wait_for_results
   end
 end
