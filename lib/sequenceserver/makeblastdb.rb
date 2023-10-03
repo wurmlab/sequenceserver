@@ -289,7 +289,9 @@ module SequenceServer
 
     # Returns true if first character of the file is '>'.
     def probably_fasta?(file)
-      return false unless file.match(/((cds)|(fasta)|(fna)|(pep)|(cdna)|(fa)|(prot)|(fas)|(genome)|(nuc)|(dna)|(nt))$/i)
+      unless file.match(/((cdna)|(cds)|(dna)|(fa)|(faa)|(fas)|(fasta)|(fna)|(genome)|(nt)|(nuc)|(pep)|(prot))$/i)
+        return false
+      end
 
       File.read(file, 1) == '>'
     end
