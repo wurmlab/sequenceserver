@@ -10,31 +10,31 @@ module SequenceServer
     let(:disposable_database_dir) { File.join(root, 'tmp', 'databases') }
 
     let 'makeblastdb' do
-      SequenceServer.makeblastdb
+      SequenceServer::MAKEBLASTDB.new(database_dir_v5)
     end
 
-    let 'database_dir' do
+    let 'root_database_dir' do
       File.join(root, 'database')
     end
 
     let 'database_dir_v5' do
-      File.join(database_dir, 'v5', 'sample')
+      File.join(root_database_dir, 'v5', 'sample')
     end
 
     let 'database_dir_v4' do
-      File.join(database_dir, 'v4', 'sample')
+      File.join(root_database_dir, 'v4', 'sample')
     end
 
     let 'database_dir_unformatted' do
-      File.join(database_dir, 'unformatted')
+      File.join(root_database_dir, 'unformatted')
     end
 
     let 'database_dir_without_parse_seqids' do
-      File.join(database_dir, 'v5', 'without_parse_seqids')
+      File.join(root_database_dir, 'v5', 'without_parse_seqids')
     end
 
     let 'database_dir_blastdb_aliastool' do
-      File.join(database_dir, 'v5', 'using_blastdb_aliastool')
+      File.join(root_database_dir, 'v5', 'using_blastdb_aliastool')
     end
 
     let 'fasta_file_prot_seqs' do
@@ -56,11 +56,6 @@ module SequenceServer
                 'Sinvicta2-2-3.prot.subset.fasta.phr')
     end
 
-    let 'makeblastdb_result_pattern' do
-      File.join(database_dir_unformatted, 'Cardiocondyla_obscurior',
-                'Cobs1.4.proteins.fa.*')
-    end
-
     before do
       SequenceServer.init(database_dir: database_dir_v5)
     end
@@ -78,27 +73,27 @@ module SequenceServer
     end
 
     it 'can tell FASTA files that are yet to be made into a BLAST+ database' do
-      makeblastdb.instance_variable_set(:@database_dir, database_dir_unformatted)
-      expect(makeblastdb.scan).to be_truthy
+      makeblastdb = SequenceServer::MAKEBLASTDB.new(database_dir_unformatted)
+      expect(makeblastdb.any_to_format_or_reformat?).to be_truthy
     end
 
     it 'can tell databases that require reformatting' do
       # Control: shouldn't report sample v5 databases as requiring reformatting.
-      makeblastdb.instance_variable_set(:@database_dir, database_dir_v5)
-      expect(makeblastdb.scan).to be_falsey
+      makeblastdb = SequenceServer::MAKEBLASTDB.new(database_dir_v5)
+      expect(makeblastdb.any_to_format_or_reformat?).to be_falsey
 
       # Databases created using blastdb_aliastool don't require reformatting either.
-      makeblastdb.instance_variable_set(:@database_dir, database_dir_blastdb_aliastool)
-      expect(makeblastdb.scan).to be_falsey
+      makeblastdb = SequenceServer::MAKEBLASTDB.new(database_dir_blastdb_aliastool)
+      expect(makeblastdb.any_to_format_or_reformat?).to be_falsey
 
       # Databases created without -parse_seqids option don't require reformatting either.
       # We disable 'sequence download' link instead.
-      makeblastdb.instance_variable_set(:@database_dir, database_dir_without_parse_seqids)
-      expect(makeblastdb.scan).to be_falsey
+      makeblastdb = SequenceServer::MAKEBLASTDB.new(database_dir_without_parse_seqids)
+      expect(makeblastdb.any_to_format_or_reformat?).to be_falsey
 
       # v4 databases require reformatting.
-      makeblastdb.instance_variable_set(:@database_dir, database_dir_v4)
-      expect(makeblastdb.scan).to be_truthy
+      makeblastdb = SequenceServer::MAKEBLASTDB.new(database_dir_v4)
+      expect(makeblastdb.any_to_format_or_reformat?).to be_truthy
     end
 
     it 'can make intelligent database name suggestions' do
@@ -128,7 +123,7 @@ module SequenceServer
           allow($stdin).to receive(:gets).exactly(3).times.and_return("\n") # Accept default option prompted by the CLI
           allow_any_instance_of(Object).to receive(:exit!).and_return(nil) # Prevents the CLI from killing Rspec process
           FileUtils.mkdir_p(disposable_database_dir)
-          FileUtils.cp_r(File.join(database_dir, 'invalid', 'duplicate_ids.fasta'), disposable_database_dir)
+          FileUtils.cp_r(File.join(root_database_dir, 'invalid', 'duplicate_ids.fasta'), disposable_database_dir)
         end
 
         after do
@@ -139,7 +134,6 @@ module SequenceServer
 
         it 'it records errors in a file' do
           makeblastdb = SequenceServer::MAKEBLASTDB.new(disposable_database_dir)
-          makeblastdb.scan
           makeblastdb.format
 
           expect(File.read("#{duplicated_id_database}.makeblastdbstderr")).to match(/Duplicate seq_ids are found/)
@@ -148,7 +142,7 @@ module SequenceServer
         it 'it prints errors to stdout' do
           allow($stdout).to receive(:puts).and_call_original
           makeblastdb = SequenceServer::MAKEBLASTDB.new(disposable_database_dir)
-          makeblastdb.scan
+
           makeblastdb.format
 
           expect($stdout).to have_received(:puts).with(/Duplicate seq_ids are found/)

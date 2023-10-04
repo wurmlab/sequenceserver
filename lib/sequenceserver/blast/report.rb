@@ -51,6 +51,8 @@ module SequenceServer
       end
 
       def xml_file_size
+        return File.size(job.imported_xml_file) if job.imported_xml_file
+
         generate
 
         xml_formatter.size
@@ -86,6 +88,8 @@ module SequenceServer
       end
 
       def done?
+        return true if job.imported_xml_file
+
         File.exist?(xml_formatter.filepath) && File.exist?(tsv_formatter.filepath)
       end
 

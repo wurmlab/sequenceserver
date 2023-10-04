@@ -62,6 +62,9 @@ module SequenceServer
 
     # SequenceServer initialisation routine.
     def init(config = {})
+      # Reset makeblastdb cache, because configuration may have changed.
+      @makeblastdb = nil
+
       # Use default config file if caller didn't specify one.
       config[:config_file] ||= DEFAULT_CONFIG_FILE
 
@@ -201,8 +204,7 @@ module SequenceServer
 
       logger.debug("Will look for BLAST+ databases in: #{config[:database_dir]}")
 
-      makeblastdb.scan
-      fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if !makeblastdb.any_formatted?
+      fail NO_BLAST_DATABASE_FOUND, config[:database_dir] unless makeblastdb.any_formatted?
 
       Database.collection = makeblastdb.formatted_fastas
       Database.each do |database|
