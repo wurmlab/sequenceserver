@@ -119,6 +119,11 @@ begin
        'Port to run SequenceServer on',
        argument: true
 
+    on 'o', 'optimistic=',
+       'Optimistic mode does not perform database compatibility checks, which can be faster. ' \
+       'Only use this if you format FASTAs with "sequenceserver -make-blast-databases"',
+       argument: true
+
     on 's', 'set',
        'Set configuration value in default or given config file'
 
