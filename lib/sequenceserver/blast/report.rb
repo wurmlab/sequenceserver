@@ -36,6 +36,8 @@ module SequenceServer
       attr_reader :querydb, :dbtype, :params
 
       def to_json(*_args)
+        generate
+
         %i[querydb program program_version params stats
            queries].inject({}) do |h, k|
           h[k] = send(k)
@@ -48,10 +50,18 @@ module SequenceServer
                    non_parse_seqids: !!job.databases&.any?(&:non_parse_seqids?)).to_json
       end
 
-      private
+      def xml_file_size
+        return File.size(job.imported_xml_file) if job.imported_xml_file
+
+        generate
+
+        xml_formatter.size
+      end
 
       # Generate report.
       def generate
+        return self if @_generated
+
         job.raise!
         xml_ir = nil
         tsv_ir = nil
@@ -63,14 +73,34 @@ module SequenceServer
             end
           end
         else
-          xml_ir = parse_xml File.read(Formatter.run(job, 'xml').file)
-          tsv_ir = parse_tsv File.read(Formatter.run(job, 'custom_tsv').file)
+          xml_ir = parse_xml(xml_formatter.read_file)
+          tsv_ir = parse_tsv(tsv_formatter.read_file)
         end
         extract_program_info xml_ir
         extract_db_info xml_ir
         extract_params xml_ir
         extract_stats xml_ir
         extract_queries xml_ir, tsv_ir
+
+        @_generated = true
+
+        self
+      end
+
+      def done?
+        return true if job.imported_xml_file
+
+        File.exist?(xml_formatter.filepath) && File.exist?(tsv_formatter.filepath)
+      end
+
+      private
+
+      def xml_formatter
+        @xml_formatter ||= Formatter.run(job, 'xml')
+      end
+
+      def tsv_formatter
+        @tsv_formatter ||= Formatter.run(job, 'custom_tsv')
       end
 
       # Make program name and program name + version available via `program`

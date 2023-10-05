@@ -86,5 +86,28 @@ module SequenceServer
       Database.all.should_not be_empty
       Database.all.length.should == 4
     end
+
+    describe '--optimistic' do
+      it 'scans for DB incompatibilities by default' do
+        allow(SequenceServer).to receive(:check_database_compatibility)
+
+        SequenceServer.init(
+          database_dir: File.join(__dir__, 'database', 'v5', 'sample')
+        )
+
+        expect(SequenceServer).to have_received(:check_database_compatibility).once
+      end
+
+      it 'scans does not scan for DB incompatibilities in optimistic mode' do
+        allow(SequenceServer).to receive(:check_database_compatibility)
+
+        SequenceServer.init(
+          database_dir: File.join(__dir__, 'database', 'v5', 'sample'),
+          optimistic: true
+        )
+
+        expect(SequenceServer).to_not have_received(:check_database_compatibility)
+      end
+    end
   end
 end

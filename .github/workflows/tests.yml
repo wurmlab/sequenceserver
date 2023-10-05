@@ -34,9 +34,11 @@
         - uses: actions/checkout@v3
         - name: Get BLAST
           working-directory: /opt
-          run: wget -c "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
+          run: wget -c "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.14.1/ncbi-blast-2.14.1+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
         - name: BLAST PATH
-          run: mkdir /opt/bin && echo "/opt/bin:/opt/ncbi-blast-2.12.0+/bin" >> $GITHUB_PATH
+          run: mkdir /opt/bin && echo "/opt/bin:/opt/ncbi-blast-2.14.1+/bin" >> $GITHUB_PATH
+        - name: Get Chromium
+          run: sudo apt-get update && sudo apt-get install -y chromium-bsu chromium-driver
         - name: Get CodeClimate
           working-directory: /opt
           run: wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
