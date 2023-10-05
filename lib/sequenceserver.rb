@@ -207,6 +207,10 @@ module SequenceServer
       fail NO_BLAST_DATABASE_FOUND, config[:database_dir] unless makeblastdb.any_formatted?
 
       Database.collection = makeblastdb.formatted_fastas
+      check_database_compatibility unless config[:optimistic].to_s == 'true'
+    end
+
+    def check_database_compatibility
       Database.each do |database|
         logger.debug "Found #{database.type} database '#{database.title}' at '#{database.path}'"
         if database.non_parse_seqids?
