@@ -20,7 +20,7 @@
     push:
       branches:
        - 1.0.x
-       - test-cases-grg
+       - master
     pull_request:
       branches:
        - 1.0.x
