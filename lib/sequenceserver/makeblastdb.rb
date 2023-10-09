@@ -30,6 +30,10 @@ module SequenceServer
       any_to_format? || any_to_reformat?
     end
 
+    def no_fastas?
+      probably_fastas.empty?
+    end
+
     # Runs makeblastdb on each file in `fastas_to_format` and
     # `fastas_to_reformat`.
     def run
@@ -107,22 +111,32 @@ module SequenceServer
     def fastas_to_format
       return @fastas_to_format if defined?(@fastas_to_format)
 
-      @fastas_to_format = []
+      formatted_fasta_paths = formatted_fastas.map { |f| f[0] }
+      fasta_paths_to_format = probably_fastas - formatted_fasta_paths
 
-      # Add a trailing slash to database_dir - Find.find doesn't work as
-      # expected without the trailing slash if database_dir is a symlink
-      # inside a docker container.
-      Find.find(database_dir + '/') do |path|
-        next if File.directory?(path)
-        next unless probably_fasta?(path)
-        next if formatted_fastas.any? { |f| f[0] == path }
-
-        @fastas_to_format << [path,
-                              make_db_title(path),
-                              guess_sequence_type_in_fasta(path)]
+      @fastas_to_format = fasta_paths_to_format.map do |path|
+        [
+          path,
+          make_db_title(path),
+          guess_sequence_type_in_fasta(path)
+        ]
       end
 
       @fastas_to_format
+    end
+
+    def probably_fastas
+      return @probably_fastas if defined?(@probably_fastas)
+
+      @probably_fastas = []
+
+      Find.find(database_dir + '/') do |path|
+        next if File.directory?(path)
+
+        @probably_fastas << path if probably_fasta?(path)
+      end
+
+      @probably_fastas
     end
 
     # Runs `blastdbcmd` to determine formatted FASTA files in the database
