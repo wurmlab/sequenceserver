@@ -71,6 +71,7 @@ class Report extends Component {
                     break;
                 case 404:
                 case 400:
+                case 422:
                 case 500:
                     component.props.showErrorModal(jqXHR.responseJSON);
                     break;
