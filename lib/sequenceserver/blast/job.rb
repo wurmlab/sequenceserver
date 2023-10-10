@@ -91,10 +91,11 @@ module SequenceServer
           # macOS updates. So raise SystemError, include the exit status in the
           # message, and say that that the "most likely" reason is broken BLAST+
           # binaries.
-          fail SystemError, <<~MSG
-            BLAST failed abruptly (exit status: #{exitstatus}). Most likely there is a
-            problem with the BLAST+ binaries.
-          MSG
+
+          error = File.read(stderr)
+          error = 'Most likely there is a problem with the BLAST+ binaries.' if error.empty?
+
+          fail SystemError, "BLAST failed abruptly (exit status: #{exitstatus}). #{error}"
         end
       end
 
