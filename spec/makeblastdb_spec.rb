@@ -116,6 +116,21 @@ module SequenceServer
       expect(makeblastdb.send(:multipart_database_name?, sample_name3)).to be_truthy
     end
 
+    describe '#no_fastas?' do
+      it 'returns true if no FASTA files are found' do
+        makeblastdb = SequenceServer::MAKEBLASTDB.new(database_dir_without_parse_seqids)
+        expect(makeblastdb.no_fastas?).to be_truthy
+      end
+
+      it 'returns false if FASTA files are found' do
+        makeblastdb = SequenceServer::MAKEBLASTDB.new(database_dir_unformatted)
+        expect(makeblastdb.no_fastas?).to be_falsey
+
+        makeblastdb = SequenceServer::MAKEBLASTDB.new(database_dir_v4)
+        expect(makeblastdb.no_fastas?).to be_falsey
+      end
+    end
+
     describe '#make_blast_database' do
       context 'duplicate sequence ids' do
         before do
