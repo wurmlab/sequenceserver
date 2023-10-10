@@ -266,6 +266,7 @@ module SequenceServer
       end
 
       if request.env['HTTP_ACCEPT'].to_s.include?('application/json')
+        status 422
         content_type :json
         error_data.to_json
       else
