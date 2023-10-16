@@ -2,6 +2,9 @@ require 'English'
 require 'socket'
 require 'resolv'
 
+Encoding.default_external = 'UTF-8'
+Encoding.default_internal = 'UTF-8'
+
 # Top level module / namespace.
 module SequenceServer
   # The default version of BLAST that will be downloaded and configured for use.
