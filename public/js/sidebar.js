@@ -1,4 +1,5 @@
-import { Component } from 'react';
+// eslint-disable-next-line no-unused-vars
+import { Component, Fragment } from 'react';
 import _ from 'underscore';
 
 import downloadFASTA from './download_fasta';
@@ -353,6 +354,7 @@ export default class extends Component {
     }
 
     sharingPanelJSX() {
+        const link_class = 'btn-link cursor-pointer';
         return (
             <div className="sharing-panel">
                 <div className="section-header-sidebar">
@@ -361,31 +363,30 @@ export default class extends Component {
                     </h4>
                 </div>
                 <ul className="nav">
-                    {!this.props.cloudSharingEnabled &&
-                        <li>
-                            <a id="copyURL" className="btn-link copy-URL cursor-pointer" data-toggle="tooltip"
-                                onClick={this.copyURL}>
-                                <i className="fa fa-copy"></i> Copy URL to clipboard
-                            </a>
-                        </li>
-                    }
-                    {!this.props.cloudSharingEnabled &&
-                        <li>
-                            <a id="sendEmail" className="btn-link email-URL cursor-pointer" data-toggle="tooltip"
-                                title="Send by email" href={asMailtoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
-                                target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-envelope"></i> Send by email
-                            </a>
-                        </li>
-                    }
-                    {this.props.cloudSharingEnabled &&
-                        <li>
-                            <button className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
-                                title="Upload results to SequenceServer Cloud where it will become accessable
+                    {
+                        !this.props.cloudSharingEnabled ?
+                            <Fragment>
+                                <li>
+                                    <a id="copyURL" className={`${link_class} copy-URL`} data-toggle="tooltip"
+                                        onClick={this.copyURL}>
+                                        <i className="fa fa-copy"></i> Copy URL to clipboard
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="sendEmail" className={`${link_class} email-URL`} data-toggle="tooltip"
+                                        title="Send by email" href={asMailtoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries, window.location.href)}
+                                        target="_blank" rel="noopener noreferrer">
+                                        <i className="fa fa-envelope"></i> Send by email
+                                    </a>
+                                </li>
+                            </Fragment> :
+                            <li>
+                                <button id="shareToCloud" className={`${link_class} cloud-Post`} data-toggle="tooltip"
+                                    title="Upload results to SequenceServer Cloud where it will become accessable
                                 to everyone who has a link." onClick={this.shareCloudInit}>
-                                <i className="fa fa-cloud"></i> Share to cloud
-                            </button>
-                        </li>
+                                    <i className="fa fa-cloud"></i> Share to cloud
+                                </button>
+                            </li>
                     }
                 </ul>
                 {
@@ -393,7 +394,7 @@ export default class extends Component {
                         ref="cloudShareModal"
                         querydb={this.props.data.querydb}
                         program={this.props.data.program}
-                        queryLength={this.props.data.queries.length}
+                        queries={this.props.data.queries}
                     />
                 }
             </div>
