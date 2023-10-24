@@ -406,6 +406,12 @@ export default class extends Component {
                 {this.topPanelJSX()}
                 {this.downloadsPanelJSX()}
                 {this.sharingPanelJSX()}
+                <div className="referral-panel">
+                    <div className="section-header-sidebar">
+                        <h4>Recommend SequenceServer</h4>
+                        <p><a href="https://sequenceserver.com/referral-program" target="_blank">Earn up to $100 per signup</a></p>
+                    </div>
+                </div>
             </div>
         );
     }
