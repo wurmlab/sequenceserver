@@ -1,12 +1,12 @@
 {
   "name": "SequenceServer",
   "description": "BLAST searching made easy!",
-  "version": "2.0.0-beta",
-  "homepage": "http://www.sequenceserver.com",
-  "repository": "https://github.com/yannickwurm/sequenceserver",
+  "version": "2.2.0",
+  "homepage": "http://sequenceserver.com",
+  "repository": "https://github.com/wurmlab/sequenceserver",
   "author": {
-    "name": "Anurag Priyam",
-    "email": "anurag08priyam@gmail.com"
+      "name": "Pragmatic Genomics",
+      "email": "contact@sequenceserver.com"
   },
   "scripts": {
     "watch": "webpack --watch",
