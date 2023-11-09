@@ -81,8 +81,8 @@ module SequenceServer
     # of job data will be held, yields (if block given) and saves the job.
     #
     # Subclasses should extend `initialize` as per requirement.
-    def initialize(*)
-      @id = SecureRandom.uuid
+    def initialize(params = {})
+      @id = params.fetch(:id, SecureRandom.uuid)
       @submitted_at = Time.now
       mkdir_p dir
       yield if block_given?
