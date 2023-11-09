@@ -452,7 +452,7 @@ class Report extends Component {
     toggleTable() {
         $('body').on(
             'mousedown',
-            '.resultn > .section-content > .table-hit-overview > .caption',
+            '.resultn .caption[data-toggle="collapse"]',
             function (event) {
                 var $this = $(this);
                 $this.on('mouseup mousemove', function handler(event) {

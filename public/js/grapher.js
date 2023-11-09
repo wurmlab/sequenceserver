@@ -16,7 +16,7 @@ export default function Grapher(Graph) {
   return class extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { collapsed: this.props.collapsed };
+      this.state = { collapsed: Graph.canCollapse() && this.props.collapsed };
       this.svgContainerRef = createRef();
     }
 
@@ -28,7 +28,15 @@ export default function Grapher(Graph) {
       var cssClasses = Graph.className() + " grapher";
       return (
         <div ref="grapher" className={cssClasses}>
-          <div className="grapher-header">
+          {this.header()}
+          {this.svgContainerJSX()}
+        </div>
+      );
+    }
+
+    header() {
+      if(Graph.canCollapse()) {
+        return <div className="grapher-header">
             <h4
               className="caption"
               data-toggle="collapse"
@@ -39,9 +47,11 @@ export default function Grapher(Graph) {
             </h4>
             {!this.state.collapsed && this.graphLinksJSX()}
           </div>
-          {this.svgContainerJSX()}
+      } else {
+        return <div className="grapher-header">
+          <h4 className="caption" > </h4>
         </div>
-      );
+      }
     }
 
     minusIcon() {

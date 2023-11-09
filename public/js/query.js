@@ -65,9 +65,10 @@ export class ReportQuery extends Component {
 
     noHitsJSX() {
         return <div className="section-content">
-            <strong> ****** No hits found ****** </strong>
+            <strong> ****** No BLAST hits found ****** </strong>
         </div>;
     }
+
     render() {
         return (
             <div className="resultn" id={this.domID()}
