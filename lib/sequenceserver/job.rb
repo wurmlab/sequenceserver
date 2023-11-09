@@ -28,16 +28,22 @@ module SequenceServer
         enqueue(job)
       end
 
+      def serializable_classes
+        [
+          Time,
+          Symbol,
+          SequenceServer::Job,
+          SequenceServer::BLAST::Job,
+          SequenceServer::Database
+        ]
+      end
       # Fetches job with the given id.
       def fetch(id)
         job_file = File.join(DOTDIR, id, 'job.yaml')
         fail NotFound unless File.exist?(job_file)
-        if RUBY_VERSION < '3.1.0'
-          YAML.load_file(job_file)
-        else
-          YAML.load_file(job_file, permitted_classes: [Time, Symbol, SequenceServer::BLAST::Job, \
-                                                       SequenceServer::Database, SequenceServer::Job])
-        end
+        YAML.safe_load_file(
+          job_file,
+          permitted_classes: serializable_classes)
       end
 
       # Deletes job with the given id.
