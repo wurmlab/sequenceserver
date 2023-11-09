@@ -40,6 +40,9 @@ module.exports = {
         'jsx',
         'node'
     ],
+    moduleNameMapper: {
+        'report_plugins': '<rootDir>/public/js/null_report_plugins.js',
+    },
     watchPlugins: [
         'jest-watch-typeahead/filename',
         'jest-watch-typeahead/testname'

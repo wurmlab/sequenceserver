@@ -8,15 +8,14 @@ import { ReportQuery } from './query';
 import Hit from './hit';
 import HSP from './hsp';
 import AlignmentExporter from './alignment_exporter';
-
-
-
+import ReportPlugins from 'report_plugins';
 
 /**
  * Renders entire report.
  *
  * Composed of Query and Sidebar components.
  */
+
 class Report extends Component {
     constructor(props) {
         super(props);
@@ -47,15 +46,21 @@ class Report extends Component {
         this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
         this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
         this.setStateFromJSON = this.setStateFromJSON.bind(this);
+        this.plugins = new ReportPlugins(this);
     }
+
     /**
    * Fetch results.
    */
     fetchResults() {
+        const path = location.pathname + '.json' + location.search;
+        this.pollPeriodically(path, this.setStateFromJSON, this.props.showErrorModal);
+    }
+
+    pollPeriodically(path, callback, errCallback) {
         var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
-        var component = this;
         function poll() {
-            $.getJSON(location.pathname + '.json' + location.search).complete(function (jqXHR) {
+            $.getJSON(path).complete(function (jqXHR) {
                 switch (jqXHR.status) {
                 case 202:
                     var interval;
@@ -67,13 +72,12 @@ class Report extends Component {
                     setTimeout(poll, interval);
                     break;
                 case 200:
-                    component.setStateFromJSON(jqXHR.responseJSON);
+                    callback(jqXHR.responseJSON);
                     break;
-                case 404:
                 case 400:
                 case 422:
                 case 500:
-                    component.props.showErrorModal(jqXHR.responseJSON);
+                    errCallback(jqXHR.responseJSON);
                     break;
                 }
             });
@@ -94,6 +98,7 @@ class Report extends Component {
             this.setState(responseJSON, this.prepareAlignmentOfAllHits);
         }
     }
+
     /**
    * Called as soon as the page has loaded and the user sees the loading spinner.
    * We use this opportunity to setup services that make use of delegated events
@@ -101,6 +106,7 @@ class Report extends Component {
    */
     componentDidMount() {
         this.fetchResults();
+        this.plugins.init();
         // This sets up an event handler which enables users to select text from
         // hit header without collapsing the hit.
         this.preventCollapseOnSelection();
@@ -113,7 +119,7 @@ class Report extends Component {
    * and circos would have been rendered at this point. At this stage we kick
    * start iteratively adding 1 HSP to the page every 25 milli-seconds.
    */
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         // Log to console how long the last update take?
         // console.log((Date.now() - this.lastTimeStamp) / 1000);
 
@@ -131,6 +137,8 @@ class Report extends Component {
         } else {
             this.componentFinishedUpdating();
         }
+
+        this.plugins.componentDidUpdate(prevProps, prevState);
     }
 
     /**
@@ -141,13 +149,14 @@ class Report extends Component {
         var numHSPsProcessed = 0;
         while (this.nextQuery < this.state.queries.length) {
             var query = this.state.queries[this.nextQuery];
+
             // We may see a query multiple times during rendering because only
-            // 3 hsps or are rendered in each cycle, but we want to create the
+            // 3 hsps are rendered in each cycle, but we want to create the
             // corresponding Query component only the first time we see it.
             if (this.nextHit == 0 && this.nextHSP == 0) {
                 results.push(
                     <ReportQuery
-                        key={'Query_' + query.number}
+                        key={'Query_' + query.id}
                         query={query}
                         program={this.state.program}
                         querydb={this.state.querydb}
@@ -157,6 +166,8 @@ class Report extends Component {
                         veryBig={this.state.veryBig}
                     />
                 );
+
+                results.push(...this.plugins.queryResults(query))
             }
 
             while (this.nextHit < query.hits.length) {
@@ -191,11 +202,11 @@ class Report extends Component {
                         <HSP
                             key={
                                 'Query_' +
-                query.number +
-                '_Hit_' +
-                hit.number +
-                '_HSP_' +
-                hsp.number
+                                query.number +
+                                '_Hit_' +
+                                hit.number +
+                                '_HSP_' +
+                                hsp.number
                             }
                             query={query}
                             hit={hit}
