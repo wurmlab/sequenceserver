@@ -3,7 +3,8 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = (env, argv)  => {
-    const reportPluginsPath = env.reportPluginsPath || './public/js/null_report_plugins.js';
+    const reportPluginsPath = env.reportPluginsPath || './public/js/null_plugins/report_plugins.js';
+    const downloadLinks = env.downloadLinks || './public/js/null_plugins/download_links.js';
 
     return {
         entry: {
@@ -46,6 +47,7 @@ module.exports = (env, argv)  => {
         resolve: {
             alias: {
                 'report_plugins': path.resolve(__dirname, reportPluginsPath),
+                'download_links': path.resolve(__dirname, downloadLinks),
                 'react': path.resolve(__dirname, './node_modules/react/'),
                 'underscore': path.resolve(__dirname, './node_modules/underscore/'),
                 'jquery': path.resolve(__dirname, './node_modules/jquery/'),

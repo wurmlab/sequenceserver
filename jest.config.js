@@ -41,7 +41,8 @@ module.exports = {
         'node'
     ],
     moduleNameMapper: {
-        'report_plugins': '<rootDir>/public/js/null_report_plugins.js',
+        'report_plugins': '<rootDir>/public/js/null_plugins/report_plugins.js',
+        'download_links': '<rootDir>/public/js/null_plugins/download_links.js',
     },
     watchPlugins: [
         'jest-watch-typeahead/filename',
