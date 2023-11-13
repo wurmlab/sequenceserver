@@ -219,6 +219,12 @@ a.disabled:hover,
   color: #5f5f5f;
 }
 
+table .description {
+  font-style: italic;
+  padding-top: 0.5rem;
+  padding-bottom: 2rem;
+}
+
 /**
  * Set max-width and font-family on tooltips.
  */

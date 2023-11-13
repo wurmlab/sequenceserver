@@ -8,6 +8,10 @@ import * as Helpers from './visualisation_helpers';
  */
 
 class Graph {
+    static canCollapse() {
+        return true;
+    }
+
     static name() {
         return 'Length distribution of matching sequences';
     }

@@ -9,7 +9,7 @@
 # https://github.com/orgs/community/discussions/25809
 #
 # One can *try* action-validator, but there are false-negatives:
-# (https://github.com/mpalmer/action-validator 
+# (https://github.com/mpalmer/action-validator
 #
 # State does *not* persist between jobs...
 # https://github.com/actions/checkout/issues/19
@@ -47,8 +47,25 @@
           with:
             ruby-version: '3.2'
             bundler-cache: true
-        - name: Install dependencies
+        - name: Install Ruby dependencies
           run: bundle install
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '16'
+        - name: Install NPM Dependencies
+          run: npm install
+        - name: Build JS and CSS assets
+          run: npm run build
+        - name: Check assets were compiled and checked-in
+          continue-on-error: true
+          run: |
+            if git diff --quiet --exit-code -- public; then
+              echo "No changes in 'public' directory."
+            else
+              echo "Changes detected in 'public' directory. Please compile assets locally and commit the changes."
+              exit 1
+            fi
         - name: Create SequenceServer config file
           run: bundle exec bin/sequenceserver -s -d spec/database/v5/sample
         - name: CodeClimate before-build hook

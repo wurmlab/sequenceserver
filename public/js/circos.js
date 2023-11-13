@@ -1,12 +1,16 @@
 import d3 from 'd3';
 import Circos from '../packages/circosJS@1.7.0';
-import _ from 'underscore'; 
+import _ from 'underscore';
 
 import Grapher from './grapher';
 import * as Helpers from './visualisation_helpers';
 import Utils from './utils';
 
 class Graph {
+    static canCollapse() {
+        return true;
+    }
+
     static name() {
         return 'Queries and their top hits: chord diagram';
     }
