@@ -21,9 +21,6 @@ module.exports = (env, argv)  => {
             path: path.join(__dirname, 'public'),
         },
         mode: process.env.NODE_ENV || 'development',
-        resolve: {
-            modules: [path.resolve(__dirname, 'public', 'js'), path.resolve(__dirname, 'node_modules')],
-        },
         devServer: { contentBase: path.join(__dirname, 'public/js') },
         module: {
             rules: [
@@ -45,14 +42,11 @@ module.exports = (env, argv)  => {
             })
         ],
         resolve: {
+            modules: [path.resolve(__dirname, 'public', 'js'), path.resolve(__dirname, 'node_modules')],
             alias: {
                 'report_plugins': path.resolve(__dirname, reportPluginsPath),
                 'download_links': path.resolve(__dirname, downloadLinks),
-                'react': path.resolve(__dirname, './node_modules/react/'),
-                'underscore': path.resolve(__dirname, './node_modules/underscore/'),
-                'jquery': path.resolve(__dirname, './node_modules/jquery/'),
-                'd3': path.resolve(__dirname, './node_modules/d3/'),
             }
         }
-    }
+    };
 };

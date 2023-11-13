@@ -1,7 +1,7 @@
 import React from 'react';
 
 class DownloadLinks extends React.Component{
-  render () {}
+    render () {}
 }
 
 export default DownloadLinks;

@@ -11,7 +11,7 @@ class ReportPlugins {
     }
 
     queryResults(_query) {
-      return []
+        return [];
     }
 }
 

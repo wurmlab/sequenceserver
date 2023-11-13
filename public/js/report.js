@@ -167,7 +167,7 @@ class Report extends Component {
                     />
                 );
 
-                results.push(...this.plugins.queryResults(query))
+                results.push(...this.plugins.queryResults(query));
             }
 
             while (this.nextHit < query.hits.length) {

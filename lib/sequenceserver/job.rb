@@ -37,13 +37,16 @@ module SequenceServer
           SequenceServer::Database
         ]
       end
+
       # Fetches job with the given id.
       def fetch(id)
         job_file = File.join(DOTDIR, id, 'job.yaml')
         fail NotFound unless File.exist?(job_file)
+
         YAML.safe_load_file(
           job_file,
-          permitted_classes: serializable_classes)
+          permitted_classes: serializable_classes
+        )
       end
 
       # Deletes job with the given id.
@@ -91,7 +94,7 @@ module SequenceServer
       raise SystemError, 'Not enough disk space to start a new job'
     rescue Errno::EACCES
       raise SystemError, "Permission denied to write to #{DOTDIR}"
-    rescue => e
+    rescue StandardError => e
       rm_rf dir
       raise e
     end
@@ -123,7 +126,7 @@ module SequenceServer
     # should be called on a completed job before attempting to use the results.
     # Subclasses should provide their own implementation.
     def raise!
-      raise if done? && exitstatus != 0
+      fail if done? && exitstatus != 0
     end
 
     # Where will the stdout be written to during execution and read from later.
@@ -169,6 +172,7 @@ module SequenceServer
     def fetch(key)
       filename = File.join(dir, key)
       fail unless File.exist? filename
+
       filename
     end
 
