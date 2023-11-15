@@ -370,7 +370,7 @@ class HitsTable extends Component {
             <div className="table-hit-overview">
                 <h4 className="caption" data-toggle="collapse" data-target={'#Query_' + this.props.query.number + 'HT_' + this.props.query.number}>
                     <i className="fa fa-minus-square-o"></i>&nbsp;
-                    <span>Sequences producing significant alignments</span>
+                    <span>Hit sequences producing significant alignments</span>
                 </h4>
                 <div className="collapsed in" id={'Query_' + this.props.query.number + 'HT_' + this.props.query.number}>
                     <table

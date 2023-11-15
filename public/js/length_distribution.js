@@ -13,7 +13,7 @@ class Graph {
     }
 
     static name() {
-        return 'Length distribution of matching sequences';
+        return 'Length distribution of matching hit sequences';
     }
 
     static className() {
