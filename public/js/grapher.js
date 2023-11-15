@@ -49,7 +49,7 @@ export default function Grapher(Graph) {
                 </div>;
             } else {
                 return <div className="grapher-header">
-                    <h4 className="caption" > </h4>
+                    {!this.state.collapsed && this.graphLinksJSX()}
                 </div>;
             }
         }
