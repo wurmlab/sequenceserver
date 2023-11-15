@@ -10,7 +10,7 @@ class Graph {
     }
 
     static name() {
-        return 'Graphical overview of hits';
+        return 'Graphical overview of aligning hit sequences to the query';
     }
 
     static className() {

@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rack-test', '~> 1.0', '>= 1.0.0')
   s.add_development_dependency('rspec', '~> 3.7', '>= 3.7.0')
   s.add_development_dependency('rubocop', '~> 1.50', '>= 1.50.1')
-  s.add_development_dependency('selenium-webdriver', '~> 4.10.0', '>= 4.10.0')
+  s.add_development_dependency('selenium-webdriver', '~> 4.15.0', '>= 4.15.0')
   s.add_development_dependency('simplecov', '~> 0.17.0', '>= 0.17.0')
 
   # gem

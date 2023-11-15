@@ -318,7 +318,7 @@ describe 'Search and results', type: :feature, js: true do
                    databases: protein_databases.values_at(0))
 
     ## Check that there is a circos vis and unfold it.
-    page.find('.circos > .grapher-header > h4', text: 'Queries and their top hits: chord diagram').click
+    page.find('.circos > .grapher-header > h4', text: 'Chord diagram of queries and their top hits').click
 
     within('.circos.grapher') do
       page.click_on('SVG')
@@ -333,7 +333,7 @@ describe 'Search and results', type: :feature, js: true do
     clear_downloads
 
     ## Check that there is a graphical overview of hits.
-    expect(page).to have_content('Graphical overview of hits')
+    expect(page).to have_content('Graphical overview of aligning hit sequences to the query')
 
     within('#Query_1 .alignment-overview.grapher') do
       page.click_on('SVG')
@@ -348,9 +348,9 @@ describe 'Search and results', type: :feature, js: true do
     end
 
     ## Check that there is a length distribution of matching sequences.
-    expect(page).to have_content('Length distribution of matching sequences')
+    expect(page).to have_content('Length distribution of matching hit sequences')
     page.find('#Query_1 .length-distribution > .grapher-header > h4',
-              text: 'Length distribution of matching sequences').click
+              text: 'Length distribution of matching hit sequences').click
 
     within('#Query_1 .length-distribution.grapher') do
       page.click_on('SVG')

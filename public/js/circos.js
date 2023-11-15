@@ -12,7 +12,7 @@ class Graph {
     }
 
     static name() {
-        return 'Queries and their top hits: chord diagram';
+        return 'Chord diagram of queries and their top hits';
     }
 
     static className() {
@@ -412,7 +412,7 @@ class Graph {
             .attr('dy', '-0.25em')
             .attr('x', -175)
             .style('font-size', '14px')
-            .text('Circos looks great with less than 16 queries');
+            .text('Chord diagram looks great with fewer than 16 queries');
     }
 
     layoutReset() {
