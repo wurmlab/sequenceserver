@@ -1,4 +1,4 @@
-﻿Jaris FLV Player v2.0.15 beta - 27/08/2011
+Jaris FLV Player v2.0.15 beta - 27/08/2011
 
 	* New player controls
 	* New flashvar controltype (0=old, 1=new) to indicate the which controls to use

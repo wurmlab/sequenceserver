@@ -109,7 +109,7 @@ module SequenceServer
       @defaults ||= {
         host: '0.0.0.0',
         port: 4567,
-        databases_widget: 'classic',
+        databases_widget: 'tree',
         options: {
           blastn:  {
             default: ['-task blastn', '-evalue 1e-5']

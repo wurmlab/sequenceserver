@@ -38,6 +38,8 @@ module SequenceServer
       # instance methods of the Links module.
       def links
         links = Links.instance_methods.map { |m| send m }
+        puts "links"
+        puts links
         links.compact!
         links.sort_by { |link| [link[:order], link[:title]] }
       end

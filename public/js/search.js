@@ -8,7 +8,7 @@ import { Form } from "./form";
  */
 $.webshims.setOptions(
   "basePath",
-  "/vendor/npm/webshim@1.15.8/js-webshim/minified/shims/"
+  "/blast/vendor/npm/webshim@1.15.8/js-webshim/minified/shims/"
 );
 $.webshims.polyfill("forms");
 

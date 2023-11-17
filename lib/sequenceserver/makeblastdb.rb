@@ -34,7 +34,6 @@ module SequenceServer
       # that require reformatting.
       @formatted_fastas = []
       determine_formatted_fastas
-
       # Now determine FASTA files that are unformatted or require reformatting.
       @fastas_to_format = []
       determine_unformatted_fastas
@@ -126,7 +125,8 @@ module SequenceServer
       # Add a trailing slash to database_dir - Find.find doesn't work as
       # expected without the trailing slash if database_dir is a symlink
       # inside a docker container.
-      Find.find(database_dir + '/') do |path|
+      database_path = database_dir.end_with?('/') ? database_dir : "#{database_dir}/"
+      Find.find(database_path) do |path|
         next if File.directory?(path)
         next unless probably_fasta?(path)
         next if @formatted_fastas.any? { |f| f[0] == path }
@@ -141,7 +141,7 @@ module SequenceServer
     # directory. Returns the output of `blastdbcmd`. This method is called
     # by `determine_formatted_fastas`.
     def blastdbcmd
-      cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
+      cmd = "blastdbcmd -recursive -list #{@database_dir}" \
             ' -list_outfmt "%f	%t	%p	%n	%l	%d	%v"'
       out, err = sys(cmd, path: config[:bin])
       errpat = /BLAST Database error/
@@ -266,9 +266,8 @@ module SequenceServer
 
     def get_categories(path)
       path
-        .gsub(config[:database_dir], '') # remove database_dir from path
         .split('/')
-        .reject(&:empty?)[0..-2] # the first entry might be '' if database_dir does not end with /
+        .reject(&:empty?)[4..-1] # the first entry might be '' if database_dir does not end with /
     end
 
     # Returns true if first character of the file is '>'.

@@ -111,7 +111,7 @@ export default class extends Databases {
         var search_id = tree_id + '_search';
 
         return (
-            <input type='text' id={search_id} class='input'
+            <input type='text' id={search_id} className='input'
                 onKeyUp=
                     {
                         _.bind(function () {

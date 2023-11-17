@@ -12,10 +12,20 @@ import * as Exporter from './exporter';
 /**
  * Exports the given <svg> DOM node as a .svg file.
  */
+/*
 var export_as_svg = function (svg, filename) {
     var blob = new Blob([serialize_svg(svg)], { type: 'text/xml' });
     filename = Exporter.sanitize_filename(filename) + '.svg';
     Exporter.download_blob(blob, filename);
+};*/
+
+var export_as_svg = function (svg, filename) {
+    var svgContent = serialize_svg(svg);
+    var blob = new Blob([svgContent], { type: 'text/xml' });
+    filename = Exporter.sanitize_filename(filename) + '.svg';
+    var blobUrl = URL.createObjectURL(blob);
+    var blastBlobUrl = blobUrl.replace(/^blob:/, 'http://localhost:4567/blast/'); // Add this line
+    Exporter.download_blob(blob, filename, blastBlobUrl);
 };
 
 /**

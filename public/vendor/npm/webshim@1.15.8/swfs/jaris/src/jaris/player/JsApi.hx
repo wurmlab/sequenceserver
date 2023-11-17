@@ -1,4 +1,4 @@
-﻿/**    
+/**    
  * @author Sascha Kluger
  * @copyright 2010 Jefferson González, Sascha Kluger
  *

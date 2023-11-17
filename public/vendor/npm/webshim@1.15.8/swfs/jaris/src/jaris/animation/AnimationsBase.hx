@@ -1,4 +1,4 @@
-﻿/**    
+/**    
  * @author Jefferson González
  * @copyright 2010 Jefferson González
  *

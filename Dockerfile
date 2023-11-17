@@ -30,8 +30,9 @@ LABEL MailingList="https://groups.google.com/forum/#!forum/sequenceserver"
 LABEL Website="http://sequenceserver.com"
 
 # Install packages required to run SequenceServer and BLAST.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl libgomp1 liblmdb0 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update
+RUN  apt-get install -y --no-install-recommends \
+    curl libgomp1 liblmdb0 nodejs npm && rm -rf /var/lib/apt/lists/*
 
 # Copy gem dependencies and BLAST+ binaries from previous build stages.
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
@@ -48,6 +49,11 @@ COPY --from=ncbi-blast /blast/bin/tblastx.REAL /blast/bin/tblastx
 # Add BLAST+ binaries to PATH.
 ENV PATH=/blast/bin:${PATH}
 
+RUN apt-get install -y nodejs npm
+RUN npm i jbrowse-nclist-cli -g
+
+
+
 # Setup working directory, volume for databases, port, and copy the code.
 # SequenceServer code.
 WORKDIR /sequenceserver
@@ -58,7 +64,7 @@ COPY . .
 # Generate config file with default configs and database directory set to /db.
 # Setting database directory in config file means users can pass command line
 # arguments to SequenceServer without having to specify -d option again.
-RUN mkdir -p /db && echo 'n' | script -qfec "bundle exec bin/sequenceserver -s -d /db" /dev/null 
+RUN mkdir -p /db && echo 'n' | script -qfec "bundle exec bin/sequenceserver -s config_file=/sequenceserver/public/configs/sequenceserver.conf -d /db" /dev/null 
 
 # Prevent SequenceServer from prompting user to join announcements list.
 RUN mkdir -p ~/.sequenceserver && touch ~/.sequenceserver/asked_to_join
@@ -80,6 +86,8 @@ COPY ./package.json ./package-lock.json ./webpack.config.js ./babel.config.js ./
 RUN npm install
 ENV PATH=${PWD}/node_modules/.bin:${PATH}
 COPY public public
+RUN apk add --no-cache tree
+RUN tree public
 RUN npm run-script build
 
 ## Stage 5 (optional) minify

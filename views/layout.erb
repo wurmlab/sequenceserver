@@ -13,11 +13,14 @@
   <meta name="author" content="Yannick Wurm">
   <meta name="description" content="Custom BLAST server provided by SequenceServer (https://www.sequenceserver.com)"/>
 
+  <% base_url = "#{request.scheme}://#{request.host}" %>
+  <% base_url << ":#{request.port}" unless [80, 443].include?(request.port) %>
+
   <!-- CSS -->
   <% if settings.production? || settings.test? %>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.min.css?ver=<%= SequenceServer::VERSION %>"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="<%= "#{base_url}" %>/blast/css/sequenceserver.min.css?ver=<%= SequenceServer::VERSION %>"/>
   <% else %>
-    <link rel="stylesheet" media="screen,print" type="text/css" href="css/sequenceserver.css"/>
+    <link rel="stylesheet" media="screen,print" type="text/css" href="<%= "#{base_url}/blast/css/sequenceserver.css"%>"/>
   <% end %>
 </head>
 
@@ -25,11 +28,11 @@
   <div
     class="navbar">
     <div
-      class="container">
+      class="container" id="header">
       <a
         class="navbar-brand"
         href="https://sequenceserver.com" target="_blank">
-        <img class="logo" src="SequenceServer_logo.png" alt="sequenceserver_logo">
+        <img class="logo" src="<%= "#{base_url}" %>/blast/SequenceServer_logo.png" alt="sequenceserver_logo">
         <small>
           <%= SequenceServer::VERSION %>
         </small>
@@ -46,7 +49,7 @@
       </ul>
     </div>
   </div>
-
+  <script type="text/javascript" src="<%= "#{base_url}" %>/blast/resource_logo.js"></script>
   <div
     class="container">
     <noscript>
@@ -131,7 +134,5 @@
     </div>
   </div> <!-- advanced options -->
 
-  <!-- twitter -->
-  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </body>
 </html>

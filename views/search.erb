@@ -1,3 +1,6 @@
+<% base_url = "#{request.scheme}://#{request.host}" %>
+<% base_url << ":#{request.port}" unless [80, 443].include?(request.port) %>
+
 <!-- Optional hidden query sequence sent by the server -->
 <input type="hidden" id="input_sequence" value="<%= @input_sequence %>">
 
@@ -5,7 +8,7 @@
 <div id="view"></div>
 
 <!-- JS -->
-  <script src="sequenceserver-search.min.js?ver=<%= SequenceServer::VERSION %>"></script>
+<script src="<%= "#{base_url}/blast/sequenceserver-search.min.js?ver=#{SequenceServer::VERSION}" %>"></script>
 
 <!-- Markup for advanced options modal -->
 <div

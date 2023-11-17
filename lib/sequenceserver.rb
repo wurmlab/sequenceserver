@@ -20,7 +20,6 @@ module SequenceServer
   require 'sequenceserver/config'
   require 'sequenceserver/server'
   require 'sequenceserver/routes'
-  require 'sequenceserver/makeblastdb'
   require 'sequenceserver/job_remover'
   require 'sequenceserver/exceptions'
   require 'sequenceserver/sys'
@@ -55,11 +54,6 @@ module SequenceServer
                   end
     end
 
-    # MAKEBLASTDB service object.
-    def makeblastdb
-      @makeblastdb ||= MAKEBLASTDB.new(config[:database_dir])
-    end
-
     # SequenceServer initialisation routine.
     def init(config = {})
       # Use default config file if caller didn't specify one.
@@ -67,7 +61,6 @@ module SequenceServer
 
       # Initialise global configuration object from the above config hash.
       @config = Config.new(config)
-
       # When in development mode, cause SequenceServer to terminate if any
       # thread spawned by the main process raises an unhandled exception. In
       # production mode the expectation is to log at appropriate severity level
@@ -77,7 +70,6 @@ module SequenceServer
       # Now locate binaries, scan databases directory, require any plugin files.
       load_extension
       init_binaries
-      init_database
 
       # The above methods validate bin dir, database dir, and path to plugin
       # files. Port and host settings don't need to be validated: if running
@@ -188,35 +180,6 @@ module SequenceServer
       end
 
       assert_blast_installed_and_compatible
-    end
-
-    def init_database
-      fail DATABASE_DIR_NOT_SET unless config[:database_dir]
-
-      config[:database_dir] = File.expand_path(config[:database_dir])
-      unless File.exist?(config[:database_dir]) &&
-             File.directory?(config[:database_dir])
-        fail ENOENT.new('database dir', config[:database_dir])
-      end
-
-      logger.debug("Will look for BLAST+ databases in: #{config[:database_dir]}")
-
-      makeblastdb.scan
-      fail NO_BLAST_DATABASE_FOUND, config[:database_dir] if !makeblastdb.any_formatted?
-
-      Database.collection = makeblastdb.formatted_fastas
-      Database.each do |database|
-        logger.debug "Found #{database.type} database '#{database.title}' at '#{database.path}'"
-        if database.non_parse_seqids?
-          logger.warn "Database '#{database.title}' was created without using the" \
-                      ' -parse_seqids option of makeblastdb. FASTA download will' \
-                      " not work correctly (path: '#{database.path}')."
-        elsif database.v4?
-          logger.warn "Database '#{database.title}' is of older format. Mixing" \
-                      ' old and new format databases can be problematic' \
-                      "(path: '#{database.path}')."
-        end
-      end
     end
 
     def check_num_threads

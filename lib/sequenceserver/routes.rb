@@ -7,6 +7,7 @@ require 'sequenceserver/blast'
 require 'sequenceserver/report'
 require 'sequenceserver/database'
 require 'sequenceserver/sequence'
+require 'sequenceserver/makeblastdb'
 
 module SequenceServer
   # Controller.
@@ -66,17 +67,19 @@ module SequenceServer
     end
 
     # Returns base HTML. Rest happens client-side: rendering the search form.
-    get '/' do
+    get '/blast/' do
       erb :search, layout: true
     end
 
     # Returns data that is used to render the search form client side. These
     # include available databases and user-defined search options.
-    get '/searchdata.json' do
+    get '/blast/:segment1/searchdata.json' do
+      puts params
+      #Database.reset
       searchdata = {
         query: Database.retrieve(params[:query]),
         database: Database.all,
-        options: SequenceServer.config[:options]
+        options: Database.config[:options]
       }
 
       if SequenceServer.config[:databases_widget] == 'tree'
@@ -92,19 +95,20 @@ module SequenceServer
     end
 
     # Queues a search job and redirects to `/:jid`.
-    post '/' do
+    post '/blast/:segment1/:segment2' do
       if params[:input_sequence]
         @input_sequence = params[:input_sequence]
         erb :search, layout: true
       else
         job = Job.create(params)
-        redirect to("/#{job.id}")
+        redirect to("/blast/" + params[:segment1] + "/" + params[:segment2] + "/#{job.id}")
       end
     end
 
     # Returns results for the given job id in JSON format.  Returns 202 with
     # an empty body if the job hasn't finished yet.
-    get '/:jid.json' do |jid|
+    get '/blast/:segment1/:segment2/:jid.json' do
+      jid = params[:jid]
       job = Job.fetch(jid)
       halt 202 unless job.done?
       Report.generate(job).to_json
@@ -112,7 +116,7 @@ module SequenceServer
 
     # Returns base HTML. Rest happens client-side: polling for and rendering
     # the results.
-    get '/:jid' do
+    get '/blast/:segment1/:segment2/:jid' do
       erb :report, layout: true
     end
 
@@ -126,14 +130,14 @@ module SequenceServer
     # Use whitespace to separate entries in sequence_ids (all other chars exist
     # in identifiers) and retreival_databases (we don't allow whitespace in a
     # database's name, so it's safe).
-    get '/get_sequence/' do
+    get '/blast/:segment1/:segment2/get_sequence/' do
       sequence_ids = params[:sequence_ids].split(',')
       database_ids = params[:database_ids].split(',')
       sequences = Sequence::Retriever.new(sequence_ids, database_ids)
       sequences.to_json
     end
 
-    post '/get_sequence' do
+    post '/blast/:segment1/:segment2/get_sequence' do
       sequence_ids = params['sequence_ids'].split(',')
       database_ids = params['database_ids'].split(',')
       sequences = Sequence::Retriever.new(sequence_ids, database_ids, true)
@@ -143,12 +147,82 @@ module SequenceServer
     end
 
     # Download BLAST report in various formats.
-    get '/download/:jid.:type' do |jid, type|
+    get '/blast/:segment1/:segment2/download/:jid.:type' do
+      jid = params["jid"]
+      type = params["type"]
       job = Job.fetch(jid)
       out = BLAST::Formatter.new(job, type)
       send_file out.file, filename: out.filename, type: out.mime
     end
 
+    get '/blast/fonts/*' do |file|
+      puts "static font file"
+      # Combine with the base directory
+      file_path = File.join(settings.root, 'public', 'fonts', file)
+      # Check if the file exists
+      if File.exist?(file_path)
+        send_file file_path, disposition: :inline
+      else
+        # Handle case when file doesn't exist
+        status 404
+        'File not found'
+      end
+    end
+
+    get '/blast/css/*' do |file|
+      puts "static css file"
+      # Combine with the base directory
+      file_path = File.join(settings.root, 'public', 'css', file)
+      # Check if the file exists
+      if File.exist?(file_path)
+        send_file file_path, disposition: :inline
+      else
+        # Handle case when file doesn't exist
+        status 404
+        'File not found'
+      end
+    end
+
+    get '/blast/:segment1/:segment2/?' do
+      env_database_dir = "/db/" + params[:segment1] + "/" + params[:segment2] + "/databases/"
+      makeblastdb(env_database_dir).scan
+      
+      fail NO_BLAST_DATABASE_FOUND, env_database_dir if !makeblastdb(env_database_dir).any_formatted?
+      Database.collection = makeblastdb(env_database_dir).formatted_fastas
+      Database.each do |database|
+        logger.debug "Found #{database.type} database '#{database.title}' at '#{database.path}'"
+        if database.non_parse_seqids?
+          logger.warn "Database '#{database.title}' was created without using the" \
+                      ' -parse_seqids option of makeblastdb. FASTA download will' \
+                      " not work correctly (path: '#{database.path}')."
+        elsif database.v4?
+          logger.warn "Database '#{database.title}' is of older format. Mixing" \
+                      ' old and new format databases can be problematic' \
+                      "(path: '#{database.path}')."
+        end
+      end
+      erb :search, layout: true
+    end
+
+    get '/blast/*' do |file|
+      # Combine with the base directory
+      # Check if `settings` is nil
+      if settings.nil?
+        status 500
+        return 'Internal Server Error'
+      end
+      file_path = File.join(settings.root, 'public', file)
+
+      # Check if the file exists
+      if File.exist?(file_path)
+        send_file file_path, disposition: :inline
+      else
+        puts "file does not exist"
+        # Handle case when file doesn't exist
+        status 404
+        'File not found'
+      end
+    end
     # Catches any exception raised within the app and returns JSON
     # representation of the error:
     # {
@@ -219,6 +293,10 @@ module SequenceServer
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end
+    end
+
+    def makeblastdb(database_dir)
+      @makeblastdb ||= MAKEBLASTDB.new(database_dir)
     end
   end
 end
