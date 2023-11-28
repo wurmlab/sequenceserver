@@ -73,7 +73,7 @@ module SequenceServer
         @pool ||= Pool.new(SequenceServer.config[:num_jobs] || 1)
       end
     end
-
+#this
     include FileUtils
 
     # Provide access to global `config` & `logger` services to the job objects.
