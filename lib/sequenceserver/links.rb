@@ -62,10 +62,11 @@ module SequenceServer
     #     hit_coords = coordinates[1]
 
     def jbrowse
+        puts hsps
         qstart = hsps.map(&:qstart).min
-        sstart = hsps.map(&:sstart).min
+        features_start = hsps.map(&:sstart).min
         qend = hsps.map(&:qend).max
-        send = hsps.map(&:send).max
+        features_end = hsps.map(&:send).max
         first_hit_start = hsps.map(&:sstart).at(0)
         first_hit_end = hsps.map(&:send).at(0)
         database_filepath = whichdb.map(&:name).at(0)
@@ -77,8 +78,6 @@ module SequenceServer
         database_config = JSON.parse(file)
      #   organism = accession.partition('-').first
         sequence_id = accession.partition('-').last
-      #  puts "accession" 
-      #  puts accession 
         sequence_metadata = {}
         puts fasta_file_basename
         for reference_sequence in database_config["data"]
@@ -89,12 +88,13 @@ module SequenceServer
         end
         puts "sequence_metadata"
         puts sequence_metadata
-         
+
         if !sequence_metadata.has_key?("genome_browser")
             puts "no genome_browser key"
             return
         end
 
+        assembly = sequence_metadata["genome_browser"]["assembly"]
         if sequence_metadata["genome_browser"]["type"] == "jbrowse"
             puts "jbrowse"
             my_features = ERB::Util.url_encode(JSON.generate([{
@@ -111,87 +111,77 @@ module SequenceServer
                 }
             }]))
 
-                      url = "https://wormbase.org/tools/genome/jbrowse-simple" \
-                         "?data=data/c_elegans_PRJNA13758" \
-                       #  "?data=#{organism}" \
-                         "&loc=#{sequence_id}:#{first_hit_start-500}..#{first_hit_start+500}" \
-                         "&addFeatures=#{my_features}" \
-                         "&addTracks=#{my_track}" \
-                         "&tracks=BLAST" \
-                         "&highlight=#{accession}:#{first_hit_start}..#{first_hit_end}"
+            url = "#{sequence_metadata['genome_browser']['url']}" \
+                  "?data=data/c_elegans_PRJNA13758" \
+                  "?data=#{organism}" \
+                  "&loc=#{sequence_id}:#{first_hit_start-500}..#{first_hit_start+500}" \
+                  "&addFeatures=#{my_features}" \
+                  "&addTracks=#{my_track}" \
+                  "&tracks=BLAST" \
+                  "&highlight=#{accession}:#{first_hit_start}..#{first_hit_end}"
 
         elsif sequence_metadata["genome_browser"]["type"] == "jbrowse2"
-            puts "jbrowse2"
-            my_features = ERB::Util.url_encode(JSON.generate([{
-              "type":"FeatureTrack",
-              "trackId":"blasthits",
-              "name":"BLAST Hits",
-              "assemblyNames":["c_elegans_PRJNA13758"],
-              "adapter":{"type":"FromConfigAdapter",
-                         "features":[{"uniqueId":"5691461-5693071,5693116-5693229,1727379-1727409,3028488-3028526,4411037-4411071,13705113-13705143,10688597-10688634,10964311-10964343,421151-421178,3755143-3755170",
-                                      "refName":"III",
-                                      "start":421151,
-                                      "end":13705143,
-                                      "name":"Hits",
-                                      "subfeatures":[{"uniqueId":"ARRAY(0x5633c1206958)","refName":"III","start":5691461,"end":5693071},
-                                                     {"uniqueId":"ARRAY(0x5633c1dc0308)","refName":"III","start":5693116,"end":5693229},
-                                                     {"uniqueId":"ARRAY(0x5633c1e1d0a8)","refName":"III","start":1727379,"end":1727409},
-                                                     {"uniqueId":"ARRAY(0x5633c0f9bf98)","refName":"III","start":3028488,"end":3028526},
-                                                     {"uniqueId":"ARRAY(0x5633c1984fe0)","refName":"III","start":4411037,"end":4411071},
-                                                     {"uniqueId":"ARRAY(0x5633c1a30690)","refName":"III","start":13705113,"end":13705143},
-                                                     {"uniqueId":"ARRAY(0x5633c1d82900)","refName":"III","start":10688597,"end":10688634},
-                                                     {"uniqueId":"ARRAY(0x5633bf96c660)","refName":"III","start":10964311,"end":10964343},
-                                                     {"uniqueId":"ARRAY(0x5633c1e23ff0)","refName":"III","start":421151,"end":421178},
-                                                     {"uniqueId":"ARRAY(0x5633c19d4ac8)","refName":"III","start":3755143,"end":3755170}]}
-                         ]}
-              }]))
-            PP.pp hsps
-            #PP.pp hsps[0].hit.query.hits
+            unique_ids = []
+            subfeatures = []
 
-#[{"type":"FeatureTrack",
-#  "trackId":"blasthits",
-#  "name":"BLAST Hits",
-#  "assemblyNames":["c_elegans_PRJNA13758"],
-#  "adapter":{"type":"FromConfigAdapter",
-#             "features":[{"uniqueId":"5692578-5692730,5692445-5692530,5692317-5692398",
-#                          "refName":"III",
-#                          "start":5692317,
-#                          "end":5692730,
-#                          "name":"Hits",
-#                          "subfeatures":[{"uniqueId":"ARRAY(0x55a9c80b7590)",
-#                                          "refName":"III",
-#                                          "start":5692578,
-#                                          "end":5692730},
-#                                         {"uniqueId":"ARRAY(0x55a9c80be3a8)","refName":"III","start":5692445,"end":5692530},
-#                                         {"uniqueId":"ARRAY(0x55a9c80bd258)","refName":"III","start":5692317,"end":5692398}]}]}}]
+            features_start = -1
+            features_end = -1
+            count = 1
+            for hsp in hsps
+              refname = hsp["hit"]["accession"]
+              if hsp["sstart"] > hsp["send"]
+                  sequence_start = hsp["send"]
+                  sequence_end = hsp["sstart"]
+                  puts "found one that is backwards"
+              else
+                  sequence_start = hsp["sstart"]
+                  sequence_end = hsp["send"]
+              end
 
-            my_track = ERB::Util.url_encode(JSON.generate([
-                 {
-                    :label => "BLAST",
-                    :key => "BLAST hits",
-                    :type => "JBrowse/View/Track/CanvasFeatures",
-                    :store => "url",
-                    :glyph => "JBrowse/View/FeatureGlyph/Segments"
-                 }
-            ]))
-            my_tracks = ERB::Util.url_encode(sequence_metadata["genome_browser"]["tracks"].join(",") + ",blasthits")
-            hit_coords = coordinates[1]
-            my_loc = ERB::Util.url_encode(accession + ":" + hit_coords[1].to_s + ".." + hit_coords[0].to_s)
+              if features_start == -1 || features_start > sequence_start
+                features_start = sequence_start
+              end
+
+              if features_end == -1 || features_end < sequence_end
+                features_end = sequence_end
+              end
+ 
+              unique_id = sequence_start.to_s + "-" + sequence_end.to_s + "-" + count.to_s
+              count = count + 1
+              unique_ids = unique_ids.push(unique_id)
+
+              subfeature = {"uniqueId": unique_id,
+                            "refName": refname,
+                            "start": sequence_start,
+                            "end": sequence_end}
+              subfeatures.push(subfeature)
+            end
+
+            session_tracks = ERB::Util.url_encode(
+                             [{"type": "FeatureTrack",
+                              "trackId":"blasthits",
+                              "name": "BLAST Hits",
+                              "assemblyNames": [assembly],
+                              "adapter":{"type":"FromConfigAdapter",
+                                         "features": [{"uniqueId": unique_ids.join(","),
+                                                      "refName": refname,
+                                                      "start": features_start,
+                                                      "end": features_end,
+                                                      "name": "Hits",
+                                                      "subfeatures": subfeatures}]}}].to_json)
+            tracks = ERB::Util.url_encode(sequence_metadata["genome_browser"]["tracks"].join(",") + ",blasthits")
+            loc = ERB::Util.url_encode(accession + ":" + features_start.to_s + ".." + features_end.to_s)
+
             url = "#{sequence_metadata['genome_browser']['url']}?" \
-                         "loc=#{my_loc}" \
-                         "&tracks=#{my_tracks}"\
-                         "&sessionTracks=#{my_features}" \
-                         "&assembly=c_elegans_PRJNA13758"
+                         "loc=#{loc}" \
+                         "&tracks=#{tracks}"\
+                         "&sessionTracks=#{session_tracks}" \
+                         "&assembly=#{assembly}"
 
 
 
 
-       #      puts url
- #           https://wormbase.org/tools/genome/jbrowse2/index.html
- #           loc=III:5688461..5696071
- #           tracks=c_elegans_PRJNA13758_curated_genes,c_elegans_PRJNA13758_protein_motifs,c_elegans_PRJNA13758_classical_alleles,blasthits
- #           sessionTracks=[{"type":"FeatureTrack","trackId":"blasthits","name":"BLAST Hits","assemblyNames":["c_elegans_PRJNA13758"],"adapter":{"type":"FromConfigAdapter","features":[{"uniqueId":"5691461-5693071,5693116-5693229,1727379-1727409,3028488-3028526,4411037-4411071,13705113-13705143,10688597-10688634,10964311-10964343,421151-421178,3755143-3755170","refName":"III","start":421151,"end":13705143,"name":"Hits","subfeatures":[{"uniqueId":"ARRAY(0x5633c1206958)","refName":"III","start":5691461,"end":5693071},{"uniqueId":"ARRAY(0x5633c1dc0308)","refName":"III","start":5693116,"end":5693229},{"uniqueId":"ARRAY(0x5633c1e1d0a8)","refName":"III","start":1727379,"end":1727409},{"uniqueId":"ARRAY(0x5633c0f9bf98)","refName":"III","start":3028488,"end":3028526},{"uniqueId":"ARRAY(0x5633c1984fe0)","refName":"III","start":4411037,"end":4411071},{"uniqueId":"ARRAY(0x5633c1a30690)","refName":"III","start":13705113,"end":13705143},{"uniqueId":"ARRAY(0x5633c1d82900)","refName":"III","start":10688597,"end":10688634},{"uniqueId":"ARRAY(0x5633bf96c660)","refName":"III","start":10964311,"end":10964343},{"uniqueId":"ARRAY(0x5633c1e23ff0)","refName":"III","start":421151,"end":421178},{"uniqueId":"ARRAY(0x5633c19d4ac8)","refName":"III","start":3755143,"end":3755170}]}]}}]
-    #        assembly=c_elegans_PRJNA13758
+             puts url
        end
 
        {
