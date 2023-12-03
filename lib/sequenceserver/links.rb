@@ -62,13 +62,6 @@ module SequenceServer
     #     hit_coords = coordinates[1]
 
     def jbrowse
-        puts hsps
-        qstart = hsps.map(&:qstart).min
-        features_start = hsps.map(&:sstart).min
-        qend = hsps.map(&:qend).max
-        features_end = hsps.map(&:send).max
-        first_hit_start = hsps.map(&:sstart).at(0)
-        first_hit_end = hsps.map(&:send).at(0)
         database_filepath = whichdb.map(&:name).at(0)
         database_filename = File.basename(database_filepath)
         fasta_file_basename = File.basename(database_filename,File.extname(database_filename))
@@ -76,50 +69,68 @@ module SequenceServer
         config_filename = filepath_parts[2] + "/" + filepath_parts[3] + "/environment.json"
         file = File.read('/sequenceserver/public/environments/' + config_filename)
         database_config = JSON.parse(file)
-     #   organism = accession.partition('-').first
-        sequence_id = accession.partition('-').last
+
         sequence_metadata = {}
-        puts fasta_file_basename
         for reference_sequence in database_config["data"]
           if reference_sequence["uri"].include? fasta_file_basename
             sequence_metadata = reference_sequence
             break
           end  
         end
-        puts "sequence_metadata"
-        puts sequence_metadata
 
         if !sequence_metadata.has_key?("genome_browser")
-            puts "no genome_browser key"
             return
         end
 
         assembly = sequence_metadata["genome_browser"]["assembly"]
         if sequence_metadata["genome_browser"]["type"] == "jbrowse"
-            puts "jbrowse"
-            my_features = ERB::Util.url_encode(JSON.generate([{
+            subfeatures = []
+
+            features_start = -1
+            features_end = -1
+            for hsp in hsps
+              refname = hsp["hit"]["accession"]
+              if hsp["sstart"] > hsp["send"]
+                  sequence_start = hsp["send"]
+                  sequence_end = hsp["sstart"]
+              else
+                  sequence_start = hsp["sstart"]
+                  sequence_end = hsp["send"]
+              end
+
+              if features_start == -1 || features_start > sequence_start
+                features_start = sequence_start
+              end
+
+              if features_end == -1 || features_end < sequence_end
+                features_end = sequence_end
+              end
+ 
+              subfeature = {"seq_id": refname,
+                            "start": sequence_start,
+                            "end": sequence_end,
+                            "type": "match_part"}
+              subfeatures.push(subfeature)
+            end
+
+            loc = ERB::Util.url_encode(accession + ":" + features_start.to_s + ".." + features_end.to_s)
+            features = ERB::Util.url_encode(JSON.generate([{
                 :seq_id => accession,
-                :start => sstart,
-                :end => send,
+                :start => features_start,
+                :end => features_end,
                 :type => "match",
-                :subfeatures =>  hsps.map {
-                  |hsp| {
-                    :start => hsp.send < hsp.sstart ? hsp.send : hsp.sstart,
-                    :end => hsp.send < hsp.sstart ? hsp.sstart : hsp.send,
-                    :type => "match_part"
-                  }
-                }
+                :subfeatures => subfeatures
             }]))
+            tracks = ERB::Util.url_encode(sequence_metadata["genome_browser"]["tracks"].join(",") + ",Hits")
+            add_tracks = ERB::Util.url_encode('[{"label":"Hits","type":"JBrowse/View/Track/CanvasFeatures","store":"url","subParts":"match_part","glyph":"JBrowse/View/FeatureGlyph/Segments"}]')
 
             url = "#{sequence_metadata['genome_browser']['url']}" \
-                  "?data=data/c_elegans_PRJNA13758" \
-                  "?data=#{organism}" \
-                  "&loc=#{sequence_id}:#{first_hit_start-500}..#{first_hit_start+500}" \
-                  "&addFeatures=#{my_features}" \
-                  "&addTracks=#{my_track}" \
-                  "&tracks=BLAST" \
-                  "&highlight=#{accession}:#{first_hit_start}..#{first_hit_end}"
-
+                  "?data=data/#{assembly}" \
+                  "&loc=#{loc}" \
+                  "&addFeatures=#{features}" \
+                  "&addTracks=#{add_tracks}" \
+                  "&tracks=#{tracks}" \
+                  "&highlight="
         elsif sequence_metadata["genome_browser"]["type"] == "jbrowse2"
             unique_ids = []
             subfeatures = []
@@ -132,7 +143,6 @@ module SequenceServer
               if hsp["sstart"] > hsp["send"]
                   sequence_start = hsp["send"]
                   sequence_end = hsp["sstart"]
-                  puts "found one that is backwards"
               else
                   sequence_start = hsp["sstart"]
                   sequence_end = hsp["send"]
@@ -177,11 +187,6 @@ module SequenceServer
                          "&tracks=#{tracks}"\
                          "&sessionTracks=#{session_tracks}" \
                          "&assembly=#{assembly}"
-
-
-
-
-             puts url
        end
 
        {
@@ -190,79 +195,105 @@ module SequenceServer
          :url   => url,
          :icon  => 'fa-external-link'
        }
-
     end
 
-#    def gene_link1
-#        qstart = hsps.map(&:qstart).min
-#        sstart = hsps.map(&:sstart).min
-#        qend = hsps.map(&:qend).max
-#        send = hsps.map(&:send).max
-#        first_hit_start = hsps.map(&:sstart).at(0)
-#        first_hit_end = hsps.map(&:send).at(0)
-#        organism = accession.partition('-').first
-#        sequence_id = accession.partition('-').last
-#        puts organism
-#        puts accession
-#        puts "sequence_id"
-#        puts sequence_id
-#
-#        command = "jbrowse-nclist-cli \
-#                        -b \"https://s3.amazonaws.com/agrjbrowse/MOD-jbrowses/WormBase/WS286/c_elegans_PRJNA13758/\" \
-#                        -t \"tracks/Curated_Genes/{refseq}/trackData.jsonz\" \
-#                        -s "+ first_hit_start.to_s + " -e " + first_hit_start.to_s + " -r " + organism
-#        puts command
-#        response = `#{command}`
-#        puts response
-#        if response != ''
-#            data = JSON.parse(response)
-#            if data.length >= 1
-#                url_data = data[0]
-#                {
-#                    order: 2,
-#                    title: url_data["display_name"],
-#                    url:   "https://wormbase.org/species/c_elegans/gene/" + url_data["id"],
-#                    icon:  'fa-external-link'
-#                }
-#            end
-#        end
-#    end
+    def mod_gene_link
+        database_filepath = whichdb.map(&:name).at(0)
+        database_filename = File.basename(database_filepath)
+        fasta_file_basename = File.basename(database_filename,File.extname(database_filename))
+        filepath_parts = database_filepath.split(File::SEPARATOR)
+        config_filename = filepath_parts[2] + "/" + filepath_parts[3] + "/environment.json"
+        file = File.read('/sequenceserver/public/environments/' + config_filename)
+        database_config = JSON.parse(file)
 
-#    def gene_link2
-#        qstart = hsps.map(&:qstart).min
-#        sstart = hsps.map(&:sstart).min
-#        qend = hsps.map(&:qend).max
-#        send = hsps.map(&:send).max
-#        first_hit_start = hsps.map(&:sstart).at(0)
-#        first_hit_end = hsps.map(&:send).at(0)
-#        organism = accession.partition('-').first
-#        sequence_id = accession.partition('-').last
-#        puts organism
-#        puts accession
-#        puts "sequence_id"
-#        puts sequence_id
-#
-#        command = "jbrowse-nclist-cli \
-#                        -b \"https://s3.amazonaws.com/agrjbrowse/MOD-jbrowses/WormBase/WS286/c_elegans_PRJNA13758/\" \
-#                        -t \"tracks/Curated_Genes/{refseq}/trackData.jsonz\" \
-#                        -s "+ first_hit_start.to_s + " -e " + first_hit_start.to_s + " -r " + organism
-#        puts command
-#        response = `#{command}`
-#        puts response
-#        if response != ''
-#            data = JSON.parse(response)
-#            if data.length >= 2
-#                url_data = data[1]
-#                {
-#                    order: 2,
-#                    title: url_data["display_name"],
-#                    url:   "https://wormbase.org/species/c_elegans/gene/" + url_data["id"],
-#                    icon:  'fa-external-link'
-#                }
-#            end
-#        end
-#     end
+        first_hit_start = hsps.map(&:sstart).at(0)
+        first_hit_end = hsps.map(&:send).at(0)
+        organism = accession.partition('-').first
+
+        sequence_metadata = {}
+        for reference_sequence in database_config["data"]
+          if reference_sequence["uri"].include? fasta_file_basename
+            sequence_metadata = reference_sequence
+            break
+          end  
+        end
+
+        if !sequence_metadata.has_key?("genome_browser")
+          return
+        end
+        genome_browser_metadata = sequence_metadata["genome_browser"]
+        if !genome_browser_metadata.has_key?("gene_track") || !genome_browser_metadata.has_key?("mod_gene_url")
+            return
+        end
+
+        data_url = genome_browser_metadata["data_url"]
+        gene_track = genome_browser_metadata["gene_track"]
+        command = "jbrowse-nclist-cli -b " + data_url + " -t tracks/" + gene_track + "/{refseq}/trackData.jsonz -s " \
+                                        + first_hit_start.to_s + " -e " + first_hit_end.to_s + " -r " + organism
+        response = `#{command}`
+        if response != ''
+            data = JSON.parse(response)
+            if data.length >= 1
+                url_data = data[0]
+                {
+                    order: 2,
+                    title: filepath_parts[2] + ": "+ url_data["display_name"],
+                    url:   genome_browser_metadata["mod_gene_url"] + url_data["id"],
+                    icon:  'fa-external-link'
+                }
+            end
+        end
+    end
+
+    def agr_gene_link
+        database_filepath = whichdb.map(&:name).at(0)
+        database_filename = File.basename(database_filepath)
+        fasta_file_basename = File.basename(database_filename,File.extname(database_filename))
+        filepath_parts = database_filepath.split(File::SEPARATOR)
+        config_filename = filepath_parts[2] + "/" + filepath_parts[3] + "/environment.json"
+        file = File.read('/sequenceserver/public/environments/' + config_filename)
+        database_config = JSON.parse(file)
+
+        first_hit_start = hsps.map(&:sstart).at(0)
+        first_hit_end = hsps.map(&:send).at(0)
+        organism = accession.partition('-').first
+
+        sequence_metadata = {}
+        for reference_sequence in database_config["data"]
+          if reference_sequence["uri"].include? fasta_file_basename
+            sequence_metadata = reference_sequence
+            break
+          end  
+        end
+
+        if !sequence_metadata.has_key?("genome_browser")
+          return
+        end
+        genome_browser_metadata = sequence_metadata["genome_browser"]
+        if !genome_browser_metadata.has_key?("gene_track")
+            return
+        end
+
+        data_url = genome_browser_metadata["data_url"]
+        gene_track = genome_browser_metadata["gene_track"]
+        command = "jbrowse-nclist-cli -b " + data_url + " -t tracks/" + gene_track + "/{refseq}/trackData.jsonz -s " \
+                                        + first_hit_start.to_s + " -e " + first_hit_end.to_s + " -r " + organism
+        response = `#{command}`
+
+        if response != ''
+            data = JSON.parse(response)
+            if data.length >= 1
+                url_data = data[0]
+                url = "https://www.alliancegenome.org/gene/" + filepath_parts[2] + ":" + url_data["id"]
+                {
+                    order: 2,
+                    title: "Alliance: " + url_data["display_name"],
+                    url: url ,
+                    icon:  'fa-external-link'
+                }
+            end
+        end
+    end
   end
 end
-
 # [1]: https://stackoverflow.com/questions/2824126/whats-the-difference-between-ur#{sequence_id}i-escape-and-cgi-escape
