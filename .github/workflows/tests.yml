@@ -42,7 +42,7 @@
         - name: Add Chrome PPA
           run: sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
         - name: Get Chrome
-          run: apt update -y && apt install -y google-chrome-stable
+          run: sudo apt update -y && sudo apt install -y google-chrome-stable
 #        - name: Get Chromium
 #          run: sudo apt-get update && sudo apt-get install -y chromium-bsu chromium-driver
         - name: Get CodeClimate
