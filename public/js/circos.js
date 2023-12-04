@@ -1,14 +1,18 @@
 import d3 from 'd3';
 import Circos from '../packages/circosJS@1.7.0';
-import _ from 'underscore'; 
+import _ from 'underscore';
 
 import Grapher from './grapher';
 import * as Helpers from './visualisation_helpers';
 import Utils from './utils';
 
 class Graph {
+    static canCollapse() {
+        return true;
+    }
+
     static name() {
-        return 'Queries and their top hits: chord diagram';
+        return 'Chord diagram of queries and their top hits';
     }
 
     static className() {
@@ -408,7 +412,7 @@ class Graph {
             .attr('dy', '-0.25em')
             .attr('x', -175)
             .style('font-size', '14px')
-            .text('Circos looks great with less than 16 queries');
+            .text('Chord diagram looks great with fewer than 16 queries');
     }
 
     layoutReset() {

@@ -358,7 +358,9 @@ begin
       end
 
       if make_blast_databases?
-        if SequenceServer.makeblastdb.any_to_format_or_reformat?
+        if SequenceServer.makeblastdb.no_fastas?
+          puts "Couldn't find any FASTA files in #{SequenceServer.config[:database_dir]}."
+        elsif SequenceServer.makeblastdb.any_to_format_or_reformat?
           puts
           puts <<~MSG
           SequenceServer has scanned your databases directory and will now offer
@@ -380,7 +382,7 @@ begin
           print '>> '
           response = STDIN.gets.to_s.strip
           SequenceServer.makeblastdb.run unless response =~ /^[n]$/i
-          else
+        else
           puts "All FASTA files in #{SequenceServer.config[:database_dir]} " \
                'are formatted.'
         end

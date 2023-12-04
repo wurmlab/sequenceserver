@@ -4,7 +4,7 @@ import _ from 'underscore';
 import downloadFASTA from './download_fasta';
 import asMailtoHref from './mailto';
 import CloudShareModal from './cloud_share_modal';
-
+import DownloadLinks from 'download_links';
 /**
  * checks whether code is being run by jest
  */
@@ -347,6 +347,7 @@ export default class extends Component {
                             </a>
                         </li>
                     }
+                    <DownloadLinks imported_xml={this.props.data.imported_xml} search_id={this.props.data.search_id} />
                 </ul>
             </div>
         );
@@ -406,6 +407,12 @@ export default class extends Component {
                 {this.topPanelJSX()}
                 {this.downloadsPanelJSX()}
                 {this.sharingPanelJSX()}
+                <div className="referral-panel">
+                    <div className="section-header-sidebar">
+                        <h4>Recommend SequenceServer</h4>
+                        <p><a href="https://sequenceserver.com/referral-program" target="_blank">Earn up to $100 per signup</a></p>
+                    </div>
+                </div>
             </div>
         );
     }

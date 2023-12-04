@@ -31,8 +31,8 @@ export default class extends Component {
         return !this.props.hit;
     }
     /**
-         * Returns accession number of the hit sequence.
-         */
+     * Returns accession number of the hit sequence.
+     */
     accession() {
         return this.props.hit.accession;
     }

@@ -1,5 +1,6 @@
 require 'sequenceserver/job'
 require 'sequenceserver/zip_file_generator'
+require 'sequenceserver/blast/error'
 
 module SequenceServer
   # BLAST module.
@@ -56,46 +57,8 @@ module SequenceServer
                      " -query '#{qfile}' #{options}"
       end
 
-      # Override Job#raise! to raise specific API errors based on exitstatus
-      # and using contents of stderr to provide context about the error.
-      #
       def raise!
-        # Return true exit status is 0 and stdout is not empty.
-        return true if exitstatus.zero? && !File.zero?(stdout)
-
-        # Handle error. See [1].
-        case exitstatus
-        when 1..2
-          # 1: Error in query sequences or options.
-          # 2: Error in BLAST databases.
-          error = IO.foreach(stderr).grep(ERROR_LINE).join
-          error = File.read(stderr) if error.empty?
-          fail InputError, "(#{exitstatus}) #{error}"
-        when 4
-          # Out of memory. User can retry with a shorter search, so raising
-          # InputError here instead of SystemError.
-          fail InputError, <<~MSG
-            Ran out of memory. Please try a smaller query, fewer and smaller
-            databases, or limiting the output by using advanced options.
-          MSG
-        when 6
-          # Error creating output files. It can't be a permission issue as that
-          # would have been caught while creating job directory. But we can run
-          # out of storage after creating the job directory and while running
-          # the job. This is a SystemError.
-          fail SystemError, 'Ran out of disk space.'
-        else
-          # I am not sure what the exit codes 3 means and we should not
-          # encounter exit code 5. The only other error that I know can happen
-          # but is not yet handled is when BLAST+ binaries break such as after
-          # macOS updates. So raise SystemError, include the exit status in the
-          # message, and say that that the "most likely" reason is broken BLAST+
-          # binaries.
-          fail SystemError, <<~MSG
-            BLAST failed abruptly (exit status: #{exitstatus}). Most likely there is a
-            problem with the BLAST+ binaries.
-          MSG
-        end
+        SequenceServer::BLAST::Error.new(exitstatus: exitstatus, stdout: stdout, stderr: stderr).raise!
       end
 
       # Use it with a block to get a self-cleaning temporary archive file
@@ -189,7 +152,3 @@ module SequenceServer
     end
   end
 end
-
-# References
-# ----------
-# [1]: http://www.ncbi.nlm.nih.gov/books/NBK1763/ (Appendices)

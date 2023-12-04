@@ -1,4 +1,4 @@
-[![gem version](https://img.shields.io/badge/version-2.0-green.svg)](http://rubygems.org/gems/sequenceserver)
+[![gem version](https://img.shields.io/badge/version-2.2-green.svg)](http://rubygems.org/gems/sequenceserver)
 <!--[![total downloads](http://ruby-gem-downloads-badge.herokuapp.com/sequenceserver?type=total&color=brightgreen)](http://rubygems.org/gems/sequenceserver) -->
 [![coverage](https://codeclimate.com/github/wurmlab/sequenceserver/badges/coverage.svg)](https://codeclimate.com/github/wurmlab/sequenceserver)
 [![build status](https://www.travis-ci.com/wurmlab/sequenceserver.svg?branch=master)](https://travis-ci.com/github/wurmlab/sequenceserver)
@@ -12,20 +12,23 @@
 
 SequenceServer lets you rapidly set up a BLAST+ server with an intuitive user interface for personal or group use.
 
-If you use SequenceServer, please cite:
-
-> [Sequenceserver: A modern graphical user interface for custom BLAST
-  databases. Molecular Biology and Evolution
-  (2019).](https://doi.org/10.1093/molbev/msz185)
+If you use SequenceServer, please cite our paper: 
+[Sequenceserver: A modern graphical user interface for custom BLAST databases. Molecular Biology and Evolution (2019).](https://doi.org/10.1093/molbev/msz185)
 
 
 ## Installation
 
 For installation instructions and how to use SequenceServer please see
-https://sequenceserver.com/
+https://sequenceserver.com/ - instructions for independently installing open-source sequenceserver are linked from the footer. 
 
 If you want to run SequenceServer directly from source code, please see
 'Develop and contribute' section below.
+
+We also offer a [hosted cloud blast service](https://sequenceserver.com) for those who prefer fully point-and-click installation and want to avoid the complexities and costs of running a server. Running the cloud service enables us to further support the development of SequenceServer. 
+
+## Referral scheme
+
+[Refer friends or colleagues](https://sequenceserver.com/referral-program) to SequenceServer Cloud and earn up to $100 per person who signs up (as of 2023-10; exact terms may change).
 
 ## Release notes
 
@@ -33,7 +36,7 @@ New releases are announced on [GitHub release page](https://github.com/wurmlab/s
 
 ## Reporting issues
 
-Please report any issues here: https://github.com/wurmlab/sequenceserver/issues
+Please report any issues here: https://github.com/wurmlab/sequenceserver/issues or on the [community support forum](https://support.sequenceserver.com)
 
 ## Develop and contribute
 
@@ -187,6 +190,5 @@ If you change frontend code (JavaScript and CSS), please build (i.e., minify and
 
 ## Contact
 
-* Anurag Priyam (architect) - [email](mailto:anurag08priyam@gmail.com) | [@yeban](//twitter.com/yeban)
-* Yannick Wurm  (PI) - [email](mailto:yannickwurm@gmail.com) | [@yannick\_\_](//twitter.com/yannick__)
+* Yannick Wurm (PI) - [email](mailto:yannickwurm@gmail.com) | https://wurmlab.com & https://sequenceserver.com
 * [Mailing list / forum](https://support.sequenceserver.com)

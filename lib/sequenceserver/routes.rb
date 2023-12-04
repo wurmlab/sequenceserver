@@ -51,7 +51,9 @@ module SequenceServer
         frame_options = SequenceServer.config[:frame_options]
         frame_options && { frame_options: frame_options }
       }
+    end
 
+    unless ENV['SEQUENCE_SERVER_COMPRESS_RESPONSES'] == 'false'
       # Serve compressed responses.
       use Rack::Deflater
     end
@@ -266,6 +268,7 @@ module SequenceServer
       end
 
       if request.env['HTTP_ACCEPT'].to_s.include?('application/json')
+        status 422
         content_type :json
         error_data.to_json
       else

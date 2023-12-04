@@ -44,7 +44,7 @@ svg .axis path,
   font-weight: bold;
 }
 
-/* Graphical overview of hits */
+/* Graphical overview of aligning hit sequences to the query */
 .alignment-overview.svg-container {
   text-align: center;
 }

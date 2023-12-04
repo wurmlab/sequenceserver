@@ -5,9 +5,12 @@ import * as Helpers from './visualisation_helpers';
 import Utils from './utils';
 
 class Graph {
+    static canCollapse() {
+        return true;
+    }
 
     static name() {
-        return 'Graphical overview of hits';
+        return 'Graphical overview of aligning hit sequences to the query';
     }
 
     static className() {

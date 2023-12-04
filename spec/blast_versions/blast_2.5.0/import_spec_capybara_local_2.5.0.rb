@@ -84,7 +84,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
@@ -106,7 +106,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
@@ -200,7 +200,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
@@ -220,7 +220,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
@@ -314,7 +314,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
@@ -334,7 +334,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
@@ -425,7 +425,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
@@ -446,7 +446,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
@@ -540,7 +540,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
@@ -561,7 +561,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
