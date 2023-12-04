@@ -83,11 +83,11 @@ module SequenceServer
       @formatted_fastas
     end
 
-    private
-
     def any_to_format?
       fastas_to_format.any?
     end
+
+    private
 
     def any_to_reformat?
       fastas_to_reformat.any?
