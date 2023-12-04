@@ -38,7 +38,7 @@
         - name: BLAST PATH
           run: mkdir /opt/bin && echo "/opt/bin:/opt/ncbi-blast-2.14.1+/bin" >> $GITHUB_PATH
         - name: Get Chrome Key
-          run: wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - 
+          run: wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
         - name: Add Chrome PPA
           run: sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
         - name: Get Chrome
