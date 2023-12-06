@@ -41,7 +41,7 @@ module SequenceServer
       # Fetches job with the given id.
       def fetch(id)
         job_file = File.join(DOTDIR, id, 'job.yaml')
-        fail NotFound unless File.exist?(job_file)
+        return nil unless File.exist?(job_file)
 
         YAML.safe_load_file(
           job_file,
