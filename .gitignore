@@ -57,3 +57,4 @@ node_modules
 
 spec/dotdir/*
 spec/downloads/*
+lib/sequenceserver/routes.textClipping

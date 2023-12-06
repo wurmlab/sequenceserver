@@ -105,6 +105,7 @@ module SequenceServer
     # an empty body if the job hasn't finished yet.
     get '/:jid.json' do |jid|
       job = Job.fetch(jid)
+      halt 404, { error: "Job not found" }.to_json if job.nil?
       halt 202 unless job.done?
 
       report = Report.generate(job)
@@ -165,7 +166,9 @@ module SequenceServer
     # Download BLAST report in various formats.
     get '/download/:jid.:type' do |jid, type|
       job = Job.fetch(jid)
+      halt 404, { error: "Job not found" }.to_json if job.nil?
       out = BLAST::Formatter.new(job, type)
+      halt 404, { error: "File not found" }.to_json unless File.exist?(out.filepath)
       send_file out.filepath, filename: out.filename, type: out.mime
     end
 
@@ -173,6 +176,7 @@ module SequenceServer
       content_type :json
       request_params = JSON.parse(request.body.read)
       job = Job.fetch(request_params['job_id'])
+      halt 404, { error: "Job not found" }.to_json if job.nil?
 
       unless job.done?
         status 422
@@ -278,6 +282,7 @@ module SequenceServer
     # Get the query sequences, selected databases, and advanced params used.
     def update_searchdata_from_job(searchdata)
       job = Job.fetch(params[:job_id])
+      return { error: "Job not found" }.to_json if job.nil?
       return if job.imported_xml_file
 
       # Only read job.qfile if we are not going to use Database.retrieve.
