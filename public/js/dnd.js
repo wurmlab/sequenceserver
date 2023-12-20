@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-/** 
+/**
  * Drag n drop widget.
  */
 export class DnD extends Component {
@@ -74,7 +74,7 @@ export class DnD extends Component {
                     }
 
                     var file = files[0];
-                    if (file.size > 10 * 1048576) {
+                    if (file.size > 250 * 1048576) {
                         dndError('dnd-large-file');
                         return;
                     }
@@ -141,7 +141,7 @@ export class DnD extends Component {
                                     style={{ display: 'none' }}>
                                     <div
                                         className="col-md-6 col-md-offset-3">
-                                        Too big a file. Can only do less than 10 MB. &gt;_&lt;
+                                        Too big a file. Can only do less than 250 MB. &gt;_&lt;
                                     </div>
                                 </div>
 
