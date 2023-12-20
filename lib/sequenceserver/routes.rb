@@ -135,10 +135,11 @@ module SequenceServer
 
     # Returns base HTML. Rest happens client-side: polling for and rendering
     # the results.
-    get '/:jid' do
+    get '/:jid' do |jid|
+      job = Job.fetch(jid)
+      raise NotFound, "Job not found" if job.nil?
       erb :report, layout: true
     end
-
     # @params sequence_ids: whitespace separated list of sequence ids to
     # retrieve
     # @params database_ids: whitespace separated list of database ids to
