@@ -521,6 +521,7 @@ class Report extends Component {
         } else {
             $hit.removeClass('glow');
             $hit.next('.hsp').removeClass('glow');
+            $('.download-fasta-of-selected').attr('href', '#').removeAttr('download');
         }
 
         var $a = $('.download-fasta-of-selected');
@@ -550,7 +551,7 @@ class Report extends Component {
             $('.download-alignment-of-selected').attr('href', '#').removeAttr('download');
             return;
 
-        }
+        } 
         if(this.state.alignment_blob_url){
             // always revoke existing url if any because this method will always create a new url
             window.URL.revokeObjectURL(this.state.alignment_blob_url);

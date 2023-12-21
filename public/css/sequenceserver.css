@@ -84,6 +84,8 @@ h4 > .fa {
  */
 .disabled {
   color: #ccc !important;
+  cursor: not-allowed;
+  pointer-events: none; /* This prevents the click from happening */
 }
 
 a.disabled:hover,

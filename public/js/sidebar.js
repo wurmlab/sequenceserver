@@ -172,6 +172,9 @@ export default class extends Component {
         var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
             return this.value;
         }).get();
+        if (sequence_ids.length === 0) {
+            return false;
+        }
         var database_ids = _.map(this.props.data.querydb, _.iteratee('id'));
         downloadFASTA(sequence_ids, database_ids);
         return false;
@@ -297,7 +300,7 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
+                       !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
                             <a href="#" className="btn-link download-fasta-of-selected disabled"
                                 onClick={this.downloadFastaOfSelected}>
                                 FASTA of <span className="text-bold"></span> selected hit(s)
