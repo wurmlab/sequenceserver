@@ -308,10 +308,11 @@ module SequenceServer
         searchdata[:options][method]['last search'] = [job.advanced]
       end
     end
+
     private
 
-def fetch_job(job_id)
-  Job.fetch(job_id)
-end
+    def fetch_job(job_id)
+      Job.fetch(job_id)
+    end
   end
 end
