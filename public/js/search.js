@@ -3,14 +3,6 @@ import React, { Component } from "react";
 import { createRoot } from "react-dom/client";
 import { DnD } from "./dnd";
 import { Form } from "./form";
-/**
- * Load necessary polyfills.
- */
-$.webshims.setOptions(
-  "basePath",
-  "/vendor/npm/webshim@1.15.8/js-webshim/minified/shims/"
-);
-$.webshims.polyfill("forms");
 
 /**
  * Clear sessionStorage on reload.
