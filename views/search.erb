@@ -1,4 +1,5 @@
-<% base_url = "#{request.scheme}://#{request.host}" %>
+<% base_url_protocol = ENV['HTTPS'] == 'on' ? 'https' : (request.env['HTTP_X_FORWARDED_PROTO'] || request.scheme) %>
+<% base_url = "#{base_url_protocol}://#{request.host}" %>
 <% base_url << ":#{request.port}" unless [80, 443].include?(request.port) %>
 
 <!-- Optional hidden query sequence sent by the server -->

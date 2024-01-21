@@ -15,7 +15,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, 'public'),
-	publicPath: "httpe://localhost:4567/blast/"
+        publicPath: process.env.NODE_ENV === 'production' ? '//blast-dev.alliancegenome.org/blast/' : '//localhost:4567/blast/'
     },
     mode: process.env.NODE_ENV || 'development',
     resolve: {

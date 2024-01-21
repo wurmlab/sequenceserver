@@ -219,7 +219,8 @@ module SequenceServer
     def server_url
       host = config[:host]
       host = 'localhost' if ['127.0.0.1', '0.0.0.0'].include?(host)
-      "http://#{host}:#{config[:port]}"
+      protocol = ENV['HTTPS'] == 'on' ? 'https' : 'http'
+      "#{protocol}://#{host}:#{config[:port]}"
     end
 
     # Returns a local ip adress.
