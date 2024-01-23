@@ -233,14 +233,19 @@ module SequenceServer
         response = `#{command}`
         if response != ''
             data = JSON.parse(response)
-            if data.length >= 1
+            if data && data.length >= 1
                 url_data = data[0]
-                {
-                    order: 2,
-                    title: filepath_parts[2] + ": "+ url_data["display_name"],
-                    url:   genome_browser_metadata["mod_gene_url"] + url_data["id"],
-                    icon:  'fa-external-link'
-                }
+                if url_data && url_data["display_name"] && 
+                    filepath_parts && filepath_parts[2] && 
+                    genome_browser_metadata && genome_browser_metadata["mod_gene_url"]
+
+                    {
+                     order: 2,
+                     title: "#{filepath_parts[2]}: #{url_data['display_name']}",
+                     url:   "#{genome_browser_metadata['mod_gene_url']}#{url_data['id']}",
+                     icon:  'fa-external-link'
+                    }
+                end
             end
         end
     end
@@ -282,15 +287,17 @@ module SequenceServer
 
         if response != ''
             data = JSON.parse(response)
-            if data.length >= 1
+            if data && !data.empty? && filepath_parts[2]
                 url_data = data[0]
-                url = "https://www.alliancegenome.org/gene/" + filepath_parts[2] + ":" + url_data["id"]
-                {
-                    order: 2,
-                    title: "Alliance: " + url_data["display_name"],
-                    url: url ,
-                    icon:  'fa-external-link'
-                }
+                if url_data && url_data["id"] && url_data["display_name"]
+                    url = "https://www.alliancegenome.org/gene/#{filepath_parts[2]}:#{url_data['id']}"
+                        {
+                         order: 2,
+                         title: "Alliance: #{url_data['display_name']}",
+                         url: url,
+                         icon: 'fa-external-link'
+                        }
+                end
             end
         end
     end
