@@ -137,7 +137,7 @@ module SequenceServer
     # the results.
     get '/:jid' do |jid|
       job = Job.fetch(jid)
-      raise NotFound, 'Job not found' if job.nil?
+      halt 404, File.read(File.join(settings.root, 'public/404.html')) if job.nil?
 
       erb :report, layout: true
     end
