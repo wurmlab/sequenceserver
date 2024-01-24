@@ -28,6 +28,10 @@ module SequenceServer
 
       # We don't want Sinatra do setup any loggers for us. We will use our own.
       set :logging, nil
+
+      # Override in config.ru if the instance is served under a subpath
+      # e.g. for example.org/our-sequenceserver set to '/our-sequenceserver'
+      set :root_path_prefix, ''
     end
 
     # See
@@ -306,6 +310,12 @@ module SequenceServer
                          searchdata[:options][method][:default].join(' ')
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
+      end
+    end
+
+    helpers do
+      def root_path_prefix
+        settings.root_path_prefix.to_s
       end
     end
 

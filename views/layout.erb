@@ -95,7 +95,8 @@
           %>
         </em></a>
       </p>
-      <%= File.read(File.join(settings.root, '../website-extras/footer.html')) if File.exist?(File.join(settings.root, '../website-extras/footer.html')) %>
+      <% footer_path = File.join(settings.root, '../website-extras/footer.html.erb') %>
+      <%= erb :'../../website-extras/footer.html', locals: { path_prefix: root_path_prefix } if File.exist?(footer_path) %>
     </div> <!-- /container -->
   </div>
 
