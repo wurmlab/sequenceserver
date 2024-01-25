@@ -175,14 +175,17 @@ export class Form extends Component {
         return (
             <div className="container">
                 <div id="overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vw', background: 'rgba(0, 0, 0, 0.2)', display: 'none', zIndex: 99 }} />
+
+                <div className="notifications" id="notifications">
+                    <FastqNotification />
+                    <NucleotideNotification />
+                    <ProteinNotification />
+                    <MixedNotification />
+                </div>
+
                 <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission} className="form-horizontal">
                     <div className="form-group query-container">
                         <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
-                    </div>
-                    <div className="notifications" id="notifications">
-                        <NucleotideNotification />
-                        <ProteinNotification />
-                        <MixedNotification />
                     </div>
                     {this.useTreeWidget() ?
                         <DatabasesTree ref="databases"
@@ -238,6 +241,21 @@ class NucleotideNotification extends Component {
             <div
                 className="alert-info col-md-6 col-md-offset-3">
                 Detected: nucleotide sequence(s).
+            </div>
+        </div>
+        );
+    }
+}
+
+class FastqNotification extends Component {
+    render() {
+        return (<div
+            className="notification row"
+            id="fastq-sequence-notification"
+            style={{ display: 'none' }}>
+            <div
+                className="alert-info col-md-6 col-md-offset-3">
+                Detected FASTQ and automatically converted to FASTA.
             </div>
         </div>
         );
