@@ -132,7 +132,7 @@ export class SearchQueryWidget extends Component {
 
     /**
      * Returns query sequence if no argument is provided (or null or undefined
-     * is provided as argument). Otherwise, sets query sequenced to the given
+     * is provided as argument). Otherwise, sets query sequence to the given
      * value and returns `this`.
      *
      * Default/initial state of query sequence is an empty string. Caller must

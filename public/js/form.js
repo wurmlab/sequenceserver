@@ -21,14 +21,14 @@ export class Form extends Component {
         this.useTreeWidget = this.useTreeWidget.bind(this);
         this.determineBlastMethod = this.determineBlastMethod.bind(this);
         this.handleSequenceTypeChanged = this.handleSequenceTypeChanged.bind(this);
-        this.handleDatabaseTypeChanaged = this.handleDatabaseTypeChanaged.bind(this);
+        this.handleDatabaseTypeChanged = this.handleDatabaseTypeChanged.bind(this);
         this.handleAlgoChanged = this.handleAlgoChanged.bind(this);
         this.handleFormSubmission = this.handleFormSubmission.bind(this);
         this.formRef = createRef();
     }
 
     componentDidMount() {
-        /** 
+        /**
         * Fetch data to initialise the search interface from the server. These
         * include list of databases to search against, advanced options to
         * apply when an algorithm is selected, and a query sequence that
@@ -71,7 +71,7 @@ export class Form extends Component {
             }
         });
 
-        // show overlay to create visual feedback on button click 
+        // show overlay to create visual feedback on button click
         $('#method').on('click', () => {
             $('#overlay').css('display', 'block');
         });
@@ -102,6 +102,7 @@ export class Form extends Component {
             }
         });
     }
+
     determineBlastMethod() {
         var database_type = this.databaseType;
         var sequence_type = this.sequenceType;
@@ -146,7 +147,7 @@ export class Form extends Component {
         });
     }
 
-    handleDatabaseTypeChanaged(type) {
+    handleDatabaseTypeChanged(type) {
         this.databaseType = type;
         this.refs.button.setState({
             hasQuery: !this.refs.query.isEmpty(),
@@ -187,11 +188,11 @@ export class Form extends Component {
                         <DatabasesTree ref="databases"
                             databases={this.state.databases} tree={this.state.tree}
                             preSelectedDbs={this.state.preSelectedDbs}
-                            onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} />
+                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged} />
                         :
                         <Databases ref="databases" databases={this.state.databases}
                             preSelectedDbs={this.state.preSelectedDbs}
-                            onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} />
+                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged} />
                     }
                     <div className="form-group">
                         <Options ref="opts" />
