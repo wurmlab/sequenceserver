@@ -273,6 +273,9 @@ class Report extends Component {
                         <br />
             You can bookmark the page and come back to it later or share the
             link with someone.
+                        <br />
+                        <br />
+                        { process.env.targetEnv === 'cloud' && <b>If the job takes more than 10 minutes to complete, we will send you an email upon completion.</b> }
                     </p>
                 </div>
             </div>

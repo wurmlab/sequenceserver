@@ -37,7 +37,7 @@ module.exports = (env, argv)  => {
                 $: 'jquery',
                 jQuery: 'jquery',
             }),
-            new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
+            new webpack.EnvironmentPlugin({ NODE_ENV: 'development', targetEnv: env.targetEnv || 'standalone'}),
             new webpack.DefinePlugin({
                 process: { env: {} },
             })
