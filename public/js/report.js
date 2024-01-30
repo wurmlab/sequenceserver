@@ -524,6 +524,7 @@ class Report extends Component {
         } else {
             $hit.removeClass('glow');
             $hit.next('.hsp').removeClass('glow');
+            $('.download-fasta-of-selected').attr('href', '#').removeAttr('download');
         }
 
         var $a = $('.download-fasta-of-selected');
