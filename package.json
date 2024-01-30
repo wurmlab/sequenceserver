@@ -10,11 +10,11 @@
   },
   "scripts": {
     "watch": "webpack --watch",
-    "watch-cloud": "webpack --watch --env=reportPluginsPath='../sequence_server_js_extensions/report_plugins.js' --env=downloadLinks='../sequence_server_js_extensions/conserved_domains/download_links.js' --env=hitButtons='../sequence_server_js_extensions/hit_buttons.js'",
+    "watch-cloud": "webpack --watch --env=reportPluginsPath='../sequence_server_js_extensions/report_plugins.js' --env=downloadLinks='../sequence_server_js_extensions/conserved_domains/download_links.js' --env=hitButtons='../sequence_server_js_extensions/hit_buttons.js' --env=targetEnv='cloud'",
     "test": "jest",
     "minify:css": "cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css",
     "build": "webpack && npm run minify:css",
-    "build-cloud": "webpack --env=reportPluginsPath='../sequence_server_js_extensions/report_plugins.js' --env=downloadLinks='../sequence_server_js_extensions/conserved_domains/download_links.js' --env=hitButtons='../sequence_server_js_extensions/hit_buttons.js' && npm run minify:css"
+    "build-cloud": "webpack --env=reportPluginsPath='../sequence_server_js_extensions/report_plugins.js' --env=downloadLinks='../sequence_server_js_extensions/conserved_domains/download_links.js' --env=hitButtons='../sequence_server_js_extensions/hit_buttons.js' --env=targetEnv='cloud' && npm run minify:css"
   },
   "dependencies": {
     "babel-plugin-transform-export-extensions": "^6.22.0",
