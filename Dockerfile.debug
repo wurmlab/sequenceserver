@@ -54,7 +54,7 @@ LABEL Website="http://sequenceserver.com"
 
 # Install packages required to run SequenceServer and BLAST.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl libgomp1 liblmdb0 awscli && rm -rf /var/lib/apt/lists/*
+    curl libgomp1 liblmdb0 awscli strace && rm -rf /var/lib/apt/lists/*
 
 # Copy gem dependencies and BLAST+ binaries from previous build stages.
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
