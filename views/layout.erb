@@ -23,8 +23,7 @@
     <div
       class="container">
       <a
-        class="navbar-brand"
-        href="https://sequenceserver.com" target="_blank">
+        class="navbar-brand">
         <img class="logo" src="Alexion_logo_medium.png" alt="alexion_logo">
         <img class="logo" src="SequenceServer_logo.png" alt="sequenceserver_logo">
         <small>
@@ -34,8 +33,7 @@
       <ul class="nav navbar-nav navbar-right hover-reset focus-reset">
         <li>
           <a
-            target="_blank"
-            href="https://sequenceserver.com/support">
+            href="mailto:o365groups-scicomp@azcollaboration.onmicrosoft.com">
             <i class="fa fa-comment-o"></i>
             &nbsp;Help &amp; Support
           </a>
@@ -95,6 +93,11 @@
             ][rand(19)]
           %>
         </em></a>
+      </p>
+      <p class="text-center">
+        Contact us: <a style="vertical-align: baseline" href="mailto:o365groups-scicomp@azcollaboration.onmicrosoft.com">
+        <em>o365groups-scicomp@azcollaboration.onmicrosoft.com</em>
+        </a>
       </p>
       <% footer_path = File.join(settings.root, '../website-extras/footer.html.erb') %>
       <%= erb :'../../website-extras/footer.html', locals: { path_prefix: root_path_prefix } if File.exist?(footer_path) %>

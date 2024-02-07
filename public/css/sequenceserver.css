@@ -612,7 +612,7 @@ input[type=checkbox] {
 
 /* CSS class for logo */
 .logo {
-  width: 205.05px;
+  width: auto;
   max-height: 35px;
 }
 

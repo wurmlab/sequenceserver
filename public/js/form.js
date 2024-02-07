@@ -174,7 +174,7 @@ export class Form extends Component {
     render() {
         return (
             <div className="container">
-                <div id="overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vw', background: 'rgba(0, 0, 0, 0.2)', display: 'none', zIndex: 99 }} />
+                <div id="overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0, 0, 0, 0.2)', display: 'none', zIndex: 99 }} />
 
                 <div className="notifications" id="notifications">
                     <FastqNotification />
