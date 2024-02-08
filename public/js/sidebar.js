@@ -355,7 +355,8 @@ export default class extends Component {
             </div>
         );
     }
-
+    
+    /*
     sharingPanelJSX() {
         return (
             <div className="sharing-panel">
@@ -403,6 +404,7 @@ export default class extends Component {
             </div>
         );
     }
+    */
 
     render() {
         return (
