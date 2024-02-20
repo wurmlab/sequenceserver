@@ -422,8 +422,6 @@ label[for="advanced"] {
   white-space: nowrap;
   vertical-align: middle;
   padding: 5px 12px 5px 0;
-  cursor: default;
-  pointer-events: none;
 }
 
 input[name="advanced"] {
