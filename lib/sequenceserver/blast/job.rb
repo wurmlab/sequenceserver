@@ -21,7 +21,8 @@ module SequenceServer
         else
           validate params
           super do
-            @method    = params[:method]
+            @method = params[:method]
+            @query = params[:sequence]
             @qfile     = store('query.fa', params[:sequence])
             @databases = Database[params[:databases]]
             @advanced  = params[:advanced].to_s.strip
@@ -29,6 +30,7 @@ module SequenceServer
             # The following params are for analytics only
             @num_threads = config[:num_threads]
             @query_length = calculate_query_size
+            @number_of_sequences = calculate_number_of_sequences
             @databases_ncharacters_total = calculate_databases_ncharacters_total
           end
         end
@@ -36,8 +38,15 @@ module SequenceServer
 
       # :nodoc:
       # Attributes used by us - should be considered private.
-      attr_reader :advanced
-      attr_reader :databases, :databases_ncharacters_total, :method, :num_threads, :options, :qfile, :query_length
+      attr_reader :advanced,
+                  :databases,
+                  :databases_ncharacters_total,
+                  :method,
+                  :num_threads,
+                  :options,
+                  :qfile,
+                  :query_length,
+                  :number_of_sequences
 
       # :nodoc:
       # Deprecated; see Report#extract_params
@@ -90,6 +99,14 @@ module SequenceServer
           size += line.gsub(/\s+/, '').length
         end
         size
+      end
+
+      def calculate_number_of_sequences
+        # splitting the query by ">" starting a new line lets us determine number of sequences
+        sequences = @query.split(/\n\s*>\s*+/)
+        # Remove any empty strings from the split result
+        sequences.reject!(&:empty?)
+        sequences.length
       end
 
       def validate(params)
