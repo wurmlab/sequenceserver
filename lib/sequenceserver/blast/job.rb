@@ -30,7 +30,7 @@ module SequenceServer
             # The following params are for analytics only
             @num_threads = config[:num_threads]
             @query_length = calculate_query_size
-            @number_of_sequences = calculate_number_of_sequences
+            @number_of_query_sequences = calculate_number_of_sequences
             @databases_ncharacters_total = calculate_databases_ncharacters_total
           end
         end
@@ -46,7 +46,7 @@ module SequenceServer
                   :options,
                   :qfile,
                   :query_length,
-                  :number_of_sequences
+                  :number_of_query_sequences
 
       # :nodoc:
       # Deprecated; see Report#extract_params

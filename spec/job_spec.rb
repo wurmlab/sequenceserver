@@ -57,7 +57,7 @@ module SequenceServer
     ITKIKLENSDVTIPDIKLIMFPKEPYTADWMLAFRVVIPLYMVLALSQFITYLLILIVGE
     KENKIKEGMKMMGLNDSVF"
     end
-    
+
     let(:query_with_symbol) do
     '>SI2.2.0_13722 locus=Si_gnF.scaffold06207[1925625..1928536].pep_1 quality=100.00
     MSANRLNVLVTLMLAVALLVTESGNAQVDGYLQFNPKRSAVSSPQKYCGKKLSNALQIIC
@@ -134,22 +134,22 @@ module SequenceServer
     context 'queries not containing a >' do
         let(:job) {Job.create(@params_query_without_symbol)}
       it 'should accurately compute number of sequences' do
-        expect(job.number_of_sequences).to eq(1)
-      end 
+        expect(job.number_of_query_sequences).to eq(1)
+      end
     end
     context 'queries containing a > at the start' do
         let(:job) {Job.create(@params_query_with_symbol)}
       it 'should accurately compute number of sequences' do
-        expect(job.number_of_sequences).to eq(1)
-      end 
+        expect(job.number_of_query_sequences).to eq(1)
+      end
     end
     context 'queries containing a > but not at the start' do
         let(:job) {Job.create(@params_query_with_and_without_symbol)}
       it 'should accurately compute number of sequences' do
-        expect(job.number_of_sequences).to eq(2)
-      end 
+        expect(job.number_of_query_sequences).to eq(2)
+      end
     end
-    
+
     context 'with one protein database' do
       let(:test_job1) { Job.create(@params_prot_1db) }
 
@@ -168,7 +168,7 @@ module SequenceServer
       it 'should accurately compute total characters of databases used' do
         expect(test_job2.databases_ncharacters_total).to eql(280_685)
       end
-      
+
       it 'should accurately compute query length' do
         expect(test_job2.query_length).to eq(64)
       end
