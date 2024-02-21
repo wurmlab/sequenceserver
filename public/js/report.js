@@ -386,7 +386,6 @@ class Report extends Component {
             <Circos
                 queries={this.state.queries}
                 program={this.state.program}
-                collapsed="true"
             />
         ) : (
             <span></span>

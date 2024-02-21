@@ -2,6 +2,7 @@ import _ from 'underscore';
 import React, { createRef } from 'react';
 
 import './svgExporter'; // create handlers for SVG and PNG download buttons
+import { local } from 'd3';
 
 // Each instance of Grapher is added to this object once the component has been
 // mounted. This is so that grapher can be iterated over and redrawn on window
@@ -16,7 +17,10 @@ export default function Grapher(Graph) {
     return class extends React.Component {
         constructor(props) {
             super(props);
-            this.state = { collapsed: Graph.canCollapse() && this.props.collapsed };
+            this.name = Graph.name();
+            let collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
+            let isCollapsed = collapsePreferences.includes(this.name);
+            this.state = { collapsed: Graph.canCollapse() && (this.props.collapsed || isCollapsed) };
             this.svgContainerRef = createRef();
         }
 
@@ -39,8 +43,7 @@ export default function Grapher(Graph) {
                 return <div className="grapher-header">
                     <h4
                         className="caption"
-                        data-toggle="collapse"
-                        data-target={'#' + this.collapseId()}
+                        onClick={() => this.toggleCollapse()}
                     >
                         {this.state.collapsed ? this.plusIcon() : this.minusIcon()}
               &nbsp;{Graph.name()}
@@ -60,6 +63,21 @@ export default function Grapher(Graph) {
 
         plusIcon() {
             return <i className="fa fa-plus-square-o"></i>;
+        }
+
+        toggleCollapse() {
+            let currentlyCollapsed = this.state.collapsed;
+
+            this.setState({ collapsed: !currentlyCollapsed });
+
+            let collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
+
+            if (currentlyCollapsed) {
+                localStorage.setItem('collapsePreferences', JSON.stringify(collapsePreferences.filter((name) => name !== this.name)));
+            } else {
+                let uniqueCollapsePreferences = [... new Set(collapsePreferences.concat([this.name]))]
+                localStorage.setItem('collapsePreferences', JSON.stringify(uniqueCollapsePreferences));
+            }
         }
 
         graphLinksJSX() {
@@ -129,17 +147,3 @@ $(window).resize(
         });
     }, 125)
 );
-
-// Swap-icon and toggle .graph-links on collapse.
-$('body').on('hidden.bs.collapse', '.collapse', function () {
-    var component = Graphers[$(this).attr('id')];
-    if (component) {
-        component.setState({ collapsed: true });
-    }
-});
-$('body').on('shown.bs.collapse', '.collapse', function () {
-    var component = Graphers[$(this).attr('id')];
-    if (component) {
-        component.setState({ collapsed: false });
-    }
-});
