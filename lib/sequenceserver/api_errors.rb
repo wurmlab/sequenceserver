@@ -1,5 +1,5 @@
 module SequenceServer
-  Error = Class.new(StandardError)
+  Error = Class.new(Sinatra::Error)
 
   # DatabaseUnreachableError is raised when the serialised Job object is
   # refering to a database that is not present in the current filesystem.
