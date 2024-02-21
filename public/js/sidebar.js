@@ -198,7 +198,7 @@ export default class extends Component {
         document.body.removeChild(element);
 
         setTimeout(function () {
-            $('#copyURL')._tooltip('destroy');
+            $('#copyURL')._tooltip('hide');
         }, 3000);
     }
 

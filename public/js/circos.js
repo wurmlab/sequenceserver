@@ -19,7 +19,7 @@ class Graph {
         return 'circos';
     }
 
-    static collapseId(props) {
+    static graphId(props) {
         return 'circos-collapse';
     }
 

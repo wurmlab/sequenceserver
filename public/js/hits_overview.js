@@ -17,7 +17,7 @@ class Graph {
         return 'alignment-overview';
     }
 
-    static collapseId(props) {
+    static graphId(props) {
         return 'alignment_'+props.query.number;
     }
 

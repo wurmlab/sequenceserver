@@ -5,6 +5,7 @@ import HitsOverview from './hits_overview';
 import LengthDistribution from './length_distribution'; // length distribution of hits
 import Utils from './utils';
 import { fastqToFasta } from './fastq_to_fasta';
+import CollapsePreferences from './collapse_preferences';
 
 /**
  * Query component displays query defline, graphical overview, length
@@ -369,35 +370,9 @@ class HitsTable extends Component {
     constructor(props) {
         super(props);
         this.name = 'Hit sequences producing significant alignments';
-
-        let collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
-        let isCollapsed = collapsePreferences.includes(this.name);
+        this.collapsePreferences = new CollapsePreferences(this);
         this.state = {
-            collapsed: isCollapsed
-        }
-    }
-
-    minusIcon() {
-        return <i className="fa fa-minus-square-o"></i>;
-    }
-
-    plusIcon() {
-        return <i className="fa fa-plus-square-o"></i>;
-    }
-
-    // TODO: This is a duplicate implementation, extract?
-    toggleCollapse() {
-        let currentlyCollapsed = this.state.collapsed;
-
-        this.setState({ collapsed: !currentlyCollapsed });
-
-        let collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
-
-        if (currentlyCollapsed) {
-            localStorage.setItem('collapsePreferences', JSON.stringify(collapsePreferences.filter((name) => name !== this.name)));
-        } else {
-            let uniqueCollapsePreferences = [... new Set(collapsePreferences.concat([this.name]))]
-            localStorage.setItem('collapsePreferences', JSON.stringify(uniqueCollapsePreferences));
+            collapsed: this.collapsePreferences.preferenceStoredAsCollapsed()
         }
     }
 
@@ -463,9 +438,9 @@ class HitsTable extends Component {
     render() {
         return (
             <div className="table-hit-overview">
-                <h4 className="caption" onClick={() => this.toggleCollapse()}>
-                    {this.state.collapsed ? this.plusIcon() : this.minusIcon()}
-                    <span>{this.name}</span>
+                <h4 className="caption" onClick={() => this.collapsePreferences.toggleCollapse()}>
+                    {this.collapsePreferences.renderCollapseIcon()}
+                    <span> {this.name}</span>
                 </h4>
                 <div id={'Query_' + this.props.query.number + 'HT_' + this.props.query.number}>
                     {!this.state.collapsed && this.tableJSX()}

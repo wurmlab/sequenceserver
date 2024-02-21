@@ -2,6 +2,7 @@ import _ from 'underscore';
 import React, { createRef } from 'react';
 
 import './svgExporter'; // create handlers for SVG and PNG download buttons
+import CollapsePreferences from './collapse_preferences';
 import { local } from 'd3';
 
 // Each instance of Grapher is added to this object once the component has been
@@ -18,14 +19,14 @@ export default function Grapher(Graph) {
         constructor(props) {
             super(props);
             this.name = Graph.name();
-            let collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
-            let isCollapsed = collapsePreferences.includes(this.name);
+            this.collapsePreferences = new CollapsePreferences(this);
+            let isCollapsed = this.collapsePreferences.preferenceStoredAsCollapsed();
             this.state = { collapsed: Graph.canCollapse() && (this.props.collapsed || isCollapsed) };
             this.svgContainerRef = createRef();
         }
 
-        collapseId() {
-            return Graph.collapseId(this.props);
+        graphId() {
+            return Graph.graphId(this.props);
         }
 
         render() {
@@ -43,9 +44,9 @@ export default function Grapher(Graph) {
                 return <div className="grapher-header">
                     <h4
                         className="caption"
-                        onClick={() => this.toggleCollapse()}
+                        onClick={() => this.collapsePreferences.toggleCollapse()}
                     >
-                        {this.state.collapsed ? this.plusIcon() : this.minusIcon()}
+                        {this.collapsePreferences.renderCollapseIcon()}
               &nbsp;{Graph.name()}
                     </h4>
                     {!this.state.collapsed && this.graphLinksJSX()}
@@ -54,29 +55,6 @@ export default function Grapher(Graph) {
                 return <div className="grapher-header">
                     {!this.state.collapsed && this.graphLinksJSX()}
                 </div>;
-            }
-        }
-
-        minusIcon() {
-            return <i className="fa fa-minus-square-o"></i>;
-        }
-
-        plusIcon() {
-            return <i className="fa fa-plus-square-o"></i>;
-        }
-
-        toggleCollapse() {
-            let currentlyCollapsed = this.state.collapsed;
-
-            this.setState({ collapsed: !currentlyCollapsed });
-
-            let collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
-
-            if (currentlyCollapsed) {
-                localStorage.setItem('collapsePreferences', JSON.stringify(collapsePreferences.filter((name) => name !== this.name)));
-            } else {
-                let uniqueCollapsePreferences = [... new Set(collapsePreferences.concat([this.name]))]
-                localStorage.setItem('collapsePreferences', JSON.stringify(uniqueCollapsePreferences));
             }
         }
 
@@ -100,14 +78,14 @@ export default function Grapher(Graph) {
             return (
                 <div
                     ref={this.svgContainerRef}
-                    id={this.collapseId()}
+                    id={this.graphId()}
                     className={cssClasses}
                 ></div>
             );
         }
 
         componentDidMount() {
-            Graphers[this.collapseId()] = this;
+            Graphers[this.graphId()] = this;
 
             // Draw visualisation for the first time. Visualisations are
             // redrawn when browser window is resized.

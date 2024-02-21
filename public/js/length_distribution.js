@@ -20,7 +20,7 @@ class Graph {
         return 'length-distribution';
     }
 
-    static collapseId(props) {
+    static graphId(props) {
         return 'length_'+props.query.number;
     }
 
