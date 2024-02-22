@@ -30,7 +30,7 @@ class Graph {
         return 'kablammo';
     }
 
-    static collapseId(props) {
+    static graphId(props) {
         return 'kablammo_'+props.query.number+'_'+props.hit.number;
     }
 

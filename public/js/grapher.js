@@ -2,6 +2,7 @@ import _ from 'underscore';
 import React, { createRef } from 'react';
 
 import './svgExporter'; // create handlers for SVG and PNG download buttons
+import CollapsePreferences from './collapse_preferences';
 
 // Each instance of Grapher is added to this object once the component has been
 // mounted. This is so that grapher can be iterated over and redrawn on window
@@ -16,12 +17,15 @@ export default function Grapher(Graph) {
     return class extends React.Component {
         constructor(props) {
             super(props);
-            this.state = { collapsed: Graph.canCollapse() && this.props.collapsed };
+            this.name = Graph.name();
+            this.collapsePreferences = new CollapsePreferences(this);
+            let isCollapsed = this.collapsePreferences.preferenceStoredAsCollapsed();
+            this.state = { collapsed: Graph.canCollapse() && (this.props.collapsed || isCollapsed) };
             this.svgContainerRef = createRef();
         }
 
-        collapseId() {
-            return Graph.collapseId(this.props);
+        graphId() {
+            return Graph.graphId(this.props);
         }
 
         render() {
@@ -39,10 +43,9 @@ export default function Grapher(Graph) {
                 return <div className="grapher-header">
                     <h4
                         className="caption"
-                        data-toggle="collapse"
-                        data-target={'#' + this.collapseId()}
+                        onClick={() => this.collapsePreferences.toggleCollapse()}
                     >
-                        {this.state.collapsed ? this.plusIcon() : this.minusIcon()}
+                        {this.collapsePreferences.renderCollapseIcon()}
               &nbsp;{Graph.name()}
                     </h4>
                     {!this.state.collapsed && this.graphLinksJSX()}
@@ -52,14 +55,6 @@ export default function Grapher(Graph) {
                     {!this.state.collapsed && this.graphLinksJSX()}
                 </div>;
             }
-        }
-
-        minusIcon() {
-            return <i className="fa fa-minus-square-o"></i>;
-        }
-
-        plusIcon() {
-            return <i className="fa fa-plus-square-o"></i>;
         }
 
         graphLinksJSX() {
@@ -82,14 +77,14 @@ export default function Grapher(Graph) {
             return (
                 <div
                     ref={this.svgContainerRef}
-                    id={this.collapseId()}
+                    id={this.graphId()}
                     className={cssClasses}
                 ></div>
             );
         }
 
         componentDidMount() {
-            Graphers[this.collapseId()] = this;
+            Graphers[this.graphId()] = this;
 
             // Draw visualisation for the first time. Visualisations are
             // redrawn when browser window is resized.
@@ -129,17 +124,3 @@ $(window).resize(
         });
     }, 125)
 );
-
-// Swap-icon and toggle .graph-links on collapse.
-$('body').on('hidden.bs.collapse', '.collapse', function () {
-    var component = Graphers[$(this).attr('id')];
-    if (component) {
-        component.setState({ collapsed: true });
-    }
-});
-$('body').on('shown.bs.collapse', '.collapse', function () {
-    var component = Graphers[$(this).attr('id')];
-    if (component) {
-        component.setState({ collapsed: false });
-    }
-});

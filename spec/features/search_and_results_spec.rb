@@ -244,7 +244,15 @@ describe 'Search and results', type: :feature, js: true do
                    databases: protein_databases.values_at(0))
 
     find('#copyURL').click
-    expect(page).to have_content('Copied!')
+
+    cdp_params = {
+      origin: page.server_url,
+      permission: { name: 'clipboard-read' },
+      setting: 'granted'
+    }
+    page.driver.browser.execute_cdp('Browser.setPermission', **cdp_params)
+    clip_text = page.evaluate_async_script('navigator.clipboard.readText().then(arguments[0])')
+    expect(clip_text).to eq(page.current_url)
   end
 
   it 'can send the URL by email' do
@@ -318,7 +326,7 @@ describe 'Search and results', type: :feature, js: true do
                    databases: protein_databases.values_at(0))
 
     ## Check that there is a circos vis and unfold it.
-    page.find('.circos > .grapher-header > h4', text: 'Chord diagram of queries and their top hits').click
+    expect(page).to have_selector('.circos > .grapher-header > h4', text: 'Chord diagram of queries and their top hits')
 
     within('.circos.grapher') do
       page.click_on('SVG')
@@ -348,9 +356,8 @@ describe 'Search and results', type: :feature, js: true do
     end
 
     ## Check that there is a length distribution of matching sequences.
-    expect(page).to have_content('Length distribution of matching hit sequences')
-    page.find('#Query_1 .length-distribution > .grapher-header > h4',
-              text: 'Length distribution of matching hit sequences').click
+    expect(page).to have_selector('#Query_1 .length-distribution > .grapher-header > h4',
+              text: 'Length distribution of matching hit sequences')
 
     within('#Query_1 .length-distribution.grapher') do
       page.click_on('SVG')

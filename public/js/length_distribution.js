@@ -20,7 +20,7 @@ class Graph {
         return 'length-distribution';
     }
 
-    static collapseId(props) {
+    static graphId(props) {
         return 'length_'+props.query.number;
     }
 
@@ -254,7 +254,7 @@ class Graph {
             .attr('dy', '0')
             .attr('transform','rotate(-90)');
 
-        var yContainer = this.svg.append('g')
+        this.svg.append('g')
             .attr('class','axis axis--y')
             .attr('transform','translate('+this._margin.left+',0)')
             .call(y_axis);
