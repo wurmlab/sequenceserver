@@ -108,8 +108,8 @@ export class SearchQueryWidget extends Component {
         this.preProcessSequence = this.preProcessSequence.bind(this);
         this.notify = this.notify.bind(this);
 
-        this.textareaRef = createRef()
-        this.controlsRef = createRef()
+        this.textareaRef = createRef();
+        this.controlsRef = createRef();
     }
 
 
@@ -373,7 +373,7 @@ class HitsTable extends Component {
         this.collapsePreferences = new CollapsePreferences(this);
         this.state = {
             collapsed: this.collapsePreferences.preferenceStoredAsCollapsed()
-        }
+        };
     }
 
     tableJSX() {
@@ -432,7 +432,7 @@ class HitsTable extends Component {
                     }, this))
                 }
             </tbody>
-        </table>
+        </table>;
     }
 
     render() {

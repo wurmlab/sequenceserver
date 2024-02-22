@@ -3,7 +3,6 @@ import React, { createRef } from 'react';
 
 import './svgExporter'; // create handlers for SVG and PNG download buttons
 import CollapsePreferences from './collapse_preferences';
-import { local } from 'd3';
 
 // Each instance of Grapher is added to this object once the component has been
 // mounted. This is so that grapher can be iterated over and redrawn on window
