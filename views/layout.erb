@@ -20,8 +20,7 @@
 <body>
   <div
     class="navbar">
-    <div
-      class="container">
+    <div class="container">
       <a
         class="navbar-brand"
         href="https://sequenceserver.com" target="_blank">
@@ -31,6 +30,14 @@
         </small>
       </a>
       <ul class="nav navbar-nav navbar-right hover-reset focus-reset">
+        <li>
+          <a
+            href="https://sequenceserver.com/progress-on-BLAST-interface/"
+            class="update-check"
+            data-version="<%= SequenceServer::VERSION %>"
+            target="_blank">
+          </a>
+        </li>
         <li>
           <a
             target="_blank"
@@ -100,6 +107,56 @@
     </div> <!-- /container -->
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        function suggestNewVersion(element, version) {
+            element.textContent = `New version v${version} is available`;
+            console.log(`New SequenceServer version available ${version}. Please consider updating.`)
+        }
+
+        const element = document.querySelector('.update-check');
+        const currentVersion = element.getAttribute('data-version');
+        const cachedVersion = document.cookie.split(';').find((item) => item.trim().startsWith('newVersion='));
+        const upToDate = document.cookie.split(';').find((item) => item.trim().startsWith('versionIsLatest='));
+        if (upToDate) {
+            console.log('SequenceServer is up to date');
+            return;
+        }
+        if (cachedVersion) {
+            const newVersion = cachedVersion.split('=')[1];
+            if (newVersion !== currentVersion) {
+              suggestNewVersion(element, newVersion);
+            }
+            return;
+        }
+        console.log('Checking for new SequenceServer version...')
+        fetch(`https://updates.sequenceserver.com/?version=${currentVersion}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    console.error('Failed to check for new SequenceServer version')
+                }
+            })
+            .then(data => {
+                const date = new Date();
+                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+                const expires = "; expires=" + date.toUTCString();
+
+                if (data.update_available) {
+                    const newVersion = data.new_version;
+                    document.cookie = `newVersion=${newVersion}${expires}; path=/`;
+                    suggestNewVersion(element, newVersion);
+                } else {
+                    console.log('SequenceServer is up to date');
+                    document.cookie = `versionIsLatest=true${expires}; path=/`;
+                }
+            })
+            .catch(() => {});
+    });
+
+  </script>
   <!-- twitter -->
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </body>
