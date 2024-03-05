@@ -1,0 +1,4 @@
+export const SearchHeaderPlugin = () => {
+    return '';
+};
+

@@ -3,9 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = (env, argv)  => {
-    const reportPluginsPath = env.reportPluginsPath || './public/js/null_plugins/report_plugins.js';
-    const downloadLinks = env.downloadLinks || './public/js/null_plugins/download_links.js';
-    const hitButtons = env.hitButtons || './public/js/null_plugins/hit_buttons.js';
+    const pluginsPath = env.pluginsPath || './public/js/null_plugins';
 
     return {
         entry: {
@@ -45,9 +43,10 @@ module.exports = (env, argv)  => {
         resolve: {
             modules: [path.resolve(__dirname, 'public', 'js'), path.resolve(__dirname, 'node_modules')],
             alias: {
-                'report_plugins': path.resolve(__dirname, reportPluginsPath),
-                'download_links': path.resolve(__dirname, downloadLinks),
-                'hit_buttons': path.resolve(__dirname, hitButtons),
+                'report_plugins': path.resolve(__dirname, pluginsPath, 'report_plugins.js'),
+                'download_links': path.resolve(__dirname, pluginsPath, 'download_links.js'),
+                'hit_buttons': path.resolve(__dirname, pluginsPath, 'hit_buttons.js'),
+                'search_header_plugin': path.resolve(__dirname, pluginsPath, 'search_header_plugin.js'),
             }
         }
     };

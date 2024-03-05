@@ -398,8 +398,8 @@ begin
       end
 
       if import?
-        xml_file = fetch_option(:import).value
-        params = {:xml => xml_file}
+        xml_file_path = fetch_option(:import).value
+        params = {:xml => xml_file_path}
         job = SequenceServer::BLAST::Job.new(params)
         puts job.id
         exit
