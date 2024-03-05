@@ -5,6 +5,7 @@ import Report from '../report';
 import Sidebar from '../sidebar';
 import shortResponseJSON from './mock_data/short_response.json';
 import longResponseJSON from './mock_data/long_response.json';
+import d3 from 'd3';
 
 const setMockJSONResult = (result) => {
     global.$.getJSON = () => ({ complete: jest.fn((callback) => callback(result)) });
@@ -119,7 +120,7 @@ describe('REPORT PAGE', () => {
                 it('link for downloading alignment of specific number of selected hits should be disabled on initial load', () => {
                     const alignment_download_link = container.querySelector('.download-alignment-of-selected');
                     expect(alignment_download_link.classList.contains('disabled')).toBeTruthy();
-    
+
                 });
                 it('should generate a blob url and filename for downloading alignment of specific number of selected hits', () => {
                     const alignment_download_link = container.querySelector('.download-alignment-of-selected');
@@ -132,7 +133,7 @@ describe('REPORT PAGE', () => {
                     expect(alignment_download_link.download).toEqual(file_name);
                 });
             });
-    
+
             describe('FASTA DOWNLOAD', () => {
                 let fasta_download_link;
                 beforeEach(() => {
@@ -141,7 +142,7 @@ describe('REPORT PAGE', () => {
                 it('link for downloading fasta of selected number of hits should be disabled on initial load', () => {
                     expect(fasta_download_link.classList.contains('disabled')).toBeTruthy();
                 });
-    
+
                 it('link for downloading fasta of specific number of selected hits should be active after selection', () => {
                     const checkboxes = container.querySelectorAll('.hit-links input[type="checkbox"]');
                     // SELECT 5 CHECKBOXES
