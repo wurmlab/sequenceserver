@@ -6,6 +6,7 @@ module.exports = (env, argv)  => {
     const reportPluginsPath = env.reportPluginsPath || './public/js/null_plugins/report_plugins.js';
     const downloadLinks = env.downloadLinks || './public/js/null_plugins/download_links.js';
     const hitButtons = env.hitButtons || './public/js/null_plugins/hit_buttons.js';
+    const searchHeaderPlugin = env.searchHeaderPlugin || './public/js/null_plugins/search_header_plugin.js';
 
     return {
         entry: {
@@ -48,6 +49,7 @@ module.exports = (env, argv)  => {
                 'report_plugins': path.resolve(__dirname, reportPluginsPath),
                 'download_links': path.resolve(__dirname, downloadLinks),
                 'hit_buttons': path.resolve(__dirname, hitButtons),
+                'search_header_plugin': path.resolve(__dirname, searchHeaderPlugin),
             }
         }
     };

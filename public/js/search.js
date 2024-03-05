@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { createRoot } from "react-dom/client";
 import { DnD } from "./dnd";
 import { Form } from "./form";
+import { SearchHeaderPlugin } from "search_header_plugin";
 
 /**
  * Clear sessionStorage on reload.
@@ -19,6 +20,7 @@ class Page extends Component {
   render() {
     return (
       <div>
+        <SearchHeaderPlugin />
         <DnD ref="dnd" />
         <Form ref="form" />
       </div>
