@@ -5,7 +5,6 @@ import Report from '../report';
 import Sidebar from '../sidebar';
 import shortResponseJSON from './mock_data/short_response.json';
 import longResponseJSON from './mock_data/long_response.json';
-import d3 from 'd3';
 
 const setMockJSONResult = (result) => {
     global.$.getJSON = () => ({ complete: jest.fn((callback) => callback(result)) });
@@ -45,6 +44,7 @@ describe('REPORT PAGE', () => {
         render(<Report showErrorModal={showErrorModal} />);
         expect(showErrorModal).toHaveBeenCalledTimes(1);
     });
+
     it('it should render the report page correctly if there\'s a response provided', () => {
         setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
         const { container } = render(<Report getCharacterWidth={jest.fn()} />);
