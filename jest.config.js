@@ -3,10 +3,6 @@ module.exports = {
     roots: [
         '<rootDir>/public/js'
     ],
-    collectCoverageFrom: [
-        '<rootDir>/public/js/**/*.{js,jsx,ts,tsx}',
-        '!<rootDir>/public/js/**/*.d.ts'
-    ],
     setupFiles: [
         'react-app-polyfill/jsdom'
     ],
@@ -45,6 +41,7 @@ module.exports = {
         'download_links': '<rootDir>/public/js/null_plugins/download_links.js',
         'hit_buttons': '<rootDir>/public/js/null_plugins/hit_buttons.js',
         'search_header_plugin': '<rootDir>/public/js/null_plugins/search_header_plugin.js',
+        'circos$': '<rootDir>/public/js/tests/mocks/circos.js',
     },
     watchPlugins: [
         'jest-watch-typeahead/filename',
