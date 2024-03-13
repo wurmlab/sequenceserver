@@ -42,6 +42,8 @@ module.exports = {
         'hit_buttons': '<rootDir>/public/js/null_plugins/hit_buttons.js',
         'search_header_plugin': '<rootDir>/public/js/null_plugins/search_header_plugin.js',
         'circos$': '<rootDir>/public/js/tests/mocks/circos.js',
+        'grapher': '<rootDir>/public/js/grapher.js',
+        'histogram': '<rootDir>/public/js/null_plugins/grapher/histogram.js',
     },
     watchPlugins: [
         'jest-watch-typeahead/filename',

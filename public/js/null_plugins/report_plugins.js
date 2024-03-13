@@ -1,3 +1,5 @@
+import Histogram from 'histogram';
+
 class ReportPlugins {
     constructor(parent) {
         this.parent = parent;
@@ -14,6 +16,7 @@ class ReportPlugins {
     }
 
     generateStats() {
+        return (<Histogram />)
     }
 }
 

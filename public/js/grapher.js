@@ -29,13 +29,18 @@ export default function Grapher(Graph) {
         }
 
         render() {
-            var cssClasses = Graph.className() + ' grapher';
-            return (
-                <div ref="grapher" className={cssClasses}>
-                    {this.header()}
-                    {this.svgContainerJSX()}
-                </div>
-            );
+            // Do not render when Graph.name() is null
+            if (Graph.name() === null) {
+                return null;
+            } else {
+                var cssClasses = Graph.className() + ' grapher';
+                return (
+                    <div ref="grapher" className={cssClasses}>
+                        {this.header()}
+                        {this.svgContainerJSX()}
+                    </div>
+                );
+            }
         }
 
         header() {

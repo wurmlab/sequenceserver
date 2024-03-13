@@ -16,6 +16,10 @@ class Graph {
     static dataName(_props) {
         return null;
     }
+
+    static graphId() {
+        return null;
+    }
 }
 
 export default Grapher(Graph);
