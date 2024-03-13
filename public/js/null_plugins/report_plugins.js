@@ -1,3 +1,4 @@
+import Histogram from 'histogram';
 
 class ReportPlugins {
     constructor(parent) {
@@ -12,6 +13,10 @@ class ReportPlugins {
 
     queryResults(_query) {
         return [];
+    }
+
+    generateStats() {
+        return (<Histogram />);
     }
 }
 

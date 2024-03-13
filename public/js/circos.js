@@ -2,7 +2,7 @@ import d3 from 'd3';
 import Circos from '../packages/circosJS@1.7.0';
 import _ from 'underscore';
 
-import Grapher from './grapher';
+import Grapher from 'grapher';
 import * as Helpers from './visualisation_helpers';
 import Utils from './utils';
 
