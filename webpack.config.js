@@ -47,6 +47,7 @@ module.exports = (env, argv)  => {
                 'download_links': path.resolve(__dirname, pluginsPath, 'download_links.js'),
                 'hit_buttons': path.resolve(__dirname, pluginsPath, 'hit_buttons.js'),
                 'search_header_plugin': path.resolve(__dirname, pluginsPath, 'search_header_plugin.js'),
+                'histogram': path.resolve(__dirname, pluginsPath, 'grapher', 'histogram.js'),
             }
         }
     };

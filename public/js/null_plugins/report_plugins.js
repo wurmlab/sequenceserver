@@ -1,4 +1,3 @@
-
 class ReportPlugins {
     constructor(parent) {
         this.parent = parent;
@@ -12,6 +11,9 @@ class ReportPlugins {
 
     queryResults(_query) {
         return [];
+    }
+
+    generateStats() {
     }
 }
 
