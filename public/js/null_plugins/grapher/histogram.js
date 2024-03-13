@@ -1,4 +1,4 @@
-import Grapher from '../../grapher';
+import Grapher from 'grapher';
 
 class Graph {
     static canCollapse() {
