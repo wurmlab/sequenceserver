@@ -16,7 +16,7 @@ class ReportPlugins {
     }
 
     generateStats() {
-        return (<Histogram />)
+        return (<Histogram />);
     }
 }
 
