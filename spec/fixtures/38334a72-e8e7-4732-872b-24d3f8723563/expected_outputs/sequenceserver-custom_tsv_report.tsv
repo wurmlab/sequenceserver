@@ -1,0 +1,443 @@
+# BLASTN 2.14.1+
+# Query: SI2.2.0_06267 Si_gnF.scaffold02592[1282609..1284114].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_06267	SI2.2.0_06267	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_13722 Si_gnF.scaffold06207[1925625..1928536].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 3 hits found
+SI2.2.0_13722	SI2.2.0_13722	N/A	100	100
+SI2.2.0_13722	ref|NW_011800360.1|	N/A	100	61
+SI2.2.0_13722	ref|NW_011800360.1|	N/A	100	39
+# BLASTN 2.14.1+
+# Query: SI2.2.0_80257 Si_gnF.scaffold06514[2092364..2095011].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_80257	SI2.2.0_80257	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_06897 Si_gnF.scaffold05007[34212..34575].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 3 hits found
+SI2.2.0_06897	SI2.2.0_06897	N/A	100	100
+SI2.2.0_06897	SI2.2.0_06508	N/A	100	100
+SI2.2.0_06897	SI2.2.0_02677	N/A	33	33
+# BLASTN 2.14.1+
+# Query: SI2.2.0_09085 Si_gnF.scaffold08068[485284..485817].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_09085	SI2.2.0_09085	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_03217 Si_gnF.scaffold07124[298310..298581].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_03217	SI2.2.0_03217	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_05000 Si_gnF.scaffold04017[8473..9436].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 2 hits found
+SI2.2.0_05000	SI2.2.0_05000	N/A	100	100
+SI2.2.0_05000	ref|NW_011796848.1|	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_14266 Si_gnF.scaffold07837[1480027..1480908].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_14266	SI2.2.0_14266	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_09373 Si_gnF.scaffold01506[66371..68705].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_09373	SI2.2.0_09373	N/A	100	100
+# BLAST processed 9 queries
+# BLASTN 2.14.1+
+# Query: SI2.2.0_02053 Si_gnF.scaffold05687[1127366..1127935].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_02053	SI2.2.0_02053	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_02835 Si_gnF.scaffold05856[20583..21595].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_02835	SI2.2.0_02835	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_14336 Si_gnF.scaffold07837[1580323..1582633].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_14336	SI2.2.0_14336	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_08352 Si_gnF.scaffold09394[1141..2230].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_08352	SI2.2.0_08352	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_06508 Si_gnF.scaffold10503[45957..46812].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 3 hits found
+SI2.2.0_06508	SI2.2.0_06508	N/A	100	100
+SI2.2.0_06508	SI2.2.0_02677	N/A	34	34
+SI2.2.0_06508	SI2.2.0_06897	N/A	35	35
+# BLASTN 2.14.1+
+# Query: SI2.2.0_03649 Si_gnF.scaffold02655[120309..123019].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_03649	SI2.2.0_03649	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_10338 Si_gnF.scaffold04864[1032..1425].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_10338	SI2.2.0_10338	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_09171 Si_gnF.scaffold07124[99888..100956].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_09171	SI2.2.0_09171	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_06285 Si_gnF.scaffold02694[1309037..1309981].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 4 hits found
+SI2.2.0_06285	SI2.2.0_06285	N/A	100	100
+SI2.2.0_06285	ref|NW_011796848.1|	N/A	100	55
+SI2.2.0_06285	ref|NW_011796848.1|	N/A	100	23
+SI2.2.0_06285	ref|NW_011796848.1|	N/A	100	22
+# BLASTN 2.14.1+
+# Query: SI2.2.0_02651 Si_gnF.scaffold01722[932834..938174].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_02651	SI2.2.0_02651	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_04435 Si_gnF.scaffold10421[41530..42416].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_04435	SI2.2.0_04435	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_05556 Si_gnF.scaffold00779[264713..264971].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 2 hits found
+SI2.2.0_05556	ref|NW_011794933.1|	N/A	100	100
+SI2.2.0_05556	SI2.2.0_05556	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_07752 Si_gnF.scaffold06506[201480..202104].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_07752	SI2.2.0_07752	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_80227 Si_gnF.scaffold06890[828010..828943].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_80227	SI2.2.0_80227	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_03639 Si_gnF.scaffold06875[69..1020].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_03639	SI2.2.0_03639	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_06574 Si_gnF.scaffold00805[396602..397854].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_06574	SI2.2.0_06574	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_05918 Si_gnF.scaffold03918[536..1895].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_05918	SI2.2.0_05918	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_11719 Si_gnF.scaffold10407[151167..151581].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_11719	SI2.2.0_11719	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_02806 Si_gnF.scaffold10535[2353440..2360510].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 14 hits found
+SI2.2.0_02806	SI2.2.0_02806	N/A	100	100
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	30
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	19
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	17
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	13
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	12
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	8
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	19
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	12
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	3
+SI2.2.0_02806	ref|NW_011804688.1|	N/A	100	1
+SI2.2.0_02806	SI2.2.0_02565	N/A	72	52
+SI2.2.0_02806	SI2.2.0_02565	N/A	72	20
+SI2.2.0_02806	SI2.2.0_16166	N/A	5	5
+# BLASTN 2.14.1+
+# Query: SI2.2.0_07694 Si_gnF.scaffold03491[843..1523].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_07694	SI2.2.0_07694	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_10665 Si_gnF.scaffold05901[457854..458453].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_10665	SI2.2.0_10665	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_07412 Si_gnF.scaffold07919[95275..95506].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_07412	SI2.2.0_07412	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_10384 Si_gnF.scaffold02173[322940..326062].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_10384	SI2.2.0_10384	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_08274 Si_gnF.scaffold06989[3829..4186].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_08274	SI2.2.0_08274	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_11745 Si_gnF.scaffold02974[309463..309691].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_11745	SI2.2.0_11745	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_11034 Si_gnF.scaffold08376[9224..10175].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 2 hits found
+SI2.2.0_11034	SI2.2.0_11034	N/A	100	100
+SI2.2.0_11034	ref|NW_011796848.1|	N/A	25	25
+# BLASTN 2.14.1+
+# Query: SI2.2.0_06704 Si_gnF.scaffold07337[1292..1661].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_06704	SI2.2.0_06704	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_05502 Si_gnF.scaffold08151[827..1331].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_05502	SI2.2.0_05502	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_00417 Si_gnF.scaffold06858[1462..2605].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_00417	SI2.2.0_00417	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_08870 Si_gnF.scaffold10451[426020..426711].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_08870	SI2.2.0_08870	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_02565 Si_gnF.scaffold10535[2342913..2350141].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 16 hits found
+SI2.2.0_02565	SI2.2.0_02565	N/A	100	100
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	29
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	20
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	17
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	14
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	13
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	8
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	20
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	12
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	3
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	5
+SI2.2.0_02565	ref|NW_011804688.1|	N/A	100	1
+SI2.2.0_02565	SI2.2.0_02806	N/A	74	54
+SI2.2.0_02565	SI2.2.0_02806	N/A	74	20
+SI2.2.0_02565	SI2.2.0_16166	N/A	8	3
+SI2.2.0_02565	SI2.2.0_16166	N/A	8	5
+# BLASTN 2.14.1+
+# Query: SI2.2.0_01189 Si_gnF.scaffold05164[18066..19215].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_01189	SI2.2.0_01189	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_00512 Si_gnF.scaffold09348[2385162..2387089].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_00512	SI2.2.0_00512	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_09530 Si_gnF.scaffold01962[1453477..1454088].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_09530	SI2.2.0_09530	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_08222 Si_gnF.scaffold06514[1118008..1118898].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_08222	SI2.2.0_08222	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_12194 Si_gnF.scaffold02694[4598781..4604235].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 3 hits found
+SI2.2.0_12194	SI2.2.0_12194	N/A	100	100
+SI2.2.0_12194	ref|NW_011796848.1|	N/A	100	66
+SI2.2.0_12194	ref|NW_011796848.1|	N/A	100	35
+# BLASTN 2.14.1+
+# Query: SI2.2.0_06759 Si_gnF.scaffold01864[305069..309582].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_06759	SI2.2.0_06759	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_09960 Si_gnF.scaffold03663[37364..37778].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_09960	SI2.2.0_09960	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_09525 Si_gnF.scaffold00962[582037..585535].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_09525	SI2.2.0_09525	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_10109 Si_gnF.scaffold09348[2128215..2129754].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_10109	SI2.2.0_10109	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_80623 Si_gnF.scaffold05712[458236..463389].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 2 hits found
+SI2.2.0_80623	SI2.2.0_80623	N/A	100	100
+SI2.2.0_80623	SI2.2.0_80577	N/A	98	98
+# BLASTN 2.14.1+
+# Query: SI2.2.0_05998 Si_gnF.scaffold10194[33234..33704].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_05998	SI2.2.0_05998	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_09826 Si_gnF.scaffold09010[926..1274].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_09826	SI2.2.0_09826	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_01863 Si_gnF.scaffold06913[143422..143635].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_01863	SI2.2.0_01863	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_03452 Si_gnF.scaffold04082[1853..2096].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_03452	SI2.2.0_03452	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_05390 Si_gnF.scaffold04487[10933..11257].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_05390	SI2.2.0_05390	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_01860 Si_gnF.scaffold03226[24239..27564].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_01860	SI2.2.0_01860	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_13471 Si_gnF.scaffold01224[572107..579563].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_13471	SI2.2.0_13471	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_08520 Si_gnF.scaffold01917[71457..71841].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_08520	SI2.2.0_08520	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_16135 Si_gnF.scaffold10311[1414699..1418374].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_16135	SI2.2.0_16135	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_10878 Si_gnF.scaffold05814[8353..9348].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_10878	SI2.2.0_10878	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_03171 Si_gnF.scaffold06927[713..980].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 3 hits found
+SI2.2.0_03171	SI2.2.0_03171	N/A	100	100
+SI2.2.0_03171	ref|NW_011798256.1|	N/A	99	99
+SI2.2.0_03171	ref|NW_011798256.1|	N/A	99	99
+# BLASTN 2.14.1+
+# Query: SI2.2.0_06696 Si_gnF.scaffold07837[1717988..1719113].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_06696	SI2.2.0_06696	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_07319 Si_gnF.scaffold08027[1623..2046].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_07319	SI2.2.0_07319	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_80093 Si_gnF.scaffold06896[9849..10329].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_80093	SI2.2.0_80093	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_03746 Si_gnF.scaffold05827[790..1363].pep_1
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_03746	SI2.2.0_03746	N/A	100	100
+# BLASTN 2.14.1+
+# Query: SI2.2.0_11287 Si_gnF.scaffold06936[85072..86512].pep_2
+# Database: $PATH_PREFIX/sequenceserver/spec/database/v5/funky_ids/funky_ids.fa $PATH_PREFIX/sequenceserver/spec/database/v5/sample/genome/Solenopsis_invicta/Solenopsis_invicta_gnG_subset.fasta $PATH_PREFIX/sequenceserver/spec/database/v5/sample/transcripts/Solenopsis_invicta/Sinvicta2-2-3.cdna.subset.fasta
+# Fields: query id, subject id, subject sci names, % query coverage per subject, % query coverage per hsp
+# 1 hits found
+SI2.2.0_11287	SI2.2.0_11287	N/A	100	100
+# BLAST processed 57 queries
