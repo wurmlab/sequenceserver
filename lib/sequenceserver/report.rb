@@ -8,7 +8,7 @@ module SequenceServer
   class Report
     class << self
       def generate(job)
-        BLAST::Report.new(job).generate
+        BLAST::Report.new(job)
       end
     end
 
