@@ -300,7 +300,7 @@ class Report extends Component {
                 <div className="col-md-9">
                     {this.overviewJSX()}
                     {this.circosJSX()}
-                    {this.plugins.generateStats()}
+                    {this.plugins.generateStats(this.state.queries)}
                     {this.state.results}
                 </div>
             </div>

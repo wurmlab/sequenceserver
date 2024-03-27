@@ -16,7 +16,11 @@ class ReportPlugins {
     }
 
     generateStats() {
-        return (<Histogram />);
+      return (
+        <div className="histogram-container">
+          <Histogram query="evalue" label-type="E-Value Distribution" />
+        </div>
+      );
     }
 }
 
