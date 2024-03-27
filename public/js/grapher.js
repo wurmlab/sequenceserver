@@ -17,7 +17,7 @@ export default function Grapher(Graph) {
     return class extends React.Component {
         constructor(props) {
             super(props);
-            this.name = Graph.name();
+            this.name = Graph.name(props);
             this.collapsePreferences = new CollapsePreferences(this);
             let isCollapsed = this.collapsePreferences.preferenceStoredAsCollapsed();
             this.state = { collapsed: Graph.canCollapse() && (this.props.collapsed || isCollapsed) };
@@ -30,7 +30,7 @@ export default function Grapher(Graph) {
 
         render() {
             // Do not render when Graph.name() is null
-            if (Graph.name() === null) {
+            if (Graph.name(this.props) === null) {
                 return null;
             } else {
                 var cssClasses = Graph.className() + ' grapher';
@@ -51,7 +51,7 @@ export default function Grapher(Graph) {
                         onClick={() => this.collapsePreferences.toggleCollapse()}
                     >
                         {this.collapsePreferences.renderCollapseIcon()}
-              &nbsp;{Graph.name()}
+              &nbsp;{Graph.name(this.props)}
                     </h4>
                     {!this.state.collapsed && this.graphLinksJSX()}
                 </div>;
@@ -77,7 +77,7 @@ export default function Grapher(Graph) {
         }
 
         svgContainerJSX() {
-            var cssClasses = Graph.className() + ' svg-container collapse';
+            var cssClasses = Graph.className(this.props) + ' svg-container collapse';
             if (!this.state.collapsed) cssClasses += ' in';
             return (
                 <div
