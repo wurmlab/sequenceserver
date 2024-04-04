@@ -329,7 +329,7 @@ export class SearchQueryWidget extends Component {
 
     render() {
         return (
-            <div className="">
+            <div className="relative">
                 <div
                     className="sequence">
                     <textarea
