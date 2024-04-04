@@ -102,59 +102,46 @@ export class DnD extends Component {
     render() {
         return (
             <div
-                className="dnd-overlay"
+                className="dnd-overlay absolute left-0 top-0 w-full h-full bg-gray-200 bg-opacity-75 z-40"
                 style={{ display: 'none' }}>
-                <div
-                    className="container dnd-overlay-container">
+                <div className="flex flex-col space-y-4 h-full items-center justify-center dnd-overlay-container text-2xl">
+                    <p
+                        className="dnd-overlay-drop flex items-center space-x-4"
+                        style={{ display: 'none' }}>
+                        <i className="fa fa-2x fa-file"></i>
+                        Drop query sequence file here
+                    </p>
+                    <p
+                        className="dnd-overlay-overwrite flex items-center space-x-4"
+                        style={{ display: 'none' }}>
+                        <i className="fa fa-2x fa-file"></i>
+                        <span className="text-red-800">Overwrite</span>&nbps;query sequence file
+                    </p>
+
                     <div
-                        className="row">
+                        className="dnd-errors text-red-800">
                         <div
-                            className="col-md-offset-2 col-md-10">
-                            <p
-                                className="dnd-overlay-drop"
-                                style={{ display: 'none' }}>
-                                <i className="fa fa-2x fa-file-o"></i>
-                                Drop query sequence file here
-                            </p>
-                            <p
-                                className="dnd-overlay-overwrite"
-                                style={{ display: 'none' }}>
-                                <i className="fa fa-2x fa-file-o"></i>
-                                <span style={{ color: 'red' }}>Overwrite</span> query sequence file
-                            </p>
+                            className="dnd-error row"
+                            id="dnd-multi-notification"
+                            style={{ display: 'none' }}>
 
-                            <div
-                                className="dnd-errors">
-                                <div
-                                    className="dnd-error row"
-                                    id="dnd-multi-notification"
-                                    style={{ display: 'none' }}>
-                                    <div
-                                        className="col-md-6 col-md-offset-3">
-                                        One file at a time please.
-                                    </div>
-                                </div>
+                            One file at a time please.
+                        </div>
 
-                                <div
-                                    className="dnd-error row"
-                                    id="dnd-large-file-notification"
-                                    style={{ display: 'none' }}>
-                                    <div
-                                        className="col-md-6 col-md-offset-3">
-                                        Too big a file. Can only do less than 250 MB. &gt;_&lt;
-                                    </div>
-                                </div>
+                        <div
+                            className="dnd-error row"
+                            id="dnd-large-file-notification"
+                            style={{ display: 'none' }}>
 
-                                <div
-                                    className="dnd-error row"
-                                    id="dnd-format-notification"
-                                    style={{ display: 'none' }}>
-                                    <div
-                                        className="col-md-6 col-md-offset-3">
-                                        Only FASTA files please.
-                                    </div>
-                                </div>
-                            </div>
+                            Too big a file. Can only do less than 250 MB. &gt;_&lt;
+                        </div>
+
+                        <div
+                            className="dnd-error row"
+                            id="dnd-format-notification"
+                            style={{ display: 'none' }}>
+
+                            Only FASTA files please.
                         </div>
                     </div>
                 </div>

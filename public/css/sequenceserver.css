@@ -326,11 +326,6 @@ td.nowrap-ellipsis {
   background-color: red;
 }
 
-.dnd-errors {
-  color: red;
-  font-size: 18px;
-}
-
 .modal-error {
   color: red;
   font-size: 18px;
@@ -466,28 +461,6 @@ td.nowrap-ellipsis {
 
 .footer a:first-child {
   vertical-align: super;
-}
-
-.dnd-overlay {
-  position: absolute;
-  top: 51px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.75);
-}
-
-.dnd-overlay * {
-  pointer-events: none;
-}
-
-.dnd-overlay-container {
-  padding-top: 72px;
-}
-
-.dnd-overlay-container p {
-  font-size: 48px;
 }
 
 /* higlight when hit is selected */
