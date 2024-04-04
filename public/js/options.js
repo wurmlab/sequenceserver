@@ -52,31 +52,26 @@ export class Options extends Component {
             classNames += ' yellow-background';
         }
         return (
-            <div className="col-md-7">
-                <div className="form-group">
-                    <div className="col-md-12">
-                        <div className="input-group">
-                            <label className="control-label" htmlFor="advanced">
-                                Advanced parameters:
-                                {/* only show link to advanced parameters if blast method is known */}
-                                {this.state.method && <sup style={{ marginLeft: '2px' }}>
-                                    <a href=''
-                                        onClick={this.showAdvancedOptions}
-                                        data-toggle="modal" data-target="#help">
-                                        <i className="fa fa-question-circle"></i>
-                                    </a>
-                                </sup>}
-                            </label>
-                            <input type="text" className={classNames}
-                                onChange={e => this.updateBox(e.target.value)}
-                                id="advanced" name="advanced" value={this.state.value}
-                                placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
-                                title="View, and enter advanced parameters."
-                            />
-                            {Object.keys(this.state.preOpts).length > 1 && this.optionsJSX()}
-                        </div>
-                    </div>
-                </div>
+            <div className="flex-grow flex items-center space-x-2">
+                <label className="control-label" htmlFor="advanced">
+                    Advanced parameters:
+                    {/* only show link to advanced parameters if blast method is known */}
+                    {this.state.method && <sup style={{ marginLeft: '2px' }}>
+                        <a href=''
+                            onClick={this.showAdvancedOptions}
+                            data-toggle="modal" data-target="#help">
+                            <i className="fa fa-question-circle"></i>
+                        </a>
+                    </sup>}
+                </label>
+                <input type="text" className={classNames}
+                    onChange={e => this.updateBox(e.target.value)}
+                    id="advanced" name="advanced" value={this.state.value}
+                    placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
+                    className="flex-grow block px-4 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base"
+                    title="View, and enter advanced parameters."
+                />
+                {Object.keys(this.state.preOpts).length > 1 && this.optionsJSX()}
             </div>
         );
     }

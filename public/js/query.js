@@ -117,7 +117,7 @@ export class SearchQueryWidget extends Component {
 
     componentDidMount() {
         $('body').click(function () {
-            $('.notifications .active').hide('drop', { direction: 'up' }).removeClass('active');
+            $('[data-notifications] [data-role=notification].active').hide('drop', { direction: 'up' }).removeClass('active');
         });
     }
 
@@ -312,13 +312,13 @@ export class SearchQueryWidget extends Component {
     notify(type) {
         this.indicateNormal();
         clearTimeout(this.notification_timeout);
-        // $('.notifications .active').hide().removeClass('active');
+        // $('[data-notifications] [data-role=notification].active').hide().removeClass('active');
 
         if (type) {
             $('#' + type + '-sequence-notification').show('drop', { direction: 'up' }).addClass('active');
 
             this.notification_timeout = setTimeout(function () {
-                $('.notifications .active').hide('drop', { direction: 'up' }).removeClass('active');
+                $('[data-notifications] [data-role=notification].active').hide('drop', { direction: 'up' }).removeClass('active');
             }, 5000);
 
             if (type === 'mixed') {
@@ -329,14 +329,15 @@ export class SearchQueryWidget extends Component {
 
     render() {
         return (
-            <div
-                className="col-md-12">
+            <div className="">
                 <div
                     className="sequence">
                     <textarea
                         id="sequence" ref={this.textareaRef}
-                        className="form-control text-monospace"
+                        className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base text-monospace"
                         name="sequence" value={this.state.value}
+                        rows="10"
+                        required="required"
                         placeholder="Paste query sequence(s) or drag file
                         containing query sequence(s) in FASTA format here ..."
                         spellCheck="false" autoFocus

@@ -137,58 +137,54 @@ export class SearchButton extends Component {
         var multi = methods.length > 1;
 
         return (
-            <div className="col-md-3">
-                <div className="form-group">
-                    <div className="col-md-12">
-                        <div
-                            className={multi ? 'input-group' : ''}
-                            id="methods"
-                            ref={this.inputGroupRef}
-                            onMouseOver={this.showTooltip}
-                            onMouseOut={this.hideTooltip}
+            <div
+                // className={multi ? 'flex' : 'flex'}
+                className="flex justify-end w-full md:w-auto"
+                id="methods"
+                ref={this.inputGroupRef}
+                onMouseOver={this.showTooltip}
+                onMouseOut={this.hideTooltip}
+            >
+                <button
+                    type="submit"
+                    className="w-full md:w-auto flex text-xl justify-center py-2 px-16 border border-transparent rounded-md shadow-sm font-medium text-white bg-seqblue hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange"
+                    id="method"
+                    ref={this.submitButtonRef}
+                    name="method"
+                    value={method}
+                    disabled={!method}
+                >
+                    {this.decorate(method || 'blast')}
+                </button>
+
+                {multi && (
+                    <div className="input-group-btn">
+                        <button
+                            className="btn btn-primary dropdown-toggle"
+                            data-toggle="dropdown"
                         >
-                            <button
-                                type="submit"
-                                className="btn btn-primary form-control text-uppercase"
-                                id="method"
-                                ref={this.submitButtonRef}
-                                name="method"
-                                value={method}
-                                disabled={!method}
-                            >
-                                {this.decorate(method || 'blast')}
-                            </button>
-                            {multi && (
-                                <div className="input-group-btn">
-                                    <button
-                                        className="btn btn-primary dropdown-toggle"
-                                        data-toggle="dropdown"
-                                    >
-                                        <span className="caret"></span>
-                                    </button>
-                                    <ul className="dropdown-menu dropdown-menu-right">
-                                        {_.map(
-                                            methods.slice(1),
-                                            _.bind(function (method) {
-                                                return (
-                                                    <li
-                                                        key={method}
-                                                        className="text-uppercase"
-                                                        onClick={_.bind(function () {
-                                                            this.changeAlgorithm(method);
-                                                        }, this)}
-                                                    >
-                                                        {method}
-                                                    </li>
-                                                );
-                                            }, this)
-                                        )}
-                                    </ul>
-                                </div>
+                            <span className="caret"></span>
+                        </button>
+                        <ul className="dropdown-menu dropdown-menu-right">
+                            {_.map(
+                                methods.slice(1),
+                                _.bind(function (method) {
+                                    return (
+                                        <li
+                                            key={method}
+                                            className="text-uppercase"
+                                            onClick={_.bind(function () {
+                                                this.changeAlgorithm(method);
+                                            }, this)}
+                                        >
+                                            {method}
+                                        </li>
+                                    );
+                                }, this)
                             )}
-                        </div>
+                        </ul>
                     </div>
-                </div>
+                )}
             </div>
         );
     }
