@@ -12,6 +12,7 @@ export class SearchButton extends Component {
             methods: [],
             hasQuery: false,
             hasDatabases: false,
+            dropdownVisible: false,
         };
         this.inputGroup = this.inputGroup.bind(this);
         this.submitButton = this.submitButton.bind(this);
@@ -28,15 +29,17 @@ export class SearchButton extends Component {
     }
 
     shouldComponentUpdate(props, state) {
-        return !_.isEqual(state.methods, this.state.methods);
+        return !_.isEqual(state.methods, this.state.methods) || state.dropdownVisible !== this.state.dropdownVisible;
     }
 
-    componentDidUpdate() {
-        if (this.state.methods.length > 0) {
-            this.inputGroup().wiggle();
-            this.props.onAlgoChanged(this.state.methods[0]);
-        } else {
-            this.props.onAlgoChanged('');
+    componentDidUpdate(_prevProps, prevState) {
+        if (!_.isEqual(prevState.methods, this.state.methods)) {
+            if (this.state.methods.length > 0) {
+                this.inputGroup().wiggle();
+                this.props.onAlgoChanged(this.state.methods[0]);
+            } else {
+                this.props.onAlgoChanged('');
+            }
         }
     }
     // Internal helpers. //
@@ -110,6 +113,7 @@ export class SearchButton extends Component {
         methods.unshift(method);
         this.setState({
             methods: methods,
+            dropdownVisible: false,
         });
     }
 
@@ -131,6 +135,12 @@ export class SearchButton extends Component {
             });
     }
 
+    toggleDropdownVisibility = () => {
+        this.setState(prevState => ({
+            dropdownVisible: !prevState.dropdownVisible
+        }));
+    }
+
     render() {
         var methods = this.state.methods;
         var method = methods[0];
@@ -139,7 +149,7 @@ export class SearchButton extends Component {
         return (
             <div
                 // className={multi ? 'flex' : 'flex'}
-                className="flex justify-end w-full md:w-auto"
+                className="flex justify-end w-full md:w-auto relative"
                 id="methods"
                 ref={this.inputGroupRef}
                 onMouseOver={this.showTooltip}
@@ -147,7 +157,7 @@ export class SearchButton extends Component {
             >
                 <button
                     type="submit"
-                    className="w-full md:w-auto flex text-xl justify-center py-2 px-16 border border-transparent rounded-md shadow-sm font-medium text-white bg-seqblue hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange"
+                    className="w-full md:w-auto flex text-xl justify-center py-2 px-16 border border-transparent rounded-md shadow-sm text-white bg-seqblue hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange"
                     id="method"
                     ref={this.submitButtonRef}
                     name="method"
@@ -158,31 +168,36 @@ export class SearchButton extends Component {
                 </button>
 
                 {multi && (
-                    <div className="input-group-btn">
+                    <div className="ui--multi-dropdown">
                         <button
-                            className="btn btn-primary dropdown-toggle"
-                            data-toggle="dropdown"
+                            className="text-xl bg-seqblue rounded-r-md text-white p-3 border border-seqblue hover:bg-seqorange focus:outline-none focus:ring-1 focus:ring-seqorange -ml-8"
+                            type="button"
+                            onClick={this.toggleDropdownVisibility}
                         >
-                            <span className="caret"></span>
+                            <svg className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>
                         </button>
-                        <ul className="dropdown-menu dropdown-menu-right">
-                            {_.map(
-                                methods.slice(1),
-                                _.bind(function (method) {
-                                    return (
-                                        <li
-                                            key={method}
-                                            className="text-uppercase"
-                                            onClick={_.bind(function () {
-                                                this.changeAlgorithm(method);
-                                            }, this)}
-                                        >
-                                            {method}
-                                        </li>
-                                    );
-                                }, this)
-                            )}
-                        </ul>
+
+                        <div id="dropdown"
+                            className={`z-10 bg-blue-300 divide-y divide-gray-100 rounded-lg shadow absolute left-0 w-full text-xl text-center ${this.state.dropdownVisible ? '' : 'hidden'}`}>
+
+                            <ul className="py-2 text-gray-700" aria-labelledby="dropdownDefaultButton">
+                                {_.map(
+                                    methods.slice(1),
+                                    _.bind(function (method) {
+                                        return (
+                                            <li
+                                                key={method}
+                                                onClick={_.bind(function () {
+                                                    this.changeAlgorithm(method);
+                                                }, this)}
+                                            >
+                                                <a href="#" className="block px-4 py-2 hover:bg-blue-400">{method}</a>
+                                            </li>
+                                        );
+                                    }, this)
+                                )}
+                            </ul>
+                        </div>
                     </div>
                 )}
             </div>
