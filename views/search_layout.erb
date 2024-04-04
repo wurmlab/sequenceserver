@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>SequenceServer: Custom BLAST Server</title>
+  <meta name="author" content="Pragmatic Genomics Limited"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" media="screen,print" type="text/css" href="css/app.min.css"/>
+</head>
+
+<body>
+  <header id="header" class="bg-gray-100 shadow-lg w-full">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-none items-center">
+        <div class="py-4">
+          <a href="https://sequenceserver.com" target="_blank" class="flex items-end">
+            <img src="SequenceServer_logo.png" alt="sequenceserver_logo" width="1620" height="213" class="h-8 w-auto pr-2">
+            <small>
+              <%= SequenceServer::VERSION %>
+            </small>
+          </a>
+        </div>
+
+        <div class="flex-grow"></div>
+      </div>
+    </div>
+  </header>
+
+
+  <script>
+    // Script for Toggling mobile menu
+    document.getElementById('menu-button').addEventListener('click', function() {
+      document.getElementById('menu').classList.toggle('hidden');
+    });
+
+  </script>
+  <noscript>
+    <div class="mx-auto px-4">
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Our website cannot work without JavaScript.</strong>
+        <ul class="mt-2 list-disc list-inside">
+          <li>Please see if you can enable JavaScript in your browser's preferences.</li>
+          <li>If your browser doesn't support JavaScript, please consider upgrading to the latest version or using Firefox or Chrome.</li>
+        </ul>
+      </div>
+    </div>
+  </noscript>
+
+  <%= yield %>
+
+  <div class="mx-auto px-4">
+    <div class="container">
+      <p class="text-center">
+        Please cite data sources and <a style='vertical-align: baseline' href="https://doi.org/10.1093/molbev/msz185">the paper</a> describing <a href="https://wurmlab.com">our</a> <a href="https://sequenceserver.com">SequenceServer BLAST interface</a>.
+        <a style='vertical-align: baseline' href='https://sequenceserver.com'>
+          <em>
+            <%=
+              quote = [
+                "Visualize BLAST results.",
+                "Run BLAST on local computer.",
+                "BLAST on Mac.",
+                "BLAST on Windows.",
+                "Run blast on mac.",
+                "Blast analysis software.",
+                "Sequence Search on local computer.",
+                "Blast DNA sequence search.",
+                "Custom BLAST search.",
+                "Install blast on Mac.",
+                "Perform BLAST analyses.",
+                "Custom BLAST web interface.",
+                "SequenceServer: Local BLAST with bespoke html interface.",
+                "Set up custom BLAST interface with SequenceServer.",
+                "Easy BLASTing with SequenceServer.",
+                "BLAST against a custom, local database with SequenceServer.",
+                "Cloud BLAST custom genome.",
+                "NCBI BLAST alternative.",
+                "BLAST private transcriptome assembly in the Cloud.",
+                "Cloud server for comparative genomics, oligos, crisp, primers and more."
+              ].sample
+            %>
+          </em>
+        </a>
+      </p>
+  </div>
+</body>
+</html>
