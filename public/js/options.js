@@ -58,7 +58,7 @@ export class Options extends Component {
         }
         return (
             <div className="flex-grow flex items-center space-x-2">
-                <label className="flex" htmlFor="advanced">
+                <label className="flex items-center" htmlFor="advanced">
                     Advanced parameters:
                     {/* only show link to advanced parameters if blast method is known */}
                     {this.state.method && <sup className="mx-1 text-seqblue">
