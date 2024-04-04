@@ -5,7 +5,6 @@
 @import url('../vendor/github/nicgirault/circosJs@1.7.0/dist/colorBrewer.css');
 @import url('../vendor/github/twbs/bootstrap@3.3.5/css/bootstrap.min.css');
 @import url('../vendor/npm/font-awesome@4.4.0/css/font-awesome.min.css');
-@import url('../vendor/github/vakata/jstree@3.3.8/dist/themes/default/style.min.css');
 @import url('grapher.css');
 @import url('fonts.css');
 
@@ -160,29 +159,6 @@ a.disabled:hover,
 
 .section-content {
   padding: 0 0 0 1px;
-}
-
-/**
- * Take out border, cut down margin and padding, and remove background color
- * from panel.
- */
-.panel {
-  border: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-
-.panel .panel-heading {
-  padding: 0;
-  background-color: inherit;
-  border-bottom: 1px solid #c74f14;
-}
-
-.panel .panel-heading h4 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: bold;
 }
 
 /**
