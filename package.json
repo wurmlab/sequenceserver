@@ -12,7 +12,7 @@
     "watch": "webpack --watch",
     "watch-cloud": "webpack --watch --env=pluginsPath='../sequence_server_js_extensions' --env=targetEnv='cloud'",
     "test": "jest",
-    "minify:css": "cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css && npx tailwindcss build -o ./public/css/app.min.css --minify",
+    "minify:css": "cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css && npx tailwindcss build -i ./public/css/app.css -o ./public/css/app.min.css --minify",
     "build": "webpack && npm run minify:css",
     "build-cloud": "webpack --env=pluginsPath='../sequence_server_js_extensions' --env=targetEnv='cloud' && npm run minify:css"
   },
