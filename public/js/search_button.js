@@ -170,7 +170,7 @@ export class SearchButton extends Component {
                 {multi && (
                     <div className="ui--multi-dropdown">
                         <button
-                            className="text-xl bg-seqblue rounded-r-md text-white p-3 border border-seqblue hover:bg-seqorange focus:outline-none focus:ring-1 focus:ring-seqorange -ml-8"
+                            className="text-xl bg-seqblue rounded-r-md text-white p-2 border border-seqblue hover:bg-seqorange focus:outline-none focus:ring-1 focus:ring-seqorange -ml-8"
                             type="button"
                             onClick={this.toggleDropdownVisibility}
                         >

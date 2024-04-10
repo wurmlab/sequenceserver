@@ -15,28 +15,29 @@ export class Options extends Component {
 
 
     optionsJSX() {
-        return <span className="input-group-btn dropdown">
-            <button className="btn bnt-sm btn-default dropdown-toggle"
-                data-toggle="dropdown">
-                <i className="fa fa-caret-down"></i>
+        return <div id="advanced-params-dropdown" className="relative -ml-4 group">
+            <button className="h-full border border-gray-300 rounded-r p-1 px-2 bg-white hover:bg-gray-200" type="button">
+                <i className="fa fa-caret-down h-4 w-4"></i>
             </button>
-            <ul id='advanced-params-dropdown'
-                className="dropdown-menu dropdown-menu-right">
-                {
-                    Object.entries(this.state.preOpts).map(
-                        ([key, value], index) => {
-                            value = value.join(' ');
-                            if (value.trim() === this.state.value.trim())
-                                var className = 'yellow-background';
-                            return <li key={index} className={className}
-                                onClick={() => this.updateBox(value)}>
-                                <strong>{key}:</strong>&nbsp;{value}
-                            </li>;
-                        }
-                    )
-                }
-            </ul>
-        </span>;
+            <div className='z-20 group-hover:block hidden absolute top-full right-0 min-w-fit lg:min-w-[40rem]'>
+                <ul className="font-mono my-1 border rounded divide-y">
+                    {
+                        Object.entries(this.state.preOpts).map(
+                            ([key, value], index) => {
+                                value = value.join(' ');
+                                var bgClass = 'bg-white';
+                                if (value.trim() === this.state.value.trim())
+                                    bgClass = 'bg-yellow-100';
+                                return <li key={index} className={`px-2 py-1 hover:bg-gray-200 cursor-pointer ${bgClass}`}
+                                    onClick={() => this.updateBox(value)}>
+                                    <strong>{key}:</strong>&nbsp;{value}
+                                </li>;
+                            }
+                        )
+                    }
+                </ul>
+            </div>
+        </div>;
     }
     showAdvancedOptions(e) {
         const ids = ['blastn', 'tblastn', 'blastp', 'blastx', 'tblastx'];
@@ -57,8 +58,8 @@ export class Options extends Component {
             classNames += ' bg-yellow-100';
         }
         return (
-            <div className="flex-grow flex items-center space-x-2">
-                <label className="flex items-center" htmlFor="advanced">
+            <div className="flex-grow flex flex-col sm:flex-row items-start sm:items-center">
+                <label className="flex items-center mx-2" htmlFor="advanced">
                     Advanced parameters:
                     {/* only show link to advanced parameters if blast method is known */}
                     {this.state.method && <sup className="mx-1 text-seqblue">
@@ -69,13 +70,15 @@ export class Options extends Component {
                         </a>
                     </sup>}
                 </label>
-                <input type="text" className={classNames}
-                    onChange={e => this.updateBox(e.target.value)}
-                    id="advanced" name="advanced" value={this.state.value}
-                    placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
-                    title="View, and enter advanced parameters."
-                />
-                {Object.keys(this.state.preOpts).length > 1 && this.optionsJSX()}
+                <div className='flex-grow flex w-full sm:w-auto'>
+                    <input type="text" className={classNames}
+                        onChange={e => this.updateBox(e.target.value)}
+                        id="advanced" name="advanced" value={this.state.value}
+                        placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
+                        title="View, and enter advanced parameters."
+                    />
+                    {Object.keys(this.state.preOpts).length > 1 && this.optionsJSX()}
+                </div>
             </div>
         );
     }
