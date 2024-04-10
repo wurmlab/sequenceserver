@@ -18,7 +18,7 @@ describe('SEARCH COMPONENT', () => {
     });
 
     test('should render the search component textarea', () => {
-        expect(inputEl).toHaveClass('form-control');
+        expect(inputEl).toBeInTheDocument();
     });
 
     test('clear button should only become visible if textarea is not empty', () => {
@@ -33,7 +33,7 @@ describe('SEARCH COMPONENT', () => {
     test('should correctly detect the amino-acid sequence type and show notification', () => {
         // populate search
         fireEvent.change(inputEl, { target: { value: AMINO_ACID_SEQUENCE } });
-        const activeNotification = container.querySelector('.notification.active');
+        const activeNotification = container.querySelector('[data-role=notification].active');
         expect(activeNotification.id).toBe('protein-sequence-notification');
         const alertWrapper = activeNotification.children[0];
         expect(alertWrapper).toHaveTextContent('Detected: amino-acid sequence(s).');
@@ -42,7 +42,7 @@ describe('SEARCH COMPONENT', () => {
     test('should correctly detect the nucleotide sequence type and show notification', () => {
         // populate search
         fireEvent.change(inputEl, { target: { value: NUCLEOTIDE_SEQUENCE } });
-        const activeNotification = container.querySelector('.notification.active');
+        const activeNotification = container.querySelector('[data-role=notification].active');
         const alertWrapper = activeNotification.children[0];
         expect(activeNotification.id).toBe('nucleotide-sequence-notification');
         expect(alertWrapper).toHaveTextContent('Detected: nucleotide sequence(s).');
@@ -50,7 +50,7 @@ describe('SEARCH COMPONENT', () => {
 
     test('should correctly detect the mixed sequences and show error notification', () => {
         fireEvent.change(inputEl, { target: { value: `${NUCLEOTIDE_SEQUENCE}${AMINO_ACID_SEQUENCE}` } });
-        const activeNotification = container.querySelector('.notification.active');
+        const activeNotification = container.querySelector('[data-role=notification].active');
         expect(activeNotification.id).toBe('mixed-sequence-notification');
         const alertWrapper = activeNotification.children[0];
         expect(alertWrapper).toHaveTextContent('Error: mixed nucleotide and amino-acid sequences detected.');
@@ -58,7 +58,7 @@ describe('SEARCH COMPONENT', () => {
 
     test('should correctly detect FASTQ and convert it to FASTA', () => {
         fireEvent.change(inputEl, { target: { value: FASTQ_SEQUENCE } });
-        const activeNotification = container.querySelector('.notification.active');
+        const activeNotification = container.querySelector('[data-role=notification].active');
         const alertWrapper = activeNotification.children[0];
         expect(activeNotification.id).toBe('fastq-sequence-notification');
         expect(alertWrapper).toHaveTextContent('Detected FASTQ and automatically converted to FASTA.');
