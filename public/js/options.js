@@ -18,6 +18,7 @@ export class Options extends Component {
         return <div id="advanced-params-dropdown" className="relative -ml-4 group">
             <button className="h-full border border-gray-300 rounded-r p-1 px-2 bg-white hover:bg-gray-200" type="button">
                 <i className="fa fa-caret-down h-4 w-4"></i>
+                <span className="sr-only">Advanced parameters</span>
             </button>
             <div className='z-20 group-hover:block hidden absolute top-full right-0 min-w-fit lg:min-w-[40rem]'>
                 <ul className="font-mono my-1 border rounded divide-y">

@@ -7,8 +7,8 @@ module CapybaraHelpers
     fill_in('sequence', with: query)
     databases.each { |db| check db }
     if method == 'tblastx'
-      find('#methods .dropdown-toggle').click
-      find('#methods .dropdown-menu li').click
+      click_button('Other methods')
+      click_link('tblastx')
     end
     click_button('method')
 

@@ -175,6 +175,7 @@ export class SearchButton extends Component {
                             onClick={this.toggleDropdownVisibility}
                         >
                             <i className="fas fa-caret-down w-6 h-6 fill-current"></i>
+                            <span className="sr-only">Other methods</span>
                         </button>
 
                         <div id="dropdown"
