@@ -157,7 +157,7 @@ export class SearchButton extends Component {
             >
                 <button
                     type="submit"
-                    className="w-full md:w-auto flex text-xl justify-center py-2 px-16 border border-transparent rounded-md shadow-sm text-white bg-seqblue hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange"
+                    className="uppercase w-full md:w-auto flex text-xl justify-center py-2 px-16 border border-transparent rounded-md shadow-sm text-white bg-seqblue hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange"
                     id="method"
                     ref={this.submitButtonRef}
                     name="method"
@@ -179,9 +179,8 @@ export class SearchButton extends Component {
                         </button>
 
                         <div id="dropdown"
-                            className={`z-10 bg-blue-300 divide-y divide-gray-100 rounded-lg shadow absolute left-0 w-full text-xl text-center ${this.state.dropdownVisible ? '' : 'hidden'}`}>
-
-                            <ul className="py-2 text-gray-700" aria-labelledby="dropdownDefaultButton">
+                            className={`z-10 my-2 uppercase bg-blue-300 divide-y divide-gray-100 rounded-lg shadow absolute left-0 w-full text-xl text-center ${this.state.dropdownVisible ? '' : 'hidden'}`}>
+                            <ul className="text-gray-700" aria-labelledby="dropdownDefaultButton">
                                 {_.map(
                                     methods.slice(1),
                                     _.bind(function (method) {
@@ -192,7 +191,7 @@ export class SearchButton extends Component {
                                                     this.changeAlgorithm(method);
                                                 }, this)}
                                             >
-                                                <a href="#" className="block px-4 py-2 hover:bg-blue-400">{method}</a>
+                                                <a href="#" className="block px-4 py-2 hover:bg-blue-400 rounded-lg">{method}</a>
                                             </li>
                                         );
                                     }, this)

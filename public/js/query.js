@@ -345,16 +345,16 @@ export class SearchQueryWidget extends Component {
                     </textarea>
                 </div>
                 <div
-                    className="hidden"
-                    style={{ position: 'absolute', top: '4px', right: '19px' }}
+                    className="hidden absolute top-2 right-2"
                     ref={this.controlsRef}>
                     <button
                         type="button"
-                        className="btn btn-sm btn-default" id="btn-sequence-clear"
+                        className="border border-gray-300 rounded bg-white hover:bg-gray-200" id="btn-sequence-clear"
                         title="Clear query sequence(s)."
                         onClick={this.clear}>
                         <span id="sequence-file"></span>
-                        <i className="fa fa-times"></i>
+                        <i className="fa fa-times w-6 h-6 p-1"></i>
+                        <span className="sr-only">Clear query sequence(s).</span>
                     </button>
                 </div>
             </div>

@@ -68,10 +68,14 @@ export class Databases extends Component {
 
         // Toggle button.
         var toggleState = '[Select all]';
-        var toggleClass = 'px-2 text-seqblue text-sm';
+        var toggleClass = 'px-2 text-sm';
         var toggleShown = this.databases(category).length > 1;
         var toggleDisabled = this.state.type && this.state.type !== category;
-        if (toggleShown && toggleDisabled) toggleClass += ' text-gray-400';
+        if (toggleShown && toggleDisabled) {
+            toggleClass += ' text-gray-400';
+        } else {
+            toggleClass += ' text-seqblue';
+        }
         if (!toggleShown) toggleClass += ' hidden';
         if (this.nselected() === this.databases(category).length) {
             toggleState = '[Deselect all]';
