@@ -71,7 +71,7 @@ describe 'Search and results', type: :feature, js: true do
     visit '/'
     fill_in('sequence', with: nucleotide_query)
     check(nucleotide_databases.first)
-    expect(page).to have_selector('#methods button.dropdown-toggle')
+    expect(page).to have_button('Other methods')
   end
 
   it 'can run a simple blastn search' do

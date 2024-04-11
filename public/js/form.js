@@ -173,20 +173,19 @@ export class Form extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div>
                 <div id="overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vw', background: 'rgba(0, 0, 0, 0.2)', display: 'none', zIndex: 99 }} />
 
-                <div className="notifications" id="notifications">
+                <div className="fixed top-0 left-0 w-full max-h-8 px-8" data-notifications id="notifications">
                     <FastqNotification />
                     <NucleotideNotification />
                     <ProteinNotification />
                     <MixedNotification />
                 </div>
 
-                <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission} className="form-horizontal">
-                    <div className="form-group query-container">
-                        <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
-                    </div>
+                <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission}>
+                    <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
+
                     {this.useTreeWidget() ?
                         <DatabasesTree ref="databases"
                             databases={this.state.databases} tree={this.state.tree}
@@ -197,15 +196,12 @@ export class Form extends Component {
                             preSelectedDbs={this.state.preSelectedDbs}
                             onDatabaseTypeChanged={this.handleDatabaseTypeChanged} />
                     }
-                    <div className="form-group">
+
+                    <div className="md:flex flex-row md:space-x-4 items-center my-6">
                         <Options ref="opts" />
-                        <div className="col-md-2">
-                            <div className="form-group" style={{ 'textAlign': 'center', 'padding': '7px 0' }}>
-                                <label>
-                                    <input type="checkbox" id="toggleNewTab" /> Open results in new tab
-                                </label>
-                            </div>
-                        </div>
+                        <label className="block my-4 md:my-0">
+                            <input type="checkbox" id="toggleNewTab" /> Open results in new tab
+                        </label>
                         <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged} />
                     </div>
                 </form>
@@ -220,11 +216,11 @@ class ProteinNotification extends Component {
     render() {
         return (
             <div
-                className="notification row"
+                data-role="notification"
                 id="protein-sequence-notification"
                 style={{ display: 'none' }}>
                 <div
-                    className="alert-info col-md-6 col-md-offset-3">
+                    className="bg-blue-100 border rounded border-blue-800 px-4 py-2 my-2">
                     Detected: amino-acid sequence(s).
                 </div>
             </div>
@@ -235,11 +231,11 @@ class ProteinNotification extends Component {
 class NucleotideNotification extends Component {
     render() {
         return (<div
-            className="notification row"
+            data-role="notification"
             id="nucleotide-sequence-notification"
             style={{ display: 'none' }}>
             <div
-                className="alert-info col-md-6 col-md-offset-3">
+                className="bg-blue-100 border rounded border-blue-800 px-4 py-2 my-2">
                 Detected: nucleotide sequence(s).
             </div>
         </div>
@@ -250,11 +246,11 @@ class NucleotideNotification extends Component {
 class FastqNotification extends Component {
     render() {
         return (<div
-            className="notification row"
+            data-role="notification"
             id="fastq-sequence-notification"
             style={{ display: 'none' }}>
             <div
-                className="alert-info col-md-6 col-md-offset-3">
+                className="bg-blue-100 border rounded border-blue-800 px-4 py-2 my-2">
                 Detected FASTQ and automatically converted to FASTA.
             </div>
         </div>
@@ -266,7 +262,7 @@ class MixedNotification extends Component {
     render() {
         return (
             <div
-                className="notification row"
+                data-role="notification"
                 id="mixed-sequence-notification"
                 style={{ display: 'none' }}>
                 <div

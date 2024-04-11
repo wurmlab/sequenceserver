@@ -32,6 +32,8 @@ module SequenceServer
       # Override in config.ru if the instance is served under a subpath
       # e.g. for example.org/our-sequenceserver set to '/our-sequenceserver'
       set :root_path_prefix, ''
+
+      set :search_layout, :'search_layout'
     end
 
     # See
@@ -74,7 +76,7 @@ module SequenceServer
 
     # Returns base HTML. Rest happens client-side: rendering the search form.
     get '/' do
-      erb :search, layout: true
+      erb :search, layout: settings.search_layout
     end
 
     # Returns data that is used to render the search form client side. These
@@ -100,7 +102,7 @@ module SequenceServer
     post '/' do
       if params[:input_sequence]
         @input_sequence = params[:input_sequence]
-        erb :search, layout: true
+        erb :search, layout: settings.search_layout
       else
         job = Job.create(params)
         redirect to("/#{job.id}")

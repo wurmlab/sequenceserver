@@ -12,7 +12,7 @@
     "watch": "webpack --watch",
     "watch-cloud": "webpack --watch --env=pluginsPath='../sequence_server_js_extensions' --env=targetEnv='cloud'",
     "test": "jest",
-    "minify:css": "cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css",
+    "minify:css": "cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css && npx tailwindcss build -i ./public/css/app.css -o ./public/css/app.min.css --minify",
     "build": "webpack && npm run minify:css",
     "build-cloud": "webpack --env=pluginsPath='../sequence_server_js_extensions' --env=targetEnv='cloud' && npm run minify:css"
   },
@@ -33,6 +33,7 @@
     "react": "18",
     "react-app-polyfill": "^3.0.0",
     "react-dom": "18",
+    "tailwindcss": "^3.4.3",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
