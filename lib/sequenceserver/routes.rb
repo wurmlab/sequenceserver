@@ -73,9 +73,13 @@ module SequenceServer
 
     # Returns data that is used to render the search form client side. These
     # include available databases and user-defined search options.
-    get '/blast/:segment1/searchdata.json' do
-      puts params
-      #Database.reset
+    get '/blast/:segment1/:segment2/searchdata.json' do
+      env_database_dir = "/db/" + params[:segment1] + "/" + params[:segment2] + "/databases/"
+      makeblastdb(env_database_dir).scan
+
+      fail NO_BLAST_DATABASE_FOUND, env_database_dir if !makeblastdb(env_database_dir).any_formatted?
+      Database.collection = makeblastdb(env_database_dir).formatted_fastas
+
       searchdata = {
         query: Database.retrieve(params[:query]),
         database: Database.all,

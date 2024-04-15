@@ -38,7 +38,14 @@ export class Form extends Component {
         if (job_id) {
             search.unshift(`job_id=${job_id}`);
         }
-        $.getJSON(`searchdata.json?${search.join('&')}`, function (data) {
+
+        const currentUrl = window.location.href;
+        const segments = currentUrl.split('/');
+
+        // Extract the segments you need
+        const segment1 = segments[4]; // Adjust the index based on your URL structure
+        const segment2 = segments[5];
+        $.getJSON(`/blast/${segment1}/${segment2}/searchdata.json?${search.join('&')}`, function (data) {
             /* Update form state (i.e., list of databases and predefined
              * advanced options.
              */

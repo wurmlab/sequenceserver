@@ -118,6 +118,7 @@ module SequenceServer
       end
 
       def collection=(databases)
+        collection.clear
         databases.each do |db|
           collection[db.id] = db
         end
