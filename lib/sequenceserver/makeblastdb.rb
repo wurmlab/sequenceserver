@@ -13,6 +13,7 @@ module SequenceServer
   #
   class MAKEBLASTDB
     extend Forwardable
+    GUESS_SAMPLE_SIZE = 1_048_576
 
     def_delegators SequenceServer, :config, :sys
 
@@ -333,8 +334,21 @@ module SequenceServer
     # If the given file is FASTA, returns Array of as many different
     # sequences in the portion of the file read. Returns the portion
     # of the file read wrapped in an Array otherwise.
-    def sample_sequences(file)
-      File.read(file, 1_048_576).split(/^>.+$/).delete_if(&:empty?)
+    def sample_sequences(file, offset = 0)
+      sample = File.read(file, GUESS_SAMPLE_SIZE, offset)
+
+      return [] if sample.nil?
+
+      # remove all unknown bases (indicated by 'N') before sampling
+      sample.gsub!(/N/, '')
+      meaningful_samples = sample.split(/^>.+$/).map { |line| line.gsub(/^\n+$/, '') }.delete_if(&:empty?)
+
+      if meaningful_samples.empty?
+        offset += GUESS_SAMPLE_SIZE
+        sample_sequences(file, offset)
+      else
+        meaningful_samples
+      end
     end
   end
 end
