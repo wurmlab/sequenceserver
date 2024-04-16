@@ -42,6 +42,23 @@ module SequenceServer
                 'Sinvicta2-2-3.prot.subset.fasta')
     end
 
+    let 'fasta_file_prot_with_unknown_bases_seq' do
+      dir_path = File.join(root_database_dir, 'with_unknown_bases')
+      FileUtils.mkdir_p(dir_path)
+      file_path = File.join(dir_path, 'with_unknown_bases.fasta')
+      # Write a file with unknown bases that is GUESS_SAMPLE_SIZE 'N's long.
+      File.open(file_path, 'w') do |f|
+        f.puts ">seq1"
+        f.puts (("N" * 70) + "\n") * (SequenceServer::MAKEBLASTDB::GUESS_SAMPLE_SIZE / 70).to_i
+        f.puts "VSDTAKVLVTEVLEKVSVNRVATFTIEADASLGTPVVEVLSPTRESLSVHVKQNSQGTYTV"
+        f.puts ">seq2"
+        f.puts "VSDTAKVLVTEVLEKVSVNRVATFTIEADASLGTPVVEVLSPTRESLSVHVKQNSQGTYTV"
+        f.puts "VSDTAKVLVTEVLEKVSVNRVATFTIEADASLGTPVVEVLSPTRESLSVHVKQNSQGTYTV"
+      end
+
+      file_path
+    end
+
     let 'fasta_file_nucl_seqs' do
       File.join(database_dir_v5, 'transcripts', 'Solenopsis_invicta',
                 'Sinvicta2-2-3.cdna.subset.fasta')
@@ -70,6 +87,10 @@ module SequenceServer
     it 'can tell type of sequences in FASTA file' do
       expect(makeblastdb.send(:guess_sequence_type_in_fasta, fasta_file_prot_seqs)).to eq :protein
       expect(makeblastdb.send(:guess_sequence_type_in_fasta, fasta_file_nucl_seqs)).to eq :nucleotide
+    end
+
+    it 'can ignore unknown bases when detecting the sequence type' do
+      expect(makeblastdb.send(:guess_sequence_type_in_fasta, fasta_file_prot_with_unknown_bases_seq)).to eq :protein
     end
 
     it 'can tell FASTA files that are yet to be made into a BLAST+ database' do
