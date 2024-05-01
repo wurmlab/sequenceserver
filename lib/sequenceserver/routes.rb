@@ -116,24 +116,11 @@ module SequenceServer
       halt 404, { error: 'Job not found' }.to_json if job.nil?
       halt 202 unless job.done?
 
-      report = Report.generate(job)
+      report = BLAST::Report.new(job)
       halt 202 unless report.done?
 
-      display_large_result_warning =
-        SequenceServer.config[:large_result_warning_threshold].to_i.positive? &&
-        params[:bypass_file_size_warning] != 'true' &&
-        report.xml_file_size > SequenceServer.config[:large_result_warning_threshold]
-
-      if display_large_result_warning
-        halt 200,
-             {
-               user_warning: 'LARGE_RESULT',
-               download_links: [
-                 { name: 'Standard Tabular Report', url: "download/#{jid}.std_tsv" },
-                 { name: 'Full Tabular Report', url: "/download/#{jid}.full_tsv" },
-                 { name: 'Results in XML', url: "/download/#{jid}.xml" }
-               ]
-             }.to_json
+      if display_large_result_warning?(report.xml_file_size)
+        halt 200, large_result_warning_payload(jid).to_json
       end
 
       report.to_json
@@ -313,6 +300,26 @@ module SequenceServer
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end
+    end
+
+    def display_large_result_warning?(xml_file_size)
+      threshold = SequenceServer.config[:large_result_warning_threshold].to_i
+      return false unless threshold.positive?
+
+      return false if params[:bypass_file_size_warning] == 'true'
+
+      xml_file_size > threshold
+    end
+
+    def large_result_warning_payload(jid)
+      {
+        user_warning: 'LARGE_RESULT',
+        download_links: [
+          { name: 'Standard Tabular Report', url: "download/#{jid}.std_tsv" },
+          { name: 'Full Tabular Report', url: "/download/#{jid}.full_tsv" },
+          { name: 'Results in XML', url: "/download/#{jid}.xml" }
+        ]
+      }
     end
 
     helpers do

@@ -9,8 +9,8 @@ module SequenceServer
   init
 
   describe 'Report' do
-    hits_report = Report.generate(with_hits)
-    no_hits_report = Report.generate(no_hits)
+    hits_report = BLAST::Report.new(with_hits)
+    no_hits_report = BLAST::Report.new(no_hits)
 
     it 'will return an Array of queries' do
       hits_report.queries.should be_a Array
@@ -29,8 +29,8 @@ module SequenceServer
   end
 
   describe 'Query' do
-    hits_report = Report.generate(with_hits)
-    no_hits_report = Report.generate(no_hits)
+    hits_report = BLAST::Report.new(with_hits)
+    no_hits_report = BLAST::Report.new(no_hits)
 
     it 'will return queries with valid length' do
       hits_report.queries.first.length.should be_a Integer
@@ -46,8 +46,8 @@ module SequenceServer
   end
 
   describe 'Hits' do
-    hits_report = Report.generate(with_hits)
-    no_hits_report = Report.generate(no_hits)
+    hits_report = BLAST::Report.new(with_hits)
+    no_hits_report = BLAST::Report.new(no_hits)
 
     it 'will have non zero length' do
       hits_report.queries.last.hits.first.length.should satisfy { |n| n > 0 }
@@ -69,7 +69,7 @@ module SequenceServer
   # Test general features of HSPs. Algorithm specific customizations are
   # tested separetly.
   describe 'HSPs' do
-    hits_report = Report.generate(with_hits)
+    hits_report = BLAST::Report.new(with_hits)
 
     # Currently using all 17 HSP parameters in BLAST Report + 1 to refer to the
     # hit object it belongs to.
@@ -140,7 +140,7 @@ module SequenceServer
 
   describe 'diamond BLASTP' do
     let 'hsp' do
-      report = Report.generate(Job.fetch('diamond_0.9.24/blastp'))
+      report = BLAST::Report.new(Job.fetch('diamond_0.9.24/blastp'))
       report.queries.first.hits.last.hsps.first
     end
 
@@ -158,7 +158,7 @@ module SequenceServer
 
   describe 'diamond BLASTX' do
     let 'hsp' do
-      report = Report.generate(Job.fetch('diamond_0.9.24/blastx'))
+      report = BLAST::Report.new(Job.fetch('diamond_0.9.24/blastx'))
       report.queries.first.hits.last.hsps.first
     end
 
