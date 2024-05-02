@@ -2,6 +2,9 @@ require 'English'
 require 'socket'
 require 'resolv'
 
+Encoding.default_external = 'UTF-8'
+Encoding.default_internal = 'UTF-8'
+
 # Top level module / namespace.
 module SequenceServer
   # The default version of BLAST that will be downloaded and configured for use.
@@ -56,6 +59,9 @@ module SequenceServer
 
     # SequenceServer initialisation routine.
     def init(config = {})
+      # Reset makeblastdb cache, because configuration may have changed.
+      @makeblastdb = nil
+
       # Use default config file if caller didn't specify one.
       config[:config_file] ||= DEFAULT_CONFIG_FILE
 
@@ -180,6 +186,38 @@ module SequenceServer
       end
 
       assert_blast_installed_and_compatible
+    end
+
+    def init_database
+      fail DATABASE_DIR_NOT_SET unless config[:database_dir]
+
+      config[:database_dir] = File.expand_path(config[:database_dir])
+      unless File.exist?(config[:database_dir]) &&
+             File.directory?(config[:database_dir])
+        fail ENOENT.new('database dir', config[:database_dir])
+      end
+
+      logger.debug("Will look for BLAST+ databases in: #{config[:database_dir]}")
+
+      fail NO_BLAST_DATABASE_FOUND, config[:database_dir] unless makeblastdb.any_formatted?
+
+      Database.collection = makeblastdb.formatted_fastas
+      check_database_compatibility unless config[:optimistic].to_s == 'true'
+    end
+
+    def check_database_compatibility
+      Database.each do |database|
+        logger.debug "Found #{database.type} database '#{database.title}' at '#{database.path}'"
+        if database.non_parse_seqids?
+          logger.warn "Database '#{database.title}' was created without using the" \
+                      ' -parse_seqids option of makeblastdb. FASTA download will' \
+                      " not work correctly (path: '#{database.path}')."
+        elsif database.v4?
+          logger.warn "Database '#{database.title}' is of older format. Mixing" \
+                      ' old and new format databases can be problematic' \
+                      "(path: '#{database.path}')."
+        end
+      end
     end
 
     def check_num_threads

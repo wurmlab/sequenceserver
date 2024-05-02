@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import _ from 'underscore';
-import Grapher from './grapher';
+import Grapher from 'grapher';
 import * as Helpers from './visualisation_helpers';
 
 /**
@@ -8,15 +8,19 @@ import * as Helpers from './visualisation_helpers';
  */
 
 class Graph {
+    static canCollapse() {
+        return true;
+    }
+
     static name() {
-        return 'Length distribution of matching sequences';
+        return 'Length distribution of matching hit sequences';
     }
 
     static className() {
         return 'length-distribution';
     }
 
-    static collapseId(props) {
+    static graphId(props) {
         return 'length_'+props.query.number;
     }
 
@@ -250,7 +254,7 @@ class Graph {
             .attr('dy', '0')
             .attr('transform','rotate(-90)');
 
-        var yContainer = this.svg.append('g')
+        this.svg.append('g')
             .attr('class','axis axis--y')
             .attr('transform','translate('+this._margin.left+',0)')
             .call(y_axis);

@@ -5,7 +5,6 @@
 @import url('../vendor/github/nicgirault/circosJs@1.7.0/dist/colorBrewer.css');
 @import url('../vendor/github/twbs/bootstrap@3.3.5/css/bootstrap.min.css');
 @import url('../vendor/npm/font-awesome@4.4.0/css/font-awesome.min.css');
-@import url('../vendor/github/vakata/jstree@3.3.8/dist/themes/default/style.min.css');
 @import url('grapher.css');
 @import url('fonts.css');
 
@@ -84,6 +83,8 @@ h4 > .fa {
  */
 .disabled {
   color: #ccc !important;
+  cursor: not-allowed;
+  pointer-events: none; /* This prevents the click from happening */
 }
 
 a.disabled:hover,
@@ -161,29 +162,6 @@ a.disabled:hover,
 }
 
 /**
- * Take out border, cut down margin and padding, and remove background color
- * from panel.
- */
-.panel {
-  border: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-
-.panel .panel-heading {
-  padding: 0;
-  background-color: inherit;
-  border-bottom: 1px solid #c74f14;
-}
-
-.panel .panel-heading h4 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-/**
  * Take padding-right out of .control-label and keep padding of .input-group.
  * Works better when browser is resized to smaller width.
  */
@@ -217,6 +195,15 @@ a.disabled:hover,
 .table > thead > tr > th {
   border-bottom: none;
   color: #5f5f5f;
+}
+
+.clamped-paragraph {
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 
 /**
@@ -339,9 +326,13 @@ td.nowrap-ellipsis {
   background-color: red;
 }
 
-.dnd-errors {
+.modal-error {
   color: red;
   font-size: 18px;
+  border: 1px solid red;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .biojs-vis-sequence pre {
@@ -352,89 +343,6 @@ td.nowrap-ellipsis {
   background-color: inherit;
 }
 
-.query-container {
-  margin-top: 35px;
-  margin-bottom: 0;
-}
-
-.notifications {
-  position: relative;
-  height: 32px;
-
-  /**
-   * Notifications should appear over the bottom border of the textarea, high
-   * enough that they do not interfere with the database listing below and
-   * narrow enough not to cover the textarea resize handle on the right. */
-  top: -16px;
-  margin-right: 35px;
-  margin-left: 35px;
-}
-
-.notification {
-  height: 32px !important;
-}
-
-.notification .alert-info,
-.notification .alert-danger {
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-  font-weight: bold;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  text-align: center;
-  padding: 6px 12px 6px 12px;
-}
-
-.databases .list-group-item {
-  border: none;
-  padding: 1px 0 0;
-}
-
-#help pre:hover {
-  background-color: #ffc;
-}
-
-label[for="advanced"] {
-  font-size: 16px;
-  display: table-cell;
-  width: 1%;
-  white-space: nowrap;
-  vertical-align: middle;
-  padding: 5px 12px 5px 0;
-}
-
-input[name="advanced"] {
-  border-top-left-radius: 4px !important;
-  border-bottom-left-radius: 4px !important;
-}
-
-input[type=checkbox] {
-  vertical-align: top;
-}
-
-#method {
-  letter-spacing: 1px;
-}
-
-#methods li {
-  cursor: pointer;
-  text-align: center;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  letter-spacing: 1px;
-}
-
-.dropdown-menu li {
-  border-bottom: 1px solid #ccc;
-}
-
-.dropdown-menu li:last-child {
-  border-bottom: 0;
-}
-
 /**********************
         Sidebar
  **********************/
@@ -443,7 +351,8 @@ input[type=checkbox] {
   margin-top: 0;
 }
 
-.sidebar li a {
+.sidebar li a,
+.sidebar li button {
   padding: 3px 2px;
 }
 
@@ -519,8 +428,10 @@ input[type=checkbox] {
 }
 
 .hsp-stats {
-  font-size: 12px;
+  font-size: 13px;
+  letter-spacing: 0.7px;
   color: #5f5f5f;
+  font-weight: 600;
 }
 
 .hsp-lines {
@@ -552,34 +463,16 @@ input[type=checkbox] {
   vertical-align: super;
 }
 
-.dnd-overlay {
-  position: absolute;
-  top: 51px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.75);
-}
-
-.dnd-overlay * {
-  pointer-events: none;
-}
-
-.dnd-overlay-container {
-  padding-top: 72px;
-}
-
-.dnd-overlay-container p {
-  font-size: 48px;
-}
-
 /* higlight when hit is selected */
 .glow {
   border-left: 2px solid #c74f14;
 }
 
 .downloads a {
+  cursor: pointer;
+}
+
+.sharing-panel a {
   cursor: pointer;
 }
 
@@ -622,16 +515,13 @@ input[type=checkbox] {
   display: table-cell;
 }
 
+.share-url-component input[type="text"] {
+  width: 100%;
+}
 
-/** For advanced params dropdown **/
-.input-group-btn {
-  vertical-align: top;
-}
-#advanced-params-dropdown {
-  padding: 0;
-}
-#advanced-params-dropdown li {
-  padding: 10px;
-  cursor: pointer;
-  letter-spacing: 1px;
+.share-url-component .actions {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  display: flex;
+  justify-content: space-between;
 }

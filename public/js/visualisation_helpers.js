@@ -1,5 +1,5 @@
 import _ from 'underscore';
-
+import d3 from 'd3';
 export function get_colors_for_evalue(evalue, hits) {
     var colors = d3.scale
         .log()

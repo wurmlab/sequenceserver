@@ -119,6 +119,11 @@ begin
        'Port to run SequenceServer on',
        argument: true
 
+    on 'o', 'optimistic=',
+       'Optimistic mode does not perform database compatibility checks, which can be faster. ' \
+       'Only use this if you format FASTAs with "sequenceserver -make-blast-databases"',
+       argument: true
+
     on 's', 'set',
        'Set configuration value in default or given config file'
 
@@ -296,7 +301,7 @@ begin
           unless response =~ /^[n]$/i
             puts
             puts 'Searching ...'
-            if SequenceServer.makeblastdb.any_unformatted?
+            if SequenceServer.makeblastdb.any_to_format?
               formatted = SequenceServer.makeblastdb.format
               exit! if formatted.empty? && !set?
               redo unless set?
@@ -353,7 +358,9 @@ begin
       end
 
       if make_blast_databases?
-        if SequenceServer.makeblastdb.scan
+        if SequenceServer.makeblastdb.no_fastas?
+          puts "Couldn't find any FASTA files in #{SequenceServer.config[:database_dir]}."
+        elsif SequenceServer.makeblastdb.any_to_format_or_reformat?
           puts
           puts <<~MSG
           SequenceServer has scanned your databases directory and will now offer
@@ -375,7 +382,7 @@ begin
           print '>> '
           response = STDIN.gets.to_s.strip
           SequenceServer.makeblastdb.run unless response =~ /^[n]$/i
-          else
+        else
           puts "All FASTA files in #{SequenceServer.config[:database_dir]} " \
                'are formatted.'
         end
@@ -391,8 +398,8 @@ begin
       end
 
       if import?
-        xml_file = fetch_option(:import).value
-        params = {:xml => xml_file}
+        xml_file_path = fetch_option(:import).value
+        params = {:xml => xml_file_path}
         job = SequenceServer::BLAST::Job.new(params)
         puts job.id
         exit

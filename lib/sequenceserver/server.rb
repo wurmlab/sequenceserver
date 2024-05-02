@@ -1,4 +1,4 @@
-require 'rack/handler/webrick'
+require 'rackup/handler/webrick'
 
 module SequenceServer
   # Simple wrapper around WEBrick and Rack::Handler::WEBrick to host

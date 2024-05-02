@@ -64,14 +64,18 @@ export class Databases extends Component {
     renderDatabases(category) {
     // Panel name and column width.
         var panelTitle = category[0].toUpperCase() + category.substring(1).toLowerCase() + ' databases';
-        var columnClass = this.categories().length === 1 ? 'col-md-12' : 'col-md-6';
+        var columnClass = this.categories().length === 1 ? 'col-span-2' : '';
 
         // Toggle button.
         var toggleState = '[Select all]';
-        var toggleClass = 'btn-link';
+        var toggleClass = 'px-2 text-sm';
         var toggleShown = this.databases(category).length > 1;
         var toggleDisabled = this.state.type && this.state.type !== category;
-        if (toggleShown && toggleDisabled) toggleClass += ' disabled';
+        if (toggleShown && toggleDisabled) {
+            toggleClass += ' text-gray-400';
+        } else {
+            toggleClass += ' text-seqblue';
+        }
         if (!toggleShown) toggleClass += ' hidden';
         if (this.nselected() === this.databases(category).length) {
             toggleState = '[Deselect all]';
@@ -80,9 +84,11 @@ export class Databases extends Component {
         // JSX.
         return (
             <div className={columnClass} key={'DB_' + category}>
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <h4 style={{ display: 'inline' }}>{panelTitle}</h4> &nbsp;&nbsp;
+                <div>
+                    <div className="border-b border-seqorange mb-2">
+                        <h4 style={{ display: 'inline' }} className="font-medium">
+                            {panelTitle}
+                        </h4>
                         <button
                             type="button"
                             className={toggleClass}
@@ -94,15 +100,12 @@ export class Databases extends Component {
                             {toggleState}
                         </button>
                     </div>
-                    <ul className={'list-group databases ' + category}>
+                    <ul className={'databases ' + category}>
                         {_.map(
                             this.databases(category),
                             _.bind(function (database, index) {
                                 return (
-                                    <li
-                                        className="list-group-item"
-                                        key={'DB_' + category + index}
-                                    >
+                                    <li key={'DB_' + category + index}>
                                         {this.renderDatabase(database)}
                                     </li>
                                 );
@@ -118,7 +121,7 @@ export class Databases extends Component {
         var disabled = this.state.type && this.state.type !== database.type;
 
         return (
-            <label className={(disabled && 'disabled database') || 'database'}>
+            <label className={(disabled && 'database text-gray-400') || 'database text-seqblue'}>
                 <input
                     type="checkbox"
                     name="databases[]"
@@ -136,7 +139,7 @@ export class Databases extends Component {
 
     render() {
         return (
-            <div className="form-group databases-container">
+            <div className="my-6 grid md:grid-cols-2 gap-4">
                 {_.map(this.categories(), this.renderDatabases)}
             </div>
         );

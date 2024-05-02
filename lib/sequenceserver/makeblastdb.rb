@@ -8,10 +8,12 @@ module SequenceServer
   # Example usage:
   #
   #   makeblastdb = MAKEBLASTDB.new(database_dir)
-  #   makeblastdb.scan && makeblastdb.run
+  #   makeblastdb.run # formats and re-formats databases in database_dir
+  #   makeblastdb.formatted_fastas # lists formatted databases
   #
   class MAKEBLASTDB
     extend Forwardable
+    GUESS_SAMPLE_SIZE = 1_048_576
 
     def_delegators SequenceServer, :config, :sys
 
@@ -20,9 +22,6 @@ module SequenceServer
     end
 
     attr_reader :database_dir
-    attr_reader :formatted_fastas
-    attr_reader :fastas_to_format
-    attr_reader :fastas_to_reformat
 
     # Scans the database directory to determine which FASTA files require
     # formatting or re-formatting.
@@ -46,29 +45,19 @@ module SequenceServer
 
     # Returns true if at least one database in database directory is formatted.
     def any_formatted?
-      !@formatted_fastas.empty?
+      formatted_fastas.any?
     end
 
-    # Returns true if there is at least one unformatted FASTA in the databases
-    # directory.
-    def any_unformatted?
-      !@fastas_to_format.empty?
+    def any_to_format_or_reformat?
+      any_to_format? || any_to_reformat?
     end
 
-    # Returns true if the databases directory contains one or more incompatible
-    # databases.
-    #
-    # Note that it is okay to only use V4 databases or only V5 databases.
-    # Incompatibility arises when they are mixed.
-    def any_incompatible?
-      return false if @formatted_fastas.all? { |ff| ff.v4? || ff.alias? }
-      return false if @formatted_fastas.all? { |ff| ff.v5? || ff.alias? }
-      true
+    def no_fastas?
+      probably_fastas.empty?
     end
 
-    # Runs makeblastdb on each file in `@fastas_to_format` and
-    # `@fastas_to_reformat`. Will do nothing unless `#scan`
-    # has been run before.
+    # Runs makeblastdb on each file in `fastas_to_format` and
+    # `fastas_to_reformat`.
     def run
       format
       reformat
@@ -79,8 +68,9 @@ module SequenceServer
     def format
       # Make the intent clear as well as ensure the program won't crash if we
       # accidentally call format before calling scan.
-      return unless @fastas_to_format
-      @fastas_to_format.select do |path, title, type|
+      return unless any_to_format?
+
+      fastas_to_format.select do |path, title, type|
         make_blast_database('format', path, title, type)
       end
     end
@@ -90,16 +80,100 @@ module SequenceServer
     def reformat
       # Make the intent clear as well as ensure the program won't crash if
       # we accidentally call reformat before calling scan.
-      return unless @fastas_to_reformat
-      @fastas_to_reformat.select do |path, title, type, non_parse_seqids|
+      return unless any_to_reformat?
+
+      fastas_to_reformat.select do |path, title, type, non_parse_seqids|
         make_blast_database('reformat', path, title, type, non_parse_seqids)
       end
     end
 
+    # Determines which FASTA files in the database directory are already
+    # formatted.
+    def formatted_fastas
+      return @formatted_fastas if defined?(@formatted_fastas)
+
+      @formatted_fastas = []
+
+      blastdbcmd.each_line do |line|
+        path, *rest = line.chomp.split("\t")
+        next if multipart_database_name?(path)
+
+        rest << get_categories(path)
+        @formatted_fastas << Database.new(path, *rest)
+      end
+
+      @formatted_fastas
+    end
+
+    def any_to_format?
+      fastas_to_format.any?
+    end
+
     private
 
-    # Determines which FASTA files in the database directory are already
-    # formatted. Adds to @formatted_fastas.
+    def any_to_reformat?
+      fastas_to_reformat.any?
+    end
+
+    # Determines which FASTA files in the database directory require
+    # reformatting.
+    def fastas_to_reformat
+      return @fastas_to_reformat if defined?(@fastas_to_reformat)
+
+      @fastas_to_reformat = []
+      formatted_fastas.each do |ff|
+        @fastas_to_reformat << [ff.path, ff.title, ff.type, ff.non_parse_seqids?] if ff.v4? || ff.non_parse_seqids?
+      end
+
+      @fastas_to_reformat
+    end
+
+    def fastas_to_format
+      return @fastas_to_format if defined?(@fastas_to_format)
+
+      formatted_fasta_paths = formatted_fastas.map { |f| f[0] }
+      fasta_paths_to_format = probably_fastas - formatted_fasta_paths
+
+      @fastas_to_format = fasta_paths_to_format.map do |path|
+        [
+          path,
+          make_db_title(path),
+          guess_sequence_type_in_fasta(path)
+        ]
+      end
+
+      @fastas_to_format
+    end
+
+    def probably_fastas
+      return @probably_fastas if defined?(@probably_fastas)
+
+      @probably_fastas = []
+
+      Find.find(database_dir + '/') do |path|
+        next if File.directory?(path)
+
+        @probably_fastas << path if probably_fasta?(path)
+      end
+
+      @probably_fastas
+    end
+
+    # Runs `blastdbcmd` to determine formatted FASTA files in the database
+    # directory. Returns the output of `blastdbcmd`. This method is called
+    # by `determine_formatted_fastas`.
+    def blastdbcmd
+      cmd = "blastdbcmd -recursive -list #{@database_dir}" \
+            ' -list_outfmt "%f	%t	%p	%n	%l	%d	%v"'
+      out, err = sys(cmd, path: config[:bin])
+      errpat = /BLAST Database error/
+      fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
+
+      out
+    rescue CommandFailed => e
+      raise BLAST_DATABASE_ERROR.new(cmd, e.stderr)
+    end
+
     def determine_formatted_fastas
       blastdbcmd.each_line do |line|
         path, *rest = line.chomp.split("\t")
@@ -109,18 +183,6 @@ module SequenceServer
       end
     end
 
-    # Determines which FASTA files in the database directory require
-    # reformatting. Adds to @fastas_to_format.
-    def determine_fastas_to_reformat
-      @formatted_fastas.each do |ff|
-        if ff.v4? || ff.non_parse_seqids?
-          @fastas_to_reformat << [ff.path, ff.title, ff.type, ff.non_parse_seqids?]
-        end
-      end
-    end
-
-    # Determines which FASTA files in the database directory are
-    # unformatted. Adds to @fastas_to_format.
     def determine_unformatted_fastas
       # Add a trailing slash to database_dir - Find.find doesn't work as
       # expected without the trailing slash if database_dir is a symlink
@@ -137,23 +199,18 @@ module SequenceServer
       end
     end
 
-    # Runs `blastdbcmd` to determine formatted FASTA files in the database
-    # directory. Returns the output of `blastdbcmd`. This method is called
-    # by `determine_formatted_fastas`.
-    def blastdbcmd
-      cmd = "blastdbcmd -recursive -list #{@database_dir}" \
-            ' -list_outfmt "%f	%t	%p	%n	%l	%d	%v"'
-      out, err = sys(cmd, path: config[:bin])
-      errpat = /BLAST Database error/
-      fail BLAST_DATABASE_ERROR.new(cmd, err) if err.match(errpat)
-      return out
-    rescue CommandFailed => e
-      fail BLAST_DATABASE_ERROR.new(cmd, e.stderr)
+    def determine_fastas_to_reformat
+      @formatted_fastas.each do |ff|
+        if ff.v4? || ff.non_parse_seqids?
+          @fastas_to_reformat << [ff.path, ff.title, ff.type, ff.non_parse_seqids?]
+        end
+      end
     end
 
     # Create BLAST database, given FASTA file and sequence type in FASTA file.
     def make_blast_database(action, file, title, type, non_parse_seqids = false)
       return unless make_blast_database?(action, file, type)
+
       title = confirm_database_title(title)
       extract_fasta(file) unless File.exist?(file)
       taxonomy = taxid_map(file, non_parse_seqids) || taxid
@@ -188,9 +245,10 @@ module SequenceServer
     # using blastdbcmd.
     def taxid_map(db, non_parse_seqids)
       return if non_parse_seqids
+
       taxid_map = db.sub(/#{File.extname(db)}$/, '.taxid_map.txt')
-      extract_taxid_map(db, taxid_map) if !File.exist?(taxid_map)
-      "-taxid_map #{taxid_map}" if !File.zero?(taxid_map)
+      extract_taxid_map(db, taxid_map) unless File.exist?(taxid_map)
+      "-taxid_map #{taxid_map}" unless File.zero?(taxid_map)
     end
 
     # Get taxid from the user. Returns user input or 0.
@@ -211,10 +269,24 @@ module SequenceServer
       cmd = "makeblastdb -parse_seqids -hash_index -in '#{file}'" \
             " -dbtype #{type.to_s.slice(0, 4)} -title '#{title}'" \
             " #{taxonomy}"
-      out, err = sys(cmd, path: config[:bin])
+
+      output = if File.directory?(file)
+                 File.join(file, 'makeblastdb')
+               else
+                 "#{file}.makeblastdb"
+               end
+
+      out, err = sys(
+        cmd,
+        path: config[:bin],
+        stderr: [output, 'stderr'].join,
+        stdout: [output, 'stdout'].join
+      )
+
       puts out.strip
       puts err.strip
-      return true
+
+      true
     rescue CommandFailed => e
       puts <<~MSG
         Could not create BLAST database for: #{file}
@@ -261,7 +333,7 @@ module SequenceServer
     # /home/ben/pd.ben/sequenceserver/db/nr00 => no
     # /mnt/blast-db/refseq_genomic.100 => yes
     def multipart_database_name?(db_name)
-      !(db_name.match(%r{.+/\S+\.\d{2,3}$}).nil?)
+      !db_name.match(%r{.+/\S+\.\d{2,3}$}).nil?
     end
 
     def get_categories(path)
@@ -272,7 +344,10 @@ module SequenceServer
 
     # Returns true if first character of the file is '>'.
     def probably_fasta?(file)
-      return false unless file.match(/((cds)|(fasta)|(fna)|(pep)|(cdna)|(fa)|(prot)|(fas)|(genome)|(nuc)|(dna)|(nt))$/i)
+      unless file.match(/((cdna)|(cds)|(dna)|(fa)|(faa)|(fas)|(fasta)|(fna)|(genome)|(nt)|(nuc)|(pep)|(prot))$/i)
+        return false
+      end
+
       File.read(file, 1) == '>'
     end
 
@@ -310,8 +385,21 @@ module SequenceServer
     # If the given file is FASTA, returns Array of as many different
     # sequences in the portion of the file read. Returns the portion
     # of the file read wrapped in an Array otherwise.
-    def sample_sequences(file)
-      File.read(file, 1_048_576).split(/^>.+$/).delete_if(&:empty?)
+    def sample_sequences(file, offset = 0)
+      sample = File.read(file, GUESS_SAMPLE_SIZE, offset)
+
+      return [] if sample.nil?
+
+      # remove all unknown bases (indicated by 'N') before sampling
+      sample.gsub!(/N/, '')
+      meaningful_samples = sample.split(/^>.+$/).map { |line| line.gsub(/^\n+$/, '') }.delete_if(&:empty?)
+
+      if meaningful_samples.empty?
+        offset += GUESS_SAMPLE_SIZE
+        sample_sequences(file, offset)
+      else
+        meaningful_samples
+      end
     end
   end
 end

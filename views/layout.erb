@@ -6,17 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>SequenceServer: Custom BLAST Server</title>
-  <meta name="author" content="Anurag Priyam">
-  <meta name="author" content="Ben J. Woodcroft">
-  <meta name="author" content="Vivek Rai">
-  <meta name="author" content="Cedric Wurm">
-  <meta name="author" content="Yannick Wurm">
-  <meta name="description" content="Custom BLAST server provided by SequenceServer (https://www.sequenceserver.com)"/>
+  <meta name="author" content="Pragmatic Genomics Ltd">
+  <meta name="description" content="Custom BLAST server provided by SequenceServer (https://sequenceserver.com)"/>
 
   <% base_url_protocol = ENV['HTTPS'] == 'on' ? 'https' : (request.env['HTTP_X_FORWARDED_PROTO'] || request.scheme) %>
   <% base_url = "#{base_url_protocol}://#{request.host}" %>
   <% base_url << ":#{request.port}" unless [80, 443].include?(request.port) %>
-
   <!-- CSS -->
   <% if settings.production? || settings.test? %>
     <link rel="stylesheet" media="screen,print" type="text/css" href="<%= "#{base_url}" %>/blast/css/sequenceserver.min.css?ver=<%= SequenceServer::VERSION %>"/>
@@ -33,7 +28,7 @@
       <a
         class="navbar-brand"
         href="https://sequenceserver.com" target="_blank">
-        <img class="logo" src="<%= "#{base_url}" %>/blast/SequenceServer_logo.png" alt="sequenceserver_logo">
+        <img class="logo" src="<%= "#{base_url}" %>/blast/sequenceserver_logo.webp" alt="sequenceserver_logo">
         <small>
           <%= SequenceServer::VERSION %>
         </small>
@@ -41,8 +36,16 @@
       <ul class="nav navbar-nav navbar-right hover-reset focus-reset">
         <li>
           <a
+            href="https://sequenceserver.com/progress-on-BLAST-interface/"
+            class="update-check"
+            data-version="<%= SequenceServer::VERSION %>"
+            target="_blank">
+          </a>
+        </li>
+        <li>
+          <a
             target="_blank"
-            href="http://www.sequenceserver.com/#license-and-support">
+            href="https://sequenceserver.com/support">
             <i class="fa fa-comment-o"></i>
             &nbsp;Help &amp; Support
           </a>
@@ -94,46 +97,21 @@
               "SequenceServer: Local BLAST with bespoke html interface.",
               "Set up custom BLAST interface with SequenceServer.",
               "Easy BLASTing with SequenceServer.",
-              "Run BLAST locally with Sequenceserver.",
               "BLAST against a custom, local database with SequenceServer.",
-              "Run BLAST locally on Mac OSX with SequenceServer.",
-              "Run BLAST locally on Ubuntu with SequenceServer.",
-              "Run BLAST locally on Linux with SequenceServer."
+  	      "Cloud BLAST custom genome.",
+	      "NCBI BLAST alternative.",
+	      "BLAST private transcriptome assembly in the Cloud.",
+	      "Cloud server for comparative genomics, oligos, crisp, primers and more."
             ][rand(19)]
           %>
         </em></a>
       </p>
-      <%= File.read(File.join(settings.root, '../website-extras/footer.html')) if File.exists?(File.join(settings.root, '../website-extras/footer.html')) %>
+      <% footer_path = File.join(settings.root, '../website-extras/footer.html.erb') %>
+      <%= erb :'../../website-extras/footer.html', locals: { path_prefix: root_path_prefix } if File.exist?(footer_path) %>
     </div> <!-- /container -->
   </div>
 
-  <div
-    class="modal fade" id="help"
-    tabindex="-1">
-    <div
-      class="modal-dialog modal-lg">
-      <div
-        class="modal-content">
-        <div
-          class="modal-header">
-          <h3>Advanced Options</h3>
-        </div>
-        <div
-          class="modal-body">
-          <%= erb :_options %>
-        </div>
-        <div
-          class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-default btn-primary"
-            data-dismiss="modal">
-            Got it!
-          </button>
-        </div>
-      </div>
-    </div>
-  </div> <!-- advanced options -->
-
+  <!-- twitter -->
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </body>
 </html>

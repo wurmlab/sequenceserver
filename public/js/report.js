@@ -1,6 +1,5 @@
 import './jquery_world'; // for custom $.tooltip function
-import React, { Component, createRef } from 'react';
-import { createRoot } from 'react-dom/client';
+import React, { Component } from 'react';
 import _ from 'underscore';
 
 import Sidebar from './sidebar';
@@ -8,84 +7,18 @@ import Circos from './circos';
 import { ReportQuery } from './query';
 import Hit from './hit';
 import HSP from './hsp';
-
-import SequenceModal from './sequence_modal';
-import ErrorModal from './error_modal';
-
-/**
- * Base component of report page. This component is later rendered into page's
- * '#view' element.
- */
-class Page extends Component {
-    constructor(props) {
-        super(props);
-        this.showSequenceModal = this.showSequenceModal.bind(this);
-        this.showErrorModal = this.showErrorModal.bind(this);
-        this.getCharacterWidth = this.getCharacterWidth.bind(this);
-        this.hspChars = createRef();
-    }
-    componentDidMount() {
-        var job_id = location.pathname.split('/').pop();
-        sessionStorage.setItem('job_id', job_id);
-    }
-
-    showSequenceModal(url) {
-        this.refs.sequenceModal.show(url);
-    }
-
-    showErrorModal(errorData, beforeShow) {
-        this.refs.errorModal.show(errorData, beforeShow);
-    }
-
-    getCharacterWidth() {
-        if (!this.characterWidth) {
-            var $hspChars = $(this.hspChars.current);
-            this.characterWidth = $hspChars.width() / 29;
-        }
-        return this.characterWidth;
-    }
-    render() {
-        return (
-            <div>
-                {/* Provide bootstrap .container element inside the #view for
-                    the Report component to render itself in. */}
-                <div className="container">
-                    <Report
-                        showSequenceModal={(_) => this.showSequenceModal(_)}
-                        getCharacterWidth={() => this.getCharacterWidth()}
-                        showErrorModal={(...args) => this.showErrorModal(...args)}
-                    />
-                </div>
-
-                {/* Add a hidden span tag containing chars used in HSPs */}
-                <pre className="pre-reset hsp-lines" ref={this.hspChars} hidden>
-          ABCDEFGHIJKLMNOPQRSTUVWXYZ +-
-                </pre>
-
-                {/* Required by Grapher for SVG and PNG download */}
-                <canvas id="png-exporter" hidden></canvas>
-
-                <SequenceModal
-                    ref="sequenceModal"
-                    showErrorModal={(...args) => this.showErrorModal(...args)}
-                />
-
-                <ErrorModal ref="errorModal" />
-            </div>
-        );
-    }
-}
+import AlignmentExporter from './alignment_exporter';
+import ReportPlugins from 'report_plugins';
 
 /**
  * Renders entire report.
  *
  * Composed of Query and Sidebar components.
  */
+
 class Report extends Component {
     constructor(props) {
         super(props);
-        this.fetchResults();
-
         // Properties below are internal state used to render results in small
         // slices (see updateState).
         this.numUpdates = 0;
@@ -94,6 +27,8 @@ class Report extends Component {
         this.nextHSP = 0;
         this.maxHSPs = 3; // max HSPs to render in a cycle
         this.state = {
+            user_warning: null,
+            download_links: [],
             search_id: '',
             seqserv_version: '',
             program: '',
@@ -104,17 +39,28 @@ class Report extends Component {
             querydb: [],
             params: [],
             stats: [],
+            alignment_blob_url: '',
+            allQueriesLoaded: false,
+            cloud_sharing_enabled: false,
         };
+        this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
+        this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
+        this.setStateFromJSON = this.setStateFromJSON.bind(this);
+        this.plugins = new ReportPlugins(this);
     }
+
     /**
    * Fetch results.
    */
     fetchResults() {
-        var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
-        var component = this;
+        const path = location.pathname + '.json' + location.search;
+        this.pollPeriodically(path, this.setStateFromJSON, this.props.showErrorModal);
+    }
 
+    pollPeriodically(path, callback, errCallback) {
+        var intervals = [200, 400, 800, 1200, 2000, 3000, 5000];
         function poll() {
-            $.getJSON(location.pathname + '.json').complete(function (jqXHR) {
+            $.getJSON(path).complete(function (jqXHR) {
                 switch (jqXHR.status) {
                 case 202:
                     var interval;
@@ -126,12 +72,12 @@ class Report extends Component {
                     setTimeout(poll, interval);
                     break;
                 case 200:
-                    component.setStateFromJSON(jqXHR.responseJSON);
+                    callback(jqXHR.responseJSON);
                     break;
-                case 404:
                 case 400:
+                case 422:
                 case 500:
-                    component.props.showErrorModal(jqXHR.responseJSON);
+                    errCallback(jqXHR.responseJSON);
                     break;
                 }
             });
@@ -145,16 +91,24 @@ class Report extends Component {
    */
     setStateFromJSON(responseJSON) {
         this.lastTimeStamp = Date.now();
-        this.setState(responseJSON);
+        // the callback prepares the download link for all alignments
+        if (responseJSON.user_warning == 'LARGE_RESULT') {
+            this.setState({user_warning: responseJSON.user_warning, download_links: responseJSON.download_links});
+        } else {
+            this.setState(responseJSON, this.prepareAlignmentOfAllHits);
+        }
     }
+
     /**
    * Called as soon as the page has loaded and the user sees the loading spinner.
    * We use this opportunity to setup services that make use of delegated events
    * bound to the window, document, or body.
    */
     componentDidMount() {
-    // This sets up an event handler which enables users to select text from
-    // hit header without collapsing the hit.
+        this.fetchResults();
+        this.plugins.init();
+        // This sets up an event handler which enables users to select text from
+        // hit header without collapsing the hit.
         this.preventCollapseOnSelection();
         this.toggleTable();
     }
@@ -165,9 +119,9 @@ class Report extends Component {
    * and circos would have been rendered at this point. At this stage we kick
    * start iteratively adding 1 HSP to the page every 25 milli-seconds.
    */
-    componentDidUpdate() {
-    // Log to console how long the last update take?
-        console.log((Date.now() - this.lastTimeStamp) / 1000);
+    componentDidUpdate(prevProps, prevState) {
+        // Log to console how long the last update take?
+        // console.log((Date.now() - this.lastTimeStamp) / 1000);
 
         // Lock sidebar in its position on the first update.
         if (this.nextQuery == 0 && this.nextHit == 0 && this.nextHSP == 0) {
@@ -183,6 +137,8 @@ class Report extends Component {
         } else {
             this.componentFinishedUpdating();
         }
+
+        this.plugins.componentDidUpdate(prevProps, prevState);
     }
 
     /**
@@ -193,13 +149,14 @@ class Report extends Component {
         var numHSPsProcessed = 0;
         while (this.nextQuery < this.state.queries.length) {
             var query = this.state.queries[this.nextQuery];
+
             // We may see a query multiple times during rendering because only
-            // 3 hsps or are rendered in each cycle, but we want to create the
+            // 3 hsps are rendered in each cycle, but we want to create the
             // corresponding Query component only the first time we see it.
             if (this.nextHit == 0 && this.nextHSP == 0) {
                 results.push(
                     <ReportQuery
-                        key={'Query_' + query.number}
+                        key={'Query_' + query.id}
                         query={query}
                         program={this.state.program}
                         querydb={this.state.querydb}
@@ -209,6 +166,8 @@ class Report extends Component {
                         veryBig={this.state.veryBig}
                     />
                 );
+
+                results.push(...this.plugins.queryResults(query));
             }
 
             while (this.nextHit < query.hits.length) {
@@ -230,6 +189,7 @@ class Report extends Component {
                             showQueryCrumbs={this.state.queries.length > 1}
                             showHitCrumbs={query.hits.length > 1}
                             veryBig={this.state.veryBig}
+                            onChange={this.prepareAlignmentOfSelectedHits}
                             {...this.props}
                         />
                     );
@@ -242,11 +202,11 @@ class Report extends Component {
                         <HSP
                             key={
                                 'Query_' +
-                query.number +
-                '_Hit_' +
-                hit.number +
-                '_HSP_' +
-                hsp.number
+                                query.number +
+                                '_Hit_' +
+                                hit.number +
+                                '_HSP_' +
+                                hsp.number
                             }
                             query={query}
                             hit={hit}
@@ -290,7 +250,9 @@ class Report extends Component {
    * Called after all results have been rendered.
    */
     componentFinishedUpdating() {
+        if (this.state.allQueriesLoaded) return;
         this.shouldShowIndex() && this.setupScrollSpy();
+        this.setState({ allQueriesLoaded: true });
     }
 
     /**
@@ -311,6 +273,9 @@ class Report extends Component {
                         <br />
             You can bookmark the page and come back to it later or share the
             link with someone.
+                        <br />
+                        <br />
+                        { process.env.targetEnv === 'cloud' && <b>If the job takes more than 10 minutes to complete, we will send you an email upon completion.</b> }
                     </p>
                 </div>
             </div>
@@ -322,23 +287,60 @@ class Report extends Component {
    */
     resultsJSX() {
         return (
-            <div className="row">
+            <div className="row" id="results">
                 <div className="col-md-3 hidden-sm hidden-xs">
                     <Sidebar
                         data={this.state}
                         atLeastOneHit={this.atLeastOneHit()}
                         shouldShowIndex={this.shouldShowIndex()}
+                        allQueriesLoaded={this.state.allQueriesLoaded}
+                        cloudSharingEnabled={this.state.cloud_sharing_enabled}
                     />
                 </div>
                 <div className="col-md-9">
                     {this.overviewJSX()}
                     {this.circosJSX()}
+                    {this.plugins.generateStats()}
                     {this.state.results}
                 </div>
             </div>
         );
     }
 
+
+    warningJSX() {
+        return(
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6 col-md-offset-3 text-center">
+                        <h1>
+                            <i className="fa fa-exclamation-triangle"></i>&nbsp; Warning
+                        </h1>
+                        <p>
+                            <br />
+                            The BLAST result might be too large to load in the browser. If you have a powerful machine you can try loading the results anyway. Otherwise, you can download the results and view them locally.
+                        </p>
+                        <br />
+                        <p>
+                            {this.state.download_links.map((link, index) => {
+                                return (
+                                    <a href={link.url} className="btn btn-secondary" key={'download_link_' + index} >
+                                        {link.name}
+                                    </a>
+                                );
+                            })}
+                        </p>
+                        <br />
+                        <p>
+                            <a href={location.pathname + '?bypass_file_size_warning=true'} className="btn btn-primary">
+                                View results in browser anyway
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     /**
    * Renders report overview.
    */
@@ -385,7 +387,6 @@ class Report extends Component {
             <Circos
                 queries={this.state.queries}
                 program={this.state.program}
-                collapsed="true"
             />
         ) : (
             <span></span>
@@ -401,6 +402,15 @@ class Report extends Component {
    */
     isResultAvailable() {
         return this.state.queries.length >= 1;
+    }
+
+    /**
+     * Indicates the response contains a warning message for the user
+     * in which case we should not render the results and render the
+     * warning instead.
+     **/
+    isUserWarningPresent() {
+        return this.state.user_warning;
     }
 
     /**
@@ -456,7 +466,7 @@ class Report extends Component {
     toggleTable() {
         $('body').on(
             'mousedown',
-            '.resultn > .section-content > .table-hit-overview > .caption',
+            '.resultn .caption[data-toggle="collapse"]',
             function (event) {
                 var $this = $(this);
                 $this.on('mouseup mousemove', function handler(event) {
@@ -514,6 +524,7 @@ class Report extends Component {
         } else {
             $hit.removeClass('glow');
             $hit.next('.hsp').removeClass('glow');
+            $('.download-fasta-of-selected').attr('href', '#').removeAttr('download');
         }
 
         var $a = $('.download-fasta-of-selected');
@@ -529,11 +540,77 @@ class Report extends Component {
             $b.addClass('disabled').find('.text-bold').html('');
         }
     }
+    populate_hsp_array(hit, query_id){
+        return hit.hsps.map(hsp => Object.assign(hsp, {hit_id: hit.id, query_id}));
+    }
+
+    prepareAlignmentOfSelectedHits() {
+        var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
+            return this.value;
+        }).get();
+
+        if(!sequence_ids.length){
+            // remove attributes from link if sequence_ids array is empty
+            $('.download-alignment-of-selected').attr('href', '#').removeAttr('download');
+            return;
+
+        }
+        if(this.state.alignment_blob_url){
+            // always revoke existing url if any because this method will always create a new url
+            window.URL.revokeObjectURL(this.state.alignment_blob_url);
+        }
+        var hsps_arr = [];
+        var aln_exporter = new AlignmentExporter();
+        const self = this;
+        _.each(this.state.queries, _.bind(function (query) {
+            _.each(query.hits, function (hit) {
+                if (_.indexOf(sequence_ids, hit.id) != -1) {
+                    hsps_arr = hsps_arr.concat(self.populate_hsp_array(hit, query.id));
+                }
+            });
+        }, this));
+        const filename = 'alignment-' + sequence_ids.length + '_hits.txt';
+        const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, filename);
+        // set required download attributes for link
+        $('.download-alignment-of-selected').attr('href', blob_url).attr('download', filename);
+        // track new url for future removal
+        this.setState({alignment_blob_url: blob_url});
+    }
+
+    prepareAlignmentOfAllHits() {
+        // Get number of hits and array of all hsps.
+        var num_hits = 0;
+        var hsps_arr = [];
+        if(!this.state.queries.length){
+            return;
+        }
+        this.state.queries.forEach(
+            (query) => query.hits.forEach(
+                (hit) => {
+                    num_hits++;
+                    hsps_arr = hsps_arr.concat(this.populate_hsp_array(hit, query.id));
+                }
+            )
+        );
+
+        var aln_exporter = new AlignmentExporter();
+        var file_name = `alignment-${num_hits}_hits.txt`;
+        const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, file_name);
+        $('.download-alignment-of-all')
+            .attr('href', blob_url)
+            .attr('download', file_name);
+        return false;
+    }
 
     render() {
-        return this.isResultAvailable() ? this.resultsJSX() : this.loadingJSX();
+        if (this.isUserWarningPresent()) {
+            return this.warningJSX();
+        } else if (this.isResultAvailable()) {
+            return this.resultsJSX();
+        } else {
+            return this.loadingJSX();
+        }
     }
 }
 
-const root = createRoot(document.getElementById('view'));
-root.render(<Page />);
+export default Report;

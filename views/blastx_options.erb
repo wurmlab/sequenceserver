@@ -1,0 +1,318 @@
+<%#
+  BLASTX ALGORITHM ADVANCED PARAMETERS
+  NOTE: The markup below is displayed in a modal window.  Use less than 70
+        characters per line to preserve formatting.
+%>
+
+<h5 class="text-lg py-4 font-medium">Input Query Options</h5>
+<ul class="list-unstyled space-y-2">
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-strand <String, `both', `minus', `plus'>
+  Query strand(s) to search against database/subject
+  Default = 'both'|%></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-query_gencode <Integer, values between: 1-6, 9-16, 21-31, 33>
+  Genetic code to use to translate query (see https://www.ncbi.nlm.nih.gov/Taxonomy/
+   taxonomyhome.html/index.cgi?chapter=cgencodes for details)
+  Default = '1'|%></pre>
+  </li>
+</ul>
+<br />
+
+<h5 class="text-lg py-4 font-medium">General Search Options</h5>
+<ul class="list-unstyled space-y-2">
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-task <String, Permissible values: 'blastx' 'blastx-fast'>
+  Task to execute
+  Default = 'blastx'|%></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-evalue <Real>
+  Expectation value (E) threshold for saving hits
+  Default = '10'| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-word_size <Integer, >=2>
+  Word size for wordfinder algorithm| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-gapopen <Integer>
+  Cost to open a gap| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-gapextend <Integer>
+  Cost to extend a gap| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-max_intron_length <Integer, >=0>
+  Length of the largest intron allowed in a translated nucleotide sequence when
+   linking multiple distinct alignments
+  Default = '0'| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-matrix <String>
+  Scoring matrix name (normally BLOSUM62)| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-threshold <Real, >=0>
+  Minimum word score such that the word is added to the BLAST lookup table| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-comp_based_stats <String>
+  Use composition-based statistics:
+      D or d: default (equivalent to 2)
+      0 or F or f: no composition-based statistics
+      1: Composition-based statistics as in NAR 29:2994-3005, 2001
+      2 or T or t : Composition-based score adjustment as in
+      Bioinformatics 21:902-911, 2005, conditioned on sequence
+      properties
+      3: Composition-based score adjustment as in Bioinformatics
+      21:902-911, 2005, unconditionally
+  Default = '2'| %></pre>
+  </li>
+  </ul>
+  <br />
+
+<h5 class="text-lg py-4 font-medium">Formatting Options</h5>
+<ul class="list-unstyled space-y-2">
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-show_gis
+  Show NCBI GIs in deflines?| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-num_descriptions <Integer, >=0>
+  Number of database sequences to show one-line descriptions for
+  Not applicable for outfmt > 4
+  Default = '500'
+  * Incompatible with:  max_target_seqs| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q| -num_alignments <Integer, >=0>
+  Number of database sequences to show alignments for
+  Default = '250'
+  * Incompatible with:  max_target_seqs| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q| -sorthits <Integer, (>=0 and =<4)>
+  Sorting option for hits:
+   alignment view options:
+     0 = Sort by evalue,
+     1 = Sort by bit score,
+     2 = Sort by total score,
+     3 = Sort by percent identity,
+     4 = Sort by query coverage
+   Not applicable for outfmt > 4| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q| -sorthsps <Integer, (>=0 and =<4)>
+  Sorting option for hps:
+     0 = Sort by hsp evalue,
+     1 = Sort by hsp score,
+     2 = Sort by hsp query start,
+     3 = Sort by hsp percent identity,
+     4 = Sort by hsp subject start
+   Not applicable for outfmt != 0| %></pre>
+  </li>
+</ul>
+
+<br/>
+
+<h5 class="text-lg py-4 font-medium">Query filtering options</h5>
+<ul class="list-unstyled space-y-2">
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-seg <String>
+  Filter query sequence with SEG (Format: 'yes', 'window locut hicut',
+  or 'no' to disable)
+  Default = '12 2.2 2.5'| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-soft_masking <Boolean>
+  Apply filtering locations as soft masks
+  Default = 'false'| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-lcase_masking
+  Use lower case filtering in query and subject sequence(s)?| %></pre>
+  </li>
+</ul>
+
+<br/>
+
+<h5 class="text-lg py-4 font-medium">Restrict search or results</h5>
+<ul class="list-unstyled space-y-2">
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-gilist <String>
+  Restrict search of database to list of GIs
+  * Incompatible with:  seqidlist, taxids, taxidlist, negative_gilist,
+   negative_seqidlist, negative_taxids, negative_taxidlist, remote, subject,
+   subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-seqidlist <String>
+  Restrict search of database to list of SeqIDs
+  * Incompatible with:  gilist, taxids, taxidlist, negative_gilist,
+   negative_seqidlist, negative_taxids, negative_taxidlist, remote, subject,
+   subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-negative_gilist <String>
+  Restrict search of database to everything except the specified GIs
+  * Incompatible with:  gilist, seqidlist, taxids, taxidlist,
+   negative_seqidlist, negative_taxids, negative_taxidlist, remote, subject,
+   subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-negative_seqidlist <String>
+  Restrict search of database to everything except the specified SeqIDs
+  * Incompatible with:  gilist, seqidlist, taxids, taxidlist,
+   negative_gilist, negative_taxids, negative_taxidlist, remote, subject,
+   subject_loc| %></pre>
+  </li>
+  <li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-taxids <String>
+  Restrict search of database to include only the specified taxonomy IDs (multiple IDs delimited by ',')
+  * Incompatible with:  gilist, seqidlist, taxidlist, negative_gilist,
+   negative_seqidlist, negative_taxids, negative_taxidlist, remote, subject,
+   subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-negative_taxids <String>
+  Restrict search of database to everything except the specified taxonomy IDs (multiple IDs delimited by ',')
+  * Incompatible with:  gilist, seqidlist, taxids, taxidlist,
+   negative_gilist, negative_seqidlist, negative_taxidlist, remote, subject,
+   subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-taxidlist <String>
+  Restrict search of database to include only the specified taxonomy IDs
+  * Incompatible with:  gilist, seqidlist, taxids, negative_gilist,
+   negative_seqidlist, negative_taxids, negative_taxidlist, remote, subject,
+   subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-negative_taxidlist <String>
+  Restrict search of database to everything except the specified taxonomy IDs
+  * Incompatible with:  gilist, seqidlist, taxids, taxidlist,
+   negative_gilist, negative_seqidlist, negative_taxids, remote, subject,
+   subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q| -ipglist <String>
+  Restrict search of database to list of IPGs
+  * Incompatible with:  subject, subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q| -negative_ipglist <String>
+  Restrict search of database to everything except the specified IPGs
+  * Incompatible with:  subject, subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-entrez_query <String>
+  Restrict search with the given Entrez query
+  * Requires:  remote| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-db_soft_mask <String>
+  Filtering algorithm ID to apply to the BLAST database as soft masking
+  * Incompatible with:  db_hard_mask, subject, subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-db_hard_mask <String>
+  Filtering algorithm ID to apply to the BLAST database as hard masking
+  * Incompatible with:  db_soft_mask, subject, subject_loc| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-qcov_hsp_perc <Real, 0..100>
+  Percent query coverage per hsp| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-max_hsps <Integer, >=1>
+  Set maximum number of HSPs per subject sequence to save for each query| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-culling_limit <Integer, >=0>
+  If the query range of a hit is enveloped by that of at least this
+  many higher-scoring hits, delete the hit
+  * Incompatible with:  best_hit_overhang, best_hit_score_edge| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-best_hit_overhang <Real, (>0 and <0.5)>
+  Best Hit algorithm overhang value (recommended value: 0.1)
+  * Incompatible with:  culling_limit| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-best_hit_score_edge <Real, (>0 and <0.5)>
+  Best Hit algorithm score edge value (recommended value: 0.1)
+  * Incompatible with:  culling_limit| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-subject_besthit
+  Turn on best hit per subject sequence| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-max_target_seqs <Integer, >=1>
+  Maximum number of aligned sequences to keep (value of 5 or more is recommended)
+  Default = '500'
+  * Incompatible with:  num_descriptions, num_alignments| %></pre>
+  </li>
+</ul>
+
+<br/>
+
+<h5 class="text-lg py-4 font-medium">Statistical options</h5>
+<ul class="list-unstyled space-y-2">
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-dbsize <Int8>
+  Effective length of the database| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-searchsp <Int8, >=0>
+  Effective length of the search space| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-sum_stats <Boolean>
+  Use sum statistics| %></pre>
+  </li>
+</ul>
+
+<br/>
+
+<h5 class="text-lg py-4 font-medium">Extension options</h5>
+<ul class="list-unstyled space-y-2">
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-xdrop_ungap <Real>
+  X-dropoff value (in bits) for ungapped extensions| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-xdrop_gap <Real>
+  X-dropoff value (in bits) for preliminary gapped extensions| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-xdrop_gap_final <Real>
+  X-dropoff value (in bits) for final gapped alignment| %></pre>
+  </li>
+  <li>
+  <pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-window_size <Integer, >=0>
+  Multiple hits window size, use 0 to specify 1-hit algorithm| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-ungapped
+  Perform ungapped alignment only?| %></pre>
+  </li>
+</ul>
+<br/>
+
+<h5 class="text-lg py-4 font-medium">Miscellaneous options</h5>
+<ul class="list-unstyled space-y-2">
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-parse_deflines <Real>
+  Should the query and subject defline(s) be parsed?| %></pre>
+  </li>
+  <li>
+<pre class="bg-gray-100 border rounded overflow-x-auto p-2 font-mono hover:bg-yellow-100"><%= ERB::Util.h %q|-use_sw_tback <Real>
+  Compute locally optimal Smith-Waterman alignments?| %></pre>
+  </li>
+
+</ul>

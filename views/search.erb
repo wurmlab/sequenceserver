@@ -6,34 +6,45 @@
 <input type="hidden" id="input_sequence" value="<%= @input_sequence %>">
 
 <!-- We will initialise React on this div -->
-<div id="view"></div>
+<div id="view" class="my-6 container mx-auto max-w-screen-xl px-4 py-6"></div>
+<link rel="stylesheet" media="screen,print" type="text/css" href="<%= "#{base_url}" %>/blast/css/app.min.css"/>
 
 <!-- JS -->
 <script src="<%= "#{base_url}/blast/sequenceserver-search.min.js?ver=#{SequenceServer::VERSION}" %>"></script>
 
 <!-- Markup for advanced options modal -->
-<div
-  class="modal fade" id="help"
-  tabindex="-1">
-  <div
-    class="modal-dialog modal-lg">
-    <div
-      class="modal-content">
-      <div
-        class="modal-header">
-        <h3>Advanced Options</h3>
+<div class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" data-help-modal>
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-screen-md sm:w-full">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b">
+        <h3 class="text-xl leading-6 font-medium text-gray-900">Advanced Options</h3>
       </div>
-      <div
-        class="modal-body">
-        <%= erb :_options %>
+
+      <div class="overflow-y-scroll max-h-96 bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div id="tblastn">
+        <%= erb :tblastn_options %>
+        </div>
+        <div id="blastn">
+        <%= erb :blastn_options %>
+        </div>
+        <div id="blastx">
+        <%= erb :blastx_options %>
+        </div>
+        <div id="tblastx">
+        <%= erb :tblastx_options %>
+        </div>
+        <div id="blastp">
+        <%= erb :blastp_options %>
+        </div>
       </div>
-      <div
-        class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-default btn-primary"
-          data-dismiss="modal">
-          Got it!
+
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t">
+        <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-seqblue text-base font-medium text-white hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange sm:ml-3 sm:w-auto sm:text-sm" onclick="document.querySelector('[data-help-modal]').classList.add('hidden')">
+          Close
         </button>
       </div>
     </div>

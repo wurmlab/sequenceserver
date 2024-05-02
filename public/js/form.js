@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { SearchButton } from './search_button';
 import { SearchQueryWidget } from './query';
 import DatabasesTree from './databases_tree';
@@ -21,13 +21,14 @@ export class Form extends Component {
         this.useTreeWidget = this.useTreeWidget.bind(this);
         this.determineBlastMethod = this.determineBlastMethod.bind(this);
         this.handleSequenceTypeChanged = this.handleSequenceTypeChanged.bind(this);
-        this.handleDatabaseTypeChanaged = this.handleDatabaseTypeChanaged.bind(this);
-        this.handleNewTabCheckbox = this.handleNewTabCheckbox.bind(this);
+        this.handleDatabaseTypeChanged = this.handleDatabaseTypeChanged.bind(this);
         this.handleAlgoChanged = this.handleAlgoChanged.bind(this);
+        this.handleFormSubmission = this.handleFormSubmission.bind(this);
+        this.formRef = createRef();
     }
 
     componentDidMount() {
-        /** 
+        /**
         * Fetch data to initialise the search interface from the server. These
         * include list of databases to search against, advanced options to
         * apply when an algorithm is selected, and a query sequence that
@@ -77,7 +78,7 @@ export class Form extends Component {
             }
         });
 
-        // show overlay to create visual feedback on button click 
+        // show overlay to create visual feedback on button click
         $('#method').on('click', () => {
             $('#overlay').css('display', 'block');
         });
@@ -85,6 +86,28 @@ export class Form extends Component {
 
     useTreeWidget() {
         return !_.isEmpty(this.state.tree);
+    }
+
+    handleFormSubmission(evt) {
+        evt.preventDefault();
+        const form = this.formRef.current;
+        const formData = new FormData(form);
+        formData.append('method', this.refs.button.state.methods[0]);
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData
+        }).then(res => {
+            //remove overlay when form is submitted
+            $('#overlay').css('display', 'none');
+            // redirect
+            if (res.redirected && res.url) {
+                // setTimeout is needed here as a workaround because safari doesnt allow async calling of window.open
+                // so setTimeout makes the method get called on the main thread.
+                setTimeout(() => {
+                    window.open(res.url, $('#toggleNewTab').is(':checked') ? '_blank' : '_self');
+                }, 0);
+            }
+        });
     }
 
     determineBlastMethod() {
@@ -131,7 +154,7 @@ export class Form extends Component {
         });
     }
 
-    handleDatabaseTypeChanaged(type) {
+    handleDatabaseTypeChanged(type) {
         this.databaseType = type;
         this.refs.button.setState({
             hasQuery: !this.refs.query.isEmpty(),
@@ -141,63 +164,51 @@ export class Form extends Component {
     }
 
     handleAlgoChanged(algo) {
-        if (this.state.preDefinedOpts.hasOwnProperty(algo)) {
+        if (algo in this.state.preDefinedOpts) {
             var preDefinedOpts = this.state.preDefinedOpts[algo];
             this.refs.opts.setState({
+                method: algo,
                 preOpts: preDefinedOpts,
                 value: (preDefinedOpts['last search'] ||
                     preDefinedOpts['default']).join(' ')
             });
         }
         else {
-            this.refs.opts.setState({ preOpts: {}, value: '' });
+            this.refs.opts.setState({ preOpts: {}, value: '', method: '' });
         }
     }
 
-    handleNewTabCheckbox() {
-        setTimeout(() => {
-            if ($('#toggleNewTab').is(':checked')) {
-                $('#blast').attr('target', '_blank');
-            }
-            else {
-                $('#blast').attr('target', '_self');
-            }
-        });
-    }
     render() {
         return (
-            <div className="container">
+            <div>
                 <div id="overlay" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vw', background: 'rgba(0, 0, 0, 0.2)', display: 'none', zIndex: 99 }} />
-                <form id="blast" method="post" className="form-horizontal">
-                    <div className="form-group query-container">
-                        <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
-                    </div>
-                    <div className="notifications" id="notifications">
-                        <NucleotideNotification />
-                        <ProteinNotification />
-                        <MixedNotification />
-                    </div>
+
+                <div className="fixed top-0 left-0 w-full max-h-8 px-8" data-notifications id="notifications">
+                    <FastqNotification />
+                    <NucleotideNotification />
+                    <ProteinNotification />
+                    <MixedNotification />
+                </div>
+
+                <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission}>
+                    <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
+
                     {this.useTreeWidget() ?
                         <DatabasesTree ref="databases"
                             databases={this.state.databases} tree={this.state.tree}
                             preSelectedDbs={this.state.preSelectedDbs}
-                            onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} />
+                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged} />
                         :
                         <Databases ref="databases" databases={this.state.databases}
                             preSelectedDbs={this.state.preSelectedDbs}
-                            onDatabaseTypeChanged={this.handleDatabaseTypeChanaged} />
+                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged} />
                     }
-                    <div className="form-group">
+
+                    <div className="md:flex flex-row md:space-x-4 items-center my-6">
                         <Options ref="opts" />
-                        <div className="col-md-2">
-                            <div className="form-group" style={{ 'textAlign': 'center', 'padding': '7px 0' }}>
-                                <label>
-                                    <input type="checkbox" id="toggleNewTab"
-                                        onChange={() => { this.handleNewTabCheckbox(); }}
-                                    /> Open results in new tab
-                                </label>
-                            </div>
-                        </div>
+                        <label className="block my-4 md:my-0">
+                            <input type="checkbox" id="toggleNewTab" /> Open results in new tab
+                        </label>
                         <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged} />
                     </div>
                 </form>
@@ -212,11 +223,11 @@ class ProteinNotification extends Component {
     render() {
         return (
             <div
-                className="notification row"
+                data-role="notification"
                 id="protein-sequence-notification"
                 style={{ display: 'none' }}>
                 <div
-                    className="alert-info col-md-6 col-md-offset-3">
+                    className="bg-blue-100 border rounded border-blue-800 px-4 py-2 my-2">
                     Detected: amino-acid sequence(s).
                 </div>
             </div>
@@ -227,12 +238,27 @@ class ProteinNotification extends Component {
 class NucleotideNotification extends Component {
     render() {
         return (<div
-            className="notification row"
+            data-role="notification"
             id="nucleotide-sequence-notification"
             style={{ display: 'none' }}>
             <div
-                className="alert-info col-md-6 col-md-offset-3">
+                className="bg-blue-100 border rounded border-blue-800 px-4 py-2 my-2">
                 Detected: nucleotide sequence(s).
+            </div>
+        </div>
+        );
+    }
+}
+
+class FastqNotification extends Component {
+    render() {
+        return (<div
+            data-role="notification"
+            id="fastq-sequence-notification"
+            style={{ display: 'none' }}>
+            <div
+                className="bg-blue-100 border rounded border-blue-800 px-4 py-2 my-2">
+                Detected FASTQ and automatically converted to FASTA.
             </div>
         </div>
         );
@@ -243,7 +269,7 @@ class MixedNotification extends Component {
     render() {
         return (
             <div
-                className="notification row"
+                data-role="notification"
                 id="mixed-sequence-notification"
                 style={{ display: 'none' }}>
                 <div

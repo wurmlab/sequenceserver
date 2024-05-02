@@ -3,14 +3,7 @@ import React, { Component } from "react";
 import { createRoot } from "react-dom/client";
 import { DnD } from "./dnd";
 import { Form } from "./form";
-/**
- * Load necessary polyfills.
- */
-$.webshims.setOptions(
-  "basePath",
-  "/blast/vendor/npm/webshim@1.15.8/js-webshim/minified/shims/"
-);
-$.webshims.polyfill("forms");
+import { SearchHeaderPlugin } from "search_header_plugin";
 
 /**
  * Clear sessionStorage on reload.
@@ -27,6 +20,7 @@ class Page extends Component {
   render() {
     return (
       <div>
+        <SearchHeaderPlugin />
         <DnD ref="dnd" />
         <Form ref="form" />
       </div>

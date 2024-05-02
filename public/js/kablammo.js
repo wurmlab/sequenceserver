@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import _ from 'underscore';
-import Grapher from './grapher';
+import Grapher from 'grapher';
 import * as Helpers from './visualisation_helpers';
 
 /**
@@ -18,6 +18,10 @@ import * as Helpers from './visualisation_helpers';
  */
 
 class Graph {
+    static canCollapse() {
+        return true;
+    }
+
     static name() {
         return 'Graphical overview of aligning region(s)';
     }
@@ -26,7 +30,7 @@ class Graph {
         return 'kablammo';
     }
 
-    static collapseId(props) {
+    static graphId(props) {
         return 'kablammo_'+props.query.number+'_'+props.hit.number;
     }
 

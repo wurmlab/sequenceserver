@@ -1,4 +1,6 @@
 require 'sequenceserver/job'
+require 'sequenceserver/zip_file_generator'
+require 'sequenceserver/blast/error'
 
 module SequenceServer
   # BLAST module.
@@ -19,7 +21,8 @@ module SequenceServer
         else
           validate params
           super do
-            @method    = params[:method]
+            @method = params[:method]
+            @query = params[:sequence]
             @qfile     = store('query.fa', params[:sequence])
             @databases = Database[params[:databases]]
             @advanced  = params[:advanced].to_s.strip
@@ -27,6 +30,7 @@ module SequenceServer
             # The following params are for analytics only
             @num_threads = config[:num_threads]
             @query_length = calculate_query_size
+            @number_of_query_sequences = calculate_number_of_sequences
             @databases_ncharacters_total = calculate_databases_ncharacters_total
           end
         end
@@ -34,14 +38,15 @@ module SequenceServer
 
       # :nodoc:
       # Attributes used by us - should be considered private.
-      attr_reader :advanced
-      attr_reader :databases
-      attr_reader :databases_ncharacters_total
-      attr_reader :method
-      attr_reader :num_threads
-      attr_reader :options
-      attr_reader :qfile
-      attr_reader :query_length
+      attr_reader :advanced,
+                  :databases,
+                  :databases_ncharacters_total,
+                  :method,
+                  :num_threads,
+                  :options,
+                  :qfile,
+                  :query_length,
+                  :number_of_query_sequences
 
       # :nodoc:
       # Deprecated; see Report#extract_params
@@ -61,49 +66,24 @@ module SequenceServer
                      " -query '#{qfile}' #{options}"
       end
 
-      # Override Job#raise! to raise specific API errors based on exitstatus
-      # and using contents of stderr to provide context about the error.
-      #
-      # rubocop:disable Metrics/CyclomaticComplexity
       def raise!
-        # Return true exit status is 0 and stdout is not empty.
-        return true if exitstatus.zero? && !File.zero?(stdout)
+        SequenceServer::BLAST::Error.new(exitstatus: exitstatus, stdout: stdout, stderr: stderr).raise!
+      end
 
-        # Handle error. See [1].
-        case exitstatus
-        when 1..2
-          # 1: Error in query sequences or options.
-          # 2: Error in BLAST databases.
-          error = IO.foreach(stderr).grep(ERROR_LINE).join
-          error = File.read(stderr) if error.empty?
-          fail InputError, "(#{exitstatus}) #{error}"
-        when 4
-          # Out of memory. User can retry with a shorter search, so raising
-          # InputError here instead of SystemError.
-          fail InputError, <<~MSG
-            Ran out of memory. Please try a smaller query, fewer and smaller
-            databases, or limiting the output by using advanced options.
-          MSG
-        when 6
-          # Error creating output files. It can't be a permission issue as that
-          # would have been caught while creating job directory. But we can run
-          # out of storage after creating the job directory and while running
-          # the job. This is a SystemError.
-          fail SystemError, 'Ran out of disk space.'
-        else
-          # I am not sure what the exit codes 3 means and we should not
-          # encounter exit code 5. The only other error that I know can happen
-          # but is not yet handled is when BLAST+ binaries break such as after
-          # macOS updates. So raise SystemError, include the exit status in the
-          # message, and say that that the "most likely" reason is broken BLAST+
-          # binaries.
-          fail SystemError, <<~MSG
-            BLAST failed abruptly (exit status: #{exitstatus}). Most likely there is a
-            problem with the BLAST+ binaries.
-          MSG
+      # Use it with a block to get a self-cleaning temporary archive file
+      # of the contents of the job directory.
+      # job.as_archived_file do |tmp_file|
+      #    # do things with tmp_file
+      # end
+      def as_archived_file(&block)
+        Dir.mktmpdir(id.to_s) do |tmp_dir|
+          file_path = "#{tmp_dir}/#{id}.zip"
+          ZipFileGenerator.new(dir, file_path).write
+          File.open(file_path, 'r') do |file|
+            block.call(file)
+          end
         end
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
 
       private
 
@@ -115,9 +95,18 @@ module SequenceServer
         size = 0
         IO.foreach(@qfile) do |line|
           next if line[0] == '>'
+
           size += line.gsub(/\s+/, '').length
         end
         size
+      end
+
+      def calculate_number_of_sequences
+        # splitting the query by ">" starting a new line lets us determine number of sequences
+        sequences = @query.split(/\n\s*>\s*+/)
+        # Remove any empty strings from the split result
+        sequences.reject!(&:empty?)
+        sequences.length
       end
 
       def validate(params)
@@ -133,12 +122,14 @@ module SequenceServer
 
       def validate_method(method)
         return true if ALGORITHMS.include? method
+
         fail InputError, 'BLAST algorithm should be one of:' \
                             " #{ALGORITHMS.join(', ')}."
       end
 
       def validate_sequences(sequences)
         return true if sequences.is_a?(String) && !sequences.empty?
+
         fail InputError, 'Sequences should be a non-empty string.'
       end
 
@@ -146,6 +137,7 @@ module SequenceServer
         ids = Database.ids
         return true if database_ids.is_a?(Array) && !database_ids.empty? &&
                        (ids & database_ids).length == database_ids.length
+
         fail InputError, "Database id should be one of: #{ids.join("\n")}."
       end
 
@@ -157,9 +149,7 @@ module SequenceServer
         return true if !options || (options.is_a?(String) &&
                                     options.strip.empty?)
 
-        unless allowed_chars.match(options)
-          fail InputError, 'Invalid characters detected in options.'
-        end
+        fail InputError, 'Invalid characters detected in options.' unless allowed_chars.match(options)
 
         if disallowed_options.match(options)
           failedopt = Regexp.last_match[0]
@@ -170,7 +160,7 @@ module SequenceServer
       end
 
       def allowed_chars
-        /\A[a-z0-9\-_\. ',]*\Z/i
+        /\A[a-z0-9\-_. ',]*\Z/i
       end
 
       def disallowed_options
@@ -179,7 +169,3 @@ module SequenceServer
     end
   end
 end
-
-# References
-# ----------
-# [1]: http://www.ncbi.nlm.nih.gov/books/NBK1763/ (Appendices)

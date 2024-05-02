@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.0
   Exclude:
     # Because these are vendor files.
     - 'node_modules/**/*'
@@ -8,6 +8,7 @@ Metrics/AbcSize:
   Exclude:
     # TODO
     - 'lib/sequenceserver.rb'
+    - 'spec/**/*'
 Metrics/MethodLength:
   # Because 15 lines in a method is just about as good as 10 (default). And we
   # have a couple that can't be helped.
@@ -30,6 +31,7 @@ Metrics/BlockLength:
   Exclude:
     - 'bin/sequenceserver'
     - 'sequenceserver.gemspec'
+    - 'spec/**/*'
 
 Style/UnlessElse:
   # TODO:

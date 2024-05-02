@@ -24,81 +24,109 @@ module SequenceServer
     class Report < Report
       def initialize(job)
         super do
-          @queries = []
           @querydb = job.databases
         end
       end
 
-      # Attributes parsed out from BLAST output.
-      attr_reader :program, :program_version, :stats, :queries
-
-      # Attributes parsed from job metadata and BLAST output.
-      attr_reader :querydb, :dbtype, :params
-
-      def to_json
-        [:querydb, :program, :program_version, :params, :stats,
-         :queries].inject({}) { |h, k|
+      def to_json(*_args)
+        %i[querydb program program_version params stats
+           queries].inject({}) do |h, k|
           h[k] = send(k)
           h
-        }.update(search_id: job.id,
-                 submitted_at: job.submitted_at.utc,
-                 imported_xml: !!job.imported_xml_file,
-                 seqserv_version: SequenceServer::VERSION,
-                 non_parse_seqids: !!job.databases&.any?(&:non_parse_seqids?)).to_json
+        end.update(search_id: job.id,
+                   submitted_at: job.submitted_at.utc,
+                   imported_xml: !job.imported_xml_file.nil?,
+                   seqserv_version: SequenceServer::VERSION,
+                   cloud_sharing_enabled: SequenceServer.config[:cloud_share_url].start_with?('http'),
+                   non_parse_seqids: !!job.databases&.any?(&:non_parse_seqids?)).to_json
+      end
+
+      def xml_file_size
+        return File.size(job.imported_xml_file) if job.imported_xml_file
+
+        xml_formatter.size
+      end
+
+      def done?
+        return true if job.imported_xml_file
+
+        File.exist?(xml_formatter.filepath) && File.exist?(tsv_formatter.filepath)
+      end
+
+      def program
+        @program ||= xml_ir[0]
+      end
+
+      def program_version
+        @program_version ||= xml_ir[1]
+      end
+
+      def querydb
+        @querydb ||= xml_ir[3].split.map do |path|
+          { title: File.basename(path) }
+        end
+      end
+
+      def dbtype
+        @dbtype ||= querydb&.first&.type || dbtype_from_program
+      end
+
+      def params
+        @params ||= extract_params
+      end
+
+      def stats
+        @stats ||= extract_stats
+      end
+
+      def queries
+        @queries ||= xml_ir[8].map do |n|
+          query = Query.new(self, n[0], n[2], n[3], [])
+          query.hits = query_hits(n[4], tsv_ir[query.id], query)
+
+          query
+        end
       end
 
       private
 
-      # Generate report.
-      def generate
-        job.raise!
-        xml_ir = nil
-        tsv_ir = nil
-        if job.imported_xml_file
-          xml_ir = parse_xml File.read(job.imported_xml_file)
-          tsv_ir = Hash.new do |h1,k1|
-            h1[k1] = Hash.new do |h2,k2|
-              h2[k2]=['','',[]]
+      def xml_ir
+        @xml_ir ||=
+          if job.imported_xml_file
+            parse_xml File.read(job.imported_xml_file)
+          else
+            job.raise!
+            parse_xml(xml_formatter.read_file)
+          end
+      end
+
+      def tsv_ir
+        @tsv_ir ||=
+          if job.imported_xml_file
+            Hash.new do |h1, k1|
+              h1[k1] = Hash.new do |h2, k2|
+                h2[k2] = ['', '', []]
+              end
             end
+          else
+            job.raise!
+            parse_tsv(tsv_formatter.read_file)
           end
-        else
-          xml_ir = parse_xml File.read(Formatter.run(job, 'xml').file)
-          tsv_ir = parse_tsv File.read(Formatter.run(job, 'custom_tsv').file)
-        end
-        extract_program_info xml_ir
-        extract_db_info xml_ir
-        extract_params xml_ir
-        extract_stats xml_ir
-        extract_queries xml_ir, tsv_ir
       end
 
-      # Make program name and program name + version available via `program`
-      # and `program_version` attributes.
-      def extract_program_info(ir)
-        @program         = ir[0]
-        @program_version = ir[1]
+      def xml_formatter
+        @xml_formatter ||= Formatter.run(job, 'xml')
       end
 
-      # Get database information (title and type) from job yaml or from XML.
-      # Sets `querydb` and `dbtype` attributes.
-      def extract_db_info(ir)
-        if @querydb.empty?
-          @querydb = ir[3].split.map do |path|
-            { title: File.basename(path) }
-          end
-          @dbtype = dbtype_from_program
-        else
-          @dbtype = @querydb.first.type
-        end
+      def tsv_formatter
+        @tsv_formatter ||= Formatter.run(job, 'custom_tsv')
       end
 
-      # Make search params available via `params` attribute.
-      #
       # Search params tweak the results. Like evalue cutoff or penalty to open
       # a gap. BLAST+ doesn't list all input params in the XML output. Only
       # matrix, evalue, gapopen, gapextend, and filters are available from XML
       # output.
-      def extract_params(ir)
+      def extract_params
         # Parse/get params from the job first.
         job_params = parse_advanced(job.advanced)
         # Old jobs from beta releases may not have the advanced key but they
@@ -107,7 +135,7 @@ module SequenceServer
 
         # Parse params from BLAST XML.
         @params = Hash[
-          *ir[7].first.map { |k, v| [k.gsub('Parameters_', ''), v] }.flatten
+          *xml_ir[7].first.map { |k, v| [k.gsub('Parameters_', ''), v] }.flatten
         ]
         @params['evalue'] = @params.delete('expect')
 
@@ -115,36 +143,26 @@ module SequenceServer
         @params = job_params.merge(@params)
       end
 
-      # Make search stats available via `stats` attribute.
-      #
       # Search stats are computed metrics. Like total number of sequences or
       # effective search space.
-      def extract_stats(ir)
-        stats  = ir[8].first[5][0]
-        @stats = {
-          nsequences:   stats[0],
-          ncharacters:  stats[1],
-          hsp_length:   stats[2],
+      def extract_stats
+        stats = xml_ir[8].first[5][0]
+        {
+          nsequences: stats[0],
+          ncharacters: stats[1],
+          hsp_length: stats[2],
           search_space: stats[3],
-          kappa:        stats[4],
-          labmda:       stats[5],
-          entropy:      stats[6]
+          kappa: stats[4],
+          labmda: stats[5],
+          entropy: stats[6]
         }
       end
 
-      # Create query objects for the given report from the given ir.
-      def extract_queries(xml_ir, tsv_ir)
-        xml_ir[8].each do |n|
-          query = Query.new(self, n[0], n[2], n[3], [])
-          extract_hits(n[4], tsv_ir[query.id], query)
-          queries << query
-        end
-      end
-
       # Create Hit objects for the given query from the given ir.
-      def extract_hits(xml_ir, tsv_ir, query)
-        return if xml_ir == ["\n"] # => No hits.
-        xml_ir.each do |n|
+      def query_hits(xml_ir, tsv_ir, query)
+        return [] if xml_ir == ["\n"] # => No hits.
+
+        xml_ir.map do |n|
           # If hit comes from a non -parse_seqids database, then id (n[1]) is a
           # BLAST assigned internal id of the format 'gnl|BL_ORD_ID|serial'. We
           # assign the id to accession (because we use accession for sequence
@@ -158,27 +176,30 @@ module SequenceServer
             n[1] = defline.shift
             n[2] = defline.join(' ')
           end
+
           hit = Hit.new(query, n[0], n[1], n[3], n[2], n[4],
                         tsv_ir[n[1]][0], tsv_ir[n[1]][1], [])
-          extract_hsps(n[5], tsv_ir[n[1]][2], hit)
-          query.hits << hit
+
+          hit.hsps = hsps(n[5], tsv_ir[n[1]][2], hit)
+
+          hit
         end
       end
 
-      # Create HSP objects for the given hit from the given ir.
-      def extract_hsps(xml_ir, tsv_ir, hit)
-        xml_ir.each_with_index do |n, i|
+      def hsps(xml_ir, tsv_ir, hit)
+        xml_ir.map.with_index do |n, i|
           n.insert(14, tsv_ir[i])
-          hsp = HSP.new(*[hit, *n])
-          hit.hsps << hsp
+
+          HSP.new(hit, *n)
         end
       end
 
       def parse_xml(xml)
         node_to_array Ox.parse(xml).root
       rescue Ox::ParseError
-        fail 'Error parsing XML file' if job.imported_xml_file
-        fail InputError, <<~MSG
+        raise 'Error parsing XML file' if job.imported_xml_file
+
+        raise InputError, <<~MSG
           BLAST generated incorrect XML output. This can happen if sequence ids in your
           databases are not unique across all files. As a temporary workaround, you can
           repeat the search with one database at a time. Proper fix is to recreate the
@@ -231,9 +252,12 @@ module SequenceServer
       #    ...
       # }
       def parse_tsv(tsv)
-        ir = Hash.new {|h, k| h[k] = {} }
+        ir = Hash.new { |h, k| h[k] = {} }
         tsv.each_line do |line|
-          next if line.start_with? '#'; row = line.chomp.split("\t")
+          next if line.start_with? '#'
+
+          row = line.chomp.split("\t")
+
           (ir[row[0]][row[1]] ||= [row[2], row[3], []])[2] << row[4]
         end
         ir
@@ -246,14 +270,14 @@ module SequenceServer
 
         param_list.each_with_index do |word, i|
           nxt = param_list[i + 1]
-          if word.start_with? '-'
-            word.sub!('-', '')
-            unless nxt.nil? || nxt.start_with?('-')
-              res[word] = nxt
-            else
-              res[word] = 'True'
-            end
-          end
+          next unless word.start_with? '-'
+
+          word.sub!('-', '')
+          res[word] = unless nxt.nil? || nxt.start_with?('-')
+                        nxt
+                      else
+                        'True'
+                      end
         end
         res
       end

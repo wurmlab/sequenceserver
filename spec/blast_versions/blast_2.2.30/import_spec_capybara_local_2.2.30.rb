@@ -12,7 +12,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the first hit Alignment download button on the page and wait for
     # the download to finish.
 
-    page.execute_script("$('.download-aln:eq(0)').click()")
+    page.first('.download-aln').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('sp_P04637_P53_HUMAN_gi_120407068_ref_NP_000537_3.txt')
     expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/sp_P04637_P53_HUMAN_gi_120407068_ref_NP_000537_3.txt'))
@@ -49,13 +49,13 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
 
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.svg')
 
@@ -63,13 +63,13 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the first hit available and
     # compare the downloaded content.
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.find_all(".export-to-png")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_120407068_ref_NP_000537_3.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.find_all(".export-to-svg")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_120407068_ref_NP_000537_3.svg')
     page.should have_content('BLASTP')
@@ -81,16 +81,16 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the Circos expanding button, wait for animation, click on the
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.png')
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.svg')
   end
@@ -101,17 +101,17 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the Length distribution expanding button, wait for animation,
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.find_all(".export-to-png")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-sp_P04637_P53_HUMAN.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.find_all(".export-to-svg")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-sp_P04637_P53_HUMAN.svg')
   end
@@ -123,7 +123,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     # Click on the first Alignment download button on the page and wait for the
     # download to finish.
-    page.execute_script("$('.download-aln:eq(0)').click()")
+    page.first('.download-aln').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1486783307_gb_AYF55702_1.txt')
     expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/MH011443_1_gi_1486783307_gb_AYF55702_1.txt'))
@@ -160,13 +160,13 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
 
@@ -174,13 +174,13 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the first hit available and
     # compare the downloaded content.
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.find_all(".export-to-png")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.find_all(".export-to-svg")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.svg')
     page.should have_content('BLASTX')
@@ -192,16 +192,16 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.png')
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.svg')
   end
@@ -212,17 +212,17 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.find_all(".export-to-png")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-MH011443_1.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.find_all(".export-to-svg")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-MH011443_1.svg')
   end
@@ -235,7 +235,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the first Alignment download button on the page and wait for the
     # download to finish.
 
-    page.execute_script("$('.download-aln:eq(0)').click()")
+    page.first('.download-aln').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1486783306_gb_MH011443_1.txt')
     expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/MH011443_1_gi_1486783306_gb_MH011443_1.txt'))
@@ -271,13 +271,13 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
 
@@ -285,7 +285,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the PNG download button of the first hit available and compare
     # the downloaded content.
 
-    page.execute_script("$('.export-to-png:eq(2)').click()")
+    page.find_all(".export-to-png")[2].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1528997474_gb_MH447967_1.png')
 
@@ -294,7 +294,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the SVG download button of the first hit available and compare
     # the downloaded content.
 
-    page.execute_script("$('.export-to-svg:eq(2)').click()")
+    page.find_all(".export-to-svg")[2].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1528997474_gb_MH447967_1.svg')
     page.should have_content('BLASTN')
@@ -306,16 +306,16 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.png')
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.svg')
   end
@@ -326,16 +326,16 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.find_all(".export-to-png")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-MH011443_1.png')
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.find_all(".export-to-svg")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-MH011443_1.svg')
   end
@@ -348,7 +348,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the first Alignment download button on the page and wait for the
     # download to finish.
 
-    page.execute_script("$('.download-aln:eq(0)').click()")
+    page.first('.download-aln').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('sp_P04637_P53_HUMAN_gi_1484127324_gb_MG595988_1.txt')
     expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/sp_P04637_P53_HUMAN_gi_1484127324_gb_MG595988_1.txt'))
@@ -385,13 +385,13 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
 
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-sp_P04637_P53_HUMAN.svg')
 
@@ -400,7 +400,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the PNG download button of the first hit available and compare
     # the downloaded content.
 
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.find_all(".export-to-png")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_1484127324_gb_MG595988_1.png')
 
@@ -409,7 +409,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the SVG download button of the first hit available and compare
     # the downloaded content.
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.find_all(".export-to-svg")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_1484127324_gb_MG595988_1.svg')
     page.should have_content('TBLASTN')
@@ -421,17 +421,17 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.svg')
   end
@@ -442,17 +442,17 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.find_all(".export-to-png")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-sp_P04637_P53_HUMAN.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.find_all(".export-to-svg")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-sp_P04637_P53_HUMAN.svg')
   end
@@ -464,7 +464,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the first Alignment download button on the page and wait for the
     # download to finish.
 
-    page.execute_script("$('.download-aln:eq(1)').click()")
+    page.find_all(".download-aln")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('MH011443_1_gi_1528997474_gb_MH447967_1.txt')
     expect(File.read(downloaded_file)). to eq(File.read('spec/sequences/MH011443_1_gi_1528997474_gb_MH447967_1.txt'))
@@ -500,13 +500,13 @@ describe 'report generated from imported XML', type: :feature, js: true do
 
     # Click on the PNG/SVG download button of the alignment overview and compare
     # the downloaded content.
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Alignment-Overview-MH011443_1.svg')
 
@@ -515,7 +515,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the PNG download button of the first hit available and compare
     # the downloaded content.
 
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.find_all(".export-to-png")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.png')
 
@@ -524,7 +524,7 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # Click on the SVG download button of the first hit available and compare
     # the downloaded content.
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.find_all(".export-to-svg")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.svg')
     page.should have_content('TBLASTX')
@@ -536,17 +536,17 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # download of PNG/SVG file and test that it initiated a file download in a
     # right format.
 
-    page.should have_content('Queries and their top hits: chord diagram')
+    page.should have_content('Chord diagram of queries and their top hits')
     page.execute_script("$('.circos > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(0)').click()")
+    page.first('.export-to-png').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(0)').click()")
+    page.first('.export-to-svg').click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('Circos-visualisation.svg')
   end
@@ -557,17 +557,17 @@ describe 'report generated from imported XML', type: :feature, js: true do
     # click on the download of PNG/SVG file and test that it initiated a file
     # download in a right format.
 
-    page.should have_content('Length distribution of matching sequences')
+    page.should have_content('Length distribution of matching hit sequences')
     page.execute_script("$('.length-distribution > .grapher-header > h4').click()")
     sleep 1
 
-    page.execute_script("$('.export-to-png:eq(1)').click()")
+    page.find_all(".export-to-png")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-MH011443_1.png')
 
     clear_downloads
 
-    page.execute_script("$('.export-to-svg:eq(1)').click()")
+    page.find_all(".export-to-svg")[1].click
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('length-distribution-MH011443_1.svg')
   end

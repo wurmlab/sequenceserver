@@ -51,6 +51,34 @@ module SequenceServer
       "corrected\n YUOP POKJ M NAHAA JJHFGF YERTQ                        "
     end
 
+    let(:query_without_symbol) do
+    "MNTLWLSLWDYPGKLPLNFMVFDTKDDLQAAYWRDPYSIPLAVIFEDPQPISQRLIYEIR
+    TNPSYTLPPPPTKLYSAPISCRKNKTGHWMDDILSIKTGESCPVNNYLHSGFLALQMITD
+    ITKIKLENSDVTIPDIKLIMFPKEPYTADWMLAFRVVIPLYMVLALSQFITYLLILIVGE
+    KENKIKEGMKMMGLNDSVF"
+    end
+
+    let(:query_with_symbol) do
+    '>SI2.2.0_13722 locus=Si_gnF.scaffold06207[1925625..1928536].pep_1 quality=100.00
+    MSANRLNVLVTLMLAVALLVTESGNAQVDGYLQFNPKRSAVSSPQKYCGKKLSNALQIIC
+    DGVYNSMFKKSGQDFPPQNKRHIAHRINGNEEESFTTLKSNFLNWCVEVYHRHYRFVFVS
+    EMEMADYPLAYDISPYLPPFLSRARARGMLDGRFAGRRYRRESRGIHEECCINGCTINEL
+    TSYCGP'
+    end
+
+    let(:query_with_and_without_symbol) do
+    "MNTLWLSLWDYPGKLPLNFMVFDTKDDLQAAYWRDPYSIPLAVIFEDPQPISQRLIYEIR
+    TNPSYTLPPPPTKLYSAPISCRKNKTGHWMDDILSIKTGESCPVNNYLHSGFLALQMITD
+    ITKIKLENSDVTIPDIKLIMFPKEPYTADWMLAFRVVIPLYMVLALSQFITYLLILIVGE
+    KENKIKEGMKMMGLNDSVF
+    >SI2.2.0_13722 locus=Si_gnF.scaffold06207[1925625..1928536].pep_1 quality=100.00
+    MSANRLNVLVTLMLAVALLVTESGNAQVDGYLQFNPKRSAVSSPQKYCGKKLSNALQIIC
+    DGVYNSMFKKSGQDFPPQNKRHIAHRINGNEEESFTTLKSNFLNWCVEVYHRHYRFVFVS
+    EMEMADYPLAYDISPYLPPFLSRARARGMLDGRFAGRRYRRESRGIHEECCINGCTINEL
+    TSYCGP
+    "
+    end
+
     # all databases used here are v5 databases included in
     # SequenceServer.init(database_dir: "#{__dir__}/database")
     # [15] = funky ids (nucleotide)
@@ -85,6 +113,41 @@ module SequenceServer
         databases: [Database.ids[15], Database.ids[16], Database.ids[19]],
         method: 'blastn'
       }
+
+      @params_query_without_symbol ={
+        sequence: query_without_symbol,
+        databases: [Database.ids[17]],
+        method: 'blastp'
+      }
+
+      @params_query_with_symbol ={
+        sequence: query_with_symbol,
+        databases: [Database.ids[17]],
+        method: 'blastp'
+      }
+      @params_query_with_and_without_symbol ={
+        sequence: query_with_and_without_symbol,
+        databases: [Database.ids[17]],
+        method: 'blastp'
+      }
+    end
+    context 'queries not containing a >' do
+        let(:job) {Job.create(@params_query_without_symbol)}
+      it 'should accurately compute number of sequences' do
+        expect(job.number_of_query_sequences).to eq(1)
+      end
+    end
+    context 'queries containing a > at the start' do
+        let(:job) {Job.create(@params_query_with_symbol)}
+      it 'should accurately compute number of sequences' do
+        expect(job.number_of_query_sequences).to eq(1)
+      end
+    end
+    context 'queries containing a > but not at the start' do
+        let(:job) {Job.create(@params_query_with_and_without_symbol)}
+      it 'should accurately compute number of sequences' do
+        expect(job.number_of_query_sequences).to eq(2)
+      end
     end
 
     context 'with one protein database' do

@@ -29,7 +29,6 @@ System.config({
     "react-dom": "npm:react-dom@18.0.0",
     "underscore": "npm:underscore@1.8.3",
     "vakata/jstree": "github:vakata/jstree@3.3.8",
-    "webshim": "npm:webshim@1.15.8",
     "github:components/jqueryui@1.11.4": {
       "jquery": "github:components/jquery@2.1.4"
     },
@@ -143,11 +142,6 @@ System.config({
     },
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"
-    },
-    "npm:webshim@1.15.8": {
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
     }
   }
 });

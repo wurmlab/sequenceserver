@@ -1,0 +1,112 @@
+# If nektos/act is installed as a GitHub CLI extension...
+# https://github.com/nektos/act#installation-as-github-cli-extension
+# ...then run this locally with:
+# gh act -j test
+# Appending to $PATH: https://www.scivision.dev/github-actions-path-append/
+
+  name: Tests
+  on:
+    push:
+      branches:
+       - master
+    pull_request:
+      branches:
+       - master
+  env:
+    CC_TEST_REPORTER_ID: ec48bb03c72db6b43ce71fd488110b4707abfde4386c144d886d711378d8db64
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: Get BLAST
+          working-directory: /opt
+          run: wget -c "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.15.0/ncbi-blast-2.15.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
+
+        - name: BLAST PATH
+          run: mkdir /opt/bin && echo "/opt/bin:/opt/ncbi-blast-2.15.0+/bin" >> $GITHUB_PATH
+
+        - name: Get CodeClimate
+          working-directory: /opt
+          run: wget -c "https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64" -O bin/cc-test-reporter && chmod +x bin/cc-test-reporter
+
+        - uses: browser-actions/setup-chrome@latest
+        - run: chrome --version
+
+        - name: Set up Ruby
+          uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: '3.2'
+            bundler-cache: true
+
+        - name: Install Ruby dependencies
+          run: bundle install
+
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '16'
+
+        - name: Install NPM Dependencies
+          run: npm install
+
+        - name: Instal Jest
+          run: npm install --save-dev jest
+
+        - name: Build JS and CSS assets
+          run: npm run build
+
+        - name: Check assets were compiled and checked-in
+          continue-on-error: true
+          run: |
+            if git diff --quiet --exit-code -- public; then
+              echo "No changes in 'public' directory."
+            else
+              echo "Changes detected in 'public' directory. Please compile assets locally and commit the changes."
+              exit 1
+            fi
+
+        - name: Create SequenceServer config file
+          run: bundle exec bin/sequenceserver -s -d spec/database/v5/sample
+
+        - name: CodeClimate before-build hook
+          run: cc-test-reporter before-build
+
+        - name: Run main specs and import spec for BLAST 2.9.0+
+          id: rspec_tests
+          run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
+          continue-on-error: true
+
+        - name: upload rspec coverage report
+          uses: actions/upload-artifact@v3
+          with:
+            name: rspec-code-coverage-report
+            path: coverage
+
+        - name: format-coverage (Rspec)
+          run: cc-test-reporter format-coverage --output coverage/codeclimate_rspec.json
+
+        - name: Jest tests
+          id: jest_tests
+          run: npm test -- --coverage
+          continue-on-error: true
+
+        - name: upload Jest coverage report
+          uses: actions/upload-artifact@v3
+          with:
+            name: jest-code-coverage-report
+            path: coverage/lcov-report/
+
+        - name: format-coverage (Jest)
+          run: cc-test-reporter format-coverage coverage/lcov.info --input-type lcov --output coverage/codeclimate_jest.json
+
+        - name: sum-coverage
+          run: cc-test-reporter sum-coverage --parts 2 coverage/codeclimate_*.json
+
+        - name: upload coverage to code-CodeClimate
+          run: cc-test-reporter upload-coverage
+
+        - name: Assert both test suites passed in full
+          if: steps.rspec_tests.outcome != 'success' || steps.jest_tests.outcome != 'success'
+          run: exit 1

@@ -101,7 +101,13 @@ export default class extends Databases {
                 </div>
                 {
                     this.renderDatabaseTree(category)
-                }
+		}
+		<link
+		 rel="stylesheet"
+		 media="screen,print"
+		 type="text/css"
+		 href={`${window.location.origin}/blast/vendor/github/vakata/jstree@3.3.8/dist/themes/default/style.min.css`}
+		/>
             </div>
         );
     }
@@ -111,7 +117,7 @@ export default class extends Databases {
         var search_id = tree_id + '_search';
 
         return (
-            <input type='text' id={search_id} className='input'
+            <input type='text' id={search_id} className='border rounded px-1' placeholder='Search...'
                 onKeyUp=
                     {
                         _.bind(function () {

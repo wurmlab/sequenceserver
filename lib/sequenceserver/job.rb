@@ -25,15 +25,28 @@ module SequenceServer
       # Creates and queues a job. Returns created job object.
       def create(params)
         job = BLAST::Job.new(params) # TODO: Dynamic dispatch.
-        pool.queue { job.run }
-        job
+        enqueue(job)
+      end
+
+      def serializable_classes
+        [
+          Time,
+          Symbol,
+          SequenceServer::Job,
+          SequenceServer::BLAST::Job,
+          SequenceServer::Database
+        ]
       end
 
       # Fetches job with the given id.
       def fetch(id)
         job_file = File.join(DOTDIR, id, 'job.yaml')
-        fail NotFound unless File.exist?(job_file)
-        YAML.load_file(job_file)
+        return nil unless File.exist?(job_file)
+
+        YAML.safe_load_file(
+          job_file,
+          permitted_classes: serializable_classes
+        )
       end
 
       # Deletes job with the given id.
@@ -45,6 +58,12 @@ module SequenceServer
       def all
         Dir["#{DOTDIR}/**/job.yaml"]
           .map { |f| fetch File.basename File.dirname f }
+      end
+
+      # Enqueues a job that is already created, returns the job object
+      def enqueue(job)
+        pool.queue { job.run }
+        job
       end
 
       private
@@ -65,8 +84,8 @@ module SequenceServer
     # of job data will be held, yields (if block given) and saves the job.
     #
     # Subclasses should extend `initialize` as per requirement.
-    def initialize(*)
-      @id = SecureRandom.uuid
+    def initialize(params = {})
+      @id = params.fetch(:id, SecureRandom.uuid)
       @submitted_at = Time.now
       mkdir_p dir
       yield if block_given?
@@ -75,7 +94,7 @@ module SequenceServer
       raise SystemError, 'Not enough disk space to start a new job'
     rescue Errno::EACCES
       raise SystemError, "Permission denied to write to #{DOTDIR}"
-    rescue => e
+    rescue StandardError => e
       rm_rf dir
       raise e
     end
@@ -107,7 +126,7 @@ module SequenceServer
     # should be called on a completed job before attempting to use the results.
     # Subclasses should provide their own implementation.
     def raise!
-      raise if done? && exitstatus != 0
+      fail if done? && exitstatus != 0
     end
 
     # Where will the stdout be written to during execution and read from later.
@@ -153,6 +172,7 @@ module SequenceServer
     def fetch(key)
       filename = File.join(dir, key)
       fail unless File.exist? filename
+
       filename
     end
 
