@@ -5,6 +5,7 @@ import DatabasesTree from './databases_tree';
 import { Databases } from './databases';
 import _ from 'underscore';
 import { Options } from './options';
+import QueryStats from 'query_stats';
 
 /**
  * Search form.
@@ -16,15 +17,24 @@ export class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            databases: [], preDefinedOpts: {}, tree: {}
+            databases: [],
+            preSelectedDbs: [],
+            currentlySelectedDbs: [],
+            preDefinedOpts: {},
+            tree: {},
+            residuesInQuerySequence: 0,
+            blastMethod: ''
         };
         this.useTreeWidget = this.useTreeWidget.bind(this);
-        this.determineBlastMethod = this.determineBlastMethod.bind(this);
+        this.determineBlastMethods = this.determineBlastMethods.bind(this);
         this.handleSequenceTypeChanged = this.handleSequenceTypeChanged.bind(this);
+        this.handleSequenceChanged = this.handleSequenceChanged.bind(this);
         this.handleDatabaseTypeChanged = this.handleDatabaseTypeChanged.bind(this);
+        this.handleDatabaseSelectionChanged = this.handleDatabaseSelectionChanged.bind(this);
         this.handleAlgoChanged = this.handleAlgoChanged.bind(this);
         this.handleFormSubmission = this.handleFormSubmission.bind(this);
         this.formRef = createRef();
+        this.setButtonState = this.setButtonState.bind(this);
     }
 
     componentDidMount() {
@@ -103,7 +113,7 @@ export class Form extends Component {
         });
     }
 
-    determineBlastMethod() {
+    determineBlastMethods() {
         var database_type = this.databaseType;
         var sequence_type = this.sequenceType;
 
@@ -138,22 +148,32 @@ export class Form extends Component {
         return [];
     }
 
+    handleSequenceChanged(residuesInQuerySequence) {
+        if(residuesInQuerySequence !== this.state.residuesInQuerySequence)
+            this.setState({ residuesInQuerySequence: residuesInQuerySequence});
+    }
+
     handleSequenceTypeChanged(type) {
         this.sequenceType = type;
-        this.refs.button.setState({
-            hasQuery: !this.refs.query.isEmpty(),
-            hasDatabases: !!this.databaseType,
-            methods: this.determineBlastMethod()
-        });
+        this.setButtonState();
     }
 
     handleDatabaseTypeChanged(type) {
         this.databaseType = type;
+        this.setButtonState();
+    }
+
+    setButtonState() {
         this.refs.button.setState({
             hasQuery: !this.refs.query.isEmpty(),
             hasDatabases: !!this.databaseType,
-            methods: this.determineBlastMethod()
+            methods: this.determineBlastMethods()
         });
+    }
+
+    handleDatabaseSelectionChanged(selectedDbs) {
+        if (!_.isEqual(selectedDbs, this.state.currentlySelectedDbs))
+            this.setState({ currentlySelectedDbs: selectedDbs });
     }
 
     handleAlgoChanged(algo) {
@@ -165,10 +185,16 @@ export class Form extends Component {
                 value: (preDefinedOpts['last search'] ||
                     preDefinedOpts['default']).join(' ')
             });
+            this.setState({ blastMethod: algo });
         }
         else {
             this.refs.opts.setState({ preOpts: {}, value: '', method: '' });
+            this.setState({ blastMethod: '' });
         }
+    }
+
+    residuesInSelectedDbs() {
+        return this.state.currentlySelectedDbs.reduce((sum, db) => sum + parseInt(db.ncharacters, 10), 0);
     }
 
     render() {
@@ -184,17 +210,19 @@ export class Form extends Component {
                 </div>
 
                 <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission}>
-                    <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} />
+                    <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} onSequenceChanged={this.handleSequenceChanged} />
 
                     {this.useTreeWidget() ?
                         <DatabasesTree ref="databases"
                             databases={this.state.databases} tree={this.state.tree}
                             preSelectedDbs={this.state.preSelectedDbs}
-                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged} />
+                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
+                            onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
                         :
                         <Databases ref="databases" databases={this.state.databases}
                             preSelectedDbs={this.state.preSelectedDbs}
-                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged} />
+                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
+                            onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
                     }
 
                     <div className="md:flex flex-row md:space-x-4 items-center my-6">
@@ -204,6 +232,10 @@ export class Form extends Component {
                         </label>
                         <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged} />
                     </div>
+                    <QueryStats
+                        residuesInQuerySequence={this.state.residuesInQuerySequence} numberOfDatabasesSelected={this.state.currentlySelectedDbs.length} residuesInSelectedDbs={this.residuesInSelectedDbs()}
+                        currentBlastMethod={this.state.blastMethod}
+                    />
                 </form>
             </div>
         );

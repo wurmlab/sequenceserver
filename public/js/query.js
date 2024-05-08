@@ -124,6 +124,7 @@ export class SearchQueryWidget extends Component {
     componentDidUpdate() {
         this.hideShowButton();
         this.preProcessSequence();
+        this.props.onSequenceChanged(this.residuesCount());
 
         var type = this.type();
         if (!type || type !== this._type) {
@@ -154,6 +155,19 @@ export class SearchQueryWidget extends Component {
             });
             return this;
         }
+    }
+
+    residuesCount() {
+        const sequence = this.value();
+        const lines = sequence.split('\n');
+        const residuesCount = lines.reduce((count, line) => {
+            if (!line.startsWith('>')) {
+                return count + line.length;
+            }
+            return count;
+        }, 0);
+
+        return residuesCount;
     }
 
     /**

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import { render, screen, fireEvent, waitFor, findByText, getByText } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Databases } from '../databases';
 import data from './mock_data/databases.json';
 
@@ -21,13 +21,13 @@ describe('DATABASES COMPONENT', () => {
     });
 
     test('clicking select all on a database should select all its children', () => {
-        const { container } = render(<Databases databases={data.database} onDatabaseTypeChanged={() => { }} />);
-        
+        const { container } = render(<Databases databases={data.database} onDatabaseTypeChanged={() => { }} onDatabaseSelectionChanged={() => { }} />);
+
         // select all nucleotide databases
         const nucleotideSelectAllBtn = screen.getByRole('heading', { name: /nucleotide databases/i }).parentElement.querySelector('button');
         fireEvent.click(nucleotideSelectAllBtn);
         const nucleotideCheckboxes = container.querySelector('.databases.nucleotide').querySelectorAll('input[type=checkbox]');
-        
+
         // all nucleotide databases should be checked
         nucleotideCheckboxes.forEach((checkbox) => {
             expect(checkbox).toBeChecked();
@@ -45,7 +45,7 @@ describe('DATABASES COMPONENT', () => {
 
     test('checking any item of a database type should disable other database type', () => {
         const mockFunction = jest.fn(() => { });
-        const { container } = render(<Databases databases={data.database} onDatabaseTypeChanged={mockFunction} />);
+        const { container } = render(<Databases databases={data.database} onDatabaseTypeChanged={mockFunction} onDatabaseSelectionChanged={mockFunction}/>);
 
         //select a proteinn database
         fireEvent.click(screen.getByRole('checkbox', { name: /2020-11 Swiss-Prot insecta/i }));
