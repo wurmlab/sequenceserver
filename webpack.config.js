@@ -49,6 +49,7 @@ module.exports = (env, argv)  => {
                 'search_header_plugin': path.resolve(__dirname, pluginsPath, 'search_header_plugin.js'),
                 'grapher': path.resolve(__dirname, './public/js', 'grapher.js'),
                 'histogram': path.resolve(__dirname, pluginsPath, 'grapher', 'histogram.js'),
+                'query_stats': path.resolve(__dirname, pluginsPath, 'query_stats.js'),
             }
         }
     };
