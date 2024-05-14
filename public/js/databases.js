@@ -20,7 +20,7 @@ export class Databases extends Component {
 
     componentDidUpdate(_prevProps, prevState) {
         // If there's only one database, select it.
-        if (this.databases() && this.databases().length === 1) {
+        if (this.databases() && this.databases().length === 1 && this.state.currentlySelectedDatabases.length === 0) {
             this.setState({currentlySelectedDatabases: this.databases()});
         }
 
