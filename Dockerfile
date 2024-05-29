@@ -1,9 +1,9 @@
 # Build variables. These need to be declared befored the first FROM
 # for the variables to be accessible in FROM instruction.
-ARG BLAST_VERSION=2.14.0
+ARG BLAST_VERSION=2.15.0
 
 ## Stage 1: gem dependencies.
-FROM ruby:3.2.2-bullseye AS builder
+FROM docker.io/library/ruby:3.2-bookworm AS builder
 
 # Copy over files required for installing gem dependencies.
 WORKDIR /sequenceserver
@@ -19,10 +19,10 @@ RUN bundle install --without=development
 
 ## Stage 2: BLAST+ binaries.
 # We will copy them from NCBI's docker image.
-FROM ncbi/blast:${BLAST_VERSION} AS ncbi-blast
+FROM docker.io/ncbi/blast-static:${BLAST_VERSION} AS ncbi-blast
 
 ## Stage 3: Puting it together.
-FROM ruby:3.2.2-bullseye AS final
+FROM docker.io/library/ruby:3.2-bookworm AS final
 
 LABEL Description="Intuitive local web frontend for the BLAST bioinformatics tool"
 LABEL MailingList="https://groups.google.com/forum/#!forum/sequenceserver"
@@ -30,19 +30,20 @@ LABEL Website="http://sequenceserver.com"
 
 # Install packages required to run SequenceServer and BLAST.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl libgomp1 liblmdb0 && rm -rf /var/lib/apt/lists/*
+    curl libgomp1 && rm -rf /var/lib/apt/lists/*
 
 # Copy gem dependencies and BLAST+ binaries from previous build stages.
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
-COPY --from=ncbi-blast /blast/lib /blast/lib/
-COPY --from=ncbi-blast /blast/bin/blast_formatter /blast/bin/
-COPY --from=ncbi-blast /blast/bin/blastdbcmd /blast/bin/
-COPY --from=ncbi-blast /blast/bin/blastn.REAL /blast/bin/blastn
-COPY --from=ncbi-blast /blast/bin/blastp.REAL /blast/bin/blastp
-COPY --from=ncbi-blast /blast/bin/blastx.REAL /blast/bin/blastx
-COPY --from=ncbi-blast /blast/bin/makeblastdb /blast/bin
-COPY --from=ncbi-blast /blast/bin/tblastn.REAL /blast/bin/tblastn
-COPY --from=ncbi-blast /blast/bin/tblastx.REAL /blast/bin/tblastx
+COPY --from=ncbi-blast \
+  /blast/bin/blast_formatter \
+  /blast/bin/blastdbcmd \
+  /blast/bin/blastn \
+  /blast/bin/blastp \
+  /blast/bin/blastx \
+  /blast/bin/makeblastdb \
+  /blast/bin/tblastn \
+  /blast/bin/tblastx \
+  /blast/bin/
 
 # Add BLAST+ binaries to PATH.
 ENV PATH=/blast/bin:${PATH}
@@ -71,7 +72,7 @@ ENTRYPOINT ["bundle", "exec"]
 CMD ["sequenceserver"]
 
 ## Stage 4 (optional) minify CSS & JS.
-FROM node:15-alpine3.12 AS node
+FROM node:20-alpine AS node
 
 RUN apk add --no-cache git
 WORKDIR /usr/src/app
@@ -88,7 +89,7 @@ COPY --from=node /usr/src/app/public/sequenceserver-*.min.js public/
 COPY --from=node /usr/src/app/public/css/sequenceserver.min.css public/css/
 
 ## Stage 6 (optional) Pull the example database from the debian package.
-FROM ruby:3.2.2-bullseye AS example_db
+FROM docker.io/library/ruby:3.2-bookworm AS example_db
 
 WORKDIR /tmp
 RUN apt-get update && apt-get download ncbi-blast+ && dpkg-deb -xv ncbi-blast+*.deb .
