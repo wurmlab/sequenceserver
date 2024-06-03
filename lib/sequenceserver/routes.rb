@@ -5,6 +5,7 @@ require 'rest-client'
 
 require 'sequenceserver/job'
 require 'sequenceserver/blast'
+require 'sequenceserver/blast/tasks'
 require 'sequenceserver/report'
 require 'sequenceserver/database'
 require 'sequenceserver/sequence'
@@ -85,7 +86,8 @@ module SequenceServer
       searchdata = {
         query: Database.retrieve(params[:query]),
         database: Database.all,
-        options: SequenceServer.config[:options]
+        options: SequenceServer.config[:options],
+        blastTaskMap: SequenceServer::BLAST::Tasks.to_h
       }
 
       searchdata.update(tree: Database.tree) if SequenceServer.config[:databases_widget] == 'tree'
