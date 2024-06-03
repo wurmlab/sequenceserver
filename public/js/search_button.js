@@ -149,7 +149,7 @@ export class SearchButton extends Component {
         return (
             <div
                 // className={multi ? 'flex' : 'flex'}
-                className="flex justify-end w-full md:w-auto relative"
+                className="my-4 md:my-2 flex justify-end w-full md:w-auto relative"
                 id="methods"
                 ref={this.inputGroupRef}
                 onMouseOver={this.showTooltip}
@@ -179,7 +179,7 @@ export class SearchButton extends Component {
                         </button>
 
                         <div id="dropdown"
-                            className={`z-10 my-2 uppercase bg-blue-300 divide-y divide-gray-100 rounded-lg shadow absolute left-0 w-full text-xl text-center ${this.state.dropdownVisible ? '' : 'hidden'}`}>
+                            className={`z-10 my-2 uppercase bg-blue-300 divide-y divide-gray-100 rounded-lg shadow absolute left-0 bottom-12 w-full text-xl text-center ${this.state.dropdownVisible ? '' : 'hidden'}`}>
                             <ul className="text-gray-700" aria-labelledby="dropdownDefaultButton">
                                 {_.map(
                                     methods.slice(1),

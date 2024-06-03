@@ -12,6 +12,8 @@ const hasJsxRuntime = (() => {
         return false;
     }
 })();
+
+
 module.exports = babelJest.createTransformer({
     presets: [
         [

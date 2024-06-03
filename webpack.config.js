@@ -50,6 +50,7 @@ module.exports = (env, argv)  => {
                 'grapher': path.resolve(__dirname, './public/js', 'grapher.js'),
                 'histogram': path.resolve(__dirname, pluginsPath, 'grapher', 'histogram.js'),
                 'query_stats': path.resolve(__dirname, pluginsPath, 'query_stats.js'),
+                'options': path.resolve(__dirname, pluginsPath, 'options.js'),
             }
         }
     };
