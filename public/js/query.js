@@ -348,9 +348,9 @@ export class SearchQueryWidget extends Component {
                     className="sequence">
                     <textarea
                         id="sequence" ref={this.textareaRef}
-                        className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base text-monospace"
+                        className="block w-full p-4 text-gray-900 border border-gray-300 rounded-l-lg rounded-tr-lg bg-gray-50 text-base text-monospace"
                         name="sequence" value={this.state.value}
-                        rows="10"
+                        rows="6"
                         required="required"
                         placeholder="Paste query sequence(s) or drag file
                         containing query sequence(s) in FASTA format here ..."

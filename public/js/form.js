@@ -4,7 +4,7 @@ import { SearchQueryWidget } from './query';
 import DatabasesTree from './databases_tree';
 import { Databases } from './databases';
 import _ from 'underscore';
-import { Options } from './options';
+import { Options } from 'options';
 import QueryStats from 'query_stats';
 
 /**
@@ -57,7 +57,8 @@ export class Form extends Component {
                 tree: data['tree'],
                 databases: data['database'],
                 preSelectedDbs: data['preSelectedDbs'],
-                preDefinedOpts: data['options']
+                preDefinedOpts: data['options'],
+                blastTaskMap: data['blastTaskMap']
             });
 
             /* Pre-populate the form with server sent query sequences
@@ -178,18 +179,10 @@ export class Form extends Component {
 
     handleAlgoChanged(algo) {
         if (algo in this.state.preDefinedOpts) {
-            var preDefinedOpts = this.state.preDefinedOpts[algo];
-            this.refs.opts.setState({
-                method: algo,
-                preOpts: preDefinedOpts,
-                value: (preDefinedOpts['last search'] ||
-                    preDefinedOpts['default']).join(' ')
-            });
             this.setState({ blastMethod: algo });
         }
         else {
-            this.refs.opts.setState({ preOpts: {}, value: '', method: '' });
-            this.setState({ blastMethod: '' });
+            this.setState({ blastMethod: ''});
         }
     }
 
@@ -210,32 +203,39 @@ export class Form extends Component {
                 </div>
 
                 <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission}>
-                    <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} onSequenceChanged={this.handleSequenceChanged} />
+                    <div className="px-4">
+                        <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} onSequenceChanged={this.handleSequenceChanged}/>
 
-                    {this.useTreeWidget() ?
-                        <DatabasesTree ref="databases"
-                            databases={this.state.databases} tree={this.state.tree}
-                            preSelectedDbs={this.state.preSelectedDbs}
-                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
-                            onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
-                        :
-                        <Databases ref="databases" databases={this.state.databases}
-                            preSelectedDbs={this.state.preSelectedDbs}
-                            onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
-                            onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
-                    }
+                        {this.useTreeWidget() ?
+                            <DatabasesTree ref="databases"
+                                databases={this.state.databases} tree={this.state.tree}
+                                preSelectedDbs={this.state.preSelectedDbs}
+                                onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
+                                onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
+                            :
+                            <Databases ref="databases" databases={this.state.databases}
+                                preSelectedDbs={this.state.preSelectedDbs}
+                                onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
+                                onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
+                        }
 
-                    <div className="md:flex flex-row md:space-x-4 items-center my-6">
-                        <Options ref="opts" />
-                        <label className="block my-4 md:my-0">
+                        <Options blastMethod={this.state.blastMethod} predefinedOptions={this.state.preDefinedOpts[this.state.blastMethod] || {}} blastTasks={(this.state.blastTaskMap || {})[this.state.blastMethod]} />
+                    </div>
+
+                    <div className="py-6"></div> {/* add a spacer so that the sticky action bar does not hide any contents */}
+
+                    <div className="pb-4 pt-2 px-4 sticky bottom-0 md:flex flex-row md:space-x-4 items-center justify-end bg-gradient-to-t to-gray-100/90 from-white/90">
+                        <QueryStats
+                            residuesInQuerySequence={this.state.residuesInQuerySequence} numberOfDatabasesSelected={this.state.currentlySelectedDbs.length} residuesInSelectedDbs={this.residuesInSelectedDbs()}
+                            currentBlastMethod={this.state.blastMethod}
+                        />
+
+                        <label className="block my-4 md:my-2">
                             <input type="checkbox" id="toggleNewTab" /> Open results in new tab
                         </label>
                         <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged} />
                     </div>
-                    <QueryStats
-                        residuesInQuerySequence={this.state.residuesInQuerySequence} numberOfDatabasesSelected={this.state.currentlySelectedDbs.length} residuesInSelectedDbs={this.residuesInSelectedDbs()}
-                        currentBlastMethod={this.state.blastMethod}
-                    />
+
                 </form>
             </div>
         );

@@ -44,11 +44,12 @@ module.exports = {
         'circos$': '<rootDir>/public/js/tests/mocks/circos.js',
         'grapher': '<rootDir>/public/js/grapher.js',
         'histogram': '<rootDir>/public/js/null_plugins/grapher/histogram.js',
-        'query_stats': '<rootDir>/public/js/null_plugins/query_stats.js'
+        'query_stats': '<rootDir>/public/js/null_plugins/query_stats.js',
+        '^options$': '<rootDir>/public/js/options.js'
     },
     watchPlugins: [
         'jest-watch-typeahead/filename',
         'jest-watch-typeahead/testname'
     ],
-    resetMocks: true
+    resetMocks: true,
 };

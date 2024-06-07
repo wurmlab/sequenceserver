@@ -22,7 +22,7 @@ module SequenceServer
 
       return unless @upgraded
 
-      logger.info 'You are using old configuration syntax. ' \
+      logger.warn 'You are using old configuration syntax. ' \
                   'Run `sequenceserver -s` to update your config file syntax.'
     end
 
@@ -69,20 +69,7 @@ module SequenceServer
         @upgrade = true
       end
 
-      # Old config files may have an options hash with array values. We turn the
-      # array values into a hash. The logic is simple: If the array value is the
-      # same as default, we give it the key 'default', otherwise we give it the
-      # key 'custom'
-      data[:options]&.each do |key, val|
-        next if val.is_a? Hash
-
-        data[:options][key] = if val == defaults[:options][key][:default]
-                                { default: val }
-                              else
-                                { custom: val }
-                              end
-        @upgraded = true
-      end
+      data[:options] = convert_deprecated_options(data[:options]) if data[:options]
 
       data
     end
@@ -112,19 +99,34 @@ module SequenceServer
         databases_widget: 'classic',
         options: {
           blastn: {
-            default: ['-task blastn', '-evalue 1e-5']
+            default: {
+              description: nil,
+              attributes: ['-task blastn', '-evalue 1e-5']
+            }
           },
           blastp: {
-            default: ['-evalue 1e-5']
+            default: {
+              description: nil,
+              attributes: ['-evalue 1e-5']
+            }
           },
           blastx: {
-            default: ['-evalue 1e-5']
+            default: {
+              description: nil,
+              attributes: ['-evalue 1e-5']
+            }
           },
           tblastx: {
-            default: ['-evalue 1e-5']
+            default: {
+              description: nil,
+              attributes: ['-evalue 1e-5']
+            }
           },
           tblastn: {
-            default: ['-evalue 1e-5']
+            default: {
+              description: nil,
+              attributes: ['-evalue 1e-5']
+            }
           }
         },
         num_threads: 1,
@@ -136,6 +138,38 @@ module SequenceServer
         large_result_warning_threshold: 250 * 1024 * 1024,
         optimistic: false # Faster, but does not perform DB compatibility checks
       }
+    end
+
+    def convert_deprecated_options(options)
+      options.each do |blast_algo, algo_config|
+        if algo_config.is_a?(Array)
+          # Very old config files may have a single array with CLI args.
+          # e.g. { blastn: ['-task blastn', '-evalue 1e-5'] }
+          # Convert the array values into a single hash naming it 'default' if
+          # the values match SequenceServer defaults.
+          options[blast_algo] = if algo_config == defaults.dig(:options, blast_algo, :default, :attributes)
+                                  { default: { attributes: algo_config } }
+                                else
+                                  { custom: { attributes: algo_config } }
+                                end
+          @upgraded = true
+        elsif algo_config.is_a?(Hash)
+          # v3.0.1 and older config files contain a flatter structure
+          # with an array instead of 'description' and 'attributes' keys.
+          # e.g. { blastn: { default: ['-task blastn', '-evalue 1e-5'] }
+          algo_config.each do |config_name, config|
+            next unless config.is_a?(Array)
+
+            options[blast_algo][config_name] = {
+              description: nil,
+              attributes: config
+            }
+            @upgraded = true
+          end
+        end
+      end
+
+      options
     end
   end
 end

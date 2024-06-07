@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import { render, screen, fireEvent } from '@testing-library/react';
-import { SearchQueryWidget } from '../query';
 import { Form } from '../form';
 import { AMINO_ACID_SEQUENCE, NUCLEOTIDE_SEQUENCE, FASTQ_SEQUENCE, FASTA_OF_FASTQ_SEQUENCE } from './mock_data/sequences';
 import '@testing-library/jest-dom/extend-expect';

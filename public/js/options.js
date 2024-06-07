@@ -3,46 +3,168 @@ import React, { Component } from 'react';
 export class Options extends Component {
     constructor(props) {
         super(props);
-        this.state = { preOpts: {}, value: '', method: '' };
-        this.updateBox = this.updateBox.bind(this);
-        this.optionsJSX = this.optionsJSX.bind(this);
-        this.showAdvancedOptions = this.showAdvancedOptions.bind(this);
+
+        this.state = {
+            textValue: '',
+            objectValue: this.defaultObjectValue(),
+            paramsMode: 'advanced'
+        };
+
+        this.onTextValueChanged = this.onTextValueChanged.bind(this);
+        this.optionsPresetsJSX = this.optionsPresetsJSX.bind(this);
+        this.advancedParamsJSX = this.advancedParamsJSX.bind(this);
+        this.showAdvancedOptionsHelp = this.showAdvancedOptionsHelp.bind(this);
     }
 
-    updateBox(value) {
-        this.setState({ value: value });
+
+    defaultObjectValue() {
+        return {
+            max_target_seqs: '',
+            evalue: '',
+            task: ''
+        };
+    };
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.predefinedOptions !== this.props.predefinedOptions) {
+            let defaultOptions = this.props.predefinedOptions.default || {attributes: []};
+            let initialTextValue = (this.props.predefinedOptions['last search'] ||
+                    defaultOptions.attributes || []).join(' ').trim();
+            let parsedOptions = this.parsedOptions(initialTextValue);
+            this.setState({ textValue: initialTextValue, objectValue: parsedOptions});
+        }
     }
 
+    onTextValueChanged(textValue) {
+        let parsedOptions = this.parsedOptions(textValue.toString());
 
-    optionsJSX() {
-        return <div id="advanced-params-dropdown" className="relative -ml-4 group">
-            <button className="h-full border border-gray-300 rounded-r p-1 px-2 bg-white hover:bg-gray-200" type="button">
-                <i className="fa fa-caret-down h-4 w-4"></i>
-                <span className="sr-only">Advanced parameters</span>
-            </button>
-            <div className='z-20 group-hover:block hidden absolute top-full right-0 min-w-fit lg:min-w-[40rem]'>
-                <ul className="font-mono my-1 border rounded divide-y">
-                    {
-                        Object.entries(this.state.preOpts).map(
-                            ([key, value], index) => {
-                                value = value.join(' ');
-                                var bgClass = 'bg-white';
-                                if (value.trim() === this.state.value.trim())
-                                    bgClass = 'bg-yellow-100';
-                                return <li key={index} className={`px-2 py-1 hover:bg-gray-200 cursor-pointer ${bgClass}`}
-                                    onClick={() => this.updateBox(value)}>
-                                    <strong>{key}:</strong>&nbsp;{value}
-                                </li>;
-                            }
-                        )
+        this.setState({
+            textValue: textValue.toString(),
+            objectValue: parsedOptions
+        });
+    }
+
+    parsedOptions(textValue) {
+        const words = textValue.split(" ");
+        let parsedOptions = this.defaultObjectValue();
+        // Iterate through the words in steps of 2, treating each pair as an option and its potential value
+        for (let i = 0; i < words.length; i += 2) {
+            // Ensure there is a pair available
+            if (words[i]) {
+                if (words[i].startsWith("-")) {
+                    const optionName = words[i].substring(1).trim();
+
+                    if (words[i + 1]) {
+                        // Use the second word as the value for this option
+                        parsedOptions[optionName] = words[i + 1];
+                    } else {
+                        // No value found for this option, set it to null or a default value
+                        parsedOptions[optionName] = null;
                     }
-                </ul>
-            </div>
-        </div>;
+                }
+            }
+        }
+
+        return parsedOptions;
     }
-    showAdvancedOptions(e) {
+
+    optionsPresetsJSX() {
+        return (
+            <div id="options-presets" className="w-full">
+                { Object.keys(this.props.predefinedOptions).length > 1 && <>
+                    <h3 className="w-full font-medium border-b border-seqorange mb-2">Settings</h3>
+
+                    <p className="text-sm">Choose a predefined setting or customize BLAST parameters.</p>
+                    {this.presetListJSX()}
+                </>}
+            </div>
+        );
+    }
+
+    presetListJSX() {
+        return (
+            <ul className="text-sm my-1">
+                {
+                    Object.entries(this.props.predefinedOptions).map(
+                        ([key, config], index) => {
+                            let textValue = config.attributes.join(' ').trim();
+                            let description = config.description || textValue;
+
+                            return (
+                                <label key={index} className={`block w-full px-2 py-1 hover:bg-gray-200 cursor-pointer`}>
+                                    <input
+                                        type="radio"
+                                        name="predefinedOption"
+                                        value={textValue}
+                                        checked={textValue === this.state.textValue}
+                                        onChange={() => this.onTextValueChanged(textValue)}
+                                    />
+                                    <strong className="ml-2">{key}:</strong>&nbsp;{description}
+                                </label>
+                            );
+                        }
+                    )
+                }
+            </ul>
+        )
+    }
+
+    advancedParamsJSX() {
+        if (this.state.paramsMode !== 'advanced') {
+            return null;
+        }
+
+        let classNames = 'flex-grow block px-4 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base';
+
+        if (this.state.textValue) {
+            classNames += ' bg-yellow-100';
+        }
+
+        return(
+            <div className="w-full">
+                <div className="flex items-end">
+                    <label className="flex items-center" htmlFor="advanced">
+                        Advanced parameters
+                    </label>
+
+                    {this.props.blastMethod &&
+                        <button
+                            className="text-seqblue ml-2"
+                            type="button"
+                            onClick={this.showAdvancedOptionsHelp}
+                            data-toggle="modal" data-target="#help">
+                            See available options
+                            <i className="fa fa-question-circle ml-1 w-3 h-4 fill-current"></i>
+                        </button>
+                    }
+
+                    {!this.props.blastMethod &&
+                        <span className="text-gray-600 ml-2 text-sm hidden sm:block">
+                            Select databases and fill in the query to see options.
+                        </span>
+                    }
+                </div>
+
+                <div className='flex-grow flex w-full'>
+                    <input type="text" className={classNames}
+                        onChange={e => this.onTextValueChanged(e.target.value)}
+                        id="advanced"
+                        name="advanced"
+                        value={this.state.textValue}
+                        placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
+                        title="View, and enter advanced parameters."
+                    />
+                </div>
+                <div className="text-sm text-gray-600 mt-2">
+                    Options as they would appear in a command line when calling BLAST eg: <i>-evalue 1.0e-5 -num_alignments 100</i>
+                </div>
+            </div>
+        )
+    }
+
+    showAdvancedOptionsHelp(e) {
         const ids = ['blastn', 'tblastn', 'blastp', 'blastx', 'tblastx'];
-        const method = this.state.method.toLowerCase();
+        const method = this.props.blastMethod.toLowerCase();
         // hide options for other algorithms and only show for selected algorithm
         for (const id of ids) {
             if (id === method) {
@@ -53,33 +175,13 @@ export class Options extends Component {
         }
         document.querySelector('[data-help-modal]').classList.remove('hidden')
     }
+
     render() {
-        var classNames = 'flex-grow block px-4 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base';
-        if (this.state.value.trim()) {
-            classNames += ' bg-yellow-100';
-        }
         return (
-            <div className="flex-grow flex flex-col sm:flex-row items-start sm:items-center">
-                <label className="flex items-center mx-2" htmlFor="advanced">
-                    Advanced parameters:
-                    {/* only show link to advanced parameters if blast method is known */}
-                    {this.state.method && <sup className="mx-1 text-seqblue">
-                        <a href=''
-                            onClick={this.showAdvancedOptions}
-                            data-toggle="modal" data-target="#help">
-                            <i className="fa fa-question-circle w-3 h-4 fill-current"></i>
-                        </a>
-                    </sup>}
-                </label>
-                <div className='flex-grow flex w-full sm:w-auto'>
-                    <input type="text" className={classNames}
-                        onChange={e => this.updateBox(e.target.value)}
-                        id="advanced" name="advanced" value={this.state.value}
-                        placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
-                        title="View, and enter advanced parameters."
-                    />
-                    {Object.keys(this.state.preOpts).length > 1 && this.optionsJSX()}
-                </div>
+            <div className="flex-grow flex flex-col items-start sm:items-center space-y-4">
+                {this.optionsPresetsJSX()}
+
+                {this.advancedParamsJSX()}
             </div>
         );
     }
