@@ -298,7 +298,7 @@ module SequenceServer
       # the user hits the back button. Thus we do not test for empty string.
       method = job.method.to_sym
       if job.advanced && job.advanced !=
-                         searchdata[:options][method][:default].join(' ')
+                         searchdata.dig(:options, method, :default, :attributes).to_a.join(' ')
         searchdata[:options] = searchdata[:options].deep_copy
         searchdata[:options][method]['last search'] = [job.advanced]
       end
