@@ -105,6 +105,27 @@ describe 'Search and results', type: :feature, js: true do
     expect(page).to have_content('TBLASTN')
   end
 
+  it 'remembers advanced params for the same algorithm' do
+    visit '/'
+
+    fill_in('sequence', with: protein_query)
+    nucleotide_databases.each { |db| check db }
+    fill_in('advanced', with: '-evalue 0.01 -num_alignments 1')
+    click_button('method')
+    expect(page).to have_content('Query')
+
+    visit '/'
+    fill_in('sequence', with: protein_query)
+    check(protein_databases.first)
+    expect(page).to have_field('advanced', with: '-evalue 1e-5') # different algorithm, no memories
+    uncheck(protein_databases.first)
+
+    check(nucleotide_databases.first)
+    expect(page).to have_field('advanced', with: '-evalue 0.01 -num_alignments 1')
+    expect(page).to have_checked_field('predefinedOption', with: '-evalue 0.01 -num_alignments 1')
+
+  end
+
   ### Test aspects of the generated report.
 
   it 'can download FASTA of each hit' do

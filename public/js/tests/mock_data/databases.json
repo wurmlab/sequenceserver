@@ -82,10 +82,10 @@
     }
   ],
   "options": {
-    "blastn": { "default": ["-task blastn", "-evalue 1e-5"] },
-    "blastp": { "default": ["-evalue 1e-5"] },
-    "blastx": { "default": ["-evalue 1e-5"] },
-    "tblastx": { "default": ["-evalue 1e-5"] },
-    "tblastn": { "default": ["-evalue 1e-5"] }
+    "blastn": { "default": { "attributes": ["-task blastn", "-evalue 1e-5"] }},
+    "blastp": { "default": { "attributes": ["-evalue 1e-5"] }},
+    "blastx": { "default": { "attributes": ["-evalue 1e-5"] }},
+    "tblastx": { "default": { "attributes": ["-evalue 1e-5"] }},
+    "tblastn": { "default": { "attributes": ["-evalue 1e-5"] }}
   }
 }

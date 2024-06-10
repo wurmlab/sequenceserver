@@ -28,8 +28,8 @@ export class Options extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.predefinedOptions !== this.props.predefinedOptions) {
             let defaultOptions = this.props.predefinedOptions.default || {attributes: []};
-            let initialTextValue = (this.props.predefinedOptions['last search'] ||
-                    defaultOptions.attributes || []).join(' ').trim();
+            let advancedOptions = this.props.predefinedOptions['last search'] || defaultOptions || {attributes: []};
+            let initialTextValue = advancedOptions.attributes.join(' ').trim();
             let parsedOptions = this.parsedOptions(initialTextValue);
             this.setState({ textValue: initialTextValue, objectValue: parsedOptions});
         }
