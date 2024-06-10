@@ -300,7 +300,7 @@ module SequenceServer
       if job.advanced && job.advanced !=
                          searchdata.dig(:options, method, :default, :attributes).to_a.join(' ')
         searchdata[:options] = searchdata[:options].deep_copy
-        searchdata[:options][method]['last search'] = [job.advanced]
+        searchdata[:options][method]['last search'] = { attributes: [job.advanced] }
       end
     end
 
