@@ -1,4 +1,5 @@
 import Histogram from 'histogram';
+import chroma from 'chroma-js';
 
 class ReportPlugins {
     constructor(parent) {
@@ -16,7 +17,12 @@ class ReportPlugins {
     }
 
     generateStats() {
-        return (<Histogram />);
+        var colors = chroma.scale('RdYlBu').colors(1);
+        return (
+          <div className='histogram-container'>
+            <Histogram query="evalue" name="E-Value Distribution" color={colors[0]} />
+          </div>
+        );
     }
 }
 
