@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import _ from 'underscore';
 
 import { ReportQuery } from './query';
@@ -22,7 +22,6 @@ class Hits extends Component {
     }
 
     /**
-    constructor(props) {
     * Called for the first time after as BLAST results have been retrieved from
     * the server and added to this.state by fetchResults. Only summary overview
     * and circos would have been rendered at this point. At this stage we kick
@@ -156,22 +155,21 @@ class Hits extends Component {
     }
 
     /**
-   * Affixes the sidebar.
-   */
-   affixSidebar() { 
-        var $sidebar = $('.sidebar');
-        var sidebarOffset = $sidebar.offset();
-        if (sidebarOffset) {
-            $sidebar.affix({
-                offset: {
-                    top: sidebarOffset.top,
-                },
-            });
-        }
-   }
+    * Affixes the sidebar.
+    */
+    affixSidebar() { 
+         var $sidebar = $('.sidebar');
+         var sidebarOffset = $sidebar.offset();
+         if (sidebarOffset) {
+             $sidebar.affix({
+                 offset: {
+                     top: sidebarOffset.top,
+                 },
+             });
+         }
+    }
 
     render() {
-        console.log('re-render');
         return this.state.results;
     }
 }
