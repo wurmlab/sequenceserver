@@ -5,7 +5,6 @@ import { ReportQuery } from './query';
 import Hit from './hit';
 import HSP from './hsp';
 
-
 class Hits extends Component {
     constructor(props) {
         super(props);
@@ -53,8 +52,7 @@ class Hits extends Component {
     * Push next slice of results to React for rendering.
     */
     updateState() {
-        var results = [];
-        var numHSPsProcessed = 0;
+        var results = { items: [], numHSPsProcessed: 0 };
         while (this.nextQuery < this.state.queries.length) {
             var query = this.state.queries[this.nextQuery];
 
@@ -62,111 +60,121 @@ class Hits extends Component {
             // 3 hsps are rendered in each cycle, but we want to create the
             // corresponding Query component only the first time we see it.
             if (this.nextHit == 0 && this.nextHSP == 0) {
-                results.push(
-                    <ReportQuery
-                        key={'Query_' + query.id}
-                        query={query}
-                        program={this.state.program}
-                        querydb={this.state.querydb}
-                        showQueryCrumbs={this.state.queries.length > 1}
-                        non_parse_seqids={this.state.non_parse_seqids}
-                        imported_xml={this.state.imported_xml}
-                        veryBig={this.state.veryBig}
-                    />
-                );
-
-                results.push(...this.props.plugins.queryResults(query));
+                results.items.push(this.renderReportQuery(query));
+                results.items.push(...this.props.plugins.queryResults(query));
             }
 
-            while (this.nextHit < query.hits.length) {
-                var hit = query.hits[this.nextHit];
-                // We may see a hit multiple times during rendering because only
-                // 10 hsps are rendered in each cycle, but we want to create the
-                // corresponding Hit component only the first time we see it.
-                if (this.nextHSP == 0) {
-                    results.push(
-                        <Hit
-                            key={'Query_' + query.number + '_Hit_' + hit.number}
-                            query={query}
-                            hit={hit}
-                            algorithm={this.state.program}
-                            querydb={this.state.querydb}
-                            selectHit={this.selectHit}
-                            imported_xml={this.state.imported_xml}
-                            non_parse_seqids={this.state.non_parse_seqids}
-                            showQueryCrumbs={this.state.queries.length > 1}
-                            showHitCrumbs={query.hits.length > 1}
-                            veryBig={this.state.veryBig}
-                            onChange={this.prepareAlignmentOfSelectedHits}
-                            {...this.props}
-                        />
-                    );
-                }
-
-                while (this.nextHSP < hit.hsps.length) {
-                    // Get nextHSP and increment the counter.
-                    var hsp = hit.hsps[this.nextHSP++];
-                    results.push(
-                        <HSP
-                            key={
-                                'Query_' +
-                                    query.number +
-                                    '_Hit_' +
-                                    hit.number +
-                                    '_HSP_' +
-                                    hsp.number
-                            }
-                            query={query}
-                            hit={hit}
-                            hsp={hsp}
-                            algorithm={this.state.program}
-                            showHSPNumbers={hit.hsps.length > 1}
-                            {...this.props}
-                        />
-                    );
-                    numHSPsProcessed++;
-                    if (numHSPsProcessed == this.maxHSPs) break;
-                }
-                // Are we here because we have iterated over all hsps of a hit,
-                // or because of the break clause in the inner loop?
-                if (this.nextHSP == hit.hsps.length) {
-                    this.nextHit = this.nextHit + 1;
-                    this.nextHSP = 0;
-                }
-                if (numHSPsProcessed == this.maxHSPs) break;
-            }
-
+            this.itterateHits(results, query);
             // Are we here because we have iterated over all hits of a query,
             // or because of the break clause in the inner loop?
             if (this.nextHit == query.hits.length) {
                 this.nextQuery = this.nextQuery + 1;
                 this.nextHit = 0;
             }
-            if (numHSPsProcessed == this.maxHSPs) break;
+            if (results.numHSPsProcessed == this.maxHSPs) break;
         }
 
         // Push the components to react for rendering.
         this.numUpdates++;
         this.lastTimeStamp = Date.now();
         this.setState({
-            results: this.state.results.concat(results),
+            results: this.state.results.concat(results.items),
             veryBig: this.numUpdates >= 250,
         });
+    }
+
+    itterateHits(results, query) {
+        while (this.nextHit < query.hits.length) {
+            var hit = query.hits[this.nextHit];
+            // We may see a hit multiple times during rendering because only
+            // 10 hsps are rendered in each cycle, but we want to create the
+            // corresponding Hit component only the first time we see it.
+            if (this.nextHSP == 0) {
+                results.items.push(
+                    <Hit
+                        key={'Query_' + query.number + '_Hit_' + hit.number}
+                        query={query}
+                        hit={hit}
+                        algorithm={this.state.program}
+                        querydb={this.state.querydb}
+                        selectHit={this.selectHit}
+                        imported_xml={this.state.imported_xml}
+                        non_parse_seqids={this.state.non_parse_seqids}
+                        showQueryCrumbs={this.state.queries.length > 1}
+                        showHitCrumbs={query.hits.length > 1}
+                        veryBig={this.state.veryBig}
+                        onChange={this.prepareAlignmentOfSelectedHits}
+                        {...this.props}
+                    />
+                );
+            }
+
+            this.itterateHsps(results, query, hit);
+            // Are we here because we have iterated over all hsps of a hit,
+            // or because of the break clause in the inner loop?
+            if (this.nextHSP == hit.hsps.length) {
+                this.nextHit = this.nextHit + 1;
+                this.nextHSP = 0;
+            }
+            if (results.numHSPsProcessed == this.maxHSPs) break;
+        }
+    }
+
+    itterateHsps(results, query, hit) {
+        while (this.nextHSP < hit.hsps.length) {
+            // Get nextHSP and increment the counter.
+            var hsp = hit.hsps[this.nextHSP++];
+            results.items.push(
+                <HSP
+                    key={
+                        'Query_' +
+                            query.number +
+                            '_Hit_' +
+                            hit.number +
+                            '_HSP_' +
+                            hsp.number
+                    }
+                    query={query}
+                    hit={hit}
+                    hsp={hsp}
+                    algorithm={this.state.program}
+                    showHSPNumbers={hit.hsps.length > 1}
+                    {...this.props}
+                />
+            );
+            results.numHSPsProcessed++;
+            if (results.numHSPsProcessed == this.maxHSPs) break;
+        }
+    }
+
+    renderReportQuery(query) {
+        return (
+            <ReportQuery
+                key={'Query_' + query.id}
+                query={query}
+                program={this.state.program}
+                querydb={this.state.querydb}
+                showQueryCrumbs={this.state.queries.length > 1}
+                non_parse_seqids={this.state.non_parse_seqids}
+                imported_xml={this.state.imported_xml}
+                veryBig={this.state.veryBig}
+            />
+        );
     }
 
     /**
     * Affixes the sidebar.
     */
     affixSidebar() { 
-         var $sidebar = $('.sidebar');
-         var sidebarOffset = $sidebar.offset();
-         if (sidebarOffset) {
-             $sidebar.affix({
-                 offset: {
-                     top: sidebarOffset.top,
-                 },
-             });
-         }
+        var $sidebar = $('.sidebar');
+        var sidebarOffset = $sidebar.offset();
+        if (sidebarOffset) {
+            $sidebar.affix({
+                offset: {
+                    top: sidebarOffset.top,
+                },
+            });
+        }
     }
 
     render() {
