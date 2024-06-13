@@ -27,6 +27,7 @@ class Report extends Component {
             program: '',
             program_version: '',
             submitted_at: '',
+            results: [],
             queries: [],
             querydb: [],
             params: [],
@@ -35,7 +36,6 @@ class Report extends Component {
             allQueriesLoaded: false,
             cloud_sharing_enabled: false,
         };
-        this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
         this.prepareAlignmentOfAllHits = this.prepareAlignmentOfAllHits.bind(this);
         this.setStateFromJSON = this.setStateFromJSON.bind(this);
         this.plugins = new ReportPlugins(this);
@@ -141,6 +141,7 @@ class Report extends Component {
         );
     }
 
+    /* eslint-disable */
     /**
    * Return results JSX.
    */
@@ -164,6 +165,7 @@ class Report extends Component {
                     <Hits
                         state={this.state}
                         componentFinishedUpdating={(_) => this.componentFinishedUpdating(_)}
+                        populate_hsp_array={(_) => this.populate_hsp_array(_)}
                         plugins={this.plugins}
                         {...this.props}
                     />
@@ -171,6 +173,7 @@ class Report extends Component {
             </div>
         );
     }
+    /* eslint-enable */
 
 
     warningJSX() {
@@ -342,7 +345,7 @@ class Report extends Component {
         );
     }
 
-    
+
 
     /**
    * For the query in viewport, highlights corresponding entry in the index.
@@ -351,82 +354,8 @@ class Report extends Component {
         $('body').scrollspy({ target: '.sidebar' });
     }
 
-    /**
-   * Event-handler when hit is selected
-   * Adds glow to hit component.
-   * Updates number of Fasta that can be downloaded
-   */
-    selectHit(id) {
-        var checkbox = $('#' + id);
-        var num_checked = $('.hit-links :checkbox:checked').length;
-
-        if (!checkbox || !checkbox.val()) {
-            return;
-        }
-
-        var $hit = $(checkbox.data('target'));
-
-        // Highlight selected hit and enable 'Download FASTA/Alignment of
-        // selected' links.
-        if (checkbox.is(':checked')) {
-            $hit.addClass('glow');
-            $hit.next('.hsp').addClass('glow');
-            $('.download-fasta-of-selected').enable();
-            $('.download-alignment-of-selected').enable();
-        } else {
-            $hit.removeClass('glow');
-            $hit.next('.hsp').removeClass('glow');
-            $('.download-fasta-of-selected').attr('href', '#').removeAttr('download');
-        }
-
-        var $a = $('.download-fasta-of-selected');
-        var $b = $('.download-alignment-of-selected');
-
-        if (num_checked >= 1) {
-            $a.find('.text-bold').html(num_checked);
-            $b.find('.text-bold').html(num_checked);
-        }
-
-        if (num_checked == 0) {
-            $a.addClass('disabled').find('.text-bold').html('');
-            $b.addClass('disabled').find('.text-bold').html('');
-        }
-    }
     populate_hsp_array(hit, query_id){
         return hit.hsps.map(hsp => Object.assign(hsp, {hit_id: hit.id, query_id}));
-    }
-
-    prepareAlignmentOfSelectedHits() {
-        var sequence_ids = $('.hit-links :checkbox:checked').map(function () {
-            return this.value;
-        }).get();
-
-        if(!sequence_ids.length){
-            // remove attributes from link if sequence_ids array is empty
-            $('.download-alignment-of-selected').attr('href', '#').removeAttr('download');
-            return;
-
-        }
-        if(this.state.alignment_blob_url){
-            // always revoke existing url if any because this method will always create a new url
-            window.URL.revokeObjectURL(this.state.alignment_blob_url);
-        }
-        var hsps_arr = [];
-        var aln_exporter = new AlignmentExporter();
-        const self = this;
-        _.each(this.state.queries, _.bind(function (query) {
-            _.each(query.hits, function (hit) {
-                if (_.indexOf(sequence_ids, hit.id) != -1) {
-                    hsps_arr = hsps_arr.concat(self.populate_hsp_array(hit, query.id));
-                }
-            });
-        }, this));
-        const filename = 'alignment-' + sequence_ids.length + '_hits.txt';
-        const blob_url = aln_exporter.prepare_alignments_for_export(hsps_arr, filename);
-        // set required download attributes for link
-        $('.download-alignment-of-selected').attr('href', blob_url).attr('download', filename);
-        // track new url for future removal
-        this.setState({alignment_blob_url: blob_url});
     }
 
     prepareAlignmentOfAllHits() {
