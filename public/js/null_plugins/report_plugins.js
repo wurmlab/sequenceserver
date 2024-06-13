@@ -17,12 +17,7 @@ class ReportPlugins {
     }
 
     generateStats() {
-        var colors = chroma.scale('RdYlBu').colors(1);
-        return (
-          <div className='histogram-container'>
-            <Histogram query="evalue" name="E-Value Distribution" color={colors[0]} />
-          </div>
-        );
+        return (<Histogram />);
     }
 }
 
