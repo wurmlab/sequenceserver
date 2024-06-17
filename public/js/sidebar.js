@@ -350,6 +350,15 @@ export default class extends Component {
                             </a>
                         </li>
                     }
+                    {
+                        !this.props.data.imported_xml && <li>
+                            <a className="btn-link download" data-toggle="tooltip"
+                                title="Results in pairwise format."
+                                href={'download/' + this.props.data.search_id + '.pairwise'}>
+                                Full Pairwise report
+                            </a>
+                        </li>
+                    }
                     <DownloadLinks imported_xml={this.props.data.imported_xml} search_id={this.props.data.search_id} />
                 </ul>
             </div>

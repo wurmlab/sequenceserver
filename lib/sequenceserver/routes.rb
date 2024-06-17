@@ -319,7 +319,8 @@ module SequenceServer
         download_links: [
           { name: 'Standard Tabular Report', url: "download/#{jid}.std_tsv" },
           { name: 'Full Tabular Report', url: "/download/#{jid}.full_tsv" },
-          { name: 'Results in XML', url: "/download/#{jid}.xml" }
+          { name: 'Results in XML', url: "/download/#{jid}.xml" },
+          { name: 'Pairwise', url: "/download/#{jid}.pairwise" },
         ]
       }
     end
