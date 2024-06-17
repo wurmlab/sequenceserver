@@ -8,7 +8,7 @@ Encoding.default_internal = 'UTF-8'
 # Top level module / namespace.
 module SequenceServer
   # The default version of BLAST that will be downloaded and configured for use.
-  BLAST_VERSION = '2.12.0+'.freeze
+  BLAST_VERSION = '2.15.0+'.freeze
 
   # Default location of configuration file.
   DEFAULT_CONFIG_FILE = '~/.sequenceserver.conf'.freeze
