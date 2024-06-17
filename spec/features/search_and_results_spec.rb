@@ -256,6 +256,11 @@ describe 'Search and results', type: :feature, js: true do
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('sequenceserver-xml_report.xml')
     clear_downloads
+
+    page.click_link('Full Pairwise report')
+    wait_for_download
+    expect(File.basename(downloaded_file)).to eq('sequenceserver-pairwise_report.txt')
+    clear_downloads
   end
 
   it 'can copy URL to clipboard' do
