@@ -9,6 +9,7 @@ require 'sequenceserver/blast/tasks'
 require 'sequenceserver/report'
 require 'sequenceserver/database'
 require 'sequenceserver/sequence'
+require 'rack/csrf'
 
 module SequenceServer
   # Controller.
@@ -58,6 +59,14 @@ module SequenceServer
         frame_options = SequenceServer.config[:frame_options]
         frame_options && { frame_options: frame_options }
       }
+
+      use(
+        Rack::Session::Cookie,
+        key: 'rack.session.sequenceserver',
+        secret: ENV.fetch('SESSION_SECRET') { SecureRandom.alphanumeric(64) }
+      )
+
+      use Rack::Csrf, raise: true, skip: ['POST:/cloud_share']
     end
 
     unless ENV['SEQUENCE_SERVER_COMPRESS_RESPONSES'] == 'false'

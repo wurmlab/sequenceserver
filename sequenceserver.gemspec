@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('json_pure',   '~> 2.6',  '>= 2.6.3')
   s.add_dependency('ox',          '~> 2.1',  '>= 2.1.1')
+  s.add_dependency('rack_csrf',   '~> 2.7',  '>= 2.7.0')
   s.add_dependency('rackup')
   s.add_dependency('rest-client', '~> 2.1', '>= 2.1.0')
   s.add_dependency('rubyzip',     '~> 2.3', '>= 2.3.2')

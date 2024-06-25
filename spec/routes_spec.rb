@@ -13,10 +13,12 @@ module SequenceServer
     end
 
     before :each do
+      get '/' # make a request so we have an env with CSRF token
       @params = {
         'sequence'  => 'AGCTAGCTAGCT',
         'databases' => [Database.first.id],
-        'method'    => (Database.first.type == 'protein' ? 'blastp' : 'blastn')
+        'method'    => (Database.first.type == 'protein' ? 'blastp' : 'blastn'),
+        '_csrf'     => Rack::Csrf.token(last_request.env)
       }
     end
 
