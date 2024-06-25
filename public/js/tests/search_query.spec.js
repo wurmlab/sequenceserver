@@ -10,10 +10,21 @@ let container;
 let inputEl;
 
 describe('SEARCH COMPONENT', () => {
+    let csrfMetaTag;
+
     beforeEach(() => {
+        csrfMetaTag = document.createElement('meta');
+        csrfMetaTag.setAttribute('name', '_csrf');
+        csrfMetaTag.setAttribute('content', 'test-token');
+        document.head.appendChild(csrfMetaTag);
         container  = render(<Form onSequenceTypeChanged={() => { }
         } />).container;
         inputEl = screen.getByRole('textbox', { name: '' });
+    });
+
+    afterEach(() => {
+        // Remove the CSRF meta tag after each test to clean up
+        document.head.removeChild(csrfMetaTag);
     });
 
     test('should render the search component textarea', () => {

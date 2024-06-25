@@ -13,6 +13,20 @@ export const setMockJSONResult = (result) => {
 };
 
 describe('ADVANCED PARAMETERS', () => {
+    let csrfMetaTag;
+
+    beforeEach(() => {
+        csrfMetaTag = document.createElement('meta');
+        csrfMetaTag.setAttribute('name', '_csrf');
+        csrfMetaTag.setAttribute('content', 'test-token');
+        document.head.appendChild(csrfMetaTag);
+    });
+
+    afterEach(() => {
+        // Remove the CSRF meta tag after each test to clean up
+        document.head.removeChild(csrfMetaTag);
+    });
+
     const getInputElement = () => screen.getByRole('textbox', { name: '' });
     test('should not render the link to advanced parameters modal if blast algorithm is unknown', () => {
         setMockJSONResult(data);
@@ -37,6 +51,20 @@ describe('ADVANCED PARAMETERS', () => {
 });
 
 describe('query stats', () => {
+    let csrfMetaTag;
+
+    beforeEach(() => {
+        csrfMetaTag = document.createElement('meta');
+        csrfMetaTag.setAttribute('name', '_csrf');
+        csrfMetaTag.setAttribute('content', 'test-token');
+        document.head.appendChild(csrfMetaTag);
+    });
+
+    afterEach(() => {
+        // Remove the CSRF meta tag after each test to clean up
+        document.head.removeChild(csrfMetaTag);
+    });
+
     const getInputElement = () => screen.getByRole('textbox', { name: '' });
 
     test('should render the query stats modal when clicked', () => {

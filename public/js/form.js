@@ -203,6 +203,7 @@ export class Form extends Component {
                 </div>
 
                 <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission}>
+                    <input type="hidden" name="_csrf" value={document.querySelector('meta[name="_csrf"]').content} />
                     <div className="px-4">
                         <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} onSequenceChanged={this.handleSequenceChanged}/>
 
