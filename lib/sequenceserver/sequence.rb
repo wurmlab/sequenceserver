@@ -234,6 +234,7 @@ module SequenceServer
       def create_entry_batch_file
         @batch_file = Tempfile.new("#{Time.now}_batch").tap do |f|
           f.write(sequence_ids.join("\n"))
+          f.flush
         end
       end
 
