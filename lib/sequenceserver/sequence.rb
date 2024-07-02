@@ -222,11 +222,29 @@ module SequenceServer
 
       def validate
         ids = Database.ids
-        return true if database_ids.is_a?(Array) && !database_ids.empty? &&
-                       (ids & database_ids).length == database_ids.length
+        unless database_ids.is_a?(Array) &&
+               !database_ids.empty? &&
+               (ids & database_ids).length == database_ids.length
 
-        fail DatabaseUnreachableError, 'Database id should be one of:' \
-                            " #{ids.join("\n")}"
+          fail(
+            DatabaseUnreachableError,
+            "Database id should be one of: #{ids.join("\n")}"
+          )
+        end
+
+        valid_id_regex = /\A[a-zA-Z0-9-_.:*#|\[\]]+\z/
+        invalid_sequence_ids = sequence_ids.reject do |id|
+          id =~ valid_id_regex
+        end
+
+        unless invalid_sequence_ids.empty?
+          fail(
+            InvalidSequenceIdError,
+            "Invalid sequence id(s): #{invalid_sequence_ids.join(', ')}"
+          )
+        end
+
+        true
       end
 
       ##

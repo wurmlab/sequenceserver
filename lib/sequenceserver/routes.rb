@@ -156,15 +156,35 @@ module SequenceServer
     # in identifiers) and retreival_databases (we don't allow whitespace in a
     # database's name, so it's safe).
     get '/get_sequence/' do
-      sequence_ids = params[:sequence_ids].split(',')
-      database_ids = params[:database_ids].split(',')
+      sequence_ids = params[:sequence_ids].to_s.split(',')
+      database_ids = params[:database_ids].to_s.split(',')
+      if sequence_ids.empty?
+        status 422
+        return { error: 'No sequence ids provided' }.to_json
+      end
+
+      if database_ids.empty?
+        status 422
+        return { error: 'No database ids provided' }.to_json
+      end
       sequences = Sequence::Retriever.new(sequence_ids, database_ids)
       sequences.to_json
     end
 
     post '/get_sequence' do
-      sequence_ids = params['sequence_ids'].split(',')
-      database_ids = params['database_ids'].split(',')
+      sequence_ids = params['sequence_ids'].to_s.split(',')
+      database_ids = params['database_ids'].to_s.split(',')
+
+      if sequence_ids.empty?
+        status 422
+        return 'No sequence ids provided'
+      end
+
+      if database_ids.empty?
+        status 422
+        return 'No database ids provided'
+      end
+
       sequences = Sequence::Retriever.new(sequence_ids, database_ids, true)
       send_file(sequences.file.path,
                 type: sequences.mime,

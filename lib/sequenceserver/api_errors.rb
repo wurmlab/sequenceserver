@@ -1,14 +1,19 @@
 module SequenceServer
   Error = Class.new(Sinatra::Error)
 
+  ValidationError = Class.new(Error)
   # DatabaseUnreachableError is raised when the serialised Job object is
   # refering to a database that is not present in the current filesystem.
-  class DatabaseUnreachableError < Error
+  class DatabaseUnreachableError < ValidationError
     attr_reader :more_info
 
     def initialize(more_info)
       super
       @more_info = more_info
+    end
+
+    def http_status
+      422
     end
 
     def title
@@ -19,6 +24,31 @@ module SequenceServer
       "The action you're trying to perform is not possible because \
         the database is unreachable. This can happen if the database has \
         been deleted or you are performing an action on an imported job."
+    end
+  end
+
+  # InvalidSequenceIdError is raised when the FASTA sequence ID provided by the
+  # frontend appears to be invalid. It is important to validate the sequence ID
+  # format for security reasons.
+  class InvalidSequenceIdError < ValidationError
+    attr_reader :more_info
+
+    def initialize(more_info)
+      super
+      @more_info = more_info
+    end
+
+    def http_status
+      422
+    end
+
+    def title
+      'Sequence ID invalid'
+    end
+
+    def message
+      "The action you're trying to perform is not possible because \
+        one of the FASTA ids seems to be invalid."
     end
   end
 
