@@ -80,14 +80,14 @@ export default class extends Component {
         return `get_sequence/?sequence_ids=${sequenceIDs}&database_ids=${databaseIDs}`;
     }
 
-    downloadFASTA(event) {
+    downloadFASTA(_event) {
         var sequenceIDs = [this.sequenceID()];
         downloadFASTA(sequenceIDs, this.databaseIDs());
     }
 
     // Event-handler for exporting alignments.
     // Calls relevant method on AlignmentExporter defined in alignment_exporter.js.
-    downloadAlignment(event) {
+    downloadAlignment(_event) {
         var hsps = _.map(this.props.hit.hsps, _.bind(function (hsp) {
             hsp.query_id = this.props.query.id;
             hsp.hit_id = this.props.hit.id;
