@@ -180,7 +180,7 @@ module SequenceServer
         @database_ids = Array database_ids
         @in_file = in_file
 
-        validate && run
+        validate && create_entry_batch_file && run
       end
 
       attr_reader :sequence_ids, :database_ids, :in_file, :sequences
@@ -197,10 +197,9 @@ module SequenceServer
       def run
         command = "blastdbcmd -outfmt '%g	%i	%a	%t	%s'" \
                   " -db '#{database_names.join(' ')}'" \
-                  " -entry '#{sequence_ids.join(',')}'"
+                  " -entry_batch '#{@batch_file.path}'"
 
         out, = sys(command, path: config[:bin])
-
         @sequences = out.each_line.map do |line|
           # Stop codons in amino acid sequence databases show up as invalid
           # UTF-8 characters in the output and cause the subsequent call to
@@ -208,6 +207,8 @@ module SequenceServer
           line = line.encode('UTF-8', invalid: :replace, replace: 'X')
           Sequence.new(*line.chomp.split('	'))
         end
+
+        @batch_file.unlink
         extend(IO) && write if in_file
       end
 
@@ -226,6 +227,15 @@ module SequenceServer
 
         fail DatabaseUnreachableError, 'Database id should be one of:' \
                             " #{ids.join("\n")}"
+      end
+
+      ##
+      # Create a temporary file containing sequence ids to fetch.
+      def create_entry_batch_file
+        @batch_file = Tempfile.new("#{Time.now}_batch").tap do |f|
+          f.write(sequence_ids.join("\n"))
+          f.flush
+        end
       end
 
       # rubocop:disable Metrics/MethodLength
