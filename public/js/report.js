@@ -165,7 +165,7 @@ class Report extends Component {
                     <Hits
                         state={this.state}
                         componentFinishedUpdating={(_) => this.componentFinishedUpdating(_)}
-                        populate_hsp_array={(_) => this.populate_hsp_array(_)}
+                        populate_hsp_array={this.populate_hsp_array.bind(this)}
                         plugins={this.plugins}
                         {...this.props}
                     />
