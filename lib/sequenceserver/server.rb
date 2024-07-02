@@ -22,7 +22,7 @@ module SequenceServer
     def start
       setup_signal_handlers
       @server = WEBrick::HTTPServer.new(options)
-      @server.mount '/', Rack::Handler::WEBrick, app
+      @server.mount '/', Rackup::Handler::WEBrick, app
       @server.start
     end
 
