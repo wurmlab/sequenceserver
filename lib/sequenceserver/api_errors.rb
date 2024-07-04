@@ -52,6 +52,30 @@ module SequenceServer
     end
   end
 
+  # InvalidParameterError is a more generic error class that can be
+  # raised when the frontend sends a request with an invalid parameter
+  class InvalidParameterError < ValidationError
+    attr_reader :more_info
+
+    def initialize(more_info)
+      super
+      @more_info = more_info
+    end
+
+    def http_status
+      422
+    end
+
+    def title
+      'Invalid parameter'
+    end
+
+    def message
+      "The action you're trying to perform is not possible because \
+        one of the provided parameters is invalid."
+    end
+  end
+
   # API errors have an http status, title, message, and additional information
   # like stacktrace or information from program output.
   APIError = Class.new(Error)

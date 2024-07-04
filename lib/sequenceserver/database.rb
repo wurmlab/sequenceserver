@@ -37,8 +37,19 @@ module SequenceServer
     alias path name
 
     def retrieve(accession, coords = nil)
+      fail(
+        InvalidSequenceIdError,
+        "Invalid sequence id: #{accession}"
+      ) unless accession =~ SequenceServer::BLAST::VALID_SEQUENCE_ID
+
       cmd = "blastdbcmd -db #{name} -entry '#{accession}'"
+
       if coords
+        fail(
+          InvalidParameterError,
+          "Invalid range coordinates: #{coords}"
+        ) unless coords =~ /[0-9]+-[0-9]*/
+
         cmd << " -range #{coords}"
       end
       out, = sys(cmd, path: config[:bin])
@@ -52,6 +63,8 @@ module SequenceServer
     # Returns true if the database contains the given sequence id.
     # Returns false otherwise.
     def include?(id)
+      fail ArgumentError, "Invalid sequence id: #{id}" unless id =~ SequenceServer::BLAST::VALID_SEQUENCE_ID
+
       cmd = "blastdbcmd -entry '#{id}' -db #{name}"
       sys(cmd, path: config[:bin]) rescue false
     end
