@@ -43,8 +43,37 @@ module SequenceServer
       end
     end
 
-    describe '#retrieve' do
+    describe '.retrieve' do
+      it "retrieves the sequence for a given accession" do
+        sequence = Database.retrieve("SI2.2.0_06267")
+        expect(sequence).to include('SI2.2.0_06267')
+        expect(sequence).to include('MNTLWLSLWDYPGKL') # start of fasta sequence
+      end
 
+      it "retrieves an open sequence range for a given accession" do
+        sequence = Database.retrieve("SI2.2.0_06267:10-")
+        expect(sequence).to include('SI2.2.0_06267')
+        expect(sequence).not_to include('MNTLWLSLWD') # excludes first 10 chars
+        expect(sequence.lines[1]).to start_with('DYPGKLP') # start at an offset of 10
+      end
+
+      it "retrieves a closed sequence range for a given accession" do
+        sequence = Database.retrieve("SI2.2.0_06267:1-10")
+        expect(sequence).to include('SI2.2.0_06267')
+        expect(sequence.lines.last.size).to eq(10)
+      end
+
+      it "validates the sequence id" do
+        expect do
+          Database.retrieve("';hi")
+        end.to raise_error(SequenceServer::InvalidSequenceIdError)
+      end
+
+      it "validates the range" do
+        expect do
+          Database.retrieve("SI2.2.0_06267:';hi")
+        end.to raise_error(SequenceServer::InvalidParameterError)
+      end
     end
   end
 end
