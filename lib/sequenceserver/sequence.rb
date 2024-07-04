@@ -232,9 +232,8 @@ module SequenceServer
           )
         end
 
-        valid_id_regex = /\A[a-zA-Z0-9-_.:*#|\[\]]+\z/
         invalid_sequence_ids = sequence_ids.reject do |id|
-          id =~ valid_id_regex
+          id =~ SequenceServer::BLAST::VALID_SEQUENCE_ID
         end
 
         unless invalid_sequence_ids.empty?
