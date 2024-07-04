@@ -115,7 +115,12 @@ module SequenceServer
       jid = params[:jid]
       job = Job.fetch(jid)
       halt 202 unless job.done?
-      Report.generate(job).to_json
+      env_file_path = File.join('/sequenceserver', 'public', 'environments', params[:segment1], params[:segment2], 'environment.json')
+      puts env_file_path
+      env_config = JSON.parse(File.read(env_file_path))
+      puts env_config
+      Report.generate(job, env_config).to_json
+#       Report.generate(job).to_json
     end
 
     # Returns base HTML. Rest happens client-side: polling for and rendering
