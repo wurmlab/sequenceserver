@@ -52,6 +52,8 @@ module SequenceServer
     # Returns true if the database contains the given sequence id.
     # Returns false otherwise.
     def include?(id)
+      raise ArgumentError, "Invalid sequence id: #{id}" unless id =~ SequenceServer::BLAST::VALID_SEQUENCE_ID
+
       cmd = "blastdbcmd -entry '#{id}' -db #{name}"
       sys(cmd, path: config[:bin]) rescue false
     end

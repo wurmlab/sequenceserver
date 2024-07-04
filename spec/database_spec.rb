@@ -27,8 +27,24 @@ module SequenceServer
       Database[id].first
     end
 
-    it 'knows if a given accession is in the database or not' do
-      solenopsis_protein_database.include?('SI2.2.0_06267').should be_truthy
+    describe '#include?' do
+      it 'knows if a given accession is present in the database' do
+        expect(solenopsis_protein_database).to include('SI2.2.0_06267')
+      end
+
+      it 'knows if a given accession is absent in the database' do
+        expect(solenopsis_protein_database).not_to include('LOL.2.0_404')
+      end
+
+      it 'validates the id' do
+        expect do
+          solenopsis_protein_database.include?("';hi")
+        end.to raise_error(ArgumentError, "Invalid sequence id: ';hi")
+      end
+    end
+
+    describe '#retrieve' do
+
     end
   end
 end
