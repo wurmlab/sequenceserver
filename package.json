@@ -13,8 +13,8 @@
     "watch-cloud": "webpack --watch --env=pluginsPath='../sequence_server_js_extensions' --env=targetEnv='cloud'",
     "test": "jest",
     "minify:css": "cleancss public/css/sequenceserver.css > public/css/sequenceserver.min.css && npx tailwindcss build -i ./public/css/app.css -o ./public/css/app.min.css --minify",
-    "build": "webpack && npm run minify:css",
-    "build-cloud": "webpack --env=pluginsPath='../sequence_server_js_extensions' --env=targetEnv='cloud' && npm run minify:css"
+    "build": "webpack --mode production && npm run minify:css",
+    "build-cloud": "webpack --mode production --env=pluginsPath='../sequence_server_js_extensions' --env=targetEnv='cloud' && npm run minify:css"
   },
   "dependencies": {
     "babel-plugin-transform-export-extensions": "^6.22.0",
