@@ -52,6 +52,7 @@ module.exports = (env, argv)  => {
                 'query_stats': path.resolve(__dirname, pluginsPath, 'query_stats.js'),
                 'options': path.resolve(__dirname, pluginsPath, 'options.js'),
             }
-        }
+        },
+        devtool: argv.mode === 'production' ? 'source-map' : 'cheap-source-map'
     };
 };
