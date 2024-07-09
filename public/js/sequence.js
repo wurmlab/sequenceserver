@@ -9,78 +9,78 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
      * THIS FILE HAS BEEN MODIFIED FROM THE ORIGINAL
      * (https://github.com/ljgarcia/biojs-vis-sequence/blob/master/lib/index.js).
      *
-     * Sequence component 
-     * 
+     * Sequence component
+     *
      * @class
      * @extends Biojs
-     * 
+     *
      * @author <a href="mailto:johncar@gmail.com">John Gomez</a>, <a href="mailto:secevalliv@gmail.com">Jose Villaveces</a>
      * @version 1.0.0
      * @category 3
-     * 
+     *
      * @requires <a href='http://blog.jquery.com/2011/09/12/jquery-1-6-4-released/'>jQuery Core 1.6.4</a>
      * @dependency <script language="JavaScript" type="text/javascript" src="../biojs/dependencies/jquery/jquery-1.4.2.min.js"></script>
-     * 
+     *
      * @requires <a href='http://jqueryui.com/download'>jQuery UI 1.8.16</a>
      * @dependency <script language="JavaScript" type="text/javascript" src="../biojs/dependencies/jquery/jquery-ui-1.8.2.custom.min.js"></script>
      *
      * @requires <a href='Biojs.Tooltip.css'>Biojs.Tooltip</a>
      * @dependency <script language="JavaScript" type="text/javascript" src="src/Biojs.Tooltip.js"></script>
-     * 
+     *
      * @param {Object} options An object with the options for Sequence component.
-     *    
-     * @option {string} target 
+     *
+     * @option {string} target
      *    Identifier of the DIV tag where the component should be displayed.
-     *    
-     * @option {string} sequence 
+     *
+     * @option {string} sequence
      *    The sequence to be displayed.
-     *    
-     * @option {string} [id] 
+     *
+     * @option {string} [id]
      *    Sequence identifier if apply.
-     *    
-     * @option {string} [format="FASTA"] 
+     *
+     * @option {string} [format="FASTA"]
      *    The display format for the sequence representation.
-     *    
-     * @option {Object[]} [highlights] 
-     * 	  For highlighting multiple regions. 
-     *    <pre class="brush: js" title="Syntax:"> 
+     *
+     * @option {Object[]} [highlights]
+     * 	  For highlighting multiple regions.
+     *    <pre class="brush: js" title="Syntax:">
      *    [
      *    	// Highlight aminoacids from 'start' to 'end' of the current strand using the specified 'color' (optional) and 'background' (optional).
-     *    	{ start: &lt;startVal1&gt;, end: &lt;endVal1&gt; [, id:&lt;idVal1&gt;] [, color: &lt;HTMLColor&gt;] [, background: &lt;HTMLColor&gt;]}, 
+     *    	{ start: &lt;startVal1&gt;, end: &lt;endVal1&gt; [, id:&lt;idVal1&gt;] [, color: &lt;HTMLColor&gt;] [, background: &lt;HTMLColor&gt;]},
      *    	//
      *    	// Any others highlights
-     *    	...,  
-     *    	// 
+     *    	...,
+     *    	//
      *    	{ start: &lt;startValN&gt;, end: &lt;endValN&gt; [, id:&lt;idValN&gt;] [, color: &lt;HTMLColor&gt;] [, background: &lt;HTMLColor&gt;]}
      *    ]</pre>
-     * 
-     * <pre class="brush: js" title="Example:"> 
+     *
+     * <pre class="brush: js" title="Example:">
      * highlights : [
      * 		{ start:30, end:42, color:"white", background:"green", id:"spin1" },
-     *		{ start:139, end:140 }, 
+     *		{ start:139, end:140 },
      *		{ start:631, end:633, color:"white", background:"blue" }
      *	]
      * </pre>
-     * 
-     * @option {Object} [columns={size:40,spacedEach:10}] 
+     *
+     * @option {Object} [columns={size:40,spacedEach:10}]
      * 	  Options for displaying the columns. Syntax: { size: &lt;numCols&gt;, spacedEach: &lt;numCols&gt;}
-     * 
-     * @option {Object} [selection] 
+     *
+     * @option {Object} [selection]
      * 	  Positions for the current selected region. Syntax: { start: &lt;startValue&gt;, end: &lt;endValue&gt;}
-     * 
-     * @option {Object[]} [annotations] 
+     *
+     * @option {Object[]} [annotations]
      *    Set of overlapping annotations. Must be an array of objects following the syntax:
      *     		<pre class="brush: js" title="Syntax:">
-     *            [ 
+     *            [
      *              // An annotation:
-     *              { name: &lt;name&gt;, 
-     *                html: &lt;message&gt;, 
-     *                color: &lt;color_code&gt;, 
-     *                regions: [{ start: &lt;startVal1&gt;, end: &lt;endVal1&gt; color: &lt;HTMLColor&gt;}, ...,{ start: &lt;startValN&gt;, end: &lt;endValN&gt;, color: &lt;HTMLColor&gt;}] 
-     *              }, 
-     *              
+     *              { name: &lt;name&gt;,
+     *                html: &lt;message&gt;,
+     *                color: &lt;color_code&gt;,
+     *                regions: [{ start: &lt;startVal1&gt;, end: &lt;endVal1&gt; color: &lt;HTMLColor&gt;}, ...,{ start: &lt;startValN&gt;, end: &lt;endValN&gt;, color: &lt;HTMLColor&gt;}]
+     *              },
+     *
      *              // ...
-     *              // more annotations here 
+     *              // more annotations here
      *              // ...
      *            ]
      *    		 </pre>
@@ -92,19 +92,19 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
      *        <li><b>regions</b> array of objects defining the intervals which belongs to the annotation.</li>
      *        <li><b>regions[i].start</b> is the starting character for the i-th interval.</li>
      *        <li><b>regions[i].end</b> is the ending character for the i-th interval.</li>
-     *        <li><b>regions[i].color</b> is an optional color for the i-th interval.   
-     *      </ul> 
-     *      
-     * @option {Object} [formatOptions={title:true, footer:true}] 
+     *        <li><b>regions[i].color</b> is an optional color for the i-th interval.
+     *      </ul>
+     *
+     * @option {Object} [formatOptions={title:true, footer:true}]
      * 	  Options for displaying the title. by now just affecting the CODATA format.
-     *    <pre class="brush: js" title="Syntax:"> 
+     *    <pre class="brush: js" title="Syntax:">
      * 		formatOptions : {
      * 			title:false,
      * 			footer:false
      * 		}
      *    </pre>
-     *    
-     * @example 
+     *
+     * @example
      * var theSequence = "METLCQRLNVCQDKILTHYENDSTDLRDHIDYWKHMRLECAIYYKAREMGFKHINHQVVPTLAVSKNKALQAIELQLTLETIYNSQYSNEKWTLQDVSLEVYLTAPTGCIKKHGYTVEVQFDGDICNTMHYTNWTHIYICEEAojs SVTVVEGQVDYYGLYYVHEGIRTYFVQFKDDAEKYSKNKVWEVHAGGQVILCPTSVFSSNEVSSPEIIRQHLANHPAATHTKAVALGTEETQTTIQRPRSEPDTGNPCHTTKLLHRDSVDSAPILTAFNSSHKGRINCNSNTTPIVHLKGDANTLKCLRYRFKKHCTLYTAVSSTWHWTGHNVKHKSAIVTLTYDSEWQRDQFLSQVKIPKTITVSTGFMSI";
      * var mySequence = new Sequence({
      * 		sequence : theSequence,
@@ -112,14 +112,14 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
      * 		format : 'CODATA',
      * 		id : 'P918283',
      * 		annotations: [
-     *        { name:"CATH", 
-     * 	  		color:"#F0F020", 
-     * 	  		html: "Using color code #F0F020 ", 
+     *        { name:"CATH",
+     * 	  		color:"#F0F020",
+     * 	  		html: "Using color code #F0F020 ",
      * 	  		regions: [{start: 122, end: 135}]
      * 		  },
-     *        { name:"TEST", 
-     *          html:"&lt;br&gt; Example of &lt;b&gt;HTML&lt;/b&gt;", 
-     *          color:"green", 
+     *        { name:"TEST",
+     *          html:"&lt;br&gt; Example of &lt;b&gt;HTML&lt;/b&gt;",
+     *          color:"green",
      *          regions: [
      *            {start: 285, end: 292},
      *            {start: 293, end: 314, color: "#2E4988"}]
@@ -127,11 +127,11 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
      *      ],
      *      highlights : [
      *      	{ start:30, end:42, color:"white", background:"green", id:"spin1" },
-     *      	{ start:139, end:140 }, 
+     *      	{ start:139, end:140 },
      *      	{ start:631, end:633, color:"white", background:"blue" }
      *      ]
-     * });	
-     * 
+     * });
+     *
      */
 
         var Class = require('js-class');
@@ -162,7 +162,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     // legacy: copy target id
                     this.opt.target = this._container[0].id;
 
-                    // Lazy initialization 
+                    // Lazy initialization
                     this._container.ready(function () {
                         self._initialize();
                     });
@@ -184,7 +184,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     annotations: [],
                     sequenceUrl: 'http://www.ebi.ac.uk/das-srv/uniprot/das/uniprot/sequence',
 
-                    // Styles 
+                    // Styles
                     selectionColor: 'Yellow',
                     selectionFontColor: 'black',
                     highlightFontColor: 'red',
@@ -209,13 +209,13 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
            * @eventData {string} type The name of the event.
            * @eventData {int} start A number indicating the start of the selection.
            * @eventData {int} end A number indicating the ending of selection.
-           * @example 
+           * @example
            * mySequence.onSelectionChanged(
            *    function( objEvent ) {
            *       alert("Selected: " + objEvent.start + ", " + objEvent.end );
            *    }
-           * ); 
-           * 
+           * );
+           *
            * */
                     'onSelectionChanged',
 
@@ -227,14 +227,14 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
            * @eventData {string} type The name of the event.
            * @eventData {int} start A number indicating the start of the selection.
            * @eventData {int} end A number indicating the ending of selection.
-           * @example 
+           * @example
            * mySequence.onSelectionChange(
            *    function( objEvent ) {
            *       alert("Selection in progress: " + objEvent.start + ", " + objEvent.end );
            *    }
-           * );  
-           * 
-           * 
+           * );
+           *
+           *
            * */
                     'onSelectionChange',
 
@@ -246,13 +246,13 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
            * @eventData {string} type The name of the event.
            * @eventData {string} name The name of the selected annotation.
            * @eventData {int} pos A number indicating the position of the selected amino acid.
-           * @example 
+           * @example
            * mySequence.onAnnotationClicked(
            *    function( objEvent ) {
            *       alert("Clicked " + objEvent.name + " on position " + objEvent.pos );
            *    }
-           * );  
-           * 
+           * );
+           *
            * */
                     'onAnnotationClicked'
                 ],
@@ -283,7 +283,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     // DIV for the sequence
                     this._contentDiv = jQuery('<div/>').appendTo(this._container);
 
-                    // Initialize highlighting 
+                    // Initialize highlighting
                     this._highlights = this.opt.highlights;
 
                     // Initialize annotations
@@ -322,10 +322,10 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
          * Shows the columns indicated by the indexes array.
          * @param {string} seq The sequence strand.
          * @param {string} [identifier] Sequence identifier.
-         * 
-         * @example 
+         *
+         * @example
          * mySequence.setSequence("P99999");
-         * 
+         *
          */
                 setSequence: function (seq, identifier) {
 
@@ -353,23 +353,18 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     jQuery.ajax({
                         url: self.opt.sequenceUrl,
                         dataType: 'xml',
-                        data: { segment: accession },
-                        success: function (xml) {
-                            try {
-
-                                var sequenceNode = jQuery(xml).find('SEQUENCE:first');
-                                self.setSequence(sequenceNode.text(), sequenceNode.attr('id'), sequenceNode.attr('label'));
-
-                            } catch (e) {
-                                console.log('Error decoding response data: ' + e.message);
-                                self.clearSequence('No sequence available', '../biojs/css/images/warning_icon.png');
-                            }
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log('Error decoding response data: ' + textStatus);
-                            self.clearSequence('Error requesting the sequence to the server ' + this.url, '../biojs/css/images/warning_icon.png');
+                        data: { segment: accession }
+                    }).done(function(xml) {
+                        try {
+                            var sequenceNode = jQuery(xml).find('SEQUENCE:first');
+                            self.setSequence(sequenceNode.text(), sequenceNode.attr('id'), sequenceNode.attr('label'));
+                        } catch (e) {
+                            console.log('Error decoding response data: ' + e.message);
+                            self.clearSequence('No sequence available', '../biojs/css/images/warning_icon.png');
                         }
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log('Error requesting the sequence: ' + textStatus);
+                        self.clearSequence('Error requesting the sequence to the server ' + this.url, '../biojs/css/images/warning_icon.png');
                     });
                 },
 
@@ -377,10 +372,10 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
        * Shows the columns indicated by the indexes array.
        * @param {string} [showMessage] Message to be showed.
        * @param {string} [icon] Icon to be showed a side of the message
-       * 
-       * @example 
+       *
+       * @example
        * mySequence.clearSequence("No sequence available", "../biojs/css/images/warning_icon.png");
-       * 
+       *
        */
                 clearSequence: function (showMessage, icon) {
 
@@ -414,9 +409,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
           * Set the current selection in the sequence causing the event {@link Sequence#onSelectionChanged}
           *
           * @example
-          * // set selection from the position 100 to 150 
+          * // set selection from the position 100 to 150
           * mySequence.setSelection(100, 150);
-          * 
+          *
           * @param {int} start The starting character of the selection.
           * @param {int} end The ending character of the selection
           */
@@ -465,11 +460,11 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
           * @example
           * // highlight the characters within the position 100 to 150, included.
           * mySequence.addHighlight( { "start": 100, "end": 150, "color": "white", "background": "red", "id": "aaa" } );
-          * 
+          *
           * @param {Object} h The highlight defined as follows:
-          * 	
-          * 
-          * @return {int} representing the id of the highlight on the internal array. Returns -1 on failure  
+          *
+          *
+          * @return {int} representing the id of the highlight on the internal array. Returns -1 on failure
           */
                 addHighlight: function (h) {
                     var id = '-1';
@@ -492,11 +487,11 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                     return id;
                 },
-                /* 
+                /*
            * Function: Sequence._applyHighlight
            * Purpose:  Apply the specified color and background to a region between 'start' and 'end'.
            * Returns:  -
-           * Inputs: highlight -> {Object} An object containing the fields start (int), end (int), 
+           * Inputs: highlight -> {Object} An object containing the fields start (int), end (int),
            * 						color (HTML color string) and background (HTML color string).
            */
                 _applyHighlight: function (highlight) {
@@ -521,7 +516,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                             .addClass('highlighted');
                     }
                 },
-                /* 
+                /*
            * Function: Sequence._applyHighlights
            * Purpose:  Apply the specified highlights.
            * Returns:  -
@@ -532,7 +527,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                         this._applyHighlight(highlights[i]);
                     }
                 },
-                /* 
+                /*
            * Function: Sequence._restoreHighlights
            * Purpose:  Repaint the highlights in the specified region.
            * Returns:  -
@@ -563,10 +558,10 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                         }
                     }
                 },
-                /* 
+                /*
            * Function: Sequence._restoreSelection
-           * Purpose:  Repaint the current selection in the specified region. 
-           * 			 It is used in the case of any highlight do overriding of the current selection. 
+           * Purpose:  Repaint the current selection in the specified region.
+           * 			 It is used in the case of any highlight do overriding of the current selection.
            * Returns:  -
            * Inputs: start -> {int} Start of the region to be restored.
            * 		   end -> {int} End of the region to be restored.
@@ -594,7 +589,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
           * @example
           * // Clear the highlighted characters within the position 100 to 150, included.
           * mySequence.removeHighlight("spin1");
-          * 
+          *
           * @param {string} id The id of the highlight on the internal array. This value is returned by method highlight.
           */
                 removeHighlight: function (id) {
@@ -631,7 +626,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
           * @example
           * // Set format to 'FASTA'.
           * mySequence.setFormat('FASTA');
-          * 
+          *
           * @param {string} format The format for the sequence to be displayed.
           */
                 setFormat: function (format) {
@@ -655,7 +650,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
           * @example
           * // Set the number of columns to 70.
           * mySequence.setNumCols(70);
-          * 
+          *
           * @param {int} numCols The number of columns.
           */
                 setNumCols: function (numCols) {
@@ -665,7 +660,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                 /**
           * Set the visibility of the drop-down list of formats.
-          * 
+          *
           * @param {boolean} visible true: show; false: hide.
           */
                 formatSelectorVisible: function (visible) {
@@ -682,7 +677,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
           * @example
           * // Shows the format selector.
           * mySequence.showFormatSelector();
-          * 
+          *
           */
                 showFormatSelector: function () {
                     this._headerDiv.show();
@@ -690,11 +685,11 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                 /**
           * This is similar to a {Biojs.Protein3D#formatSelectorVisible} with the 'false' argument.
-          * 
+          *
           * @example
           * // Hides the format selector.
           * mySequence.hideFormatSelector();
-          * 
+          *
           */
                 hideFormatSelector: function () {
                     this._headerDiv.hide();
@@ -702,7 +697,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                 /**
           * Hides the whole component.
-          * 
+          *
           */
                 hide: function () {
                     this._headerDiv.hide();
@@ -711,15 +706,15 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                 /**
           * Shows the whole component.
-          * 
+          *
           */
                 show: function () {
                     this._headerDiv.show();
                     this._contentDiv.show();
                 },
-                /* 
+                /*
            * Function: Sequence._setSelection
-           * Purpose:  Update the current selection. 
+           * Purpose:  Update the current selection.
            * Returns:  -
            * Inputs: start -> {int} Start of the region to be selected.
            * 		   end -> {int} End of the region to be selected.
@@ -757,9 +752,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     current.end = end;
                 },
 
-                /* 
+                /*
            * Function: Sequence._repaintSelection
-           * Purpose:  Repaint the whole current selection. 
+           * Purpose:  Repaint the whole current selection.
            * Returns:  -
            * Inputs: -
            */
@@ -769,9 +764,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     this._setSelection(s.start, s.end);
                 },
 
-                /* 
+                /*
            * Function: Sequence._redraw
-           * Purpose:  Repaint the current sequence. 
+           * Purpose:  Repaint the current sequence.
            * Returns:  -
            * Inputs: -
            */
@@ -783,7 +778,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     //this._contentDiv.text('');
                     this._contentDiv.children().remove();
 
-                    // Rebuild the spans of the sequence 
+                    // Rebuild the spans of the sequence
                     // according to format
                     if (this.opt.format == 'RAW') {
                         this._drawRaw();
@@ -801,9 +796,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     this._repaintSelection();
                     this._addSpanEvents();
                 },
-                /* 
+                /*
            * Function: Sequence._drawFasta
-           * Purpose:  Repaint the current sequence using FASTA format.  
+           * Purpose:  Repaint the current sequence using FASTA format.
            * Returns:  -
            * Inputs: -
            */
@@ -832,9 +827,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                     this._drawAnnotations(opt);
                 },
-                /* 
+                /*
            * Function: Sequence._drawCodata
-           * Purpose:  Repaint the current sequence using CODATA format.  
+           * Purpose:  Repaint the current sequence using CODATA format.
            * Returns:  -
            * Inputs: -
            */
@@ -884,11 +879,11 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                     this._drawAnnotations(opt);
                 },
-                /* 
+                /*
            * Function: Sequence._drawAnnotations
-           * Purpose:  Paint the annotations on the sequence.  
+           * Purpose:  Paint the annotations on the sequence.
            * Returns:  -
-           * Inputs: settings -> {object} 
+           * Inputs: settings -> {object}
            */
                 _drawAnnotations: function (settings) {
 
@@ -961,9 +956,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     });
 
                 },
-                /* 
+                /*
          * Function: Sequence._getAnnotationString
-         * Purpose:  Get the annotation text message for the tooltip 
+         * Purpose:  Get the annotation text message for the tooltip
          * Returns:  {string} Annotation text for the annotation
          * Inputs:   id -> {int} index of the internal annotation array
          */
@@ -972,12 +967,12 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     return annotation.name + '<br/>' + ((annotation.html) ? annotation.html : '');
                 },
 
-                /* 
+                /*
          * Function: Sequence._getHTMLRowAnnot
          * Purpose:  Build an annotation
          * Returns:  HTML of the annotation
          * Inputs:   currentPos -> {int}
-         * 			 annotation -> {Object} 
+         * 			 annotation -> {Object}
          *  		 settings -> {Object}
          */
                 _getHTMLRowAnnot: function (currentPos, annotation, settings) {
@@ -1030,9 +1025,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                     return (str.indexOf('span') == -1) ? '' : str;
                 },
-                /* 
+                /*
          * Function: Sequence._drawRaw
-         * Purpose:  Repaint the current sequence using RAW format.  
+         * Purpose:  Repaint the current sequence using RAW format.
          * Returns:  -
          * Inputs: -
          */
@@ -1059,9 +1054,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                     this._drawAnnotations(opt);
                 },
-                /* 
+                /*
            * Function: Sequence._drawPride
-           * Purpose:  Repaint the current sequence using PRIDE format.  
+           * Purpose:  Repaint the current sequence using PRIDE format.
            * Returns:  -
            * Inputs: -
            */
@@ -1087,9 +1082,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     this._drawSequence(seq, opt);
                     this._drawAnnotations(opt);
                 },
-                /* 
+                /*
            * Function: Sequence._drawSequence
-           * Purpose:  Repaint the current sequence using CUSTOM format.  
+           * Purpose:  Repaint the current sequence using CUSTOM format.
            * Returns:  -
            * Inputs:   a -> {char[]} a The sequence strand.
            * 			 opt -> {Object} opt The CUSTOM format.
@@ -1216,11 +1211,11 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                     return str;
                 },
-                /* 
+                /*
            * Function: Sequence._formatIndex
            * Purpose:  Build the HTML corresponding to counting numbers (top, left, right) in the strand.
            * Returns:  -
-           * Inputs:   number -> {int} The number 
+           * Inputs:   number -> {int} The number
            * 			 size -> {int} Number of bins to suit the number.
            * 			 fillingChar -> {char} Character to be used for filling out blank bins.
            * 			 alignLeft -> {bool} Tell if aligned to the left.
@@ -1241,7 +1236,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     }
                     return str;
                 },
-                /* 
+                /*
            * Function: Sequence._addSpanEvents
            * Purpose:  Add the event handlers to the strand.
            * Returns:  -
@@ -1313,7 +1308,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     })
                         .css('cursor', 'pointer');
                 },
-                /* 
+                /*
            * Function: Sequence._addTooltip
            * Purpose:  Add a tooltip around the target DOM element provided as argument
            * Returns:  -
@@ -1349,22 +1344,22 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                 /**
           * Annotate a set of intervals provided in the argument.
-          * 
+          *
           * @example
           * // Annotations using regions with different colors.
           * mySequence.addAnnotation({
-        *    name:"UNIPROT", 
-        *    html:"&lt;br&gt; Example of &lt;b&gt;HTML&lt;/b&gt;", 
-        *    color:"green", 
+        *    name:"UNIPROT",
+        *    html:"&lt;br&gt; Example of &lt;b&gt;HTML&lt;/b&gt;",
+        *    color:"green",
         *    regions: [
         *       {start: 540, end: 560},
-        *       {start: 561, end:580, color: "#FFA010"}, 
-        *       {start: 581, end:590, color: "red"}, 
+        *       {start: 561, end:580, color: "#FFA010"},
+        *       {start: 581, end:590, color: "red"},
         *       {start: 690, end:710}]
         * });
-        * 
-          * 
-          * @param {Object} annotation The intervals belonging to the same annotation. 
+        *
+          *
+          * @param {Object} annotation The intervals belonging to the same annotation.
           * Syntax: { name: &lt;value&gt;, color: &lt;HTMLColorCode&gt;, html: &lt;HTMLString&gt;, regions: [{ start: &lt;startVal1&gt;, end: &lt;endVal1&gt;}, ...,  { start: &lt;startValN&gt;, end: &lt;endValN&gt;}] }
           */
                 addAnnotation: function (annotation) {
@@ -1374,13 +1369,13 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                 /**
           * Removes an annotation by means of its name.
-          * 
-          * @example 
+          *
+          * @example
           * // Remove the UNIPROT annotation.
-          * mySequence.removeAnnotation('UNIPROT'); 
-          * 
+          * mySequence.removeAnnotation('UNIPROT');
+          *
           * @param {string} name The name of the annotation to be removed.
-          * 
+          *
           */
                 removeAnnotation: function (name) {
                     for (var i = 0; i < this._annotations.length; i++) {
@@ -1393,10 +1388,10 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                 },
                 /**
           * Removes all the current annotations.
-          * 
-          * @example 
-          * mySequence.removeAllAnnotations(); 
-          * 
+          *
+          * @example
+          * mySequence.removeAllAnnotations();
+          *
           */
                 removeAllAnnotations: function () {
                     this._annotations = [];
