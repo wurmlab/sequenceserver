@@ -7,7 +7,13 @@ import shortResponseJSON from './mock_data/short_response.json';
 import longResponseJSON from './mock_data/long_response.json';
 
 const setMockJSONResult = (result) => {
-    global.$.getJSON = () => ({ complete: jest.fn((callback) => callback(result)) });
+    global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: result.status === 200,
+            status: result.status,
+            json: () => Promise.resolve(result.responseJSON),
+        })
+    );
 };
 
 const nextQueryButton = () => screen.queryByRole('button', { name: /next query/i });
@@ -40,7 +46,7 @@ describe('REPORT PAGE', () => {
 
     it('should show error modal if error occurs while fetching queries', () => {
         const showErrorModal = jest.fn();
-        setMockJSONResult({ status: 500 });
+        setMockJSONResult({ status: 500, responseJSON: { error: "Internal Server Error" }});
         render(<Report showErrorModal={showErrorModal} />);
         expect(showErrorModal).toHaveBeenCalledTimes(1);
     });
