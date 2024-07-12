@@ -80,6 +80,25 @@ module SequenceServer
       erb :search, layout: settings.search_layout
     end
 
+    get '/blast/sitemap.xml' do
+        send_file("/db/sitemap.xml",
+                type: 'application/xml',
+                filename: 'sitemap.xml')
+    end
+
+    get '/blast/environment_info.json' do
+        file_path = "/sequenceserver/public/environments/environment_info.json"
+        puts "Attempting to serve file at #{file_path}"
+
+        if File.exist?(file_path)
+            puts "File found, sending file"
+            send_file(file_path, type: 'application/json', filename: 'environment_info.json')
+        else
+            puts "File not found"
+            halt 404, 'File not found'
+        end
+    end
+
     # Returns data that is used to render the search form client side. These
     # include available databases and user-defined search options.
     get '/blast/:segment1/:segment2/searchdata.json' do
@@ -105,14 +124,30 @@ module SequenceServer
       searchdata.to_json
     end
 
-    # Queues a search job and redirects to `/:jid`.
     post '/blast/:segment1/:segment2' do
+        handle_blast_request(params)
+    end
+
+    post '/blast/:segment1/:segment2/' do
+        handle_blast_request(params)
+    end
+
+    # Queues a search job and redirects to `/:jid`.
+    def handle_blast_request(params)
       if params[:input_sequence]
         @input_sequence = params[:input_sequence]
         erb :search, layout: settings.search_layout
       else
         job = Job.create(params)
-        redirect to("/blast/" + params[:segment1] + "/" + params[:segment2] + "/#{job.id}")
+        protocol = request.env['HTTP_X_FORWARDED_PROTO'] == 'https' ? 'https' : 'http'
+        host = request.host_with_port # Get the host with port
+        if host == "blast.alliancegenome.org" or host == "www.alliancegenome.org"
+            protocol = "https"
+        end
+
+        redirect_url = "#{protocol}://#{host}/blast/#{params[:segment1]}/#{params[:segment2]}/#{job.id}"
+        puts redirect_url
+        redirect to(redirect_url)
       end
     end
 
@@ -259,7 +294,7 @@ module SequenceServer
     get '/blast/:segment1/:segment2/?' do
       env_database_dir = "/db/" + params[:segment1] + "/" + params[:segment2] + "/databases/"
       makeblastdb(env_database_dir).scan
-      
+
       fail NO_BLAST_DATABASE_FOUND, env_database_dir if !makeblastdb(env_database_dir).any_formatted?
       Database.collection = makeblastdb(env_database_dir).formatted_fastas
       Database.each do |database|

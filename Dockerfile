@@ -1,6 +1,6 @@
 # Build variables. These need to be declared befored the first FROM
 # for the variables to be accessible in FROM instruction.
-ARG BLAST_VERSION=2.14.0
+ARG BLAST_VERSION=2.14.1
 
 ## Stage 1: gem dependencies.
 FROM ruby:3.2.2-bullseye AS builder
