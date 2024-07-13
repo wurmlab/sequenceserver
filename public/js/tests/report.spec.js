@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import { render, screen, fireEvent } from '@testing-library/react';
+import { act } from 'react';
 import Report from '../report';
 import Sidebar from '../sidebar';
 import shortResponseJSON from './mock_data/short_response.json';
@@ -44,19 +45,30 @@ describe('REPORT PAGE', () => {
         expect(screen.getByRole('heading', { name: 'BLAST-ing' })).toBeInTheDocument();
     });
 
-    it('should show error modal if error occurs while fetching queries', () => {
+    it('should show error modal if error occurs while fetching queries', async () => {
         const showErrorModal = jest.fn();
+
         setMockJSONResult({ status: 500, responseJSON: { error: "Internal Server Error" }});
-        render(<Report showErrorModal={showErrorModal} />);
+
+        await act(async () => {
+            render(<Report showErrorModal={showErrorModal} />);
+        });
+
         expect(showErrorModal).toHaveBeenCalledTimes(1);
     });
 
-    it('it should render the report page correctly if there\'s a response provided', () => {
+    it('it should render the report page correctly if there\'s a response provided', async () => {
         setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
-        const { container } = render(<Report getCharacterWidth={jest.fn()} />);
-        expect(container.querySelector('#results')).toBeInTheDocument();
 
+        let container;
+        await act(async () => {
+            const result = render(<Report getCharacterWidth={jest.fn()} />);
+            container = result.container;
+        });
+
+        expect(container.querySelector('#results')).toBeInTheDocument();
     });
+
     describe('SIDEBAR', () => {
         it('should render the sidebar component with correct heading', () => {
             setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
@@ -111,23 +123,28 @@ describe('REPORT PAGE', () => {
 
         describe('DOWNLOAD LINKS', () => {
             let container;
-            beforeEach(() => {
+            beforeEach(async () => {
                 setMockJSONResult({ status: 200, responseJSON: shortResponseJSON });
-                container = render(<Report getCharacterWidth={jest.fn()}  />).container;
+                await act(async () => {
+                    container = render(<Report getCharacterWidth={jest.fn()}  />).container;
+                });
             });
             describe('ALIGNMENT DOWNLOAD', () => {
                 it('should generate a blob url and filename for downloading alignment of all hits on render', () => {
-                    const alignment_download_link = container.querySelector('.download-alignment-of-all');
-                    const expected_num_hits = container.querySelectorAll('.hit-links input[type="checkbox"]').length;
-                    const file_name = `alignment-${expected_num_hits}_hits.txt`;
-                    expect(alignment_download_link.download).toEqual(file_name);
-                    expect(alignment_download_link.hred).not.toEqual('#');
+                    const alignmentDownloadLink = container.querySelector('.download-alignment-of-all');
+                    const hitLinks = container.querySelectorAll('.hit-links input[type="checkbox"]');
+                    const expectedNumHits = hitLinks.length;
+                    const fileName = `alignment-${expectedNumHits}_hits.txt`;
+                    expect(alignmentDownloadLink.download).toEqual(fileName);
+                    expect(alignmentDownloadLink.href).not.toEqual('#');
                 });
+
                 it('link for downloading alignment of specific number of selected hits should be disabled on initial load', () => {
                     const alignment_download_link = container.querySelector('.download-alignment-of-selected');
                     expect(alignment_download_link.classList.contains('disabled')).toBeTruthy();
 
                 });
+
                 it('should generate a blob url and filename for downloading alignment of specific number of selected hits', () => {
                     const alignment_download_link = container.querySelector('.download-alignment-of-selected');
                     // QUERY ALL HIT LINKS CHECKBOXES
