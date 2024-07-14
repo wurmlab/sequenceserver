@@ -55,10 +55,12 @@ class Report extends Component {
             fetch(path)
                 .then(response => {
                     // Handle HTTP status codes
-                    if (!response.ok) {
-                        throw response;
-                    }
-                    return response.json().then(data => ({ status: response.status, data }));
+                    if (!response.ok) throw response;
+
+                    return response.text().then(data => {
+                        if (data) data = JSON.parse(data);
+                        return { status: response.status, data }
+                    });
                 })
                 .then(({ status, data }) => {
                     switch (status) {
@@ -77,8 +79,9 @@ class Report extends Component {
                     }
                 })
                 .catch(error => {
-                    if (error.json) {
-                        error.json().then(errData => {
+                    if (error.text) {
+                        error.text().then(errData => {
+                            if (errData) errData = JSON.parse(errData)
                             switch (error.status) {
                                 case 400:
                                 case 422:
