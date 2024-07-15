@@ -30,3 +30,12 @@ class Page extends Component {
 
 const root = createRoot(document.getElementById("view"));
 root.render(<Page />);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const closeButton = document.querySelector('.js--close-help');
+  if (closeButton) {
+    closeButton.addEventListener('click', function() {
+      document.querySelector('[data-help-modal]').classList.add('hidden');
+    });
+  }
+});
