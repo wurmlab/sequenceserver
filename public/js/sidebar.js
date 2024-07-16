@@ -422,7 +422,7 @@ export default class extends Component {
                 <div className="referral-panel">
                     <div className="section-header-sidebar">
                         <h4>Recommend SequenceServer</h4>
-                        <p><a href="https://sequenceserver.com/referral-program" target="_blank">Earn up to $100 per signup</a></p>
+                        <p><a href="https://sequenceserver.com/referral-program" target="_blank">Earn up to $400 per signup</a></p>
                     </div>
                 </div>
             </div>
