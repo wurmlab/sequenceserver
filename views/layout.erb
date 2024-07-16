@@ -108,7 +108,7 @@
     </div> <!-- /container -->
   </div>
 
-  <script>
+  <script nonce="<%= env['csp.nonce'] %>">
     document.addEventListener('DOMContentLoaded', function() {
 
         function suggestNewVersion(element, version) {
