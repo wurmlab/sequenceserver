@@ -1,41 +1,41 @@
-import "./jquery_world";
-import React, { Component } from "react";
-import { createRoot } from "react-dom/client";
-import { DnD } from "./dnd";
-import { Form } from "./form";
-import { SearchHeaderPlugin } from "search_header_plugin";
+import './jquery_world';
+import React, { Component } from 'react';
+import { createRoot } from 'react-dom/client';
+import { DnD } from './dnd';
+import { Form } from './form';
+import { SearchHeaderPlugin } from 'search_header_plugin';
 
 /**
  * Clear sessionStorage on reload.
  */
 if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-  sessionStorage.clear();
-  history.replaceState(null, "", location.href.split("?")[0]);
+    sessionStorage.clear();
+    history.replaceState(null, '', location.href.split('?')[0]);
 }
 
 class Page extends Component {
-  componentDidMount() {
-    this.refs.dnd.setState({ query: this.refs.form.refs.query });
-  }
-  render() {
-    return (
-      <div>
-        <SearchHeaderPlugin />
-        <DnD ref="dnd" />
-        <Form ref="form" />
-      </div>
-    );
-  }
+    componentDidMount() {
+        this.refs.dnd.setState({ query: this.refs.form.refs.query });
+    }
+    render() {
+        return (
+            <div>
+                <SearchHeaderPlugin />
+                <DnD ref="dnd" />
+                <Form ref="form" />
+            </div>
+        );
+    }
 }
 
-const root = createRoot(document.getElementById("view"));
+const root = createRoot(document.getElementById('view'));
 root.render(<Page />);
 
-document.addEventListener("DOMContentLoaded", () => {
-  const closeButton = document.querySelector('.js--close-help');
-  if (closeButton) {
-    closeButton.addEventListener('click', function() {
-      document.querySelector('[data-help-modal]').classList.add('hidden');
-    });
-  }
+document.addEventListener('DOMContentLoaded', () => {
+    const closeButton = document.querySelector('.js--close-help');
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            document.querySelector('[data-help-modal]').classList.add('hidden');
+        });
+    }
 });
