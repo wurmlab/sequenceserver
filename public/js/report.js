@@ -58,7 +58,7 @@ class Report extends Component {
                     if (!response.ok) throw response;
 
                     return response.text().then(data => {
-                        if (data) data = JSON.parse(data);
+                        data = parseJSON(data);
                         return { status: response.status, data }
                     });
                 })
@@ -81,7 +81,7 @@ class Report extends Component {
                 .catch(error => {
                     if (error.text) {
                         error.text().then(errData => {
-                            if (errData) errData = JSON.parse(errData)
+                            errData = parseJSON(errData);
                             switch (error.status) {
                                 case 400:
                                 case 422:
@@ -96,6 +96,17 @@ class Report extends Component {
                         console.error("Network error:", error);
                     }
                 });
+        }
+
+        function parseJSON(str) {
+            let parsedJson = str;
+            try {
+                parsedJson = JSON.parse(str);
+            } catch (e) {
+                console.error("Error parsing JSON:", e);
+            }
+
+            return parsedJson;
         }
         poll();
     }

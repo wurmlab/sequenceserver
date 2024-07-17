@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import _ from 'underscore';
 
 import downloadFASTA from './download_fasta';
@@ -32,6 +32,7 @@ export default class extends Component {
         this.copyURL = this.copyURL.bind(this);
         this.shareCloudInit = this.shareCloudInit.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
+        this.cloudShareModal = React.createRef();
         this.timeout = null;
         this.queryElems = [];
         this.state = {
@@ -203,7 +204,7 @@ export default class extends Component {
     }
 
     shareCloudInit() {
-        this.refs.cloudShareModal.show();
+        this.cloudShareModal.current.show();
     }
 
     topPanelJSX() {
@@ -403,7 +404,7 @@ export default class extends Component {
                 </ul>
                 {
                     <CloudShareModal
-                        ref="cloudShareModal"
+                        ref={this.cloudShareModal}
                         querydb={this.props.data.querydb}
                         program={this.props.data.program}
                         queryLength={this.props.data.queries.length}

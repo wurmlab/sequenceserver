@@ -35,7 +35,7 @@ export default function Grapher(Graph) {
             } else {
                 var cssClasses = Graph.className() + ' grapher';
                 return (
-                    <div ref="grapher" className={cssClasses}>
+                    <div className={cssClasses}>
                         {this.header()}
                         {this.svgContainerJSX()}
                     </div>

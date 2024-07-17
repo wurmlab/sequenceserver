@@ -34,6 +34,8 @@ export class Form extends Component {
         this.handleAlgoChanged = this.handleAlgoChanged.bind(this);
         this.handleFormSubmission = this.handleFormSubmission.bind(this);
         this.formRef = createRef();
+        this.query = createRef();
+        this.button = createRef();
         this.setButtonState = this.setButtonState.bind(this);
     }
 
@@ -65,7 +67,7 @@ export class Form extends Component {
              * (if any).
              */
             if (data['query']) {
-                this.refs.query.value(data['query']);
+                this.query.current.value(data['query']);
             }
 
             setTimeout(function () {
@@ -96,7 +98,7 @@ export class Form extends Component {
         evt.preventDefault();
         const form = this.formRef.current;
         const formData = new FormData(form);
-        formData.append('method', this.refs.button.state.methods[0]);
+        formData.append('method', this.button.current.state.methods[0]);
         fetch(window.location.href, {
             method: 'POST',
             body: formData
@@ -118,7 +120,7 @@ export class Form extends Component {
         var database_type = this.databaseType;
         var sequence_type = this.sequenceType;
 
-        if (this.refs.query.isEmpty()) {
+        if (this.query.current.isEmpty()) {
             return [];
         }
 
@@ -165,8 +167,8 @@ export class Form extends Component {
     }
 
     setButtonState() {
-        this.refs.button.setState({
-            hasQuery: !this.refs.query.isEmpty(),
+        this.button.current.setState({
+            hasQuery: !this.query.current.isEmpty(),
             hasDatabases: !!this.databaseType,
             methods: this.determineBlastMethods()
         });
@@ -205,16 +207,16 @@ export class Form extends Component {
                 <form id="blast" ref={this.formRef} onSubmit={this.handleFormSubmission}>
                     <input type="hidden" name="_csrf" value={document.querySelector('meta[name="_csrf"]').content} />
                     <div className="px-4">
-                        <SearchQueryWidget ref="query" onSequenceTypeChanged={this.handleSequenceTypeChanged} onSequenceChanged={this.handleSequenceChanged}/>
+                        <SearchQueryWidget ref={this.query} onSequenceTypeChanged={this.handleSequenceTypeChanged} onSequenceChanged={this.handleSequenceChanged}/>
 
                         {this.useTreeWidget() ?
-                            <DatabasesTree ref="databases"
+                            <DatabasesTree
                                 databases={this.state.databases} tree={this.state.tree}
                                 preSelectedDbs={this.state.preSelectedDbs}
                                 onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
                                 onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
                             :
-                            <Databases ref="databases" databases={this.state.databases}
+                            <Databases databases={this.state.databases}
                                 preSelectedDbs={this.state.preSelectedDbs}
                                 onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
                                 onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
@@ -234,7 +236,7 @@ export class Form extends Component {
                         <label className="block my-4 md:my-2">
                             <input type="checkbox" id="toggleNewTab" /> Open results in new tab
                         </label>
-                        <SearchButton ref="button" onAlgoChanged={this.handleAlgoChanged} />
+                        <SearchButton ref={this.button} onAlgoChanged={this.handleAlgoChanged} />
                     </div>
 
                 </form>

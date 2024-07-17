@@ -17,6 +17,8 @@ class Page extends Component {
         this.showErrorModal = this.showErrorModal.bind(this);
         this.getCharacterWidth = this.getCharacterWidth.bind(this);
         this.hspChars = createRef();
+        this.sequenceModal = createRef();
+        this.errorModal = createRef();
     }
     componentDidMount() {
         var job_id = location.pathname.split('/').pop();
@@ -24,11 +26,11 @@ class Page extends Component {
     }
 
     showSequenceModal(url) {
-        this.refs.sequenceModal.show(url);
+        this.sequenceModal.current.show(url);
     }
 
     showErrorModal(errorData, beforeShow) {
-        this.refs.errorModal.show(errorData, beforeShow);
+        this.errorModal.current.show(errorData, beforeShow);
     }
 
     getCharacterWidth() {
@@ -60,11 +62,11 @@ class Page extends Component {
                 <canvas id="png-exporter" hidden></canvas>
 
                 <SequenceModal
-                    ref="sequenceModal"
+                    ref={this.sequenceModal}
                     showErrorModal={(...args) => this.showErrorModal(...args)}
                 />
 
-                <ErrorModal ref="errorModal" />
+                <ErrorModal ref={this.errorModal} />
             </div>
         );
     }
