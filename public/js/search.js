@@ -17,8 +17,8 @@ if (navigationEntry && navigationEntry.type === 'reload') {
 class Page extends Component {
   constructor(props) {
     super(props);
-    this.dnd = creteRef();
-    this.form = createRef();
+    this.dnd = React.createRef();
+    this.form = React.createRef();
   }
 
   componentDidMount() {
@@ -46,3 +46,4 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('[data-help-modal]').classList.add('hidden');
         });
     }
+});

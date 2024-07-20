@@ -28,13 +28,11 @@ export default class CloudShareModal extends React.Component {
     this.setState({ [name]: inputValue });
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
     const { email } = this.state;
-    const regex = /\/([^/]+)(?:\/|#|\?|$)/;
-    const match = window.location.pathname.match(regex);
-    const jobId = match[1];
+    const jobId = this.getJobIdFromPath();
 
     this.setState({ formState: 'loading' });
 
@@ -43,33 +41,40 @@ export default class CloudShareModal extends React.Component {
       sender_email: email
     };
 
-    fetch('/cloud_share', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestData)
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.shareable_url) {
-          // Successful response
-          this.setState({ formState: 'results', shareableurl: data.shareable_url });
-        } else if (data.errors) {
-          // Error response with specific error messages
-          const errorMessages = data.errors;
-          this.setState({ formState: 'error', errorMessages });
-        } else {
-          // Generic error message
-          throw new Error('Unknown error submitting form');
-        }
-      })
-      .catch(error => {
-        this.setState({
-          formState: 'error',
-          errorMessages: [error.message]
-        });
+    try {
+      const response = await fetch('/cloud_share', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
       });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+
+      if (data.shareable_url) {
+        this.setState({ formState: 'results', shareableurl: data.shareable_url });
+      } else if (data.errors) {
+        this.setState({ formState: 'error', errorMessages: data.errors });
+      } else {
+        throw new Error('Unknown error submitting form');
+      }
+    } catch (error) {
+      this.setState({
+        formState: 'error',
+        errorMessages: [error.message]
+      });
+    }
+  }
+
+  getJobIdFromPath = () => {
+    const regex = /\/([^/]+)(?:\/|#|\?|$)/;
+    const match = window.location.pathname.match(regex);
+    return match ? match[1] : match;
   }
 
   renderLoading() {
@@ -93,18 +98,13 @@ export default class CloudShareModal extends React.Component {
     return (
       <>
         {
-          _.map(
-            errorMessages,
-            _.bind(function (errorMessage) {
-              return (
-                <div className="fastan">
-                  <div className="section-content">
-                    <div className="modal-error">{errorMessage}</div>
-                  </div>
-                </div>
-              );
-            }, this)
-          )
+          errorMessages.map((errorMessage, index) => (
+            <div key={`fastan-${index}`} className="fastan">
+              <div className="section-content">
+                <div className="modal-error">{errorMessage}</div>
+              </div>
+            </div>
+          ))
         }
         {this.renderForm()}
       </>
