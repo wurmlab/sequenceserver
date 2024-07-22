@@ -459,10 +459,6 @@ td.nowrap-ellipsis {
   padding-left: 0;
 }
 
-.footer a:first-child {
-  vertical-align: super;
-}
-
 /* higlight when hit is selected */
 .glow {
   border-left: 2px solid #c74f14;
