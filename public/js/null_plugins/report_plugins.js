@@ -1,4 +1,5 @@
 import Histogram from 'histogram';
+import chroma from 'chroma-js';
 
 class ReportPlugins {
     constructor(parent) {
