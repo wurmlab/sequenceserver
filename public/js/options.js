@@ -114,7 +114,7 @@ export class Options extends Component {
             return null;
         }
 
-        let classNames = 'flex-grow block px-4 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base';
+        let classNames = 'flex-grow block px-4 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base font-mono';
 
         if (this.state.textValue) {
             classNames += ' bg-yellow-100';
