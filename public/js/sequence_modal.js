@@ -63,48 +63,38 @@ export default class SequenceModal extends React.Component {
   /**
    * Loads sequence using AJAX and updates modal state.
    */
-  loadJSON(url) {
+  async loadJSON(url) {
     // Fetch sequence and update state.
-    $.getJSON(url)
-      .done(
-        _.bind(function (response) {
-          this.setState({
-            sequences: response.sequences,
-            error_msgs: response.error_msgs,
-            requestCompleted: true,
-          });
-        }, this)
-      )
-      .fail((jqXHR, status, error) => {
-        this.hide();
-        this.props.showErrorModal(jqXHR.responseJSON);
+    try {
+      const response = await $.getJSON(url);
+      this.setState({
+        sequences: response.sequences,
+        error_msgs: response.error_msgs,
+        requestCompleted: true,
       });
+    } catch (error) {
+      console.log('Error fetching sequence:', error);
+      this.hide();
+      this.props.showErrorModal(error.responseJSON);
+    }
   }
 
   resultsJSX() {
     return (
       <div className="modal-body">
-        {_.map(
-          this.state.error_msgs,
-          _.bind(function (error_msg) {
-            return (
-              <div className="fastan">
-                <div className="section-header">
-                  <h4>{error_msg[0]}</h4>
-                </div>
-                <div className="section-content">
-                  <pre className="pre-reset">{error_msg[1]}</pre>
-                </div>
-              </div>
-            );
-          }, this)
-        )}
-        {_.map(
-          this.state.sequences,
-          _.bind(function (sequence) {
-            return <SequenceViewer sequence={sequence} />;
-          }, this)
-        )}
+        {this.state.error_msgs.map((error_msg, index) => (
+          <div key={`error-message-${index}`} className="fastan">
+            <div className="section-header">
+              <h4>{error_msg[0]}</h4>
+            </div>
+            <div className="section-content">
+              <pre className="pre-reset">{error_msg[1]}</pre>
+            </div>
+          </div>
+        ))}
+        {this.state.sequences.map((sequence, index) => (
+          <SequenceViewer key={`sequence-viewer-${index}`} sequence={sequence} />
+        ))}
       </div>
     );
   }
@@ -160,6 +150,8 @@ class SequenceViewer extends React.Component {
         footer: false,
       },
     });
-    widget.hideFormatSelector();
+    setTimeout(function() {
+      requestAnimationFrame(() => { widget.hideFormatSelector() }); // ensure React is done painting the DOM of the element before calling a function on it.
+    });
   }
 }

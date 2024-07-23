@@ -5,9 +5,7 @@ export default function asMailtoHref(querydb, program, numQueries, url, isOpenAc
 }
 
 function formatDatabases(querydb) {
-    return querydb
-        .slice(0, 15)
-        .map(db => ' ' + db.title);
+    return querydb ? querydb.slice(0, 15).map(db => ' ' + db.title) : "";
 }
 
 function composeEmail(dbsArr, program, numQueries, url, isOpenAccess) {

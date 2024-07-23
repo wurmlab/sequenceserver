@@ -8,24 +8,32 @@ import { SearchHeaderPlugin } from 'search_header_plugin';
 /**
  * Clear sessionStorage on reload.
  */
-if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-    sessionStorage.clear();
-    history.replaceState(null, '', location.href.split('?')[0]);
+const navigationEntry = performance.getEntriesByType('navigation')[0];
+if (navigationEntry && navigationEntry.type === 'reload') {
+  sessionStorage.clear();
+  history.replaceState(null, "", location.href.split("?")[0]);
 }
 
 class Page extends Component {
-    componentDidMount() {
-        this.refs.dnd.setState({ query: this.refs.form.refs.query });
-    }
-    render() {
-        return (
-            <div>
-                <SearchHeaderPlugin />
-                <DnD ref="dnd" />
-                <Form ref="form" />
-            </div>
-        );
-    }
+  constructor(props) {
+    super(props);
+    this.dnd = React.createRef();
+    this.form = React.createRef();
+  }
+
+  componentDidMount() {
+    this.dnd.current.setState({ query: this.form.current.query.current })
+  }
+
+  render() {
+    return (
+      <div>
+        <SearchHeaderPlugin />
+        <DnD ref={this.dnd} />
+        <Form ref={this.form} />
+      </div>
+    );
+  }
 }
 
 const root = createRoot(document.getElementById('view'));
