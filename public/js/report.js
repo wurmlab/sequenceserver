@@ -58,7 +58,9 @@ class Report extends Component {
                     if (!response.ok) throw response;
 
                     return response.text().then(data => {
-                        data = parseJSON(data);
+                        if (data) {
+                            data = parseJSON(data);
+                        };
                         return { status: response.status, data }
                     });
                 })
