@@ -1,6 +1,6 @@
 # Build variables. These need to be declared befored the first FROM
 # for the variables to be accessible in FROM instruction.
-ARG BLAST_VERSION=2.15.0
+ARG BLAST_VERSION=2.16.0
 
 ## Stage 1: gem dependencies.
 FROM docker.io/library/ruby:3.2-bookworm AS builder
@@ -58,7 +58,7 @@ COPY . .
 # Generate config file with default configs and database directory set to /db.
 # Setting database directory in config file means users can pass command line
 # arguments to SequenceServer without having to specify -d option again.
-RUN mkdir -p /db && echo 'n' | script -qfec "bundle exec bin/sequenceserver -s -d /db" /dev/null 
+RUN mkdir -p /db && echo 'n' | script -qfec "bundle exec bin/sequenceserver -s -d /db" /dev/null
 
 # Prevent SequenceServer from prompting user to join announcements list.
 RUN mkdir -p ~/.sequenceserver && touch ~/.sequenceserver/asked_to_join
