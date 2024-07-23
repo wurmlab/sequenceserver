@@ -22,10 +22,10 @@
 
         - name: Get BLAST
           working-directory: /opt
-          run: wget -c "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.15.0/ncbi-blast-2.15.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
+          run: wget -c "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.16.0/ncbi-blast-2.16.0+-x64-linux.tar.gz" && tar xvf ncbi-blast-*.tar.gz
 
         - name: BLAST PATH
-          run: mkdir /opt/bin && echo "/opt/bin:/opt/ncbi-blast-2.15.0+/bin" >> $GITHUB_PATH
+          run: mkdir /opt/bin && echo "/opt/bin:/opt/ncbi-blast-2.16.0+/bin" >> $GITHUB_PATH
 
         - name: Get CodeClimate
           working-directory: /opt
