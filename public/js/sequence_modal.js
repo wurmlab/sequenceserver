@@ -151,10 +151,7 @@ class SequenceViewer extends React.Component {
       },
     });
     setTimeout(function() {
-      if (widget._headerDiv != null) {
-        widget.hideFormatSelector();
-        return;
-      }
-    }, 200);
+      requestAnimationFrame(() => { widget.hideFormatSelector() }); // ensure React is done painting the DOM of the element before calling a function on it.
+    });
   }
 }
