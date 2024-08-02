@@ -21,15 +21,23 @@ export default class SequenceModal extends React.Component {
 
   render() {
     return (
-      <div className="modal sequence-viewer" ref={this.modalRef} tabIndex="-1">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h3>View sequence</h3>
-            </div>
+      <div className="relative modal z-10 hidden sequence-viewer" ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <div className="bg-white pt-5">
+                <div className="px-6 mb-4">
+                  <h3 className="text-base font-semibold leading-6 text-gray-900">View sequence</h3>
+                  <span className="cursor-pointer" onClick={() => this.hide()}>
+                    <i className="fa-solid fa-xmark"></i>
+                  </span>
+                </div>
 
-            {(this.state.requestCompleted && this.resultsJSX()) ||
-              this.loadingJSX()}
+                {(this.state.requestCompleted && this.resultsJSX()) ||
+                  this.loadingJSX()}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -81,7 +89,7 @@ export default class SequenceModal extends React.Component {
 
   resultsJSX() {
     return (
-      <div className="modal-body">
+      <div className="mt-2 text-sm">
         {this.state.error_msgs.map((error_msg, index) => (
           <div key={`error-message-${index}`} className="fastan">
             <div className="section-header">
@@ -101,7 +109,7 @@ export default class SequenceModal extends React.Component {
 
   loadingJSX() {
     return (
-      <div className="modal-body text-center">
+      <div className="mt-2 text-center">
         <i className="fa fa-spinner fa-3x fa-spin"></i>
       </div>
     );
