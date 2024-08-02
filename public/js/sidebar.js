@@ -217,19 +217,19 @@ export default class extends Component {
         return (
             <div className="sidebar-top-panel">
                 <div className="section-header-sidebar">
-                    <h4>
+                    <h4 className="text-sm">
                         {this.summaryString()}
                     </h4>
                 </div>
                 {this.props.data.queries.length > 12 && this.queryIndexButtons()}
                 <div>
-                    <a href={`${rootURL}/?job_id=${job_id}`}>
+                    <a href={`${rootURL}/?job_id=${job_id}`} className="text-sm text-seqblue hover:text-seqorange cursor-pointer">
                         <i className="fa fa-pencil"></i> Edit search
                     </a>
-                    <span className="line">|</span>
+                    <span className="text-seqorange px-1">|</span>
                     <a href={`${rootURL}/`}
-                        onClick={this.clearSession}>
-                        <i className="fa fa-file-o"></i> New search
+                        onClick={this.clearSession} className="text-sm text-seqblue hover:text-seqorange cursor-pointer">
+                        <i className="fa-regular fa-file"></i> New search
                     </a>
                 </div>
                 {this.props.shouldShowIndex && this.indexJSX()}
@@ -253,7 +253,7 @@ export default class extends Component {
         const buttonStyle = {
             outline: 'none', border: 'none', background: 'none'
         };
-        const buttonClasses = 'btn-link nowrap-ellipsis hover-bold';
+        const buttonClasses = 'text-sm text-seqblue hover:text-seqorange nowrap-ellipsis hover-bold';
 
         const handlePreviousBtnClick = () => this.handleQueryIndexChange(this.state.queryIndex - 1);
         const handleNextBtnClick = () => this.handleQueryIndexChange(this.state.queryIndex + 1);
@@ -264,15 +264,15 @@ export default class extends Component {
         );
         return <div style={{ display: 'flex', width: '100%', margin: '7px 0' }}>
             {this.state.queryIndex > 1 && <NavButton text="Previous Query" onClick={handlePreviousBtnClick} />}
-            {this.state.queryIndex > 1 && this.state.queryIndex < this.props.data.queries.length && <span className="line">|</span>}
+            {this.state.queryIndex > 1 && this.state.queryIndex < this.props.data.queries.length && <span className="text-seqorange px-1">|</span>}
             {this.state.queryIndex < this.props.data.queries.length && <NavButton onClick={handleNextBtnClick} text="Next Query" />}
         </div>;
     }
     indexJSX() {
-        return <ul className="nav hover-reset active-bold"> {
+        return <ul> {
             _.map(this.props.data.queries, (query) => {
                 return <li key={'Side_bar_' + query.id}>
-                    <a className="btn-link nowrap-ellipsis hover-bold"
+                    <a className="text-sm text-seqblue hover:text-seqorange focus:text-seqorange active: text-seqorange cursor-pointer nowrap-ellipsis hover-bold"
                         title={'Query= ' + query.id + ' ' + query.title}
                         href={'#Query_' + query.number}>
                         {'Query= ' + query.id}
@@ -287,14 +287,14 @@ export default class extends Component {
         return (
             <div className="downloads">
                 <div className="section-header-sidebar">
-                    <h4>
+                    <h4 className="text-sm">
                         Download FASTA, XML, TSV
                     </h4>
                 </div>
-                <ul className="nav">
+                <ul>
                     {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
-                            <a href="#" className={`btn-link download-fasta-of-all ${!this.props.atLeastOneHit && 'disabled'}`}
+                            <a href="#" className={`text-sm text-seqblue download-fasta-of-all ${!this.props.atLeastOneHit && 'disabled'}`}
                                 onClick={this.downloadFastaOfAll}>
                                 FASTA of all hits
                             </a>
@@ -302,25 +302,25 @@ export default class extends Component {
                     }
                     {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
-                            <a href="#" className="btn-link download-fasta-of-selected disabled"
+                            <a href="#" className="text-sm text-seqblue download-fasta-of-selected disabled"
                                 onClick={this.downloadFastaOfSelected}>
                                 FASTA of <span className="text-bold"></span> selected hit(s)
                             </a>
                         </li>
                     }
                     <li>
-                        <a href="#" className={`btn-link download-alignment-of-all ${!this.props.atLeastOneHit && 'disabled'}`}>
+                        <a href="#" className={`text-sm text-seqblue download-alignment-of-all ${!this.props.atLeastOneHit && 'disabled'}`}>
                             Alignment of all hits
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="btn-link download-alignment-of-selected disabled">
+                        <a href="#" className="text-sm text-seqblue download-alignment-of-selected disabled">
                             Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
                     {
-                        !this.props.data.imported_xml && <li>
-                            <a className="btn-link download" data-toggle="tooltip"
+                        !this.props.data.imported_xml && <li className="hover:text-seqorange hover:bg-gray-200">
+                            <a className="text-sm text-seqblue download" data-toggle="tooltip"
                                 title="15 columns: query and subject ID; scientific
                                 name, alignment length, mismatches, gaps, identity,
                                 start and end coordinates, e value, bitscore, query
@@ -331,8 +331,8 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li>
-                            <a className="btn-link download" data-toggle="tooltip"
+                        !this.props.data.imported_xml && <li className="hover:text-seqorange hover:bg-gray-200">
+                            <a className="text-sm text-seqblue download" data-toggle="tooltip"
                                 title="44 columns: query and subject ID, GI,
                                 accessions, and length; alignment details;
                                 taxonomy details of subject sequence(s) and
@@ -343,8 +343,8 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li>
-                            <a className="btn-link download" data-toggle="tooltip"
+                        !this.props.data.imported_xml && <li className="hover:text-seqorange hover:bg-gray-200">
+                            <a className="text-sm text-seqblue download" data-toggle="tooltip"
                                 title="Results in XML format."
                                 href={'download/' + this.props.data.search_id + '.xml'}>
                                 Full XML report
@@ -352,8 +352,8 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li>
-                            <a className="btn-link download" data-toggle="tooltip"
+                        !this.props.data.imported_xml && <li className="hover:text-seqorange hover:bg-gray-200">
+                            <a className="text-sm text-seqblue download" data-toggle="tooltip"
                                 title="Results in text format."
                                 href={'download/' + this.props.data.search_id + '.pairwise'}>
                                 Full Text report
@@ -370,22 +370,22 @@ export default class extends Component {
         return (
             <div className="sharing-panel">
                 <div className="section-header-sidebar">
-                    <h4>
+                    <h4 className="text-sm">
                         Share results
                     </h4>
                 </div>
-                <ul className="nav">
+                <ul>
                     {!this.props.cloudSharingEnabled &&
-                        <li>
-                            <a id="copyURL" className="btn-link copy-URL cursor-pointer" data-toggle="tooltip"
+                        <li className="hover:text-seqorange hover:bg-gray-200">
+                            <a id="copyURL" className="text-sm text-seqblue copy-URL cursor-pointer" data-toggle="tooltip"
                                 onClick={this.copyURL}>
                                 <i className="fa fa-copy"></i> Copy URL to clipboard
                             </a>
                         </li>
                     }
                     {!this.props.cloudSharingEnabled &&
-                        <li>
-                            <a id="sendEmail" className="btn-link email-URL cursor-pointer" data-toggle="tooltip"
+                        <li className="hover:text-seqorange hover:bg-gray-200">
+                            <a id="sendEmail" className="text-sm text-seqblue email-URL cursor-pointer" data-toggle="tooltip"
                                 title="Send by email" href={asMailtoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
                                 target="_blank" rel="noopener noreferrer">
                                 <i className="fa fa-envelope"></i> Send by email
@@ -394,7 +394,7 @@ export default class extends Component {
                     }
                     {this.props.cloudSharingEnabled &&
                         <li>
-                            <button className="btn-link cloud-Post cursor-pointer" data-toggle="tooltip"
+                            <button className="text-sm text-seqblue hover:text-seqorange cloud-Post cursor-pointer" data-toggle="tooltip"
                                 title="Upload results to SequenceServer Cloud where it will become accessable
                                 to everyone who has a link." onClick={this.shareCloudInit}>
                                 <i className="fa fa-cloud"></i> Share to cloud
@@ -421,9 +421,9 @@ export default class extends Component {
                 {this.downloadsPanelJSX()}
                 {this.sharingPanelJSX()}
                 <div className="referral-panel">
-                    <div className="section-header-sidebar">
+                    <div className="section-header-sidebar text-sm">
                         <h4>Recommend SequenceServer</h4>
-                        <p><a href="https://sequenceserver.com/referral-program" target="_blank">Earn up to $400 per signup</a></p>
+                        <p><a href="https://sequenceserver.com/referral-program" target="_blank" className="text-seqblue hover:text-seqorange">Earn up to $400 per signup</a></p>
                     </div>
                 </div>
             </div>
