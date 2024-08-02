@@ -1,10 +1,4 @@
-/**********************
- * Override Bootstrap *
- **********************/
-
 @import url('../vendor/github/nicgirault/circosJs@1.7.0/dist/colorBrewer.css');
-@import url('../vendor/github/twbs/bootstrap@3.3.5/css/bootstrap.min.css');
-@import url('../vendor/npm/font-awesome@4.4.0/css/font-awesome.min.css');
 @import url('grapher.css');
 @import url('fonts.css');
 
@@ -24,10 +18,6 @@ a:hover,
 .btn-link:hover {
   text-decoration: none;
   color: #c74f14;
-}
-
-a {
-  color: #1b557a;
 }
 
 label:hover {
@@ -97,32 +87,7 @@ a.disabled:hover,
  * Increase font size, add border, make place for subtext to app name.
  */
 .navbar {
-  margin-bottom: 0;
-  border-radius: 0;
   border-bottom: 1px solid #c74f14;
-}
-
-.navbar-brand {
-  height: auto;
-  padding: 10px 7.5px;
-  font-size: 32px;
-  color: rgb(51, 51, 51);
-}
-
-.navbar-brand > small {
-  font-size: 50%;
-  vertical-align: text-bottom;
-}
-
-.navbar-nav > li > a {
-  padding: 10px 7.5px;
-  font-size: 14px;
-  color: #174465;
-}
-
-/* logo */
-.navbar-brand > img {
-  display: inline-block;
 }
 
 /**
@@ -151,10 +116,6 @@ a.disabled:hover,
 
 .section-header > * {
   display: table-cell;
-}
-
-.section-header > *:first-child {
-  width: 100%;
 }
 
 .section-content {
@@ -214,38 +175,6 @@ a.disabled:hover,
   font-family: "Source sans pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/********************
- * Extend Bootstrap *
- ********************/
-
-/**
- * Capitalize text.
- */
-.text-capitalize {
-  text-transform: capitalize;
-}
-
-/**
- * Uppercase text.
- */
-.text-uppercase {
-  text-transform: uppercase;
-}
-
-/**
- * Make text bold.
- */
-.text-bold {
-  font-weight: bold;
-}
-
-/**
- * Set cursor: pointer on the given element.
- */
-.cursor-pointer {
-  cursor: pointer;
-}
-
 /**
  * Do not wrap text or show horizontal scrollbar if text overflows the width of
  * the element. Show ellipsis instead.
@@ -258,31 +187,14 @@ td.nowrap-ellipsis {
 }
 
 /**
- * Helpers to override :hover and .active on .nav elements.
- */
-.nav.hover-reset > li > a:hover {
-  background-color: inherit;
-  color: #c74f14;
-}
-
-.nav.focus-reset > li > a:focus {
-  background-color: inherit;
-  color: #c74f14;
-}
-
-.nav.active-bold > .active > a {
-  font-weight: bold;
-  color: #c74f14;
-}
-
-/**
  * Use with .label class to use the foreground color defined by parent element.
  */
 .label-reset {
   color: inherit;
   line-height: inherit;
   font-weight: normal;
-  font-size: inherit;
+  font-size: 14px;
+  text-align: right;
 }
 
 .pos-label {
@@ -375,6 +287,7 @@ td.nowrap-ellipsis {
 
 .overview p {
   margin: 0;
+  font-size: 14px;
 }
 
 .resultn {
@@ -434,6 +347,7 @@ td.nowrap-ellipsis {
   border: none;
   padding: 0;
   color: #1b557a;
+  font-size: 14px;
 }
 
 .fastan > .section-header {
@@ -506,4 +420,9 @@ td.nowrap-ellipsis {
   padding-bottom: 1em;
   display: flex;
   justify-content: space-between;
+}
+
+/* override tailwind class  */
+.svg-container.collapse {
+  visibility: visible !important;
 }
