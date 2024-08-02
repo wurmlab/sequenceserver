@@ -81,7 +81,7 @@ export default class CloudShareModal extends React.Component {
     return (
       <div className="text-center">
         <i className="fa fa-spinner fa-3x fa-spin"></i>
-        <p>Uploading the job to SequenceServer Cloud, please wait...</p>
+        <p className="my-3">Uploading the job to SequenceServer Cloud, please wait...</p>
       </div>
     );
   }
@@ -117,25 +117,24 @@ export default class CloudShareModal extends React.Component {
 
     return(
       <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
+        <div className="px-6 mb-3">
           <label htmlFor="emailInput">Your Email Address</label>
           <input
             type="email"
             id="emailInput"
-            className="form-control"
+            className="block w-full rounded-md border-0 py-1.5 px-3 mb-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-seqblue sm:text-sm sm:leading-6"
             placeholder="person@example.com"
             name="email"
             value={email}
             required="required"
             onChange={this.handleChange}
           />
+          <p>
+            By submitting this form you agree to upload this SequenceServer result set to <a href="https://sequenceserver.com/cloud/" target="_bank" className="text-seqblue hover:text-seqorange">SenquenceServer Cloud</a>
+            , where it will become available on the internet to everyone with the link. You also agree that your email address will be stored on SequenceServer databases as proof of authentication for support and similar purposes.
+          </p>
         </div>
-        <p>
-          By submitting this form you agree to upload this SequenceServer result set to <a href="https://sequenceserver.com/cloud/" target="_bank">SenquenceServer Cloud</a>
-          , where it will become available on the internet to everyone with the link. You also agree that your email address will be stored on SequenceServer databases as proof of authentication for support and similar purposes.
-        </p>
-
-        <div className="form-group form-check">
+        <div className="form-check px-6 mb-3">
           <input
             type="checkbox"
             id="tosCheckbox"
@@ -144,13 +143,15 @@ export default class CloudShareModal extends React.Component {
             checked={agreeToTos}
             onChange={this.handleChange}
           />
-          <label htmlFor="tosCheckbox" className="form-check-label">
-            &nbsp;I agree to the <b><a href="https://sequenceserver.com/cloud/terms_and_conditions" target="_blank">Terms and Conditions of Service</a></b>
+          <label htmlFor="tosCheckbox" className="pl-2">
+            &nbsp;I agree to the <b><a href="https://sequenceserver.com/cloud/terms_and_conditions" target="_blank" className="text-seqblue hover:text-seqorange">Terms and Conditions of Service</a></b>
           </label>
         </div>
-        <button type="submit" className="btn btn-primary" disabled={isSubmitDisabled}>
-          Submit
-        </button>
+        <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+          <button type="submit" className="btn btn-primary py-2 px-3 rounded-md text-white" disabled={isSubmitDisabled}>
+            Submit
+          </button>
+        </div>
       </form>
     )
   }
@@ -176,14 +177,22 @@ export default class CloudShareModal extends React.Component {
     }
 
     return (
-      <div className="modal cloud-share" ref={this.modalRef} tabIndex="-1">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h3>Share to SequenceServer Cloud</h3>
-            </div>
-            <div className="modal-body">
-              {content}
+      <div className="relative modal z-10 hidden" ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <div className="bg-white pt-5">
+                <div className="flex justify-between px-6 mb-4">
+                  <h3 className="text-base font-semibold leading-6 text-gray-900">Share to SequenceServer Cloud</h3>
+                  <span className="cursor-pointer" onClick={() => this.hide()}>
+                    <i className="fa-solid fa-xmark"></i>
+                  </span>
+                </div>
+                <div className="mt-2 text-sm">
+                  {content}
+                </div>
+              </div>
             </div>
           </div>
         </div>

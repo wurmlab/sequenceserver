@@ -153,21 +153,20 @@ class Report extends Component {
    */
     loadingJSX() {
         return (
-            <div className="row">
-                <div className="col-md-6 col-md-offset-3 text-center">
-                    <h1>
+            <div className="grid grid-cols-6 gap-4">
+                <div className="col-start-1 col-end-7 text-center">
+                    <h1 className="mb-8 text-4xl">
                         <i className="fa fa-cog fa-spin"></i>&nbsp; BLAST-ing
                     </h1>
+                    <div className="mb-5 w-full">
+                        <p className="m-auto w-7/12">This can take some time depending on the size of your query and
+                        database(s). The page will update automatically when BLAST is done.</p>
+                    </div>
+                    <p className="mb-2">
+                        You can bookmark the page and come back to it later or share the
+                        link with someone.
+                    </p>
                     <p>
-                        <br />
-            This can take some time depending on the size of your query and
-            database(s). The page will update automatically when BLAST is done.
-                        <br />
-                        <br />
-            You can bookmark the page and come back to it later or share the
-            link with someone.
-                        <br />
-                        <br />
                         { process.env.targetEnv === 'cloud' && <b>If the job takes more than 10 minutes to complete, we will send you an email upon completion.</b> }
                     </p>
                 </div>
@@ -181,8 +180,8 @@ class Report extends Component {
    */
     resultsJSX() {
         return (
-            <div className="row" id="results">
-                <div className="col-md-3 hidden-sm hidden-xs">
+            <div className="grid grid-cols-3 gap-4" id="results">
+                <div className="col-span-1">
                     <Sidebar
                         data={this.state}
                         atLeastOneHit={this.atLeastOneHit()}
@@ -191,7 +190,7 @@ class Report extends Component {
                         cloudSharingEnabled={this.state.cloud_sharing_enabled}
                     />
                 </div>
-                <div className="col-md-9">
+                <div className="col-span-2">
                     {this.overviewJSX()}
                     {this.circosJSX()}
                     {this.plugins.generateStats(this.state.queries)}
@@ -212,18 +211,16 @@ class Report extends Component {
 
     warningJSX() {
         return(
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-6 col-md-offset-3 text-center">
-                        <h1>
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-6 gap-4">
+                    <div className="col-start-1 col-end-7 text-center">
+                        <h1 className="mb-4 text-4xl">
                             <i className="fa fa-exclamation-triangle"></i>&nbsp; Warning
                         </h1>
-                        <p>
-                            <br />
+                        <p className="mb-2">
                             The BLAST result might be too large to load in the browser. If you have a powerful machine you can try loading the results anyway. Otherwise, you can download the results and view them locally.
                         </p>
-                        <br />
-                        <p>
+                        <p className="mb-2">
                             {this.state.download_links.map((link, index) => {
                                 return (
                                     <a href={link.url} className="btn btn-secondary" key={'download_link_' + index} >
@@ -232,7 +229,6 @@ class Report extends Component {
                                 );
                             })}
                         </p>
-                        <br />
                         <p>
                             <a href={location.pathname + '?bypass_file_size_warning=true'} className="btn btn-primary">
                                 View results in browser anyway
