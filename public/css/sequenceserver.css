@@ -390,8 +390,3 @@ td.nowrap-ellipsis {
   display: flex;
   justify-content: space-between;
 }
-
-/* CSS class for graph hidden/showing */
-.svg-container.collapse.in {
-  visibility: visible !important;
-}

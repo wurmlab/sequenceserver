@@ -47,7 +47,7 @@ export default function Grapher(Graph) {
             if(Graph.canCollapse()) {
                 return <div className="grapher-header">
                     <h4
-                        className="caption"
+                        className="caption text-sm"
                         onClick={() => this.collapsePreferences.toggleCollapse()}
                     >
                         {this.collapsePreferences.renderCollapseIcon()}
@@ -78,7 +78,7 @@ export default function Grapher(Graph) {
 
         svgContainerJSX() {
             var cssClasses = Graph.className() + ' svg-container collapse';
-            if (!this.state.collapsed) cssClasses += ' in';
+            if (!this.state.collapsed) cssClasses += ' !visible';
             return (
                 <div
                     ref={this.svgContainerRef}
