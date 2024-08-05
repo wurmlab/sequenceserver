@@ -30,7 +30,7 @@ export default class SequenceModal extends React.Component {
                 <div className="px-6 mb-4">
                   <h3 className="text-base font-semibold leading-6 text-gray-900">View sequence</h3>
                   <span className="cursor-pointer" onClick={() => this.hide()}>
-                    <i className="fa-solid fa-xmark"></i>
+                    <i className="fa-solid fa-xmark align-bottom"></i>
                   </span>
                 </div>
 
@@ -92,10 +92,10 @@ export default class SequenceModal extends React.Component {
       <div className="mt-2 text-sm">
         {this.state.error_msgs.map((error_msg, index) => (
           <div key={`error-message-${index}`} className="fastan">
-            <div className="section-header">
-              <h4>{error_msg[0]}</h4>
+            <div className="section-header border-b border-seqorange pl-px table w-full">
+              <h4 className="text-sm">{error_msg[0]}</h4>
             </div>
-            <div className="section-content">
+            <div className="pt-0 px-0 pb-px">
               <pre className="pre-reset">{error_msg[1]}</pre>
             </div>
           </div>
@@ -130,13 +130,13 @@ class SequenceViewer extends React.Component {
 
     return (
       <div className="fastan">
-        <div className="section-header">
-          <h4>
+        <div className="section-header border-b border-seqorange pl-px table w-full">
+          <h4 className="text-sm">
             {this.props.sequence.id}
-            <small>&nbsp; {this.props.sequence.title}</small>
+            <small className="text-inherit">&nbsp; {this.props.sequence.title}</small>
           </h4>
         </div>
-        <div className="section-content">
+        <div className="pt-0 px-0 pb-px">
           <div className={this.widgetClass} id={this.widgetID}></div>
         </div>
       </div>
