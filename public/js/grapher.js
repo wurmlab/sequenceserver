@@ -77,8 +77,8 @@ export default function Grapher(Graph) {
         }
 
         svgContainerJSX() {
-            var cssClasses = Graph.className() + ' svg-container collapse';
-            if (!this.state.collapsed) cssClasses += ' !visible';
+            var cssClasses = Graph.className() + ' svg-container hidden';
+            if (!this.state.collapsed) cssClasses += ' !block';
             return (
                 <div
                     ref={this.svgContainerRef}
