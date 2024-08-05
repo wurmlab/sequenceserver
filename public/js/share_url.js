@@ -11,8 +11,8 @@ const ShareURLComponent = ({ querydb, program, queryLength, url }) => {
 
     return (
         <div className="share-url-component">
-            <input name="shareableUrl" type="text" value={url} readOnly />
-            <div className="actions">
+            <input className="w-full" name="shareableUrl" type="text" value={url} readOnly />
+            <div className="py-4 flex justify-between">
                 <button className="btn btn-primary" onClick={copyToClipboard}>{copied ? 'Copied!' : 'Copy to Clipboard'}</button>
                 <a href={asMailtoHref(querydb, program, queryLength, url, true)}>Share via email</a>
             </div>

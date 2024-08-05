@@ -216,8 +216,8 @@ export default class extends Component {
         var rootURL = path.join('/');
         return (
             <div className="sidebar-top-panel">
-                <div className="section-header-sidebar">
-                    <h4 className="text-sm">
+                <div className="pl-px table w-full">
+                    <h4 className="text-sm font-bold mb-0">
                         {this.summaryString()}
                     </h4>
                 </div>
@@ -286,15 +286,15 @@ export default class extends Component {
     downloadsPanelJSX() {
         return (
             <div className="downloads">
-                <div className="section-header-sidebar">
-                    <h4 className="text-sm">
+                <div className="pl-px table w-full">
+                    <h4 className="text-sm font-bold mb-0">
                         Download FASTA, XML, TSV
                     </h4>
                 </div>
                 <ul>
                     {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
-                            <a href="#" className={`text-sm text-seqblue download-fasta-of-all ${!this.props.atLeastOneHit && 'disabled'}`}
+                            <a href="#" className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer ${!this.props.atLeastOneHit && 'disabled'}`}
                                 onClick={this.downloadFastaOfAll}>
                                 FASTA of all hits
                             </a>
@@ -309,7 +309,7 @@ export default class extends Component {
                         </li>
                     }
                     <li>
-                        <a href="#" className={`text-sm text-seqblue download-alignment-of-all ${!this.props.atLeastOneHit && 'disabled'}`}>
+                        <a href="#" className={`text-sm text-seqblue download-alignment-of-all hover:text-seqorange cursor-pointer ${!this.props.atLeastOneHit && 'disabled'}`}>
                             Alignment of all hits
                         </a>
                     </li>
@@ -320,7 +320,7 @@ export default class extends Component {
                     </li>
                     {
                         !this.props.data.imported_xml && <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a className="text-sm text-seqblue download" data-toggle="tooltip"
+                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer w-full" data-toggle="tooltip"
                                 title="15 columns: query and subject ID; scientific
                                 name, alignment length, mismatches, gaps, identity,
                                 start and end coordinates, e value, bitscore, query
@@ -331,8 +331,8 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a className="text-sm text-seqblue download" data-toggle="tooltip"
+                        !this.props.data.imported_xml && <li className="hover:bg-gray-200">
+                            <a className="text-sm text-seqblue download hover:text-seqorange cursor-pointer w-full" data-toggle="tooltip"
                                 title="44 columns: query and subject ID, GI,
                                 accessions, and length; alignment details;
                                 taxonomy details of subject sequence(s) and
@@ -343,8 +343,8 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a className="text-sm text-seqblue download" data-toggle="tooltip"
+                        !this.props.data.imported_xml && <li className="hover:bg-gray-200">
+                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer" data-toggle="tooltip"
                                 title="Results in XML format."
                                 href={'download/' + this.props.data.search_id + '.xml'}>
                                 Full XML report
@@ -352,8 +352,8 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a className="text-sm text-seqblue download" data-toggle="tooltip"
+                        !this.props.data.imported_xml && <li className="hover:bg-gray-200">
+                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer" data-toggle="tooltip"
                                 title="Results in text format."
                                 href={'download/' + this.props.data.search_id + '.pairwise'}>
                                 Full Text report
@@ -369,8 +369,8 @@ export default class extends Component {
     sharingPanelJSX() {
         return (
             <div className="sharing-panel">
-                <div className="section-header-sidebar">
-                    <h4 className="text-sm">
+                <div className="pl-px table w-full">
+                    <h4 className="text-sm font-bold mb-0">
                         Share results
                     </h4>
                 </div>
@@ -386,7 +386,7 @@ export default class extends Component {
                     {!this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
                             <a id="sendEmail" className="text-sm text-seqblue email-URL cursor-pointer" data-toggle="tooltip"
-                                title="Send by email" href={asMailtoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
+                                title="Send by email" href={asMailftoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
                                 target="_blank" rel="noopener noreferrer">
                                 <i className="fa fa-envelope"></i> Send by email
                             </a>
@@ -421,8 +421,8 @@ export default class extends Component {
                 {this.downloadsPanelJSX()}
                 {this.sharingPanelJSX()}
                 <div className="referral-panel">
-                    <div className="section-header-sidebar text-sm">
-                        <h4>Recommend SequenceServer</h4>
+                    <div className="pl-px table w-full text-sm">
+                        <h4 className="font-bold mb-0">Recommend SequenceServer</h4>
                         <p><a href="https://sequenceserver.com/referral-program" target="_blank" className="text-seqblue hover:text-seqorange">Earn up to $400 per signup</a></p>
                     </div>
                 </div>

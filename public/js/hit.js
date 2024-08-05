@@ -114,18 +114,18 @@ export default class extends Component {
             meta = `hit ${this.props.hit.number}, ` + meta;
         }
 
-        return <div className="section-header">
-            <h4>
-                <i className="fa fa-minus-square-o"></i>&nbsp;
+        return <div className="section-header border-b border-seqorange pl-px table w-full">
+            <h4 className="text-sm">
+                <i className="fa fa-minus-square-o align-bottom"></i>&nbsp;
                 <strong>{this.props.hit.id}</strong>&nbsp;
                 {this.props.hit.title}
             </h4>
-            <span className="label label-reset pos-label">{meta}</span>
+            <span className="label text-sm text-right font-normal text-inherit pt-0 px-0 pb-2">{meta}</span>
         </div>;
     }
 
     contentJSX() {
-        return <div className="section-content" data-parent-hit={this.domID()}>
+        return <div className="pt-0 px-0 pb-px" data-parent-hit={this.domID()}>
             {this.hitLinks()}
             <HSPOverview key={'kablammo' + this.props.query.id} query={this.props.query}
                 hit={this.props.hit} algorithm={this.props.algorithm}
@@ -149,8 +149,8 @@ export default class extends Component {
         });
 
         return (
-            <div className="hit-links">
-                <label>
+            <div className="hit-links h-4">
+                <label className="text-seqblue hover: seqorange cursor-pointer mb-0">
                     <input type="checkbox" id={this.domID() + '_checkbox'}
                         value={this.sequenceID()} onChange={function () {
                             this.props.selectHit(this.domID() + '_checkbox');
@@ -160,12 +160,12 @@ export default class extends Component {
                 </label>
                 {
                     btns.map((btn, index) => {
-                        return [<span className="line" key={`btn-${index}`}>|</span>, this.button(Object.assign(btn, { key: index }))];
+                        return [<span className="text-seqorange mt-0 mr-1 ml-0 mb-1" key={`btn-${index}`}>|</span>, this.button(Object.assign(btn, { key: index }))];
                     })
                 }
                 {
                     this.props.hit.links.map((link, index) => {
-                        return [<span className="line" key={`link-${index}`}>|</span>, this.a(link, index)];
+                        return [<span className="text-seqorange mt-0 mr-1 ml-0 mb-1" key={`link-${index}`}>|</span>, this.a(link, index)];
                     })
                 }
             </div>
@@ -218,7 +218,7 @@ export default class extends Component {
             </button>;
         }
         else {
-            return <button key={key} className="btn-link view-sequence disabled"
+            return <button key={key} className="btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer view-sequence disabled"
                 title={title} disabled={true}>
                 <i className={`fa ${icon}`}></i> {text}
             </button>;
@@ -231,7 +231,7 @@ export default class extends Component {
     a(link, key) {
         if (!link.title || !link.url) return;
 
-        let className = 'btn btn-link';
+        let className = 'btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer';
         if (link.class) className = `${className} ${link.class}`;
         return <a href={link.url} key={`${link.url}-${key}`} className={className} target='_blank'>
             {link.icon && <i className={'fa ' + link.icon}></i>}

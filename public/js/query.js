@@ -48,17 +48,17 @@ export class ReportQuery extends Component {
         if (this.props.showQueryCrumbs) {
             meta = `query ${this.props.query.number}, ` + meta;
         }
-        return <div className="section-header">
-            <h3>
+        return <div className="section-header border-b border-seqorange pl-px table w-full">
+            <h3 className="text-base">
                 <strong>Query=&nbsp;{this.props.query.id}</strong>&nbsp;
                 {this.props.query.title}
             </h3>
-            <span className="label label-reset pos-label">{meta}</span>
+            <span className="label text-sm text-right font-normal text-inherit pt-0 px-0 pb-2">{meta}</span>
         </div>;
     }
 
     hitsListJSX() {
-        return <div className="section-content">
+        return <div className="pt-0 px-0 pb-px">
             <HitsOverview key={'GO_' + this.props.query.number} query={this.props.query} program={this.props.program} collapsed={this.props.veryBig} />
             <LengthDistribution key={'LD_' + this.props.query.id} query={this.props.query} algorithm={this.props.program} />
             <HitsTable key={'HT_' + this.props.query.number} query={this.props.query} imported_xml={this.props.imported_xml} />
@@ -66,14 +66,14 @@ export class ReportQuery extends Component {
     }
 
     noHitsJSX() {
-        return <div className="section-content">
+        return <div className="pt-0 px-0 pb-px">
             <strong> ****** No BLAST hits found ****** </strong>
         </div>;
     }
 
     render() {
         return (
-            <div className="resultn" id={this.domID()}
+            <div className="resultn mt-1.5" id={this.domID()}
                 data-query-len={this.props.query.length}
                 data-algorithm={this.props.program}>
                 {this.headerJSX()}
@@ -430,7 +430,7 @@ class HitsTable extends Component {
                                     title={`${hit.id} ${hit.title}`}
                                     data-toggle="tooltip" data-placement="left">
                                     <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}
-                                        className="btn-link">{hit.id} {hit.title}</a>
+                                        className="btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>
                                 </td>
                                 {hasName &&
                                     <td className="nowrap-ellipsis" title={hit.sciname}
@@ -453,7 +453,7 @@ class HitsTable extends Component {
     render() {
         return (
             <div className="table-hit-overview">
-                <h4 className="caption" onClick={() => this.collapsePreferences.toggleCollapse()}>
+                <h4 className="caption text-sm" onClick={() => this.collapsePreferences.toggleCollapse()}>
                     {this.collapsePreferences.renderCollapseIcon()}
                     <span> {this.name}</span>
                 </h4>
