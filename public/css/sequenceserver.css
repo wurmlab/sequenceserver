@@ -20,14 +20,6 @@ a:hover,
   color: #c74f14;
 }
 
-label:hover {
-  color: #c74f14;
-}
-
-.yellow-background {
-  background-color: #e2d382;
-}
-
 /**
  * Disable resize grabber on textarea.
  */
@@ -38,29 +30,6 @@ textarea {
 
 hr {
   border-top: transparent;
-}
-
-/**
- * Use normal font weight for labels and indicate they are clickable by setting
- * `cursor: pointer`.
- */
-label {
-  cursor: pointer;
-  margin-bottom: 0;
-  font-weight: normal;
-  color: #1b557a;
-}
-
-small {
-  color: inherit !important;
-}
-
-h3 {
-  font-size: 16px;
-}
-
-h4 {
-  font-size: 14px;
 }
 
 h3 > .fa,
@@ -422,7 +391,7 @@ td.nowrap-ellipsis {
   justify-content: space-between;
 }
 
-/* override tailwind class  */
-.svg-container.collapse {
+/* CSS class for graph hidden/showing */
+.svg-container.collapse.in {
   visibility: visible !important;
 }
