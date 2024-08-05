@@ -150,7 +150,7 @@ export default class extends Component {
 
         return (
             <div className="hit-links h-4">
-                <label className="text-seqblue hover: seqorange cursor-pointer mb-0">
+                <label className="text-sm text-seqblue hover: seqorange cursor-pointer mb-0">
                     <input type="checkbox" id={this.domID() + '_checkbox'}
                         value={this.sequenceID()} onChange={function () {
                             this.props.selectHit(this.domID() + '_checkbox');
@@ -160,12 +160,12 @@ export default class extends Component {
                 </label>
                 {
                     btns.map((btn, index) => {
-                        return [<span className="text-seqorange mt-0 mr-1 ml-0 mb-1" key={`btn-${index}`}>|</span>, this.button(Object.assign(btn, { key: index }))];
+                        return [<span className="text-seqorange mt-0 mr-1 ml-0 mb-1 px-1" key={`btn-${index}`}>|</span>, this.button(Object.assign(btn, { key: index }))];
                     })
                 }
                 {
                     this.props.hit.links.map((link, index) => {
-                        return [<span className="text-seqorange mt-0 mr-1 ml-0 mb-1" key={`link-${index}`}>|</span>, this.a(link, index)];
+                        return [<span className="text-seqorange mt-0 mr-1 ml-0 mb-1 px-1" key={`link-${index}`}>|</span>, this.a(link, index)];
                     })
                 }
             </div>
@@ -213,7 +213,7 @@ export default class extends Component {
 
     button({ text, icon, title, className, onClick, key }) {
         if (onClick) {
-            return <button key={key} className={`btn-link ${className}`}
+            return <button key={key} className={`btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer ${className}`}
                 title={title} onClick={onClick}><i className={`fa ${icon}`}></i> {text}
             </button>;
         }
