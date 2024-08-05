@@ -35,7 +35,7 @@ class Graph {
     }
 
     static dataName(props) {
-        return 'Kablammo-'+props.query.id+'-'+props.hit.id;
+        return `Kablammo_query-${props.query.number}_${props.query.id}_${props.hit.id}`;
     }
 
     constructor($svgContainer, props) {
