@@ -233,7 +233,7 @@ export class Form extends Component {
                             currentBlastMethod={this.state.blastMethod}
                         />
 
-                        <label className="block my-4 md:my-2">
+                        <label className="text-seqblue hover:seqorange cursor-pointer block my-4 md:my-2">
                             <input type="checkbox" id="toggleNewTab" /> Open results in new tab
                         </label>
                         <SearchButton ref={this.button} onAlgoChanged={this.handleAlgoChanged} />

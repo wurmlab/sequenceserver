@@ -72,7 +72,7 @@ export class Options extends Component {
         return (
             <div id="options-presets" className="w-full">
                 { Object.keys(this.props.predefinedOptions).length > 1 && <>
-                    <h3 className="w-full font-medium border-b border-seqorange mb-2">Settings</h3>
+                    <h3 className="text-base w-full font-medium border-b border-seqorange mb-2">Settings</h3>
 
                     <p className="text-sm">Choose a predefined setting or customize BLAST parameters.</p>
                     {this.presetListJSX()}
@@ -91,7 +91,7 @@ export class Options extends Component {
                             let description = config.description || textValue;
 
                             return (
-                                <label key={index} className={`block w-full px-2 py-1 hover:bg-gray-200 cursor-pointer`}>
+                                <label key={index} className={`block w-full px-2 py-1 text-seqblue hover:bg-gray-200 hover: text-seqorange cursor-pointer`}>
                                     <input
                                         type="radio"
                                         name="predefinedOption"

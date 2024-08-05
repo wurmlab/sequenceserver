@@ -12,15 +12,6 @@ body {
 }
 
 /**
- * No underlines on links, ever
- */
-a:hover,
-.btn-link:hover {
-  text-decoration: none;
-  color: #c74f14;
-}
-
-/**
  * Disable resize grabber on textarea.
  */
 textarea {
@@ -30,11 +21,6 @@ textarea {
 
 hr {
   border-top: transparent;
-}
-
-h3 > .fa,
-h4 > .fa {
-  vertical-align: bottom;
 }
 
 /**
@@ -52,56 +38,15 @@ a.disabled:hover,
   cursor: not-allowed;
 }
 
-/**
- * Increase font size, add border, make place for subtext to app name.
- */
-.navbar {
-  border-bottom: 1px solid #c74f14;
-}
-
-/**
- * Like BS' .page-header but without extra margin and the ability to display a
- * sub-text on right.
- */
-
 /* Hit header styling */
-.section-header {
-  border-bottom: 1px solid  #c74f14;
-  padding-left: 1px;
-  display: table;
-  width: 100%;
-}
-
 .section-header-sidebar {
   padding-left: 1px;
   display: table;
   width: 100%;
 }
 
-.section-header-sidebar > h4 {
-  font-weight: bold;
-  margin-bottom: 0;
-}
-
 .section-header > * {
   display: table-cell;
-}
-
-.section-content {
-  padding: 0 0 0 1px;
-}
-
-/**
- * Take padding-right out of .control-label and keep padding of .input-group.
- * Works better when browser is resized to smaller width.
- */
-.control-label[class*="col-"] {
-  padding-right: 0;
-}
-
-.input-group[class*="col-"] {
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 /**
@@ -156,21 +101,6 @@ td.nowrap-ellipsis {
 }
 
 /**
- * Use with .label class to use the foreground color defined by parent element.
- */
-.label-reset {
-  color: inherit;
-  line-height: inherit;
-  font-weight: normal;
-  font-size: 14px;
-  text-align: right;
-}
-
-.pos-label {
-  padding: 0 0 0 0.6em;
-}
-
-/**
  * Reset Bootstrap's CSS for pre tags.
  */
 .pre-reset {
@@ -191,15 +121,6 @@ td.nowrap-ellipsis {
   padding: 10px;
   color: white;
   background-color: red;
-}
-
-.modal-error {
-  color: red;
-  font-size: 18px;
-  border: 1px solid red;
-  padding: 0.5em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
 }
 
 .biojs-vis-sequence pre {
@@ -249,20 +170,6 @@ td.nowrap-ellipsis {
 }
 
 /* Result per query. */
-.overview {
-  /* To line up with the sidebar on the left */
-  margin: 10px 0 6px 0;
-}
-
-.overview p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.resultn {
-  margin-top: 6px;
-}
-
 .graphical-overview {
   font-size: 12px;
   text-align: center;
@@ -287,10 +194,6 @@ td.nowrap-ellipsis {
   cursor: text;
 }
 
-.hit-links {
-  height: 16px;
-}
-
 .hsp {
   padding: 1px 0 20px 2px;
 }
@@ -312,13 +215,6 @@ td.nowrap-ellipsis {
   color: #5f5f5f;
 }
 
-.btn-link {
-  border: none;
-  padding: 0;
-  color: #1b557a;
-  font-size: 14px;
-}
-
 .fastan > .section-header {
   padding-bottom: 8px;
 }
@@ -331,31 +227,6 @@ td.nowrap-ellipsis {
 /* higlight when hit is selected */
 .glow {
   border-left: 2px solid #c74f14;
-}
-
-.downloads a {
-  cursor: pointer;
-}
-
-.sharing-panel a {
-  cursor: pointer;
-}
-
-/* CSS class for logo */
-.logo {
-  width: 205.05px;
-  max-height: 35px;
-}
-
-/* CSS class for vertical line separating the hit links */
-.line {
-  color: #c74f14;
-  margin: 0 5px 0 5px;
-}
-
-/* override bootstrap focus color in the text field of the search page */
-.form-control:focus {
-  border-color: #1b557a;
 }
 
 /* override bootstrap btn-color for the search "BlAST" button on the search page. */
@@ -378,15 +249,4 @@ td.nowrap-ellipsis {
 /* CSS class to facilitate the hit header wrapping */
 .hit-header {
   display: table-cell;
-}
-
-.share-url-component input[type="text"] {
-  width: 100%;
-}
-
-.share-url-component .actions {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  display: flex;
-  justify-content: space-between;
 }

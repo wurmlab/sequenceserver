@@ -100,8 +100,8 @@ export default class CloudShareModal extends React.Component {
         {
           errorMessages.map((errorMessage, index) => (
             <div key={`fastan-${index}`} className="fastan">
-              <div className="section-content">
-                <div className="modal-error">{errorMessage}</div>
+              <div className="pt-0 px-0 pb-px">
+                <div className="text-danger text-lg border border-danger p-2 my-2">{errorMessage}</div>
               </div>
             </div>
           ))
@@ -118,7 +118,7 @@ export default class CloudShareModal extends React.Component {
     return(
       <form onSubmit={this.handleSubmit}>
         <div className="px-6 mb-3">
-          <label htmlFor="emailInput">Your Email Address</label>
+          <label htmlFor="emailInput" className="text-seqblue hover: text-orange cursor-pointer mb-0">Your Email Address</label>
           <input
             type="email"
             id="emailInput"
@@ -186,7 +186,7 @@ export default class CloudShareModal extends React.Component {
                 <div className="flex justify-between px-6 mb-4">
                   <h3 className="text-base font-semibold leading-6 text-gray-900">Share to SequenceServer Cloud</h3>
                   <span className="cursor-pointer" onClick={() => this.hide()}>
-                    <i className="fa-solid fa-xmark"></i>
+                    <i className="fa-solid fa-xmark align-bottom"></i>
                   </span>
                 </div>
                 <div className="mt-2 text-sm">

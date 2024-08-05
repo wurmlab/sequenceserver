@@ -244,14 +244,14 @@ class Report extends Component {
    */
     overviewJSX() {
         return (
-            <div className="overview">
-                <p>
+            <div className="overview mt-2.5 mr-0 ml-1.5 mb-0">
+                <p className="m-0 text-sm">
                     <strong>SequenceServer {this.state.seqserv_version}</strong> using{' '}
                     <strong>{this.state.program_version}</strong>
                     {this.state.submitted_at &&
             `, query submitted on ${this.state.submitted_at}`}
                 </p>
-                <p>
+                <p className="m-0 text-sm">
                     <strong> Databases: </strong>
                     {this.state.querydb
                         .map((db) => {
@@ -261,13 +261,13 @@ class Report extends Component {
           ({this.state.stats.nsequences} sequences,&nbsp;
                     {this.state.stats.ncharacters} characters)
                 </p>
-                <p>
+                <p className="m-0 text-sm">
                     <strong>Parameters: </strong>{' '}
                     {_.map(this.state.params, function (val, key) {
                         return key + ' ' + val;
                     }).join(', ')}
                 </p>
-                <p>
+                <p className="m-0 text-sm">
           Please cite:{' '}
                     <a href="https://doi.org/10.1093/molbev/msz185">
             https://doi.org/10.1093/molbev/msz185
