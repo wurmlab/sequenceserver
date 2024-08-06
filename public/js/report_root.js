@@ -45,7 +45,7 @@ class Page extends Component {
             <div>
                 {/* Provide tailwind element inside the #view for
                     the Report component to render itself in. */}
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto">
                     <Report
                         showSequenceModal={(_) => this.showSequenceModal(_)}
                         getCharacterWidth={() => this.getCharacterWidth()}
