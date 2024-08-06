@@ -43,9 +43,9 @@ class Page extends Component {
     render() {
         return (
             <div>
-                {/* Provide bootstrap .container element inside the #view for
+                {/* Provide tailwind element inside the #view for
                     the Report component to render itself in. */}
-                <div className="container">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <Report
                         showSequenceModal={(_) => this.showSequenceModal(_)}
                         getCharacterWidth={() => this.getCharacterWidth()}

@@ -166,7 +166,6 @@ td.nowrap-ellipsis {
   border-left: 2px solid #c74f14;
 }
 
-/* override bootstrap btn-color for the search "BlAST" button on the search page. */
 .btn-primary {
   background-color: #1b557a;
   border-color: #174465;
