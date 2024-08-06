@@ -2,7 +2,7 @@ import React, { createRef } from 'react';
 
 /**
  * Takes errorData object with title, message, and more_info keys as props. The
- * component displays a bootstrap modal when mounted. errorData.title is used
+ * component displays a tailwind modal when mounted. errorData.title is used
  * to set modal title. errorData.message is inserted as HTML text in modal
  * body. And errorData.more_info is shown using a pre tag in modal body.
  *
@@ -17,26 +17,31 @@ export default class ErrorModal extends React.Component {
         this.modal = createRef();
     }
 
-    // HTML for Bootstrap modal.
     render() {
         return (
-            <div id="error" ref={this.modal} className="modal fade"
-                data-keyboard="false" data-backdrop="static">
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h3>{this.state.errorData.title}</h3>
-                        </div>
+            <div id="error" ref={this.modal} className="relative modal z-10 hidden" role="dialog" aria-modal="true">
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                            <div className="bg-white pt-5">
+                                <div className="flex justify-between px-6 mb-4">
+                                    <h3 className="text-base font-semibold leading-6 text-gray-900">{this.state.errorData.title}</h3>
+                                    <span className="cursor-pointer" onClick={() => this.hide()}>
+                                        <i className="fa-solid fa-xmark align-bottom"></i>
+                                    </span>
+                                </div>
+                                <div className="mt-2 text-sm">
+                                    <p dangerouslySetInnerHTML={{ __html: this.state.errorData.message}}></p>
 
-                        <div className="modal-body">
-                            <p dangerouslySetInnerHTML={{ __html: this.state.errorData.message}}></p>
-
-                            {
-                                this.state.errorData.more_info &&
-                                    <pre className="pre-scrollable">
-                                        {this.state.errorData.more_info}
-                                    </pre>
-                            }
+                                    {
+                                        this.state.errorData.more_info &&
+                                            <pre className="pre-scrollable">
+                                                {this.state.errorData.more_info}
+                                            </pre>
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -55,4 +60,11 @@ export default class ErrorModal extends React.Component {
             $(this.modal.current).modal('show');
         }, beforeShow || 0);
     }
+
+   /**
+    * Hide dialogue.
+    */
+   hide() {
+    $(this.modal.current).modal('hide');
+   }
 }
