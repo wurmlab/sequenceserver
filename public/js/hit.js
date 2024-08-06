@@ -115,12 +115,12 @@ export default class extends Component {
         }
 
         return <div className="section-header border-b border-seqorange pl-px table w-full">
-            <h4 className="text-sm">
-                <i className="fa fa-minus-square-o align-bottom"></i>&nbsp;
-                <strong>{this.props.hit.id}</strong>&nbsp;
+            <h4 className="text-sm cursor-pointer pl-1">
+                <i className="fa-regular fa-square-minus align-bottom"></i>&nbsp;
+                <strong className="cursor-text">{this.props.hit.id}</strong>&nbsp;
                 {this.props.hit.title}
             </h4>
-            <span className="label text-sm text-right font-normal text-inherit pt-0 px-0 pb-2">{meta}</span>
+            <span className="label text-sm text-right font-normal text-inherit pt-0 px-0 cursor-text">{meta}</span>
         </div>;
     }
 
@@ -240,7 +240,7 @@ export default class extends Component {
     }
     render() {
         return (
-            <div className="hit" id={this.domID()} data-hit-def={this.props.hit.id}
+            <div className="hit mt-1" id={this.domID()} data-hit-def={this.props.hit.id}
                 data-hit-len={this.props.hit.length} data-hit-evalue={this.props.hit.evalue}>
                 {this.headerJSX()} {this.contentJSX()}
             </div>
