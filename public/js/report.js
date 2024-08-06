@@ -159,14 +159,14 @@ class Report extends Component {
                         <i className="fa fa-cog fa-spin"></i>&nbsp; BLAST-ing
                     </h1>
                     <div className="mb-5 w-full">
-                        <p className="m-auto w-7/12">This can take some time depending on the size of your query and
+                        <p className="m-auto w-6/12 text-sm">This can take some time depending on the size of your query and
                         database(s). The page will update automatically when BLAST is done.</p>
                     </div>
-                    <p className="mb-2">
+                    <p className="mb-9 text-sm">
                         You can bookmark the page and come back to it later or share the
                         link with someone.
                     </p>
-                    <p>
+                    <p className="text-sm">
                         { process.env.targetEnv === 'cloud' && <b>If the job takes more than 10 minutes to complete, we will send you an email upon completion.</b> }
                     </p>
                 </div>
@@ -180,7 +180,7 @@ class Report extends Component {
    */
     resultsJSX() {
         return (
-            <div className="grid grid-cols-3 gap-4" id="results">
+            <div className="grid grid-cols-4 gap-4" id="results">
                 <div className="col-span-1">
                     <Sidebar
                         data={this.state}
@@ -190,7 +190,7 @@ class Report extends Component {
                         cloudSharingEnabled={this.state.cloud_sharing_enabled}
                     />
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-3">
                     {this.overviewJSX()}
                     {this.circosJSX()}
                     {this.plugins.generateStats(this.state.queries)}
@@ -244,7 +244,7 @@ class Report extends Component {
    */
     overviewJSX() {
         return (
-            <div className="overview mt-2.5 mr-0 ml-1.5 mb-0">
+            <div className="overview mr-0 mb-0">
                 <p className="m-0 text-sm">
                     <strong>SequenceServer {this.state.seqserv_version}</strong> using{' '}
                     <strong>{this.state.program_version}</strong>
@@ -269,7 +269,7 @@ class Report extends Component {
                 </p>
                 <p className="m-0 text-sm">
           Please cite:{' '}
-                    <a href="https://doi.org/10.1093/molbev/msz185">
+                    <a href="https://doi.org/10.1093/molbev/msz185" className="text-seqblue hover:text-seqorange">
             https://doi.org/10.1093/molbev/msz185
                     </a>
                 </p>
@@ -350,7 +350,7 @@ class Report extends Component {
                     // user wants to toggle
                     var hitID = $this.parents('.hit').attr('id');
                     $(`div[data-parent-hit=${hitID}]`).toggle();
-                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+                    $this.find('i').toggleClass('fa-square-minus fa-square-plus');
                 } else {
                     // user wants to select
                     $this.attr('data-toggle', '');
@@ -368,7 +368,7 @@ class Report extends Component {
             function (event) {
                 var $this = $(this);
                 $this.on('mouseup mousemove', function handler(event) {
-                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+                    $this.find('i').toggleClass('fa-square-minus fa-square-plus');
                     $this.off('mouseup mousemove', handler);
                 });
             }
