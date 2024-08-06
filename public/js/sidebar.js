@@ -293,8 +293,8 @@ export default class extends Component {
                 </div>
                 <ul>
                     {
-                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
-                            <a href="#" className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer ${!this.props.atLeastOneHit && 'disabled'}`}
+                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="hover:bg-gray-200">
+                            <a href="#" className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}
                                 onClick={this.downloadFastaOfAll}>
                                 FASTA of all hits
                             </a>
@@ -302,25 +302,25 @@ export default class extends Component {
                     }
                     {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
-                            <a href="#" className="text-sm text-seqblue download-fasta-of-selected disabled"
+                            <a href="#" className="text-sm text-seqblue download-fasta-of-selected disabled py-0.5 px-0.5"
                                 onClick={this.downloadFastaOfSelected}>
                                 FASTA of <span className="text-bold"></span> selected hit(s)
                             </a>
                         </li>
                     }
-                    <li>
-                        <a href="#" className={`text-sm text-seqblue download-alignment-of-all hover:text-seqorange cursor-pointer ${!this.props.atLeastOneHit && 'disabled'}`}>
+                    <li className="hover:bg-gray-200">
+                        <a href="#" className={`text-sm text-seqblue download-alignment-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}>
                             Alignment of all hits
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="text-sm text-seqblue download-alignment-of-selected disabled">
+                        <a href="#" className="text-sm text-seqblue download-alignment-of-selected disabled py-0.5 px-0.5">
                             Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
                     {
-                        !this.props.data.imported_xml && <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer w-full" data-toggle="tooltip"
+                        !this.props.data.imported_xml && <li className="hover:bg-gray-200">
+                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer w-full py-0.5 px-0.5" data-toggle="tooltip"
                                 title="15 columns: query and subject ID; scientific
                                 name, alignment length, mismatches, gaps, identity,
                                 start and end coordinates, e value, bitscore, query
@@ -332,7 +332,7 @@ export default class extends Component {
                     }
                     {
                         !this.props.data.imported_xml && <li className="hover:bg-gray-200">
-                            <a className="text-sm text-seqblue download hover:text-seqorange cursor-pointer w-full" data-toggle="tooltip"
+                            <a className="text-sm text-seqblue download hover:text-seqorange cursor-pointer w-full py-0.5 px-0.5" data-toggle="tooltip"
                                 title="44 columns: query and subject ID, GI,
                                 accessions, and length; alignment details;
                                 taxonomy details of subject sequence(s) and
@@ -344,7 +344,7 @@ export default class extends Component {
                     }
                     {
                         !this.props.data.imported_xml && <li className="hover:bg-gray-200">
-                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer" data-toggle="tooltip"
+                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
                                 title="Results in XML format."
                                 href={'download/' + this.props.data.search_id + '.xml'}>
                                 Full XML report
@@ -353,7 +353,7 @@ export default class extends Component {
                     }
                     {
                         !this.props.data.imported_xml && <li className="hover:bg-gray-200">
-                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer" data-toggle="tooltip"
+                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
                                 title="Results in text format."
                                 href={'download/' + this.props.data.search_id + '.pairwise'}>
                                 Full Text report
@@ -377,7 +377,7 @@ export default class extends Component {
                 <ul>
                     {!this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a id="copyURL" className="text-sm text-seqblue copy-URL cursor-pointer" data-toggle="tooltip"
+                            <a id="copyURL" className="text-sm text-seqblue copy-URL cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
                                 onClick={this.copyURL}>
                                 <i className="fa fa-copy"></i> Copy URL to clipboard
                             </a>
@@ -385,7 +385,7 @@ export default class extends Component {
                     }
                     {!this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a id="sendEmail" className="text-sm text-seqblue email-URL cursor-pointer" data-toggle="tooltip"
+                            <a id="sendEmail" className="text-sm text-seqblue email-URL cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
                                 title="Send by email" href={asMailftoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
                                 target="_blank" rel="noopener noreferrer">
                                 <i className="fa fa-envelope"></i> Send by email
@@ -394,7 +394,7 @@ export default class extends Component {
                     }
                     {this.props.cloudSharingEnabled &&
                         <li>
-                            <button className="text-sm text-seqblue hover:text-seqorange cloud-Post cursor-pointer" data-toggle="tooltip"
+                            <button className="text-sm text-seqblue hover:text-seqorange cloud-Post cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
                                 title="Upload results to SequenceServer Cloud where it will become accessable
                                 to everyone who has a link." onClick={this.shareCloudInit}>
                                 <i className="fa fa-cloud"></i> Share to cloud

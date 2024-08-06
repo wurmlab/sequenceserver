@@ -53,7 +53,7 @@ export class ReportQuery extends Component {
                 <strong>Query=&nbsp;{this.props.query.id}</strong>&nbsp;
                 {this.props.query.title}
             </h3>
-            <span className="label text-sm text-right font-normal text-inherit pt-0 px-0 pb-2">{meta}</span>
+            <span className="label text-sm text-right font-normal text-inherit pt-0 px-0">{meta}</span>
         </div>;
     }
 
@@ -408,11 +408,11 @@ class HitsTable extends Component {
         if (this.props.imported_xml) seqwidth += 15;
 
         return <table
-            className="table table-hover table-condensed tabular-view ">
+            className="table table-hover table-condensed tabular-view text-sm">
             <thead>
                 <tr>
                     <th className="text-left">#</th>
-                    <th width={`${seqwidth}%`}>Similar sequences</th>
+                    <th width={`${seqwidth}%`} className="text-left">Similar sequences</th>
                     {hasName && <th width="15%" className="text-left">Species</th>}
                     {!this.props.imported_xml && <th width="15%" className="text-right">Query coverage (%)</th>}
                     <th width="10%" className="text-right">Total score</th>

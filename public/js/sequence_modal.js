@@ -92,11 +92,11 @@ export default class SequenceModal extends React.Component {
       <div className="mt-2 text-sm">
         {this.state.error_msgs.map((error_msg, index) => (
           <div key={`error-message-${index}`} className="fastan">
-            <div className="section-header border-b border-seqorange pl-px table w-full">
+            <div className="section-header border-b border-seqorange pl-px table w-full pb-2">
               <h4 className="text-sm">{error_msg[0]}</h4>
             </div>
             <div className="pt-0 px-0 pb-px">
-              <pre className="pre-reset">{error_msg[1]}</pre>
+              <pre className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep">{error_msg[1]}</pre>
             </div>
           </div>
         ))}
@@ -130,7 +130,7 @@ class SequenceViewer extends React.Component {
 
     return (
       <div className="fastan">
-        <div className="section-header border-b border-seqorange pl-px table w-full">
+        <div className="section-header border-b border-seqorange pl-px table w-full pb-2">
           <h4 className="text-sm">
             {this.props.sequence.id}
             <small className="text-inherit">&nbsp; {this.props.sequence.title}</small>

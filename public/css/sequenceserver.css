@@ -100,19 +100,6 @@ td.nowrap-ellipsis {
   text-overflow: ellipsis;
 }
 
-/**
- * Reset Bootstrap's CSS for pre tags.
- */
-.pre-reset {
-  margin: 0 0;
-  border: none;
-  padding: 0;
-  border-radius: 0;
-  background-color: inherit;
-  white-space: pre-wrap;
-  word-break: keep-all;
-}
-
 /***************************
  * SequenceServer specific *
  ***************************/
@@ -134,16 +121,6 @@ td.nowrap-ellipsis {
 /**********************
         Sidebar
  **********************/
-.sidebar > div {
-  /* To line up with the results on the right */
-  margin-top: 0;
-}
-
-.sidebar li a,
-.sidebar li button {
-  padding: 3px 2px;
-}
-
 .sidebar .nowrap-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -153,6 +130,10 @@ td.nowrap-ellipsis {
 .sidebar.affix {
   margin-top: 0;
   top: 0;
+}
+
+.affix {
+  position: fixed;
 }
 
 @media (min-width: 992px) {
@@ -178,50 +159,6 @@ td.nowrap-ellipsis {
 .graphical-overview .btn {
   padding-top: 0;
   padding-bottom: 0;
-}
-
-.hit {
-  margin-top: 4px;
-}
-
-.hit .section-header h4 {
-  cursor: pointer;
-  padding-left: 1px;
-}
-
-.hit .section-header h4 span,
-.hit .section-header h4 strong {
-  cursor: text;
-}
-
-.hsp {
-  padding: 1px 0 20px 2px;
-}
-
-.hsp-stats {
-  font-size: 13px;
-  letter-spacing: 0.7px;
-  color: #5f5f5f;
-  font-weight: 600;
-}
-
-.hsp-lines {
-  margin-top: 5px;
-  font-size: 11px;
-  letter-spacing: 1.2px;
-}
-
-.hsp-coords {
-  color: #5f5f5f;
-}
-
-.fastan > .section-header {
-  padding-bottom: 8px;
-}
-
-.fastan > .section-content {
-  padding-top: 8px;
-  padding-left: 0;
 }
 
 /* higlight when hit is selected */
