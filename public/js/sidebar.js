@@ -253,7 +253,7 @@ export default class extends Component {
         const buttonStyle = {
             outline: 'none', border: 'none', background: 'none'
         };
-        const buttonClasses = 'text-sm text-seqblue hover:text-seqorange nowrap-ellipsis hover-bold';
+        const buttonClasses = 'text-sm text-seqblue hover:text-seqorange hover:bg-gray-200';
 
         const handlePreviousBtnClick = () => this.handleQueryIndexChange(this.state.queryIndex - 1);
         const handleNextBtnClick = () => this.handleQueryIndexChange(this.state.queryIndex + 1);
@@ -320,43 +320,75 @@ export default class extends Component {
                     </li>
                     {
                         !this.props.data.imported_xml && <li className="hover:bg-gray-200">
-                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer w-full py-0.5 px-0.5" data-toggle="tooltip"
-                                title="15 columns: query and subject ID; scientific
-                                name, alignment length, mismatches, gaps, identity,
-                                start and end coordinates, e value, bitscore, query
-                                coverage per subject and per HSP."
-                                href={'download/' + this.props.data.search_id + '.std_tsv'}>
-                                Standard tabular report
+                            <a href={'download/' + this.props.data.search_id + '.std_tsv'}>
+                                <div className="relative flex flex-col items-center group">
+                                    <div className="flex items-center w-full">
+                                        <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Standard tabular report</span>
+                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
+                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                15 columns: query and subject ID; scientific
+                                                name, alignment length, mismatches, gaps, identity,
+                                                start and end coordinates, e value, bitscore, query
+                                                coverage per subject and per HSP.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </a>
                         </li>
                     }
                     {
                         !this.props.data.imported_xml && <li className="hover:bg-gray-200">
-                            <a className="text-sm text-seqblue download hover:text-seqorange cursor-pointer w-full py-0.5 px-0.5" data-toggle="tooltip"
-                                title="44 columns: query and subject ID, GI,
-                                accessions, and length; alignment details;
-                                taxonomy details of subject sequence(s) and
-                                query coverage per subject and per HSP."
-                                href={'download/' + this.props.data.search_id + '.full_tsv'}>
-                                Full tabular report
+                            <a href={'download/' + this.props.data.search_id + '.full_tsv'}>
+                                <div className="relative flex flex-col items-center group">
+                                    <div className="flex items-center w-full">
+                                        <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Full tabular report</span>
+                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
+                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                44 columns: query and subject ID, GI,
+                                                accessions, and length; alignment details;
+                                                taxonomy details of subject sequence(s) and
+                                                query coverage per subject and per HSP.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </a>
                         </li>
                     }
                     {
                         !this.props.data.imported_xml && <li className="hover:bg-gray-200">
-                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
-                                title="Results in XML format."
-                                href={'download/' + this.props.data.search_id + '.xml'}>
-                                Full XML report
+                            <a href={'download/' + this.props.data.search_id + '.xml'}>
+                                <div className="relative flex flex-col items-center group">
+                                    <div className="flex items-center w-full">
+                                        <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Full XML report</span>
+                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
+                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                Results in XML format.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </a>
                         </li>
                     }
                     {
                         !this.props.data.imported_xml && <li className="hover:bg-gray-200">
-                            <a className="text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
-                                title="Results in text format."
-                                href={'download/' + this.props.data.search_id + '.pairwise'}>
-                                Full Text report
+                            <a href={'download/' + this.props.data.search_id + '.pairwise'}>
+                                <div className="relative flex flex-col items-center group">
+                                    <div className="flex items-center w-full">
+                                        <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Full Text report</span>
+                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
+                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                Results in text format.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </a>
                         </li>
                     }
@@ -375,31 +407,59 @@ export default class extends Component {
                     </h4>
                 </div>
                 <ul>
-                    {!this.props.cloudSharingEnabled &&
+                    {/* {!this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
                             <a id="copyURL" className="text-sm text-seqblue copy-URL cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
                                 onClick={this.copyURL}>
                                 <i className="fa fa-copy"></i> Copy URL to clipboard
                             </a>
                         </li>
-                    }
+                    } */}
+                    <li className="hover:text-seqorange hover:bg-gray-200">
+                            <a id="copyURL" className="text-sm text-seqblue hover:text-seqorange copy-URL cursor-pointer py-0.5 px-0.5"
+                            onClick={this.copyURL}>
+                            <i className="fa fa-copy"></i> Copy URL to clipboard
+                        </a>
+                    </li>
                     {!this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a id="sendEmail" className="text-sm text-seqblue email-URL cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
-                                title="Send by email" href={asMailftoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
+                            <a id="sendEmail" className="text-sm text-seqblue email-URL cursor-pointer py-0.5 px-0.5"
+                                href={asMailftoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
                                 target="_blank" rel="noopener noreferrer">
-                                <i className="fa fa-envelope"></i> Send by email
+                                <div className="relative flex gap-2 items-center group w-full">
+                                    <i className="fa fa-envelope"></i>
+                                    <div className="flex items-center w-full">
+                                        <span className="w-full">Send by email</span>
+                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
+                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                Send by email
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </a>
                         </li>
                     }
                     {this.props.cloudSharingEnabled &&
-                        <li>
-                            <button className="text-sm text-seqblue hover:text-seqorange cloud-Post cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
-                                title="Upload results to SequenceServer Cloud where it will become accessable
-                                to everyone who has a link." onClick={this.shareCloudInit}>
-                                <i className="fa fa-cloud"></i> Share to cloud
-                            </button>
-                        </li>
+                        <li className="hover:text-seqorange hover:bg-gray-200">
+                        <button className="flex text-sm text-seqblue hover:text-seqorange cloud-Post cursor-pointer py-0.5 px-0.5 w-full" onClick={this.shareCloudInit}>
+                            <div className="relative flex gap-2 items-center group w-full">
+                                <i className="fa fa-cloud"></i>
+                                <div className="flex items-center">
+                                    <span className="w-full">Share to cloud</span>
+                                    <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
+                                        <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                        <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                            Results in pairwise format
+                                            Upload results to SequenceServer Cloud where it will become accessable
+                                            to everyone who has a link.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </li>
                     }
                 </ul>
                 {
