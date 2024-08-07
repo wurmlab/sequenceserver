@@ -41,14 +41,6 @@ export default class extends Component {
     }
 
     componentDidMount() {
-        /**
-         * Fixes tooltips in the sidebar, allows tooltip display on click
-         */
-        $(function () {
-            $('.sidebar [data-toggle="tooltip"]').tooltip({ placement: 'right' });
-            $('#copyURL').tooltip({ title: 'Copied!', trigger: 'click', placement: 'right', delay: 0 });
-        });
-
         //keep track of the current queryIndex so it doesn't get lost on page reload
         const urlMatch = window.location.href.match(/#Query_(\d+)/);
         if (urlMatch && urlMatch.length > 1) {
@@ -181,26 +173,26 @@ export default class extends Component {
         return false;
     }
 
-
-
-
     /**
      * Handles copying the URL into the user's clipboard. Modified from: https://stackoverflow.com/a/49618964/18117380
      * Hides the 'Copied!' tooltip after 3 seconds
      */
 
-    copyURL() {
-        var element = document.createElement('input');
-        var url = window.location.href;
-        document.body.appendChild(element);
-        element.value = url;
-        element.select();
-        document.execCommand('copy');
-        document.body.removeChild(element);
-
-        setTimeout(function () {
-            $('#copyURL')._tooltip('hide');
-        }, 3000);
+    copyURL() {  
+        const element = document.createElement('input');  
+        const url = window.location.href;  
+        document.body.appendChild(element);  
+        element.value = url;  
+        element.select();  
+        document.execCommand('copy');  
+        document.body.removeChild(element);  
+      
+        const tooltip = document.getElementById('tooltip');  
+        tooltip.classList.remove('hidden');  
+      
+        setTimeout(() => {  
+          tooltip.classList.add('hidden');  
+        }, 3000);  
     }
 
     shareCloudInit() {
@@ -407,20 +399,16 @@ export default class extends Component {
                     </h4>
                 </div>
                 <ul>
-                    {/* {!this.props.cloudSharingEnabled &&
-                        <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a id="copyURL" className="text-sm text-seqblue copy-URL cursor-pointer py-0.5 px-0.5" data-toggle="tooltip"
-                                onClick={this.copyURL}>
-                                <i className="fa fa-copy"></i> Copy URL to clipboard
-                            </a>
+                    {!this.props.cloudSharingEnabled &&
+                        <li className="hover:text-seqorange hover:bg-gray-200 relative">  
+                            <a id="copyURL" className="text-sm text-seqblue hover:text-seqorange copy-URL cursor-pointer py-0.5 px-0.5" onClick={this.copyURL}>  
+                                <i className="fa fa-copy"></i> Copy URL to clipboard  
+                            </a>  
+                            <div id="tooltip" className="absolute left-1/2 transform -translate-x-1/2 -translate-y-full w-32 bg-black text-white text-center text-xs rounded py-1">  
+                                copied!  
+                            </div>  
                         </li>
-                    } */}
-                    <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a id="copyURL" className="text-sm text-seqblue hover:text-seqorange copy-URL cursor-pointer py-0.5 px-0.5"
-                            onClick={this.copyURL}>
-                            <i className="fa fa-copy"></i> Copy URL to clipboard
-                        </a>
-                    </li>
+                    }
                     {!this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
                             <a id="sendEmail" className="text-sm text-seqblue email-URL cursor-pointer py-0.5 px-0.5"
