@@ -47,7 +47,7 @@ export default function Grapher(Graph) {
             if(Graph.canCollapse()) {
                 return <div className="grapher-header">
                     <h4
-                        className="caption"
+                        className="caption text-sm"
                         onClick={() => this.collapsePreferences.toggleCollapse()}
                     >
                         {this.collapsePreferences.renderCollapseIcon()}
@@ -64,12 +64,12 @@ export default function Grapher(Graph) {
 
         graphLinksJSX() {
             return (
-                <div className="hit-links graph-links">
-                    <a href="#" className="btn-link export-to-svg">
+                <div className="hit-links graph-links h-4">
+                    <a href="#" className="btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer export-to-svg">
                         <i className="fa fa-download" /> SVG
                     </a>
-                    <span className="line">|</span>
-                    <a href="#" className="btn-link export-to-png">
+                    <span className="line px-1">|</span>
+                    <a href="#" className="btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer export-to-png">
                         <i className="fa fa-download" /> PNG
                     </a>
                 </div>
@@ -77,8 +77,8 @@ export default function Grapher(Graph) {
         }
 
         svgContainerJSX() {
-            var cssClasses = Graph.className() + ' svg-container collapse';
-            if (!this.state.collapsed) cssClasses += ' in';
+            var cssClasses = Graph.className() + ' svg-container hidden';
+            if (!this.state.collapsed) cssClasses += ' !block';
             return (
                 <div
                     ref={this.svgContainerRef}

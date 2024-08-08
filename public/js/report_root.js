@@ -43,9 +43,9 @@ class Page extends Component {
     render() {
         return (
             <div>
-                {/* Provide bootstrap .container element inside the #view for
+                {/* Provide tailwind element inside the #view for
                     the Report component to render itself in. */}
-                <div className="container">
+                <div className="mx-auto">
                     <Report
                         showSequenceModal={(_) => this.showSequenceModal(_)}
                         getCharacterWidth={() => this.getCharacterWidth()}
@@ -54,7 +54,7 @@ class Page extends Component {
                 </div>
 
                 {/* Add a hidden span tag containing chars used in HSPs */}
-                <pre className="pre-reset hsp-lines" ref={this.hspChars} hidden>
+                <pre className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep mt-1 text-xs tracking-wider" ref={this.hspChars} hidden>
                     ABCDEFGHIJKLMNOPQRSTUVWXYZ +-
                 </pre>
 

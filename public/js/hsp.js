@@ -35,12 +35,12 @@ export default class HSP extends React.Component {
   render() {
     return (
       <div
-        className="hsp"
+        className="hsp pt-px pr-0 pl-5 pb-0.5"
         id={this.domID()}
         ref={this.hspRef}
         data-parent-hit={this.hitDOM_ID()}
       >
-        <p className="pre-reset hsp-stats">
+        <p className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep text-sm text-gray-700 font-semibold tracking-tighter">
           {this.props.showHSPNumbers &&
             `${Helpers.toLetters(this.hsp.number)}. `}
           {this.hspStats().map((s, i) => (
@@ -195,23 +195,23 @@ export default class HSP extends React.Component {
       nsseq = lsend + this.sframe_unit() * this.sframe_sign();
 
       pp.push(
-        <pre key={this.hsp.number + "," + i} className="pre-reset hsp-lines">
-          <span className="hsp-coords">
+        <pre key={this.hsp.number + "," + i} className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep mt-1 text-xs tracking-wider">
+          <span className="text-gray-700">
             {`Query   ${this.formatCoords(lqstart, width)} `}
           </span>
           <span>{lqseq}</span>
-          <span className="hsp-coords">{` ${lqend}`}</span>
+          <span className="text-gray-700">{` ${lqend}`}</span>
           <br />
-          <span className="hsp-coords">
+          <span className="text-gray-700">
             {`${this.formatCoords("", width + 8)} `}
           </span>
           <span>{lmseq}</span>
           <br />
-          <span className="hsp-coords">
+          <span className="text-gray-700">
             {`Subject ${this.formatCoords(lsstart, width)} `}
           </span>
           <span>{lsseq}</span>
-          <span className="hsp-coords">{` ${lsend}`}</span>
+          <span className="text-gray-700">{` ${lsend}`}</span>
           <br />
         </pre>
       );
@@ -356,7 +356,7 @@ export default class HSP extends React.Component {
   }
 
   spanCoords(text) {
-    return <span className="hsp-coords">{text}</span>;
+    return <span className="text-gray-700">{text}</span>;
   }
 }
 

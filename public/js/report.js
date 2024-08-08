@@ -154,21 +154,20 @@ class Report extends Component {
    */
     loadingJSX() {
         return (
-            <div className="row">
-                <div className="col-md-6 col-md-offset-3 text-center">
-                    <h1>
+            <div className="grid grid-cols-6 gap-4">
+                <div className="col-start-1 col-end-7 text-center">
+                    <h1 className="mb-8 text-4xl">
                         <i className="fa fa-cog fa-spin"></i>&nbsp; BLAST-ing
                     </h1>
-                    <p>
-                        <br />
-            This can take some time depending on the size of your query and
-            database(s). The page will update automatically when BLAST is done.
-                        <br />
-                        <br />
-            You can bookmark the page and come back to it later or share the
-            link with someone.
-                        <br />
-                        <br />
+                    <div className="mb-5 w-full">
+                        <p className="m-auto w-6/12 text-sm">This can take some time depending on the size of your query and
+                        database(s). The page will update automatically when BLAST is done.</p>
+                    </div>
+                    <p className="mb-9 text-sm">
+                        You can bookmark the page and come back to it later or share the
+                        link with someone.
+                    </p>
+                    <p className="text-sm">
                         { process.env.targetEnv === 'cloud' && <b>If the job takes more than 10 minutes to complete, we will send you an email upon completion.</b> }
                     </p>
                 </div>
@@ -182,8 +181,8 @@ class Report extends Component {
    */
     resultsJSX() {
         return (
-            <div className="row" id="results">
-                <div className="col-md-3 hidden-sm hidden-xs">
+            <div className="grid grid-cols-4 gap-4" id="results">
+                <div className="col-span-1">
                     <Sidebar
                         data={this.state}
                         atLeastOneHit={this.atLeastOneHit()}
@@ -192,7 +191,7 @@ class Report extends Component {
                         cloudSharingEnabled={this.state.cloud_sharing_enabled}
                     />
                 </div>
-                <div className="col-md-9">
+                <div className="col-span-3">
                     {this.overviewJSX()}
                     {this.circosJSX()}
                     {this.plugins.generateStats(this.state.queries)}
@@ -213,18 +212,16 @@ class Report extends Component {
 
     warningJSX() {
         return(
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-6 col-md-offset-3 text-center">
-                        <h1>
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-6 gap-4">
+                    <div className="col-start-1 col-end-7 text-center">
+                        <h1 className="mb-4 text-4xl">
                             <i className="fa fa-exclamation-triangle"></i>&nbsp; Warning
                         </h1>
-                        <p>
-                            <br />
+                        <p className="mb-2">
                             The BLAST result might be too large to load in the browser. If you have a powerful machine you can try loading the results anyway. Otherwise, you can download the results and view them locally.
                         </p>
-                        <br />
-                        <p>
+                        <p className="mb-2">
                             {this.state.download_links.map((link, index) => {
                                 return (
                                     <a href={link.url} className="btn btn-secondary" key={'download_link_' + index} >
@@ -233,9 +230,8 @@ class Report extends Component {
                                 );
                             })}
                         </p>
-                        <br />
                         <p>
-                            <a href={location.pathname + '?bypass_file_size_warning=true'} className="btn btn-primary">
+                            <a href={location.pathname + '?bypass_file_size_warning=true'} className="py-2 px-3 border border-transparent rounded-md shadow-sm text-white bg-seqblue hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange">
                                 View results in browser anyway
                             </a>
                         </p>
@@ -249,14 +245,14 @@ class Report extends Component {
    */
     overviewJSX() {
         return (
-            <div className="overview">
-                <p>
+            <div className="overview mr-0 mb-0">
+                <p className="m-0 text-sm">
                     <strong>SequenceServer {this.state.seqserv_version}</strong> using{' '}
                     <strong>{this.state.program_version}</strong>
                     {this.state.submitted_at &&
             `, query submitted on ${this.state.submitted_at}`}
                 </p>
-                <p>
+                <p className="m-0 text-sm">
                     <strong> Databases: </strong>
                     {this.state.querydb
                         .map((db) => {
@@ -266,15 +262,15 @@ class Report extends Component {
           ({this.state.stats.nsequences} sequences,&nbsp;
                     {this.state.stats.ncharacters} characters)
                 </p>
-                <p>
+                <p className="m-0 text-sm">
                     <strong>Parameters: </strong>{' '}
                     {_.map(this.state.params, function (val, key) {
                         return key + ' ' + val;
                     }).join(', ')}
                 </p>
-                <p>
+                <p className="m-0 text-sm">
           Please cite:{' '}
-                    <a href="https://doi.org/10.1093/molbev/msz185">
+                    <a href="https://doi.org/10.1093/molbev/msz185" className="text-seqblue hover:text-seqorange">
             https://doi.org/10.1093/molbev/msz185
                     </a>
                 </p>
@@ -355,7 +351,7 @@ class Report extends Component {
                     // user wants to toggle
                     var hitID = $this.parents('.hit').attr('id');
                     $(`div[data-parent-hit=${hitID}]`).toggle();
-                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+                    $this.find('i').toggleClass('fa-square-minus fa-square-plus');
                 } else {
                     // user wants to select
                     $this.attr('data-toggle', '');
@@ -373,7 +369,7 @@ class Report extends Component {
             function (event) {
                 var $this = $(this);
                 $this.on('mouseup mousemove', function handler(event) {
-                    $this.find('i').toggleClass('fa-minus-square-o fa-plus-square-o');
+                    $this.find('i').toggleClass('fa-square-minus fa-square-plus');
                     $this.off('mouseup mousemove', handler);
                 });
             }

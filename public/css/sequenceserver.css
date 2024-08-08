@@ -1,10 +1,4 @@
-/**********************
- * Override Bootstrap *
- **********************/
-
 @import url('../vendor/github/nicgirault/circosJs@1.7.0/dist/colorBrewer.css');
-@import url('../vendor/github/twbs/bootstrap@3.3.5/css/bootstrap.min.css');
-@import url('../vendor/npm/font-awesome@4.4.0/css/font-awesome.min.css');
 @import url('grapher.css');
 @import url('fonts.css');
 
@@ -18,27 +12,6 @@ body {
 }
 
 /**
- * No underlines on links, ever
- */
-a:hover,
-.btn-link:hover {
-  text-decoration: none;
-  color: #c74f14;
-}
-
-a {
-  color: #1b557a;
-}
-
-label:hover {
-  color: #c74f14;
-}
-
-.yellow-background {
-  background-color: #e2d382;
-}
-
-/**
  * Disable resize grabber on textarea.
  */
 textarea {
@@ -48,34 +21,6 @@ textarea {
 
 hr {
   border-top: transparent;
-}
-
-/**
- * Use normal font weight for labels and indicate they are clickable by setting
- * `cursor: pointer`.
- */
-label {
-  cursor: pointer;
-  margin-bottom: 0;
-  font-weight: normal;
-  color: #1b557a;
-}
-
-small {
-  color: inherit !important;
-}
-
-h3 {
-  font-size: 16px;
-}
-
-h4 {
-  font-size: 14px;
-}
-
-h3 > .fa,
-h4 > .fa {
-  vertical-align: bottom;
 }
 
 /**
@@ -93,85 +38,15 @@ a.disabled:hover,
   cursor: not-allowed;
 }
 
-/**
- * Increase font size, add border, make place for subtext to app name.
- */
-.navbar {
-  margin-bottom: 0;
-  border-radius: 0;
-  border-bottom: 1px solid #c74f14;
-}
-
-.navbar-brand {
-  height: auto;
-  padding: 10px 7.5px;
-  font-size: 32px;
-  color: rgb(51, 51, 51);
-}
-
-.navbar-brand > small {
-  font-size: 50%;
-  vertical-align: text-bottom;
-}
-
-.navbar-nav > li > a {
-  padding: 10px 7.5px;
-  font-size: 14px;
-  color: #174465;
-}
-
-/* logo */
-.navbar-brand > img {
-  display: inline-block;
-}
-
-/**
- * Like BS' .page-header but without extra margin and the ability to display a
- * sub-text on right.
- */
-
 /* Hit header styling */
-.section-header {
-  border-bottom: 1px solid  #c74f14;
-  padding-left: 1px;
-  display: table;
-  width: 100%;
-}
-
 .section-header-sidebar {
   padding-left: 1px;
   display: table;
   width: 100%;
 }
 
-.section-header-sidebar > h4 {
-  font-weight: bold;
-  margin-bottom: 0;
-}
-
 .section-header > * {
   display: table-cell;
-}
-
-.section-header > *:first-child {
-  width: 100%;
-}
-
-.section-content {
-  padding: 0 0 0 1px;
-}
-
-/**
- * Take padding-right out of .control-label and keep padding of .input-group.
- * Works better when browser is resized to smaller width.
- */
-.control-label[class*="col-"] {
-  padding-right: 0;
-}
-
-.input-group[class*="col-"] {
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 /**
@@ -207,46 +82,6 @@ a.disabled:hover,
 }
 
 /**
- * Set max-width and font-family on tooltips.
- */
-.tooltip-inner {
-  max-width: 350px;
-  font-family: "Source sans pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-/********************
- * Extend Bootstrap *
- ********************/
-
-/**
- * Capitalize text.
- */
-.text-capitalize {
-  text-transform: capitalize;
-}
-
-/**
- * Uppercase text.
- */
-.text-uppercase {
-  text-transform: uppercase;
-}
-
-/**
- * Make text bold.
- */
-.text-bold {
-  font-weight: bold;
-}
-
-/**
- * Set cursor: pointer on the given element.
- */
-.cursor-pointer {
-  cursor: pointer;
-}
-
-/**
  * Do not wrap text or show horizontal scrollbar if text overflows the width of
  * the element. Show ellipsis instead.
  */
@@ -257,51 +92,6 @@ td.nowrap-ellipsis {
   text-overflow: ellipsis;
 }
 
-/**
- * Helpers to override :hover and .active on .nav elements.
- */
-.nav.hover-reset > li > a:hover {
-  background-color: inherit;
-  color: #c74f14;
-}
-
-.nav.focus-reset > li > a:focus {
-  background-color: inherit;
-  color: #c74f14;
-}
-
-.nav.active-bold > .active > a {
-  font-weight: bold;
-  color: #c74f14;
-}
-
-/**
- * Use with .label class to use the foreground color defined by parent element.
- */
-.label-reset {
-  color: inherit;
-  line-height: inherit;
-  font-weight: normal;
-  font-size: inherit;
-}
-
-.pos-label {
-  padding: 0 0 0 0.6em;
-}
-
-/**
- * Reset Bootstrap's CSS for pre tags.
- */
-.pre-reset {
-  margin: 0 0;
-  border: none;
-  padding: 0;
-  border-radius: 0;
-  background-color: inherit;
-  white-space: pre-wrap;
-  word-break: keep-all;
-}
-
 /***************************
  * SequenceServer specific *
  ***************************/
@@ -310,15 +100,6 @@ td.nowrap-ellipsis {
   padding: 10px;
   color: white;
   background-color: red;
-}
-
-.modal-error {
-  color: red;
-  font-size: 18px;
-  border: 1px solid red;
-  padding: 0.5em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
 }
 
 .biojs-vis-sequence pre {
@@ -332,16 +113,6 @@ td.nowrap-ellipsis {
 /**********************
         Sidebar
  **********************/
-.sidebar > div {
-  /* To line up with the results on the right */
-  margin-top: 0;
-}
-
-.sidebar li a,
-.sidebar li button {
-  padding: 3px 2px;
-}
-
 .sidebar .nowrap-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -351,6 +122,10 @@ td.nowrap-ellipsis {
 .sidebar.affix {
   margin-top: 0;
   top: 0;
+}
+
+.affix {
+  position: fixed;
 }
 
 @media (min-width: 992px) {
@@ -368,19 +143,6 @@ td.nowrap-ellipsis {
 }
 
 /* Result per query. */
-.overview {
-  /* To line up with the sidebar on the left */
-  margin: 10px 0 6px 0;
-}
-
-.overview p {
-  margin: 0;
-}
-
-.resultn {
-  margin-top: 6px;
-}
-
 .graphical-overview {
   font-size: 12px;
   text-align: center;
@@ -391,119 +153,12 @@ td.nowrap-ellipsis {
   padding-bottom: 0;
 }
 
-.hit {
-  margin-top: 4px;
-}
-
-.hit .section-header h4 {
-  cursor: pointer;
-  padding-left: 1px;
-}
-
-.hit .section-header h4 span,
-.hit .section-header h4 strong {
-  cursor: text;
-}
-
-.hit-links {
-  height: 16px;
-}
-
-.hsp {
-  padding: 1px 0 20px 2px;
-}
-
-.hsp-stats {
-  font-size: 13px;
-  letter-spacing: 0.7px;
-  color: #5f5f5f;
-  font-weight: 600;
-}
-
-.hsp-lines {
-  margin-top: 5px;
-  font-size: 11px;
-  letter-spacing: 1.2px;
-}
-
-.hsp-coords {
-  color: #5f5f5f;
-}
-
-.btn-link {
-  border: none;
-  padding: 0;
-  color: #1b557a;
-}
-
-.fastan > .section-header {
-  padding-bottom: 8px;
-}
-
-.fastan > .section-content {
-  padding-top: 8px;
-  padding-left: 0;
-}
-
 /* higlight when hit is selected */
 .glow {
   border-left: 2px solid #c74f14;
 }
 
-.downloads a {
-  cursor: pointer;
-}
-
-.sharing-panel a {
-  cursor: pointer;
-}
-
-/* CSS class for logo */
-.logo {
-  width: 205.05px;
-  max-height: 35px;
-}
-
-/* CSS class for vertical line separating the hit links */
-.line {
-  color: #c74f14;
-  margin: 0 5px 0 5px;
-}
-
-/* override bootstrap focus color in the text field of the search page */
-.form-control:focus {
-  border-color: #1b557a;
-}
-
-/* override bootstrap btn-color for the search "BlAST" button on the search page. */
-.btn-primary {
-  background-color: #1b557a;
-  border-color: #174465;
-}
-
-.btn-primary:hover {
-  background-color: #174465;
-  border-color: #174465;
-}
-
-.btn-primary:disabled,
-.btn-primary[disabled]:hover {
-  background-color: #881c14;
-  border-color: #881c14;
-}
-
 /* CSS class to facilitate the hit header wrapping */
 .hit-header {
   display: table-cell;
-}
-
-.share-url-component input[type="text"] {
-  width: 100%;
-}
-
-.share-url-component .actions {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  display: flex;
-  justify-content: space-between;
 }
