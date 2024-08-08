@@ -115,7 +115,7 @@ export default class extends Component {
         }
 
         return <div className="section-header border-b border-seqorange pl-px table w-full">
-            <h4 className="text-sm cursor-pointer pl-1">
+            <h4 className="text-sm cursor-pointer">
                 <i className="fa-regular fa-square-minus align-bottom"></i>&nbsp;
                 <strong className="cursor-text">{this.props.hit.id}</strong>&nbsp;
                 {this.props.hit.title}

@@ -285,22 +285,26 @@ export default class extends Component {
                 </div>
                 <ul>
                     {
-                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="hover:bg-gray-200">
-                            <a href="#" className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}
-                                onClick={this.downloadFastaOfAll}>
-                                FASTA of all hits
-                            </a>
+                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className={`${!this.props.atLeastOneHit ? 'cursor-not-allowed' : 'hover:bg-gray-200'}`}>  
+                            <a
+                                href="#" 
+                                className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}   
+                                onClick={this.props.atLeastOneHit ? this.downloadFastaOfAll : (e) => e.preventDefault()}>  
+                                    FASTA of all hits  
+                            </a>  
                         </li>
                     }
                     {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
-                            <a href="#" className="text-sm text-seqblue download-fasta-of-selected disabled py-0.5 px-0.5"
+                            <a
+                                href="#"
+                                className="text-sm text-seqblue download-fasta-of-selected disabled py-0.5 px-0.5"
                                 onClick={this.downloadFastaOfSelected}>
                                 FASTA of <span className="text-bold"></span> selected hit(s)
                             </a>
                         </li>
                     }
-                    <li className="hover:bg-gray-200">
+                    <li className={`${!this.props.atLeastOneHit ? 'cursor-not-allowed' : 'hover:bg-gray-200'}`}>
                         <a href="#" className={`text-sm text-seqblue download-alignment-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}>
                             Alignment of all hits
                         </a>
@@ -400,13 +404,23 @@ export default class extends Component {
                 </div>
                 <ul>
                     {!this.props.cloudSharingEnabled &&
-                        <li className="hover:text-seqorange hover:bg-gray-200 relative">  
-                            <a id="copyURL" className="text-sm text-seqblue hover:text-seqorange copy-URL cursor-pointer py-0.5 px-0.5" onClick={this.copyURL}>  
-                                <i className="fa fa-copy"></i> Copy URL to clipboard  
-                            </a>  
-                            <div id="tooltip" className="absolute left-1/2 transform -translate-x-1/2 -translate-y-full w-32 bg-black text-white text-center text-xs rounded py-1">  
-                                copied!  
-                            </div>  
+                        <li className="hover:text-seqorange hover:bg-gray-200">
+                            <a id="copyURL" className="flex text-sm text-seqblue hover:text-seqorange copy-URL cursor-pointer py-0.5 px-0.5 w-full" onClick={this.copyURL}>
+                                <div className="relative flex gap-2 items-center group w-full">
+                                    <i className="fa fa-copy"></i>
+                                    <div className="flex items-center">
+                                        <span className="w-full">Copy URL to clipboard</span>
+                                        <div id="tooltip" className="absolute hidden left-full ml-2 items-center">
+                                            <div className="flex items-center">
+                                                <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                                <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                    Copied!
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </li>
                     }
                     {!this.props.cloudSharingEnabled &&
@@ -431,23 +445,23 @@ export default class extends Component {
                     }
                     {this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
-                        <button className="flex text-sm text-seqblue hover:text-seqorange cloud-Post cursor-pointer py-0.5 px-0.5 w-full" onClick={this.shareCloudInit}>
-                            <div className="relative flex gap-2 items-center group w-full">
-                                <i className="fa fa-cloud"></i>
-                                <div className="flex items-center">
-                                    <span className="w-full">Share to cloud</span>
-                                    <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
-                                        <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                        <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
-                                            Results in pairwise format
-                                            Upload results to SequenceServer Cloud where it will become accessable
-                                            to everyone who has a link.
-                                        </span>
+                            <button className="flex text-sm text-seqblue hover:text-seqorange cloud-Post cursor-pointer py-0.5 px-0.5 w-full" onClick={this.shareCloudInit}>
+                                <div className="relative flex gap-2 items-center group w-full">
+                                    <i className="fa fa-cloud"></i>
+                                    <div className="flex items-center">
+                                        <span className="w-full">Share to cloud</span>
+                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
+                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                Results in pairwise format
+                                                Upload results to SequenceServer Cloud where it will become accessable
+                                                to everyone who has a link.
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </button>
-                    </li>
+                            </button>
+                        </li>
                     }
                 </ul>
                 {
