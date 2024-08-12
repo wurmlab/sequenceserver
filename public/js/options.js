@@ -110,10 +110,6 @@ export class Options extends Component {
     }
 
     advancedParamsJSX() {
-        if (this.state.paramsMode !== 'advanced') {
-            return null;
-        }
-
         let classNames = 'flex-grow block px-4 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base font-mono';
 
         if (this.state.textValue) {
@@ -121,7 +117,7 @@ export class Options extends Component {
         }
 
         return(
-            <div className="w-full">
+             <div className={this.state.paramsMode !== 'advanced' ? 'w-full hidden' : 'w-full'}>
                 <div className="flex items-end">
                     <label className="flex items-center" htmlFor="advanced">
                         Advanced parameters
