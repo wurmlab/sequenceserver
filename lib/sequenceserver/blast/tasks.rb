@@ -6,7 +6,7 @@ module SequenceServer
 
       def self.to_h
         @to_h ||= ALGORITHMS.map do |algorithm|
-          help_text = `#{algorithm} -help`
+          help_text, = SequenceServer.sys("#{algorithm} -help", path: SequenceServer.config[:bin])
           [algorithm, extract_tasks(help_text)]
         end.to_h
       end
