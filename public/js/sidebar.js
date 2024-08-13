@@ -426,7 +426,7 @@ export default class extends Component {
                     {!this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
                             <a id="sendEmail" className="text-sm text-seqblue email-URL cursor-pointer py-0.5 px-0.5"
-                                href={asMailftoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
+                                href={asMailtoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
                                 target="_blank" rel="noopener noreferrer">
                                 <div className="relative flex gap-2 items-center group w-full">
                                     <i className="fa fa-envelope"></i>
