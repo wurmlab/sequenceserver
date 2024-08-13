@@ -258,7 +258,7 @@ describe 'Search and results', type: :feature, js: true do
     expect(File.basename(downloaded_file)).to eq('sequenceserver-xml_report.xml')
     clear_downloads
 
-    page.click_link('Full Pairwise report')
+    page.click_link('Full Text report')
     wait_for_download
     expect(File.basename(downloaded_file)).to eq('sequenceserver-pairwise_report.txt')
     clear_downloads
