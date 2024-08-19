@@ -69,13 +69,13 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     page.first('.kablammo .export-to-png').click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_1099170394_ref_XP_018868681_1.png')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_sp_P04637_P53_HUMAN_gi_1099170394_ref_XP_018868681_1.png')
 
     clear_downloads
 
     page.first('.kablammo .export-to-svg').click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_1099170394_ref_XP_018868681_1.svg')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_sp_P04637_P53_HUMAN_gi_1099170394_ref_XP_018868681_1.svg')
     page.should have_content('BLASTP')
   end
 
@@ -182,13 +182,13 @@ describe 'report generated from imported XML',type: :feature, js: true do
     # compare the downloaded content.
     page.first('.kablammo .export-to-png').click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.png')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_MH011443_1_gi_1486783307_gb_AYF55702_1.png')
 
     clear_downloads
 
     page.first('.kablammo .export-to-svg').click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783307_gb_AYF55702_1.svg')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_MH011443_1_gi_1486783307_gb_AYF55702_1.svg')
     page.should have_content('BLASTX')
   end
 
@@ -288,7 +288,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     page.first(".kablammo .export-to-png").click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.png')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_MH011443_1_gi_1486783306_gb_MH011443_1.png')
 
     clear_downloads
 
@@ -297,7 +297,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     page.first(".kablammo .export-to-svg").click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.svg')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_MH011443_1_gi_1486783306_gb_MH011443_1.svg')
     page.should have_content('BLASTN')
   end
 
@@ -396,7 +396,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     page.first('.kablammo .export-to-png').click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_395440626_gb_JQ694049_1.png')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_sp_P04637_P53_HUMAN_gi_395440626_gb_JQ694049_1.png')
 
     clear_downloads
 
@@ -405,7 +405,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     page.first('.kablammo .export-to-svg').click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-sp_P04637_P53_HUMAN-gi_395440626_gb_JQ694049_1.svg')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_sp_P04637_P53_HUMAN_gi_395440626_gb_JQ694049_1.svg')
     page.should have_content('TBLASTN')
   end
 
@@ -507,7 +507,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     page.first('.kablammo .export-to-png').click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.png')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_MH011443_1_gi_1486783306_gb_MH011443_1.png')
 
     clear_downloads
 
@@ -516,7 +516,7 @@ describe 'report generated from imported XML',type: :feature, js: true do
 
     page.first('.kablammo .export-to-svg').click
     wait_for_download
-    expect(File.basename(downloaded_file)).to eq('Kablammo-MH011443_1-gi_1486783306_gb_MH011443_1.svg')
+    expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_MH011443_1_gi_1486783306_gb_MH011443_1.svg')
     page.should have_content('TBLASTX')
   end
 
