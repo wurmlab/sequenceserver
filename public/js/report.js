@@ -133,7 +133,6 @@ class Report extends Component {
    */
     componentDidMount() {
         this.fetchResults();
-        this.plugins.init();
         // This sets up an event handler which enables users to select text from
         // hit header without collapsing the hit.
         this.preventCollapseOnSelection();
