@@ -15,7 +15,7 @@ class Hits extends Component {
         this.nextQuery = 0;
         this.nextHit = 0;
         this.nextHSP = 0;
-        this.maxHSPs = 3; // max HSPs to render in a cycle
+        this.maxHSPs = 10; // max HSPs to render in a cycle
         this.state = props.state;
         this.state.pluginResults = [];
         this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
@@ -93,7 +93,7 @@ class Hits extends Component {
             var query = this.state.queries[this.nextQuery];
 
             // We may see a query multiple times during rendering because only
-            // 3 hsps are rendered in each cycle, but we want to create the
+            // 10 hsps are rendered in each cycle, but we want to create the
             // corresponding Query component only the first time we see it.
             if (this.nextHit == 0 && this.nextHSP == 0) {
                 results.items.push(this.renderReportQuery(query));
