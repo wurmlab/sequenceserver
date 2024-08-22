@@ -404,12 +404,12 @@ describe 'Search and results', type: :feature, js: true do
     within('#Query_1_hit_1 .kablammo.grapher') do
       page.click_on('SVG')
       wait_for_download
-      expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.svg')
+      expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_Query_1_SI2_2_0_06267.svg')
       clear_downloads
 
       page.click_on('PNG')
       wait_for_download
-      expect(File.basename(downloaded_file)).to eq('Kablammo-Query_1-SI2_2_0_06267.png')
+      expect(File.basename(downloaded_file)).to eq('Kablammo_query-1_Query_1_SI2_2_0_06267.png')
       clear_downloads
     end
   end

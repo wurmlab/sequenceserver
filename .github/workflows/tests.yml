@@ -75,7 +75,7 @@
 
         - name: Run main specs and import spec for BLAST 2.9.0+
           id: rspec_tests
-          run: bundle exec rspec spec/*_spec.rb spec/blast_versions/blast_2.9.0/*
+          run: bundle exec rspec spec
           continue-on-error: true
 
         - name: upload rspec coverage report
