@@ -15,13 +15,26 @@ class Hits extends Component {
         this.nextQuery = 0;
         this.nextHit = 0;
         this.nextHSP = 0;
-        this.maxHSPs = 3; // max HSPs to render in a cycle
+        this.maxHSPs = 10; // max HSPs to render in a cycle
         this.state = props.state;
+        this.state.pluginResults = [];
         this.prepareAlignmentOfSelectedHits = this.prepareAlignmentOfSelectedHits.bind(this);
     }
 
     componentDidMount() {
+        this.props.plugins.init(this.onPluginResultsFetched.bind(this));
         this.componentDidUpdate(this.props, this.state);
+    }
+
+    onPluginResultsFetched(pluginResults) {
+        this.setState({ pluginResults: pluginResults });
+    }
+
+    replacePluginResults(pluginResults) {
+        if (!pluginResults) return;
+
+        const updatedResults = this.props.plugins.replacePluginResults(this.state.results, pluginResults);
+        this.setState({ results: updatedResults, pluginResults: pluginResults });
     }
 
     /**
@@ -30,12 +43,12 @@ class Hits extends Component {
     * and circos would have been rendered at this point. At this stage we kick
     * start iteratively adding 1 HSP to the page every 25 milli-seconds.
     */
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(_prevProps, prevState) {
         // Log to console how long the last update take?
         // console.log((Date.now() - this.lastTimeStamp) / 1000);
 
         // Lock sidebar in its position on the first update.
-        if (this.nextQuery == 0 && this.nextHit == 0 && this.nextHSP == 0) {
+        if (this.isFirstUpdate()) {
             this.affixSidebar();
         }
 
@@ -49,7 +62,13 @@ class Hits extends Component {
             this.props.componentFinishedUpdating();
         }
 
-        this.props.plugins.componentDidUpdate(prevProps, prevState);
+        if (this.state.pluginResults.length > 0 && prevState.pluginResults.length == 0) {
+            this.replacePluginResults(this.state.pluginResults);
+        }
+    }
+
+    isFirstUpdate() {
+        return this.nextQuery == 0 && this.nextHit == 0 && this.nextHSP == 0;
     }
 
     /* eslint complexity: ["error", 6] */
@@ -74,15 +93,15 @@ class Hits extends Component {
             var query = this.state.queries[this.nextQuery];
 
             // We may see a query multiple times during rendering because only
-            // 3 hsps are rendered in each cycle, but we want to create the
+            // 10 hsps are rendered in each cycle, but we want to create the
             // corresponding Query component only the first time we see it.
             if (this.nextHit == 0 && this.nextHSP == 0) {
                 results.items.push(this.renderReportQuery(query));
-                results.items.push(...this.props.plugins.queryResults(query));
+                results.items.push(this.props.plugins.queryResult(query, this.state.pluginResults));
             }
 
             this.processHits(results, query);
-            this.itterateLoops(['nextQuery', 'nextHit'], query.hits.length);
+            this.iterateLoops(['nextQuery', 'nextHit'], query.hits.length);
             if (results.numHSPsProcessed == this.maxHSPs) break;
         }
     }
@@ -91,12 +110,12 @@ class Hits extends Component {
         while (this.nextHit < query.hits.length) {
             var hit = query.hits[this.nextHit];
             // We may see a hit multiple times during rendering because only
-            // 10 hsps are rendered in each cycle, but we want to create the
+            // 3 hsps are rendered in each cycle, but we want to create the
             // corresponding Hit component only the first time we see it.
             if (this.nextHSP == 0) results.items.push(this.renderHit(query, hit));
 
             this.processHSPS(results, query, hit);
-            this.itterateLoops(['nextHit', 'nextHSP'], hit.hsps.length);
+            this.iterateLoops(['nextHit', 'nextHSP'], hit.hsps.length);
             if (results.numHSPsProcessed == this.maxHSPs) break;
         }
     }
@@ -116,7 +135,7 @@ class Hits extends Component {
     /*
     *  this function check if 2nd argument is reach end of it
     */
-    itterateLoops(args, length) {
+    iterateLoops(args, length) {
         if (this[args[1]] != length) return;
 
         this[args[0]]++;
