@@ -89,7 +89,7 @@ export default class SequenceModal extends React.Component {
 
   resultsJSX() {
     return (
-      <div className="mt-2 text-sm">
+      <div className="p-6 mt-2 text-sm">
         {this.state.error_msgs.map((error_msg, index) => (
           <div key={`error-message-${index}`} className="fastan">
             <div className="section-header border-b border-seqorange pl-px table w-full pb-2">

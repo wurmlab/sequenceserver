@@ -31,12 +31,12 @@ export default class ErrorModal extends React.Component {
                                         <i className="fa-solid fa-xmark align-bottom"></i>
                                     </span>
                                 </div>
-                                <div className="mt-2 text-sm">
+                                <div className="p-6 mt-2 text-sm">
                                     <p dangerouslySetInnerHTML={{ __html: this.state.errorData.message}}></p>
 
                                     {
                                         this.state.errorData.more_info &&
-                                            <pre className="pre-scrollable">
+                                            <pre className="p-2 bg-slate-200 overflow-auto max-h-56">
                                                 {this.state.errorData.more_info}
                                             </pre>
                                     }
