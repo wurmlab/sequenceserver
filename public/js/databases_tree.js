@@ -59,15 +59,18 @@ export default class extends Databases {
         // Panel name and column width.
         var panelTitle = category[0].toUpperCase() +
             category.substring(1).toLowerCase() + ' databases';
-        var columnClass = this.categories().length === 1 ? 'col-md-12' :
-            'col-md-6';
+        var columnClass = this.categories().length === 1 ? 'col-span-2' : '';
 
         // Toggle button.
         var toggleState = '[Select all]';
-        var toggleClass = 'btn-link';
+        var toggleClass = 'px-2 text-sm';
         var toggleShown = this.databases(category).length > 1;
         var toggleDisabled = this.state.type && this.state.type !== category;
-        if (toggleShown && toggleDisabled) toggleClass += ' disabled';
+        if (toggleShown && toggleDisabled) {
+            toggleClass += ' text-gray-400';
+        } else {
+            toggleClass += ' text-seqblue';
+        }
         if (!toggleShown) toggleClass += ' hidden';
         if (this.nselected() === this.databases(category).length) {
             toggleState = '[Deselect all]';
@@ -76,22 +79,29 @@ export default class extends Databases {
         // JSX.
         return (
             <div className={columnClass} key={'DB_' + category}>
-                <div className='panel panel-default' id='database_list'>
-                    <div className='panel-heading'>
-                        <h4 style={{ display: 'inline' }}>{panelTitle}</h4> &nbsp;&nbsp;
+                <div>
+                    <div className="border-b border-seqorange mb-2" id="database_list">
+                        <h4 style={{ display: 'inline' }} className="font-medium">{panelTitle}</h4>
                         {
                             this.renderDatabaseSearch(category)
                         }
-                        <button type='button' className={toggleClass} disabled={toggleDisabled} style={{ display: 'none' }}
-                            onClick={function () { this.handleToggle(toggleState, category); }.bind(this)}>
+                        <button
+                            type="button"
+                            className={toggleClass}
+                            disabled={toggleDisabled}
+                            style={{ display: 'none' }}
+                            onClick={function () {
+                                this.handleToggle(toggleState, category);
+                            }.bind(this)}
+                        >
                             {toggleState}
                         </button>
                     </div>
-                    <ul className={'list-group databases ' + category} style={{ display: 'none' }}>
+                    <ul className={'databases ' + category} style={{ display: 'none' }}>
                         {
                             _.map(this.databases(category), _.bind(function (database, index) {
                                 return (
-                                    <li className='list-group-item' key={'DB_' + category + index}>
+                                    <li key={'DB_' + category + index}>
                                         {this.renderDatabase(database)}
                                     </li>
                                 );

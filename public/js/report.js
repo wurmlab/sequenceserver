@@ -230,7 +230,7 @@ class Report extends Component {
                             })}
                         </p>
                         <p>
-                            <a href={location.pathname + '?bypass_file_size_warning=true'} className="btn btn-primary">
+                            <a href={location.pathname + '?bypass_file_size_warning=true'} className="py-2 px-3 border border-transparent rounded-md shadow-sm text-white bg-seqblue hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange">
                                 View results in browser anyway
                             </a>
                         </p>
