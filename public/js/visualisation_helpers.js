@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import d3 from 'd3';
+import * as d3 from 'd3';
 export function get_colors_for_evalue(evalue, hits) {
     var colors = d3.scale
         .log()
@@ -22,6 +22,13 @@ export function toLetters(num) {
         pow = num / 26 | 0,
         out = mod ? String.fromCharCode(96 + mod) : (--pow, 'z');
     return pow ? toLetters(pow) + out : out;
+}
+
+export function getPrefix(str) {
+    if (str.length === 0) return '';
+
+    var lastChar = str.charAt(str.length - 1);
+    return /[a-zA-Z]/.test(lastChar) ? lastChar : '';
 }
 
 /**

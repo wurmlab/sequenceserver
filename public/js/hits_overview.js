@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import * as d3 from 'd3';
 import _ from 'underscore';
 import Grapher from 'grapher';
 import * as Helpers from './visualisation_helpers';

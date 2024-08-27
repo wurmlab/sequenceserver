@@ -1,5 +1,5 @@
-import d3 from 'd3';
-import Circos from '../packages/circosJS@1.7.0';
+import * as d3 from 'd3';
+import Circos from './circosjs';
 import _ from 'underscore';
 
 import Grapher from 'grapher';
@@ -37,52 +37,77 @@ class Graph {
         this.svgContainer = $svgContainer;
         this.seq_type = Helpers.get_seq_type(props.program);
         this.algorithm = props.program;
-        this.initiate();
-    }
-
-    initiate() {
-    // this.width = 700;
+        // Initialize dimensions
         this.width = this.svgContainer.width();
         this.height = 600;
-        this.innerRadius = 200;
+        this.innerRadius = 210;
         this.outerRadius = 230;
+
+        // Initialize data arrays
         this.query_arr = [];
         this.hit_arr = [];
         this.layout_arr = [];
         this.chords_arr = [];
-        // this.max_length = 0;
+
+        // Initialize other properties
         this.hsp_count = 50;
         this.denominator = 1;
         this.spacing = 20;
         this.labelSpacing = 10;
+        this.initiate();
+    }
+
+    initiate() {
+        // Define suffixes
         var suffixes = { amino_acid: 'aa', nucleic_acid: 'bp' };
+
+        // Call initialization methods
         this.construct_layout();
         this.iterator_for_edits();
+
+        // Remove duplicate hits
         this.hit_arr = _.uniq(this.hit_arr);
+
+        // Handle spacing
         this.handle_spacing();
-        var prefix = d3.formatPrefix(this.max_length);
-        this.suffix =
-      ' ' + prefix.symbol + suffixes[this.seq_type.subject_seq_type];
-        if (prefix.symbol == 'k') {
-            this.denominator = 1000;
-        } else if (prefix.symbol == 'M') {
-            this.denominator = 1000000;
-            this.spacing = 1000000;
-            this.labelSpacing = 200000;
-        } else if (prefix.symbol == 'g') {
-            this.denominator = 1000000000;
+
+        // Determine the prefix and suffix
+        var prefix = Helpers.getPrefix(d3.format('~s')(this.max_length));
+        this.suffix = ' ' + prefix + suffixes[this.seq_type.subject_seq_type];
+
+        // Set denominator and spacing based on prefix
+        switch (prefix) {
+            case 'k':
+                this.denominator = 1_000;
+                break;
+            case 'M':
+                this.denominator = 1_000_000;
+                this.spacing = 1_000_000;
+                this.labelSpacing = 200_000;
+                break;
+            case 'g':
+                this.denominator = 1_000_000_000;
+                break;
         }
+
+        // Insert the circos container
         d3.select(this.svgContainer[0])
-            .insert('svg', ':first-child')
+            .insert('div', ':first-child')
             .attr('class', 'circosContainer');
+
+        // Create the instance
         this.create_instance(this.svgContainer, this.width, this.height);
+
+        // Render the instance or show an error
         if (this.chords_arr.length && this.layout_arr.length) {
             this.instance_render();
         } else {
             this.render_error();
         }
+
+        // Setup the tooltip
         this.setupTooltip();
-    // this.drawLegend();
+        // this.drawLegend();
     }
 
     iterator_for_edits() {
@@ -94,71 +119,64 @@ class Graph {
 
     // Generate both layout_arr and chords_arr with top hsps set by this.hsp_count
     construct_layout() {
-        var hsp_count = 0;
-        var query_count = 0;
         var num_karyotype = 32;
         var num_queries = this.queries.length;
         var x = Math.min(num_karyotype / 2, num_queries);
         var num_hits = (num_karyotype - x) / x;
         this.new_layout = [];
-        this.data = _.map(
-            this.queries,
-            _.bind(function (query) {
-                if (query_count < x) {
-                    var label = query.id;
-                    var len = query.length;
-                    var item1 = {
-                        len: len,
-                        color: '#8dd3c7',
-                        label: label,
-                        id: 'Query_' + this.clean_id(query.id),
-                        ori_id: label,
-                    };
-                    this.layout_arr.push(item1);
-                    var hit_details = _.map(
-                        query.hits,
-                        _.bind(function (hit) {
-                            if (hit.number < num_hits) {
-                                var hsp_details = _.map(
-                                    hit.hsps,
-                                    _.bind(function (hsp) {
-                                        if (_.indexOf(this.hit_arr, hit.id) == -1) {
-                                            var label = hit.id;
-                                            var len = hit.length;
-                                            this.hit_arr.push(hit.id);
-                                            var item2 = {
-                                                len: len,
-                                                color: '#80b1d3',
-                                                label: label,
-                                                id: 'Hit_' + this.clean_id(hit.id),
-                                                ori_id: label,
-                                            };
-                                            this.layout_arr.push(item2);
-                                        }
+        this.data = _.map(this.queries, _.bind(this.processQuery, this, x, num_hits));
+    }
 
-                                        var item3 = [
-                                            'Query_' + this.clean_id(query.id),
-                                            hsp.qstart,
-                                            hsp.qend,
-                                            'Hit_' + this.clean_id(hit.id),
-                                            hsp.sstart,
-                                            hsp.send,
-                                            hit.number,
-                                            hsp,
-                                        ];
-                                        this.chords_arr.push(item3);
-                                        return hsp;
-                                    }, this)
-                                );
-                                return hit;
-                            }
-                        }, this)
-                    );
-                }
-                this.query_arr.push(query.id);
-                return query;
-            }, this)
-        );
+    processQuery(x, num_hits, query) {
+        if (this.query_arr.length < x) {
+            var label = query.id;
+            var len = query.length;
+            var item1 = {
+                len: len,
+                color: '#8dd3c7',
+                label: label,
+                id: 'Query_' + this.clean_id(query.id),
+                ori_id: label,
+            };
+            this.layout_arr.push(item1);
+            _.map(query.hits, _.bind(this.processHit, this, num_hits, query));
+        }
+        this.query_arr.push(query.id);
+        return query;
+    }
+
+    processHit(num_hits, query, hit) {
+        if (hit.number < num_hits) {
+            if (_.indexOf(this.hit_arr, hit.id) == -1) {
+                var label = hit.id;
+                var len = hit.length;
+                this.hit_arr.push(hit.id);
+                var item2 = {
+                    len: len,
+                    color: '#80b1d3',
+                    label: label,
+                    id: 'Hit_' + this.clean_id(hit.id),
+                    ori_id: label,
+                };
+                this.layout_arr.push(item2);
+            }
+            _.map(hit.hsps, _.bind(this.processHSP, this, query, hit));
+        }
+        return hit;
+    }
+
+    processHSP(query, hit, hsp) {
+        this.chords_arr.push([
+            'Query_' + this.clean_id(query.id),
+            hsp.qstart,
+            hsp.qend,
+            'Hit_' + this.clean_id(hit.id),
+            hsp.sstart,
+            hsp.send,
+            hit.number,
+            hsp,
+        ]);
+        return hsp;
     }
 
     // rearraging hit and query karyotypes to have all query in one place
@@ -349,7 +367,6 @@ class Graph {
             this.paletteSize = this.chords_arr.length;
         }
         return {
-            usePalette: true,
             colorPaletteSize: this.paletteSize,
             // color: 'rgb(0,0,0)',
             colorPalette: 'RdYlBu', // colors of chords based on last value in chords
