@@ -91,7 +91,7 @@ export class Options extends Component {
                             let description = config.description || textValue;
 
                             return (
-                                <label key={index} className={`block w-full px-2 py-1 text-seqblue hover:bg-gray-200 hover: text-seqorange cursor-pointer`}>
+                                <label key={index} className={`block w-full px-2 py-1 text-seqblue hover:bg-gray-200 hover:text-seqorange cursor-pointer`}>
                                     <input
                                         type="radio"
                                         name="predefinedOption"
