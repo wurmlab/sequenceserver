@@ -82,14 +82,6 @@ a.disabled:hover,
 }
 
 /**
- * Set max-width and font-family on tooltips.
- */
-.tooltip-inner {
-  max-width: 350px;
-  font-family: "Source sans pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-/**
  * Do not wrap text or show horizontal scrollbar if text overflows the width of
  * the element. Show ellipsis instead.
  */
@@ -164,22 +156,6 @@ td.nowrap-ellipsis {
 /* higlight when hit is selected */
 .glow {
   border-left: 2px solid #c74f14;
-}
-
-.btn-primary {
-  background-color: #1b557a;
-  border-color: #174465;
-}
-
-.btn-primary:hover {
-  background-color: #174465;
-  border-color: #174465;
-}
-
-.btn-primary:disabled,
-.btn-primary[disabled]:hover {
-  background-color: #881c14;
-  border-color: #881c14;
 }
 
 /* CSS class to facilitate the hit header wrapping */

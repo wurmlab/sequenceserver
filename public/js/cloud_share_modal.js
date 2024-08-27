@@ -148,9 +148,14 @@ export default class CloudShareModal extends React.Component {
           </label>
         </div>
         <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-          <button type="submit" className="btn btn-primary py-2 px-3 rounded-md text-white" disabled={isSubmitDisabled}>
+        <button  
+            type="submit"  
+            style={{ backgroundColor: isSubmitDisabled ? '#C74F13' : '#1B557A' }}  
+            className='border-seqblue py-2 px-3 rounded-md text-white'  
+            disabled={isSubmitDisabled}  
+        >  
             Submit
-          </button>
+        </button>
         </div>
       </form>
     )
