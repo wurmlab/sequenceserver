@@ -35,7 +35,7 @@ module SequenceServer
       # e.g. for example.org/our-sequenceserver set to '/our-sequenceserver'
       set :root_path_prefix, ''
 
-      set :search_layout, :'search_layout'
+      set :layout, :'layout'
     end
 
     # See
@@ -86,7 +86,7 @@ module SequenceServer
 
     # Returns base HTML. Rest happens client-side: rendering the search form.
     get '/' do
-      erb :search, layout: settings.search_layout
+      erb :search, layout: settings.layout
     end
 
     # Returns data that is used to render the search form client side. These
@@ -113,7 +113,7 @@ module SequenceServer
     post '/' do
       if params[:input_sequence]
         @input_sequence = params[:input_sequence]
-        erb :search, layout: settings.search_layout
+        erb :search, layout: settings.layout
       else
         job = Job.create(params)
         redirect to("/#{job.id}")
@@ -143,7 +143,7 @@ module SequenceServer
       job = Job.fetch(jid)
       halt 404, File.read(File.join(settings.root, 'public/404.html')) if job.nil?
 
-      erb :report, layout: true
+      erb :report, layout: settings.layout
     end
     # @params sequence_ids: whitespace separated list of sequence ids to
     # retrieve
