@@ -2,6 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+}
+
+/* TBU: Graph */
+.grapher {
+  @apply m-0;
+}
+
+svg text {
+  @apply text-[10px];
+  font-family: "Source sans pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+svg .axis path,
+.axis line {
+  @apply fill-none stroke-[black];
+  shape-rendering: crispEdges;
+}
+
+.grapher.circos .caption {
+  @apply text-base font-bold p-0;
+}
+
+.alignment-overview.svg-container {
+  @apply text-center;
+}
+
+.length-distribution.svg-container,
+.kablammo.svg-container {
+  @apply h-[150px];
+}
+
+svg .bar:hover {
+  @apply fill-[orangered];
+}
+
+.polygon:hover {
+  @apply font-bold;
+}
 
 /* Backported bootstrap tooltip styles */
 
@@ -118,4 +160,28 @@
   height: 0;
   border-color: transparent;
   border-style: solid;
+}
+
+/* sidebar */
+.sidebar.affix {
+  margin-top: 0;
+  top: 0;
+}
+
+.affix {
+  position: fixed;
+}
+
+@media (min-width: 992px) {
+  /* MacBook Pro etc. */
+  .sidebar.affix {
+    width: 212.5px;
+  }
+}
+
+@media (min-width: 1200px) {
+  /* iMac etc. */
+  .sidebar.affix {
+    width: 262.5px;
+  }
 }

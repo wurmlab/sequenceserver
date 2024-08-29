@@ -154,12 +154,12 @@ class Report extends Component {
     loadingJSX() {
         return (
             <div className="grid grid-cols-6 gap-4">
-                <div className="col-start-1 col-end-7 text-center">
+                <div className="col-start-1 col-end-7 text-center pt-3">
                     <h1 className="mb-8 text-4xl">
                         <i className="fa fa-cog fa-spin"></i>&nbsp; BLAST-ing
                     </h1>
                     <div className="mb-5 w-full">
-                        <p className="m-auto w-6/12 text-sm">This can take some time depending on the size of your query and
+                        <p className="m-auto w-full md:w-6/12 text-sm">This can take some time depending on the size of your query and
                         database(s). The page will update automatically when BLAST is done.</p>
                     </div>
                     <p className="mb-9 text-sm">
@@ -180,8 +180,8 @@ class Report extends Component {
    */
     resultsJSX() {
         return (
-            <div className="grid grid-cols-4 gap-4" id="results">
-                <div className="col-span-1">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4" id="results">
+                <div className="hidden md:col-span-1 md:block">
                     <Sidebar
                         data={this.state}
                         atLeastOneHit={this.atLeastOneHit()}
@@ -190,7 +190,7 @@ class Report extends Component {
                         cloudSharingEnabled={this.state.cloud_sharing_enabled}
                     />
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-1 md:col-span-3">
                     {this.overviewJSX()}
                     {this.circosJSX()}
                     {this.plugins.generateStats(this.state.queries)}

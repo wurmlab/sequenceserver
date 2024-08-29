@@ -208,7 +208,7 @@ export default class extends Component {
         var rootURL = path.join('/');
         return (
             <div className="sidebar-top-panel">
-                <div className="pl-px table w-full">
+                <div className="pl-px table mb-0 w-full">
                     <h4 className="text-sm font-bold mb-0">
                         {this.summaryString()}
                     </h4>
@@ -261,10 +261,10 @@ export default class extends Component {
         </div>;
     }
     indexJSX() {
-        return <ul> {
+        return <ul className="w-full"> {
             _.map(this.props.data.queries, (query) => {
                 return <li key={'Side_bar_' + query.id}>
-                    <a className="text-sm text-seqblue hover:text-seqorange focus:text-seqorange active: text-seqorange cursor-pointer nowrap-ellipsis hover-bold"
+                    <a className="text-sm text-seqblue hover:text-seqorange focus:text-seqorange active:text-seqorange cursor-pointer hover-bold line-clamp-1"
                         title={'Query= ' + query.id + ' ' + query.title}
                         href={'#Query_' + query.number}>
                         {'Query= ' + query.id}
@@ -278,7 +278,7 @@ export default class extends Component {
     downloadsPanelJSX() {
         return (
             <div className="downloads">
-                <div className="pl-px table w-full">
+                <div className="pl-px table mb-0 w-full">
                     <h4 className="text-sm font-bold mb-0">
                         Download FASTA, XML, TSV
                     </h4>
@@ -288,7 +288,7 @@ export default class extends Component {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className={`${!this.props.atLeastOneHit ? 'cursor-not-allowed' : 'hover:bg-gray-200'}`}>  
                             <a
                                 href="#" 
-                                className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}   
+                                className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit ? 'text-gray-400 cursor-not-allowed pointer-events-none' : ''}`}   
                                 onClick={this.props.atLeastOneHit ? this.downloadFastaOfAll : (e) => e.preventDefault()}>  
                                     FASTA of all hits  
                             </a>  
@@ -298,19 +298,19 @@ export default class extends Component {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
                             <a
                                 href="#"
-                                className="text-sm text-seqblue download-fasta-of-selected disabled py-0.5 px-0.5"
+                                className="text-sm download-fasta-of-selected text-gray-400 cursor-not-allowed pointer-events-none py-0.5 px-0.5"
                                 onClick={this.downloadFastaOfSelected}>
                                 FASTA of <span className="text-bold"></span> selected hit(s)
                             </a>
                         </li>
                     }
-                    <li className={`${!this.props.atLeastOneHit ? 'cursor-not-allowed' : 'hover:bg-gray-200'}`}>
-                        <a href="#" className={`text-sm text-seqblue download-alignment-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}>
-                            Alignment of all hits
-                        </a>
+                    <li className={`${!this.props.atLeastOneHit ? 'cursor-not-allowed' : 'hover:bg-gray-200'}`}>  
+                        <a href="#" className={`text-sm text-seqblue download-alignment-of-all hover:text-seqorange py-0.5 px-0.5 ${!this.props.atLeastOneHit ? 'text-gray-400 cursor-not-allowed pointer-events-none' : ''}`}>  
+                            Alignment of all hits  
+                        </a>  
                     </li>
                     <li>
-                        <a href="#" className="text-sm text-seqblue download-alignment-of-selected disabled py-0.5 px-0.5">
+                        <a href="#" className="text-sm download-alignment-of-selected text-gray-400 cursor-not-allowed pointer-events-none py-0.5 px-0.5">
                             Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
@@ -397,7 +397,7 @@ export default class extends Component {
     sharingPanelJSX() {
         return (
             <div className="sharing-panel">
-                <div className="pl-px table w-full">
+                <div className="pl-px table mb-0 w-full">
                     <h4 className="text-sm font-bold mb-0">
                         Share results
                     </h4>
@@ -483,7 +483,7 @@ export default class extends Component {
                 {this.downloadsPanelJSX()}
                 {this.sharingPanelJSX()}
                 <div className="referral-panel">
-                    <div className="pl-px table w-full text-sm">
+                    <div className="pl-px table mb-0 w-full text-sm">
                         <h4 className="font-bold mb-0">Recommend SequenceServer</h4>
                         <p><a href="https://sequenceserver.com/referral-program" target="_blank" className="text-seqblue hover:text-seqorange">Earn up to $400 per signup</a></p>
                     </div>
