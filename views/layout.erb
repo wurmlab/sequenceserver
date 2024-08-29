@@ -9,10 +9,12 @@
   <meta name="description" content="Custom BLAST server provided by SequenceServer (https://sequenceserver.com)"/>
   <%= Rack::Csrf.metatag(env) %>
   <link rel="stylesheet" media="screen,print" type="text/css" href="css/app.min.css"/>
+  <link rel="stylesheet" type="text/css" href="css/grapher.css">
+  <link rel="stylesheet" type="text/css" href="css/fonts.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body>
+<body class="text-black relative">
   <header id="header" class="border-b border-seqorange">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-none items-center">
@@ -103,52 +105,51 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        function suggestNewVersion(element, version) {
-            element.textContent = `New version v${version} is available`;
-            console.log(`New SequenceServer version available ${version}. Please consider updating.`)
-        }
+      function suggestNewVersion(element, version) {
+        element.textContent = `New version v${version} is available`;
+        console.log(`New SequenceServer version available ${version}. Please consider updating.`)
+      }
 
-        const element = document.querySelector('[data-update-check]');
-        const currentVersion = element.getAttribute('data-version');
-        const cachedVersion = document.cookie.split(';').find((item) => item.trim().startsWith('newVersion='));
-        const upToDate = document.cookie.split(';').find((item) => item.trim().startsWith('versionIsLatest='));
-        if (upToDate) {
+      const element = document.querySelector('[data-update-check]');
+      const currentVersion = element.getAttribute('data-version');
+      const cachedVersion = document.cookie.split(';').find((item) => item.trim().startsWith('newVersion='));
+      const upToDate = document.cookie.split(';').find((item) => item.trim().startsWith('versionIsLatest='));
+      if (upToDate) {
+        console.log('SequenceServer is up to date');
+        return;
+      }
+      if (cachedVersion) {
+        const newVersion = cachedVersion.split('=')[1];
+        if (newVersion !== currentVersion) {
+          suggestNewVersion(element, newVersion);
+        }
+        return;
+      }
+      console.log('Checking for new SequenceServer version...')
+      fetch(`https://updates.sequenceserver.com/?version=${currentVersion}`)
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            console.error('Failed to check for new SequenceServer version')
+          }
+        })
+        .then(data => {
+          const date = new Date();
+          date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+          const expires = "; expires=" + date.toUTCString();
+
+          if (data.update_available) {
+            const newVersion = data.new_version;
+            document.cookie = `newVersion=${newVersion}${expires}; path=/`;
+            suggestNewVersion(element, newVersion);
+          } else {
             console.log('SequenceServer is up to date');
-            return;
-        }
-        if (cachedVersion) {
-            const newVersion = cachedVersion.split('=')[1];
-            if (newVersion !== currentVersion) {
-              suggestNewVersion(element, newVersion);
-            }
-            return;
-        }
-        console.log('Checking for new SequenceServer version...')
-        fetch(`https://updates.sequenceserver.com/?version=${currentVersion}`)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    console.error('Failed to check for new SequenceServer version')
-                }
-            })
-            .then(data => {
-                const date = new Date();
-                date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
-                const expires = "; expires=" + date.toUTCString();
-
-                if (data.update_available) {
-                    const newVersion = data.new_version;
-                    document.cookie = `newVersion=${newVersion}${expires}; path=/`;
-                    suggestNewVersion(element, newVersion);
-                } else {
-                    console.log('SequenceServer is up to date');
-                    document.cookie = `versionIsLatest=true${expires}; path=/`;
-                }
-            })
-            .catch(() => {});
+            document.cookie = `versionIsLatest=true${expires}; path=/`;
+          }
+        })
+        .catch(() => {});
     });
-
   </script>
 </body>
 </html>

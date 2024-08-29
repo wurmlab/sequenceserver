@@ -119,7 +119,7 @@ export class Options extends Component {
         return(
              <div className={this.state.paramsMode !== 'advanced' ? 'w-full hidden' : 'w-full'}>
                 <div className="flex items-end">
-                    <label className="flex items-center" htmlFor="advanced">
+                    <label className="flex items-center text-lg" htmlFor="advanced">
                         Advanced parameters
                     </label>
 

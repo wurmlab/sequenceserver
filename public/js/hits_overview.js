@@ -87,7 +87,7 @@ class Graph {
             $graphDiv
                 .append(
                     $('<button/>')
-                        .addClass('btn btn-link more')
+                        .addClass('btn btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer more')
                         .attr('type', 'button')
                         .attr('data-parent-query', $queryDiv.attr('id'))
                         .html('View More&nbsp;')
@@ -97,7 +97,7 @@ class Graph {
                                 .addClass('fa fa-angle-double-down')
                         ),
                     $('<button/>')
-                        .addClass('btn btn-link less')
+                        .addClass('btn btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer less')
                         .attr('type', 'button')
                         .attr('data-parent-query', $queryDiv.attr('id'))
                         .html('View Less&nbsp;')

@@ -48,10 +48,10 @@ export class ReportQuery extends Component {
         if (this.props.showQueryCrumbs) {
             meta = `query ${this.props.query.number}, ` + meta;
         }
-        return <div className="section-header border-b border-seqorange pl-px table w-full">
-            <h3 className="text-base">
-                <strong>Query=&nbsp;{this.props.query.id}</strong>&nbsp;
-                {this.props.query.title}
+        return <div className="section-header border-b border-seqorange flex justify-between w-full">
+            <h3 className="text-base cursor-pointer flex items-center">
+                <strong>Query=<span className="ml-1">{this.props.query.id}</span></strong>
+                <span className="ml-1">{this.props.query.title}</span>
             </h3>
             <span className="label text-sm text-right font-normal text-inherit pt-0 px-0">{meta}</span>
         </div>;
@@ -348,7 +348,7 @@ export class SearchQueryWidget extends Component {
                     className="sequence">
                     <textarea
                         id="sequence" ref={this.textareaRef}
-                        className="block w-full p-4 text-gray-900 border border-gray-300 rounded-l-lg rounded-tr-lg bg-gray-50 text-base font-mono"
+                        className="block w-full p-4 text-gray-900 border border-gray-300 rounded-l-lg rounded-tr-lg bg-gray-50 text-base font-mono min-h-[214px] resize-y"
                         name="sequence" value={this.state.value}
                         rows="6"
                         required="required"
@@ -407,46 +407,46 @@ class HitsTable extends Component {
         // column.
         if (this.props.imported_xml) seqwidth += 15;
 
-        return <table
-            className="table table-hover table-condensed tabular-view text-sm">
-            <thead>
-                <tr>
-                    <th className="text-left">#</th>
-                    <th width={`${seqwidth}%`} className="text-left">Similar sequences</th>
-                    {hasName && <th width="15%" className="text-left">Species</th>}
-                    {!this.props.imported_xml && <th width="15%" className="text-right">Query coverage (%)</th>}
-                    <th width="10%" className="text-right">Total score</th>
-                    <th width="10%" className="text-right">E value</th>
-                    <th width="10%" className="text-right">Identity (%)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    _.map(this.props.query.hits, _.bind(function (hit) {
-                        return (
-                            <tr key={hit.number}>
-                                <td className="text-left">{hit.number + '.'}</td>
-                                <td className="nowrap-ellipsis"
-                                    title={`${hit.id} ${hit.title}`}
-                                    data-toggle="tooltip" data-placement="left">
-                                    <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}
-                                        className="btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>
-                                </td>
-                                {hasName &&
-                                    <td className="nowrap-ellipsis" title={hit.sciname}
-                                        data-toggle="tooltip" data-placement="top">
-                                        {hit.sciname}
-                                    </td>
-                                }
-                                {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
-                                <td className="text-right">{hit.total_score}</td>
-                                <td className="text-right">{Utils.inExponential(hit.hsps[0].evalue)}</td>
-                                <td className="text-right">{Utils.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>
-                            </tr>
-                        );
-                    }, this))
-                }
-            </tbody>
+        return <table 
+            className="table table-hover table-condensed tabular-view text-sm min-w-full mb-0">  
+            <thead>  
+                <tr className="border-b">  
+                    <th className="text-left px-2 py-1">#</th>  
+                    <th style={{ width: `${seqwidth}%` }} className="text-left px-2 py-1">Similar sequences</th>  
+                    {hasName && <th className="text-left px-2 py-1 w-1/6">Species</th>}  
+                    {!this.props.imported_xml && <th className="text-right px-2 py-1 w-1/6">Query coverage (%)</th>}  
+                    <th className="text-right px-2 py-1 w-1/10">Total score</th>  
+                    <th className="text-right px-2 py-1 w-1/10">E value</th>  
+                    <th className="text-right px-2 py-1 w-1/10">Identity (%)</th>  
+                </tr>  
+            </thead>  
+            <tbody>  
+                {  
+                    _.map(this.props.query.hits, _.bind(function (hit) {  
+                        return (  
+                            <tr key={hit.number} className="border-b">  
+                                <td className="text-left px-2 py-1">{hit.number + '.'}</td>  
+                                <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1"  
+                                    title={`${hit.id} ${hit.title}`}  
+                                    data-toggle="tooltip" data-placement="left">  
+                                    <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}  
+                                        className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>  
+                                </td>  
+                                {hasName &&  
+                                    <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1" title={hit.sciname}  
+                                        data-toggle="tooltip" data-placement="top">  
+                                        {hit.sciname}  
+                                    </td>  
+                                }  
+                                {!this.props.imported_xml && <td className="text-right px-2 py-1">{hit.qcovs}</td>}  
+                                <td className="text-right px-2 py-1">{hit.total_score}</td>  
+                                <td className="text-right px-2 py-1">{Utils.inExponential(hit.hsps[0].evalue)}</td>  
+                                <td className="text-right px-2 py-1">{Utils.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>  
+                            </tr>  
+                        );  
+                    }, this))  
+                }  
+            </tbody>  
         </table>;
     }
 

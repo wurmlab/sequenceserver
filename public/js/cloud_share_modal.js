@@ -118,7 +118,7 @@ export default class CloudShareModal extends React.Component {
     return(
       <form onSubmit={this.handleSubmit}>
         <div className="px-6 mb-3">
-          <label htmlFor="emailInput" className="text-seqblue hover: text-orange cursor-pointer mb-0">Your Email Address</label>
+          <label htmlFor="emailInput" className="text-seqblue hover:text-orange cursor-pointer mb-0">Your Email Address</label>
           <input
             type="email"
             id="emailInput"
@@ -194,7 +194,7 @@ export default class CloudShareModal extends React.Component {
                     <i className="fa-solid fa-xmark align-bottom"></i>
                   </span>
                 </div>
-                <div className="p-6 mt-2 text-sm">
+                <div className="pt-6 mt-2 text-sm">
                   {content}
                 </div>
               </div>

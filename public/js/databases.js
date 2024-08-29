@@ -94,7 +94,7 @@ export class Databases extends Component {
             <div className={columnClass} key={'DB_' + category}>
                 <div>
                     <div className="border-b border-seqorange mb-2">
-                        <h4 style={{ display: 'inline' }} className="font-medium">
+                        <h4 className="font-medium inline">
                             {panelTitle}
                         </h4>
                         <button
@@ -108,12 +108,12 @@ export class Databases extends Component {
                             {toggleState}
                         </button>
                     </div>
-                    <ul className={'databases ' + category}>
+                    <ul className={'databases text-lg' + category}>
                         {_.map(
                             this.databases(category),
                             _.bind(function (database, index) {
                                 return (
-                                    <li key={'DB_' + category + index}>
+                                    <li key={'DB_' + category + index} className="h-6">
                                         {this.renderDatabase(database)}
                                     </li>
                                 );

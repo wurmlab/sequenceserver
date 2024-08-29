@@ -114,13 +114,13 @@ export default class extends Component {
             meta = `hit ${this.props.hit.number}, ` + meta;
         }
 
-        return <div className="section-header border-b border-seqorange pl-px table w-full">
-            <h4 className="text-sm cursor-pointer">
-                <i className="fa-regular fa-square-minus align-bottom"></i>&nbsp;
-                <strong className="cursor-text">{this.props.hit.id}</strong>&nbsp;
-                {this.props.hit.title}
+        return <div className="section-header border-b border-seqorange flex justify-between w-full">
+            <h4 className="text-sm cursor-pointer flex items-center">
+                <i className="fa-regular fa-square-minus"></i>  
+                <strong className="cursor-text ml-1">{this.props.hit.id}</strong>  
+                <span className="ml-1">{this.props.hit.title}</span>
             </h4>
-            <span className="label text-sm text-right font-normal text-inherit pt-0 px-0 cursor-text">{meta}</span>
+            <span className="label text-sm font-normal text-inherit cursor-text">{meta}</span>
         </div>;
     }
 
@@ -150,7 +150,7 @@ export default class extends Component {
 
         return (
             <div className="hit-links h-4">
-                <label className="text-sm text-seqblue hover: seqorange cursor-pointer mb-0">
+                <label className="text-sm text-seqblue hover:seqorange cursor-pointer mb-0">
                     <input type="checkbox" id={this.domID() + '_checkbox'}
                         value={this.sequenceID()} onChange={function () {
                             this.props.selectHit(this.domID() + '_checkbox');
@@ -218,7 +218,7 @@ export default class extends Component {
             </button>;
         }
         else {
-            return <button key={key} className="btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer view-sequence disabled"
+            return <button key={key} className="text-sm cursor-pointer view-sequence text-gray-400 cursor-not-allowed pointer-events-none"
                 title={title} disabled={true}>
                 <i className={`fa ${icon}`}></i> {text}
             </button>;

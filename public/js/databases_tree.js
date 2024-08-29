@@ -63,7 +63,7 @@ export default class extends Databases {
 
         // Toggle button.
         var toggleState = '[Select all]';
-        var toggleClass = 'px-2 text-sm';
+        var toggleClass = 'px-2 text-sm hidden';
         var toggleShown = this.databases(category).length > 1;
         var toggleDisabled = this.state.type && this.state.type !== category;
         if (toggleShown && toggleDisabled) {
@@ -80,8 +80,8 @@ export default class extends Databases {
         return (
             <div className={columnClass} key={'DB_' + category}>
                 <div>
-                    <div className="border-b border-seqorange mb-2" id="database_list">
-                        <h4 style={{ display: 'inline' }} className="font-medium">{panelTitle}</h4>
+                    <div className="border-b border-seqorange mb-2 text-lg" id="database_list">
+                        <h4 className="font-medium">{panelTitle}</h4>
                         {
                             this.renderDatabaseSearch(category)
                         }
@@ -89,7 +89,6 @@ export default class extends Databases {
                             type="button"
                             className={toggleClass}
                             disabled={toggleDisabled}
-                            style={{ display: 'none' }}
                             onClick={function () {
                                 this.handleToggle(toggleState, category);
                             }.bind(this)}
@@ -97,7 +96,7 @@ export default class extends Databases {
                             {toggleState}
                         </button>
                     </div>
-                    <ul className={'databases ' + category} style={{ display: 'none' }}>
+                    <ul className={'databases hidden text-lg ' + category}>
                         {
                             _.map(this.databases(category), _.bind(function (database, index) {
                                 return (

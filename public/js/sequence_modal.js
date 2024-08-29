@@ -25,9 +25,9 @@ export default class SequenceModal extends React.Component {
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all pb-2 sm:my-8 sm:w-full sm:max-w-lg">
               <div className="bg-white pt-5">
-                <div className="px-6 mb-4">
+                <div className="px-6 mb-4 flex justify-between">
                   <h3 className="text-base font-semibold leading-6 text-gray-900">View sequence</h3>
                   <span className="cursor-pointer" onClick={() => this.hide()}>
                     <i className="fa-solid fa-xmark align-bottom"></i>
@@ -92,8 +92,8 @@ export default class SequenceModal extends React.Component {
       <div className="p-6 mt-2 text-sm">
         {this.state.error_msgs.map((error_msg, index) => (
           <div key={`error-message-${index}`} className="fastan">
-            <div className="section-header border-b border-seqorange pl-px table w-full pb-2">
-              <h4 className="text-sm">{error_msg[0]}</h4>
+            <div className="section-header border-b border-seqorange pl-px table mb-0 w-full pb-2">  
+              <h4 className="text-sm table-cell">{error_msg[0]}</h4>  
             </div>
             <div className="pt-0 px-0 pb-px">
               <pre className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep">{error_msg[1]}</pre>
@@ -130,11 +130,11 @@ class SequenceViewer extends React.Component {
 
     return (
       <div className="fastan">
-        <div className="section-header border-b border-seqorange pl-px table w-full pb-2">
-          <h4 className="text-sm">
-            {this.props.sequence.id}
-            <small className="text-inherit">&nbsp; {this.props.sequence.title}</small>
-          </h4>
+        <div className="section-header border-b border-seqorange pl-px table mb-0 w-full pb-2">  
+          <h4 className="text-sm table-cell">  
+            {this.props.sequence.id}  
+            <small className="text-inherit">&nbsp; {this.props.sequence.title}</small>  
+          </h4>  
         </div>
         <div className="pt-0 px-0 pb-px">
           <div className={this.widgetClass} id={this.widgetID}></div>
