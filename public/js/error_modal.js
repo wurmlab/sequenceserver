@@ -22,8 +22,8 @@ export default class ErrorModal extends React.Component {
             <div id="error" ref={this.modal} className="relative modal z-10 hidden" role="dialog" aria-modal="true">
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
                 <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full md:max-w-3xl">
                             <div className="bg-white pt-5">
                                 <div className="flex justify-between px-6 mb-4">
                                     <h3 className="text-base font-semibold leading-6 text-gray-900">{this.state.errorData.title}</h3>
@@ -31,8 +31,8 @@ export default class ErrorModal extends React.Component {
                                         <i className="fa-solid fa-xmark align-bottom"></i>
                                     </span>
                                 </div>
-                                <div className="p-6 mt-2 text-sm">
-                                    <p dangerouslySetInnerHTML={{ __html: this.state.errorData.message}}></p>
+                                <div className="pt-2 px-6 pb-6 mt-2 text-sm">
+                                    <p dangerouslySetInnerHTML={{ __html: this.state.errorData.message}} className="mb-4"></p>
 
                                     {
                                         this.state.errorData.more_info &&

@@ -8,7 +8,7 @@
   }
 }
 
-/* TBU: Graph */
+/* Graph */
 .grapher {
   @apply m-0;
 }
@@ -43,6 +43,12 @@ svg .bar:hover {
 
 .polygon:hover {
   @apply font-bold;
+}
+
+/* Pre tag */
+pre.indL,
+pre.seqF {
+  @apply flex bg-gray-50 p-2.5 my-2.5 break-all break-words border-2 border-gray-200 rounded-md text-[11px] md:text-xs;
 }
 
 /* Backported bootstrap tooltip styles */
