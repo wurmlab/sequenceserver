@@ -410,7 +410,7 @@ class HitsTable extends Component {
         return <table 
             className="table table-hover table-condensed tabular-view text-sm min-w-full mb-0">  
             <thead>  
-                <tr className="border-b">  
+                <tr>  
                     <th className="text-left px-2 py-1">#</th>  
                     <th style={{ width: `${seqwidth}%` }} className="text-left px-2 py-1">Similar sequences</th>  
                     {hasName && <th className="text-left px-2 py-1 w-1/6">Species</th>}  
@@ -424,7 +424,7 @@ class HitsTable extends Component {
                 {  
                     _.map(this.props.query.hits, _.bind(function (hit) {  
                         return (  
-                            <tr key={hit.number} className="border-b">  
+                            <tr key={hit.number}>  
                                 <td className="text-left px-2 py-1">{hit.number + '.'}</td>  
                                 <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1"  
                                     title={`${hit.id} ${hit.title}`}  
