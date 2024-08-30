@@ -47,11 +47,6 @@ class Hits extends Component {
         // Log to console how long the last update take?
         // console.log((Date.now() - this.lastTimeStamp) / 1000);
 
-        // Lock sidebar in its position on the first update.
-        if (this.isFirstUpdate()) {
-            this.affixSidebar();
-        }
-
         // Queue next update if we have not rendered all results yet.
         if (this.nextQuery < this.state.queries.length) {
             // setTimeout is used to clear call stack and space out
@@ -196,21 +191,6 @@ class Hits extends Component {
                 veryBig={this.state.veryBig}
             />
         );
-    }
-
-    /**
-    * Affixes the sidebar.
-    */
-    affixSidebar() {
-        var $sidebar = $('.sidebar');
-        var sidebarOffset = $sidebar.offset();
-        if (sidebarOffset) {
-            $sidebar.affix({
-                offset: {
-                    top: sidebarOffset.top,
-                },
-            });
-        }
     }
 
     /* eslint complexity: ["error", 6] */

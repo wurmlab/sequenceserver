@@ -167,27 +167,3 @@ pre.seqF {
   border-color: transparent;
   border-style: solid;
 }
-
-/* sidebar */
-.sidebar.affix {
-  margin-top: 0;
-  top: 0;
-}
-
-.affix {
-  position: fixed;
-}
-
-@media (min-width: 992px) {
-  /* MacBook Pro etc. */
-  .sidebar.affix {
-    width: 212.5px;
-  }
-}
-
-@media (min-width: 1200px) {
-  /* iMac etc. */
-  .sidebar.affix {
-    width: 262.5px;
-  }
-}

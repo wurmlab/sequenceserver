@@ -478,7 +478,7 @@ export default class extends Component {
 
     render() {
         return (
-            <div className="sidebar">
+            <div className="sidebar sticky top-0">
                 {this.topPanelJSX()}
                 {this.downloadsPanelJSX()}
                 {this.sharingPanelJSX()}
