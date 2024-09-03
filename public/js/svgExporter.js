@@ -44,7 +44,11 @@ var export_as_png = function (svg, filename) {
         Exporter.download_url(canvas.toDataURL('image/png'), filename);
     };
 
-    img.src = 'data:image/svg+xml;base64,' + window.btoa(serialize_svg(svg));
+    var svgString = serialize_svg(svg);
+    var encodedSvg = encodeURIComponent(svgString).replace(/%([0-9A-F]{2})/gi, function(match, p1) {
+        return String.fromCharCode('0x' + p1);
+    });
+    img.src = 'data:image/svg+xml;base64,' + window.btoa(encodedSvg);
 };
 
 var serialize_svg = function(svg) {
