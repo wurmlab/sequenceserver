@@ -1,3 +1,5 @@
+var d3 = require('d3');
+
 export function download_url(url, filename) {
     var a = d3.select('body').append('a')
     .attr('download', filename)

@@ -66,8 +66,8 @@ var serialize_svg = function(svg) {
 
     svg.removeAttribute('xmlns');
     svg.removeAttribute('xlink');
-    svg.setAttributeNS(d3.ns.prefix.xmlns, 'xmlns', d3.ns.prefix.svg);
-    svg.setAttributeNS(d3.ns.prefix.xmlns, 'xmlns:xlink', d3.ns.prefix.xlink);
+    svg.setAttributeNS(d3.namespaces.xmlns, 'xmlns', d3.namespaces.svg);
+    svg.setAttributeNS(d3.namespaces.xmlns, 'xmlns:xlink', d3.namespaces.xlink);
 
     var source = (new XMLSerializer()).serializeToString(svg);
     var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC ' +
