@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import _ from 'underscore';
-import './jquery_world';
+import { Button, Tooltip } from "flowbite-react";
 
 /**
  * SearchButton widget.
@@ -13,93 +13,18 @@ export class SearchButton extends Component {
             hasQuery: false,
             hasDatabases: false,
             dropdownVisible: false,
+            messageTooltip: "",
+            titleTooltip: ""
         };
-        this.inputGroup = this.inputGroup.bind(this);
-        this.submitButton = this.submitButton.bind(this);
-        this.initTooltip = this.initTooltip.bind(this);
-        this.showTooltip = this.showTooltip.bind(this);
-        this.hideTooltip = this.hideTooltip.bind(this);
         this.changeAlgorithm = this.changeAlgorithm.bind(this);
         this.decorate = this.decorate.bind(this);
-        this.inputGroupRef = createRef();
-        this.submitButtonRef = createRef();
-    }
-    componentDidMount() {
-        this.initTooltip();
+        this.setMessageTooltipButton = this.setMessageTooltipButton.bind(this)
+        this.setTitleTooltipButton = this.setTitleTooltipButton.bind(this)
+        this.renderTooltip = this.renderTooltip.bind(this)
     }
 
     shouldComponentUpdate(props, state) {
-        return !_.isEqual(state.methods, this.state.methods) || state.dropdownVisible !== this.state.dropdownVisible;
-    }
-
-    componentDidUpdate(_prevProps, prevState) {
-        if (!_.isEqual(prevState.methods, this.state.methods)) {
-            if (this.state.methods.length > 0) {
-                this.inputGroup().wiggle();
-                this.props.onAlgoChanged(this.state.methods[0]);
-            } else {
-                this.props.onAlgoChanged('');
-            }
-        }
-    }
-    // Internal helpers. //
-
-    /**
- * Returns jquery wrapped input group.
- */
-    inputGroup() {
-        return $(this.inputGroupRef.current);
-    }
-
-    /**
- * Returns jquery wrapped submit button.
- */
-    submitButton() {
-        return $(this.submitButtonRef.current);
-    }
-
-    /**
- * Initialise tooltip on input group and submit button.
- */
-    initTooltip() {
-        this.inputGroup().tooltip({
-            trigger: 'manual',
-            title: _.bind(function () {
-                if (!this.state.hasQuery && !this.state.hasDatabases) {
-                    return 'You must enter a query sequence and select one or more databases above before you can run a search!';
-                } else if (this.state.hasQuery && !this.state.hasDatabases) {
-                    return 'You must select one or more databases above before you can run a search!';
-                } else if (!this.state.hasQuery && this.state.hasDatabases) {
-                    return 'You must enter a query sequence above before you can run a search!';
-                }
-            }, this),
-        });
-
-        this.submitButton().tooltip({
-            title: _.bind(function () {
-                var title = 'Click to BLAST or press Ctrl+Enter.';
-                if (this.state.methods.length > 1) {
-                    title +=
-                        ' Click dropdown button on the right for other' +
-                        ' BLAST algorithms that can be used.';
-                }
-                return title;
-            }, this),
-        });
-    }
-
-    /**
- * Show tooltip on input group.
- */
-    showTooltip() {
-        this.inputGroup()._tooltip('show');
-    }
-
-    /**
- * Hide tooltip on input group.
- */
-    hideTooltip() {
-        this.inputGroup()._tooltip('hide');
+        return !_.isEqual(state.methods, this.state.methods) || state.dropdownVisible !== this.state.dropdownVisible || state.messageTooltip !== this.state.messageTooltip || state.titleTooltip !== this.state.titleTooltip;
     }
 
     /**
@@ -140,31 +65,44 @@ export class SearchButton extends Component {
             dropdownVisible: !prevState.dropdownVisible
         }));
     }
+    
+    setMessageTooltipButton() {
+        if (!this.state.hasQuery && !this.state.hasDatabases) {
+            this.setState({ messageTooltip: "You must enter a query sequence and select one or more databases above before you can run a search!" })
+        } else if (this.state.hasQuery && !this.state.hasDatabases) {
+            this.setState({ messageTooltip: "You must select one or more databases above before you can run a search!" })
+        } else if (!this.state.hasQuery && this.state.hasDatabases) {
+            this.setState({ messageTooltip: "You must enter a query sequence above before you can run a search!" })
+        }
+    }
 
-    render() {
-        var methods = this.state.methods;
-        var method = methods[0];
-        var multi = methods.length > 1;
+    setTitleTooltipButton() {
+        var title = "Click to BLAST or press Ctrl+Enter.";
+        this.setState({ titleTooltip: title })
+        if (this.state.methods.length > 1) {
+            this.setState({
+                titleTooltip: title +=
+                    ' Click dropdown button on the right for other' +
+                    ' BLAST algorithms that can be used.'
+             })
+        }
+    }
 
+    renderTooltip(method, multi, methods) {
         return (
-            <div
-                // className={multi ? 'flex' : 'flex'}
-                className="my-4 md:my-2 flex justify-end w-full md:w-auto relative"
-                id="methods"
-                ref={this.inputGroupRef}
-                onMouseOver={this.showTooltip}
-                onMouseOut={this.hideTooltip}
-            >
+            <div className="flex">
                 <button
                     type="submit"
                     className="uppercase w-full md:w-auto flex text-xl justify-center py-2 px-16 border border-transparent rounded-md shadow-sm text-white bg-seqblue hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange"
                     id="method"
-                    ref={this.submitButtonRef}
                     name="method"
                     value={method}
                     disabled={!method}
+                    onMouseOver={this.setTitleTooltipButton}
                 >
-                    {this.decorate(method || 'blast')}
+                    <Tooltip content={<span className="normal-case">{this.state.titleTooltip}</span>} placement="bottom" animation={false}>
+                        <span>{this.decorate(method || 'blast')}</span>
+                    </Tooltip>
                 </button>
 
                 {multi && (
@@ -199,6 +137,31 @@ export class SearchButton extends Component {
                             </ul>
                         </div>
                     </div>
+                )}
+            </div>
+        )
+    }
+
+    render() {
+        var methods = this.state.methods;
+        var method = methods[0];
+        var multi = methods.length > 1;
+
+        return (
+            <div
+                // className={multi ? 'flex' : 'flex'}
+                className="my-4 md:my-2 flex justify-end w-full md:w-auto relative"
+                id="methods"
+                onMouseOver={this.setMessageTooltipButton}
+            >
+                {!multi ? (
+                    <Tooltip content={<span className="text-center block">{this.state.messageTooltip}</span>} placement="bottom" animation={false}>
+                       {this.renderTooltip(method, multi)}
+                    </Tooltip>
+                ) : (
+                    <>
+                        {this.renderTooltip(method, multi, methods)}
+                    </>
                 )}
             </div>
         );

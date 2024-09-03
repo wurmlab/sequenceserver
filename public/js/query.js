@@ -6,6 +6,7 @@ import LengthDistribution from './length_distribution'; // length distribution o
 import Utils from './utils';
 import { fastqToFasta } from './fastq_to_fasta';
 import CollapsePreferences from './collapse_preferences';
+import { Tooltip } from "flowbite-react";
 
 /**
  * Query component displays query defline, graphical overview, length
@@ -410,14 +411,14 @@ class HitsTable extends Component {
         return <table 
             className="table table-hover table-condensed tabular-view text-sm min-w-full mb-0">  
             <thead>  
-                <tr>  
-                    <th className="text-left px-2 py-1">#</th>  
-                    <th style={{ width: `${seqwidth}%` }} className="text-left px-2 py-1">Similar sequences</th>  
-                    {hasName && <th className="text-left px-2 py-1 w-1/6">Species</th>}  
-                    {!this.props.imported_xml && <th className="text-right px-2 py-1 w-1/6">Query coverage (%)</th>}  
-                    <th className="text-right px-2 py-1 w-1/10">Total score</th>  
-                    <th className="text-right px-2 py-1 w-1/10">E value</th>  
-                    <th className="text-right px-2 py-1 w-1/10">Identity (%)</th>  
+                <tr className="text-neutral-500">
+                    <th className="text-left px-2 py-1 font-normal">#</th>
+                    <th style={{ width: `${seqwidth}%` }} className="text-left px-2 font-normal py-1">Similar sequences</th>
+                    {hasName && <th className="text-left px-2 py-1 font-normal w-1/6">Species</th>}
+                    {!this.props.imported_xml && <th className="text-right px-2 py-1 font-normal w-1/6">Query coverage (%)</th>}
+                    <th className="text-right px-2 py-1 font-normal w-1/10">Total score</th>
+                    <th className="text-right px-2 py-1 font-normal w-1/10">E value</th>
+                    <th className="text-right px-2 py-1 font-normal w-1/10">Identity (%)</th>
                 </tr>  
             </thead>  
             <tbody>  
@@ -425,19 +426,20 @@ class HitsTable extends Component {
                     _.map(this.props.query.hits, _.bind(function (hit) {  
                         return (  
                             <tr key={hit.number}>  
-                                <td className="text-left px-2 py-1">{hit.number + '.'}</td>  
-                                <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1"  
-                                    title={`${hit.id} ${hit.title}`}  
-                                    data-toggle="tooltip" data-placement="left">  
-                                    <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}  
-                                        className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>  
-                                </td>  
-                                {hasName &&  
-                                    <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1" title={hit.sciname}  
-                                        data-toggle="tooltip" data-placement="top">  
-                                        {hit.sciname}  
-                                    </td>  
-                                }  
+                                <td className="text-left px-2 py-1">{hit.number + '.'}</td>
+                                <Tooltip content={`${hit.id} ${hit.title}`}>
+                                    <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1">
+                                        <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}  
+                                            className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>  
+                                    </td>
+                                </Tooltip>
+                                {hasName &&
+                                    <Tooltip content={hit.sciname}>
+                                        <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1">  
+                                            {hit.sciname}  
+                                        </td>
+                                    </Tooltip>
+                                }
                                 {!this.props.imported_xml && <td className="text-right px-2 py-1">{hit.qcovs}</td>}  
                                 <td className="text-right px-2 py-1">{hit.total_score}</td>  
                                 <td className="text-right px-2 py-1">{Utils.inExponential(hit.hsps[0].evalue)}</td>  
