@@ -8,6 +8,7 @@
  *
  */
 import * as Exporter from './exporter';
+import * as d3 from 'd3';
 
 /**
  * Exports the given <svg> DOM node as a .svg file.

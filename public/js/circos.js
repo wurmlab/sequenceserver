@@ -684,7 +684,7 @@ class Graph {
             .attr('height', 20);
         // .attr('fill','#43ff21');
 
-        var scale = d3.scale.linear().domain([0, 250]).range([0, 100]);
+        var scale = d3.scaleLinear().domain([0, 250]).range([0, 100]);
 
         // this.legend.append('rect')
         //     .attr('x', 7*14)
