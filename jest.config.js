@@ -45,6 +45,7 @@ module.exports = {
         'grapher': '<rootDir>/public/js/grapher.js',
         'histogram': '<rootDir>/public/js/null_plugins/grapher/histogram.js',
         'query_stats': '<rootDir>/public/js/null_plugins/query_stats.js',
+        '^d3$': '<rootDir>/node_modules/d3/dist/d3.min.js',
         '^options$': '<rootDir>/public/js/options.js'
     },
     watchPlugins: [
