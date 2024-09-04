@@ -15,7 +15,6 @@
 
 svg text {
   @apply text-[10px];
-  font-family: "Source sans pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 svg .axis path,
@@ -51,119 +50,54 @@ pre.seqF {
   @apply flex bg-gray-50 p-2.5 my-2.5 break-all break-words border-2 border-gray-200 rounded-md text-[11px] md:text-xs;
 }
 
-/* Backported bootstrap tooltip styles */
+/* Override jQuery UI tooltip styles  */
+.ui-tooltip {
+  background-color: #000 !important;
+  border-radius: 8px !important;
+  padding: 10px !important;
+  box-shadow: none !important;
+  border: 1px solid #000 !important;
+}
 
-.tooltip {
-  position: absolute;
-  z-index: 1070;
-  display: block;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.42857143;
-  line-break: auto;
-  text-align: left;
-  text-align: start;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  letter-spacing: normal;
-  word-break: normal;
-  word-spacing: normal;
-  word-wrap: normal;
-  white-space: normal;
-  font-size: 12px;
-  filter: alpha(opacity=0);
-  opacity: 0;
-}
-.tooltip.in {
-  filter: alpha(opacity=90);
-  opacity: 0.9;
-}
-.tooltip.top {
-  padding: 5px 0;
-  margin-top: -3px;
-}
-.tooltip.right {
-  padding: 0 5px;
-  margin-left: 3px;
-}
-.tooltip.bottom {
-  padding: 5px 0;
-  margin-top: 3px;
-}
-.tooltip.left {
-  padding: 0 5px;
-  margin-left: -3px;
-}
-.tooltip.top .tooltip-arrow {
-  bottom: 0;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px 5px 0;
-  border-top-color: #000;
-}
-.tooltip.top-left .tooltip-arrow {
-  right: 5px;
-  bottom: 0;
-  margin-bottom: -5px;
-  border-width: 5px 5px 0;
-  border-top-color: #000;
-}
-.tooltip.top-right .tooltip-arrow {
-  bottom: 0;
-  left: 5px;
-  margin-bottom: -5px;
-  border-width: 5px 5px 0;
-  border-top-color: #000;
-}
-.tooltip.right .tooltip-arrow {
-  top: 50%;
-  left: 0;
-  margin-top: -5px;
-  border-width: 5px 5px 5px 0;
-  border-right-color: #000;
-}
-.tooltip.left .tooltip-arrow {
-  top: 50%;
-  right: 0;
-  margin-top: -5px;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #000;
-}
-.tooltip.bottom .tooltip-arrow {
-  top: 0;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 0 5px 5px;
-  border-bottom-color: #000;
-}
-.tooltip.bottom-left .tooltip-arrow {
-  top: 0;
-  right: 5px;
-  margin-top: -5px;
-  border-width: 0 5px 5px;
-  border-bottom-color: #000;
-}
-.tooltip.bottom-right .tooltip-arrow {
-  top: 0;
-  left: 5px;
-  margin-top: -5px;
-  border-width: 0 5px 5px;
-  border-bottom-color: #000;
-}
-.tooltip-inner {
-  max-width: 200px;
-  padding: 3px 8px;
-  color: #fff;
+.ui-tooltip-content {
+  font-size: 11px;
   text-align: center;
-  background-color: #000;
-  border-radius: 4px;
+  color: #fff;
 }
-.tooltip-arrow {
+
+.arrow {
+  width: 70px;
+  height: 16px;
+  overflow: hidden;
   position: absolute;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
+  left: 50%;
+  margin-left: -35px;
+  bottom: -16px;
+}
+
+.arrow.top {
+  top: -16px;
+  bottom: auto;
+}
+
+.arrow.left {
+  left: 20%;
+}
+
+.arrow:after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: -20px;
+  width: 25px;
+  height: 25px;
+  box-shadow: 6px 5px 9px -9px black;
+  transform: rotate(45deg);
+  background-color: #000;
+  border: 1px solide #000;
+}
+
+.arrow.top:after {
+  bottom: -20px;
+  top: auto;
 }

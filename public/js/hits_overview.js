@@ -58,13 +58,6 @@ class Graph {
         return hits;
     }
 
-    setupTooltip() {
-        this.svg_container.find('[data-toggle="tooltip"]').tooltip({
-            'placement': 'top', 'container': 'body', 'html': 'true',
-            'delay': 0, 'white-space': 'nowrap'
-        });
-    }
-
     setupClick($graphDiv) {
         $('a', $graphDiv).click(function (evt) {
             evt.preventDefault();
@@ -143,7 +136,6 @@ class Graph {
             countHits();
             this.graphIt($queryDiv, $graphDiv, shownHits, MIN_HITS_TO_SHOW, opts, hits);
             initButtons();
-            this.setupTooltip();
             e.stopPropagation();
         },this));
 
@@ -161,7 +153,6 @@ class Graph {
                 this.graphIt($queryDiv, $graphDiv, shownHits, MIN_HITS_TO_SHOW - shownHits, opts, hits);
                 initButtons();
             }
-            this.setupTooltip();
             e.stopPropagation();
         },this));
     }
@@ -362,7 +353,6 @@ class Graph {
                         d3.select(this)
                             .attr('xlink:href', '#' + q_i + '_hit_' + (i+1))
                             .append('rect')
-                            .attr('data-toggle', 'tooltip')
                             .attr('title', alt_tooltip)
                             .attr('class','bar')
                             .attr('x', function (d) {
@@ -386,8 +376,6 @@ class Graph {
         if (index === 0) {
             this.graphControls($queryDiv, $graphDiv, true, opts, inhits);
         }
-        // Refresh tooltip each time graph is redrawn.
-        this.setupTooltip();
         // Ensure clicking on 'rect' takes user to the relevant hit on all
         // browsers.
         this.setupClick($graphDiv);

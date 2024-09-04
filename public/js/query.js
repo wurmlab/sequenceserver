@@ -427,18 +427,6 @@ class HitsTable extends Component {
                         return (  
                             <tr key={hit.number}>  
                                 <td className="text-left px-2 py-1">{hit.number + '.'}</td>  
-                                {/* <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1"  
-                                    data-tippy-content={`${hit.id} ${hit.title}`}  
-                                    data-tippy-placement="left">  
-                                    <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}  
-                                        className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>  
-                                </td>  
-                                {hasName &&  
-                                    <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1" data-tippy-content={hit.sciname}  
-                                        data-tippy-placement="top">  
-                                        {hit.sciname}  
-                                    </td>  
-                                } */}
                                 <td className="text-ellipsis px-2 py-1"> 
                                     <div className="relative flex flex-col items-center group">
                                         <div className="flex items-center w-full">
