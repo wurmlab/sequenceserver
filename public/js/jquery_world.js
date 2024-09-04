@@ -58,6 +58,12 @@ global.$ = $;
                 .addClass( feedback.horizontal )
                 .appendTo( this );
             }
+        },
+        items: 'rect',
+        content: function() {
+            var title = $(this).attr('data-title') || $(this).attr('title');
+            var tempDiv = $('<div></div>').html(title);
+            return tempDiv.html();
         }
     });
 
