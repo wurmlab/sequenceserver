@@ -13,17 +13,45 @@ export class SearchButton extends Component {
             hasDatabases: false,
             dropdownVisible: false,
             messageTooltip: "",
-            titleTooltip: ""
+            titleTooltip: "",
+            hideMessageTooltip: false
         };
         this.changeAlgorithm = this.changeAlgorithm.bind(this);
         this.decorate = this.decorate.bind(this);
-        this.setMessageTooltipButton = this.setMessageTooltipButton.bind(this)
-        this.setTitleTooltipButton = this.setTitleTooltipButton.bind(this)
-        this.renderTooltip = this.renderTooltip.bind(this)
+        this.setMessageTooltipButton = this.setMessageTooltipButton.bind(this);
+        this.setTitleTooltipButton = this.setTitleTooltipButton.bind(this);
+        this.renderButton = this.renderButton.bind(this);
+        this.inputGroup = this.inputGroup.bind(this);
+        this.handleMouseOver = this.handleMouseOver.bind(this)
+        this.handeMouseOut = this.handeMouseOut.bind(this)
+        this.inputGroupRef = createRef();
+    }
+
+    componentDidMount() {
+        this.timeout = setTimeout(() => this.setState({ hideMessageTooltip: true}), 3000)
     }
 
     shouldComponentUpdate(props, state) {
-        return !_.isEqual(state.methods, this.state.methods) || state.dropdownVisible !== this.state.dropdownVisible || state.messageTooltip !== this.state.messageTooltip || state.titleTooltip !== this.state.titleTooltip;
+        return !_.isEqual(state.methods, this.state.methods) ||
+            state.dropdownVisible !== this.state.dropdownVisible ||
+            state.messageTooltip !== this.state.messageTooltip ||
+            state.titleTooltip !== this.state.titleTooltip ||
+            state.hideMessageTooltip !== this.state.hideMessageTooltip;
+    }
+
+    componentDidUpdate(_prevProps, prevState) {
+        if (!_.isEqual(prevState.methods, this.state.methods)) {
+            if (this.state.methods.length > 0) {
+                this.inputGroup().wiggle();
+                this.props.onAlgoChanged(this.state.methods[0]);
+            } else {
+                this.props.onAlgoChanged('');
+            }
+        }
+    }
+
+    inputGroup() {
+        return $(this.inputGroupRef.current);
     }
 
     /**
@@ -87,7 +115,18 @@ export class SearchButton extends Component {
         }
     }
 
-    renderTooltip(method, multi, methods) {
+    handeMouseOut() {
+        clearTimeout(this.timeout);
+        this.setState({ hideMessageTooltip: false })
+    }
+
+    handleMouseOver() {
+        this.setMessageTooltipButton();
+        this.setTitleTooltipButton();
+        this.timeout = setTimeout(() => this.setState({ hideMessageTooltip: true}), 3000)
+    }
+
+    renderButton(method, multi, methods) {
         return (
             <div className="flex">
                 <button
@@ -97,8 +136,8 @@ export class SearchButton extends Component {
                     name="method"
                     value={method}
                     disabled={!method}
-                    onMouseOver={this.setTitleTooltipButton}
                 >
+                    {this.decorate(method || 'blast')}
                 </button>
 
                 {multi && (
@@ -147,9 +186,25 @@ export class SearchButton extends Component {
             <div
                 className="my-4 md:my-2 flex justify-end w-full md:w-auto relative"
                 id="methods"
-                onMouseOver={this.setMessageTooltipButton}
+                ref={this.inputGroupRef}
+                onMouseOver={this.handleMouseOver}
+                onMouseOut={this.handeMouseOut}
             >
-                {this.renderTooltip(method, multi, methods)}
+                <div className="relative flex flex-col items-center group">
+                    <div className="flex items-center w-full">
+                        {this.renderButton(method, multi, methods)}
+                        { !this.state.dropdownVisible &&
+                            <div className="absolute hidden bottom-11 items-center flex-col-reverse group-hover:flex w-full">
+                                <div className="w-0 h-0 border-t-[8px] border-b-[7px] rotate-[270deg] border-r-[7px] -mt-1 border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                    { !this.state.hasQuery || !this.state.hasDatabases ? (
+                                        this.state.hideMessageTooltip ?  <>{this.state.titleTooltip}</> : this.state.messageTooltip
+                                    ) : <> {this.state.titleTooltip}</>}
+                                </span>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         );
     }
