@@ -6,7 +6,7 @@ import LengthDistribution from './length_distribution'; // length distribution o
 import Utils from './utils';
 import { fastqToFasta } from './fastq_to_fasta';
 import CollapsePreferences from './collapse_preferences';
-import { Tooltip } from "flowbite-react";
+import './jquery_world';
 
 /**
  * Query component displays query defline, graphical overview, length
@@ -426,19 +426,51 @@ class HitsTable extends Component {
                     _.map(this.props.query.hits, _.bind(function (hit) {  
                         return (  
                             <tr key={hit.number}>  
-                                <td className="text-left px-2 py-1">{hit.number + '.'}</td>
-                                <Tooltip content={`${hit.id} ${hit.title}`}>
-                                    <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1">
-                                        <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}  
-                                            className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>  
-                                    </td>
-                                </Tooltip>
-                                {hasName &&
-                                    <Tooltip content={hit.sciname}>
-                                        <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1">  
-                                            {hit.sciname}  
-                                        </td>
-                                    </Tooltip>
+                                <td className="text-left px-2 py-1">{hit.number + '.'}</td>  
+                                {/* <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1"  
+                                    data-tippy-content={`${hit.id} ${hit.title}`}  
+                                    data-tippy-placement="left">  
+                                    <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}  
+                                        className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>  
+                                </td>  
+                                {hasName &&  
+                                    <td className="text-ellipsis overflow-hidden whitespace-nowrap px-2 py-1" data-tippy-content={hit.sciname}  
+                                        data-tippy-placement="top">  
+                                        {hit.sciname}  
+                                    </td>  
+                                } */}
+                                <td className="text-ellipsis px-2 py-1"> 
+                                    <div className="relative flex flex-col items-center group">
+                                        <div className="flex items-center w-full">
+                                            <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">
+                                                <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}  
+                                                    className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>
+                                            </span>
+                                            <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex w-[300px]">
+                                                <div className="w-0 h-0 border-t-[8px] border-b-[7px] rotate-[270deg] border-r-[7px] -mt-1 border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                                <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                    {`${hit.id} ${hit.title}`}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </td>  
+                                {hasName &&  
+                                    <td className="text-ellipsis px-2 py-1"  data-placement="top">
+                                        <div className="relative flex flex-col items-center group">
+                                            <div className="flex items-center w-full">
+                                                <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">
+                                                    {hit.sciname}
+                                                </span>
+                                                <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex w-[300px]">
+                                                    <div className="w-0 h-0 border-t-[8px] border-b-[7px] rotate-[270deg] -mt-1 border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
+                                                    <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                        {hit.sciname}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </td>  
                                 }
                                 {!this.props.imported_xml && <td className="text-right px-2 py-1">{hit.qcovs}</td>}  
                                 <td className="text-right px-2 py-1">{hit.total_score}</td>  
