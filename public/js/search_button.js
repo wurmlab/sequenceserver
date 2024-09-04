@@ -1,6 +1,5 @@
 import React, { Component, createRef } from 'react';
 import _ from 'underscore';
-import { Button, Tooltip } from "flowbite-react";
 
 /**
  * SearchButton widget.
@@ -100,9 +99,6 @@ export class SearchButton extends Component {
                     disabled={!method}
                     onMouseOver={this.setTitleTooltipButton}
                 >
-                    <Tooltip content={<span className="normal-case">{this.state.titleTooltip}</span>} placement="bottom" animation={false}>
-                        <span>{this.decorate(method || 'blast')}</span>
-                    </Tooltip>
                 </button>
 
                 {multi && (
@@ -149,20 +145,11 @@ export class SearchButton extends Component {
 
         return (
             <div
-                // className={multi ? 'flex' : 'flex'}
                 className="my-4 md:my-2 flex justify-end w-full md:w-auto relative"
                 id="methods"
                 onMouseOver={this.setMessageTooltipButton}
             >
-                {!multi ? (
-                    <Tooltip content={<span className="text-center block">{this.state.messageTooltip}</span>} placement="bottom" animation={false}>
-                       {this.renderTooltip(method, multi)}
-                    </Tooltip>
-                ) : (
-                    <>
-                        {this.renderTooltip(method, multi, methods)}
-                    </>
-                )}
+                {this.renderTooltip(method, multi, methods)}
             </div>
         );
     }
