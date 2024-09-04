@@ -510,7 +510,6 @@ class Graph {
                 this.layoutHide = [];
                 if (id) {
                     $('.circos .Query_' + this.clean_id(id))
-                        .attr('data-toggle', 'tooltip')
                         .attr('title', id)
                         .on(
                             'click',
@@ -540,7 +539,6 @@ class Graph {
                 this.layoutHide = [];
                 if (id) {
                     $('.circos .Hit_' + this.clean_id(id))
-                        .attr('data-toggle', 'tooltip')
                         .attr('title', id)
                         .on(
                             'click',
@@ -566,7 +564,6 @@ class Graph {
         var algorithm = this.algorithm;
         _.each(this.chords_arr, function (obj) {
             $('#' + obj[0] + '_' + obj[3])
-                .attr('data-toggle', 'tooltip')
                 .attr('title', function () {
                     // E value and identity.
                     var alt_tooltip =
@@ -590,13 +587,6 @@ class Graph {
                     )}`;
                     return alt_tooltip;
                 });
-        });
-        $('[data-toggle="tooltip"]').tooltip({
-            placement: 'top',
-            container: 'body',
-            html: 'true',
-            delay: 0,
-            'white-space': 'nowrap',
         });
     }
 
@@ -675,7 +665,6 @@ class Graph {
                     return 'q' + s + '-' + this.paletteSize;
                 }, this)
             )
-            .attr('data-toggle', 'tooltip')
             .attr('title', function (d) {
                 return d.evalue;
             })

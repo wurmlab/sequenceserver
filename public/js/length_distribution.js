@@ -61,7 +61,6 @@ class Graph {
         this.draw_rectangles();
         this.draw_query_line();
         this.draw_axes();
-        this.setupTooltip();
     }
 
     define_scale_and_bins() {
@@ -81,13 +80,6 @@ class Graph {
 
     hit_lengths() {
         this._data = _.map(this.query.hits, _.iteratee('length'));
-    }
-
-    setupTooltip() {
-        this.svg_container.find('[data-toggle="tooltip"]').tooltip({
-            'placement': 'top', 'container': 'body', 'html': 'true',
-            'delay': 0, 'white-space': 'nowrap'
-        });
     }
 
     setupResponsiveness() {
@@ -165,7 +157,6 @@ class Graph {
             .attr('xlink:href', function(i) { return i.url; })
             .append('rect')
             .attr('class','bar')
-            .attr('data-toggle','tooltip')
             .attr('title', function(i) {
                 return i.id+' '+'<br>E value: '+Helpers.prettify_evalue(i.evalue)+'<br>Length: '+i.value;
             })
