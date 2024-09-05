@@ -13,6 +13,7 @@ export default class SequenceModal extends React.Component {
       error_msgs: [],
       sequences: [],
       requestCompleted: false,
+      isModalVisible: false,
     };
     this.modalRef = createRef();
   }
@@ -20,8 +21,10 @@ export default class SequenceModal extends React.Component {
   // Lifecycle methods. //
 
   render() {
+    const { isModalVisible, requestCompleted } = this.state;
+
     return (
-      <div className="relative modal z-10 hidden sequence-viewer" ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
+      <div className={`relative modal z-10 sequence-viewer ${isModalVisible ? '' : 'hidden'}`} ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
@@ -34,8 +37,7 @@ export default class SequenceModal extends React.Component {
                   </span>
                 </div>
 
-                {(this.state.requestCompleted && this.resultsJSX()) ||
-                  this.loadingJSX()}
+                {(requestCompleted && this.resultsJSX()) || this.loadingJSX()}
               </div>
             </div>
           </div>
@@ -44,28 +46,19 @@ export default class SequenceModal extends React.Component {
     );
   }
 
-  /*
-   * Returns jQuery reference to the main modal container.
-   */
-  modal() {
-    return $(this.modalRef.current);
-  }
-
   /**
    * Shows sequence viewer.
    */
   show(url) {
-    this.setState({ requestCompleted: false }, () => {
-      this.modal().modal("show");
-      this.loadJSON(url);
-    });
+    this.setState({ requestCompleted: false, isModalVisible: true }); 
+    this.loadJSON(url);
   }
 
   /**
    * Hide sequence viewer.
    */
   hide() {
-    this.modal().modal("hide");
+    this.setState({ isModalVisible: false });
   }
 
   /**
@@ -74,16 +67,17 @@ export default class SequenceModal extends React.Component {
   async loadJSON(url) {
     // Fetch sequence and update state.
     try {
-      const response = await $.getJSON(url);
+      const response = await fetch(url);
+      const data = await response.json();
       this.setState({
-        sequences: response.sequences,
-        error_msgs: response.error_msgs,
+        sequences: data.sequences,
+        error_msgs: data.error_msgs,
         requestCompleted: true,
       });
     } catch (error) {
       console.log('Error fetching sequence:', error);
       this.hide();
-      this.props.showErrorModal(error.responseJSON);
+      this.props.showErrorModal(error);
     }
   }
 

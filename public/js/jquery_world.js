@@ -60,10 +60,13 @@ global.$ = $;
             }
         },
         items: 'rect',
+        show: false,
+        hide: false,
         content: function() {
-            var title = $(this).attr('data-title') || $(this).attr('title');
-            var tempDiv = $('<div></div>').html(title);
-            return tempDiv.html();
+            var title = $(this).attr('title');
+            if (!title) return false;
+            var parsedHTML = $.parseHTML(title);
+            return parsedHTML;
         }
     });
 
