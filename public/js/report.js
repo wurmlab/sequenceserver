@@ -1,4 +1,5 @@
 import './jquery_world'; // for custom $.tooltip function
+import './../packages/jquery_scrollspy';
 import React, { Component } from 'react';
 import _ from 'underscore';
 
@@ -11,7 +12,7 @@ import ReportPlugins from 'report_plugins';
 /**
  * Renders entire report.
  *
- * Composed of Query and Sidebar components.
+ * Composed of Query and Sidebar components.Scroll
  */
 
 class Report extends Component {
@@ -381,7 +382,7 @@ class Report extends Component {
    * For the query in viewport, highlights corresponding entry in the index.
    */
     setupScrollSpy() {
-        $('body').scrollspy({ target: '.sidebar' });
+        $('.sidebar').scrollSpy({ activeClass: 'text-seqorange font-bold' });
     }
 
     populate_hsp_array(hit, query_id){
