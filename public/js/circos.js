@@ -588,6 +588,29 @@ class Graph {
                     return alt_tooltip;
                 });
         });
+        $(".circos").tooltip({
+            position: {
+                my: "left+3 bottom-3",
+                at: "right bottom",
+                using: function( position, feedback ) {
+                  $( this ).css( position );
+                  $( "<div>" )
+                    .addClass( "arrow" )
+                    .addClass( feedback.vertical )
+                    .addClass( feedback.horizontal )
+                    .appendTo( this );
+                }
+            },
+            items: '.chord1 path, .cs-layout g',
+            show: false,
+            hide: false,
+            content: function() {
+                var title = $(this).attr('title');
+                if (!title) return false;
+                var parsedHTML = $.parseHTML(title);
+                return parsedHTML;
+            }
+        });
     }
 
     ratioCalculate(value, min, max, scope, reverse, logScale) {
