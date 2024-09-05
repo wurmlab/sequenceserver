@@ -15,6 +15,7 @@ export default class CloudShareModal extends React.Component {
       email: '',
       agreeToTos: false,
       shareableurl: '',
+      isModalVisible: false,
     };
     this.modalRef = createRef();
   }
@@ -162,7 +163,7 @@ export default class CloudShareModal extends React.Component {
   }
 
   render() {
-    const { formState } = this.state;
+    const { formState, isModalVisible } = this.state;
 
     let content;
     switch (formState) {
@@ -182,7 +183,7 @@ export default class CloudShareModal extends React.Component {
     }
 
     return (
-      <div className="relative modal z-10 hidden" ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
+      <div className={`relative modal z-10 ${isModalVisible ? '' : 'hidden'}`} ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
@@ -205,26 +206,17 @@ export default class CloudShareModal extends React.Component {
     );
   }
 
-  /*
-   * Returns jQuery reference to the main modal container.
-   */
-  modal() {
-    return $(this.modalRef.current);
-  }
-
   /**
-   * Shows share dialogue.
+   * show modal
    */
   show() {
-    this.setState({ requestCompleted: false }, () => {
-      this.modal().modal("show");
-    });
+    this.setState({ isModalVisible: true });
   }
 
   /**
-   * Hide share dialogue.
+   * Hide modal.
    */
   hide() {
-    this.modal().modal("hide");
+    this.setState({ isModalVisible: false });
   }
 }
