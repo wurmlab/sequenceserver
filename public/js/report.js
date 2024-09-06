@@ -1,5 +1,4 @@
 import './jquery_world'; // for custom $.tooltip function
-import './../packages/jquery.scrollspy';
 import React, { Component } from 'react';
 import _ from 'underscore';
 
@@ -382,7 +381,24 @@ class Report extends Component {
    * For the query in viewport, highlights corresponding entry in the index.
    */
     setupScrollSpy() {
-        $('.sidebar').scrollSpy({ activeClass: 'text-seqorange font-bold' });
+        var sectionIds = $('a.side-nav');
+
+        $(document).scroll(function(){
+            sectionIds.each(function(){
+    
+                var container = $(this).attr('href');
+                var containerOffset = $(container).offset().top;
+                var containerHeight = $(container).outerHeight();
+                var containerBottom = containerOffset + containerHeight;
+                var scrollPosition = $(document).scrollTop();
+        
+                if(scrollPosition < containerBottom - 20 && scrollPosition >= containerOffset - 20){
+                    $(this).addClass('active');
+                } else{
+                    $(this).removeClass('active');
+                }
+            });
+        });    
     }
 
     populate_hsp_array(hit, query_id){

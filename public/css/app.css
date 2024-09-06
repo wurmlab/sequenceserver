@@ -54,6 +54,10 @@ pre.seqF {
   @apply border-l-0;
 }
 
+.side-nav.active {
+  @apply text-seqorange font-bold;
+}
+
 /* Override jQuery UI tooltip styles  */
 .ui-tooltip {
   background-color: #000 !important;
