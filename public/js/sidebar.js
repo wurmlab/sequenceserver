@@ -264,7 +264,7 @@ export default class extends Component {
         return <ul className="w-full"> {
             _.map(this.props.data.queries, (query) => {
                 return <li key={'Side_bar_' + query.id}>
-                    <a className="text-sm text-seqblue hover:text-seqorange focus:text-seqorange active:text-seqorange cursor-pointer hover-bold line-clamp-1"
+                    <a className="side-nav text-sm text-seqblue hover:text-seqorange focus:text-seqorange active:text-seqorange cursor-pointer hover-bold line-clamp-1"
                         title={'Query= ' + query.id + ' ' + query.title}
                         href={'#Query_' + query.number}>
                         {'Query= ' + query.id}
