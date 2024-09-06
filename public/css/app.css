@@ -50,6 +50,10 @@ pre.seqF {
   @apply flex bg-gray-50 p-2.5 my-2.5 break-all break-words border-2 border-gray-200 rounded-md text-[11px] md:text-xs;
 }
 
+pre.seqF {
+  @apply border-l-0;
+}
+
 /* Override jQuery UI tooltip styles  */
 .ui-tooltip {
   background-color: #000 !important;
