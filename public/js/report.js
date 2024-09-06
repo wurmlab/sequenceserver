@@ -1,5 +1,5 @@
 import './jquery_world'; // for custom $.tooltip function
-import './../packages/jquery_scrollspy';
+import './../packages/jquery.scrollspy';
 import React, { Component } from 'react';
 import _ from 'underscore';
 
