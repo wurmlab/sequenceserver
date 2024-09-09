@@ -218,7 +218,7 @@ export default class extends Component {
             </button>;
         }
         else {
-            return <button key={key} className="text-sm cursor-pointer view-sequence text-gray-400 cursor-not-allowed pointer-events-none"
+            return <button key={key} className="text-sm view-sequence disabled"
                 title={title} disabled={true}>
                 <i className={`fa ${icon}`}></i> {text}
             </button>;

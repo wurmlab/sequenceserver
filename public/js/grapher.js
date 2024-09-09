@@ -45,7 +45,7 @@ export default function Grapher(Graph) {
 
         header() {
             if(Graph.canCollapse()) {
-                return <div className="pr-[1px]">
+                return <div className="grapher-header pr-[1px]">
                     <h4
                         className="inline-block pl-[1px] m-0 caption cursor-pointer text-sm"
                         onClick={() => this.collapsePreferences.toggleCollapse()}

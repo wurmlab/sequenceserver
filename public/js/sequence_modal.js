@@ -32,7 +32,7 @@ export default class SequenceModal extends React.Component {
               <div className="bg-white pt-5">
                 <div className="px-6 mb-4 flex justify-between">
                   <h3 className="text-base font-semibold leading-6 text-gray-900">View sequence</h3>
-                  <span className="cursor-pointer" onClick={() => this.hide()}>
+                  <span className="cursor-pointer close-modal" onClick={() => this.hide()}>
                     <i className="fa-solid fa-xmark align-bottom"></i>
                   </span>
                 </div>
