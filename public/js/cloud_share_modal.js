@@ -195,7 +195,7 @@ export default class CloudShareModal extends React.Component {
                     <i className="fa-solid fa-xmark align-bottom"></i>
                   </span>
                 </div>
-                <div className="pt-6 mt-2 text-sm">
+                <div className="modal-content pt-6 mt-2 text-sm">
                   {content}
                 </div>
               </div>

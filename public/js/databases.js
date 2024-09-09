@@ -108,7 +108,7 @@ export class Databases extends Component {
                             {toggleState}
                         </button>
                     </div>
-                    <ul className={'databases text-lg' + category}>
+                    <ul className={'databases text-lg ' + category}>
                         {_.map(
                             this.databases(category),
                             _.bind(function (database, index) {

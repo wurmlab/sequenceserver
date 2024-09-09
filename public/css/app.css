@@ -58,6 +58,10 @@ pre.seqF {
   @apply text-seqorange font-bold;
 }
 
+.disabled {
+  @apply cursor-not-allowed pointer-events-none text-gray-400;
+}
+
 /* Override jQuery UI tooltip styles  */
 .ui-tooltip {
   background-color: #000 !important;

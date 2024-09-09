@@ -285,12 +285,12 @@ export default class extends Component {
                 </div>
                 <ul>
                     {
-                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className={`${!this.props.atLeastOneHit ? 'cursor-not-allowed' : 'hover:bg-gray-200'}`}>  
+                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="hover:bg-gray-200">
                             <a
                                 href="#" 
-                                className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit ? 'text-gray-400 cursor-not-allowed pointer-events-none' : ''}`}   
-                                onClick={this.props.atLeastOneHit ? this.downloadFastaOfAll : (e) => e.preventDefault()}>  
-                                    FASTA of all hits  
+                                className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}
+                                onClick={this.props.atLeastOneHit ? this.downloadFastaOfAll : (e) => e.preventDefault()}>
+                                    FASTA of all hits
                             </a>  
                         </li>
                     }
@@ -298,19 +298,19 @@ export default class extends Component {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
                             <a
                                 href="#"
-                                className="text-sm download-fasta-of-selected text-gray-400 cursor-not-allowed pointer-events-none py-0.5 px-0.5"
+                                className="text-sm download-fasta-of-selected disabled py-0.5 px-0.5"
                                 onClick={this.downloadFastaOfSelected}>
                                 FASTA of <span className="text-bold"></span> selected hit(s)
                             </a>
                         </li>
                     }
-                    <li className={`${!this.props.atLeastOneHit ? 'cursor-not-allowed' : 'hover:bg-gray-200'}`}>  
-                        <a href="#" className={`text-sm text-seqblue download-alignment-of-all hover:text-seqorange py-0.5 px-0.5 ${!this.props.atLeastOneHit ? 'text-gray-400 cursor-not-allowed pointer-events-none' : ''}`}>  
-                            Alignment of all hits  
-                        </a>  
+                    <li className="hover:bg-gray-200">
+                        <a href="#" className={`text-sm text-seqblue download-alignment-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}>
+                            Alignment of all hits
+                        </a>
                     </li>
                     <li>
-                        <a href="#" className="text-sm download-alignment-of-selected text-gray-400 cursor-not-allowed pointer-events-none py-0.5 px-0.5">
+                        <a href="#" className="text-sm download-alignment-of-selected disabled py-0.5 px-0.5">
                             Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>

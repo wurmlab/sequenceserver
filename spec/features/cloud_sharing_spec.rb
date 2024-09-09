@@ -24,7 +24,7 @@ describe 'Sharing results on cloud', type: :feature, js: true do
 
     click_on 'Share to cloud'
 
-    within '.modal-body' do
+    within '.modal-content' do
       fill_in 'email', with: 'example@sequenceserver.com'
       expect(page).to have_selector('button:disabled', text: 'Submit')
 
@@ -47,7 +47,7 @@ describe 'Sharing results on cloud', type: :feature, js: true do
 
       click_on 'Share to cloud'
 
-      within '.modal-body' do
+      within '.modal-content' do
         fill_in 'email', with: 'example@sequenceserver.com'
         check 'tosCheckbox'
         click_on 'Submit'
@@ -74,7 +74,7 @@ describe 'Sharing results on cloud', type: :feature, js: true do
 
       click_on 'Share to cloud'
 
-      within '.modal-body' do
+      within '.modal-content' do
         fill_in 'email', with: 'example@sequenceserver.com'
         check 'tosCheckbox'
         click_on 'Submit'

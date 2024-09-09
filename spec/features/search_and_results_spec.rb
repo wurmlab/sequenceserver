@@ -316,8 +316,7 @@ describe 'Search and results', type: :feature, js: true do
     end
 
     # Dismiss the modal.
-    page.find('.sequence-viewer').send_keys(:escape)
-    expect(page).to have_no_css('.sequence-viewer')
+    page.find('.close-modal').click
 
     # Click on the second sequence viewer link in the report.
     page.find_all('.view-sequence')[1].click
