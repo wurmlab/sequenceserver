@@ -187,7 +187,7 @@ export default class CloudShareModal extends React.Component {
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full md:max-w-lg">
+            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full md:max-w-2xl">
               <div className="bg-white pt-5">
                 <div className="flex justify-between px-6 mb-4">
                   <h3 className="text-base font-semibold leading-6 text-gray-900">Share to SequenceServer Cloud</h3>

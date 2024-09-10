@@ -428,7 +428,7 @@ class HitsTable extends Component {
                             <tr key={hit.number}>  
                                 <td className="text-left px-2 py-1">{hit.number + '.'}</td>  
                                 <td className="text-ellipsis px-2 py-1"> 
-                                    <div className="relative flex flex-col items-center group">
+                                    <div className="flex flex-col items-center group">
                                         <div className="flex items-center w-full">
                                             <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">
                                                 <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}  
