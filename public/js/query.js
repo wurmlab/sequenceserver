@@ -49,8 +49,8 @@ export class ReportQuery extends Component {
         if (this.props.showQueryCrumbs) {
             meta = `query ${this.props.query.number}, ` + meta;
         }
-        return <div className="section-header border-b border-seqorange flex justify-between w-full">
-            <h3 className="text-base cursor-pointer flex items-center">
+        return <div className="section-header border-b border-seqorange justify-between w-full flex flex-col sm:flex-row gap-4">
+            <h3 className="text-base cursor-pointer flex flex-col sm:flex-row items-start">
                 <strong>Query=<span className="ml-1">{this.props.query.id}</span></strong>
                 <span className="ml-1">{this.props.query.title}</span>
             </h3>
@@ -408,9 +408,9 @@ class HitsTable extends Component {
         // column.
         if (this.props.imported_xml) seqwidth += 15;
 
-        return <table 
-            className="table table-hover table-condensed tabular-view text-sm min-w-full mb-0">  
-            <thead>  
+        return <table
+            className="table table-hover table-condensed tabular-view text-sm min-w-full mb-0">
+            <thead>
                 <tr className="text-neutral-500">
                     <th className="text-left px-2 py-1 font-normal">#</th>
                     <th style={{ width: `${seqwidth}%` }} className="text-left px-2 font-normal py-1">Similar sequences</th>
@@ -419,19 +419,19 @@ class HitsTable extends Component {
                     <th className="text-right px-2 py-1 font-normal w-1/10">Total score</th>
                     <th className="text-right px-2 py-1 font-normal w-1/10">E value</th>
                     <th className="text-right px-2 py-1 font-normal w-1/10">Identity (%)</th>
-                </tr>  
-            </thead>  
-            <tbody>  
-                {  
-                    _.map(this.props.query.hits, _.bind(function (hit) {  
-                        return (  
-                            <tr key={hit.number}>  
-                                <td className="text-left px-2 py-1">{hit.number + '.'}</td>  
-                                <td className="text-ellipsis px-2 py-1"> 
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    _.map(this.props.query.hits, _.bind(function (hit) {
+                        return (
+                            <tr key={hit.number}>
+                                <td className="text-left px-2 py-1">{hit.number + '.'}</td>
+                                <td className="text-ellipsis px-2 py-1">
                                     <div className="flex flex-col items-center group">
                                         <div className="flex items-center w-full">
                                             <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">
-                                                <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}  
+                                                <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}
                                                     className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>
                                             </span>
                                             <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex w-[300px]">
@@ -441,9 +441,9 @@ class HitsTable extends Component {
                                                 </span>
                                             </div>
                                         </div>
-                                    </div> 
-                                </td>  
-                                {hasName &&  
+                                    </div>
+                                </td>
+                                {hasName &&
                                     <td className="text-ellipsis px-2 py-1"  data-placement="top">
                                         <div className="relative flex flex-col items-center group">
                                             <div className="flex items-center w-full">
@@ -457,18 +457,18 @@ class HitsTable extends Component {
                                                     </span>
                                                 </div>
                                             </div>
-                                        </div> 
-                                    </td>  
+                                        </div>
+                                    </td>
                                 }
-                                {!this.props.imported_xml && <td className="text-right px-2 py-1">{hit.qcovs}</td>}  
-                                <td className="text-right px-2 py-1">{hit.total_score}</td>  
-                                <td className="text-right px-2 py-1">{Utils.inExponential(hit.hsps[0].evalue)}</td>  
-                                <td className="text-right px-2 py-1">{Utils.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>  
-                            </tr>  
-                        );  
-                    }, this))  
-                }  
-            </tbody>  
+                                {!this.props.imported_xml && <td className="text-right px-2 py-1">{hit.qcovs}</td>}
+                                <td className="text-right px-2 py-1">{hit.total_score}</td>
+                                <td className="text-right px-2 py-1">{Utils.inExponential(hit.hsps[0].evalue)}</td>
+                                <td className="text-right px-2 py-1">{Utils.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>
+                            </tr>
+                        );
+                    }, this))
+                }
+            </tbody>
         </table>;
     }
 
