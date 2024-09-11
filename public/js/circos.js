@@ -40,7 +40,7 @@ class Graph {
         // Initialize dimensions
         this.width = this.svgContainer.width();
         this.height = 600;
-        this.innerRadius = 210;
+        this.innerRadius = 200;
         this.outerRadius = 230;
 
         // Initialize data arrays

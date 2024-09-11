@@ -83,6 +83,9 @@ var ribbonV3 = function() {
 };
 // end of ribbon function from d3 version 3
 
+
+// Bellow code extracted from circosjs https://github.com/nicgirault/circosJS and d3 version upgraded to use version 7.9
+
 var circosJS,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
