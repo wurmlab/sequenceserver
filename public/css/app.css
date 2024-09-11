@@ -51,11 +51,15 @@ sup {
 /* Pre tag */
 pre.indL,
 pre.seqF {
-  @apply flex bg-[#f5f5f5] p-2.5 my-2.5 break-all break-words border border-[#ccc] rounded-md text-[11px] text-[#333] md:text-[13px];
+  @apply flex bg-[#f5f5f5] p-2.5 my-2.5 break-all break-words border border-[#ccc] text-[11px] text-[#333] md:text-[13px];
 }
 
 pre.seqF {
-  @apply border-l-0;
+  @apply border-l-0 rounded-r-md;
+}
+
+pre.indL {
+  @apply rounded-l-md pr-0;
 }
 
 .side-nav.active {
