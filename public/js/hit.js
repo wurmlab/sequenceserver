@@ -114,10 +114,12 @@ export default class extends Component {
             meta = `hit ${this.props.hit.number}, ` + meta;
         }
 
-        return <div className="section-header border-b border-seqorange flex justify-between w-full">
-            <h4 className="text-sm cursor-pointer flex items-center">
-                <i className="fa-regular fa-square-minus"></i>  
-                <strong className="cursor-text ml-1">{this.props.hit.id}</strong>  
+        return <div className="section-header border-b border-seqorange flex flex-col sm:flex-row sm:justify-between w-full">
+            <h4 className="text-sm cursor-pointer flex flex-col sm:flex-row items-start sm:items-center">
+                <div>
+                    <i className="fa-regular fa-square-minus"></i>
+                    <strong className="cursor-text ml-1">{this.props.hit.id}</strong>
+                </div>
                 <span className="ml-1">{this.props.hit.title}</span>
             </h4>
             <span className="label text-sm font-normal text-inherit cursor-text">{meta}</span>
