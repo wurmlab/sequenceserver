@@ -412,13 +412,13 @@ class HitsTable extends Component {
             className="table table-hover table-condensed tabular-view text-sm min-w-full mb-0">
             <thead>
                 <tr className="text-neutral-500">
-                    <th className="text-left px-2 py-1 font-normal">#</th>
-                    <th style={{ width: `${seqwidth}%` }} className="text-left px-2 font-normal py-1">Similar sequences</th>
-                    {hasName && <th className="text-left px-2 py-1 font-normal w-1/6">Species</th>}
-                    {!this.props.imported_xml && <th className="text-right px-2 py-1 font-normal w-1/6">Query coverage (%)</th>}
-                    <th className="text-right px-2 py-1 font-normal w-1/10">Total score</th>
-                    <th className="text-right px-2 py-1 font-normal w-1/10">E value</th>
-                    <th className="text-right px-2 py-1 font-normal w-1/10">Identity (%)</th>
+                    <th className="text-left font-normal">#</th>
+                    <th style={{ width: `${seqwidth}%` }} className="text-left font-normal">Similar sequences</th>
+                    {hasName && <th className="text-left font-normal w-1/6">Species</th>}
+                    {!this.props.imported_xml && <th className="text-right font-normal w-1/6">Query coverage (%)</th>}
+                    <th className="text-right font-normal w-1/10">Total score</th>
+                    <th className="text-right font-normal w-1/10">E value</th>
+                    <th className="text-right font-normal w-1/10">Identity (%)</th>
                 </tr>
             </thead>
             <tbody>
@@ -426,8 +426,8 @@ class HitsTable extends Component {
                     _.map(this.props.query.hits, _.bind(function (hit) {
                         return (
                             <tr key={hit.number}>
-                                <td className="text-left px-2 py-1">{hit.number + '.'}</td>
-                                <td className="text-ellipsis px-2 py-1">
+                                <td className="text-left">{hit.number + '.'}</td>
+                                <td className="text-ellipsis">
                                     <div className="flex flex-col items-center group">
                                         <div className="flex items-center w-full">
                                             <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">
@@ -444,7 +444,7 @@ class HitsTable extends Component {
                                     </div>
                                 </td>
                                 {hasName &&
-                                    <td className="text-ellipsis px-2 py-1"  data-placement="top">
+                                    <td className="text-ellipsis" data-placement="top">
                                         <div className="relative flex flex-col items-center group">
                                             <div className="flex items-center w-full">
                                                 <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">
@@ -460,10 +460,10 @@ class HitsTable extends Component {
                                         </div>
                                     </td>
                                 }
-                                {!this.props.imported_xml && <td className="text-right px-2 py-1">{hit.qcovs}</td>}
-                                <td className="text-right px-2 py-1">{hit.total_score}</td>
-                                <td className="text-right px-2 py-1">{Utils.inExponential(hit.hsps[0].evalue)}</td>
-                                <td className="text-right px-2 py-1">{Utils.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>
+                                {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
+                                <td className="text-right">{hit.total_score}</td>
+                                <td className="text-right">{Utils.inExponential(hit.hsps[0].evalue)}</td>
+                                <td className="text-right">{Utils.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>
                             </tr>
                         );
                     }, this))
