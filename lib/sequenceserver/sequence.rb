@@ -206,7 +206,7 @@ module SequenceServer
           # `split` to fail. We replace invalid UTF-8 characters with X.
           line = line.encode('UTF-8', invalid: :replace, replace: 'X')
           Sequence.new(*line.chomp.split('	'))
-        end
+        end.uniq
 
         @batch_file.unlink
         extend(IO) && write if in_file
