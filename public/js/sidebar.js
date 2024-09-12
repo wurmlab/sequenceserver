@@ -209,7 +209,7 @@ export default class extends Component {
         return (
             <div className="sidebar-top-panel">
                 <div className="pl-px table mb-0 w-full">
-                    <h4 className="text-sm font-bold mb-0">
+                    <h4 className="text-sm font-bold mb-0 mt-0.5">
                         {this.summaryString()}
                     </h4>
                 </div>
@@ -264,7 +264,7 @@ export default class extends Component {
         return <ul className="w-full"> {
             _.map(this.props.data.queries, (query) => {
                 return <li key={'Side_bar_' + query.id}>
-                    <a className="side-nav text-sm text-seqblue hover:text-seqorange focus:text-seqorange active:text-seqorange cursor-pointer hover-bold line-clamp-1"
+                    <a className="side-nav text-sm text-seqblue hover:text-seqorange focus:text-seqorange active:text-seqorange cursor-pointer hover-bold line-clamp-1 mb-1.5"
                         title={'Query= ' + query.id + ' ' + query.title}
                         href={'#Query_' + query.number}>
                         {'Query= ' + query.id}
@@ -279,13 +279,13 @@ export default class extends Component {
         return (
             <div className="downloads">
                 <div className="pl-px table mb-0 w-full">
-                    <h4 className="text-sm font-bold mb-0">
+                    <h4 className="text-sm font-bold mb-0 mt-2.5">
                         Download FASTA, XML, TSV
                     </h4>
                 </div>
                 <ul>
                     {
-                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="hover:bg-gray-200">
+                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="hover:bg-gray-200 mb-1">
                             <a
                                 href="#" 
                                 className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}
@@ -295,7 +295,7 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li>
+                        !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="mb-1">
                             <a
                                 href="#"
                                 className="text-sm download-fasta-of-selected disabled py-0.5 px-0.5"
@@ -304,18 +304,18 @@ export default class extends Component {
                             </a>
                         </li>
                     }
-                    <li className="hover:bg-gray-200">
+                    <li className="hover:bg-gray-200 mb-1">
                         <a href="#" className={`text-sm text-seqblue download-alignment-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}>
                             Alignment of all hits
                         </a>
                     </li>
-                    <li>
+                    <li className="mb-1">
                         <a href="#" className="text-sm download-alignment-of-selected disabled py-0.5 px-0.5">
                             Alignment of <span className="text-bold"></span> selected hit(s)
                         </a>
                     </li>
                     {
-                        !this.props.data.imported_xml && <li className="hover:bg-gray-200">
+                        !this.props.data.imported_xml && <li className="hover:bg-gray-200 mb-1">
                             <a href={'download/' + this.props.data.search_id + '.std_tsv'}>
                                 <div className="relative flex flex-col items-center group">
                                     <div className="flex items-center w-full">
@@ -335,7 +335,7 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li className="hover:bg-gray-200">
+                        !this.props.data.imported_xml && <li className="hover:bg-gray-200 mb-1">
                             <a href={'download/' + this.props.data.search_id + '.full_tsv'}>
                                 <div className="relative flex flex-col items-center group">
                                     <div className="flex items-center w-full">
@@ -355,7 +355,7 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li className="hover:bg-gray-200">
+                        !this.props.data.imported_xml && <li className="hover:bg-gray-200 mb-1">
                             <a href={'download/' + this.props.data.search_id + '.xml'}>
                                 <div className="relative flex flex-col items-center group">
                                     <div className="flex items-center w-full">
@@ -372,7 +372,7 @@ export default class extends Component {
                         </li>
                     }
                     {
-                        !this.props.data.imported_xml && <li className="hover:bg-gray-200">
+                        !this.props.data.imported_xml && <li className="hover:bg-gray-200 mb-1">
                             <a href={'download/' + this.props.data.search_id + '.pairwise'}>
                                 <div className="relative flex flex-col items-center group">
                                     <div className="flex items-center w-full">
@@ -398,7 +398,7 @@ export default class extends Component {
         return (
             <div className="sharing-panel">
                 <div className="pl-px table mb-0 w-full">
-                    <h4 className="text-sm font-bold mb-0">
+                    <h4 className="text-sm font-bold mb-0 mt-2.5">
                         Share results
                     </h4>
                 </div>
@@ -484,7 +484,7 @@ export default class extends Component {
                 {this.sharingPanelJSX()}
                 <div className="referral-panel">
                     <div className="pl-px table mb-0 w-full text-sm">
-                        <h4 className="font-bold mb-0">Recommend SequenceServer</h4>
+                        <h4 className="font-bold mb-0 mt-2.5">Recommend SequenceServer</h4>
                         <p><a href="https://sequenceserver.com/referral-program" target="_blank" className="text-seqblue hover:text-seqorange">Earn up to $400 per signup</a></p>
                     </div>
                 </div>
