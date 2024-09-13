@@ -83,11 +83,6 @@ export class Form extends Component {
                 $button.trigger('click');
             }
         });
-
-        // show overlay to create visual feedback on button click
-        $('#method').on('click', () => {
-            $('#overlay').css('display', 'block');
-        });
     }
 
     useTreeWidget() {
@@ -97,14 +92,18 @@ export class Form extends Component {
     handleFormSubmission(evt) {
         evt.preventDefault();
         const form = this.formRef.current;
+
+        document.getElementById('overlay').style.display = 'block';
+
         const formData = new FormData(form);
         formData.append('method', this.button.current.state.methods[0]);
+
         fetch(window.location.href, {
             method: 'POST',
             body: formData
         }).then(res => {
             //remove overlay when form is submitted
-            $('#overlay').css('display', 'none');
+            document.getElementById('overlay').style.display = 'none';
             // redirect
             if (res.redirected && res.url) {
                 // setTimeout is needed here as a workaround because safari doesnt allow async calling of window.open
@@ -223,6 +222,7 @@ export class Form extends Component {
                         }
 
                         <Options blastMethod={this.state.blastMethod} predefinedOptions={this.state.preDefinedOpts[this.state.blastMethod] || {}} blastTasks={(this.state.blastTaskMap || {})[this.state.blastMethod]} />
+
                     </div>
 
                     <div className="py-6"></div> {/* add a spacer so that the sticky action bar does not hide any contents */}
