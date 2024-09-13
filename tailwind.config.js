@@ -11,6 +11,9 @@ module.exports = {
         seqblue: "#1B557A",
         seqorange: "#C74F13",
       },
+      fontSize: {
+        xs : ".7rem",
+      },
     },
   },
   plugins: [],
