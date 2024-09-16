@@ -1,8 +1,7 @@
 import _ from 'underscore';
-import d3 from 'd3';
+import * as d3 from 'd3';
 export function get_colors_for_evalue(evalue, hits) {
-    var colors = d3.scale
-        .log()
+    var colors = d3.scaleLog()
         .domain([
             d3.min([1e-5, d3.min(hits.map(function (d) {
                 if (parseFloat(d.evalue) === 0.0) return undefined;
@@ -24,6 +23,13 @@ export function toLetters(num) {
     return pow ? toLetters(pow) + out : out;
 }
 
+export function getPrefix(str) {
+    if (str.length === 0) return '';
+
+    var lastChar = str.charAt(str.length - 1);
+    return /[a-zA-Z]/.test(lastChar) ? lastChar : '';
+}
+
 /**
  * Defines how ticks will be formatted.
  *
@@ -32,31 +38,11 @@ export function toLetters(num) {
  * Borrowed from Kablammo. Modified by Priyam based on https://github.com/mbostock/d3/issues/1722.
  */
 export function tick_formatter(scale, seq_type) {
-    var ticks = scale.ticks();
-    var prefix = d3.formatPrefix(ticks[ticks.length - 1]);
+    var prefix = d3.format('~s')
     var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
 
-    var digits = 0;
-    var format;
-    var _ticks;
-
-    do {
-        format = d3.format('.' + digits + 'f');
-        _ticks = scale.ticks().map(function (d) {
-            return format(prefix.scale(d));
-        });
-        digits++;
-
-    } while (_ticks.length !== _.uniq(_ticks).length);
-
     return function (d) {
-        if (!prefix.symbol || d === scale.domain()[0]) {
-            return (d + ' ' + suffixes[seq_type]);
-        }
-        else {
-            return (format(prefix.scale(d)) +
-                  ' ' + prefix.symbol + suffixes[seq_type]);
-        }
+        return `${prefix(d)} ${suffixes[seq_type]}`;
     };
 }
 

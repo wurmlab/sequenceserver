@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import * as d3 from 'd3';
 import _ from 'underscore';
 import Grapher from 'grapher';
 import * as Helpers from './visualisation_helpers';
@@ -65,16 +65,16 @@ class Graph {
     }
 
     define_scale_and_bins() {
-        this._scale_x = d3.scale.linear()
+        this._scale_x = d3.scaleLinear()
             .domain([
                 0,
                 (d3.max([this.query_length, d3.max(this._data)]) * 1.01)
             ]).nice()
             .range([0, this._width]);
-        this._bins = d3.layout.histogram()
-            .range(this._scale_x.domain())
-            .bins(this._scale_x.ticks(50))(this._data);
-        this._scale_y = d3.scale.linear()
+        this._bins = d3.bin()
+            .domain(this._scale_x.domain())
+            .thresholds(this._scale_x.ticks(50))(this._data);
+        this._scale_y = d3.scaleLinear()
             .domain([0, d3.max(this._bins, function(d) { return d.length; })])
             .range([this._height, 0]).nice();
     }
@@ -105,16 +105,15 @@ class Graph {
 
     tick_formatter(seq_type) {
         var ticks = this._scale_x.ticks();
-        var format = d3.format('.1f');
-        var prefix = d3.formatPrefix(ticks[ticks.length - 1]);
+        var prefix = d3.format('~s');
         var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
         return function (d) {
             if (d === 0) { return ; }
             if (_.indexOf(ticks,d) >= 0) {
                 if (suffixes[seq_type] == 'aa') {
-                    return (d + ' ' + suffixes[seq_type]);
+                    return `${d} ${suffixes[seq_type]}`;
                 } else {
-                    return (format(prefix.scale(d)) + ' ' + prefix.symbol + suffixes[seq_type]);
+                    return `${prefix(d)} ${suffixes[seq_type]}`;
                 }
             } else {
                 return ;
@@ -144,7 +143,7 @@ class Graph {
                 };
                 inner_data.push(item);
             });
-            var item = {data: inner_data, x: bin.x, dx: bin.dx, length: bin.length};
+            var item = {data: inner_data, x: bin.x0, dx: bin.x1, length: bin.length};
             data2.push(item);
         });
         this._update_data = data2;
@@ -172,7 +171,7 @@ class Graph {
             })
             .attr('x', 1)
             .attr('y', function(i) { return (self._scale_y(i.y0)); })
-            .attr('width', self._scale_x(this._bins[1].x) - self._scale_x(this._bins[0].x) - 1)
+            .attr('width', self._scale_x(this._bins[1].x0) - self._scale_x(this._bins[0].x0) - 1)
             .attr('height', function (i) { return self._scale_y(i.y1) - self._scale_y(i.y0); })
             .attr('fill', function(i) {
                 return i.color;
@@ -210,16 +209,12 @@ class Graph {
             space = len;
         }
         var formatter = this.tick_formatter(this._seq_type.subject_seq_type);
-        var x_axis = d3.svg.axis()
-            .scale(this._scale_x)
-            .orient('bottom')
+        var x_axis = d3.axisTop(this._scale_x)
             .ticks(50)
             .tickFormat(formatter);
-        var y_axis = d3.svg.axis()
-            .scale(this._scale_y)
-            .orient('left')
+        var y_axis = d3.axisLeft(this._scale_y)
             .tickValues(this._scale_y.ticks(space))
-            .outerTickSize(0)
+            .tickSizeOuter(0)
             .tickFormat(function (e) {
                 if (Math.floor(e) != e) {
                     return ;

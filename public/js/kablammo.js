@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import * as d3 from 'd3';
 import _ from 'underscore';
 import Grapher from 'grapher';
 import * as Helpers from './visualisation_helpers';
@@ -84,7 +84,7 @@ class Graph {
           this.svgContainer_d3.insert('svg', ':first-child')
               .attr('height', this._canvas_height)
               .attr('width', this._canvas_width);
-        this._svg.raw = this._svg.d3[0][0];
+        this._svg.raw = this._svg.d3._groups[0][0];
         this._render_graph();
     }
 
@@ -105,13 +105,17 @@ class Graph {
     _create_axis(scale, orientation, height, text_anchor, dx, dy, seq_type) {
         var formatter = Helpers.tick_formatter(scale, seq_type);
         var tvalues = scale.ticks();
+        var axis;
         tvalues.pop();
-        var axis = d3.svg.axis()
-            .ticks(this._axis_ticks)
-            .scale(scale)
+        if (orientation === 'top') {
+            axis = d3.axisTop(scale)
+        } else {
+            axis = d3.axisBottom(scale)
+        }
+
+        axis.ticks(this._axis_ticks)
             .tickValues(tvalues.concat(scale.domain()))
             .tickFormat(formatter)
-            .orient(orientation);
 
         var container = this._svg.d3.append('g')
             .attr('class', 'axis')
@@ -307,10 +311,10 @@ class Graph {
                 subject_range.reverse();
         }
 
-        var query_scale = d3.scale.linear()
+        var query_scale = d3.scaleLinear()
             .domain([1, this._query_length])
             .range(query_range);
-        var subject_scale = d3.scale.linear()
+        var subject_scale = d3.scaleLinear()
             .domain([1, this._subject_length])
             .range(subject_range);
         query_scale.original_domain = query_scale.domain();

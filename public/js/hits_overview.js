@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import * as d3 from 'd3';
 import _ from 'underscore';
 import Grapher from 'grapher';
 import * as Helpers from './visualisation_helpers';
@@ -262,9 +262,7 @@ class Graph {
             .append('g')
             .attr('transform', 'translate(' + options.margin / 2 + ', ' + (1.5 * options.margin) + ')');
 
-        var x = d3.scale
-            .linear()
-            .range([0, width - options.margin]);
+        var x = d3.scaleLinear().range([0, width - options.margin]);
 
         x.domain([1, queryLen]);
 
@@ -274,10 +272,7 @@ class Graph {
         var _tValues = x.ticks(11);
         _tValues.pop();
 
-        var xAxis = d3.svg
-            .axis()
-            .scale(x)
-            .orient('top')
+        var xAxis = d3.axisBottom(x)
             .tickValues(_tValues.concat([1, queryLen]))
             .tickFormat(formatter);
 
@@ -294,16 +289,14 @@ class Graph {
             .attr('y','2px')
             .attr('transform','rotate(-90)');
 
-        var y = d3.scale
-            .ordinal()
-            .rangeBands([0, height - 3 * options.margin - 2 * options.legend], 0.3);
+        var y = d3.scaleBand()
+            .range([0, height - 3 * options.margin - 2 * options.legend], 0.3);
 
         y.domain(hits.map(function (d) {
             return d.hitId;
         }));
 
-        var gradScale = d3.scale
-            .log()
+        var gradScale = d3.scaleLog()
             .domain([
                 d3.min([1e-5, d3.min(hits.map(function (d) {
                     if (parseFloat(d.hitEvalue) === 0.0) return undefined;
