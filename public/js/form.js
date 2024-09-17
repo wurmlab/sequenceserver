@@ -60,7 +60,11 @@ export class Form extends Component {
                 databases: data['database'],
                 preSelectedDbs: data['preSelectedDbs'],
                 preDefinedOpts: data['options'],
-                blastTaskMap: data['blastTaskMap']
+                blastTaskMap: data['blastTaskMap'],
+                currentlySelectedDbs: data['preSelectedDbs'] || [], // Set initial selected databases
+            }, () => {
+                // Call handleDatabaseSelectionChanged with the initial selected databases
+                this.handleDatabaseSelectionChanged(this.state.currentlySelectedDbs);
             });
 
             /* Pre-populate the form with server sent query sequences
@@ -69,6 +73,18 @@ export class Form extends Component {
             if (data['query']) {
                 this.query.current.value(data['query']);
             }
+
+            setTimeout(function () {
+                const checkboxDatabases = $('.checkbox-database');
+
+                if (data['preSelectedDbs']) {
+                    const preselectData = data['preSelectedDbs'];
+                    $.each(preselectData, function(index, db) {
+                        const matchingCheckbox = checkboxDatabases.filter(`[value="${db.id}"]`);
+                        matchingCheckbox.prop('checked', true);
+                    });
+                }
+            }, 0);
 
             setTimeout(function () {
                 $('.jstree_div').click();
