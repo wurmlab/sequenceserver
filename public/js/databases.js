@@ -152,6 +152,7 @@ export class Databases extends Component {
                     data-type={database.type}
                     disabled={isDisabled}
                     checked={isChecked}
+                    className="checkbox-database"
                     onChange={_.bind(function () {
                         this.handleDatabaseSelectionClick(database);
                     }, this)}
