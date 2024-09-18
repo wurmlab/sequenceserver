@@ -191,7 +191,7 @@ export default class extends Component {
         tooltip.classList.remove('hidden');
 
         setTimeout(() => {
-          tooltip.classList.add('hidden');
+            tooltip.classList.add('hidden');
         }, 3000);  
     }
 
