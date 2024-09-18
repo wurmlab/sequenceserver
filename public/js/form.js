@@ -63,8 +63,20 @@ export class Form extends Component {
                 blastTaskMap: data['blastTaskMap'],
                 currentlySelectedDbs: data['preSelectedDbs'] || [], // Set initial selected databases
             }, () => {
-                // Call handleDatabaseSelectionChanged with the initial selected databases
+                 // Call handleDatabaseSelectionChanged with the initial selected databases
                 this.handleDatabaseSelectionChanged(this.state.currentlySelectedDbs);
+
+                // Set database type and determine blast methods
+                const firstSelectedDb = this.state.preSelectedDbs != null ? this.state.preSelectedDbs[0].type : null;
+                if (firstSelectedDb) {
+                    this.handleDatabaseTypeChanged(firstSelectedDb);  // Set the database type based on the pre-selected DB
+                }
+
+                // Update blastMethod after selecting databases
+                const methods = this.determineBlastMethods();
+                if (methods.length > 0) {
+                    this.setState({ blastMethod: methods[0] });
+                }
             });
 
             /* Pre-populate the form with server sent query sequences
@@ -74,6 +86,7 @@ export class Form extends Component {
                 this.query.current.value(data['query']);
             }
 
+            // DB selection
             setTimeout(function () {
                 const checkboxDatabases = $('.checkbox-database');
 

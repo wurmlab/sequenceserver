@@ -178,20 +178,20 @@ export default class extends Component {
      * Hides the 'Copied!' tooltip after 3 seconds
      */
 
-    copyURL() {  
-        const element = document.createElement('input');  
-        const url = window.location.href;  
-        document.body.appendChild(element);  
-        element.value = url;  
-        element.select();  
-        document.execCommand('copy');  
-        document.body.removeChild(element);  
-      
-        const tooltip = document.getElementById('tooltip');  
-        tooltip.classList.remove('hidden');  
-      
-        setTimeout(() => {  
-          tooltip.classList.add('hidden');  
+    copyURL() {
+        const element = document.createElement('input');
+        const url = window.location.href;
+        document.body.appendChild(element);
+        element.value = url;
+        element.select();
+        document.execCommand('copy');
+        document.body.removeChild(element);
+
+        const tooltip = document.getElementById('tooltip');
+        tooltip.classList.remove('hidden');
+
+        setTimeout(() => {
+          tooltip.classList.add('hidden');
         }, 3000);  
     }
 

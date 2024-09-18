@@ -4,7 +4,7 @@ module.exports = {
     "../shared-ui/**/*.{erb,html}",
     "./views/**/*.{erb,html}",
     "./public/**/*.{html,js}",
-   ],
+  ],
   theme: {
     extend: {
       colors: {
@@ -12,7 +12,7 @@ module.exports = {
         seqorange: "#C74F13",
       },
       fontSize: {
-        xs : ".7rem",
+        xs: ".7rem",
       },
     },
   },
