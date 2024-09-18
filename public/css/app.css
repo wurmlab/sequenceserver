@@ -104,7 +104,7 @@ pre.indL {
   left: 20%;
 }
 
-.arrow:after {
+.arrow::after {
   content: "";
   position: absolute;
   left: 20px;
@@ -117,7 +117,7 @@ pre.indL {
   border: 1px solide #000;
 }
 
-.arrow.top:after {
+.arrow.top::after {
   bottom: -20px;
   top: auto;
 }
