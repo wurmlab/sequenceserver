@@ -436,7 +436,7 @@ class HitsTable extends Component {
                                             </span>
                                             <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex w-[300px]">
                                                 <div className="w-0 h-0 border-t-[8px] border-b-[7px] rotate-[270deg] border-r-[7px] -mt-1 border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                                <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                <span className="relative z-10 p-2 hit-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
                                                     {`${hit.id} ${hit.title}`}
                                                 </span>
                                             </div>
@@ -452,7 +452,7 @@ class HitsTable extends Component {
                                                 </span>
                                                 <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex w-[300px]">
                                                     <div className="w-0 h-0 border-t-[8px] border-b-[7px] rotate-[270deg] -mt-1 border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                                    <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                    <span className="relative z-10 p-2 hit-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
                                                         {hit.sciname}
                                                     </span>
                                                 </div>

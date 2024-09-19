@@ -322,7 +322,7 @@ export default class extends Component {
                                         <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Standard tabular report</span>
                                         <div className="absolute hidden left-full ml-2 items-center group-hover:flex w-[300px]">
                                             <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
                                                 15 columns: query and subject ID; scientific
                                                 name, alignment length, mismatches, gaps, identity,
                                                 start and end coordinates, e value, bitscore, query
@@ -342,7 +342,7 @@ export default class extends Component {
                                         <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Full tabular report</span>
                                         <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
                                             <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
                                                 44 columns: query and subject ID, GI,
                                                 accessions, and length; alignment details;
                                                 taxonomy details of subject sequence(s) and
@@ -362,7 +362,7 @@ export default class extends Component {
                                         <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Full XML report</span>
                                         <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
                                             <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
                                                 Results in XML format.
                                             </span>
                                         </div>
@@ -379,7 +379,7 @@ export default class extends Component {
                                         <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Full Text report</span>
                                         <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
                                             <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
                                                 Results in text format.
                                             </span>
                                         </div>
@@ -413,7 +413,7 @@ export default class extends Component {
                                         <div id="tooltip" className="absolute hidden left-full ml-2 items-center">
                                             <div className="flex items-center">
                                                 <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                                <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
                                                     Copied!
                                                 </span>
                                             </div>
@@ -434,7 +434,7 @@ export default class extends Component {
                                         <span className="w-full">Send by email</span>
                                         <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
                                             <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
                                                 Send by email
                                             </span>
                                         </div>
@@ -452,7 +452,7 @@ export default class extends Component {
                                         <span className="w-full">Share to cloud</span>
                                         <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
                                             <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 text-xs leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
                                                 Results in pairwise format
                                                 Upload results to SequenceServer Cloud where it will become accessable
                                                 to everyone who has a link.

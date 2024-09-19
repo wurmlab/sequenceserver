@@ -40,7 +40,7 @@ export default class HSP extends React.Component {
         ref={this.hspRef}
         data-parent-hit={this.hitDOM_ID()}
       >
-        <p className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep text-sm text-neutral-500 font-semibold tracking-[0.7px]">
+        <p className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep text-sm text-neutral-500 font-semibold tracking-wide">
           {this.props.showHSPNumbers &&
             `${Helpers.toLetters(this.hsp.number)}. `}
           {this.hspStats().map((s, i) => (
