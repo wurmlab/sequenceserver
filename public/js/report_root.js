@@ -54,7 +54,7 @@ class Page extends Component {
                 </div>
 
                 {/* Add a hidden span tag containing chars used in HSPs */}
-                <pre className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep mt-1 text-xs tracking-wider" ref={this.hspChars} hidden>
+                <pre className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep mt-1 pre-text tracking-wider" ref={this.hspChars} hidden>
                     ABCDEFGHIJKLMNOPQRSTUVWXYZ +-
                 </pre>
 

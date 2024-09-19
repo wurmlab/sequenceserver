@@ -70,6 +70,14 @@ pre.indL {
   @apply cursor-not-allowed pointer-events-none text-gray-400;
 }
 
+/* Text size */
+.hit-text,
+.pre-text, 
+.search-button-text, 
+.side-tooltip-text {
+  font-size: .7rem;
+}
+
 /* Override jQuery UI tooltip styles  */
 .ui-tooltip {
   background-color: #000 !important;
