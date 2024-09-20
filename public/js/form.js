@@ -61,19 +61,11 @@ export class Form extends Component {
                 preSelectedDbs: data['preSelectedDbs'],
                 preDefinedOpts: data['options'],
                 blastTaskMap: data['blastTaskMap'],
-                currentlySelectedDbs: data['preSelectedDbs'] || [], // Set initial selected databases
+                currentlySelectedDbs: data['preSelectedDbs'] || [],
             }, () => {
                 this.handleDatabaseSelectionChanged(this.state.currentlySelectedDbs);
-
-                const firstSelectedDb = this.state.preSelectedDbs != null ? this.state.preSelectedDbs[0].type : null;
-                if (firstSelectedDb) {
-                    this.handleDatabaseTypeChanged(firstSelectedDb);
-                }
-
-                const methods = this.determineBlastMethods();
-                if (methods.length > 0) {
-                    this.setState({ blastMethod: methods[0] });
-                }
+                this.handleFirstSelectionDB();
+                this.setBlastMethods();
             });
 
             /* Pre-populate the form with server sent query sequences
@@ -84,17 +76,9 @@ export class Form extends Component {
             }
 
             // DB selection
-            setTimeout(function () {
-                const checkboxDatabases = $('.checkbox-database');
-
-                if (data['preSelectedDbs']) {
-                    const preselectData = data['preSelectedDbs'];
-                    $.each(preselectData, function(index, db) {
-                        const matchingCheckbox = checkboxDatabases.filter(`[value="${db.id}"]`);
-                        matchingCheckbox.prop('checked', true);
-                    });
-                }
-            }, 0);
+            setTimeout(() => {
+                this.preselectDatabases(this.state.preSelectedDbs);
+            }, 0); 
 
             setTimeout(function () {
                 $('.jstree_div').click();
@@ -109,6 +93,31 @@ export class Form extends Component {
                 $button.trigger('click');
             }
         });
+    }
+
+    handleFirstSelectionDB() {
+        const firstSelectedDb = this.state.preSelectedDbs != null ? this.state.preSelectedDbs[0].type : null;
+        if (firstSelectedDb) {
+            this.handleDatabaseTypeChanged(firstSelectedDb);
+        }
+    }
+    
+    setBlastMethods() {
+        const methods = this.determineBlastMethods();
+        if (methods.length > 0) {
+            this.setState({ blastMethod: methods[0] });
+        }
+    }
+
+    preselectDatabases(preSelectedDbs) {
+        if (preSelectedDbs) {
+            preSelectedDbs.forEach(db => {
+                const matchCheckbox = this.formRef.current.querySelector(`input.checkbox-database[value="${db.id}"]`);
+                if (matchCheckbox) {
+                    matchCheckbox.checked = true;
+                }
+            });
+        }
     }
 
     useTreeWidget() {
