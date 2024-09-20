@@ -72,10 +72,10 @@ pre.indL {
 
 /* Text size */
 .hit-text,
-.pre-text, 
-.search-button-text, 
+.pre-text,
+.search-button-text,
 .side-tooltip-text {
-  font-size: .7rem;
+  font-size: 0.7rem;
 }
 
 /* Override jQuery UI tooltip styles  */
