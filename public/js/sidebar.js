@@ -320,7 +320,7 @@ export default class extends Component {
                                 <div className="relative flex flex-col items-center group">
                                     <div className="flex items-center w-full">
                                         <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Standard tabular report</span>
-                                        <div className="absolute hidden left-full ml-2 items-centergroup-hover:flex tooltip-wrap">
+                                        <div className="absolute hidden left-full ml-2 items-center group-hover:flex tooltip-wrap">
                                             <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mr-px"></div>
                                             <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                 15 columns: query and subject ID; scientific
