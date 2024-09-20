@@ -11,7 +11,7 @@ import ReportPlugins from 'report_plugins';
 /**
  * Renders entire report.
  *
- * Composed of Query and Sidebar components
+ * Composed of Query and Sidebar components.
  */
 
 class Report extends Component {
