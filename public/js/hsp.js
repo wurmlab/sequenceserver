@@ -195,7 +195,7 @@ export default class HSP extends React.Component {
       nsseq = lsend + this.sframe_unit() * this.sframe_sign();
 
       pp.push(
-        <pre key={this.hsp.number + "," + i} className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep mt-1 text-[11px] tracking-[1.2px] text-[#333]">
+        <pre key={this.hsp.number + "," + i} className="pre-item m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep mt-1 tracking-widest">
           <span className="text-gray-500">
             {`Query   ${this.formatCoords(lqstart, width)} `}
           </span>

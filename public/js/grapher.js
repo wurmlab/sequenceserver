@@ -45,9 +45,9 @@ export default function Grapher(Graph) {
 
         header() {
             if(Graph.canCollapse()) {
-                return <div className="grapher-header pr-[1px]">
+                return <div className="grapher-header pr-px">
                     <h4
-                        className="inline-block pl-[1px] m-0 caption cursor-pointer text-sm"
+                        className="inline-block pl-px m-0 caption cursor-pointer text-sm"
                         onClick={() => this.collapsePreferences.toggleCollapse()}
                     >
                         {this.collapsePreferences.renderCollapseIcon()}
@@ -56,7 +56,7 @@ export default function Grapher(Graph) {
                     {!this.state.collapsed && this.graphLinksJSX()}
                 </div>;
             } else {
-                return <div className="pr-[1px]">
+                return <div className="pr-px">
                     {!this.state.collapsed && this.graphLinksJSX()}
                 </div>;
             }
@@ -64,7 +64,7 @@ export default function Grapher(Graph) {
 
         graphLinksJSX() {
             return (
-                <div className="hit-links float-right text-right text-[#174465] h-4">
+                <div className="hit-links float-right text-right text-blue-300 h-4">
                     <a href="#" className="btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer export-to-svg">
                         <i className="fa fa-download" /> SVG
                     </a>

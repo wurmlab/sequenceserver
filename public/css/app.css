@@ -78,6 +78,12 @@ pre.indL {
   font-size: 0.7rem;
 }
 
+/* HSP */
+.pre-item {
+  font-size: 11px;
+  color: #333;
+}
+
 /* Override jQuery UI tooltip styles  */
 .ui-tooltip {
   background-color: #000 !important;
@@ -128,4 +134,12 @@ pre.indL {
 .arrow.top::after {
   bottom: -20px;
   top: auto;
+}
+
+.tooltip-wrap {
+  width: 300px;
+}
+
+.tooltip-arrow-rotate {
+  transform: rotate(270deg);
 }

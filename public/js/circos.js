@@ -588,17 +588,17 @@ class Graph {
                     return alt_tooltip;
                 });
         });
-        $(".circos").tooltip({
+        $('.circos').tooltip({
             position: {
-                my: "left+3 bottom-3",
-                at: "right bottom",
-                using: function( position, feedback ) {
-                  $( this ).css( position );
-                  $( "<div>" )
-                    .addClass( "arrow" )
-                    .addClass( feedback.vertical )
-                    .addClass( feedback.horizontal )
-                    .appendTo( this );
+                my: 'left+3 bottom-3',
+                at: 'right bottom',
+                using: function(position, feedback) {
+                  $(this).css(position);
+                  $('<div>')
+                    .addClass('arrow')
+                    .addClass(feedback.vertical)
+                    .addClass(feedback.horizontal)
+                    .appendTo(this);
                 }
             },
             items: '.chord1 path, .cs-layout g',

@@ -32,18 +32,13 @@ export default class ErrorModal extends React.Component {
                             <div className="bg-white pt-5">
                                 <div className="flex justify-between px-6 mb-4">
                                     <h3 className="text-base font-semibold leading-6 text-gray-900">{errorData.title}</h3>
-                                    <span className="cursor-pointer" onClick={() => this.hide()}>
-                                        <i className="fa-solid fa-xmark align-bottom"></i>
-                                    </span>
+                                    <span className="cursor-pointer" onClick={() => this.hide()}><i className="fa-solid fa-xmark align-bottom"></i></span>
                                 </div>
                                 <div className="pt-2 px-6 pb-6 mt-2 text-sm">
                                     <p dangerouslySetInnerHTML={{ __html: errorData.message }} className="mb-4"></p>
-
                                     {
                                         errorData.more_info &&
-                                            <pre className="p-2 bg-slate-200 overflow-auto max-h-56">
-                                                {errorData.more_info}
-                                            </pre>
+                                            <pre className="p-2 bg-slate-200 overflow-auto max-h-56">{errorData.more_info}</pre>
                                     }
                                 </div>
                             </div>

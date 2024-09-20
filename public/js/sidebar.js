@@ -320,9 +320,9 @@ export default class extends Component {
                                 <div className="relative flex flex-col items-center group">
                                     <div className="flex items-center w-full">
                                         <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Standard tabular report</span>
-                                        <div className="absolute hidden left-full ml-2 items-center group-hover:flex w-[300px]">
-                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                        <div className="absolute hidden left-full ml-2 items-centergroup-hover:flex tooltip-wrap">
+                                            <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mr-px"></div>
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                 15 columns: query and subject ID; scientific
                                                 name, alignment length, mismatches, gaps, identity,
                                                 start and end coordinates, e value, bitscore, query
@@ -340,9 +340,9 @@ export default class extends Component {
                                 <div className="relative flex flex-col items-center group">
                                     <div className="flex items-center w-full">
                                         <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Full tabular report</span>
-                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
-                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                        <div className="absolute hidden left-full ml-2 items-center group-hover:flex tooltip-wrap">
+                                            <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mr-px"></div>
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                 44 columns: query and subject ID, GI,
                                                 accessions, and length; alignment details;
                                                 taxonomy details of subject sequence(s) and
@@ -360,9 +360,9 @@ export default class extends Component {
                                 <div className="relative flex flex-col items-center group">
                                     <div className="flex items-center w-full">
                                         <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Full XML report</span>
-                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
-                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                        <div className="absolute hidden left-full ml-2 items-center group-hover:flex tooltip-wrap">
+                                            <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mr-px"></div>
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                 Results in XML format.
                                             </span>
                                         </div>
@@ -377,9 +377,9 @@ export default class extends Component {
                                 <div className="relative flex flex-col items-center group">
                                     <div className="flex items-center w-full">
                                         <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">Full Text report</span>
-                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
-                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                        <div className="absolute hidden left-full ml-2 items-center group-hover:flex tooltip-wrap">
+                                            <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mr-px"></div>
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                 Results in text format.
                                             </span>
                                         </div>
@@ -412,8 +412,8 @@ export default class extends Component {
                                         <span className="w-full">Copy URL to clipboard</span>
                                         <div id="tooltip" className="absolute hidden left-full ml-2 items-center">
                                             <div className="flex items-center">
-                                                <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                                <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mr-px"></div>
+                                                <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                     Copied!
                                                 </span>
                                             </div>
@@ -432,9 +432,9 @@ export default class extends Component {
                                     <i className="fa fa-envelope"></i>
                                     <div className="flex items-center w-full">
                                         <span className="w-full">Send by email</span>
-                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
-                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                        <div className="absolute hidden left-full ml-2 items-center group-hover:flex tooltip-wrap">
+                                            <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mr-px"></div>
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                 Send by email
                                             </span>
                                         </div>
@@ -450,9 +450,9 @@ export default class extends Component {
                                     <i className="fa fa-cloud"></i>
                                     <div className="flex items-center">
                                         <span className="w-full">Share to cloud</span>
-                                        <div className="absolute hidden left-full ml-2 items-center  group-hover:flex w-[300px]">
-                                            <div className="w-0 h-0 border-t-[8px] border-b-[7px] border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                        <div className="absolute hidden left-full ml-2 items-center group-hover:flex tooltip-wrap">
+                                            <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mr-px"></div>
+                                            <span className="relative z-10 p-2 side-tooltip-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                 Results in pairwise format
                                                 Upload results to SequenceServer Cloud where it will become accessable
                                                 to everyone who has a link.

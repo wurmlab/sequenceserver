@@ -11,7 +11,7 @@ import ReportPlugins from 'report_plugins';
 /**
  * Renders entire report.
  *
- * Composed of Query and Sidebar components.Scroll
+ * Composed of Query and Sidebar components
  */
 
 class Report extends Component {
@@ -385,20 +385,20 @@ class Report extends Component {
 
         $(document).scroll(function(){
             sectionIds.each(function(){
-    
+
                 var container = $(this).attr('href');
                 var containerOffset = $(container).offset().top;
                 var containerHeight = $(container).outerHeight();
                 var containerBottom = containerOffset + containerHeight;
                 var scrollPosition = $(document).scrollTop();
-        
+
                 if(scrollPosition < containerBottom - 20 && scrollPosition >= containerOffset - 20){
                     $(this).addClass('active');
-                } else{
+                } else {
                     $(this).removeClass('active');
                 }
             });
-        });    
+        });
     }
 
     populate_hsp_array(hit, query_id){
