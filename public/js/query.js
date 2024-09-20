@@ -349,7 +349,7 @@ export class SearchQueryWidget extends Component {
                     className="sequence">
                     <textarea
                         id="sequence" ref={this.textareaRef}
-                        className="block w-full p-4 text-gray-900 border border-gray-300 rounded-l-lg rounded-tr-lg bg-gray-50 text-base font-mono min-h-[214px] resize-y"
+                        className="block w-full p-4 text-gray-900 border border-gray-300 rounded-l-lg rounded-tr-lg bg-gray-50 text-base font-mono min-h-52 resize-y"
                         name="sequence" value={this.state.value}
                         rows="6"
                         required="required"
@@ -434,9 +434,9 @@ class HitsTable extends Component {
                                                 <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}
                                                     className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>
                                             </span>
-                                            <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex w-[300px]">
-                                                <div className="w-0 h-0 border-t-[8px] border-b-[7px] rotate-[270deg] border-r-[7px] -mt-1 border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                                <span className="relative z-10 p-2 hit-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                            <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex tooltip-wrap">
+                                                <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mt-1 -mr-px tooltip-arrow-rotate"></div>
+                                                <span className="relative z-10 p-2 hit-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                     {`${hit.id} ${hit.title}`}
                                                 </span>
                                             </div>
@@ -450,9 +450,9 @@ class HitsTable extends Component {
                                                 <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">
                                                     {hit.sciname}
                                                 </span>
-                                                <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex w-[300px]">
-                                                    <div className="w-0 h-0 border-t-[8px] border-b-[7px] rotate-[270deg] -mt-1 border-r-[7px] border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                                    <span className="relative z-10 p-2 hit-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                                <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex tooltip-wrap">
+                                                    <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mt-1 -mr-px tooltip-arrow-rotate"></div>
+                                                    <span className="relative z-10 p-2 hit-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                                         {hit.sciname}
                                                     </span>
                                                 </div>

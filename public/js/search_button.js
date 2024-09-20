@@ -95,29 +95,31 @@ export class SearchButton extends Component {
     
     setMessageTooltipButton() {
         if (!this.state.hasQuery && !this.state.hasDatabases) {
-            this.setState({ messageTooltip: "You must enter a query sequence and select one or more databases above before you can run a search!" })
+            this.setState({ messageTooltip: 'You must enter a query sequence and select one or more databases above before you can run a search!' });
         } else if (this.state.hasQuery && !this.state.hasDatabases) {
-            this.setState({ messageTooltip: "You must select one or more databases above before you can run a search!" })
+            this.setState({ messageTooltip: 'You must select one or more databases above before you can run a search!' });
         } else if (!this.state.hasQuery && this.state.hasDatabases) {
-            this.setState({ messageTooltip: "You must enter a query sequence above before you can run a search!" })
+            this.setState({ messageTooltip: 'You must enter a query sequence above before you can run a search!' });
         }
     }
 
     setTitleTooltipButton() {
-        var title = "Click to BLAST or press Ctrl+Enter.";
-        this.setState({ titleTooltip: title })
+        var title = 'Click to BLAST or press Ctrl+Enter.';
+
+        this.setState({ titleTooltip: title });
+
         if (this.state.methods.length > 1) {
             this.setState({
                 titleTooltip: title +=
                     ' Click dropdown button on the right for other' +
                     ' BLAST algorithms that can be used.'
-             })
+             });
         }
     }
 
     handeMouseOut() {
         clearTimeout(this.timeout);
-        this.setState({ hideMessageTooltip: false })
+        this.setState({ hideMessageTooltip: false });
     }
 
     handleMouseOver() {
@@ -195,8 +197,8 @@ export class SearchButton extends Component {
                         {this.renderButton(method, multi, methods)}
                         { !this.state.dropdownVisible &&
                             <div className="absolute hidden bottom-11 items-center flex-col-reverse group-hover:flex w-full">
-                                <div className="w-0 h-0 border-t-[8px] border-b-[7px] rotate-[270deg] border-r-[7px] -mt-1 border-t-transparent border-b-transparent border-r-black -mr-[1px]"></div>
-                                <span className="relative z-10 p-2 search-button-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-[5px]">
+                                <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mt-1 -mr-px tooltip-arrow-rotate"></div>
+                                <span className="relative z-10 p-2 search-button-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
                                     { !this.state.hasQuery || !this.state.hasDatabases ? (
                                         this.state.hideMessageTooltip ?  <>{this.state.titleTooltip}</> : this.state.messageTooltip
                                     ) : <> {this.state.titleTooltip}</>}
