@@ -58,9 +58,6 @@ class Graph {
     }
 
     initiate() {
-        // Define suffixes
-        var suffixes = { amino_acid: 'aa', nucleic_acid: 'bp' };
-
         // Call initialization methods
         this.construct_layout();
         this.iterator_for_edits();
@@ -70,25 +67,6 @@ class Graph {
 
         // Handle spacing
         this.handle_spacing();
-
-        // Determine the prefix and suffix
-        var prefix = Helpers.getPrefix(d3.format('~s')(this.max_length));
-        this.suffix = ' ' + prefix + suffixes[this.seq_type.subject_seq_type];
-
-        // Set denominator and spacing based on prefix
-        switch (prefix) {
-            case 'k':
-                this.denominator = 1_000;
-                break;
-            case 'M':
-                this.denominator = 1_000_000;
-                this.spacing = 1_000_000;
-                this.labelSpacing = 200_000;
-                break;
-            case 'g':
-                this.denominator = 1_000_000_000;
-                break;
-        }
 
         // Insert the circos container
         d3.select(this.svgContainer[0])
@@ -390,7 +368,7 @@ class Graph {
                 spacing: this.spacing, // the ticks values to display
                 labelSpacing: this.labelSpacing, // ticks value apper in interval
                 labelDenominator: this.denominator, // divide the value by this value
-                labelSuffix: this.suffix,
+                labelSuffix: '',
                 labelSize: '10px',
                 majorSpacing: this.labelSpacing, // major ticks apper in interval
                 size: {
