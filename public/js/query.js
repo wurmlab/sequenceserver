@@ -430,7 +430,7 @@ class HitsTable extends Component {
                                 <td className="text-ellipsis">
                                     <div className="flex flex-col items-center group">
                                         <div className="flex items-center w-full">
-                                            <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">
+                                            <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer">
                                                 <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}
                                                     className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>
                                             </span>
@@ -447,7 +447,7 @@ class HitsTable extends Component {
                                     <td className="text-ellipsis" data-placement="top">
                                         <div className="relative flex flex-col items-center group">
                                             <div className="flex items-center w-full">
-                                                <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer py-0.5 px-0.5">
+                                                <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer">
                                                     {hit.sciname}
                                                 </span>
                                                 <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex tooltip-wrap">
