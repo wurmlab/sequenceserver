@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "../shared-ui/**/*.{erb,html}",
+    "../sequence_server_extensions/views/*.{erb,html}",
     "./views/**/*.{erb,html}",
     "./public/**/*.{html,js}",
   ],

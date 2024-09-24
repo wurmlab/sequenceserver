@@ -5,6 +5,7 @@ import downloadFASTA from './download_fasta';
 import asMailtoHref from './mailto';
 import CloudShareModal from './cloud_share_modal';
 import DownloadLinks from 'download_links';
+import AdditionalSidebarLinks from 'additional_sidebar_links';
 /**
  * checks whether code is being run by jest
  */
@@ -32,6 +33,7 @@ export default class extends Component {
         this.copyURL = this.copyURL.bind(this);
         this.shareCloudInit = this.shareCloudInit.bind(this);
         this.sharingPanelJSX = this.sharingPanelJSX.bind(this);
+        this.additionalLinksJSX = this.additionalLinksJSX.bind(this);
         this.cloudShareModal = React.createRef();
         this.timeout = null;
         this.queryElems = [];
@@ -192,7 +194,7 @@ export default class extends Component {
 
         setTimeout(() => {
             tooltip.classList.add('hidden');
-        }, 3000);  
+        }, 3000);
     }
 
     shareCloudInit() {
@@ -287,11 +289,11 @@ export default class extends Component {
                     {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="hover:bg-gray-200 mb-1">
                             <a
-                                href="#" 
+                                href="#"
                                 className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}
                                 onClick={this.props.atLeastOneHit ? this.downloadFastaOfAll : (e) => e.preventDefault()}>
                                     FASTA of all hits
-                            </a>  
+                            </a>
                         </li>
                     }
                     {
@@ -476,6 +478,10 @@ export default class extends Component {
         );
     }
 
+    additionalLinksJSX () {
+        return  <AdditionalSidebarLinks search_id={this.props.data.search_id} program={this.props.data.program}/>
+    }
+
     render() {
         return (
             <div className="sidebar sticky top-0">
@@ -488,6 +494,7 @@ export default class extends Component {
                         <p><a href="https://sequenceserver.com/referral-program" target="_blank" className="text-seqblue hover:text-seqorange">Earn up to $400 per signup</a></p>
                     </div>
                 </div>
+                {this.additionalLinksJSX()}
             </div>
         );
     }

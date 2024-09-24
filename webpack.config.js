@@ -45,6 +45,7 @@ module.exports = (env, argv)  => {
             alias: {
                 'report_plugins': path.resolve(__dirname, pluginsPath, 'report_plugins.js'),
                 'download_links': path.resolve(__dirname, pluginsPath, 'download_links.js'),
+                'additional_sidebar_links': path.resolve(__dirname, pluginsPath, 'additional_sidebar_links.js'),
                 'hit_buttons': path.resolve(__dirname, pluginsPath, 'hit_buttons.js'),
                 'search_header_plugin': path.resolve(__dirname, pluginsPath, 'search_header_plugin.js'),
                 'grapher': path.resolve(__dirname, './public/js', 'grapher.js'),
