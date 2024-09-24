@@ -115,9 +115,13 @@ describe 'Search and results', type: :feature, js: true do
     expect(page).to have_content('Query')
 
     visit '/'
+
+    click_on('[Deselect all]') # Clear database selection populated from the last job - we may want to reconsider if we want this behaviour.
+
     fill_in('sequence', with: protein_query)
     check(protein_databases.first)
 
+    binding.irb
     expect(page).to have_field('advanced', with: '-evalue 1e-5') # different algorithm, no memories
     uncheck(protein_databases.first)
 
