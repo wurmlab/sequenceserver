@@ -26,7 +26,7 @@ module SequenceServer
             @qfile     = store('query.fa', params[:sequence])
             @databases = Database[params[:databases]]
             @advanced  = params[:advanced].to_s.strip
-            @options   = @advanced + defaults
+            @options   = @advanced + defaults(@method)
             # The following params are for analytics only
             @num_threads = config[:num_threads]
             @query_length = calculate_query_size
@@ -116,8 +116,12 @@ module SequenceServer
         validate_options params[:advanced]
       end
 
-      def defaults
-        " -outfmt '11 qcovs qcovhsp' -num_threads #{config[:num_threads]}"
+      def defaults(method)
+        parse_deflines_option = method == 'blastn' ? '-parse_deflines' : ''
+        output_format = "-outfmt '11 qcovs qcovhsp'"
+        num_threads_option = "-num_threads #{config[:num_threads].to_i}"
+
+        " #{parse_deflines_option} #{output_format} #{num_threads_option}"
       end
 
       def validate_method(method)

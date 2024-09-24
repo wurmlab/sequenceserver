@@ -82,7 +82,11 @@ module SequenceServer
       def queries
         @queries ||= xml_ir[8].map do |n|
           query = Query.new(self, n[0], n[2], n[3], [])
-          query.hits = query_hits(n[4], tsv_ir[query.id], query)
+
+          tsv_ir_line = tsv_ir[query.id]
+          tsv_ir_line = tsv_ir[n[1]] if tsv_ir_line.empty?
+
+          query.hits = query_hits(n[4], tsv_ir_line, query)
 
           query
         end
