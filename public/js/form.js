@@ -78,7 +78,7 @@ export class Form extends Component {
             // DB selection
             setTimeout(() => {
                 this.preselectDatabases(this.state.preSelectedDbs);
-            }, 0); 
+            }, 0);
 
             setTimeout(function () {
                 $('.jstree_div').click();
@@ -111,9 +111,12 @@ export class Form extends Component {
 
     preselectDatabases(preSelectedDbs) {
         if (preSelectedDbs) {
+            const inputQuery = this.formRef.current.querySelector(`textarea#sequence`);
+            inputQuery.blur();
             preSelectedDbs.forEach(db => {
                 const matchCheckbox = this.formRef.current.querySelector(`input.checkbox-database[value="${db.id}"]`);
                 if (matchCheckbox) {
+                    matchCheckbox.click();
                     matchCheckbox.checked = true;
                 }
             });
