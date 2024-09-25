@@ -99,19 +99,20 @@ export default class extends Component {
     }
 
     headerJSX() {
-        var meta = `length: ${this.hitLength().toLocaleString()}`;
+        var length = `length: ${this.hitLength().toLocaleString()}`;
+        var meta = length.charAt(0).toUpperCase() + length.slice(1);
 
         if (this.props.showQueryCrumbs && this.props.showHitCrumbs) {
             // Multiper queries, multiple hits
-            meta = `hit ${this.props.hit.number} of query ${this.props.query.number}, ` + meta;
+            meta = `hit ${this.props.hit.number} of query ${this.props.query.number}. ` + meta;
         }
         else if (this.props.showQueryCrumbs && !this.props.showHitCrumbs) {
             // Multiple queries, single hit
-            meta = `the only hit of query ${this.props.query.number}, ` + meta;
+            meta = `the only hit of query ${this.props.query.number}. ` + meta;
         }
         else if (!this.props.showQueryCrumbs && this.props.showHitCrumbs) {
             // Single query, multiple hits
-            meta = `hit ${this.props.hit.number}, ` + meta;
+            meta = `hit ${this.props.hit.number}. ` + meta;
         }
 
         return <div className="section-header border-b border-seqorange flex flex-col sm:flex-row sm:justify-between w-full">
@@ -122,7 +123,7 @@ export default class extends Component {
                 </div>
                 <span className="ml-1">{this.props.hit.title}</span>
             </h4>
-            <span className="label text-sm font-normal text-inherit cursor-text">{meta}</span>
+            <span className="label first-letter:capitalize text-sm font-normal text-inherit cursor-text">{meta}</span>
         </div>;
     }
 
