@@ -76,7 +76,7 @@ export class Databases extends Component {
 
         // Toggle button.
         var toggleState = '[Select all]';
-        var toggleClass = 'px-2 text-sm';
+        var toggleClass = 'px-2 text-lg';
         var toggleShown = this.databases(category).length > 1;
         var toggleDisabled = this.state.type && this.state.type !== category;
         if (toggleShown && toggleDisabled) {
@@ -94,7 +94,7 @@ export class Databases extends Component {
             <div className={columnClass} key={'DB_' + category}>
                 <div>
                     <div className="border-b border-seqorange mb-2">
-                        <h4 className="font-medium inline">
+                        <h4 className="font-medium inline text-lg">
                             {panelTitle}
                         </h4>
                         <button
@@ -108,12 +108,12 @@ export class Databases extends Component {
                             {toggleState}
                         </button>
                     </div>
-                    <ul className={'databases text-lg ' + category}>
+                    <ul className={'databases ' + category}>
                         {_.map(
                             this.databases(category),
                             _.bind(function (database, index) {
                                 return (
-                                    <li key={'DB_' + category + index} className="h-6">
+                                    <li key={'DB_' + category + index} className="h-6 text-lg">
                                         {this.renderDatabase(database)}
                                     </li>
                                 );
