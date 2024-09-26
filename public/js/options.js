@@ -72,9 +72,9 @@ export class Options extends Component {
         return (
             <div id="options-presets" className="w-full">
                 { Object.keys(this.props.predefinedOptions).length > 1 && <>
-                    <h3 className="text-base w-full font-medium border-b border-seqorange mb-2">Settings</h3>
+                    <h3 className="text-lg w-full font-medium border-b border-seqorange mb-2">Settings</h3>
 
-                    <p className="text-sm">Choose a predefined setting or customize BLAST parameters.</p>
+                    <p className="text-base">Choose a predefined setting or customize BLAST parameters.</p>
                     {this.presetListJSX()}
                 </>}
             </div>
@@ -83,7 +83,7 @@ export class Options extends Component {
 
     presetListJSX() {
         return (
-            <ul className="text-sm my-1">
+            <ul className="text-lg my-1">
                 {
                     Object.entries(this.props.predefinedOptions).map(
                         ([key, config], index) => {
@@ -119,8 +119,8 @@ export class Options extends Component {
         return(
              <div className={this.state.paramsMode !== 'advanced' ? 'w-full hidden' : 'w-full'}>
                 <div className="flex items-end">
-                    <label className="flex items-center text-lg" htmlFor="advanced">
-                        Advanced parameters
+                    <label className="flex items-center text-lg text-gray-600" htmlFor="advanced">
+                        Parameters
                     </label>
 
                     {this.props.blastMethod &&
