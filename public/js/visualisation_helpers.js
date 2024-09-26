@@ -42,7 +42,8 @@ export function tick_formatter(scale, seq_type) {
     var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
 
     return function (d) {
-        return `${prefix(d)} ${suffixes[seq_type]}`;
+        return `${prefix(d)}${suffixes[seq_type]}`
+            .replace(/([0-9])([a-zA-Z])/g, '$1 $2');
     };
 }
 
