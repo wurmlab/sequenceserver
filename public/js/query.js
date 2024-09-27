@@ -45,11 +45,10 @@ export class ReportQuery extends Component {
         return this.props.query.hits.length;
     }
     headerJSX() {
-        var length = `length: ${this.queryLength().toLocaleString()}`;
-        var meta = length.charAt(0).toUpperCase() + length.slice(1);
+        var meta = `Length: ${this.queryLength().toLocaleString()}`;
 
         if (this.props.showQueryCrumbs) {
-            meta = `query ${this.props.query.number}. ` + meta;
+            meta = `query ${this.props.query.number}. ${meta}`;
         }
         return <div className="section-header border-b border-seqorange justify-between w-full flex flex-col sm:flex-row gap-4">
             <h3 className="text-base cursor-pointer flex flex-col sm:flex-row items-start">
