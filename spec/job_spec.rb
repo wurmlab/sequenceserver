@@ -78,6 +78,17 @@ module SequenceServer
     TSYCGP
     "
     end
+    let(:query_with_duplicate_sequence) do
+    'MSANRLNVLVTLMLAVALLVTESGNAQVDGYLQFNPKRSAVSSPQKYCGKKLSNALQIIC
+    DGVYNSMFKKSGQDFPPQNKRHIAHRINGNEEESFTTLKSNFLNWCVEVYHRHYRFVFVS
+    EMEMADYPLAYDISPYLPPFLSRARARGMLDGRFAGRRYRRESRGIHEECCINGCTINEL
+    TSYCGP
+    >SI2.2.0_13722 locus=Si_gnF.scaffold06207[1925625..1928536].pep_1 quality=100.00
+    MSANRLNVLVTLMLAVALLVTESGNAQVDGYLQFNPKRSAVSSPQKYCGKKLSNALQIIC
+    DGVYNSMFKKSGQDFPPQNKRHIAHRINGNEEESFTTLKSNFLNWCVEVYHRHYRFVFVS
+    EMEMADYPLAYDISPYLPPFLSRARARGMLDGRFAGRRYRRESRGIHEECCINGCTINEL
+    TSYCGP'
+    end
 
     # all databases used here are v5 databases included in
     # SequenceServer.init(database_dir: "#{__dir__}/database")
@@ -125,6 +136,11 @@ module SequenceServer
         databases: [Database.ids[17]],
         method: 'blastp'
       }
+      @params_query_with_duplicate_sequence = {
+        sequence: query_with_duplicate_sequence,
+        databases: [Database.ids[17]],
+        method: 'blastp'
+      }
       @params_query_with_and_without_symbol ={
         sequence: query_with_and_without_symbol,
         databases: [Database.ids[17]],
@@ -139,6 +155,12 @@ module SequenceServer
     end
     context 'queries containing a > at the start' do
         let(:job) {Job.create(@params_query_with_symbol)}
+      it 'should accurately compute number of sequences' do
+        expect(job.number_of_query_sequences).to eq(1)
+      end
+    end
+    context 'queries containing duplicate sequence' do
+        let(:job) {Job.create(@params_query_with_duplicate_sequence)}
       it 'should accurately compute number of sequences' do
         expect(job.number_of_query_sequences).to eq(1)
       end

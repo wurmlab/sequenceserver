@@ -7,6 +7,7 @@ module SequenceServer
   module BLAST
     # Extends SequenceServer::Job to describe a BLAST job.
     class Job < Job
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def initialize(params)
         if params.key?(:xml)
           super do
@@ -22,7 +23,7 @@ module SequenceServer
           validate params
           super do
             @method = params[:method]
-            @query = params[:sequence]
+            @query = distinct_sequences(params[:sequence])
             @qfile     = store('query.fa', params[:sequence])
             @databases = Database[params[:databases]]
             @advanced  = params[:advanced].to_s.strip
@@ -35,6 +36,7 @@ module SequenceServer
           end
         end
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
       # :nodoc:
       # Attributes used by us - should be considered private.
@@ -158,6 +160,33 @@ module SequenceServer
 
         true
       end
+
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+      def distinct_sequences(str)
+        header = nil
+        new_sequence = true
+        sequences = []
+
+        str.split("\n").each_with_index do |line, index|
+          line.strip!
+          header = line if (new_sequence = line.start_with?('>'))
+
+          if new_sequence
+            sequences << { header: header, value: '' }
+          elsif index.zero?
+            sequences << { header: header, value: "#{line}\n" }
+          else
+            sequences.last[:value] << "#{line}\n"
+          end
+        end
+
+        # Get unique sequences based on value
+        sequences
+          .uniq { |sequence| sequence[:value] }
+          .map { |seq| [seq[:header], seq[:value]].compact.join("\n") }
+          .join("\n")
+      end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
       def allowed_chars
         /\A[a-z0-9\-_. ',]*\Z/i
