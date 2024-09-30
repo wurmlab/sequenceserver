@@ -10,11 +10,9 @@
   },
   "scripts": {
     "watch": "webpack --watch",
-    "watch-cloud": "webpack --watch --env=pluginsPath='../sequence_server_js_extensions' --env=targetEnv='cloud'",
     "test": "jest",
     "minify:css": "npx tailwindcss build -i ./public/css/app.css -o ./public/css/app.min.css --minify",
-    "build": "webpack --mode production && npm run minify:css",
-    "build-cloud": "webpack --mode production --env=pluginsPath='../sequence_server_js_extensions' --env=targetEnv='cloud' && npm run minify:css"
+    "build": "webpack --mode production && npm run minify:css"
   },
   "dependencies": {
     "babel-plugin-transform-export-extensions": "^6.22.0",
@@ -61,5 +59,8 @@
     "webpack": "^5.72.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.8.1"
-  }
+  },
+  "workspaces": [
+    "../cloud_packages"
+  ]
 }
