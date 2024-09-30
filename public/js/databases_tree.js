@@ -31,9 +31,19 @@ export default class extends Databases {
                     // get all selected tree dbs. Also includes folders. Therefore, the id must have a length of 32
                     // this id is used to find the corresponding element from the hidden main form
                     var selected = $(tree_id).jstree('get_selected').filter(selected => selected.length == 32);
+
                     $.each(selected, function (index, value) {
                         // select hidden element to trigger original sequenceserver behavior, like blast algorithm, ...
-                        $('input[value="' + value + '"]').click();
+                        var inputElement = $('input[value="' + value + '"]')[0];
+
+                        if (!inputElement) {
+                            return;
+                        }
+
+                        inputElement.click();
+
+                        var event = new Event('change', { bubbles: true });
+                        inputElement.dispatchEvent(event);
                     });
                 }, 100);
             }, 100);
