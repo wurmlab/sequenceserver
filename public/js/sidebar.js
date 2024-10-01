@@ -192,7 +192,7 @@ export default class extends Component {
 
         setTimeout(() => {
             tooltip.classList.add('hidden');
-        }, 3000);  
+        }, 3000);
     }
 
     shareCloudInit() {
@@ -287,11 +287,11 @@ export default class extends Component {
                     {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="hover:bg-gray-200 mb-1">
                             <a
-                                href="#" 
+                                href="#"
                                 className={`text-sm text-seqblue download-fasta-of-all hover:text-seqorange cursor-pointer py-0.5 px-0.5 ${!this.props.atLeastOneHit && 'disabled'}`}
                                 onClick={this.props.atLeastOneHit ? this.downloadFastaOfAll : (e) => e.preventDefault()}>
                                     FASTA of all hits
-                            </a>  
+                            </a>
                         </li>
                     }
                     {
@@ -425,7 +425,7 @@ export default class extends Component {
                     }
                     {!this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a id="sendEmail" className="text-sm text-seqblue email-URL cursor-pointer py-0.5 px-0.5"
+                            <a id="sendEmail" className="block text-sm text-seqblue email-URL cursor-pointer py-0.5 px-0.5"
                                 href={asMailtoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
                                 target="_blank" rel="noopener noreferrer">
                                 <div className="relative flex gap-2 items-center group w-full">
