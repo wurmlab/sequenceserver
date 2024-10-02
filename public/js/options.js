@@ -72,9 +72,11 @@ export class Options extends Component {
         return (
             <div id="options-presets" className="w-full">
                 { Object.keys(this.props.predefinedOptions).length > 1 && <>
-                    <h3 className="text-lg w-full font-medium border-b border-seqorange mb-2">Settings</h3>
+                    <div className="grid md:grid-cols-2 gap-4 border-b border-seqorange mb-2">
+                        <h3 className="text-base w-full font-medium">Settings</h3>
 
-                    <p className="text-base">Choose a predefined setting or customize BLAST parameters.</p>
+                        <p className="text-base text-gray-500">Choose a predefined setting or customize parameters.</p>
+                    </div>
                     {this.presetListJSX()}
                 </>}
             </div>
@@ -119,23 +121,23 @@ export class Options extends Component {
         return(
              <div className={this.state.paramsMode !== 'advanced' ? 'w-full hidden' : 'w-full'}>
                 <div className="flex items-end">
-                    <label className="flex items-center text-lg text-gray-600" htmlFor="advanced">
-                        Parameters
+                    <label className="flex items-center text-base md:text-lg text-gray-500" htmlFor="advanced">
+                        Parameters options as they would appear in a command-line.
                     </label>
 
                     {this.props.blastMethod &&
                         <button
-                            className="text-seqblue ml-2"
+                            className="text-seqblue text-base md:text-lg ml-2"
                             type="button"
                             onClick={this.showAdvancedOptionsHelp}
                             data-toggle="modal" data-target="#help">
-                            See available options
+                            See options
                             <i className="fa fa-question-circle ml-1 w-3 h-4 fill-current"></i>
                         </button>
                     }
 
                     {!this.props.blastMethod &&
-                        <span className="text-gray-600 ml-2 text-sm hidden sm:block">
+                        <span className="text-gray-500 ml-2 text-sm hidden sm:block">
                             Select databases and fill in the query to see options.
                         </span>
                     }
@@ -150,9 +152,6 @@ export class Options extends Component {
                         placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
                         title="View, and enter advanced parameters."
                     />
-                </div>
-                <div className="text-sm text-gray-600 mt-2">
-                    Options as they would appear in a command line when calling BLAST eg: <i>-evalue 1.0e-5 -num_alignments 100</i>
                 </div>
             </div>
         )
