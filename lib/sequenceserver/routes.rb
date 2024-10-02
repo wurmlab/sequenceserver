@@ -156,7 +156,7 @@ module SequenceServer
     # in identifiers) and retreival_databases (we don't allow whitespace in a
     # database's name, so it's safe).
     get '/get_sequence/' do
-      sequence_ids = params[:sequence_ids].to_s.split(',')
+      sequence_ids = params[:sequence_ids].to_s.split(',').uniq
       database_ids = params[:database_ids].to_s.split(',')
       if sequence_ids.empty?
         status 422
@@ -172,7 +172,7 @@ module SequenceServer
     end
 
     post '/get_sequence' do
-      sequence_ids = params['sequence_ids'].to_s.split(',')
+      sequence_ids = params['sequence_ids'].to_s.split(',').uniq
       database_ids = params['database_ids'].to_s.split(',')
 
       if sequence_ids.empty?
