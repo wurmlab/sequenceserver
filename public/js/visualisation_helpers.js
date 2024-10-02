@@ -43,7 +43,7 @@ export function tick_formatter(scale, seq_type) {
 
     return function (d) {
         return `${prefix(d)}${suffixes[seq_type]}`
-            .replace(/([0-9])([a-zA-Z])/g, '$1 $2');
+            .replace(/([a-zA-Z]+)/, ' $1')
     };
 }
 
