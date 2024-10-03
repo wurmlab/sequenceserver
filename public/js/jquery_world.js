@@ -59,7 +59,7 @@ global.$ = $;
                     .appendTo(this);
             }
         },
-        items: 'rect',
+        items: 'rect, .tooltip-item',
         show: false,
         hide: false,
         content: function() {

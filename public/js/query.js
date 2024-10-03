@@ -428,37 +428,13 @@ class HitsTable extends Component {
                         return (
                             <tr key={hit.number}>
                                 <td className="text-left">{hit.number + '.'}</td>
-                                <td className="text-ellipsis">
-                                    <div className="flex flex-col items-center group">
-                                        <div className="flex items-center w-full">
-                                            <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer">
-                                                <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}
-                                                    className="text-sm text-seqblue hover:text-seqorange cursor-pointer">{hit.id} {hit.title}</a>
-                                            </span>
-                                            <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex tooltip-wrap">
-                                                <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mt-1 -mr-px tooltip-arrow-rotate"></div>
-                                                <span className="relative z-10 p-2 hit-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
-                                                    {`${hit.id} ${hit.title}`}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <td>
+                                    <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}
+                                        className="text-sm text-seqblue hover:text-seqorange cursor-pointer max-w-80 line-clamp-1 tooltip-item" title={`${hit.id} ${hit.title}`}>{hit.id} {hit.title}</a>
                                 </td>
                                 {hasName &&
-                                    <td className="text-ellipsis" data-placement="top">
-                                        <div className="relative flex flex-col items-center group">
-                                            <div className="flex items-center w-full">
-                                                <span className="w-full text-sm text-seqblue hover:text-seqorange download cursor-pointer">
-                                                    {hit.sciname}
-                                                </span>
-                                                <div className="absolute hidden bottom-5 items-center flex-col-reverse group-hover:flex tooltip-wrap">
-                                                    <div className="w-0 h-0 border-y-8 border-r-8 border-t-transparent border-b-transparent border-r-black -mt-1 -mr-px tooltip-arrow-rotate"></div>
-                                                    <span className="relative z-10 p-2 hit-text leading-4 text-center text-white whitespace-no-wrap bg-black shadow-lg rounded-md">
-                                                        {hit.sciname}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <td className="tooltip-item" title={hit.sciname}>
+                                        {hit.sciname}
                                     </td>
                                 }
                                 {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
