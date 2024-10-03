@@ -196,7 +196,7 @@ class Hits extends Component {
     /* eslint complexity: ["error", 6] */
     /* -----------------------------------
     * Event-handler when hit is selected
-    * Adds glow to hit component.
+    * Adds border-l-2 border-seqorange to hit component.
     * Updates number of Fasta that can be downloaded
     */
     selectHit(id) {
@@ -210,13 +210,13 @@ class Hits extends Component {
         // Highlight selected hit and enable 'Download FASTA/Alignment of
         // selected' links.
         if (checkbox.is(':checked')) {
-            $hit.addClass('glow');
-            $hit.next('.hsp').addClass('glow');
+            $hit.addClass('border-l-2 border-seqorange pl-1');
+            $hit.next('.hsp').addClass('border-l-2 border-seqorange pl-1');
             $('.download-fasta-of-selected').enable();
             $('.download-alignment-of-selected').enable();
         } else {
-            $hit.removeClass('glow');
-            $hit.next('.hsp').removeClass('glow');
+            $hit.removeClass('border-l-2 border-seqorange pl-1');
+            $hit.next('.hsp').removeClass('border-l-2 border-seqorange pl-1');
             $('.download-fasta-of-selected').attr('href', '#').removeAttr('download');
         }
 
@@ -224,13 +224,13 @@ class Hits extends Component {
         var $b = $('.download-alignment-of-selected');
 
         if (num_checked >= 1) {
-            $a.find('.text-bold').html(num_checked);
-            $b.find('.text-bold').html(num_checked);
+            $a.find('.font-bold').html(num_checked);
+            $b.find('.font-bold').html(num_checked);
         }
 
         if (num_checked == 0) {
-            $a.addClass('disabled').find('.text-bold').html('');
-            $b.addClass('disabled').find('.text-bold').html('');
+            $a.addClass('disabled').find('.font-bold').html('');
+            $b.addClass('disabled').find('.font-bold').html('');
         }
     }
 
