@@ -38,12 +38,15 @@ export function getPrefix(str) {
  * Borrowed from Kablammo. Modified by Priyam based on https://github.com/mbostock/d3/issues/1722.
  */
 export function tick_formatter(scale, seq_type) {
-    var prefix = d3.format('~s')
-    var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
+    const prefix = d3.format('~s')
+    const suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
 
     return function (d) {
-        return `${prefix(d)}${suffixes[seq_type]}`
-            .replace(/([a-zA-Z]+)/, ' $1')
+        const formatted = prefix(d);
+        const numericPart = Math.floor(parseFloat(formatted));
+        const suffix = formatted.replace(/[0-9.]/g, '');
+
+        return `${numericPart} ${suffix}${suffixes[seq_type]}`;
     };
 }
 
