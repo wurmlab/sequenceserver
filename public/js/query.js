@@ -415,11 +415,11 @@ class HitsTable extends Component {
                 <tr className="text-neutral-500">
                     <th className="text-left font-normal">#</th>
                     <th style={{ width: `${seqwidth}%` }} className="text-left font-normal">Similar sequences</th>
-                    {hasName && <th className="text-left font-normal w-1/6">Species</th>}
-                    {!this.props.imported_xml && <th className="text-right font-normal w-1/6">Query coverage (%)</th>}
-                    <th className="text-right font-normal w-1/10">Total score</th>
-                    <th className="text-right font-normal w-1/10">E value</th>
-                    <th className="text-right font-normal w-1/10">Identity (%)</th>
+                    {hasName && <th className="text-left font-normal w-2/12">Species</th>}
+                    {!this.props.imported_xml && <th className="text-right font-normal w-2/12">Query coverage (%)</th>}
+                    <th className="text-right font-normal w-1/12">Total score</th>
+                    <th className="text-right font-normal w-1/12">E value</th>
+                    <th className="text-right font-normal w-1/12">Identity (%)</th>
                 </tr>
             </thead>
             <tbody>
@@ -430,17 +430,17 @@ class HitsTable extends Component {
                                 <td className="text-left">{hit.number + '.'}</td>
                                 <td>
                                     <a href={'#Query_' + this.props.query.number + '_hit_' + hit.number}
-                                        className="text-sm text-seqblue hover:text-seqorange cursor-pointer max-w-80 line-clamp-1 tooltip-item" title={`${hit.id} ${hit.title}`}>{hit.id} {hit.title}</a>
+                                        className="text-sm text-seqblue hover:text-seqorange cursor-pointer pe-1 line-clamp-1 tooltip-item" title={`${hit.id} ${hit.title}`}>{hit.id} {hit.title}</a>
                                 </td>
                                 {hasName &&
-                                    <td className="tooltip-item" title={hit.sciname}>
+                                    <td className="pe-1 line-clamp-1 tooltip-item" title={hit.sciname}>
                                         {hit.sciname}
                                     </td>
                                 }
                                 {!this.props.imported_xml && <td className="text-right">{hit.qcovs}</td>}
-                                <td className="text-right">{hit.total_score}</td>
-                                <td className="text-right">{Utils.inExponential(hit.hsps[0].evalue)}</td>
-                                <td className="text-right">{Utils.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>
+                                <td className="pe-1 text-right">{hit.total_score}</td>
+                                <td className="pe-1 text-right">{Utils.inExponential(hit.hsps[0].evalue)}</td>
+                                <td className="pe-1 text-right">{Utils.inPercentage(hit.hsps[0].identity, hit.hsps[0].length)}</td>
                             </tr>
                         );
                     }, this))
@@ -456,7 +456,7 @@ class HitsTable extends Component {
                     {this.collapsePreferences.renderCollapseIcon()}
                     <span> {this.name}</span>
                 </h4>
-                <div id={'Query_' + this.props.query.number + 'HT_' + this.props.query.number}>
+                <div id={'Query_' + this.props.query.number + 'HT_' + this.props.query.number} className="overflow-auto md:overflow-hidden">
                     {!this.state.collapsed && this.tableJSX()}
                 </div>
             </div>
