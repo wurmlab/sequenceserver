@@ -121,7 +121,6 @@ describe 'Search and results', type: :feature, js: true do
     fill_in('sequence', with: protein_query)
     check(protein_databases.first)
 
-    binding.irb
     expect(page).to have_field('advanced', with: '-evalue 1e-5') # different algorithm, no memories
     uncheck(protein_databases.first)
 
