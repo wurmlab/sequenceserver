@@ -96,19 +96,20 @@ class Graph {
     }
 
     tick_formatter(seq_type) {
-        var ticks = this._scale_x.ticks();
-        var prefix = d3.format('~s');
-        var suffixes = {amino_acid: 'aa', nucleic_acid: 'bp'};
-        return function (d) {
-            if (d === 0) { return ; }
-            if (_.indexOf(ticks,d) >= 0) {
-                if (suffixes[seq_type] == 'aa') {
-                    return `${d} ${suffixes[seq_type]}`;
-                } else {
-                    return `${prefix(d)}${suffixes[seq_type]}`.replace(/([a-zA-Z]+)/, ' $1');
-                }
+        const ticks = this._scale_x.ticks();
+        const prefix = d3.format('~s');
+        const suffixes = { amino_acid: 'aa', nucleic_acid: 'bp' };
+
+        return (d) => {
+            if (d === 0 || !ticks.includes(d)) return;
+
+            if (suffixes[seq_type] === 'aa') {
+                return `${d} ${suffixes[seq_type]}`;
             } else {
-                return ;
+                const formatted = prefix(d);
+                const numericPart = Math.floor(parseFloat(formatted));
+                const suffix = formatted.replace(/[0-9.]/g, '');
+                return `${numericPart} ${suffix}${suffixes[seq_type]}`;
             }
         };
     }
