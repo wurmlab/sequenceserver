@@ -196,7 +196,7 @@ class Hits extends Component {
     /* eslint complexity: ["error", 6] */
     /* -----------------------------------
     * Event-handler when hit is selected
-    * Adds border-l-2 border-seqorange to hit component.
+    * Adds border-seqorange to hit component.
     * Updates number of Fasta that can be downloaded
     */
     selectHit(id) {
@@ -210,13 +210,17 @@ class Hits extends Component {
         // Highlight selected hit and enable 'Download FASTA/Alignment of
         // selected' links.
         if (checkbox.is(':checked')) {
-            $hit.addClass('border-l-2 border-seqorange pl-1');
-            $hit.next('.hsp').addClass('border-l-2 border-seqorange pl-1');
+            $hit.addClass('border-seqorange');
+            $hit.next('.hsp').addClass('border-seqorange');
+            $hit.removeClass('border-transparent');
+            $hit.next('.hsp').removeClass('border-transparent');
             $('.download-fasta-of-selected').enable();
             $('.download-alignment-of-selected').enable();
         } else {
-            $hit.removeClass('border-l-2 border-seqorange pl-1');
-            $hit.next('.hsp').removeClass('border-l-2 border-seqorange pl-1');
+            $hit.removeClass('border-seqorange');
+            $hit.next('.hsp').removeClass('border-seqorange');
+            $hit.addClass('border-transparent');
+            $hit.next('.hsp').addClass('border-transparent');
             $('.download-fasta-of-selected').attr('href', '#').removeAttr('download');
         }
 
