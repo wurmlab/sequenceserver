@@ -35,7 +35,7 @@ export default class HSP extends React.Component {
   render() {
     return (
       <div
-        className="hsp pt-px pb-5"
+        className="hsp pt-px pb-5 border-l-2 border-transparent pl-1 -ml-1"
         id={this.domID()}
         ref={this.hspRef}
         data-parent-hit={this.hitDOM_ID()}

@@ -242,7 +242,7 @@ export default class extends Component {
     }
     render() {
         return (
-            <div className="hit mt-1" id={this.domID()} data-hit-def={this.props.hit.id}
+            <div className="hit mt-1 border-l-2 border-transparent pl-1 -ml-1" id={this.domID()} data-hit-def={this.props.hit.id}
                 data-hit-len={this.props.hit.length} data-hit-evalue={this.props.hit.evalue}>
                 {this.headerJSX()} {this.contentJSX()}
             </div>
