@@ -78,6 +78,14 @@ export default class CloudShareModal extends React.Component {
     return match ? match[1] : match;
   }
 
+  show = () => {
+    this.modalRef.current?.showModal();
+  }
+
+  hide = () => {
+    this.modalRef.current?.close();
+  }
+
   renderLoading() {
     return (
       <div className="text-center">
@@ -183,40 +191,21 @@ export default class CloudShareModal extends React.Component {
     }
 
     return (
-      <div className={`relative modal z-10 ${isModalVisible ? '' : 'hidden'}`} ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full md:max-w-2xl">
-              <div className="bg-white pt-5">
-                <div className="flex justify-between px-6 mb-4">
-                  <h3 className="text-base font-semibold leading-6 text-gray-900">Share to SequenceServer Cloud</h3>
-                  <span className="cursor-pointer" onClick={() => this.hide()}>
-                    <i className="fa-solid fa-xmark align-bottom"></i>
-                  </span>
-                </div>
-                <div className="modal-content pt-6 mt-2 text-sm">
-                  {content}
-                </div>
-              </div>
+      <div>
+        <dialog ref={this.modalRef} className="relative w-full p-4 max-w-2xl">
+          <div className="relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700">
+            <div className="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                Share to SequenceServer Cloud
+              </h3>
+              <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white" onClick={this.hide}>
+                <i className="fa-solid fa-xmark"></i>
+              </button>
             </div>
+            {content}
           </div>
-        </div>
+        </dialog>
       </div>
     );
-  }
-
-  /**
-   * show modal
-   */
-  show() {
-    this.setState({ isModalVisible: true });
-  }
-
-  /**
-   * Hide modal.
-   */
-  hide() {
-    this.setState({ isModalVisible: false });
   }
 }
