@@ -24,27 +24,26 @@ export default class ErrorModal extends React.Component {
         const { isModalVisible, errorData } = this.state;
 
         return (
-            <div id="error" ref={this.modal} className={`relative modal z-10 ${isModalVisible ? '' : 'hidden'}`} role="dialog" aria-modal="true">
-                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-                <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full md:max-w-3xl">
-                            <div className="bg-white pt-5">
-                                <div className="flex justify-between px-6 mb-4">
-                                    <h3 className="text-base font-semibold leading-6 text-gray-900">{errorData.title}</h3>
-                                    <span className="cursor-pointer" onClick={() => this.hide()}><i className="fa-solid fa-xmark align-bottom"></i></span>
-                                </div>
-                                <div className="pt-2 px-6 pb-6 mt-2 text-sm">
-                                    <p dangerouslySetInnerHTML={{ __html: errorData.message }} className="mb-4"></p>
-                                    {
-                                        errorData.more_info &&
-                                            <pre className="p-2 bg-slate-200 overflow-auto max-h-56">{errorData.more_info}</pre>
-                                    }
-                                </div>
-                            </div>
+            <div>
+                <dialog ref={this.modal} className="relative w-full max-w-2xl bg-transparent focus:outline-none overflow-y-auto">
+                    <div className="relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700">
+                        <div className="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600">
+                            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                                {errorData.title}
+                            </h3>
+                            <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 focus:outline-none" onClick={this.hide}>
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div className="pt-2 px-6 pb-6 mt-2 text-sm">
+                            <p dangerouslySetInnerHTML={{ __html: errorData.message }} className="mb-4"></p>
+                            {
+                                errorData.more_info &&
+                                    <pre className="p-2 bg-slate-200 overflow-auto max-h-56">{errorData.more_info}</pre>
+                            }
                         </div>
                     </div>
-                </div>
+                </dialog>
             </div>
         );
     }
@@ -52,21 +51,21 @@ export default class ErrorModal extends React.Component {
     /**
      * Shows error viewer.
      */
-    show(errorData, beforeShow) {
+    show = (errorData, beforeShow) => {
         this.setState({ errorData: errorData });
 
         // Caller can specify an amount of time to wait for before showing the
         // modal. This is helpful if the caller wants to finish some work
         // before showing error modal.
         setTimeout(() => {
-            this.setState({ isModalVisible: true });
+            this.modal.current?.showModal();
         }, beforeShow || 0);
     }
 
     /**
      * Hide dialogue.
      */
-    hide() {
-        this.setState({ isModalVisible: false });
+    hide = () => {
+        this.modal.current?.close();
     }
 }
