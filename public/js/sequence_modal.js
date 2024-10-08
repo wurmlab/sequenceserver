@@ -24,24 +24,20 @@ export default class SequenceModal extends React.Component {
     const { isModalVisible, requestCompleted } = this.state;
 
     return (
-      <div className={`relative modal z-10 sequence-viewer ${isModalVisible ? '' : 'hidden'}`} ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all pb-2 sm:my-8 w-full md:max-w-xl">
-              <div className="bg-white pt-5">
-                <div className="px-6 mb-4 flex justify-between">
-                  <h3 className="text-base font-semibold leading-6 text-gray-900">View sequence</h3>
-                  <span className="cursor-pointer close-modal" onClick={() => this.hide()}>
-                    <i className="fa-solid fa-xmark align-bottom"></i>
-                  </span>
-                </div>
-
-                {(requestCompleted && this.resultsJSX()) || this.loadingJSX()}
-              </div>
+      <div>
+        <dialog ref={this.modalRef} className="sequence-viewer relative w-full p-4 max-w-2xl bg-transparent focus:outline-none overflow-visible">
+          <div className="relative flex flex-col rounded-lg bg-white shadow dark:bg-gray-700">
+            <div className="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                View sequence
+              </h3>
+              <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white" onClick={this.hide}>
+                <i className="fa-solid fa-xmark"></i>
+              </button>
             </div>
+            {(requestCompleted && this.resultsJSX()) || this.loadingJSX()}
           </div>
-        </div>
+        </dialog>
       </div>
     );
   }
@@ -49,16 +45,17 @@ export default class SequenceModal extends React.Component {
   /**
    * Shows sequence viewer.
    */
-  show(url) {
-    this.setState({ requestCompleted: false, isModalVisible: true }); 
+  show = (url) => {
+    this.modalRef.current?.showModal();
+    this.setState({ requestCompleted: false });
     this.loadJSON(url);
   }
 
   /**
    * Hide sequence viewer.
    */
-  hide() {
-    this.setState({ isModalVisible: false });
+  hide = () => {
+    this.modalRef.current?.close();
   }
 
   /**
@@ -103,7 +100,7 @@ export default class SequenceModal extends React.Component {
 
   loadingJSX() {
     return (
-      <div className="mt-2 text-center">
+      <div className="my-4 text-center">
         <i className="fa fa-spinner fa-3x fa-spin"></i>
       </div>
     );

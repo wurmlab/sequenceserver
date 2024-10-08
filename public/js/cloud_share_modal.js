@@ -126,7 +126,7 @@ export default class CloudShareModal extends React.Component {
 
     return(
       <form onSubmit={this.handleSubmit}>
-        <div className="px-6 mb-3">
+        <div className="px-6 py-4">
           <label htmlFor="emailInput" className="text-seqblue hover:text-orange cursor-pointer mb-0">Your Email Address</label>
           <input
             type="email"
@@ -138,33 +138,33 @@ export default class CloudShareModal extends React.Component {
             required="required"
             onChange={this.handleChange}
           />
-          <p>
+          <p className="mb-3">
             By submitting this form you agree to upload this SequenceServer result set to <a href="https://sequenceserver.com/cloud/" target="_bank" className="text-seqblue hover:text-seqorange">SenquenceServer Cloud</a>
             , where it will become available on the internet to everyone with the link. You also agree that your email address will be stored on SequenceServer databases as proof of authentication for support and similar purposes.
           </p>
-        </div>
-        <div className="form-check px-6 mb-3">
-          <input
-            type="checkbox"
-            id="tosCheckbox"
-            className="form-check-input"
-            name="agreeToTos"
-            checked={agreeToTos}
-            onChange={this.handleChange}
-          />
-          <label htmlFor="tosCheckbox" className="pl-2">
-            &nbsp;I agree to the <b><a href="https://sequenceserver.com/cloud/terms_and_conditions" target="_blank" className="text-seqblue hover:text-seqorange">Terms and Conditions of Service</a></b>
-          </label>
+          <div className="form-check">
+            <input
+              type="checkbox"
+              id="tosCheckbox"
+              className="form-check-input"
+              name="agreeToTos"
+              checked={agreeToTos}
+              onChange={this.handleChange}
+            />
+            <label htmlFor="tosCheckbox" className="pl-2">
+              &nbsp;I agree to the <b><a href="https://sequenceserver.com/cloud/terms_and_conditions" target="_blank" className="text-seqblue hover:text-seqorange">Terms and Conditions of Service</a></b>
+            </label>
+          </div>
         </div>
         <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-        <button
-            type="submit"
-            style={{ backgroundColor: isSubmitDisabled ? '#C74F13' : '#1B557A' }}
-            className='border-seqblue py-2 px-3 rounded-md text-white'
-            disabled={isSubmitDisabled}
-        >
-            Submit
-        </button>
+          <button
+              type="submit"
+              style={{ backgroundColor: isSubmitDisabled ? '#C74F13' : '#1B557A' }}
+              className='border-seqblue py-2 px-3 rounded-md text-white'
+              disabled={isSubmitDisabled}
+          >
+              Submit
+          </button>
         </div>
       </form>
     )
@@ -192,8 +192,8 @@ export default class CloudShareModal extends React.Component {
 
     return (
       <div>
-        <dialog ref={this.modalRef} className="relative w-full p-4 max-w-2xl">
-          <div className="relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700">
+        <dialog ref={this.modalRef} className="relative w-full p-4 max-w-2xl bg-transparent focus:outline-none">
+          <div className="relative flex max-h-[90dvh] flex-col rounded-lg bg-white overflow-hidden shadow dark:bg-gray-700">
             <div className="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600">
               <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                 Share to SequenceServer Cloud
