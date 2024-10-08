@@ -145,6 +145,11 @@ pre.indL {
   transform: rotate(270deg);
 }
 
+/* Modal */
+::backdrop {
+  @apply fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity;
+}
+
 /**
  * See:
  * http://stackoverflow.com/questions/11002820/why-should-we-include-ttf-eot-woff-svg-in-a-font-face
