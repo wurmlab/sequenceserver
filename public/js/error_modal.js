@@ -24,15 +24,15 @@ export default class ErrorModal extends React.Component {
         const { isModalVisible, errorData } = this.state;
 
         return (
-            <div>
-                <dialog ref={this.modal} className="relative w-full max-w-2xl bg-transparent focus:outline-none overflow-y-auto">
-                    <div className="relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700">
-                        <div className="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600">
-                            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+            <div className="relative">
+                <dialog ref={this.modal} className="fixed p-4 w-full max-w-2xl bg-transparent focus:outline-none">
+                    <div className="relative flex flex-col rounded-lg bg-white shadow">
+                        <div className="flex items-start justify-between rounded-t border-b p-5">
+                            <h3 className="text-xl font-medium text-gray-900">
                                 {errorData.title}
                             </h3>
-                            <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 focus:outline-none" onClick={this.hide}>
-                                <i className="fa-solid fa-xmark"></i>
+                            <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-gray-400 hover:bg-gray-200" onClick={this.hide}>
+                                <i className="fa-solid fa-xmark hover:text-black"></i>
                             </button>
                         </div>
                         <div className="pt-2 px-6 pb-6 mt-2 text-sm">
@@ -59,6 +59,7 @@ export default class ErrorModal extends React.Component {
         // before showing error modal.
         setTimeout(() => {
             this.modal.current?.showModal();
+            document.body.classList.add("overflow-hidden");
         }, beforeShow || 0);
     }
 
@@ -67,5 +68,6 @@ export default class ErrorModal extends React.Component {
      */
     hide = () => {
         this.modal.current?.close();
+        document.body.classList.remove("overflow-hidden");
     }
 }

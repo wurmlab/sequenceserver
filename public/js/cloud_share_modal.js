@@ -80,15 +80,17 @@ export default class CloudShareModal extends React.Component {
 
   show = () => {
     this.modalRef.current?.showModal();
+    document.body.classList.add("overflow-hidden");
   }
 
   hide = () => {
     this.modalRef.current?.close();
+    document.body.classList.remove("overflow-hidden");  
   }
 
   renderLoading() {
     return (
-      <div className="text-center">
+      <div className="text-center pt-3">
         <i className="fa fa-spinner fa-3x fa-spin"></i>
         <p className="my-3">Uploading the job to SequenceServer Cloud, please wait...</p>
       </div>
@@ -126,7 +128,7 @@ export default class CloudShareModal extends React.Component {
 
     return(
       <form onSubmit={this.handleSubmit}>
-        <div className="px-6 py-4">
+        <div className="px-6 py-4 text-sm">
           <label htmlFor="emailInput" className="text-seqblue hover:text-orange cursor-pointer mb-0">Your Email Address</label>
           <input
             type="email"
@@ -191,15 +193,15 @@ export default class CloudShareModal extends React.Component {
     }
 
     return (
-      <div>
-        <dialog ref={this.modalRef} className="relative w-full p-4 max-w-2xl bg-transparent focus:outline-none">
-          <div className="relative flex max-h-[90dvh] flex-col rounded-lg bg-white overflow-hidden shadow dark:bg-gray-700">
-            <div className="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+      <div className="relative">
+        <dialog ref={this.modalRef} className="fixed p-4 w-full max-w-2xl bg-transparent focus:outline-none">
+          <div className="relative flex flex-col rounded-lg bg-white shadow">
+            <div className="flex items-start justify-between rounded-t border-b p-5">
+              <h3 className="text-xl font-medium text-gray-900">
                 Share to SequenceServer Cloud
               </h3>
-              <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white" onClick={this.hide}>
-                <i className="fa-solid fa-xmark"></i>
+              <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200" onClick={this.hide}>
+                <i className="fa-solid fa-xmark hover:text-black"></i>
               </button>
             </div>
             {content}

@@ -24,15 +24,15 @@ export default class SequenceModal extends React.Component {
     const { isModalVisible, requestCompleted } = this.state;
 
     return (
-      <div>
-        <dialog ref={this.modalRef} className="sequence-viewer relative w-full p-4 max-w-2xl bg-transparent focus:outline-none overflow-visible">
-          <div className="relative flex flex-col rounded-lg bg-white shadow dark:bg-gray-700">
-            <div className="flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+      <div className="relative">
+        <dialog ref={this.modalRef} className="sequence-viewer fixed p-4 w-full max-w-2xl bg-transparent focus:outline-none overflow-visible">
+          <div className="relative flex flex-col rounded-lg bg-white shadow">
+            <div className="flex items-start justify-between rounded-t border-b p-5">
+              <h3 className="text-xl font-medium text-gray-900">
                 View sequence
               </h3>
-              <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white" onClick={this.hide}>
-                <i className="fa-solid fa-xmark"></i>
+              <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-gray-400 hover:bg-gray-200" onClick={this.hide}>
+                <i className="fa-solid fa-xmark hover:text-black"></i>
               </button>
             </div>
             {(requestCompleted && this.resultsJSX()) || this.loadingJSX()}
@@ -49,6 +49,7 @@ export default class SequenceModal extends React.Component {
     this.modalRef.current?.showModal();
     this.setState({ requestCompleted: false });
     this.loadJSON(url);
+    document.body.classList.add("overflow-hidden");
   }
 
   /**
@@ -56,6 +57,7 @@ export default class SequenceModal extends React.Component {
    */
   hide = () => {
     this.modalRef.current?.close();
+    document.body.classList.remove("overflow-hidden");
   }
 
   /**
@@ -83,7 +85,7 @@ export default class SequenceModal extends React.Component {
       <div className="pt-2 px-6 pb-6 mt-2">
         {this.state.error_msgs.map((error_msg, index) => (
           <div key={`error-message-${index}`} className="fastan">
-            <div className="section-header border-b border-seqorange pl-px table mb-0 w-full md:max-w-xl pb-2">
+            <div className="section-header border-b border-seqorange pl-px table mb-0 w-full pb-2">
               <h4 className="text-sm table-cell">{error_msg[0]}</h4>
             </div>
             <div className="pt-0 px-0 pb-px">
@@ -121,7 +123,7 @@ class SequenceViewer extends React.Component {
 
     return (
       <div className="fastan">
-        <div className="section-header border-b border-seqorange pl-px table mb-0 w-full md:max-w-xl pb-2">
+        <div className="section-header border-b border-seqorange pl-px table mb-0 w-full pb-2">
           <h4 className="text-sm table-cell">
             {this.props.sequence.id}
             <small className="text-inherit">&nbsp; {this.props.sequence.title}</small>
