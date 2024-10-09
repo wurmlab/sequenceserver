@@ -204,7 +204,9 @@ export default class CloudShareModal extends React.Component {
                 <i className="fa-solid fa-xmark hover:text-black"></i>
               </button>
             </div>
-            {content}
+            <div className="dialog-content">
+              {content}
+            </div>
           </div>
         </dialog>
       </div>
