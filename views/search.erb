@@ -8,17 +8,17 @@
 <script src="sequenceserver-search.min.js?ver=<%= SequenceServer::VERSION %>"></script>
 
 <!-- Markup for advanced options modal -->
-<div class="hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" data-help-modal>
-  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-
-    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-screen-md sm:w-full">
-      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b">
-        <h3 class="text-xl leading-6 font-medium text-gray-900">Advanced Options</h3>
+<div class="relative">
+  <dialog class="advanced-modal fixed p-4 w-full max-w-7xl bg-transparent focus:outline-none overflow-visible">
+    <div class="relative flex flex-col rounded-lg bg-white shadow">
+      <div class="flex items-start justify-between rounded-t border-b p-5">
+        <h3 class="text-xl font-medium text-gray-900">
+          Share to SequenceServer Cloud
+        </h3>
+        <button class="advanced-modal-close ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200">
+          <i class="fa-solid fa-xmark hover:text-black"></i>
+        </button>
       </div>
-
       <div class="overflow-y-scroll max-h-96 bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div id="tblastn">
         <%= erb :tblastn_options %>
@@ -36,12 +36,7 @@
         <%= erb :blastp_options %>
         </div>
       </div>
-
-      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t">
-        <button type="button" class="js--close-help w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-seqblue text-base font-medium text-white hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange sm:ml-3 sm:w-auto sm:text-sm">
-          Close
-        </button>
-      </div>
+      <div class="bg-white p-8 border-t"></div>
     </div>
-  </div>
+  </dialog>
 </div>
