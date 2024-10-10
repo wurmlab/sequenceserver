@@ -31,7 +31,7 @@ export default class SequenceModal extends React.Component {
               <h3 className="text-xl font-medium text-gray-900">
                 View sequence
               </h3>
-              <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-gray-400 hover:bg-gray-200" onClick={this.hide}>
+              <button className="sequence-viewer-close ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-gray-400 hover:bg-gray-200" onClick={this.hide}>
                 <i className="fa-solid fa-xmark hover:text-black"></i>
               </button>
             </div>
