@@ -13,11 +13,8 @@
     <div class="relative flex flex-col rounded-lg bg-white shadow">
       <div class="flex items-start justify-between rounded-t border-b p-5">
         <h3 class="text-xl font-medium text-gray-900">
-          Share to SequenceServer Cloud
+          Advanced Options
         </h3>
-        <button class="advanced-modal-close ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200">
-          <i class="fa-solid fa-xmark hover:text-black"></i>
-        </button>
       </div>
       <div class="overflow-y-scroll max-h-96 bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div id="tblastn">
@@ -36,7 +33,11 @@
         <%= erb :blastp_options %>
         </div>
       </div>
-      <div class="bg-white p-8 border-t"></div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t">
+        <button type="button" class="advanced-modal-close w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-seqblue text-xl font-medium text-white hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange sm:ml-3 sm:w-auto sm:text-sm">
+          Close
+        </button>
+      </div>
     </div>
   </dialog>
 </div>
