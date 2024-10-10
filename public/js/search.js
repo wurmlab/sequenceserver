@@ -40,10 +40,12 @@ const root = createRoot(document.getElementById('view'));
 root.render(<Page />);
 
 document.addEventListener('DOMContentLoaded', () => {
-    const closeButton = document.querySelector('.js--close-help');
+    const closeButton = document.querySelector('button.advanced-modal-close');
+    const modal = document.querySelector('dialog.advanced-modal')
     if (closeButton) {
         closeButton.addEventListener('click', function() {
-            document.querySelector('[data-help-modal]').classList.add('hidden');
+            modal.close();
+            document.body.classList.add("overflow-hidden");
         });
     }
 });
