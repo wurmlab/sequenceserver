@@ -25,7 +25,7 @@ svg .axis path,
 }
 
 .grapher.circos .caption {
-  @apply text-base font-bold p-0;
+  @apply text-base p-0;
 }
 
 .alignment-overview.svg-container {
