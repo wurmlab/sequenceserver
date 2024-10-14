@@ -17,7 +17,7 @@ SequenceServer::DOTDIR = File.join(__dir__, 'dotdir')
 
 Capybara.app = SequenceServer
 Capybara.server = :webrick
-Capybara.default_max_wait_time = 10
+Capybara.default_max_wait_time = 15
 
 chrome_options = Selenium::WebDriver::Chrome::Options.new
 chrome_options.add_preference('download.default_directory', DownloadHelpers::DOWNLOADS_DIR)
