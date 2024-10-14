@@ -57,3 +57,4 @@ node_modules
 
 spec/dotdir/*
 spec/downloads/*
+spec/tmp
