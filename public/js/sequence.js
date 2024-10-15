@@ -295,6 +295,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     var tooltip = 'sequenceTip' + this.opt.target;
                     jQuery('<div id="' + tooltip + '"></div>')
                         .appendTo('.fastan-content')
+                        .addClass('absolute top-0 left-0')
                         .show()
                     this.opt._tooltip = document.getElementById(tooltip);
 
@@ -1320,17 +1321,19 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     jQuery(target).mouseover(function (e) {
 
                         var offset = jQuery(e.target).offset();
+                        var containerOffset = jQuery(e.target).closest('.seqF').offset();
 
                         if (!jQuery(tipId).is(':visible')) {
                             jQuery(tipId)
                                 .css({
                                     'background-color': '#000',
                                     'padding': '3px 10px 3px 10px',
-                                    'top': offset.top + jQuery(e.target).height() + 'px',
-                                    'left': offset.left + jQuery(e.target).width() + 'px',
+                                    'top': offset.top - containerOffset.top + jQuery(e.target).height() + 'px',
+                                    'left': offset.left - containerOffset.left + jQuery(e.target).width() + 'px',
                                     'color': '#fff',
                                     'width': '50px',
-                                    'font-size': '12px'
+                                    'font-size': '12px',
+                                    'position': 'absolute'
                                 })
                                 .animate({ opacity: '0.85' }, 10)
                                 .html(cbGetMessageFunction.call(target))
