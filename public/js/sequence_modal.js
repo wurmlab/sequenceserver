@@ -24,8 +24,8 @@ export default class SequenceModal extends React.Component {
     const { isModalVisible, requestCompleted } = this.state;
 
     return (
-      <div className="relative">
-        <dialog ref={this.modalRef} className="sequence-viewer fixed p-4 w-full max-w-2xl bg-transparent focus:outline-none overflow-visible">
+      <div className="relative sequence-viewer-wrap">
+        <dialog ref={this.modalRef} className="sequence-viewer fixed p-4 w-full max-w-2xl bg-transparent focus:outline-none overflow-visible z-50">
           <div className="relative flex flex-col rounded-lg bg-white shadow">
             <div className="flex items-start justify-between rounded-t border-b p-5">
               <h3 className="text-xl font-medium text-gray-900">
@@ -35,7 +35,9 @@ export default class SequenceModal extends React.Component {
                 <i className="fa-solid fa-xmark hover:text-black"></i>
               </button>
             </div>
-            {(requestCompleted && this.resultsJSX()) || this.loadingJSX()}
+            <div className="sequence-viewer-content">
+              {(requestCompleted && this.resultsJSX()) || this.loadingJSX()}
+            </div>
           </div>
         </dialog>
       </div>
@@ -129,7 +131,7 @@ class SequenceViewer extends React.Component {
             <small className="text-inherit">&nbsp; {this.props.sequence.title}</small>
           </h4>
         </div>
-        <div className="pt-0 px-0 pb-px">
+        <div className="fastan-content relative pt-0 px-0 pb-px">
           <div className={this.widgetClass} id={this.widgetID}></div>
         </div>
       </div>
