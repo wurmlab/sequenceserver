@@ -283,6 +283,7 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                     // DIV for the sequence
                     this._contentDiv = jQuery('<div/>').appendTo(this._container);
+                    console.log(this._contentDiv)
 
                     // Initialize highlighting
                     this._highlights = this.opt.highlights;
@@ -293,17 +294,8 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     //Initialize tooltip
                     var tooltip = 'sequenceTip' + this.opt.target;
                     jQuery('<div id="' + tooltip + '"></div>')
-                        .css({
-                            'position': 'absolute',
-                            'z-index': '999999',
-                            'color': '#fff',
-                            'font-size': '12px',
-                            'width': 'auto',
-                            'display': 'none'
-                        })
-                        .addClass('tooltip')
-                        .appendTo('body')
-                        .hide();
+                        .appendTo('.fastan-content')
+                        .show()
                     this.opt._tooltip = document.getElementById(tooltip);
 
                     if ((this.opt.sequence)) {
@@ -1335,7 +1327,10 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                                     'background-color': '#000',
                                     'padding': '3px 10px 3px 10px',
                                     'top': offset.top + jQuery(e.target).height() + 'px',
-                                    'left': offset.left + jQuery(e.target).width() + 'px'
+                                    'left': offset.left + jQuery(e.target).width() + 'px',
+                                    'color': '#fff',
+                                    'width': '50px',
+                                    'font-size': '12px'
                                 })
                                 .animate({ opacity: '0.85' }, 10)
                                 .html(cbGetMessageFunction.call(target))
