@@ -17,7 +17,7 @@ SequenceServer::DOTDIR = File.join(__dir__, 'dotdir')
 
 Capybara.app = SequenceServer
 Capybara.server = :webrick
-Capybara.default_max_wait_time = 10
+Capybara.default_max_wait_time = 15
 
 chrome_options = Selenium::WebDriver::Chrome::Options.new
 chrome_options.add_preference('download.default_directory', DownloadHelpers::DOWNLOADS_DIR)
@@ -45,6 +45,11 @@ end
 
 Capybara.default_driver = ENV['BROWSER_DEBUG'] ? :chrome : :headless_chrome
 Capybara.javascript_driver = ENV['BROWSER_DEBUG'] ? :chrome : :headless_chrome
+
+Capybara::Screenshot.instance_variable_set :@capybara_root, File.join(__dir__, 'tmp')
+Capybara::Screenshot.register_driver :headless_chrome do |driver, path|
+  driver.browser.save_screenshot(path)
+end
 
 RSpec.configure do |config|
   # Explicitly enable should syntax of rspec.

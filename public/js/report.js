@@ -1,12 +1,12 @@
 import './jquery_world'; // for custom $.tooltip function
 import React, { Component } from 'react';
-import _ from 'underscore';
 
 import Sidebar from './sidebar';
-import Hits from './hits';
-import Circos from './circos';
 import AlignmentExporter from './alignment_exporter';
 import ReportPlugins from 'report_plugins';
+import RunSummary from './report/run_summary';
+import GraphicalOverview from './report/graphical_overview';
+import AlignmentResults from './report/alignment_results';
 
 /**
  * Renders entire report.
@@ -191,14 +191,23 @@ class Report extends Component {
                     />
                 </div>
                 <div className="col-span-1 md:col-span-3">
-                    {this.overviewJSX()}
-                    {this.circosJSX()}
-                    {this.plugins.generateStats(this.state.queries)}
-                    {this.state.results}
-                    <Hits
+                    <RunSummary
+                        seqserv_version={this.state.seqserv_version}
+                        program_version={this.state.program_version}
+                        submitted_at={this.state.submitted_at}
+                        querydb={this.state.querydb}
+                        stats={this.state.stats}
+                        params={this.state.params}
+                    />
+                    <GraphicalOverview
+                        queries={this.state.queries}
+                        prorgam={this.state.program}
+                        plugins={this.plugins}
+                    />
+                    <AlignmentResults
                         state={this.state}
-                        componentFinishedUpdating={(_) => this.componentFinishedUpdating(_)}
                         populate_hsp_array={this.populate_hsp_array.bind(this)}
+                        componentFinishedUpdating={(_) => this.componentFinishedUpdating(_)}
                         plugins={this.plugins}
                         {...this.props}
                     />
@@ -239,57 +248,6 @@ class Report extends Component {
             </div>
         );
     }
-    /**
-   * Renders report overview.
-   */
-    overviewJSX() {
-        return (
-            <div className="overview mr-0 mb-0">
-                <p className="m-0 text-sm">
-                    <strong>SequenceServer {this.state.seqserv_version}</strong> using{' '}
-                    <strong>{this.state.program_version}</strong>
-                    {this.state.submitted_at &&
-            `, query submitted on ${this.state.submitted_at}`}
-                </p>
-                <p className="m-0 text-sm">
-                    <strong> Databases: </strong>
-                    {this.state.querydb
-                        .map((db) => {
-                            return db.title;
-                        })
-                        .join(', ')}{' '}
-          ({this.state.stats.nsequences} sequences,&nbsp;
-                    {this.state.stats.ncharacters} characters)
-                </p>
-                <p className="m-0 text-sm">
-                    <strong>Parameters: </strong>{' '}
-                    {_.map(this.state.params, function (val, key) {
-                        return key + ' ' + val;
-                    }).join(', ')}
-                </p>
-                <p className="m-0 text-sm">
-          Please cite:{' '}
-                    <a href="https://doi.org/10.1093/molbev/msz185" className="text-seqblue hover:text-seqorange">
-            https://doi.org/10.1093/molbev/msz185
-                    </a>
-                </p>
-            </div>
-        );
-    }
-
-    /**
-   * Return JSX for circos if we have at least one hit.
-   */
-    circosJSX() {
-        return this.atLeastTwoHits() ? (
-            <Circos
-                queries={this.state.queries}
-                program={this.state.program}
-            />
-        ) : (
-            <span></span>
-        );
-    }
 
     // Controller //
 
@@ -316,18 +274,6 @@ class Report extends Component {
    */
     atLeastOneHit() {
         return this.state.queries.some((query) => query.hits.length > 0);
-    }
-
-    /**
-   * Does the report have at least two hits? This is used to determine
-   * whether Circos should be enabled or not.
-   */
-    atLeastTwoHits() {
-        var hit_num = 0;
-        return this.state.queries.some((query) => {
-            hit_num += query.hits.length;
-            return hit_num > 1;
-        });
     }
 
     /**
