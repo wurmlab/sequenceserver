@@ -283,7 +283,6 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
 
                     // DIV for the sequence
                     this._contentDiv = jQuery('<div/>').appendTo(this._container);
-                    console.log(this._contentDiv)
 
                     // Initialize highlighting
                     this._highlights = this.opt.highlights;
@@ -1328,10 +1327,9 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                                 .css({
                                     'background-color': '#000',
                                     'padding': '3px 10px 3px 10px',
-                                    'top': offset.top - containerOffset.top + jQuery(e.target).height() + 'px',
-                                    'left': offset.left - containerOffset.left + jQuery(e.target).width() + 'px',
+                                    'top': offset.top - containerOffset.top + jQuery(e.target).height() + 15 + 'px',
+                                    'left': offset.left - containerOffset.left + jQuery(e.target).width() + 70 + 'px',
                                     'color': '#fff',
-                                    'width': '50px',
                                     'font-size': '12px',
                                     'position': 'absolute'
                                 })
