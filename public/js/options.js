@@ -72,9 +72,8 @@ export class Options extends Component {
         return (
             <div id="options-presets" className="w-full">
                 { Object.keys(this.props.predefinedOptions).length > 1 && <>
-                    <div className="grid md:grid-cols-2 gap-4 border-b border-seqorange mb-2">
-                        <h3 className="text-base w-full font-medium">Settings</h3>
-
+                    <div className="flex items-center border-b border-seqorange mb-2">
+                        <h3 className="text-base md:text-lg font-medium pr-1">Settings</h3>
                         <p className="text-base text-gray-500">Choose a predefined setting or customize parameters.</p>
                     </div>
                     {this.presetListJSX()}
@@ -134,12 +133,6 @@ export class Options extends Component {
                             See options
                             <i className="fa fa-question-circle ml-1 w-3 h-4 fill-current"></i>
                         </button>
-                    }
-
-                    {!this.props.blastMethod &&
-                        <span className="text-gray-500 ml-2 text-sm hidden sm:block">
-                            Select databases and fill in the query to see options.
-                        </span>
                     }
                 </div>
 
