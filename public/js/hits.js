@@ -230,11 +230,15 @@ class Hits extends Component {
         if (num_checked >= 1) {
             $a.find('.font-bold').html(num_checked);
             $b.find('.font-bold').html(num_checked);
+            $a.find('.font-bold').addClass('px-1').removeClass('px-0.5');
+            $b.find('.font-bold').addClass('px-1').removeClass('px-0.5');
         }
 
         if (num_checked == 0) {
             $a.addClass('disabled').find('.font-bold').html('');
             $b.addClass('disabled').find('.font-bold').html('');
+            $a.find('.font-bold').removeClass('px-1').addClass('px-0.5');
+            $b.find('.font-bold').removeClass('px-1').addClass('px-0.5');
         }
     }
 
