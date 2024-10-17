@@ -298,9 +298,9 @@ export default class extends Component {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="mb-1">
                             <a
                                 href="#"
-                                className="text-sm download-fasta-of-selected text-seqblue disabled py-0.5 px-0.5"
+                                className="flex text-sm download-fasta-of-selected text-seqblue disabled py-0.5 px-0.5"
                                 onClick={this.downloadFastaOfSelected}>
-                                FASTA of <span className="font-bold"></span> selected hit(s)
+                                FASTA of <span className="font-bold px-0.5"></span> selected hit(s)
                             </a>
                         </li>
                     }
@@ -310,8 +310,8 @@ export default class extends Component {
                         </a>
                     </li>
                     <li className="mb-1">
-                        <a href="#" className="text-sm download-alignment-of-selected text-seqblue disabled py-0.5 px-0.5">
-                            Alignment of <span className="font-bold"></span> selected hit(s)
+                        <a href="#" className="flex text-sm download-alignment-of-selected text-seqblue disabled py-0.5 px-0.5">
+                            Alignment of <span className="font-bold px-0.5"></span> selected hit(s)
                         </a>
                     </li>
                     {
