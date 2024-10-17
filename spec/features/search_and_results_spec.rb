@@ -16,6 +16,10 @@ describe 'Search and results', type: :feature, js: true do
     File.read File.join(__dir__, '..', 'sequences', 'protein_query.fa')
   end
 
+  let(:duplicated_query) do
+    File.read File.join(__dir__, '..', 'sequences', 'duplicated_query.fa')
+  end
+
   let(:funkyid_query) do
     'GATGAACGCTGGCGGCGTGCCTAATACATGCAAGTCGAG'
   end
@@ -191,6 +195,16 @@ describe 'Search and results', type: :feature, js: true do
 
     expect(File.basename(downloaded_file)).to eq('sequenceserver-8_hits.fa')
     expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/funky_ids_download.fa'))
+  end
+
+  it 'on download deduplicates by identifiers' do
+    perform_search(query: duplicated_query, databases: nucleotide_databases.values_at(1))
+
+    page.click_link('FASTA of all hits')
+    wait_for_download
+
+    expect(File.basename(downloaded_file)).to eq('sequenceserver-SI2.2.0_13722.fa')
+    expect(File.read(downloaded_file)).to eq(File.read('spec/sequences/sequenceserver-1_hit.fa'))
   end
 
   it 'can download alignment for each hit' do
