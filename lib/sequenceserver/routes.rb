@@ -66,7 +66,7 @@ module SequenceServer
         secret: ENV.fetch('SESSION_SECRET') { SecureRandom.alphanumeric(64) }
       )
 
-      use Rack::Csrf, raise: true, skip: ['POST:/cloud_share']
+      use Rack::Csrf, raise: true, skip: ['POST:/cloud_share'] unless ENV['SKIP_CSRF_PROTECTION'] == 'true'
     end
 
     unless ENV['SEQUENCE_SERVER_COMPRESS_RESPONSES'] == 'false'

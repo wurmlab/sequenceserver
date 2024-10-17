@@ -105,7 +105,7 @@ class Graph {
                 if (suffixes[seq_type] == 'aa') {
                     return `${d} ${suffixes[seq_type]}`;
                 } else {
-                    return `${prefix(d)} ${suffixes[seq_type]}`;
+                    return `${prefix(d)}${suffixes[seq_type]}`.replace(/([a-zA-Z]+)/, ' $1');
                 }
             } else {
                 return ;
