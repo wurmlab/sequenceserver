@@ -350,7 +350,7 @@ export class SearchQueryWidget extends Component {
                     className="sequence">
                     <textarea
                         id="sequence" ref={this.textareaRef}
-                        className="block w-full p-4 text-gray-900 border border-gray-300 rounded-l-lg rounded-tr-lg bg-gray-50 text-base font-mono min-h-52 resize-y"
+                        className="block w-full p-4 text-gray-900 border border-gray-300 rounded-l-lg rounded-tr-lg bg-gray-50 text-sm font-mono min-h-52 resize-y"
                         name="sequence" value={this.state.value}
                         rows="6"
                         required="required"
