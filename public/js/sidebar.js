@@ -298,9 +298,9 @@ export default class extends Component {
                         !(this.props.data.imported_xml || this.props.data.non_parse_seqids) && <li className="mb-1">
                             <a
                                 href="#"
-                                className="text-sm download-fasta-of-selected disabled py-0.5 px-0.5"
+                                className="flex text-sm download-fasta-of-selected text-seqblue disabled py-0.5 px-0.5"
                                 onClick={this.downloadFastaOfSelected}>
-                                FASTA of <span className="text-bold"></span> selected hit(s)
+                                FASTA of <span className="font-bold px-0.5"></span> selected hit(s)
                             </a>
                         </li>
                     }
@@ -310,8 +310,8 @@ export default class extends Component {
                         </a>
                     </li>
                     <li className="mb-1">
-                        <a href="#" className="text-sm download-alignment-of-selected disabled py-0.5 px-0.5">
-                            Alignment of <span className="text-bold"></span> selected hit(s)
+                        <a href="#" className="flex text-sm download-alignment-of-selected text-seqblue disabled py-0.5 px-0.5">
+                            Alignment of <span className="font-bold px-0.5"></span> selected hit(s)
                         </a>
                     </li>
                     {
@@ -425,7 +425,7 @@ export default class extends Component {
                     }
                     {!this.props.cloudSharingEnabled &&
                         <li className="hover:text-seqorange hover:bg-gray-200">
-                            <a id="sendEmail" className="block text-sm text-seqblue email-URL cursor-pointer py-0.5 px-0.5"
+                            <a id="sendEmail" className="flex text-sm text-seqblue hover:text-seqorange email-URL cursor-pointer py-0.5 px-0.5 w-full"
                                 href={asMailtoHref(this.props.data.querydb, this.props.data.program, this.props.data.queries.length, window.location.href)}
                                 target="_blank" rel="noopener noreferrer">
                                 <div className="relative flex gap-2 items-center group w-full">
