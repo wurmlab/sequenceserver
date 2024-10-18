@@ -24,24 +24,22 @@ export default class SequenceModal extends React.Component {
     const { isModalVisible, requestCompleted } = this.state;
 
     return (
-      <div className={`relative modal z-10 sequence-viewer ${isModalVisible ? '' : 'hidden'}`} ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all pb-2 sm:my-8 w-full md:max-w-xl">
-              <div className="bg-white pt-5">
-                <div className="px-6 mb-4 flex justify-between">
-                  <h3 className="text-base font-semibold leading-6 text-gray-900">View sequence</h3>
-                  <span className="cursor-pointer close-modal" onClick={() => this.hide()}>
-                    <i className="fa-solid fa-xmark align-bottom"></i>
-                  </span>
-                </div>
-
-                {(requestCompleted && this.resultsJSX()) || this.loadingJSX()}
-              </div>
+      <div className="relative sequence-viewer-wrap">
+        <dialog ref={this.modalRef} className="sequence-viewer fixed p-4 w-full max-w-2xl bg-transparent focus:outline-none overflow-visible z-50">
+          <div className="relative flex flex-col rounded-lg bg-white shadow">
+            <div className="flex items-start justify-between rounded-t border-b p-5">
+              <h3 className="text-xl font-medium text-gray-900">
+                View sequence
+              </h3>
+              <button className="sequence-viewer-close ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-gray-400 hover:bg-gray-200" onClick={this.hide}>
+                <i className="fa-solid fa-xmark hover:text-black"></i>
+              </button>
+            </div>
+            <div className="sequence-viewer-content">
+              {(requestCompleted && this.resultsJSX()) || this.loadingJSX()}
             </div>
           </div>
-        </div>
+        </dialog>
       </div>
     );
   }
@@ -49,16 +47,19 @@ export default class SequenceModal extends React.Component {
   /**
    * Shows sequence viewer.
    */
-  show(url) {
-    this.setState({ requestCompleted: false, isModalVisible: true }); 
+  show = (url) => {
+    this.modalRef.current?.showModal();
+    this.setState({ requestCompleted: false });
     this.loadJSON(url);
+    document.body.classList.add("overflow-hidden");
   }
 
   /**
    * Hide sequence viewer.
    */
-  hide() {
-    this.setState({ isModalVisible: false });
+  hide = () => {
+    this.modalRef.current?.close();
+    document.body.classList.remove("overflow-hidden");
   }
 
   /**
@@ -86,7 +87,7 @@ export default class SequenceModal extends React.Component {
       <div className="pt-2 px-6 pb-6 mt-2">
         {this.state.error_msgs.map((error_msg, index) => (
           <div key={`error-message-${index}`} className="fastan">
-            <div className="section-header border-b border-seqorange pl-px table mb-0 w-full md:max-w-xl pb-2">
+            <div className="section-header border-b border-seqorange pl-px table mb-0 w-full pb-2">
               <h4 className="text-sm table-cell">{error_msg[0]}</h4>
             </div>
             <div className="pt-0 px-0 pb-px">
@@ -103,7 +104,7 @@ export default class SequenceModal extends React.Component {
 
   loadingJSX() {
     return (
-      <div className="mt-2 text-center">
+      <div className="my-4 text-center">
         <i className="fa fa-spinner fa-3x fa-spin"></i>
       </div>
     );
@@ -124,13 +125,13 @@ class SequenceViewer extends React.Component {
 
     return (
       <div className="fastan">
-        <div className="section-header border-b border-seqorange pl-px table mb-0 w-full md:max-w-xl pb-2">
+        <div className="section-header border-b border-seqorange pl-px table mb-0 w-full pb-2">
           <h4 className="text-sm table-cell">
             {this.props.sequence.id}
             <small className="text-inherit">&nbsp; {this.props.sequence.title}</small>
           </h4>
         </div>
-        <div className="pt-0 px-0 pb-px">
+        <div className="fastan-content relative pt-0 px-0 pb-px">
           <div className={this.widgetClass} id={this.widgetID}></div>
         </div>
       </div>

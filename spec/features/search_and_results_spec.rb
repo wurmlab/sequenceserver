@@ -333,7 +333,7 @@ describe 'Search and results', type: :feature, js: true do
     end
 
     # Dismiss the modal.
-    page.find('.close-modal').click
+    page.find('.sequence-viewer-close').click
 
     # Click on the second sequence viewer link in the report.
     page.find_all('.view-sequence')[1].click

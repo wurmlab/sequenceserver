@@ -161,15 +161,19 @@ export class Options extends Component {
     showAdvancedOptionsHelp(e) {
         const ids = ['blastn', 'tblastn', 'blastp', 'blastx', 'tblastx'];
         const method = this.props.blastMethod.toLowerCase();
+        const modal = document.querySelector("dialog.advanced-modal");
+
         // hide options for other algorithms and only show for selected algorithm
         for (const id of ids) {
             if (id === method) {
-                document.getElementById(id).classList.remove('hidden')
+                document.getElementById(id).classList.remove('hidden');
             } else {
                 document.getElementById(id).classList.add('hidden');
             }
         }
-        document.querySelector('[data-help-modal]').classList.remove('hidden')
+
+        modal.showModal();
+        document.body.classList.add("overflow-hidden");
     }
 
     render() {
