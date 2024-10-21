@@ -78,9 +78,19 @@ export default class CloudShareModal extends React.Component {
     return match ? match[1] : match;
   }
 
+  show = () => {
+    this.modalRef.current?.showModal();
+    document.body.classList.add("overflow-hidden");
+  }
+
+  hide = () => {
+    this.modalRef.current?.close();
+    document.body.classList.remove("overflow-hidden");  
+  }
+
   renderLoading() {
     return (
-      <div className="text-center">
+      <div className="text-center pt-3">
         <i className="fa fa-spinner fa-3x fa-spin"></i>
         <p className="my-3">Uploading the job to SequenceServer Cloud, please wait...</p>
       </div>
@@ -118,7 +128,7 @@ export default class CloudShareModal extends React.Component {
 
     return(
       <form onSubmit={this.handleSubmit}>
-        <div className="px-6 mb-3">
+        <div className="px-6 py-4 text-sm">
           <label htmlFor="emailInput" className="text-seqblue hover:text-orange cursor-pointer mb-0">Your Email Address</label>
           <input
             type="email"
@@ -130,33 +140,33 @@ export default class CloudShareModal extends React.Component {
             required="required"
             onChange={this.handleChange}
           />
-          <p>
+          <p className="mb-3">
             By submitting this form you agree to upload this SequenceServer result set to <a href="https://sequenceserver.com/cloud/" target="_bank" className="text-seqblue hover:text-seqorange">SenquenceServer Cloud</a>
             , where it will become available on the internet to everyone with the link. You also agree that your email address will be stored on SequenceServer databases as proof of authentication for support and similar purposes.
           </p>
-        </div>
-        <div className="form-check px-6 mb-3">
-          <input
-            type="checkbox"
-            id="tosCheckbox"
-            className="form-check-input"
-            name="agreeToTos"
-            checked={agreeToTos}
-            onChange={this.handleChange}
-          />
-          <label htmlFor="tosCheckbox" className="pl-2">
-            &nbsp;I agree to the <b><a href="https://sequenceserver.com/cloud/terms_and_conditions" target="_blank" className="text-seqblue hover:text-seqorange">Terms and Conditions of Service</a></b>
-          </label>
+          <div className="form-check">
+            <input
+              type="checkbox"
+              id="tosCheckbox"
+              className="form-check-input"
+              name="agreeToTos"
+              checked={agreeToTos}
+              onChange={this.handleChange}
+            />
+            <label htmlFor="tosCheckbox" className="pl-2">
+              &nbsp;I agree to the <b><a href="https://sequenceserver.com/cloud/terms_and_conditions" target="_blank" className="text-seqblue hover:text-seqorange">Terms and Conditions of Service</a></b>
+            </label>
+          </div>
         </div>
         <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-        <button
-            type="submit"
-            style={{ backgroundColor: isSubmitDisabled ? '#C74F13' : '#1B557A' }}
-            className='border-seqblue py-2 px-3 rounded-md text-white'
-            disabled={isSubmitDisabled}
-        >
-            Submit
-        </button>
+          <button
+              type="submit"
+              style={{ backgroundColor: isSubmitDisabled ? '#C74F13' : '#1B557A' }}
+              className='border-seqblue py-2 px-3 rounded-md text-white'
+              disabled={isSubmitDisabled}
+          >
+              Submit
+          </button>
         </div>
       </form>
     )
@@ -183,40 +193,23 @@ export default class CloudShareModal extends React.Component {
     }
 
     return (
-      <div className={`relative modal z-10 ${isModalVisible ? '' : 'hidden'}`} ref={this.modalRef} tabIndex="-1" role="dialog" aria-modal="true">
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full md:max-w-2xl">
-              <div className="bg-white pt-5">
-                <div className="flex justify-between px-6 mb-4">
-                  <h3 className="text-base font-semibold leading-6 text-gray-900">Share to SequenceServer Cloud</h3>
-                  <span className="cursor-pointer" onClick={() => this.hide()}>
-                    <i className="fa-solid fa-xmark align-bottom"></i>
-                  </span>
-                </div>
-                <div className="modal-content pt-6 mt-2 text-sm">
-                  {content}
-                </div>
-              </div>
+      <div className="relative">
+        <dialog ref={this.modalRef} className="fixed p-4 w-full max-w-2xl bg-transparent focus:outline-none">
+          <div className="relative flex flex-col rounded-lg bg-white shadow">
+            <div className="flex items-start justify-between rounded-t border-b p-5">
+              <h3 className="text-xl font-medium text-gray-900">
+                Share to SequenceServer Cloud
+              </h3>
+              <button className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200" onClick={this.hide}>
+                <i className="fa-solid fa-xmark hover:text-black"></i>
+              </button>
+            </div>
+            <div className="dialog-content">
+              {content}
             </div>
           </div>
-        </div>
+        </dialog>
       </div>
     );
-  }
-
-  /**
-   * show modal
-   */
-  show() {
-    this.setState({ isModalVisible: true });
-  }
-
-  /**
-   * Hide modal.
-   */
-  hide() {
-    this.setState({ isModalVisible: false });
   }
 }
