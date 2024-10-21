@@ -71,6 +71,11 @@ pre.indL {
   @apply cursor-not-allowed pointer-events-none text-gray-400;
 }
 
+li:hover .download-fasta-of-selected:not(.disabled), 
+li:hover .download-alignment-of-selected:not(.disabled) {
+  @apply bg-gray-200 text-seqorange;
+}
+
 /* Text size */
 .hit-text,
 .pre-text,
