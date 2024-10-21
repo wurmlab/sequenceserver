@@ -80,12 +80,10 @@ export default class CloudShareModal extends React.Component {
 
   show = () => {
     this.modalRef.current?.showModal();
-    document.body.classList.add("overflow-hidden");
   }
 
   hide = () => {
     this.modalRef.current?.close();
-    document.body.classList.remove("overflow-hidden");  
   }
 
   renderLoading() {

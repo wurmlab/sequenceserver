@@ -35,7 +35,7 @@ export default class SequenceModal extends React.Component {
                 <i className="fa-solid fa-xmark hover:text-black"></i>
               </button>
             </div>
-            <div className="sequence-viewer-content">
+            <div className="sequence-viewer-content max-h-[80vh] overflow-y-scroll">
               {(requestCompleted && this.resultsJSX()) || this.loadingJSX()}
             </div>
           </div>
@@ -51,7 +51,6 @@ export default class SequenceModal extends React.Component {
     this.modalRef.current?.showModal();
     this.setState({ requestCompleted: false });
     this.loadJSON(url);
-    document.body.classList.add("overflow-hidden");
   }
 
   /**
@@ -59,7 +58,6 @@ export default class SequenceModal extends React.Component {
    */
   hide = () => {
     this.modalRef.current?.close();
-    document.body.classList.remove("overflow-hidden");
   }
 
   /**

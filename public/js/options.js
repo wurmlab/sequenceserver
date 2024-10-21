@@ -165,7 +165,6 @@ export class Options extends Component {
         }
 
         modal.showModal();
-        document.body.classList.add("overflow-hidden");
     }
 
     render() {

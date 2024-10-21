@@ -1180,20 +1180,13 @@ require = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { va
                     if (opt.numLeft) {
                         $('<pre/>')
                             .html(indL)
-                            .addClass('indL')
-                            .css({
-                                color: '#aaa',
-                                display: 'inline-block'
-                            })
+                            .addClass('indL hidden sm:inline-block')
                             .appendTo(this._contentDiv);
                     }
 
                     $('<pre/>')
                         .html(str)
-                        .addClass('seqF')
-                        .css({
-                            display: 'inline-block'
-                        })
+                        .addClass('seqF inline-block')
                         .appendTo(this._contentDiv);
 
                     if (opt.numRight) {

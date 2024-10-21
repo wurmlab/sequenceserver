@@ -41,11 +41,12 @@ root.render(<Page />);
 
 document.addEventListener('DOMContentLoaded', () => {
     const closeButton = document.querySelector('button.advanced-modal-close');
-    const modal = document.querySelector('dialog.advanced-modal')
+    const modal = document.querySelector('dialog.advanced-modal');
+    modal.addEventListener('close', () => { document.body.classList.remove("overflow-hidden") });
+
     if (closeButton) {
         closeButton.addEventListener('click', function() {
             modal.close();
-            document.body.classList.add("overflow-hidden");
         });
     }
 });
