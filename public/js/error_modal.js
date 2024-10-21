@@ -17,7 +17,7 @@ export default class ErrorModal extends React.Component {
             errorData: {},
             isModalVisible: false
         };
-        this.modal = createRef();
+        this.modalRef = createRef();
     }
 
     render() {
@@ -25,7 +25,7 @@ export default class ErrorModal extends React.Component {
 
         return (
             <div className="relative">
-                <dialog ref={this.modal} className="fixed p-4 w-full max-w-2xl bg-transparent focus:outline-none">
+                <dialog ref={this.modalRef} className="fixed p-4 w-full max-w-2xl bg-transparent focus:outline-none">
                     <div className="relative flex flex-col rounded-lg bg-white shadow">
                         <div className="flex items-start justify-between rounded-t border-b p-5">
                             <h3 className="text-xl font-medium text-gray-900">
@@ -58,8 +58,7 @@ export default class ErrorModal extends React.Component {
         // modal. This is helpful if the caller wants to finish some work
         // before showing error modal.
         setTimeout(() => {
-            this.modal.current?.showModal();
-            document.body.classList.add("overflow-hidden");
+            this.modalRef.current?.showModal();
         }, beforeShow || 0);
     }
 
@@ -67,7 +66,6 @@ export default class ErrorModal extends React.Component {
      * Hide dialogue.
      */
     hide = () => {
-        this.modal.current?.close();
-        document.body.classList.remove("overflow-hidden");
+        this.modalRef.current?.close();
     }
 }

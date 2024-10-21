@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Stop the body scrolling while a modal is open */
+body:has(dialog[open]) {
+  overflow: hidden;
+}
 
 @layer base {
   html {
@@ -52,7 +56,7 @@ sup {
 /* Pre tag */
 pre.indL,
 pre.seqF {
-  @apply flex bg-[#f5f5f5] p-2.5 my-2.5 break-all break-words border border-[#ccc] text-[11px] text-[#333] md:text-[13px];
+  @apply bg-[#f5f5f5] p-2.5 my-2.5 break-all break-words border border-[#ccc] text-[11px] text-[#333] md:text-[13px];
 }
 
 pre.seqF {
@@ -71,7 +75,7 @@ pre.indL {
   @apply cursor-not-allowed pointer-events-none text-gray-400;
 }
 
-li:hover .download-fasta-of-selected:not(.disabled), 
+li:hover .download-fasta-of-selected:not(.disabled),
 li:hover .download-alignment-of-selected:not(.disabled) {
   @apply bg-gray-200 text-seqorange;
 }
