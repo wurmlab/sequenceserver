@@ -63,7 +63,7 @@ export default class extends Databases {
 
         // Toggle button.
         var toggleState = '[Select all]';
-        var toggleClass = 'px-2 text-sm hidden';
+        var toggleClass = 'px-2 text-base md:text-lg hidden';
         var toggleShown = this.databases(category).length > 1;
         var toggleDisabled = this.state.type && this.state.type !== category;
         if (toggleShown && toggleDisabled) {
@@ -80,8 +80,8 @@ export default class extends Databases {
         return (
             <div className={columnClass} key={'DB_' + category}>
                 <div>
-                    <div className="border-b border-seqorange mb-2 text-lg" id="database_list">
-                        <h4 className="font-medium">{panelTitle}</h4>
+                    <div className="border-b border-seqorange mb-2" id="database_list">
+                        <h4 className="font-medium text-base md:text-lg">{panelTitle}</h4>
                         {
                             this.renderDatabaseSearch(category)
                         }

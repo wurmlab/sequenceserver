@@ -12,7 +12,7 @@ export const setMockJSONResult = (result) => {
     global.$.getJSON = (_, cb) => cb(result);
 };
 
-describe('ADVANCED PARAMETERS', () => {
+describe('PARAMETERS', () => {
     let csrfMetaTag;
 
     beforeEach(() => {
