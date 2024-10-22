@@ -113,7 +113,7 @@ export class Databases extends Component {
                             this.databases(category),
                             _.bind(function (database, index) {
                                 return (
-                                    <li key={'DB_' + category + index} className="h-6 text-base md:text-lg">
+                                    <li key={'DB_' + category + index} className="text-base md:text-lg leading-tight md:leading-tight">
                                         {this.renderDatabase(database)}
                                     </li>
                                 );
