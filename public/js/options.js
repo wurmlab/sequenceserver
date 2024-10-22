@@ -84,7 +84,7 @@ export class Options extends Component {
 
     presetListJSX() {
         return (
-            <ul className="text-lg my-1">
+            <ul className="md:text-lg my-1">
                 {
                     Object.entries(this.props.predefinedOptions).map(
                         ([key, config], index) => {
@@ -120,8 +120,8 @@ export class Options extends Component {
         return(
              <div className={this.state.paramsMode !== 'advanced' ? 'w-full hidden' : 'w-full'}>
                 <div className="flex items-end">
-                    <label className="flex items-center text-base md:text-lg text-gray-500" htmlFor="advanced">
-                        Parameters options as they would appear in a command-line.
+                    <label className="flex items-center text-base md:text-lg" htmlFor="advanced">
+                        Parameters:
                     </label>
 
                     {this.props.blastMethod &&
@@ -145,6 +145,9 @@ export class Options extends Component {
                         placeholder="eg: -evalue 1.0e-5 -num_alignments 100"
                         title="View, and enter advanced parameters."
                     />
+                </div>
+                <div className="mt-1 text-gray-700">
+                    Options as they would appear in a command-line.
                 </div>
             </div>
         )
