@@ -31,7 +31,7 @@ export function getPrefix(str) {
 }
 
 /**
- * Defines how ticks will be formatted.
+* Defines how ticks will be formatted.
  *
  * Examples: 200 aa, 2.4 kbp, 7.6 Mbp.
  *
@@ -43,11 +43,31 @@ export function tick_formatter(scale, seq_type) {
 
     return function (d) {
         const formatted = prefix(d);
-        const numericPart = Math.floor(parseFloat(formatted));
-        const suffix = formatted.replace(/[0-9.]/g, '');
 
-        return `${numericPart} ${suffix}${suffixes[seq_type]}`;
+        return `${formatNumberUnits(formatted)}${suffixes[seq_type]}`;
     };
+}
+
+function extractSuffix(str) {
+    const suffix = str.replace(/[0-9.]/g, '');
+    const numericPart = d3.format('.2f')(parseFloat(str));
+
+    return [parseFloat(numericPart), suffix];
+}
+
+export function formatNumberUnits(number, threshold = 0.95) {
+    const [numericPart, suffix] = extractSuffix(number);
+    const integerPart = Math.floor(numericPart);
+    const fractionalPart = parseFloat((numericPart - integerPart).toFixed(2));
+
+    // when fractionalPart more than the threshold round up
+    // example:
+    //  threshold 0.95
+    //  2.95 -> 3
+    //  2.94 -> 2.9
+    const formatted = fractionalPart >= threshold ? integerPart + 1 : Math.floor(numericPart * 10) / 10;
+
+    return `${formatted} ${suffix}`;
 }
 
 export function get_seq_type(algorithm) {

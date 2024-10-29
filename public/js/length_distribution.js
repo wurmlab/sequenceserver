@@ -107,9 +107,8 @@ class Graph {
                 return `${d} ${suffixes[seq_type]}`;
             } else {
                 const formatted = prefix(d);
-                const numericPart = Math.floor(parseFloat(formatted));
-                const suffix = formatted.replace(/[0-9.]/g, '');
-                return `${numericPart} ${suffix}${suffixes[seq_type]}`;
+
+                return `${Helpers.formatNumberUnits(formatted)}${suffixes[seq_type]}`;
             }
         };
     }
