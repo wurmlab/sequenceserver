@@ -15,8 +15,9 @@ import * as d3 from 'd3';
  */
 var export_as_svg = function (svg, filename) {
     var blob = new Blob([serialize_svg(svg)], { type: 'text/xml' });
-    filename = Exporter.sanitize_filename(filename) + '.svg';
-    Exporter.download_blob(blob, filename);
+    // filename = Exporter.sanitize_filename(filename) + '.svg';
+    console.log(blob, filename);
+    // Exporter.download_blob(blob, filename);
 };
 
 /**

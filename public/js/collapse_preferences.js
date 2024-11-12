@@ -28,10 +28,10 @@ export default class CollapsePreferences {
     }
 
     minusIcon() {
-        return <i className="fa-regular fa-square-minus"></i>;
+        return <i className="print:!hidden fa-regular fa-square-minus"></i>;
     }
 
     plusIcon() {
-        return <i className="fa-regular fa-square-plus"></i>;
+        return <i className="print:!hidden fa-regular fa-square-plus"></i>;
     }
 }

@@ -33,7 +33,8 @@ export default function Grapher(Graph) {
             if (Graph.name(this.props) === null) {
                 return null;
             } else {
-                var cssClasses = Graph.className() + ' grapher';
+                var printCss = this.state.collapsed ? ' print:hidden' : '';
+                var cssClasses = Graph.className() + ' grapher' + printCss;
                 return (
                     <div className={cssClasses}>
                         {this.header()}
@@ -51,7 +52,7 @@ export default function Grapher(Graph) {
                         onClick={() => this.collapsePreferences.toggleCollapse()}
                     >
                         {this.collapsePreferences.renderCollapseIcon()}
-              &nbsp;{Graph.name(this.props)}
+                        <span className="print:hidden">&nbsp;</span>{Graph.name(this.props)}
                     </h4>
                     {!this.state.collapsed && this.graphLinksJSX()}
                 </div>;
@@ -64,7 +65,7 @@ export default function Grapher(Graph) {
 
         graphLinksJSX() {
             return (
-                <div className="hit-links float-right text-right text-blue-300 h-4">
+                <div className="hit-links float-right text-right text-blue-300 h-4 print:hidden">
                     <a href="#" className="btn-link text-sm text-seqblue hover:text-seqorange cursor-pointer export-to-svg">
                         <i className="fa fa-download" /> SVG
                     </a>

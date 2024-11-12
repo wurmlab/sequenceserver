@@ -10,15 +10,15 @@ const ReportHeader = (props) => {
     if (!renderable) return null;
 
     return (
-        <>
+        <div className={`${state.collapsed ? 'print:!hidden' : ''}`}>
             <h3 className="caption font-bold border-b-2 border-seqorange" onClick={() => collapsePreferences.toggleCollapse()}>
                 {collapsePreferences.renderCollapseIcon()}
                 <span> {props.name}</span>
             </h3>
-            <div className='mx-1'>
+            <div className='mx-1 print:mx-0'>
                 {!state.collapsed && props.renderContent()}
             </div>
-        </>
+        </div>
     );
 };
 

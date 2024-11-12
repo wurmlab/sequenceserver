@@ -451,11 +451,13 @@ class HitsTable extends Component {
 
     render() {
         return (
-            <div className="table-hit-overview">
-                <h4 className="caption text-sm" onClick={() => this.collapsePreferences.toggleCollapse()}>
-                    {this.collapsePreferences.renderCollapseIcon()}
-                    <span> {this.name}</span>
-                </h4>
+            <div className={`table-hit-overview ${this.state.collapsed ? 'print:hidden' : ''}`}>
+                <div className="grapher-header pr-px">
+                    <h4 className="inline-block pl-px m-0 caption cursor-pointer text-sm caption" onClick={() => this.collapsePreferences.toggleCollapse()}>
+                        {this.collapsePreferences.renderCollapseIcon()}
+                        <span> {this.name}</span>
+                    </h4>
+                </div>
                 <div id={'Query_' + this.props.query.number + 'HT_' + this.props.query.number} className="overflow-auto md:overflow-hidden">
                     {!this.state.collapsed && this.tableJSX()}
                 </div>
