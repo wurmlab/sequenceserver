@@ -3,13 +3,11 @@
 @tailwind utilities;
 
 @page {
-  size: A4;
   margin: 0;
 }
 @media print {
   html, body {
     width: 255mm;
-    height: 297mm;
   }
 }
 

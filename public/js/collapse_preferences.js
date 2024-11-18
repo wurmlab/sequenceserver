@@ -1,13 +1,20 @@
 export default class CollapsePreferences {
-    constructor(component) {
+    constructor(component, reactFunction = false) {
         this.component = component;
         this.collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
+        this.isReactFunction = reactFunction;
     }
 
     toggleCollapse() {
-        let currentlyCollapsed = this.component.state.collapsed;
+        let currentlyCollapsed = false;
 
-        this.component.setState({ collapsed: !currentlyCollapsed });
+        if (this.isReactFunction) {
+            currentlyCollapsed = this.component.collapsed;
+            this.component.setCollapsed(!currentlyCollapsed);
+        } else {
+            currentlyCollapsed = this.component.state.collapsed;
+            this.component.setState({ collapsed: !currentlyCollapsed });
+        }
 
         let collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
 
@@ -24,7 +31,11 @@ export default class CollapsePreferences {
     }
 
     renderCollapseIcon() {
-        return this.component.state.collapsed ? this.plusIcon() : this.minusIcon();
+        if (this.isReactFunction) {
+            return this.component.collapsed ? this.plusIcon() : this.minusIcon();
+        } else {
+            return this.component.state.collapsed ? this.plusIcon() : this.minusIcon();
+        }
     }
 
     minusIcon() {
