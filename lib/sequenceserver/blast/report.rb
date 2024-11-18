@@ -94,7 +94,7 @@ module SequenceServer
         @xml_ir ||=
           if job.imported_xml_file
             parse_xml(File.read(job.imported_xml_file)).tap do |xml_ir|
-              if xml_ir.size < 9
+              if xml_ir.size < 9 || !xml_ir[0].is_a?(String) || !xml_ir[1].is_a?(String) || !xml_ir[7].is_a?(Array) || !xml_ir[8].is_a?(Array)
                 raise SequenceServer::XmlImportError
               end
             end
