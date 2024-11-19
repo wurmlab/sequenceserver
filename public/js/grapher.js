@@ -19,7 +19,7 @@ export default function Grapher(Graph) {
         const svgContainerRef = createRef();
         let graph = null;
 
-        const graphId = () => "testing"
+        const graphId = () => Graph.graphId(props)
 
         const graphLinksJSX = () => {
             return (
@@ -111,7 +111,11 @@ export default function Grapher(Graph) {
             draw(printing);
         }, [printing, width])
 
-        const collapsePreferences = new CollapsePreferences({name: name, collapsed: collapsed, setCollapsed: setCollapsed}, true);
+        const setState = (state) => {
+            setCollapsed(state.collapsed)
+        }
+
+        const collapsePreferences = new CollapsePreferences({name: name, state: { collapsed: collapsed }, setState: setState});
 
         if (Graph.name(props) === null) {
             return(null);
