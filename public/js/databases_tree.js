@@ -16,31 +16,35 @@ export default class extends Databases {
         var tree_id = '#' + category + '_database_tree';
         // hack that is needed to sync the selected tree db with the hidden main db
         window.jstree_node_change_timeout = null;
+        window.jstree_rapid_timeout = null
         const _this = this;
 
+        $(tree_id).on('select_node.jstree deselect_node.jstree', function (_, _data) {
+            if (window.jstree_node_change_timeout) clearTimeout(window.jstree_node_change_timeout);
+            if (window.jstree_rapid_timeout) clearTimeout(window.jstree_rapid_timeout);
 
-        // Set a timeout to handle jsTree node changes with some delay to avoid rapid re-triggering
-        window.jstree_node_change_timeout = setTimeout(function () {
-            // Filter out the current category to get a list of other categories
-            const otherCategories = _this.categories().filter(item => item !== category);
+            // Set a timeout to handle jsTree node changes with some delay to avoid rapid re-triggering
+            window.jstree_rapid_timeout = setTimeout(function () {
+                // Set another timeout to handle the retrieval and processing of selected nodes
+                window.jstree_node_change_timeout = setTimeout(function () {
+                    // Filter out the current category to get a list of other categories
+                    const otherCategories = _this.categories().filter(item => item !== category);
 
-            // Uncheck all nodes in the trees of the other categories
-            otherCategories.forEach((value) => $(`#${value}_database_tree`).jstree('uncheck_all'));
+                    // Uncheck all nodes in the trees of the other categories
+                    otherCategories.forEach((value) => $(`#${value}_database_tree`).jstree('uncheck_all'));
+                    // Get all selected nodes from the current tree.
+                    // Note: This will also include folders. To filter only database nodes, ensure the ID length is 32.
+                    // These IDs correspond to specific elements in the hidden main form.
+                    const selected = $(tree_id).jstree('get_selected').filter(selected => selected.length === 32);
 
-            // Set another timeout to handle the retrieval and processing of selected nodes
-            setTimeout(function () {
-                // Get all selected nodes from the current tree.
-                // Note: This will also include folders. To filter only database nodes, ensure the ID length is 32.
-                // These IDs correspond to specific elements in the hidden main form.
-                const selected = $(tree_id).jstree('get_selected').filter(selected => selected.length === 32);
+                    // Find database entries in the current category whose IDs match the selected nodes
+                    const foundDatabases = _this.databases(category).filter(db => selected.includes(db.id));
 
-                // Find database entries in the current category whose IDs match the selected nodes
-                const foundDatabases = _this.databases(category).filter(db => selected.includes(db.id));
-
-                // Update the selected databases in the view model with the found databases
-                _this.selectDatabases(foundDatabases);
-            }, 100); // Delay to ensure jsTree updates are processed
-        }, 100); // Delay to prevent rapid changes causing multiple triggers
+                    // Update the selected databases in the view model with the found databases
+                    _this.selectDatabases(foundDatabases);
+                }, 100); // Delay to ensure jsTree updates are processed
+            }, 100); // Delay to prevent rapid changes causing multiple triggers
+        });
 
 
         $(tree_id).jstree({
