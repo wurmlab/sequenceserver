@@ -133,7 +133,7 @@ export class SearchButton extends Component {
             <div className="flex">
                 <button
                     type="submit"
-                    className="uppercase w-full md:w-auto flex text-xl justify-center py-2 px-16 border border-transparent rounded-md shadow-sm text-white bg-seqblue hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange"
+                    className={`${method ? 'hover:bg-seqorange focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-seqorange ' : 'opacity-50 cursor-not-allowed '}uppercase w-full md:w-auto flex text-xl justify-center py-2 px-16 border border-transparent rounded-md shadow-sm text-white bg-seqblue`}
                     id="method"
                     name="method"
                     value={method}
