@@ -6,15 +6,12 @@ export default class CollapsePreferences {
 
     toggleCollapse() {
         let currentlyCollapsed = this.component.state.collapsed;
-
         this.component.setState({ collapsed: !currentlyCollapsed });
 
-        let collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
-
         if (currentlyCollapsed) {
-            localStorage.setItem('collapsePreferences', JSON.stringify(collapsePreferences.filter((name) => name !== this.component.name)));
+            localStorage.setItem('collapsePreferences', JSON.stringify(this.collapsePreferences.filter((name) => name !== this.component.name)));
         } else {
-            let uniqueCollapsePreferences = [... new Set(collapsePreferences.concat([this.component.name]))];
+            let uniqueCollapsePreferences = [... new Set(this.collapsePreferences.concat([this.component.name]))];
             localStorage.setItem('collapsePreferences', JSON.stringify(uniqueCollapsePreferences));
         }
     }
@@ -28,10 +25,10 @@ export default class CollapsePreferences {
     }
 
     minusIcon() {
-        return <i className="fa-regular fa-square-minus"></i>;
+        return <i className="print:!hidden fa-regular fa-square-minus"></i>;
     }
 
     plusIcon() {
-        return <i className="fa-regular fa-square-plus"></i>;
+        return <i className="print:!hidden fa-regular fa-square-plus"></i>;
     }
 }

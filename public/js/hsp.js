@@ -1,72 +1,48 @@
-import React, { createRef } from "react";
+import React, { useState, createRef, useEffect } from "react";
+import useDetectPrint from "react-detect-print";
 import _ from "underscore";
 
 import Utils from "./utils";
 import * as Helpers from "./visualisation_helpers";
 
-var HSPComponents = {};
-
 /**
  * Alignment viewer.
  */
-export default class HSP extends React.Component {
-  constructor(props) {
-    super(props);
-    this.hsp = props.hsp;
-    this.hspRef = createRef();
+// export default class HSP extends React.Component {
+export default function HSP(props) {
+  const hsp = props.hsp;
+  const hspRef = createRef();
+  const printing = useDetectPrint();
+  const [chars, setChars] = useState(0)
+  const [width, setWidth] = useState(window.innerWidth);
+
+  const domID = () => {
+    const { query, hit, hsp } = props;
+    return `Query_${query.number}_hit_${hit.number}_${hsp.number}`;
   }
 
-  domID() {
-    return (
-      "Query_" +
-      this.props.query.number +
-      "_hit_" +
-      this.props.hit.number +
-      "_" +
-      this.props.hsp.number
-    );
+  const hitDOM_ID = () => {
+    return "Query_" + props.query.number + "_hit_" + props.hit.number;
   }
 
-  hitDOM_ID() {
-    return "Query_" + this.props.query.number + "_hit_" + this.props.hit.number;
-  }
+  useEffect(() => {
+    // Attach a debounced listener to handle window resize events 
+    // Updates the width state with the current window width, throttled to run at most once every 125ms
+    const handleResize = _.debounce(() => setWidth(window.innerWidth), 125);
+    window.addEventListener("resize", handleResize);
 
-  // Renders pretty formatted alignment.
-  render() {
-    return (
-      <div
-        className="hsp pt-px pb-5 border-l-2 border-transparent pl-1 -ml-1"
-        id={this.domID()}
-        ref={this.hspRef}
-        data-parent-hit={this.hitDOM_ID()}
-      >
-        <p className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep text-sm text-neutral-500 font-semibold tracking-wide">
-          {this.props.showHSPNumbers &&
-            `${Helpers.toLetters(this.hsp.number)}. `}
-          {this.hspStats().map((s, i) => (
-            <span key={i}>{s}</span>
-          ))}
-        </p>
-        {this.hspLines()}
-      </div>
-    );
-  }
+    // TODO: print handler
+    draw();
+  }, [])
 
-  componentDidMount() {
-    HSPComponents[this.domID()] = this;
-    this.draw();
-  }
-
-  draw() {
-    var charWidth = this.props.getCharacterWidth();
-    var containerWidth = $(this.hspRef.current).width();
-    this.chars = Math.floor((containerWidth - 4) / charWidth);
-    this.forceUpdate();
-  }
-
-  // See Query.shouldComponentUpdate. The same applies for hsp.
-  shouldComponentUpdate() {
-    return !this.props.hsp;
+  useEffect(() => {
+    draw(printing);
+  }, [printing, width])
+  
+  const draw = (printing = false) => {
+    const charWidth = props.getCharacterWidth();
+    const containerWidth = printing ? 900 : $(hspRef.current).width();
+    setChars(Math.floor((containerWidth - 4) / charWidth))
   }
 
   /**
@@ -77,138 +53,152 @@ export default class HSP extends React.Component {
    * We cannot return a string from this method otherwise we wouldn't be able
    * to use JSX elements to format text (like, superscript).
    */
-  hspStats() {
+  const hspStats = () => {
     // An array to hold text or span elements that make up the line.
     let line = [];
 
     // Bit score and total score.
     line.push(
-      `Score: ${Utils.inTwoDecimal(this.hsp.bit_score)} (${this.hsp.score}), `
+      `Score: ${Utils.inTwoDecimal(hsp.bit_score)} (${hsp.score}), `
     );
 
     // E value
     line.push("E value: ");
-    line.push(Utils.inExponential(this.hsp.evalue));
+    line.push(Utils.inExponential(hsp.evalue));
     line.push(", ");
 
     // Identity
     line.push([
       `Identity: ${Utils.inFraction(
-        this.hsp.identity,
-        this.hsp.length
-      )} (${Utils.inPercentage(this.hsp.identity, this.hsp.length)}), `,
+        hsp.identity,
+        hsp.length
+      )} (${Utils.inPercentage(hsp.identity, hsp.length)}), `,
     ]);
 
     // Positives (for protein alignment).
     if (
-      this.props.algorithm === "blastp" ||
-      this.props.algorithm === "blastx" ||
-      this.props.algorithm === "tblastn" ||
-      this.props.algorithm === "tblastx"
+      props.algorithm === "blastp" ||
+      props.algorithm === "blastx" ||
+      props.algorithm === "tblastn" ||
+      props.algorithm === "tblastx"
     ) {
       line.push(
         `Positives: ${Utils.inFraction(
-          this.hsp.positives,
-          this.hsp.length
-        )} (${Utils.inPercentage(this.hsp.positives, this.hsp.length)}), `
+          hsp.positives,
+          hsp.length
+        )} (${Utils.inPercentage(hsp.positives, hsp.length)}), `
       );
     }
 
     // Gaps
     line.push(
       `Gaps: ${Utils.inFraction(
-        this.hsp.gaps,
-        this.hsp.length
-      )} (${Utils.inPercentage(this.hsp.gaps, this.hsp.length)})`
+        hsp.gaps,
+        hsp.length
+      )} (${Utils.inPercentage(hsp.gaps, hsp.length)})`
     );
 
     // Query coverage
     //line.push(`Query coverage: ${this.hsp.qcovhsp}%, `)
 
-    switch (this.props.algorithm) {
+    switch (props.algorithm) {
       case "tblastx":
         line.push(
-          `, Frame: ${Utils.inFraction(this.hsp.qframe, this.hsp.sframe)}`
+          `, Frame: ${Utils.inFraction(hsp.qframe, hsp.sframe)}`
         );
         break;
       case "blastn":
         line.push(
-          `, Strand: ${this.hsp.qframe > 0 ? "+" : "-"} / ${
-            this.hsp.sframe > 0 ? "+" : "-"
+          `, Strand: ${hsp.qframe > 0 ? "+" : "-"} / ${
+            hsp.sframe > 0 ? "+" : "-"
           }`
         );
         break;
       case "blastx":
-        line.push(`, Query Frame: ${this.hsp.qframe}`);
+        line.push(`, Query Frame: ${hsp.qframe}`);
         break;
       case "tblastn":
-        line.push(`, Hit Frame: ${this.hsp.sframe}`);
+        line.push(`, Hit Frame: ${hsp.sframe}`);
         break;
     }
 
     return line;
   }
 
+
+  // Width of the coordinate part of hsp lines. Essentially the length of
+  // the largest coordinate.
+  const hspLinesWidth = () => {
+    return _.max(
+      _.map(
+        [hsp.qstart, hsp.qend, hsp.sstart, hsp.send],
+        (n) => {
+          return n.toString().length;
+        }
+      )
+    );
+  }
+
   /**
    * Returns array of pre tags containing the three query, middle, and subject
    * lines that together comprise one 'rendered line' of HSP.
    */
-  hspLines() {
+  const hspLines = () => {
     // Space reserved for showing coordinates
-    var width = this.width();
+    const width = hspLinesWidth();
 
     // Number of residues we can draw per line is the total number of
     // characters we can have in a line minus space required to show left
     // and right coordinates minus 10 characters reserved for displaying
     // the words Query, Subject and three blank spaces per line.
-    var chars = this.chars - 2 * width - 10;
+    const adjustedLineWidth = chars - 2 * width - 10;
 
     // Number of lines of pairwise-alignment (i.e., each line consists of 3
     // lines). We draw as many pre tags.
-    var lines = Math.ceil(this.hsp.length / chars);
+    const lines = Math.ceil(hsp.length / adjustedLineWidth);
 
-    var pp = [];
-    var nqseq = this.nqseq();
-    var nsseq = this.nsseq();
+    let pp = [];
+    let nqseq = getNqseq();
+    let nsseq = getNsseq();
     for (let i = 1; i <= lines; i++) {
-      let seq_start_index = chars * (i - 1);
-      let seq_stop_index = seq_start_index + chars;
+      let seq_start_index = adjustedLineWidth * (i - 1);
+      let seq_stop_index = seq_start_index + adjustedLineWidth;
 
       let lqstart = nqseq;
-      let lqseq = this.hsp.qseq.slice(seq_start_index, seq_stop_index);
+      let lqseq = hsp.qseq.slice(seq_start_index, seq_stop_index);
       let lqend =
         nqseq +
         (lqseq.length - lqseq.split("-").length) *
-          this.qframe_unit() *
-          this.qframe_sign();
-      nqseq = lqend + this.qframe_unit() * this.qframe_sign();
+          qframe_unit() *
+          qframe_sign();
+      nqseq = lqend + qframe_unit() * qframe_sign();
 
-      let lmseq = this.hsp.midline.slice(seq_start_index, seq_stop_index);
+      let lmseq = hsp.midline.slice(seq_start_index, seq_stop_index);
 
       let lsstart = nsseq;
-      let lsseq = this.hsp.sseq.slice(seq_start_index, seq_stop_index);
+      let lsseq = hsp.sseq.slice(seq_start_index, seq_stop_index);
       let lsend =
         nsseq +
         (lsseq.length - lsseq.split("-").length) *
-          this.sframe_unit() *
-          this.sframe_sign();
-      nsseq = lsend + this.sframe_unit() * this.sframe_sign();
+          sframe_unit() *
+          sframe_sign();
+      nsseq = lsend + sframe_unit() * sframe_sign();
 
       pp.push(
-        <pre key={this.hsp.number + "," + i} className="pre-item m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep mt-1 tracking-wider">
+        <pre key={hsp.number + "," + i} className="pre-item m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep mt-1 tracking-wider">
           <span className="text-gray-500">
-            {`Query   ${this.formatCoords(lqstart, width)} `}
+            {`Query   ${formatCoords(lqstart, width)} `}
           </span>
           <span>{lqseq}</span>
           <span className="text-gray-500">{` ${lqend}`}</span>
           <br />
           <span className="text-gray-500">
-            {`${this.formatCoords("", width + 8)} `}
+            {`${formatCoords("", width + 8)} `}
           </span>
           <span>{lmseq}</span>
           <br />
           <span className="text-gray-500">
-            {`Subject ${this.formatCoords(lsstart, width)} `}
+            {`Subject ${formatCoords(lsstart, width)} `}
           </span>
           <span>{lsseq}</span>
           <span className="text-gray-500">{` ${lsend}`}</span>
@@ -220,35 +210,23 @@ export default class HSP extends React.Component {
     return pp;
   }
 
-  // Width of the coordinate part of hsp lines. Essentially the length of
-  // the largest coordinate.
-  width() {
-    return _.max(
-      _.map(
-        [this.hsp.qstart, this.hsp.qend, this.hsp.sstart, this.hsp.send],
-        (n) => {
-          return n.toString().length;
-        }
-      )
-    );
-  }
 
   // Alignment start coordinate for query sequence.
   //
   // This will be qstart or qend depending on the direction in which the
   // (translated) query sequence aligned.
-  nqseq() {
-    switch (this.props.algorithm) {
+  const getNqseq = () => {
+    switch (props.algorithm) {
       case "blastp":
       case "blastx":
       case "tblastn":
       case "tblastx":
-        return this.hsp.qframe >= 0 ? this.hsp.qstart : this.hsp.qend;
+        return hsp.qframe >= 0 ? hsp.qstart : hsp.qend;
       case "blastn":
         // BLASTN is a bit weird in that, no matter which direction the query
         // sequence aligned in, qstart is taken as alignment start coordinate
         // for query.
-        return this.hsp.qstart;
+        return hsp.qstart;
     }
   }
 
@@ -256,18 +234,18 @@ export default class HSP extends React.Component {
   //
   // This will be sstart or send depending on the direction in which the
   // (translated) subject sequence aligned.
-  nsseq() {
-    switch (this.props.algorithm) {
+  const getNsseq = () => {
+    switch (props.algorithm) {
       case "blastp":
       case "blastx":
       case "tblastn":
       case "tblastx":
-        return this.hsp.sframe >= 0 ? this.hsp.sstart : this.hsp.send;
+        return hsp.sframe >= 0 ? hsp.sstart : hsp.send;
       case "blastn":
         // BLASTN is a bit weird in that, no matter which direction the
         // subject sequence aligned in, sstart is taken as alignment
         // start coordinate for subject.
-        return this.hsp.sstart;
+        return hsp.sstart;
     }
   }
 
@@ -279,8 +257,8 @@ export default class HSP extends React.Component {
   //
   // This will be 1 or 3 depending on whether the query sequence was
   // translated or not.
-  qframe_unit() {
-    switch (this.props.algorithm) {
+  const qframe_unit = () => {
+    switch (props.algorithm) {
       case "blastp":
       case "blastn":
       case "tblastn":
@@ -302,8 +280,8 @@ export default class HSP extends React.Component {
   //
   // This will be 1 or 3 depending on whether the subject sequence was
   // translated or not.
-  sframe_unit() {
-    switch (this.props.algorithm) {
+  const sframe_unit = () => {
+    switch (props.algorithm) {
       case "blastp":
       case "blastx":
       case "blastn":
@@ -326,8 +304,8 @@ export default class HSP extends React.Component {
   //
   // This will be +1 or -1, depending on the direction in which the
   // (translated) query sequence aligned.
-  qframe_sign() {
-    return this.hsp.qframe >= 0 ? 1 : -1;
+  const qframe_sign = () => {
+    return hsp.qframe >= 0 ? 1 : -1;
   }
 
   // If we should add or subtract sframe_unit from sstart to arrive at send.
@@ -338,15 +316,15 @@ export default class HSP extends React.Component {
   //
   // This will be +1 or -1, depending on the direction in which the
   // (translated) subject sequence aligned.
-  sframe_sign() {
-    return this.hsp.sframe >= 0 ? 1 : -1;
+  const sframe_sign = () => {
+    return hsp.sframe >= 0 ? 1 : -1;
   }
 
   /**
    * Pad given coord with ' ' till its length == width. Returns undefined if
    * width is not supplied.
    */
-  formatCoords(coord, width) {
+  const formatCoords = (coord, width) => {
     if (width) {
       let padding = width - coord.toString().length;
       return Array(padding + 1)
@@ -355,16 +333,34 @@ export default class HSP extends React.Component {
     }
   }
 
-  spanCoords(text) {
+  const spanCoords = (text) => {
     return <span className="text-gray-700">{text}</span>;
   }
+
+  return (
+    <div
+      className="hsp pt-px pb-5 border-l-2 border-transparent pl-1 -ml-1"
+      id={domID()}
+      ref={hspRef}
+      data-parent-hit={hitDOM_ID()}
+    >
+      <p className="m-0 p-0 rounded-none border-0 bg-inherit whitespace-pre-wrap break-keep text-sm text-neutral-500 font-semibold tracking-wide">
+        {props.showHSPNumbers &&
+          `${Helpers.toLetters(hsp.number)}. `}
+        {hspStats().map((s, i) => (
+          <span key={i}>{s}</span>
+        ))}
+      </p>
+      {hspLines()}
+    </div>
+  );
 }
 
 // Redraw if window resized.
-$(window).resize(
-  _.debounce(function () {
-    _.each(HSPComponents, (comp) => {
-      comp.draw();
-    });
-  }, 100)
-);
+// $(window).resize(
+//   _.debounce(function () {
+//     _.each(HSPComponents, (comp) => {
+//       comp.draw();
+//     });
+//   }, 100)
+// );

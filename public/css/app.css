@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@page {
+  margin: 0;
+}
+@media print {
+  html, body {
+    width: 255mm;
+  }
+}
+
 /* Stop the body scrolling while a modal is open */
 body:has(dialog[open]) {
   overflow: hidden;

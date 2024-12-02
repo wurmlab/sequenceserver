@@ -115,10 +115,10 @@ export default class extends Component {
         }
 
         return <div className="section-header border-b border-seqorange flex flex-col sm:flex-row sm:justify-between w-full">
-            <h4 className="text-sm cursor-pointer flex flex-col sm:flex-row items-start sm:items-center">
+            <h4 className="text-sm cursor-pointer flex flex-col sm:flex-row items-start sm:items-center" data-parent-id={`#${this.domID()}`}>
                 <div>
-                    <i className="fa-regular fa-square-minus"></i>
-                    <strong className="cursor-text ml-1">{this.props.hit.id}</strong>
+                    <i className="fa-regular fa-square-minus print:!hidden"></i>
+                    <strong className="cursor-text ml-1 print:ml-0"> {this.props.hit.id}</strong>
                 </div>
                 <span className="ml-1">{this.props.hit.title}</span>
             </h4>
@@ -151,7 +151,7 @@ export default class extends Component {
         });
 
         return (
-            <div className="hit-links h-4">
+            <div className="hit-links h-4 print:hidden">
                 <label className="text-sm text-seqblue hover:seqorange cursor-pointer mb-0">
                     <input type="checkbox" id={this.domID() + '_checkbox'}
                         value={this.sequenceID()} onChange={function () {

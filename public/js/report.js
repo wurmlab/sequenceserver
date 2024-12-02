@@ -180,8 +180,8 @@ class Report extends Component {
    */
     resultsJSX() {
         return (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4" id="results">
-                <div className="hidden md:col-span-1 md:block">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 print:grid-cols-1" id="results">
+                <div className="hidden md:col-span-1 md:block print:hidden">
                     <Sidebar
                         data={this.state}
                         atLeastOneHit={this.atLeastOneHit()}
@@ -190,7 +190,7 @@ class Report extends Component {
                         cloudSharingEnabled={this.state.cloud_sharing_enabled}
                     />
                 </div>
-                <div className="col-span-1 md:col-span-3">
+                <div className="col-span-1 md:col-span-3 print:col-span-1">
                     <RunSummary
                         seqserv_version={this.state.seqserv_version}
                         program_version={this.state.program_version}
@@ -297,6 +297,7 @@ class Report extends Component {
                     var hitID = $this.parents('.hit').attr('id');
                     $(`div[data-parent-hit=${hitID}]`).toggle();
                     $this.find('i').toggleClass('fa-square-minus fa-square-plus');
+                    $($this.data('parent-id')).toggleClass('print:hidden');
                 } else {
                     // user wants to select
                     $this.attr('data-toggle', '');
@@ -307,6 +308,7 @@ class Report extends Component {
     }
 
     /* Handling the fa icon when Hit Table is collapsed */
+    /* TODO:JOKO check if this method still being used? */
     toggleTable() {
         $('body').on(
             'mousedown',
