@@ -48,26 +48,13 @@ export function tick_formatter(scale, seq_type) {
     };
 }
 
-function extractSuffix(str) {
-    const suffix = str.replace(/[0-9.]/g, '');
-    const numericPart = d3.format('.2f')(parseFloat(str));
+export function formatNumberUnits(number) {
+    const suffix = number.replace(/[0-9.]/g, '');
+    const numericPart = parseFloat(number).toFixed(2);
+    // Round to 1 decimal place
+    const rounded = Math.round(numericPart * 10) / 10;
 
-    return [parseFloat(numericPart), suffix];
-}
-
-export function formatNumberUnits(number, threshold = 0.95) {
-    const [numericPart, suffix] = extractSuffix(number);
-    const integerPart = Math.floor(numericPart);
-    const fractionalPart = parseFloat((numericPart - integerPart).toFixed(2));
-
-    // when fractionalPart more than the threshold round up
-    // example:
-    //  threshold 0.95
-    //  2.95 -> 3
-    //  2.94 -> 2.9
-    const formatted = fractionalPart >= threshold ? integerPart + 1 : Math.floor(numericPart * 10) / 10;
-
-    return `${formatted} ${suffix}`;
+    return `${rounded % 1 === 0 ? rounded.toFixed(0) : rounded} ${suffix}`;
 }
 
 export function get_seq_type(algorithm) {
