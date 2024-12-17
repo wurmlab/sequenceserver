@@ -200,6 +200,7 @@ class Report extends Component {
                         params={this.state.params}
                     />
                     <GraphicalOverview
+                        path={location.pathname}
                         queries={this.state.queries}
                         prorgam={this.state.program}
                         plugins={this.plugins}

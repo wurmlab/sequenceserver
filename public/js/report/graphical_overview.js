@@ -1,7 +1,7 @@
 import Circos from '../circos';
 import ReportHeader from './report_header';
 
-const GraphicalOverview = ({queries, program, plugins}) => {
+const GraphicalOverview = ({queries, program, plugins, path}) => {
     /**
     * Does the report have at least two hits? This is used to determine
     * whether Circos should be enabled or not.
@@ -26,7 +26,7 @@ const GraphicalOverview = ({queries, program, plugins}) => {
     }
 
     return (
-        <ReportHeader name="Graphical Overview" renderContent={renderContent} renderable={atLeastTwoHits()} />
+        <ReportHeader name="Graphical Overview" path={path} renderContent={renderContent} renderable={atLeastTwoHits()} />
     )
 }
 

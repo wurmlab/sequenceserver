@@ -2,6 +2,16 @@ export default class CollapsePreferences {
     constructor(component) {
         this.component = component;
         this.collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
+        const firstVisit = localStorage.getItem(`firstVisit${component.path}`) === null;
+
+        // Set default collapse preference for 'Graphical Overview' to true only on first visit
+        if (firstVisit) {
+            if (this.component.name === 'Graphical Overview' && !this.collapsePreferences.includes(this.component.name)) {
+                this.collapsePreferences.push(this.component.name);
+                localStorage.setItem('collapsePreferences', JSON.stringify(this.collapsePreferences));
+            }
+            localStorage.setItem(`firstVisit${component.path}`, 'false');
+        }
     }
 
     toggleCollapse() {
