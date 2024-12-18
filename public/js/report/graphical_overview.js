@@ -26,7 +26,9 @@ const GraphicalOverview = ({queries, program, plugins, path}) => {
     }
 
     return (
-        <ReportHeader name="Graphical Overview" path={path} renderContent={renderContent} renderable={atLeastTwoHits()} />
+        <div className="graphical-overview">
+            <ReportHeader name="Graphical Overview" path={path} renderContent={renderContent} renderable={atLeastTwoHits()} />
+        </div>
     )
 }
 
