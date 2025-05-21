@@ -115,8 +115,8 @@ export default class extends Component {
         }
 
         return <div className="section-header border-b border-seqorange flex flex-col sm:flex-row sm:justify-between w-full">
-            <h4 className="text-sm cursor-pointer flex flex-col sm:flex-row items-start sm:items-center" data-parent-id={`#${this.domID()}`}>
-                <div>
+            <h4 className="text-sm cursor-pointer flex flex-col sm:flex-row items-start sm:items-start" data-parent-id={`#${this.domID()}`}>
+                <div className="flex items-start">
                     <i className="fa-regular fa-square-minus print:!hidden"></i>
                     <strong className="cursor-text ml-1 print:ml-0"> {this.props.hit.id}</strong>
                 </div>
