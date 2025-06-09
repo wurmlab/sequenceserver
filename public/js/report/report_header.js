@@ -4,7 +4,10 @@ import CollapsePreferences from '../collapse_preferences';
 const ReportHeader = (props) => {
     const [state, setState] = useState({ collapsed: null });
     const [renderable, _setRenderable] = useState(props.renderable === undefined ? true : props.renderable);
-    const collapsePreferences = new CollapsePreferences({ name: props.name, state: { ...state }, setState: setState });
+    const collapsePreferences = new CollapsePreferences(
+        { name: props.name, state: { ...state }, setState: setState },
+        props.defaultCollapsed
+    );
 
     if (state.collapsed === null) setState({ collapsed: collapsePreferences.preferenceStoredAsCollapsed() });
     if (!renderable) return null;
