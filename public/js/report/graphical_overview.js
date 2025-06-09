@@ -26,7 +26,12 @@ const GraphicalOverview = ({queries, program, plugins}) => {
     }
 
     return (
-        <ReportHeader name="Graphical Overview" renderContent={renderContent} renderable={atLeastTwoHits()} />
+        <ReportHeader
+            name="Graphical Overview"
+            renderContent={renderContent}
+            renderable={atLeastTwoHits()}
+            defaultCollapsed={true}
+        />
     )
 }
 

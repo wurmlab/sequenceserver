@@ -1,6 +1,7 @@
 export default class CollapsePreferences {
-    constructor(component) {
+    constructor(component, defaultCollapsed = false) {
         this.component = component;
+        this.defaultCollapsed = defaultCollapsed;
         this.collapsePreferences = JSON.parse(localStorage.getItem('collapsePreferences')) || [];
     }
 
@@ -17,7 +18,13 @@ export default class CollapsePreferences {
     }
 
     preferenceStoredAsCollapsed() {
-        return this.collapsePreferences.includes(this.component.name);
+        if (this.collapsePreferences.includes(this.component.name)) {
+            return true;
+        }
+        if (this.collapsePreferences.length === 0 && this.defaultCollapsed) {
+            return true;
+        }
+        return false;
     }
 
     renderCollapseIcon() {
