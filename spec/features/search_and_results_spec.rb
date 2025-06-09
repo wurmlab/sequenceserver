@@ -368,6 +368,9 @@ describe 'Search and results', type: :feature, js: true do
     perform_search(query: protein_query,
                    databases: protein_databases.values_at(0))
 
+    ## Expand graphical overview (collapsed by default)
+    find('h3', text: 'Graphical Overview').click
+
     ## Check that there is a circos vis and unfold it.
     expect(page).to have_selector('.circos > .grapher-header > h4', text: 'Chord diagram of queries and their top hits')
 
