@@ -76,7 +76,7 @@ FROM node:20-alpine AS node
 
 RUN apk add --no-cache git
 WORKDIR /usr/src/app
-COPY ./package.json ./package-lock.json ./webpack.config.js ./babel.config.js ./
+COPY ./package.json ./package-lock.json ./webpack.config.js ./babel.config.js ./tailwind.config.js ./
 RUN npm install
 ENV PATH=${PWD}/node_modules/.bin:${PATH}
 COPY public public
