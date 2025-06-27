@@ -130,7 +130,97 @@ module SequenceServer
         databases: [Database.ids[17]],
         method: 'blastp'
       }
+
+      @params_with_custom_threads = {
+        sequence: protein_seq,
+        databases: [Database.ids[17]],
+        method: 'blastp',
+        num_threads: 4
+      }
+
+      @params_without_threads = {
+        sequence: protein_seq,
+        databases: [Database.ids[17]],
+        method: 'blastp'
+      }
     end
+
+    context 'num_threads parameter' do
+      context 'when num_threads is provided in params' do
+        let(:job) { Job.create(@params_with_custom_threads) }
+
+        it 'should use the provided num_threads value' do
+          expect(job.num_threads).to eq(4)
+        end
+
+        it 'should include num_threads in the command' do
+          expect(job.command).to include('-num_threads 4')
+        end
+      end
+
+      context 'when num_threads is not provided in params' do
+        let(:job) { Job.create(@params_without_threads) }
+
+        it 'should use the default num_threads from config' do
+          expect(job.num_threads).to eq(SequenceServer.config[:num_threads])
+        end
+
+        it 'should include default num_threads in the command' do
+          default_threads = SequenceServer.config[:num_threads]
+          expect(job.command).to include("-num_threads #{default_threads}")
+        end
+      end
+
+      context 'when num_threads is explicitly set to nil in params' do
+        let(:params_with_nil_threads) do
+          @params_without_threads.merge(num_threads: nil)
+        end
+        let(:job) { Job.create(params_with_nil_threads) }
+
+        it 'should fall back to config num_threads' do
+          expect(job.num_threads).to eq(SequenceServer.config[:num_threads])
+        end
+      end
+    end
+
+    context 'advanced options validation' do
+      context 'when advanced options contain num_threads' do
+        let(:params_with_num_threads_in_advanced) do
+          @params_without_threads.merge(advanced: '-num_threads 8')
+        end
+
+        it 'should raise InputError when advanced options contain num_threads' do
+          expect { Job.create(params_with_num_threads_in_advanced) }.to raise_error(InputError)
+        end
+      end
+
+      context 'when advanced options contain other prohibited options' do
+        let(:params_with_prohibited_options) do
+          @params_without_threads.merge(advanced: '-out results.txt')
+        end
+
+        it 'should raise InputError when advanced options contain -out' do
+          expect { Job.create(params_with_prohibited_options) }.to raise_error(InputError)
+        end
+      end
+
+      context 'when advanced options contain valid options' do
+        let(:params_with_valid_advanced) do
+          @params_without_threads.merge(advanced: '-evalue 1e-10 -max_target_seqs 5')
+        end
+        let(:job) { Job.create(params_with_valid_advanced) }
+
+        it 'should create job successfully with valid advanced options' do
+          expect(job).to be_a(SequenceServer::BLAST::Job)
+        end
+
+        it 'should include advanced options in the command' do
+          expect(job.command).to include('-evalue 1e-10')
+          expect(job.command).to include('-max_target_seqs 5')
+        end
+      end
+    end
+
     context 'queries not containing a >' do
         let(:job) {Job.create(@params_query_without_symbol)}
       it 'should accurately compute number of sequences' do
