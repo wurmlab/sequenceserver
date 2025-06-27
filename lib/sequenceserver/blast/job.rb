@@ -26,9 +26,9 @@ module SequenceServer
             @qfile     = store('query.fa', params[:sequence])
             @databases = Database[params[:databases]]
             @advanced  = params[:advanced].to_s.strip
-            @options   = @advanced + defaults
+            @num_threads = params[:num_threads] || config[:num_threads]
+            @options = @advanced + defaults
             # The following params are for analytics only
-            @num_threads = config[:num_threads]
             @query_length = calculate_query_size
             @number_of_query_sequences = calculate_number_of_sequences
             @databases_ncharacters_total = calculate_databases_ncharacters_total
@@ -62,8 +62,9 @@ module SequenceServer
       # Returns the command that will be executed. Job super class takes care
       # of actual execution.
       def command
-        @command ||= "#{method} -db '#{databases.map(&:name).join(' ')}'" \
-                     " -query '#{qfile}' #{options}"
+        "#{method} -db '#{databases.map(&:name).join(' ')}'" \
+                     " -query '#{qfile}' #{options}" \
+                     " -num_threads #{@num_threads || config[:num_threads]}"
       end
 
       def raise!
@@ -117,7 +118,7 @@ module SequenceServer
       end
 
       def defaults
-        " -outfmt '11 qcovs qcovhsp' -num_threads #{config[:num_threads]}"
+        " -outfmt '11 qcovs qcovhsp'"
       end
 
       def validate_method(method)
