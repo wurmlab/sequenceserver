@@ -25,7 +25,7 @@ FROM docker.io/ncbi/blast-static:${BLAST_VERSION} AS ncbi-blast
 FROM docker.io/library/ruby:3.2-bookworm AS final
 
 LABEL Description="Intuitive local web frontend for the BLAST bioinformatics tool"
-LABEL MailingList="https://groups.google.com/forum/#!forum/sequenceserver"
+LABEL MailingList="https://support.sequenceserver.com"
 LABEL Website="http://sequenceserver.com"
 
 # Install packages required to run SequenceServer and BLAST.

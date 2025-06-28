@@ -143,7 +143,7 @@ module SequenceServer
         Error:
           #{out.strip}
 
-        Please could you report this to 'https://groups.google.com/forum/#!forum/sequenceserver'?
+        Please could you report this to 'https://support.sequenceserver.com'?
       MSG
     end
   end
