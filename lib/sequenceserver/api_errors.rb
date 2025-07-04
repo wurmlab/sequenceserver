@@ -120,8 +120,8 @@ module SequenceServer
         databases, or advanced parameters. Details of the error are included
         below. Please ask on our
         <a href="https://github.com/wurmlab/sequenceserver/issues" target="_blank">issue tracker</a>
-        or on our <a href="https://support.sequenceserver.com">forum</a> if you are
-        not sure what the error message means, or if the error message is just a number.
+        or our <a href="https://support.sequenceserver.com" target="_blank">community forum</a>. If you are a SequenceServer Cloud customer, please contact our support team via
+        <a href="https://sequenceserver.com/support/">sequenceserver.com/support</a>; open-source users are encouraged to continue using the issue tracker or forum for assistance.
       MSG
     end
 

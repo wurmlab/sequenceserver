@@ -143,7 +143,8 @@ module SequenceServer
         Error:
           #{out.strip}
 
-        Please could you report this to 'https://support.sequenceserver.com'?
+        If you are a SequenceServer Cloud customer, please report this issue via <a href="https://sequenceserver.com/support/">sequenceserver.com/support</a>.  
+        Open-source users are encouraged to report the problem at <a href="https://support.sequenceserver.com">support.sequenceserver.com</a>.
       MSG
     end
   end
