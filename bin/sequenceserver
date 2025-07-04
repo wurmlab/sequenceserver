@@ -326,13 +326,13 @@ begin
         # Ideally we will never hit this block. If we do, there's a bug in
         # SequenceServer or something really weird going on. If we hit this
         # error block we show the stacktrace to the user requesting them to
-        # post the same to our Google Group.
+        # post the same to our Community Support.
         puts <<~MSG
           Something went wonky
 
           Looks like you have encountered a bug in SequenceServer. Please could you
-          report this incident to our Google Group -
-          https://groups.google.com/forum/?fromgroups#!forum/sequenceserver
+          report this incident to our Community Support -
+          https://support.sequenceserver.com
 
           Error:
             #{e.backtrace.unshift(e.message).join("\n")}
@@ -373,7 +373,7 @@ begin
           fail if sequence identifiers are longer than 50 characters. While we
           exepect the reformatting process to work in most other cases, things
           can inevitably go wrong. Thus, please back up your databases before
-          reformatting and post any issues to our Google Group/GitHub so that
+          reformatting and post any issues to our Community Support/GitHub so that
           we can all learn from it.
 
           Proceed? [y/n] (Default: y).
