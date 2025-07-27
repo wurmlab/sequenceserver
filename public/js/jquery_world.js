@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import '../packages/jquery-ui@1.13.3';
+import 'jquery-ui-dist/jquery-ui';
 
 global.$ = $;
 /**

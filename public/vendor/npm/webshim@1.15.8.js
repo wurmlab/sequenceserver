@@ -1,1 +1,0 @@
-module.exports = require("npm:webshim@1.15.8/js-webshim/minified/polyfiller");
