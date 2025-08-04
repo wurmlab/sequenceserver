@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CollapsePreferences from '../collapse_preferences';
+import CollapsePreferences from '../../collapse_preferences';
 
 const ReportHeader = (props) => {
     const [state, setState] = useState({ collapsed: null });

@@ -1,4 +1,4 @@
-import "./sequence";
+import "../../utils/sequence.utils";
 import React, { createRef } from "react";
 import _ from "underscore";
 

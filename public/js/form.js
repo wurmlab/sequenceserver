@@ -1,11 +1,12 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef, Suspense } from 'react';
 import { SearchButton } from './search_button';
 import { SearchQueryWidget } from './query';
-import DatabasesTree from './databases_tree';
-import { Databases } from './databases';
 import _ from 'underscore';
 import { Options } from 'options';
 import QueryStats from 'query_stats';
+
+const Databases = React.lazy(() => import('./databases').then(mod => ({ default: mod.Databases })));
+const DatabasesTree = React.lazy(() => import('./databases_tree'));
 
 /**
  * Search form.
@@ -245,16 +246,20 @@ export class Form extends Component {
                         <SearchQueryWidget ref={this.query} onSequenceTypeChanged={this.handleSequenceTypeChanged} onSequenceChanged={this.handleSequenceChanged}/>
 
                         {this.useTreeWidget() ?
-                            <DatabasesTree
-                                databases={this.state.databases} tree={this.state.tree}
-                                preSelectedDbs={this.state.preSelectedDbs}
-                                onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
-                                onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <DatabasesTree
+                                    databases={this.state.databases} tree={this.state.tree}
+                                    preSelectedDbs={this.state.preSelectedDbs}
+                                    onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
+                                    onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
+                            </Suspense>
                             :
-                            <Databases databases={this.state.databases}
-                                preSelectedDbs={this.state.preSelectedDbs}
-                                onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
-                                onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <Databases databases={this.state.databases}
+                                    preSelectedDbs={this.state.preSelectedDbs}
+                                    onDatabaseTypeChanged={this.handleDatabaseTypeChanged}
+                                    onDatabaseSelectionChanged={this.handleDatabaseSelectionChanged} />
+                            </Suspense>
                         }
 
                         <Options blastMethod={this.state.blastMethod} predefinedOptions={this.state.preDefinedOpts[this.state.blastMethod] || {}} blastTasks={(this.state.blastTaskMap || {})[this.state.blastMethod]} />

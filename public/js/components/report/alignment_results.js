@@ -1,5 +1,5 @@
 import ReportHeader from './report_header';
-import Hits from '../hits';
+import Hits from '../../hits';
 
 const AlignmentResults = (props) => {
     const renderContent = () => (

@@ -18,6 +18,8 @@ module.exports = (env, argv)  => {
         },
         output: {
             path: path.join(__dirname, 'public'),
+            assetModuleFilename: 'chunks/assets/[name][ext]',
+            chunkFilename: 'chunks/js/[name].js',
         },
         mode: process.env.NODE_ENV || 'development',
         devServer: { contentBase: path.join(__dirname, 'public/js') },
@@ -27,6 +29,10 @@ module.exports = (env, argv)  => {
                     test: /\.(js|jsx)$/,
                     exclude: /node_modules/,
                     use: ['babel-loader'],
+                },
+                {
+                    test: /\.css$/i,
+                    use: ['style-loader', 'css-loader'],
                 }
             ],
         },
@@ -38,7 +44,7 @@ module.exports = (env, argv)  => {
             new webpack.EnvironmentPlugin({ NODE_ENV: 'development', targetEnv: env.targetEnv || 'standalone'}),
             new webpack.DefinePlugin({
                 process: { env: {} },
-            })
+            }),
         ],
         resolve: {
             modules: [path.resolve(__dirname, 'public', 'js'), path.resolve(__dirname, 'node_modules')],
@@ -53,6 +59,11 @@ module.exports = (env, argv)  => {
                 'options': path.resolve(__dirname, pluginsPath, 'options.js'),
             }
         },
-        devtool: argv.mode === 'production' ? 'source-map' : 'cheap-source-map'
-    };
+        devtool: argv.mode === 'production' ? 'source-map' : 'cheap-source-map',
+        performance: {
+            hints: 'warning',
+            maxAssetSize: 512000,      // 500 KiB
+            maxEntrypointSize: 512000, // 500 KiB
+        },
+  };
 };

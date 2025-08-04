@@ -9,6 +9,7 @@ export class DnD extends Component {
         super(props);
         this.state = { query: null };
     }
+
     componentDidMount() {
         var self = this;
         var FASTA_FORMAT = /^>/;
@@ -99,6 +100,7 @@ export class DnD extends Component {
                 });
         });
     }
+
     render() {
         return (
             <div

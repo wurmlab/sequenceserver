@@ -1,0 +1,1 @@
+{"version":3,"file":"chunks/js/search_header_plugin.js","mappings":"wJAAO,IAAMA,EAAqB,WAC9B,MAAO,EACX,C","sources":["webpack://SequenceServer/./public/js/null_plugins/search_header_plugin.js"],"sourcesContent":["export const SearchHeaderPlugin = () => {\n    return '';\n};\n\n"],"names":["SearchHeaderPlugin"],"sourceRoot":""}

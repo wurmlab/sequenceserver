@@ -1,4 +1,4 @@
-import Circos from '../circos';
+import Circos from '../../circos';
 import ReportHeader from './report_header';
 
 const GraphicalOverview = ({queries, program, plugins}) => {

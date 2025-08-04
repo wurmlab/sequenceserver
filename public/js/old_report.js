@@ -14,7 +14,7 @@ import AlignmentResults from './report/alignment_results';
  * Composed of Query and Sidebar components.
  */
 
-class Report extends Component {
+class OldReport extends Component {
     constructor(props) {
         super(props);
         // Properties below are internal state used to render results in small
@@ -122,7 +122,8 @@ class Report extends Component {
         if (responseJSON.user_warning == 'LARGE_RESULT') {
             this.setState({user_warning: responseJSON.user_warning, download_links: responseJSON.download_links});
         } else {
-            this.setState(responseJSON, this.prepareAlignmentOfAllHits);
+            console.log('prepareAlignmentOfAllHits', this.prepareAlignmentOfAllHits());
+            // this.setState(responseJSON, this.prepareAlignmentOfAllHits);
         }
     }
 
@@ -136,7 +137,6 @@ class Report extends Component {
         // This sets up an event handler which enables users to select text from
         // hit header without collapsing the hit.
         this.preventCollapseOnSelection();
-        this.toggleTable();
     }
 
     /**
@@ -307,25 +307,7 @@ class Report extends Component {
         });
     }
 
-    /* Handling the fa icon when Hit Table is collapsed */
-    /* TODO:JOKO check if this method still being used? */
-    toggleTable() {
-        $('body').on(
-            'mousedown',
-            '.resultn .caption[data-toggle="collapse"]',
-            function (event) {
-                var $this = $(this);
-                $this.on('mouseup mousemove', function handler(event) {
-                    $this.find('i').toggleClass('fa-square-minus fa-square-plus');
-                    $this.off('mouseup mousemove', handler);
-                });
-            }
-        );
-    }
-
-
-
-    /**
+   /**
    * For the query in viewport, highlights corresponding entry in the index.
    */
     setupScrollSpy() {
@@ -349,7 +331,7 @@ class Report extends Component {
         });
     }
 
-    populate_hsp_array(hit, query_id){
+    populate_hsp_array(hit, query_id) {
         return hit.hsps.map(hsp => Object.assign(hsp, {hit_id: hit.id, query_id}));
     }
 
@@ -389,4 +371,4 @@ class Report extends Component {
     }
 }
 
-export default Report;
+export default OldReport;

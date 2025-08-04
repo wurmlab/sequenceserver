@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'underscore';
 import Jstree from 'jstree';
 import { Databases } from './databases';
+import 'jstree/dist/themes/default/style.min.css';
 
 export default class extends Databases {
     constructor(props) {
@@ -123,7 +124,6 @@ export default class extends Databases {
                 {
                     this.renderDatabaseTree(category)
                 }
-                <link rel="stylesheet" media="screen,print" type="text/css" href="vendor/github/vakata/jstree@3.3.8/dist/themes/default/style.min.css"/>
             </div>
         );
     }
