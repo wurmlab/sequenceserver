@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Custom BLAST server provided by SequenceServer (https://sequenceserver.com)"/>
   <%= Rack::Csrf.metatag(env) %>
-  <link rel="stylesheet" media="screen,print" type="text/css" href="css/app.min.css"/>
+  <link rel="stylesheet" media="screen,print" type="text/css" href="<%= css_asset_path %>"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
@@ -18,7 +18,7 @@
       <div class="flex flex-none items-center">
         <div class="pr-8 md:pr-0 py-4">
           <a href="https://sequenceserver.com" target="_blank" class="flex items-end">
-            <img src="sequenceserver_logo.webp" alt="sequenceserver_logo" width="1620" height="213" class="h-8 w-auto pr-2">
+            <img src="<%= asset_path('sequenceserver_logo.webp') %>" alt="SequenceServer logo" width="1620" height="213" class="h-8 w-auto pr-2">
             <span class="text-sm md:text-base">
               <%= SequenceServer::VERSION %>
             </span>

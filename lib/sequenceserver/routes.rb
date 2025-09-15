@@ -35,6 +35,8 @@ module SequenceServer
       # e.g. for example.org/our-sequenceserver set to '/our-sequenceserver'
       set :root_path_prefix, ''
 
+      set :asset_prefix, ''
+
       set :layout, :'layout'
     end
 
@@ -357,6 +359,18 @@ module SequenceServer
     helpers do
       def root_path_prefix
         settings.root_path_prefix.to_s
+      end
+
+      def css_asset_path
+        File.join(settings.asset_prefix, 'css', 'app.min.css') + '?v=' + SequenceServer::VERSION
+      end
+
+      def asset_path(file)
+        File.join(settings.asset_prefix, file)
+      end
+
+      def asset_prefix
+        settings.asset_prefix
       end
     end
 
