@@ -5,6 +5,8 @@
 # Appending to $PATH: https://www.scivision.dev/github-actions-path-append/
 
 name: Tests
+permissions:
+  contents: read
 on:
   push:
     branches:
