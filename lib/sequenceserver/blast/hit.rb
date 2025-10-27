@@ -38,8 +38,7 @@ module SequenceServer
       # instance methods of the Links module.
       def links
         links = Links.instance_methods.map { |m| send m }
-        links.compact!
-        links.sort_by { |link| [link[:order], link[:title]] }
+        links.flatten.compact.sort_by { |link| [link[:order], link[:title]] }
       end
 
       # Returns the database type (nucleotide or protein).
