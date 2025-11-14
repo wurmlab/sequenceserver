@@ -291,11 +291,9 @@ module SequenceServer
                              error.class.name
                            end
 
-      # If error object has a more_info method, use that. If the error does not
-      # have more_info, use backtrace.join("\n") as more_info.
-      if error.respond_to? :more_info
+      if error.respond_to?(:more_info)
         error_data[:more_info] = error.more_info
-      elsif error.respond_to? :backtrace
+      elsif error.respond_to?(:backtrace) && !settings.production?
         error_data[:more_info] = error.backtrace.join("\n")
       end
 
