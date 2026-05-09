@@ -3,7 +3,7 @@
 ARG BLAST_VERSION=2.16.0
 
 ## Stage 1: gem dependencies.
-FROM docker.io/library/ruby:3.2-bookworm AS builder
+FROM docker.io/library/ruby:3.3-bookworm AS builder
 
 # Copy over files required for installing gem dependencies.
 WORKDIR /sequenceserver
@@ -22,7 +22,7 @@ RUN bundle install --without=development
 FROM docker.io/ncbi/blast-static:${BLAST_VERSION} AS ncbi-blast
 
 ## Stage 3: Puting it together.
-FROM docker.io/library/ruby:3.2-bookworm AS final
+FROM docker.io/library/ruby:3.3-bookworm AS final
 
 LABEL Description="Intuitive local web frontend for the BLAST bioinformatics tool"
 LABEL MailingList="https://groups.google.com/forum/#!forum/sequenceserver"
@@ -89,7 +89,7 @@ COPY --from=node /usr/src/app/public/sequenceserver-*.min.js public/
 COPY --from=node /usr/src/app/public/css/sequenceserver.min.css public/css/
 
 ## Stage 6 (optional) Pull the example database from the debian package.
-FROM docker.io/library/ruby:3.2-bookworm AS example_db
+FROM docker.io/library/ruby:3.3-bookworm AS example_db
 
 WORKDIR /tmp
 RUN apt-get update && apt-get download ncbi-blast+ && dpkg-deb -xv ncbi-blast+*.deb .
