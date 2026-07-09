@@ -85,7 +85,7 @@ module SequenceServer
       when '5'
         (%w[nog nos pog pos] & extensions).length != 2
       when '4'
-        (%w[nog nsd nsi pod psd psi] & extensions).length != 3
+        (%w[nog nsd nsi pog psd psi] & extensions).length != 3
       end
     end
 
