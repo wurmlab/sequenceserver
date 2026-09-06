@@ -48,7 +48,7 @@ module SequenceServer
         fail(
           InvalidParameterError,
           "Invalid range coordinates: #{coords}"
-        ) unless coords =~ /[0-9]+-[0-9]*/
+        ) unless coords =~ SequenceServer::BLAST::VALID_SEQUENCE_RANGE
 
         cmd << " -range #{coords}"
       end
