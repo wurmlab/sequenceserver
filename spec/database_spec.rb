@@ -74,6 +74,24 @@ module SequenceServer
           Database.retrieve("SI2.2.0_06267:';hi")
         end.to raise_error(SequenceServer::InvalidParameterError)
       end
+
+      it 'rejects a shell command appended to an otherwise valid range' do
+        expect do
+          Database.retrieve('SI2.2.0_06267:1-2;echo INJECTED')
+        end.to raise_error(SequenceServer::InvalidParameterError)
+      end
+
+      it 'rejects a shell command hidden behind a newline in the range' do
+        expect do
+          Database.retrieve("SI2.2.0_06267:1-2\n;echo INJECTED")
+        end.to raise_error(SequenceServer::InvalidParameterError)
+      end
+
+      it 'rejects a range that is only a prefix of a valid one' do
+        expect do
+          Database.retrieve('SI2.2.0_06267:x1-2')
+        end.to raise_error(SequenceServer::InvalidParameterError)
+      end
     end
   end
 end
