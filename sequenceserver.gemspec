@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency('rack_csrf',   '~> 2.7',  '>= 2.7.0')
   s.add_dependency('rackup')
   s.add_dependency('rest-client', '~> 2.1', '>= 2.1.0')
-  s.add_dependency('rubyzip',     '~> 2.3', '>= 2.3.2')
+  s.add_dependency('rubyzip',     '~> 3.4')
   s.add_dependency('sinatra',     '~> 4.0')
   s.add_dependency('slop',        '~> 3.6',  '>= 3.6.0')
   s.add_dependency('webrick',     '~> 1.8',  '>= 1.8.0')
@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rack-test', '~> 2.1')
   s.add_development_dependency('rspec', '~> 3.13', '>= 3.13.0')
   s.add_development_dependency('rubocop', '~> 1.50', '>= 1.50.1')
-  s.add_development_dependency('selenium-webdriver', '~> 4.18.0', '>= 4.18.1')
+  s.add_development_dependency('selenium-webdriver', '~> 4.35.0')
   s.add_development_dependency('simplecov', '~> 0.22.0', '>= 0.22.0')
 
   # gem
