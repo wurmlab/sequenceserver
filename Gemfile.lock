@@ -7,7 +7,7 @@ PATH
       rack_csrf (~> 2.7, >= 2.7.0)
       rackup
       rest-client (~> 2.1, >= 2.1.0)
-      rubyzip (~> 2.3, >= 2.3.2)
+      rubyzip (~> 3.4)
       sinatra (~> 4.0)
       slop (~> 3.6, >= 3.6.0)
       webrick (~> 1.8, >= 1.8.0)
@@ -129,11 +129,12 @@ GEM
       parser (>= 3.3.7.2)
       prism (~> 1.7)
     ruby-progressbar (1.13.0)
-    rubyzip (2.4.1)
-    selenium-webdriver (4.18.1)
+    rubyzip (3.7.0)
+    selenium-webdriver (4.35.0)
       base64 (~> 0.2)
+      logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
+      rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
     simplecov (0.22.0)
       docile (~> 1.1)
@@ -168,7 +169,7 @@ DEPENDENCIES
   rack-test (~> 2.1)
   rspec (~> 3.13, >= 3.13.0)
   rubocop (~> 1.50, >= 1.50.1)
-  selenium-webdriver (~> 4.18.0, >= 4.18.1)
+  selenium-webdriver (~> 4.35.0)
   sequenceserver!
   simplecov (~> 0.22.0, >= 0.22.0)
 
