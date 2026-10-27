@@ -22,7 +22,7 @@ module SequenceServer
     let(:job_id) { '38334a72-e8e7-4732-872b-24d3f8723563' }
     let(:job) { SequenceServer::Job.fetch(job_id) }
     let(:report) { BLAST::Report.new(job) }
-    let(:keys_to_ignore) { %i[querydb submitted_at imported_xml seqserv_version cloud_sharing_enabled] }
+    let(:keys_to_ignore) { %w[querydb submitted_at imported_xml seqserv_version cloud_sharing_enabled] }
 
     describe "#to_json" do
       it "returns a JSON representation of the job" do
