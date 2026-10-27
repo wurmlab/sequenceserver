@@ -1,4 +1,5 @@
 require 'find'
+require 'shellwords'
 require 'forwardable'
 
 module SequenceServer
@@ -144,7 +145,7 @@ module SequenceServer
     # directory. Returns the output of `blastdbcmd`. This method is called
     # by `determine_formatted_fastas`.
     def blastdbcmd
-      cmd = "blastdbcmd -recursive -list #{config[:database_dir]}" \
+      cmd = "blastdbcmd -recursive -list #{Shellwords.escape(config[:database_dir])}" \
             ' -list_outfmt "%f	%t	%p	%n	%l	%d	%v"'
       out, err = sys(cmd, path: config[:bin])
       errpat = /BLAST Database error/
