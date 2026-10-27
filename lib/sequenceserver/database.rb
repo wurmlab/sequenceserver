@@ -45,10 +45,14 @@ module SequenceServer
       cmd = "blastdbcmd -db #{name} -entry '#{accession}'"
 
       if coords
+        # The regex MUST be anchored (\A ... \z). An unanchored match would
+        # accept any string that merely *contains* a numeric range, letting an
+        # attacker smuggle shell metacharacters after it (e.g. "1-1;id") into
+        # the unquoted `-range` argument below, which `sys` runs via /bin/sh.
         fail(
           InvalidParameterError,
           "Invalid range coordinates: #{coords}"
-        ) unless coords =~ /[0-9]+-[0-9]*/
+        ) unless coords =~ /\A[0-9]+-[0-9]*\z/
 
         cmd << " -range #{coords}"
       end

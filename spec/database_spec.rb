@@ -74,6 +74,19 @@ module SequenceServer
           Database.retrieve("SI2.2.0_06267:';hi")
         end.to raise_error(SequenceServer::InvalidParameterError)
       end
+
+      # A range starting with valid digits must still be rejected if it
+      # carries trailing shell metacharacters - otherwise they would be
+      # injected into the shell command run by `sys` (command injection).
+      it "rejects a range with a valid numeric prefix but trailing injection" do
+        expect do
+          Database.retrieve("SI2.2.0_06267:1-1;id")
+        end.to raise_error(SequenceServer::InvalidParameterError)
+
+        expect do
+          Database.retrieve("SI2.2.0_06267:1-1;printf${IFS}x|/bin/sh")
+        end.to raise_error(SequenceServer::InvalidParameterError)
+      end
     end
   end
 end
