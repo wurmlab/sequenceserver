@@ -21,6 +21,14 @@ module SequenceServer
   # Singleton methods provide the facility to create and queue a job,
   # fetch a job or all jobs, and delete a job.
   class Job
+    # Job ids are used to build paths under DOTDIR and end up in shell
+    # commands, so only allow characters that are safe in both. Ids may have
+    # several path segments (test fixtures do), but no segment may start with
+    # a dot, which rules out '.', '..' and hidden directories, and the id may
+    # not start with '/', so it always stays inside DOTDIR.
+    ID_SEGMENT = '[a-zA-Z0-9_-][a-zA-Z0-9_.-]*'.freeze
+    ID_PATTERN = %r{\A#{ID_SEGMENT}(/#{ID_SEGMENT})*\z}
+
     class << self
       # Creates and queues a job. Returns created job object.
       def create(params)
@@ -40,6 +48,8 @@ module SequenceServer
 
       # Fetches job with the given id.
       def fetch(id)
+        return nil unless id.to_s.match?(ID_PATTERN)
+
         job_file = File.join(DOTDIR, id, 'job.yaml')
         return nil unless File.exist?(job_file)
 
@@ -86,17 +96,23 @@ module SequenceServer
     # Subclasses should extend `initialize` as per requirement.
     def initialize(params = {})
       @id = params.fetch(:id, SecureRandom.uuid)
+      # Validate before anything touches the filesystem: the rescue below
+      # removes `dir`, which must never be derived from a bad id.
+      fail ArgumentError, "Invalid job id: #{@id}" unless @id.to_s.match?(ID_PATTERN)
+
       @submitted_at = Time.now
-      mkdir_p dir
-      yield if block_given?
-      save
-    rescue Errno::ENOSPC
-      raise SystemError, 'Not enough disk space to start a new job'
-    rescue Errno::EACCES
-      raise SystemError, "Permission denied to write to #{DOTDIR}"
-    rescue StandardError => e
-      rm_rf dir
-      raise e
+      begin
+        mkdir_p dir
+        yield if block_given?
+        save
+      rescue Errno::ENOSPC
+        raise SystemError, 'Not enough disk space to start a new job'
+      rescue Errno::EACCES
+        raise SystemError, "Permission denied to write to #{DOTDIR}"
+      rescue StandardError => e
+        rm_rf dir
+        raise e
+      end
     end
 
     attr_reader :id, :submitted_at, :completed_at, :exitstatus

@@ -115,6 +115,7 @@ module SequenceServer
         validate_sequences params[:sequence]
         validate_databases params[:databases]
         validate_options params[:advanced]
+        validate_num_threads params[:num_threads]
       end
 
       def defaults
@@ -158,6 +159,14 @@ module SequenceServer
         end
 
         true
+      end
+
+      # num_threads is interpolated unquoted into the shell command, so it
+      # must be a positive integer. nil means: use the configured default.
+      def validate_num_threads(num_threads)
+        return true if num_threads.nil? || num_threads.to_s.match?(/\A[1-9][0-9]*\z/)
+
+        fail InputError, 'num_threads should be a positive integer.'
       end
 
       def allowed_chars
