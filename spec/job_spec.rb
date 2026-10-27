@@ -28,6 +28,18 @@ module SequenceServer
     it 'should have a job directory' do
       expect("#{__dir__}/dotdir/#{my_job.id}").not_to be_empty
     end
+
+    it 'rejects ids that are unsafe in file paths or shell commands' do
+      ['..', '../other', 'a/../b', '/abs', '.hidden', "x'y", 'x y', ''].each do |bad|
+        expect { Job.new(id: bad) }.to raise_error(ArgumentError), bad
+        expect(Job.fetch(bad)).to be_nil, bad
+      end
+    end
+
+    it 'accepts uuids and fixture-style ids' do
+      expect(Job.fetch(my_job.id)).not_to be_nil
+      expect('blast_2.2.30/blastn').to match(Job::ID_PATTERN)
+    end
   end
 
   describe 'BLAST Job' do
@@ -179,6 +191,25 @@ module SequenceServer
 
         it 'should fall back to config num_threads' do
           expect(job.num_threads).to eq(SequenceServer.config[:num_threads])
+        end
+      end
+
+      context 'when num_threads is a numeric string' do
+        let(:job) { Job.create(@params_without_threads.merge(num_threads: '2')) }
+
+        it 'should be accepted' do
+          expect(job.command).to include('-num_threads 2')
+        end
+      end
+
+      # num_threads is interpolated unquoted into the shell command, so
+      # anything other than a positive integer must be rejected up front.
+      context 'when num_threads is not a positive integer' do
+        it 'should raise InputError' do
+          ['4 extra', '4;true', '0', '-1', 'four'].each do |value|
+            expect { Job.create(@params_without_threads.merge(num_threads: value)) }
+              .to raise_error(InputError)
+          end
         end
       end
     end

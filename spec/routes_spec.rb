@@ -92,6 +92,25 @@ module SequenceServer
         last_response.should be_redirect
         last_response.status.should == 302
       end
+
+      # Job#initialize and BLAST::Job#initialize also read :id, :xml and
+      # :num_threads. Those end up in file paths and the shell command, so the
+      # route must not forward them from the request.
+      it 'ignores id, xml and num_threads request parameters' do
+        @params['id'] = '../not-a-job'
+        @params['xml'] = __FILE__
+        @params['num_threads'] = '4 extra'
+        post '/', @params
+        last_response.status.should == 302
+
+        jid = last_response.location.split('/').last
+        jid.should_not == '../not-a-job'
+        job = Job.fetch(jid)
+        job.should_not be_nil
+        job.imported_xml_file.should be_nil
+        job.command.should include("-num_threads #{SequenceServer.config[:num_threads]}")
+        job.command.should_not include('extra')
+      end
     end
 
     context 'POST /get_sequence' do

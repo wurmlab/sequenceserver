@@ -117,7 +117,7 @@ module SequenceServer
         @input_sequence = params[:input_sequence]
         erb :search, layout: settings.layout
       else
-        job = Job.create(params)
+        job = Job.create(job_params)
         redirect to("/#{job.id}")
       end
     end
@@ -376,6 +376,19 @@ module SequenceServer
 
     def fetch_job(job_id)
       Job.fetch(job_id)
+    end
+
+    # Only these request parameters may reach Job.create. Job#initialize and
+    # BLAST::Job#initialize also read :id, :xml and :num_threads, which end up
+    # in file paths and in the shell command, so they must never come from the
+    # request.
+    def job_params
+      {
+        method: params[:method],
+        sequence: params[:sequence],
+        databases: params[:databases],
+        advanced: params[:advanced]
+      }
     end
   end
 end
