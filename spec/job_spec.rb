@@ -6,7 +6,7 @@ require 'rack/test'
 # Test Job class from module SequenceServer
 module SequenceServer
   describe 'blank Job' do
-    my_job = Job.new
+    let(:my_job) { Job.new }
 
     it 'should have an id' do
       regex = /\A(urn:uuid:)?[\da-z]{8}-([\da-z]{4}-){3}[\da-z]{12}\z/i
