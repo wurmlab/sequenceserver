@@ -77,7 +77,7 @@ GEM
       reline (>= 0.6.0)
     public_suffix (7.0.5)
     racc (1.8.1)
-    rack (3.2.6)
+    rack (3.2.7)
     rack-protection (4.2.1)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
@@ -174,4 +174,4 @@ DEPENDENCIES
   simplecov (~> 0.22.0, >= 0.22.0)
 
 BUNDLED WITH
-   2.5.17
+  4.0.23
